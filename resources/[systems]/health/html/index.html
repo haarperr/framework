@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="index.css">
+	</head>
+	<body id="main">
+		<div class="counter"></div>
+		<!-- <div id="blood-overlay"></div> -->
+		<div id="hud">
+			<div class="mini" style="right: 96px; bottom: 0px; overflow: visible;">
+				<!-- <div class="vitals-bg mini" id="health"></div> -->
+				<div class="vitals bg root mini" id="root-1">
+					<div class="vitals component mini"></div>
+				</div>
+			</div>
+			<ul class="icons">
+				<div class="vitals icon mini" id="icon-template" style="display: none"><div class="icon-image"></div></div>
+			</ul>
+		</div>
+		<div class="big container" style="display: none" id="check">
+			<!-- <div class="vitals-bg mini" id="health"></div> -->
+			<div class="vitals bg root big" id="root-2">
+				<div class="vitals component big"></div>
+			</div>
+			<div class="big container options left">
+				<ul class="list-group scrollbar" style="display: none;">
+					<li class="treatment group list-group-item" id="tool-group"></li>
+					<button class="treatment option list-group-item" id="tool-option"></button>
+				</ul>
+				<span style="text-align: center; user-select: none; width: 100%; height: 100%">Coming soon...</span>
+			</div>
+			<div class="big container options right">
+				<ul class="list-group scrollbar">
+					<li class="treatment group list-group-item" id="injury-group"></li>
+					<button class="treatment option list-group-item" id="injury-option"></button>
+				</ul>
+			</div>
+			<button type="button" class="btn btn-danger btn-close" id="close">Close</button>
+		</div>
+	</body>
+	<script src="bootstrap/jquery.min.js"></script>
+	<script src="bootstrap/bootstrap.min.js"></script>
+	<script src="index.js"></script>
+</html>

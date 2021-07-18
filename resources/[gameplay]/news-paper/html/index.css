@@ -1,0 +1,25 @@
+* {
+	color: black;
+	user-select: none;
+}
+
+body {
+	background-color: transparent;
+	padding: 0px !important;
+	margin: 0px !important;
+	width: 100vw !important;
+	height: 100vh !important;
+}
+
+.background {
+	position: absolute;
+	background-color: rgb(250, 250, 250);
+	width: auto;
+	height: auto;
+	left: 200px;
+	right: 200px;
+	top: 100px;
+	bottom: 100px;
+	margin: 0px;
+	padding: 20px;
+}

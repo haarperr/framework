@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="index.css">
+		<script src="vendor/gauge.min.js"></script>
+		<script src="index.js"></script>
+	</head>
+	<body>
+		<div id="content">
+			<div id="minimap">
+				<div class="fade">
+					<div id="spinner">
+						<img src="images/compass.png">
+					</div>
+					<div class="circle"></div>
+				</div>
+				<div id="vehicle">
+					<div class="speed">
+						<span id="speed">0</span>
+						<span style="font-size: 65%">MPH</span>
+					</div>
+					<canvas class="radial" id="fuel"></canvas>
+					<!-- <canvas class="radial" id="rpm"></canvas> -->
+					<div id="air" style="display: none">
+						<span id="altitude"></span>
+						<span style="font-size: 65%">FT</span>
+					</div>
+				</div>
+				<!-- <div id="aspect-error" style="display: none;">
+					<span>Go to Settings/Advanced Graphics and set Aspect Ratio to auto.</span>
+				</div> -->
+			</div>
+			<span id="location"></span>
+		</div>
+		<div id="scoreboard" style="display: none"></div>
+	</body>
+</html>

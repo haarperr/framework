@@ -1,0 +1,60 @@
+.description > * {
+	width: 100%;
+	padding: 4px;
+	padding-left: 10px;
+	padding-right: 10px;
+	user-select: none;
+}
+
+#mugshot {
+	margin-left: 20px;
+	background: transparent;
+	background-image: url("https://i.imgur.com/S2IRHcz.jpg");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: 1px solid var(--tertiary-color);
+	flex: 0 0 auto !important;
+	width: 200px !important;
+	height: 200px !important;
+}
+
+#mugshot-url {
+	--height: 25px;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: var(--height);
+	transform: translate(0px, calc(var(--height) + 10px));
+	resize: none;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+#desc-edit {
+	width: 80px !important;
+	height: 26px !important;
+	right: 20px;
+	padding: 0px;
+	font-size: 14px;
+	display: block;
+	position: absolute;
+	z-index: 1;
+}
+
+#desc-report {
+	width: 100px !important;
+	height: 26px !important;
+	right: 20px;
+	right: 110px;
+	padding: 0px;
+	font-size: 14px;
+	display: block;
+	position: absolute;
+	z-index: 1;
+}
+
+#desc-notes-edit {
+	color: var(--primary-text-color) !important;
+}

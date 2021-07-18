@@ -1,0 +1,76 @@
+body {
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+
+	font-family: "Roboto";
+}
+
+video {
+	position: absolute;
+
+	background: black;
+	
+	min-width: 100%;
+	min-height: 100%;
+
+	width: auto;
+	height: auto;
+
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(1);
+}
+
+#background {
+	width: 100vw;
+	height: 100vh;
+}
+
+#title {
+	position: absolute;
+	display: block;
+	right: 0.5vmin;
+	top: 0.5vmin;
+	font-size: 2vmin;
+	font-weight: 800;
+	color: rgba(255, 255, 255, 0.2);
+
+	mask-image: linear-gradient(to bottom, white, transparent 150%);
+	mask-size: 100% 100%;
+	mask-repeat: no-repeat;
+	mask-position: left top, left bottom;
+
+	animation: title-anim 4s ease infinite;
+}
+
+#overlay {
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 100%;
+
+	background: linear-gradient(-90deg, var(--primary-color), var(--secondary-color));
+	background-size: 200% 200%;
+
+	opacity: 0.2;
+
+	animation: overlay-anim 10s ease infinite;
+}
+
+@font-face {
+	font-family: "Roboto";
+	src: url("fonts/Roboto-Regular.woff");
+}
+
+@keyframes overlay-anim {
+	0% {
+		background-position: 0% 0%;
+	}
+	50% {
+		background-position: 100% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}

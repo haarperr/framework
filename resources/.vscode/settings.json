@@ -1,0 +1,15 @@
+{
+    "Lua.diagnostics.globals": [
+        "TriggerClientEvent",
+        "exports",
+        "RegisterServerEvent",
+        "AddEventHandler",
+        "server_script",
+        "client_script",
+        "shared_script",
+        "dependency",
+        "resource_manifest_version",
+        "RegisterNetEvent",
+        "client_scripts"
+    ]
+}

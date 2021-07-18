@@ -1,0 +1,41 @@
+* {
+	overflow: hidden;
+	font-size: 1.2rem;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+#content {
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	width: 100vw;
+	height: 100vh;
+	margin: 0px;
+	padding: 0px;
+}
+
+#timeline {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	width: 60vmin;
+	height: 10vmin;
+	margin-bottom: 10vmin;
+	background: rgba(0, 0, 0, 0.4);
+	border-radius: 4px;
+}
+
+#interval {
+	font-weight: 800;
+	color: rgb(114, 221, 253);
+}
+
+.label {
+	color: #FFF;
+	font-family: sans-serif;
+	font-size: 0.9rem;
+	padding: 2px;
+	background: rgba( 0, 0, 0, .6 );
+}

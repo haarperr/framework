@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="../../bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="../../index.css">
+		<link rel="stylesheet" href="index.css">
+	</head>
+	<body>
+		<div class="app-header">
+			<div class="app-title">Your Properties</div>
+		</div>
+		<div class="app-content scrollbar">
+			<div class="property" id="property-template" style="display: none">
+				<span id="title"></span>
+				<span id="rent-due"></span>
+				<div style="display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; width: 100%">
+					<button class="btn btn-warning" id="track">Track</button>
+					<button class="btn btn-warning" id="make-payment">Make Payment</button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../bootstrap/jquery.min.js"></script>
+	<script src="../../bootstrap/popper.min.js"></script>
+	<script src="../../bootstrap/bootstrap.min.js"></script>
+	<script src="../../functions.js"></script>
+	<script src="index.js"></script>
+</html>

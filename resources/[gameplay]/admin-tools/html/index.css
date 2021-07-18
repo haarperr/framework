@@ -1,0 +1,60 @@
+/* * {
+
+} */
+
+.container {
+	width: 20vw;
+	min-height:100vh;
+	display: flex;
+	align-items: center;
+	float: right;
+	background-color: transparent;
+}
+
+.row {
+	width: 100% !important;
+	padding: 0px;
+	margin: 0px;
+}
+
+.card {
+	margin-top: 4px !important;
+	background: transparent !important;
+	color: white;
+	outline: 0px !important;
+	border: 0px !important;
+}
+
+.card-body {
+	margin: 0px;
+	padding: 10px;
+}
+
+.list-group {
+	margin: 0px !important;
+	padding: 0px !important;
+	height: 35px !important;
+}
+
+.card-title.horizontal {
+	margin-top: 7px;
+	margin-right: 20px;
+	height: 100%;
+}
+
+.input-group {
+	height: 30px !important;
+}
+
+input {
+	height: 100% !important;
+}
+
+.input-group-append {
+	height: 100% !important;
+}
+
+.clipboard {
+	height: 100% !important;
+	font-size: 10px;
+}

@@ -1,0 +1,13 @@
+.github
+*.au
+*.lock
+**/log-*.txt
+cache
+config/keys.cfg
+config/server.cfg
+config/webhooks.cfg
+imgui.ini
+node_modules
+package-lock.json
+resources/\[modules\]
+resources/GHMattiMySQL/settings.xml

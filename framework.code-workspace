@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "resources"
+		}
+	],
+	"settings": {
+		"editor.insertSpaces": false,
+		"editor.tabCompletion": "on",
+		"Lua.diagnostics.enable": false
+	}
+}

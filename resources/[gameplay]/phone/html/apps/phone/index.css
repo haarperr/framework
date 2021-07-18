@@ -1,0 +1,76 @@
+* {
+	--phone-number-height: 128px;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+}
+
+img {
+	width: 48px;
+	height: 48px;
+}
+
+.col {
+	padding: 0px;
+}
+
+#phone-number {
+	width: 100%;
+	margin: 0px;
+	height: var(--phone-number-height);
+	font-size: 48px;
+	text-align: center;
+	background-color: rgb(252, 252, 252);
+	border: none;
+	outline: none;
+	border-bottom: 1px solid var(--primary-color);
+}
+
+#phone-number:focus {
+	border: none !important;
+	outline: none !important;
+	box-shadow: none;
+	border-bottom: 1px solid var(--primary-color) !important;
+}
+
+.dial-pad {
+	position: block;
+	display: flex;
+	justify-content: stretch;
+	flex-wrap: wrap;
+	align-content: stretch;
+	align-items: stretch;
+	bottom: 0px !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	height: calc(100% - var(--phone-number-height));
+}
+
+.dial-pad > * {
+	/* flex: 1 0 32%; */
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: 32%;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	font-weight: 600;
+	/* background-color: red; */
+	border-radius: 0px;
+}
+
+.dial-pad > *:not(.action) {
+	font-size: 32px;
+}
+
+.dial-pad > *:not(.action):focus {
+	background-color: rgb(252, 252, 252);
+}
+
+.dial-pad .action {
+	font-size: 16px !important;
+	border: none;
+}

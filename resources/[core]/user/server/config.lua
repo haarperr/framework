@@ -1,0 +1,38 @@
+Server = {
+	MaxTries = 16,
+	EnableWhitelist = true,
+	Emoji = { "💥", "💫", "💦", "💨", "🐒", "🦍", "🦧", "🐺", "🦊", "🦝", "🐱", "🦄", "🦓", "🐮", "🐷", "🐗", "🐏", "🐑", "🐐", "🐪", "🐫", "🦙", "🦒", "🐘", "🦏", "🦛", "🐭", "🐹", "🐰", "🐇", "🐿️", "🦔", "🦇", "🐻", "🐨", "🐼", "🦥", "🦦", "🦨", "🦘", "🦡", "🐾", "🦃", "🐔", "🐓", "🐤", "🐦", "🐧", "🕊️", "🦅", "🦆", "🦢", "🦉", "🦩", "🦚", "🦜", "🐸", "🐊", "🐢", "🦎", "🐍", "🐲", "🐉", "🦕", "🦖", "🐳", "🐋", "🐬", "🐟", "🐠", "🐡", "🦈", "🐙", "🐚", "🐌", "🦋", "🐛", "🐜", "🐝", "🐞", "🦗", "🕷️", "🦂", "🦟", "💐", "🌸", "💮", "🏵️", "🌹", "🥀", "🌺", "🌻", "🌼", "🌷", "🌱", "🌲", "🌳", "🌴", "🌵", "🌾", "🌿", "☘️", "🍀", "🍁", "🍂", "🍃", "🍄", "🌰", "🦀", "🦞", "🦐", "🦑", "🌈" },
+	Deferrals = {
+		Banned = "You are banned - %s.\n\n%s hours and %s minutes remaining.",
+		BannedForever = "You are permanently banned - %s.\n\nAppeal on our website. (https://nonstoprp.net)",
+		Blocked = "Too many retries.",
+		InvalidName = "Your name cannot contain special characters.",
+		Timeout = "Timed out.",
+		UserFailed = "User creation failed. Please contact the server owner.",
+		Whitelist = "You must apply to join our server. (https://nonstoprp.net)",
+		Licenses = {
+			["discord"] = "Discord must be running.",
+			["license"] = "License rejected.",
+			["name"] = "Steam name not found.",
+			["steam"] = "Steam must be running.\n",
+		},
+	},
+	Identifiers = {
+		"discord",
+		"endpoint",
+		"license",
+		"license2",
+		"live",
+		"name",
+		"steam",
+		"xbl",
+	},
+	Fields = {
+		"first_joined",
+		"id",
+		"last_played",
+		"power_level",
+		"priority",
+		"flags",
+	},
+}

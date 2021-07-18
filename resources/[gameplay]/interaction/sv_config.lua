@@ -1,0 +1,18 @@
+ValidMessages = {
+	["gsr-request"] = true,
+	["gsr-respond"] = true,
+	["handcuff"] = true,
+	["handcuff-breakout"] = true,
+	["shackle"] = true,
+	["shackle-response"] = true,
+	["search"] = true,
+	["escort"] = true,
+	["escort-response"] = true,
+	["force"] = true,
+	["trunk"] = true,
+	["confirm"] = true,
+	["tackle"] = true,
+	["ziptie"] = true,
+	["ziptie-breakout"] = true,
+	-- ["shackle"] = true,
+}

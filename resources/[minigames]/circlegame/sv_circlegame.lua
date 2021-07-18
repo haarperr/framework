@@ -1,0 +1,5 @@
+RegisterServerEvent("circlegame:createFire")
+AddEventHandler("circlegame:createFire", function(Coords)
+    TriggerClientEvent("circlegame:syncFire", -1, Coords)
+    print("Pepega Kole")
+end)
