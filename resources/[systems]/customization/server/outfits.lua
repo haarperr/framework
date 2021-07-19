@@ -140,6 +140,10 @@ function Outfits:Delete(source, name)
 end
 
 --[[ Events ]]--
+AddEventHandler("customization:start", function()
+	Outfits:Init()
+end)
+
 AddEventHandler("playerDropped", function(reason)
 	local source = source
 	Outfits.cooldowns[source] = nil
