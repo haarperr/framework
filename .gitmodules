@@ -1,0 +1,21 @@
+[submodule "resources/[modules]/[systems]/inventory"]
+	path = resources/[modules]/[systems]/inventory
+	url = https://github.com/NonstopRP/inventory
+[submodule "resources/[modules]/[systems]/chat"]
+	path = resources/[modules]/[systems]/chat
+	url = https://github.com/NonstopRP/chat
+[submodule "resources/[modules]/[systems]/ui"]
+	path = resources/[modules]/[systems]/ui
+	url = https://github.com/NonstopRP/ui
+[submodule "resources/[modules]/[assets]"]
+	path = resources/[modules]/[assets]
+	url = https://github.com/NonstopRP/assets
+[submodule "resources/[modules]/[vehicles]"]
+	path = resources/[modules]/[vehicles]
+	url = https://github.com/NonstopRP/vehicles
+[submodule "resources/[modules]/clothing"]
+	path = resources/[modules]/clothing
+	url = https://github.com/NonstopRP/clothing
+[submodule "resources/[modules]/[interiors]"]
+	path = resources/[modules]/[interiors]
+	url = https://github.com/NonstopRP/interiors

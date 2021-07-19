@@ -9,5 +9,4 @@ config/webhooks.cfg
 imgui.ini
 node_modules
 package-lock.json
-resources/\[modules\]
 resources/GHMattiMySQL/settings.xml
