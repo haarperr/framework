@@ -20,6 +20,7 @@ client_scripts {
 	'cl_main.lua',
 	'cl_navigation.lua',
 	'cl_emotes.lua',
+	'cl_movement.lua',
 	'cl_commands.lua',
 	'cl_animations.lua',
 }

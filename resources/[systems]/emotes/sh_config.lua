@@ -714,7 +714,7 @@ Emotes = {
 	}},
 }
 
-WalkStyles = {
+Walkstyles = {
 	["reset"] = {},
 	["alien"] = { Name = "move_m@alien" },
 	["armored"] = { Name = "anim_group_move_ballistic" },

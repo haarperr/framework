@@ -1,3 +1,4 @@
+--[[ Debug ]]--
 exports.chat:RegisterCommand("a:animations", function(source, args, command)
 	Animations:ToggleMenu()
 end, {
@@ -17,6 +18,7 @@ end, {
 	},
 })
 
+--[[ Emotes ]]--
 exports.chat:RegisterCommand("e", function(source, args, command)
 	local name  = tostring(args[1]):lower()
 
@@ -35,6 +37,26 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 	end
 	
 	Main:PerformEmote(emote)
+end, {
+	description = "Play an emote.",
+	parameters = {
+		{ name = "Name", description = "Which emote to play." },
+	},
+})
+
+--[[ Walkstyles ]]--
+exports.chat:RegisterCommand("walkstyle", function(source, args, command)
+	local name  = tostring(args[1]):lower()
+
+	if not name or not Walkstyles[name] then
+		TriggerEvent("chat:notify", {
+			text = "That walkstyle doesn't exist!",
+			class = "error",
+		})
+		return
+	end
+
+	Main:SetWalkstyle(name)
 end, {
 	description = "Play an emote.",
 	parameters = {
