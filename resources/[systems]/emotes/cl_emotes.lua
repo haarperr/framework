@@ -19,11 +19,12 @@ function Emote:Play(settings)
 	local settings = settings or self.settings
 	if not settings then return end
 
-	local ped = PlayerPedId()
+	local ped = settings.ped or PlayerPedId()
+
 	self.ped = ped
 
 	if settings.Secondary then
-		Emote:Play(settings.Secondary)
+		self:Play(settings.Secondary)
 	end
 
 	if settings.Facial then

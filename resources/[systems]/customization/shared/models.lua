@@ -1,3 +1,16 @@
+BodyTypes = {
+	Index = {
+		[1] = "Masculine",
+		[2] = "Feminine",
+		[3] = "Animal",
+	},
+	Key = {
+		["Masculine"] = 1,
+		["Feminine"] = 2,
+		["Animal"] = 3,
+	},
+}
+
 Models = {
 	["Masculine"] = {
 		{ name = "mp_m_freemode_01" },

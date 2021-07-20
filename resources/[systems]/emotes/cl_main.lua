@@ -90,6 +90,15 @@ function Main:CancelEmote(immediate)
 end
 Export(Main, "CancelEmote")
 
+function Main:PlayOnPed(ped, data)
+	if not ped or not DoesEntityExist(ped) then return end
+
+	data.ped = ped
+
+	local emote = Emote:Create(data)
+end
+Export(Main, "PlayOnPed")
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

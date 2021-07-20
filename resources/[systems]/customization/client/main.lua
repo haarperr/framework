@@ -11,10 +11,33 @@ function Main:SetData(ped, data)
 
 	controller:SetData(controller:ConvertData(data))
 end
+exports("SetData", function(...) Main:SetData(...) end)
+
+function Main:CreatePed(data, coords)
+	local appearance = data.appearance
+	if not appearance then return end
+
+	local features = data.features
+	if not features then return end
+
+	local model = GetHashKey(((Models[(BodyTypes.Index[features.bodyType or false] or false)] or {})[features.model] or {}).name or 0)
+	if not model or not IsModelValid(model) then return end
+
+	while not HasModelLoaded(model) do
+		RequestModel(model)
+		Citizen.Wait(0)
+	end
+	
+	local ped = CreatePed(2, model, coords.x, coords.y, coords.z, coords.w, false, true)
+
+	self:SetData(ped, data)
+
+	return ped
+end
+exports("CreatePed", function(...) return Main:CreatePed(...) end)
 
 --[[ Events ]]--
-RegisterNetEvent("customization:saved")
-AddEventHandler("customization:saved", function(retval, result)
+RegisterNetEvent("customization:saved", function(retval, result)
 	local window = Editor.window
 	if window then
 		window:SetModel("saving", false)

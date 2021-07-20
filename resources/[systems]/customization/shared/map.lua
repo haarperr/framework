@@ -386,17 +386,9 @@ Map = {
 			end,
 			value = function(controller, value)
 				if type(value) == "string" then
-					return ({
-						["Masculine"] = 1,
-						["Feminine"] = 2,
-						["Animal"] = 3,
-					})[value]
+					return BodyTypes.Key[value]
 				else
-					return ({
-						[1] = "Masculine",
-						[2] = "Feminine",
-						[3] = "Animal",
-					})[value]
+					return BodyTypes.Index[value]
 				end
 			end,
 			update = function(controller, trigger, value, lastValue, isMenu, bind)

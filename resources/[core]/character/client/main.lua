@@ -62,6 +62,10 @@ function Main:_SelectCharacter(id)
 	TriggerEvent(self.event.."selected", character)
 end
 
+function Main:GetCharacters()
+	return self.characters
+end
+
 function Main:GetCharacter()
 	return self.activeCharacter
 end

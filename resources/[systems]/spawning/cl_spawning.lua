@@ -59,7 +59,7 @@ function Main:Spawn(coords, static)
 end
 
 function Main:Update()
-	if not self.hasLoaded then
+	if not self.hasLoaded and self.characters then
 		self:Init()
 	end
 end
@@ -126,7 +126,12 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Events ]]--
-RegisterNetEvent("character:initialized")
-AddEventHandler("character:initialized", function(characters)
+RegisterNetEvent("spawning:start", function()
+	if GetResourceState("character") == "started" then
+		Main.characters = exports.character:GetCharacters()
+	end
+end)
+
+RegisterNetEvent("character:load", function(characters)
 	Main.characters = characters
 end)

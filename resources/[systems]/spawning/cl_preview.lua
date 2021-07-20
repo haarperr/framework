@@ -32,14 +32,19 @@ function Preview:Destroy()
 		camera:Destroy()
 		self.camera = nil
 	end
-
+	
 	ClearFocus()
 	ClearTimecycleModifier()
-
+	
 	for _, audioScene in ipairs(Config.AudioScenes) do
 		StopAudioScene(audioScene)
 	end
 	
+	for ped, _ in pairs(self.peds) do
+		DeleteEntity(ped)
+	end
+
+	self.peds = {}
 	self.isActive = false
 end
 
@@ -75,7 +80,35 @@ function Preview:Init_Audio()
 end
 
 function Preview:Init_Peds()
+	if not self.settings then return end
+	
+	local characters = Main.characters
+	if not characters then return end
 
+	local index = 1
+
+	for id, character in pairs(characters) do
+		local data = {
+			appearance = character.appearance,
+			features = character.features,
+		}
+
+		local magnet = self.settings.Peds[index]
+		local coords = magnet.Coords
+		local ped = magnet and exports.customization:CreatePed(data, coords)
+
+		if ped then
+			self.peds[ped] = tonumber(id)
+
+			FreezeEntityPosition(ped, true)
+			SetEntityCollision(ped, false, false)
+			SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z)
+
+			exports.emotes:PlayOnPed(ped, magnet.Anim)
+
+			index = index + 1
+		end
+	end
 end
 
 function Preview:Update()
