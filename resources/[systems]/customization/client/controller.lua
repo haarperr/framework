@@ -10,7 +10,7 @@ function Controller:Create(data)
 
 	data = setmetatable(data, Controller)
 
-	for map, node, id in MapIter() do
+	for map, node, group in MapIter() do
 		-- Add watcher for model first.
 		if node.model then
 			data:AddWatcher(node.model, node)
@@ -31,22 +31,19 @@ function Controller:SetData(data, ignoreWindow)
 	local models = {}
 	self.map = data
 
-	for group, map in pairs(Map) do
+	for map, node, group in MapIter() do
 		local groupData = data[group]
+		if node.model then
+			local value = groupData[node.model]
 
-		for k, node in ipairs(map) do
-			if node.model then
-				local value = groupData[node.model]
+			self:SetMap(node.model, value, not ignoreWindow and self.window ~= nil)
 
-				self:SetMap(node.model, value, not ignoreWindow and self.window ~= nil)
-
-				if type(value) == "table" then
-					for k, v in pairs(value) do
-						models[k] = v
-					end
-				else
-					models[node.model] = value
+			if type(value) == "table" then
+				for k, v in pairs(value) do
+					models[k] = v
 				end
+			else
+				models[node.model] = value
 			end
 		end
 	end
@@ -61,21 +58,22 @@ end
 function Controller:GetData(defaults)
 	local data = {}
 
-	for group, map in pairs(Map) do
-		local groupData = {}
-		data[group] = groupData
+	for map, node, group in MapIter() do
+		local groupData = data[group]
+		if not groupData then
+			groupData = {}
+			data[group] = groupData
+		end
 
-		for k, node in ipairs(map) do
-			if node.model then
-				local value = (defaults and (defaults[node.model] or node.default)) or self:GetMap(node.model)
-				if not defaults and node.value then
-					value = node.value(self, value) or value
-				end
-				if defaults and not value and node.randomize then
-					value = node.randomize(self)
-				end
-				groupData[node.model] = value
+		if node.model then
+			local value = (defaults and (defaults[node.model] or node.default)) or self:GetMap(node.model)
+			if not defaults and node.value then
+				value = node.value(self, value) or value
 			end
+			if defaults and not value and node.randomize then
+				value = node.randomize(self)
+			end
+			groupData[node.model] = value
 		end
 	end
 
@@ -83,21 +81,19 @@ function Controller:GetData(defaults)
 end
 
 function Controller:ConvertData(data)
-	for group, map in pairs(Map) do
+	for map, node, group in MapIter() do
 		local groupData = data[group]
 		if not groupData then
 			groupData = {}
 			data[group] = groupData
 		end
-
-		for k, node in ipairs(map) do
-			if node.model then
-				local value = groupData[node.model]
-				if node.value then
-					value = node.value(self, value) or value
-				end
-				groupData[node.model] = value
+		
+		if node.model then
+			local value = groupData[node.model]
+			if node.value then
+				value = node.value(self, value) or value
 			end
+			groupData[node.model] = value
 		end
 	end
 
@@ -172,7 +168,7 @@ function Controller:SetWindow(window)
 	self.window = window
 	window.controller = self
 
-	for map, node, id in MapIter() do
+	for map, node, group in MapIter() do
 			-- Create component.
 		local target = (node.group and Editor:GetGroup(node.tab, node.group)) or Editor.tabPanels[node.tab]
 
@@ -318,7 +314,7 @@ function Controller:Randomize(tab)
 
 	local models = {}
 
-	for map, node, id in MapIter() do
+	for map, node, group in MapIter() do
 		if node.randomize ~= nil and (tab == nil or node.tab == tab) then
 			local value = node.randomize(self)
 			self:SetMap(node.model, value)
