@@ -3,11 +3,6 @@ Main = {
 	queue = {},
 }
 
-function IsUpperBody(flag)
-	flag = tonumber(flag) or 0
-	return (flag >= 10 and flag <= 31) or (flag >= 48 and flag <= 63)
-end
-
 function Main:Update()
 	local ped = PlayerPedId()
 
@@ -31,6 +26,8 @@ end
 
 function Main:UpdateQueue()
 	local data = self.queue[1]
+	if not data then return false end
+
 	local duration = data.Duration or (data.Dict and math.floor(GetAnimDuration(data.Dict, data.Name) * 1000)) or 1000
 	data.noAutoplay = true
 
@@ -42,23 +39,11 @@ function Main:UpdateQueue()
 
 	table.remove(self.queue, 1)
 
-	if #self.queue > 0 then
-		self:UpdateQueue()
-	else
-		self.thread = nil
-	end
+	return true
 end
 
 function Main:Queue(data)
 	table.insert(self.queue, data)
-
-	if not self.thread then
-		self.thread = function()
-			Main:UpdateQueue()
-		end
-
-		Citizen.CreateThread(self.thread)
-	end
 end
 
 function Main:PerformEmote(data)
@@ -86,17 +71,22 @@ Export(Main, "PerformEmote")
 function Main:CancelEmote(immediate)
 	local ped = PlayerPedId()
 
+	-- Stop the actual animation.
 	if immediate then
 		ClearPedTasksImmediately(ped)
 	else
 		ClearPedTasks(ped)
 	end
 
+	-- Clear normal animations.
 	for k, emote in pairs(self.playing) do
 		if not emote.Facial then
 			self.playing[k] = nil
 		end
 	end
+
+	-- Clear queue.
+	self.queue = {}
 end
 Export(Main, "CancelEmote")
 
@@ -114,5 +104,15 @@ Citizen.CreateThread(function()
 	while true do
 		Main:Update()
 		Citizen.Wait(200)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		if Main:UpdateQueue() then
+			Citizen.Wait(0)
+		else
+			Citizen.Wait(100)
+		end
 	end
 end)

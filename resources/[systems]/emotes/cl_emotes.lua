@@ -7,6 +7,9 @@ function Emote:Create(data)
 	end
 	
 	local emote = setmetatable({ settings = data }, Emote)
+	local flag = emote.settings.Flag or 0
+
+	emote.isUpperBody = (flag >= 10 and flag <= 31) or (flag >= 48 and flag <= 63)
 
 	if data.Autoplay ~= false then
 		emote:Play()
@@ -22,7 +25,7 @@ function Emote:Play(settings)
 
 	-- Clear old emotes.
 	for k, v in pairs(Main.playing) do
-		if IsUpperBody((v.settings and v.settings.Flag) or 0) == IsUpperBody(settings.Flag or 0) then
+		if not v.Facial and v.isUpperBody == self.isUpperBody then
 			Main.playing[k] = nil
 		end
 	end
