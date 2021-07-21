@@ -3,6 +3,11 @@ Main = {
 	queue = {},
 }
 
+function IsUpperBody(flag)
+	flag = tonumber(flag) or 0
+	return (flag >= 10 and flag <= 31) or (flag >= 48 and flag <= 63)
+end
+
 function Main:Update()
 	local ped = PlayerPedId()
 
@@ -57,6 +62,11 @@ function Main:Queue(data)
 end
 
 function Main:PerformEmote(data)
+	if type(data) == "string" then
+		data = Emotes[data]
+	end
+
+	if not data then return end
 	local key = (self.lastKey or 0) + 1
 
 	if data.Sequence then

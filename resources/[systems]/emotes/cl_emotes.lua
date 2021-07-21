@@ -16,17 +16,27 @@ function Emote:Create(data)
 end
 
 function Emote:Play(settings)
+	-- Get settings.
 	local settings = settings or self.settings
 	if not settings then return end
 
-	local ped = settings.ped or PlayerPedId()
+	-- Clear old emotes.
+	for k, v in pairs(Main.playing) do
+		if IsUpperBody((v.settings and v.settings.Flag) or 0) == IsUpperBody(settings.Flag or 0) then
+			Main.playing[k] = nil
+		end
+	end
 
+	-- Get ped.
+	local ped = settings.ped or PlayerPedId()
 	self.ped = ped
 
+	-- Play secondary emote.
 	if settings.Secondary then
 		self:Play(settings.Secondary)
 	end
 
+	-- Play animations.
 	if settings.Facial then
 		self:RequestDict(settings.Dict)
 

@@ -27,8 +27,7 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 		return
 	end
 
-	local emote = Emotes[name]
-	if not emote then
+	if not Emotes[name] then
 		TriggerEvent("chat:notify", {
 			text = "That emote doesn't exist!",
 			class = "error",
@@ -36,7 +35,7 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 		return
 	end
 	
-	Main:PerformEmote(emote)
+	Main:PerformEmote(name)
 end, {
 	description = "Play an emote.",
 	parameters = {
