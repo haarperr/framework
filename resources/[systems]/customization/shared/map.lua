@@ -97,7 +97,7 @@
 
 Map = {
 	appearance = {
-		{
+		{ -- Clothes
 			tab = "clothes",
 			model = "components",
 			watchers = { "model" },
@@ -230,7 +230,7 @@ Map = {
 				end
 			end,
 		},
-		{
+		{ -- Accessories
 			tab = "accessories",
 			model = "props",
 			watchers = { "model" },
@@ -355,421 +355,7 @@ Map = {
 				end
 			end,
 		},
-	},
-	features = {
-		{
-			tab = "shape",
-			group = "model",
-			model = "bodyType",
-			default = "Masculine",
-			component = function(controller)
-				local bodyTypes = {
-					"Masculine",
-					"Feminine",
-				}
-
-				if exports.user:HasFlag("CAN_PLAY_ANIMAL") then
-					bodyTypes[3] = "Animal"
-				end
-
-				return {
-					type = "q-select",
-					style = {
-						["flex-grow"] = 1,
-					},
-					binds = {
-						label = "Body Type",
-						filled = true,
-						options = bodyTypes,
-					},
-				}
-			end,
-			value = function(controller, value)
-				if type(value) == "string" then
-					return BodyTypes.Key[value]
-				else
-					return BodyTypes.Index[value]
-				end
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				local bodyType = controller.map["bodyType"]
-				local models = Models[bodyType] or {}
-
-				for k, v in ipairs(models) do
-					v.id = k
-				end
-
-				if isMenu then
-					if trigger == "bodyType" and lastValue and lastValue ~= value then
-						controller:SetMap("overlays", {})
-					end
-
-					controller.window:SetModel("modelsData", models)
-					controller.window:SetModel("modelsColumns", {
-						{ field = "preview", name = "preview", label = "", align = "left" },
-						{ field = "name", name = "model", label = "Model", align = "left" },
-						{ field = "allowed", name = "allowed", label = "Allowed", align = "right" },
-					})
-				end
-
-				controller:SetMap("model", 1)
-
-				if isMenu then
-					-- if not controller.map["blendData"] then
-					-- 	controller:Randomize()
-					-- end
-
-					Editor:ClearTarget()
-				end
-			end,
-		},
-		{
-			tab = "shape",
-			group = "model",
-			model = "model",
-			default = 1,
-			condition = function(controller)
-				return exports.user:HasFlag("CAN_PLAY_PEDS")
-			end,
-			component = function(controller)
-				local bodyType = controller.map["bodyType"]
-				local models = (bodyType and Models[bodyType]) or {}
-
-				return {
-					type = "q-input",
-					class = "no-shadow",
-					binds = {
-						filled = true,
-					},
-					prepend = {
-						icon = "accessibility",
-						class = "text-primary",
-						click = {
-							callback = "this.$setModel('selectModel', true)",
-						},
-					},
-					components = {
-						{
-							type = "q-dialog",
-							model = "selectModel",
-							template = [[
-								<q-card style="width: 90vmin !important; overflow-x: hidden">
-									<q-table
-										grid
-										title="Models"
-										:data="$getModel('modelsData')"
-										:columns="$getModel('modelsColumns')"
-										row-key="id"
-										:rows-per-page-options="[20]"
-										:filter="$getModel('modelsFilter')"
-										hide-pagination=true
-										hide-header
-									>
-										<template v-slot:top-right>
-											<q-input
-												borderless
-												dense
-												debounce="300"
-												@input="$setModel('modelsFilter', $event)"
-												:value="$getModel('modelsFilter')"
-												placeholder="Search"
-											>
-												<q-icon name="search" />
-											</q-input>
-										</template>
-										<template v-slot:item="props">
-											<q-item
-												class="flex column justify-between items-center"
-												style="width: 18%; margin: 1%"
-												@click="$invoke('setPed', props.row.id)"
-												clickable
-												ripple
-											>
-												<q-img
-													:src="`https://docs.fivem.net//peds/${props.row.name}.webp`"
-													style="width: 50px"
-												/>
-												<span style="font-size: 0.8em">{{props.row.name}}</span>
-											</q-item>
-										</template>
-									</q-table>
-								</q-card>
-							]]
-						},
-					},
-				}
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				if controller.ped then return end
-
-				local bodyType = controller.map["bodyType"] or "Masculine"
-				local index = controller.map["model"] or 1
-				
-				local models = (bodyType and Models[bodyType])
-				if not models then
-					error(("no models for bodyType '%s'"):format(bodyType))
-				end
-
-				local model = models[index]
-				local name = model.name
-
-				if not name or not IsModelValid(name) then
-					return
-				end
-
-				while not HasModelLoaded(name) do
-					RequestModel(name)
-					Citizen.Wait(20)
-				end
-
-				if (controller.map["model"] or 1) ~= index then
-					return
-				end
-
-				SetPlayerModel(Player, name)
-
-				Ped = PlayerPedId()
-
-				SetPedDefaultComponentVariation(Ped)
-				SetModelAsNoLongerNeeded(name)
-
-				if isMenu then
-					Editor:ClearTarget()
-				end
-			end,
-		},
-		{
-			tab = "shape",
-			model = "blendData",
-			watchers = { "model" },
-			condition = function(controller)
-				return tonumber(controller.map["model"]) == 1
-			end,
-			component = function(controller)
-				local components = {}
-
-				for k, v in ipairs({
-					{ index = 1, name = "First Shape", min = 1, max = 46 },
-					{ index = 2, name = "Second Shape", min = 1, max = 46 },
-					{ index = 4, name = "First Skin", min = 1, max = 46 },
-					{ index = 5, name = "Second Skin", min = 1, max = 46 },
-					{ index = 7, name = "Shape Mix", min = 0.0, max = 1.0, step = 0.05, default = 0.5 },
-					{ index = 8, name = "Skin Mix", min = 0.0, max = 1.0, step = 0.05, default = 0.5 },
-					{ index = 6, name = "Third Skin", min = 1, max = 46 },
-					{ index = 3, name = "Third Shape", min = 1, max = 46 },
-					{ index = 9, name = "Third Mix", min = 0.0, max = 1.0, step = 0.05, default = 0.0 },
-				}) do
-					local model = "blendData-"..v.index
-
-					components[k] = {
-						type = "slider-item",
-						name = v.name,
-						input = true,
-						minIcon = "chevron_left",
-						maxIcon = "chevron_right",
-						-- style = "min-width: 50%; padding-"..(k % 2 == 0 and "left" or "right")..": 1vmin",
-						style = "min-width: 100%",
-						slider = {
-							model = model,
-							default = v.default or 1,
-							min = v.min,
-							max = v.max,
-							step = v.step or 1,
-							snap = true,
-						}
-					}
-
-					controller:BindModel(model, "blendData", v.index)
-				end
-
-				return {
-					type = "div",
-					class = "flex row",
-					components = components,
-				}
-			end,
-			randomize = function(controller)
-				local masculine = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 25, 27, 31, 36, 43, 44, 45 }
-				local feminine = { 22, 24, 26, 28, 29, 30, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 46 }
-				local bodyType = controller.map["bodyType"]
-				local shapeMin, shapeMax = 0.0, 1.0
-
-				if bodyType == "Masculine" then
-					shapeMin = 0.5
-				else
-					shapeMax = 0.5
-				end
-
-				local function getRandomFace(table)
-					return table[GetRandomIntInRange(1, #table)]
-				end
-
-				return {
-					getRandomFace(feminine), -- shape1
-					getRandomFace(masculine), -- shape2
-					getRandomFace((bodyType == "Masculine" and masculine) or feminine), -- shape3
-					GetRandomIntInRange(1, 46), -- skin1
-					GetRandomIntInRange(1, 46), -- skin2
-					GetRandomIntInRange(1, 46), -- skin3
-					math.floor(GetRandomFloatInRange(shapeMin, shapeMax) * 100.0) / 100.0, -- shapeMix
-					math.floor(GetRandomFloatInRange(0.0, 1.0) * 100.0) / 100.0, -- skinMix
-					math.floor(GetRandomFloatInRange(0.0, 1.0) * 100.0) / 100.0, -- thirdMix
-				}
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				local map = controller.map
-				if not map then return end
-
-				if isMenu and trigger == "blendData" then
-					Editor:SetTarget("head")
-				end
-
-				local blendData = map.blendData
-				if not blendData then return end
-				
-				SetPedHeadBlendData(
-					Ped,
-					(blendData[1] or 1) - 1, -- shape1
-					(blendData[2] or 1) - 1, -- shape2
-					(blendData[3] or 1) - 1, -- shape3
-					(blendData[4] or 1) - 1, -- skin1
-					(blendData[5] or 1) - 1, -- skin2
-					(blendData[6] or 1) - 1, -- skin3
-					(blendData[7] or 0.5) + 0.0, -- shapeMix
-					(blendData[8] or 0.5) + 0.0, -- skinMix
-					(blendData[9] or 0.0) + 0.0, -- thirdMix
-					true
-				)
-			end,
-		},
-		{
-			tab = "shape",
-			model = "faceFeatures",
-			watchers = { "model" },
-			condition = function(controller)
-				return tonumber(controller.map["model"]) == 1
-			end,
-			component = function(controller)
-				local components = {}
-
-				for k, v in ipairs({
-					{ name = "Nose Width" },
-					{ name = "Nose Height" },
-					{ name = "Nose Length" },
-					{ name = "Nose Bridge Length" },
-					{ name = "Nose Tip Height" },
-					{ name = "Nose Bridge Broken" },
-					{ name = "Eye Brow Height" },
-					{ name = "Eye Brow Forward" },
-					{ name = "Cheeks Bone Height" },
-					{ name = "Cheeks Bone Width" },
-					{ name = "Cheeks Width" },
-					{ name = "Eyes Squint" },
-					{ name = "Lips Thickness" },
-					{ name = "Jaw Bone Width" },
-					{ name = "Jaw Bone Back Length" },
-					{ name = "Chin Bone Height" },
-					{ name = "Chin Bone Length" },
-					{ name = "Chin Bone Width" },
-					{ name = "Chin Crease" },
-					{ name = "Neck Thickness" },
-				}) do
-					local model = "features"..k
-
-					components[k] = {
-						type = "slider-item",
-						name = v.name,
-						input = true,
-						minIcon = "chevron_left",
-						maxIcon = "chevron_right",
-						style = "min-width: 50%; padding-"..(k % 2 == 0 and "left" or "right")..": 1vmin",
-						-- style = "min-width: 100%;",
-						slider = {
-							model = model,
-							default = 0.0,
-							min = -1.0,
-							max = 1.0,
-							step = 0.1,
-							snap = true,
-						}
-					}
-
-					controller:BindModel(model, "faceFeatures", k)
-				end
-
-				return {
-					type = "div",
-					class = "flex row",
-					components = components,
-				}
-			end,
-			randomize = function(controller)
-				local faceFeatures = {}
-				for i = 1, 20 do
-					faceFeatures[i] = math.floor(math.pow(GetRandomFloatInRange(-0.5, 0.5), 4.0) * 10.0) / 10.0
-				end
-				return faceFeatures
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				local map = controller.map
-				if not map then return end
-				
-				if isMenu and trigger == "faceFeatures" then
-					Editor:SetTarget("head")
-				end
-
-				local faceFeatures = map.faceFeatures
-				if not faceFeatures then return end
-
-				local inverted = { false, true, true, true, true, false, true, false, true, false, true, false, true, false, false, true, false, false, false, false }
-				for i = 1, 20 do
-					local value = faceFeatures[i] or 0.0
-					if inverted[i] then
-						value = value * -1.0
-					end
-					SetPedFaceFeature(Ped, i - 1, value + 0.0)
-				end
-			end,
-		},
-		{
-			tab = "features",
-			model = "eyeColor",
-			watchers = { "model" },
-			component = function(controller)
-				return {
-					type = "slider-item",
-					name = "Eye Color",
-					input = true,
-					minIcon = "chevron_left",
-					maxIcon = "chevron_right",
-					style = "min-width: 100%",
-					slider = {
-						model = "eyeColor",
-						default = 1,
-						min = 1,
-						max = 32,
-						step = 1,
-						snap = true,
-					},
-				}
-			end,
-			randomize = function(controller)
-				return GetRandomIntInRange(1, 8)
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				local map = controller.map
-				if not map then return end
-
-				local color = map.eyeColor or 1
-				
-				if isMenu and trigger == "eyeColor" then
-					Editor:SetTarget("head")
-				end
-
-				SetPedEyeColor(Ped, color - 1)
-			end,
-		},
-		{
+		{ -- Head Hair
 			tab = "hair",
 			model = "hair",
 			watchers = { "model" },
@@ -884,229 +470,7 @@ Map = {
 				SetPedHairColor(Ped, color, highlight)
 			end,
 		},
-		{
-			tab = "features",
-			model = "otherOverlays",
-			watchers = { "model" },
-			component = function(controller)
-				local components = {}
-
-				for k, v in ipairs(Overlays.Head.Other) do
-					local model = "otherOverlays-"..k
-					local max = GetPedHeadOverlayNum(v.index)
-
-					components[k] = {
-						type = "slider-item",
-						name = v.name,
-						input = true,
-						minIcon = "chevron_left",
-						maxIcon = "chevron_right",
-						style = "min-width: 100%",
-						slider = {
-							model = model,
-							default = 1,
-							min = 1,
-							max = max + 1,
-							step = 1,
-							snap = true,
-						},
-						secondary = {
-							model = model.."_a",
-							min = 0.0,
-							max = 1.0,
-							default = 0.0,
-							step = 0.05,
-							snap = true,
-						}
-					}
-
-					controller:BindModel(model, "otherOverlays", k)
-					controller:BindModel(model.."_a", "otherOverlays", k + #Overlays.Head.Other)
-				end
-
-				return {
-					type = "div",
-					class = "flex row",
-					components = components,
-				}
-			end,
-			randomize = function(controller)
-				local bodyType = controller.map["bodyType"]
-				local isMale = bodyType == "Masculine"
-
-				return {
-					GetRandomIntInRange(1, 25), -- Blemishes
-					GetRandomIntInRange(1, 16), -- Ageing
-					GetRandomIntInRange(1, 13), -- Complexion
-					GetRandomIntInRange(1, 12), -- Sun Damage
-					GetRandomIntInRange(1, 19), -- Moles/Freckles
-					GetRandomIntInRange(1, 13), -- Body Blemishes
-
-					math.pow(GetRandomFloatInRange(0.0, 1.0), 6.0), -- Blemishes
-					math.pow(GetRandomFloatInRange(0.0, 0.5), 4.0), -- Ageing
-					math.pow(GetRandomFloatInRange(0.0, 1.0), 6.0), -- Complexion
-					math.pow(GetRandomFloatInRange(0.0, 1.0), 4.0), -- Sun Damage
-					GetRandomFloatInRange(0.0, 1.0), -- Moles/Freckles
-					GetRandomFloatInRange(0.0, 1.0), -- Chest Hair
-					GetRandomFloatInRange(0.0, 1.0), -- Body Blemishes
-				}
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				local map = controller.map
-				if not map then return end
-
-				if isMenu and trigger == "otherOverlays" then
-					Editor:SetTarget("head")
-				end
-
-				local otherOverlays = map.otherOverlays
-				if not otherOverlays then return end
-
-				for k, v in ipairs(Overlays.Head.Other) do
-					local value = otherOverlays[k] or 255
-					local opacity = otherOverlays[k + #Overlays.Head.Other] or 0.0
-
-					SetPedHeadOverlay(Ped, v.index, (value == 1 and 255) or value - 2, opacity + 0.0)
-				end
-			end,
-		},
-		{
-			tab = "hair",
-			model = "hairOverlays",
-			watchers = { "model" },
-			component = function(controller)
-				local components = {}
-
-				for k, v in ipairs(Overlays.Head.Hair) do
-					local model = "hairOverlays-"..k
-					local max = GetPedHeadOverlayNum(v.index)
-
-					local slider = {
-						type = "slider-item",
-						name = v.name,
-						input = true,
-						minIcon = "chevron_left",
-						maxIcon = "chevron_right",
-						style = "min-width: 100%",
-						slider = {
-							model = model,
-							default = 1,
-							min = 1,
-							max = max + 1,
-							step = 1,
-							snap = true,
-						},
-						secondary = {
-							model = model.."_a",
-							min = 0.0,
-							max = 1.0,
-							default = 0.0,
-							step = 0.05,
-							snap = true,
-						}
-					}
-
-					local colors = {}
-					for i = 1, GetNumHairColors() do
-						local r, g, b = GetPedHairRgbColor(i - 1)
-						colors[i] = { r = r, g = g, b = b }
-					end
-
-					local palette = {
-						type = "div",
-						class = "flex row text-caption q-mb-sm q-mt-sm",
-						style = "width: 100%",
-						template = ([[
-							<div>
-								<div class="flex row" style="background: rgba(0, 0, 0, 0.4); outline: 1px solid rgba(0, 0, 0, 0.6); width: 50vmin;">
-									<div
-										v-for="(color, key) in %s"
-										:style="{
-											background: `rgb(${color.r}, ${color.g}, ${color.b})`,
-											width: '2.5vmin', height: '2.5vmin',
-											border: $getModel('%s') == key ? '2px solid yellow' : 'none'
-										}"
-										@click="$setModel('%s', key)"
-									>
-										<q-tooltip>
-											rgb({{color.r}}, {{color.g}}, {{color.b}})
-										</q-tooltip>
-									</div>
-								</div>
-							</div>
-						]]):format(
-							json.encode(colors):gsub("\"", "'"),
-							model.."_c",
-							model.."_c"
-						),
-					}
-
-					components[k] = {
-						style = "width: 100%; margin-bottom: 1vmin",
-						class = "flex row",
-						components = {
-							slider,
-							palette,
-						}
-					}
-
-					local n = #Overlays.Head.Hair
-
-					controller:BindModel(model, "hairOverlays", k)
-					controller:BindModel(model.."_a", "hairOverlays", k + n)
-					controller:BindModel(model.."_c", "hairOverlays", k + n * 2)
-				end
-
-				return {
-					type = "div",
-					class = "flex row",
-					components = components,
-				}
-			end,
-			randomize = function(controller)
-				local bodyType = controller.map["bodyType"]
-				local isMale = bodyType == "Masculine"
-				local color = GetRandomIntInRange(1, 9)
-				local masculine = { 2, 3, 4, 6, 7, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35 }
-				local feminine = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 25, 30, 31, 32, 33, 34, 35 }
-
-				return {
-					isMale and GetRandomIntInRange(1, 29) or 1, -- Facial Hair
-					isMale and masculine[GetRandomIntInRange(1, #masculine)] or feminine[GetRandomIntInRange(1, #feminine)], -- Eyebrows
-					isMale and GetRandomIntInRange(1, 17) or 1, -- Chest Hair
-
-					math.pow(GetRandomFloatInRange(0.0, 1.0), 0.5), -- Facial Hair
-					math.pow(GetRandomFloatInRange(0.5, 1.0), 0.5), -- Eyebrows
-					GetRandomFloatInRange(0.0, 1.0), -- Chest Hair
-
-					color,
-					color,
-					color,
-				}
-			end,
-			update = function(controller, trigger, value, lastValue, isMenu, bind)
-				local map = controller.map
-				if not map then return end
-
-				if isMenu and trigger == "hairOverlays" then
-					Editor:SetTarget("head")
-				end
-
-				local hairOverlays = map.hairOverlays
-				if not hairOverlays then return end
-
-				local n = #Overlays.Head.Hair
-				for k, v in ipairs(Overlays.Head.Hair) do
-					local value = hairOverlays[k] or 255
-					local opacity = hairOverlays[k + n] or 0.0
-					local color = hairOverlays[k + n * 2] or 1
-
-					SetPedHeadOverlay(Ped, v.index, (value == 1 and 255) or value - 2, opacity + 0.0)
-					SetPedHeadOverlayColor(Ped, v.index, 1, color, 0)
-				end
-			end,
-		},
-		{
+		{ -- Makeup
 			tab = "makeup",
 			model = "makeupOverlays",
 			watchers = { "model" },
@@ -1253,7 +617,643 @@ Map = {
 				end
 			end,
 		},
-		{
+	},
+	features = {
+		{ -- Body Type
+			tab = "shape",
+			group = "model",
+			model = "bodyType",
+			default = "Masculine",
+			component = function(controller)
+				local bodyTypes = {
+					"Masculine",
+					"Feminine",
+				}
+
+				if exports.user:HasFlag("CAN_PLAY_ANIMAL") then
+					bodyTypes[3] = "Animal"
+				end
+
+				return {
+					type = "q-select",
+					style = {
+						["flex-grow"] = 1,
+					},
+					binds = {
+						label = "Body Type",
+						filled = true,
+						options = bodyTypes,
+					},
+				}
+			end,
+			value = function(controller, value)
+				if type(value) == "string" then
+					return BodyTypes.Key[value]
+				else
+					return BodyTypes.Index[value]
+				end
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				local bodyType = controller.map["bodyType"]
+				local models = Models[bodyType] or {}
+
+				for k, v in ipairs(models) do
+					v.id = k
+				end
+
+				if isMenu then
+					if trigger == "bodyType" and lastValue and lastValue ~= value then
+						controller:SetMap("overlays", {})
+					end
+
+					controller.window:SetModel("modelsData", models)
+					controller.window:SetModel("modelsColumns", {
+						{ field = "preview", name = "preview", label = "", align = "left" },
+						{ field = "name", name = "model", label = "Model", align = "left" },
+						{ field = "allowed", name = "allowed", label = "Allowed", align = "right" },
+					})
+				end
+
+				controller:SetMap("model", 1)
+
+				if isMenu then
+					-- if not controller.map["blendData"] then
+					-- 	controller:Randomize()
+					-- end
+
+					Editor:ClearTarget()
+				end
+			end,
+		},
+		{ -- Model
+			tab = "shape",
+			group = "model",
+			model = "model",
+			default = 1,
+			condition = function(controller)
+				return exports.user:HasFlag("CAN_PLAY_PEDS")
+			end,
+			component = function(controller)
+				local bodyType = controller.map["bodyType"]
+				local models = (bodyType and Models[bodyType]) or {}
+
+				return {
+					type = "q-input",
+					class = "no-shadow",
+					binds = {
+						filled = true,
+					},
+					prepend = {
+						icon = "accessibility",
+						class = "text-primary",
+						click = {
+							callback = "this.$setModel('selectModel', true)",
+						},
+					},
+					components = {
+						{
+							type = "q-dialog",
+							model = "selectModel",
+							template = [[
+								<q-card style="width: 90vmin !important; overflow-x: hidden">
+									<q-table
+										grid
+										title="Models"
+										:data="$getModel('modelsData')"
+										:columns="$getModel('modelsColumns')"
+										row-key="id"
+										:rows-per-page-options="[20]"
+										:filter="$getModel('modelsFilter')"
+										hide-pagination=true
+										hide-header
+									>
+										<template v-slot:top-right>
+											<q-input
+												borderless
+												dense
+												debounce="300"
+												@input="$setModel('modelsFilter', $event)"
+												:value="$getModel('modelsFilter')"
+												placeholder="Search"
+											>
+												<q-icon name="search" />
+											</q-input>
+										</template>
+										<template v-slot:item="props">
+											<q-item
+												class="flex column justify-between items-center"
+												style="width: 18%; margin: 1%"
+												@click="$invoke('setPed', props.row.id)"
+												clickable
+												ripple
+											>
+												<q-img
+													:src="`https://docs.fivem.net//peds/${props.row.name}.webp`"
+													style="width: 50px"
+												/>
+												<span style="font-size: 0.8em">{{props.row.name}}</span>
+											</q-item>
+										</template>
+									</q-table>
+								</q-card>
+							]]
+						},
+					},
+				}
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				if controller.ped then return end
+
+				local bodyType = controller.map["bodyType"] or "Masculine"
+				local index = controller.map["model"] or 1
+				
+				local models = (bodyType and Models[bodyType])
+				if not models then
+					error(("no models for bodyType '%s'"):format(bodyType))
+				end
+
+				local model = models[index]
+				local name = model.name
+
+				if not name or not IsModelValid(name) then
+					return
+				end
+
+				while not HasModelLoaded(name) do
+					RequestModel(name)
+					Citizen.Wait(20)
+				end
+
+				if (controller.map["model"] or 1) ~= index then
+					return
+				end
+
+				SetPlayerModel(Player, name)
+
+				Ped = PlayerPedId()
+
+				SetPedDefaultComponentVariation(Ped)
+				SetModelAsNoLongerNeeded(name)
+
+				if isMenu then
+					Editor:ClearTarget()
+				end
+			end,
+		},
+		{ -- Face Blends
+			tab = "shape",
+			model = "blendData",
+			watchers = { "model" },
+			condition = function(controller)
+				return tonumber(controller.map["model"]) == 1
+			end,
+			component = function(controller)
+				local components = {}
+
+				for k, v in ipairs({
+					{ index = 1, name = "First Shape", min = 1, max = 46 },
+					{ index = 2, name = "Second Shape", min = 1, max = 46 },
+					{ index = 4, name = "First Skin", min = 1, max = 46 },
+					{ index = 5, name = "Second Skin", min = 1, max = 46 },
+					{ index = 7, name = "Shape Mix", min = 0.0, max = 1.0, step = 0.05, default = 0.5 },
+					{ index = 8, name = "Skin Mix", min = 0.0, max = 1.0, step = 0.05, default = 0.5 },
+					{ index = 6, name = "Third Skin", min = 1, max = 46 },
+					{ index = 3, name = "Third Shape", min = 1, max = 46 },
+					{ index = 9, name = "Third Mix", min = 0.0, max = 1.0, step = 0.05, default = 0.0 },
+				}) do
+					local model = "blendData-"..v.index
+
+					components[k] = {
+						type = "slider-item",
+						name = v.name,
+						input = true,
+						minIcon = "chevron_left",
+						maxIcon = "chevron_right",
+						-- style = "min-width: 50%; padding-"..(k % 2 == 0 and "left" or "right")..": 1vmin",
+						style = "min-width: 100%",
+						slider = {
+							model = model,
+							default = v.default or 1,
+							min = v.min,
+							max = v.max,
+							step = v.step or 1,
+							snap = true,
+						}
+					}
+
+					controller:BindModel(model, "blendData", v.index)
+				end
+
+				return {
+					type = "div",
+					class = "flex row",
+					components = components,
+				}
+			end,
+			randomize = function(controller)
+				local masculine = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 25, 27, 31, 36, 43, 44, 45 }
+				local feminine = { 22, 24, 26, 28, 29, 30, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 46 }
+				local bodyType = controller.map["bodyType"]
+				local shapeMin, shapeMax = 0.0, 1.0
+
+				if bodyType == "Masculine" then
+					shapeMin = 0.5
+				else
+					shapeMax = 0.5
+				end
+
+				local function getRandomFace(table)
+					return table[GetRandomIntInRange(1, #table)]
+				end
+
+				return {
+					getRandomFace(feminine), -- shape1
+					getRandomFace(masculine), -- shape2
+					getRandomFace((bodyType == "Masculine" and masculine) or feminine), -- shape3
+					GetRandomIntInRange(1, 46), -- skin1
+					GetRandomIntInRange(1, 46), -- skin2
+					GetRandomIntInRange(1, 46), -- skin3
+					math.floor(GetRandomFloatInRange(shapeMin, shapeMax) * 100.0) / 100.0, -- shapeMix
+					math.floor(GetRandomFloatInRange(0.0, 1.0) * 100.0) / 100.0, -- skinMix
+					math.floor(GetRandomFloatInRange(0.0, 1.0) * 100.0) / 100.0, -- thirdMix
+				}
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				local map = controller.map
+				if not map then return end
+
+				if isMenu and trigger == "blendData" then
+					Editor:SetTarget("head")
+				end
+
+				local blendData = map.blendData
+				if not blendData then return end
+				
+				SetPedHeadBlendData(
+					Ped,
+					(blendData[1] or 1) - 1, -- shape1
+					(blendData[2] or 1) - 1, -- shape2
+					(blendData[3] or 1) - 1, -- shape3
+					(blendData[4] or 1) - 1, -- skin1
+					(blendData[5] or 1) - 1, -- skin2
+					(blendData[6] or 1) - 1, -- skin3
+					(blendData[7] or 0.5) + 0.0, -- shapeMix
+					(blendData[8] or 0.5) + 0.0, -- skinMix
+					(blendData[9] or 0.0) + 0.0, -- thirdMix
+					true
+				)
+			end,
+		},
+		{ -- Face Features
+			tab = "shape",
+			model = "faceFeatures",
+			watchers = { "model" },
+			condition = function(controller)
+				return tonumber(controller.map["model"]) == 1
+			end,
+			component = function(controller)
+				local components = {}
+
+				for k, v in ipairs({
+					{ name = "Nose Width" },
+					{ name = "Nose Height" },
+					{ name = "Nose Length" },
+					{ name = "Nose Bridge Length" },
+					{ name = "Nose Tip Height" },
+					{ name = "Nose Bridge Broken" },
+					{ name = "Eye Brow Height" },
+					{ name = "Eye Brow Forward" },
+					{ name = "Cheeks Bone Height" },
+					{ name = "Cheeks Bone Width" },
+					{ name = "Cheeks Width" },
+					{ name = "Eyes Squint" },
+					{ name = "Lips Thickness" },
+					{ name = "Jaw Bone Width" },
+					{ name = "Jaw Bone Back Length" },
+					{ name = "Chin Bone Height" },
+					{ name = "Chin Bone Length" },
+					{ name = "Chin Bone Width" },
+					{ name = "Chin Crease" },
+					{ name = "Neck Thickness" },
+				}) do
+					local model = "features"..k
+
+					components[k] = {
+						type = "slider-item",
+						name = v.name,
+						input = true,
+						minIcon = "chevron_left",
+						maxIcon = "chevron_right",
+						style = "min-width: 50%; padding-"..(k % 2 == 0 and "left" or "right")..": 1vmin",
+						-- style = "min-width: 100%;",
+						slider = {
+							model = model,
+							default = 0.0,
+							min = -1.0,
+							max = 1.0,
+							step = 0.1,
+							snap = true,
+						}
+					}
+
+					controller:BindModel(model, "faceFeatures", k)
+				end
+
+				return {
+					type = "div",
+					class = "flex row",
+					components = components,
+				}
+			end,
+			randomize = function(controller)
+				local faceFeatures = {}
+				for i = 1, 20 do
+					faceFeatures[i] = math.floor(math.pow(GetRandomFloatInRange(-0.5, 0.5), 4.0) * 10.0) / 10.0
+				end
+				return faceFeatures
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				local map = controller.map
+				if not map then return end
+				
+				if isMenu and trigger == "faceFeatures" then
+					Editor:SetTarget("head")
+				end
+
+				local faceFeatures = map.faceFeatures
+				if not faceFeatures then return end
+
+				local inverted = { false, true, true, true, true, false, true, false, true, false, true, false, true, false, false, true, false, false, false, false }
+				for i = 1, 20 do
+					local value = faceFeatures[i] or 0.0
+					if inverted[i] then
+						value = value * -1.0
+					end
+					SetPedFaceFeature(Ped, i - 1, value + 0.0)
+				end
+			end,
+		},
+		{ -- Eye Color
+			tab = "features",
+			model = "eyeColor",
+			watchers = { "model" },
+			component = function(controller)
+				return {
+					type = "slider-item",
+					name = "Eye Color",
+					input = true,
+					minIcon = "chevron_left",
+					maxIcon = "chevron_right",
+					style = "min-width: 100%",
+					slider = {
+						model = "eyeColor",
+						default = 1,
+						min = 1,
+						max = 32,
+						step = 1,
+						snap = true,
+					},
+				}
+			end,
+			randomize = function(controller)
+				return GetRandomIntInRange(1, 8)
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				local map = controller.map
+				if not map then return end
+
+				local color = map.eyeColor or 1
+				
+				if isMenu and trigger == "eyeColor" then
+					Editor:SetTarget("head")
+				end
+
+				SetPedEyeColor(Ped, color - 1)
+			end,
+		},
+		{ -- Blemishes
+			tab = "features",
+			model = "otherOverlays",
+			watchers = { "model" },
+			component = function(controller)
+				local components = {}
+
+				for k, v in ipairs(Overlays.Head.Other) do
+					local model = "otherOverlays-"..k
+					local max = GetPedHeadOverlayNum(v.index)
+
+					components[k] = {
+						type = "slider-item",
+						name = v.name,
+						input = true,
+						minIcon = "chevron_left",
+						maxIcon = "chevron_right",
+						style = "min-width: 100%",
+						slider = {
+							model = model,
+							default = 1,
+							min = 1,
+							max = max + 1,
+							step = 1,
+							snap = true,
+						},
+						secondary = {
+							model = model.."_a",
+							min = 0.0,
+							max = 1.0,
+							default = 0.0,
+							step = 0.05,
+							snap = true,
+						}
+					}
+
+					controller:BindModel(model, "otherOverlays", k)
+					controller:BindModel(model.."_a", "otherOverlays", k + #Overlays.Head.Other)
+				end
+
+				return {
+					type = "div",
+					class = "flex row",
+					components = components,
+				}
+			end,
+			randomize = function(controller)
+				local bodyType = controller.map["bodyType"]
+				local isMale = bodyType == "Masculine"
+
+				return {
+					GetRandomIntInRange(1, 25), -- Blemishes
+					GetRandomIntInRange(1, 16), -- Ageing
+					GetRandomIntInRange(1, 13), -- Complexion
+					GetRandomIntInRange(1, 12), -- Sun Damage
+					GetRandomIntInRange(1, 19), -- Moles/Freckles
+					GetRandomIntInRange(1, 13), -- Body Blemishes
+
+					math.pow(GetRandomFloatInRange(0.0, 1.0), 6.0), -- Blemishes
+					math.pow(GetRandomFloatInRange(0.0, 0.5), 4.0), -- Ageing
+					math.pow(GetRandomFloatInRange(0.0, 1.0), 6.0), -- Complexion
+					math.pow(GetRandomFloatInRange(0.0, 1.0), 4.0), -- Sun Damage
+					GetRandomFloatInRange(0.0, 1.0), -- Moles/Freckles
+					GetRandomFloatInRange(0.0, 1.0), -- Chest Hair
+					GetRandomFloatInRange(0.0, 1.0), -- Body Blemishes
+				}
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				local map = controller.map
+				if not map then return end
+
+				if isMenu and trigger == "otherOverlays" then
+					Editor:SetTarget("head")
+				end
+
+				local otherOverlays = map.otherOverlays
+				if not otherOverlays then return end
+
+				for k, v in ipairs(Overlays.Head.Other) do
+					local value = otherOverlays[k] or 255
+					local opacity = otherOverlays[k + #Overlays.Head.Other] or 0.0
+
+					SetPedHeadOverlay(Ped, v.index, (value == 1 and 255) or value - 2, opacity + 0.0)
+				end
+			end,
+		},
+		{ -- Other Hair
+			tab = "hair",
+			model = "hairOverlays",
+			watchers = { "model" },
+			component = function(controller)
+				local components = {}
+
+				for k, v in ipairs(Overlays.Head.Hair) do
+					local model = "hairOverlays-"..k
+					local max = GetPedHeadOverlayNum(v.index)
+
+					local slider = {
+						type = "slider-item",
+						name = v.name,
+						input = true,
+						minIcon = "chevron_left",
+						maxIcon = "chevron_right",
+						style = "min-width: 100%",
+						slider = {
+							model = model,
+							default = 1,
+							min = 1,
+							max = max + 1,
+							step = 1,
+							snap = true,
+						},
+						secondary = {
+							model = model.."_a",
+							min = 0.0,
+							max = 1.0,
+							default = 0.0,
+							step = 0.05,
+							snap = true,
+						}
+					}
+
+					local colors = {}
+					for i = 1, GetNumHairColors() do
+						local r, g, b = GetPedHairRgbColor(i - 1)
+						colors[i] = { r = r, g = g, b = b }
+					end
+
+					local palette = {
+						type = "div",
+						class = "flex row text-caption q-mb-sm q-mt-sm",
+						style = "width: 100%",
+						template = ([[
+							<div>
+								<div class="flex row" style="background: rgba(0, 0, 0, 0.4); outline: 1px solid rgba(0, 0, 0, 0.6); width: 50vmin;">
+									<div
+										v-for="(color, key) in %s"
+										:style="{
+											background: `rgb(${color.r}, ${color.g}, ${color.b})`,
+											width: '2.5vmin', height: '2.5vmin',
+											border: $getModel('%s') == key ? '2px solid yellow' : 'none'
+										}"
+										@click="$setModel('%s', key)"
+									>
+										<q-tooltip>
+											rgb({{color.r}}, {{color.g}}, {{color.b}})
+										</q-tooltip>
+									</div>
+								</div>
+							</div>
+						]]):format(
+							json.encode(colors):gsub("\"", "'"),
+							model.."_c",
+							model.."_c"
+						),
+					}
+
+					components[k] = {
+						style = "width: 100%; margin-bottom: 1vmin",
+						class = "flex row",
+						components = {
+							slider,
+							palette,
+						}
+					}
+
+					local n = #Overlays.Head.Hair
+
+					controller:BindModel(model, "hairOverlays", k)
+					controller:BindModel(model.."_a", "hairOverlays", k + n)
+					controller:BindModel(model.."_c", "hairOverlays", k + n * 2)
+				end
+
+				return {
+					type = "div",
+					class = "flex row",
+					components = components,
+				}
+			end,
+			randomize = function(controller)
+				local bodyType = controller.map["bodyType"]
+				local isMale = bodyType == "Masculine"
+				local color = GetRandomIntInRange(1, 9)
+				local masculine = { 2, 3, 4, 6, 7, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35 }
+				local feminine = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 15, 16, 17, 18, 25, 30, 31, 32, 33, 34, 35 }
+
+				return {
+					isMale and GetRandomIntInRange(1, 29) or 1, -- Facial Hair
+					isMale and masculine[GetRandomIntInRange(1, #masculine)] or feminine[GetRandomIntInRange(1, #feminine)], -- Eyebrows
+					isMale and GetRandomIntInRange(1, 17) or 1, -- Chest Hair
+
+					math.pow(GetRandomFloatInRange(0.0, 1.0), 0.5), -- Facial Hair
+					math.pow(GetRandomFloatInRange(0.5, 1.0), 0.5), -- Eyebrows
+					GetRandomFloatInRange(0.0, 1.0), -- Chest Hair
+
+					color,
+					color,
+					color,
+				}
+			end,
+			update = function(controller, trigger, value, lastValue, isMenu, bind)
+				local map = controller.map
+				if not map then return end
+
+				if isMenu and trigger == "hairOverlays" then
+					Editor:SetTarget("head")
+				end
+
+				local hairOverlays = map.hairOverlays
+				if not hairOverlays then return end
+
+				local n = #Overlays.Head.Hair
+				for k, v in ipairs(Overlays.Head.Hair) do
+					local value = hairOverlays[k] or 255
+					local opacity = hairOverlays[k + n] or 0.0
+					local color = hairOverlays[k + n * 2] or 1
+
+					SetPedHeadOverlay(Ped, v.index, (value == 1 and 255) or value - 2, opacity + 0.0)
+					SetPedHeadOverlayColor(Ped, v.index, 1, color, 0)
+				end
+			end,
+		},
+		{ -- Tattoos
 			tab = "tattoos",
 			model = "overlays",
 			watchers = { "model" },
@@ -1386,6 +1386,6 @@ function MapIter()
 
 		index = index + 1
 
-		return map, map[index - 1], target.."-"..(index - 1)
+		return map, map[index - 1], target
 	end
 end
