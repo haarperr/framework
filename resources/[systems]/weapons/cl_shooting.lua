@@ -1,13 +1,17 @@
 Shooting = {}
 
 --[[ Functions: Shooting ]]--
-function Shooting:UpdateShooting()
+function Shooting:UpdateShooting(weapon)
 	local ped = PlayerPedId()
-	
-	if not IsPedShooting(ped) then return false end
 
-	local hasWeapon, weapon = GetCurrentPedWeapon(ped)
-	if weapon and weapon == `WEAPON_UNARMED` then return false end
+	if not IsPedShooting(ped) and not weapon then return false end
+
+	if not weapon then
+		local hasWeapon, _weapon = GetCurrentPedWeapon(ped)
+		weapon = _weapon
+	end
+
+	if not weapon or weapon == `WEAPON_UNARMED` then return false end
 	
 	-- Vector maths.
 	local coords = GetFinalRenderedCamCoord()
@@ -71,8 +75,17 @@ function Shooting:Update()
 	local ped = PlayerPedId()
 
 	local delta = self.lastUpdate and (GetGameTimer() - self.lastUpdate) or 0
+	local force = false
+	local isBomb = GetIsTaskActive(ped, 432)
 
-	if not self:UpdateShooting() then
+	if isBomb and not self.isBombing then
+		self.isBombing = true
+	elseif not isBomb and self.isBombing then
+		force = `WEAPON_STICKYBOMB`
+		self.isBombing = nil
+	end
+
+	if not self:UpdateShooting(force) then
 		if IsPedReloading(ped) then
 			self.shotTime = 0.0
 		else

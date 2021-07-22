@@ -137,7 +137,7 @@ function State:Set(weapon)
 
 	GiveWeaponToPed(ped, weapon, 999, true, true)
 
-	if weapon == `GADGET_PARACHUTE` then
+	if weapon == `GADGET_PARACHUTE` or weapon == `GADGET_NIGHTVISION` then
 		SetPedGadget(ped, weapon, true)
 		return
 	end
