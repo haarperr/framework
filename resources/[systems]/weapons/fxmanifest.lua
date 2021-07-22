@@ -1,10 +1,6 @@
 fx_version 'adamant'
 game 'gta5'
 
-shared_scripts {
-	'sh_weapons.lua',
-}
-
 client_scripts {
 	'@utils/client/vectors.lua',
 	'cl_config.lua',

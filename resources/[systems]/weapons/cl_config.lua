@@ -123,4 +123,79 @@ Config = {
 	Reloads = {
 		[`WEAPON_STUNGUN`] = { Dict = "anim@weapons@first_person@aim_rng@generic@pistol@machine_pistol@str", Name = "reload_aim", Flag = 48 },
 	},
+	Groups = {
+		[970310034] = {
+			Name = "Assault Rifle",
+			Anim = "2h",
+			Preview = "back",
+			Class = 3,
+			Dispatch = "brandish3",
+		},
+		[416676503] = {
+			Name = "Handguns",
+			Anim = "1h",
+			Class = 1,
+			Dispatch = "brandish1",
+		},
+		[-1569042529] = {
+			Name = "Heavy Weapon",
+			Anim = "2h",
+			Preview = "back",
+			Class = 4,
+			Dispatch = "brandish3",
+		},
+		[1159398588] = {
+			Name = "Light Machine Gun",
+			Anim = "2h",
+			Preview = "back",
+			Class = 3,
+			Dispatch = "brandish3",
+		},
+		-- [2685387236] = {
+		-- 	Name = "Melee",
+		-- 	Anim = "1h",
+		-- 	Class = 0,
+		-- },
+		[-1609580060] = {
+			Name = "Small Melee",
+			Anim = "1h",
+			Class = 0,
+		},
+		[-728555052] = {
+			Name = "Large Melee",
+			Anim = "2h",
+			Class = 0,
+		},
+		[4257178988] = {
+			Name = "Misc",
+			Anim = "1h",
+			Class = 0,
+		},
+		[860033945] = {
+			Name = "Shotgun",
+			Anim = "2h",
+			Preview = "back",
+			Class = 2,
+			Dispatch = "brandish2",
+		},
+		[-1212426201] = {
+			Name = "Sniper",
+			Anim = "2h",
+			Preview = "back",
+			Class = 4,
+			Dispatch = "brandish3",
+		},
+		[-957766203] = {
+			Name = "Submachine Gun",
+			Anim = "2h",
+			Preview = "back",
+			Class = 2,
+			Dispatch = "brandish2",
+		},
+		[1548507267] = {
+			Name = "Throwable",
+			Anim = "1h",
+			Class = 0,
+		},
+	},
 }

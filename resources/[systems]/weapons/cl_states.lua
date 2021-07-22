@@ -33,33 +33,26 @@ function State:Equip(item, slot)
 	-- Check equipping.
 	if self.equipping then return end
 
-	-- Set variables.
-	local name = item.name
-	if not name then return end
-
-	self.item = item
-
-	-- Get weapon from name.
-	local weapon = GetWeapon(name)
-	local weaponHash = GetHashKey(weapon)
+	-- Get weapon hash.
+	local isWeaponTable = type(item.weapon) == "table"
+	local weapon = isWeaponTable and item.weapon.hash or item.weapon
 
 	-- Check equipped.
-	if self.equipped and self.equipped ~= weaponHash then
-		self:Equip(self.equipped)
+	if self.equipped and self.equipped ~= weapon then
+		self:Equip(self.item)
 		Citizen.Wait(1000)
 	end
-	
-	-- Get weapon settings.
-	local settings = GetSettings(weapon) or {}
-	self.settings = settings
+
+	-- Cache item.
+	self.item = item
 	
 	-- Get group settings.
-	local group = GetWeapontypeGroup(weapon)
-	local groupSettings = GetGroup(group) or {}
-	self.groupSettings = groupSettings
+	local _group = GetWeapontypeGroup(weapon)
+	local group = Config.Groups[_group] or {}
+	self.group = group
 
 	-- Check equip.
-	local isEquipped = self.equipped == weaponHash
+	local isEquipped = self.equipped == weapon
 
 	-- Unequip.
 	if isEquipped then
@@ -67,11 +60,11 @@ function State:Equip(item, slot)
 		
 		slot = self.currentSlot
 		self.currentSlot = nil
-		Preview:UpdateSlot(slot.slot_id, slot.id, exports.inventory:GetItem(slot.item_id))
+		Preview:UpdateSlot(slot.slot_id, slot.id, item)
 	end
 	
 	-- Do animation.
-	local animation = Config.Animations[groupSettings.Anim or "1h"]
+	local animation = Config.Animations[group.Anim or "1h"]
 	local duration = 0
 	
 	if animation ~= nil then
@@ -106,7 +99,7 @@ function State:Equip(item, slot)
 		
 		-- Equip.
 		if not isEquipped then
-			State:Set(weaponHash)
+			State:Set(weapon)
 			
 			if slot ~= nil then
 				State.currentSlot = slot
@@ -115,9 +108,9 @@ function State:Equip(item, slot)
 	
 			local ped = PlayerPedId()
 			for componentHash, component in pairs(ComponentHashes) do
-				if DoesWeaponTakeWeaponComponent(weaponHash, componentHash) then
-					-- GiveWeaponComponentToPed(PlayerPedId(), weaponHash, componentHash)
-					RemoveWeaponComponentFromPed(ped, weaponHash, componentHash)
+				if DoesWeaponTakeWeaponComponent(weapon, componentHash) then
+					-- GiveWeaponComponentToPed(PlayerPedId(), weapon, componentHash)
+					RemoveWeaponComponentFromPed(ped, weapon, componentHash)
 				end
 			end
 		end
@@ -180,7 +173,7 @@ function State:UpdateAmmo()
 	local ped = PlayerPedId()
 	-- local ammoType = GetPedAmmoTypeFromWeapon(ped, weapon)
 	local hasAmmo = self.ammo and self.ammo > 0
-	local isThrowable = self.groupSettings.Name == "Throwable"
+	local isThrowable = self.group.Name == "Throwable"
 
 	if isThrowable then
 		SetPedAmmo(ped, weapon, 1)

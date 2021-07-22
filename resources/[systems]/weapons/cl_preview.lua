@@ -51,18 +51,22 @@ end
 
 function Preview:Create(id, item)
 	-- Get item.
-	if item == nil or item.name == nil then return end
+	if type(item) ~= "table" or not item.weapon or not item.name then return end
 	
 	-- Get settings.
-	local weaponHash = GetHashKey(GetWeapon(item.name))
-	local weaponSettings = GetSettings(weaponHash) or {}
-	local group = GetWeapontypeGroup(weaponHash)
-	local groupSettings = GetGroup(group) or {}
-	local preview = weaponSettings.Preview or groupSettings.Preview
+	local isWeaponTable = type(item.weapon) == "table"
+	local weapon = isWeaponTable and item.weapon.hash or item.weapon
+	if not weapon then
+		error("missing weapon for item: "..tostring(item and item.name))
+	end
+
+	local group = GetWeapontypeGroup(weapon)
+	local groupSettings = Config.Groups[group] or {}
+	local preview = isWeaponTable and item.weapon.preview or groupSettings.Preview
 	local rotationOffset = vector3(0.0, 0.0, 0.0)
 
 	if type(preview) == "table" then
-		rotationOffset = preview[2]
+		rotationOffset = preview[2] or rotationOffset
 		preview = preview[1]
 	end
 	
@@ -72,7 +76,7 @@ function Preview:Create(id, item)
 	if settings == nil then return end
 	
 	-- Get model.
-	local model = GetWeapontypeModel(weaponHash)
+	local model = GetWeapontypeModel(weapon)
 
 	-- Request model.
 	while IsModelValid(model) and not HasModelLoaded(model) do
