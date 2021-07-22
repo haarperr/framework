@@ -121,7 +121,7 @@ end
 
 function State:Remove(skipUpdate)
 	local ped = PlayerPedId()
-	SetCurrentPedWeapon(ped, GetHashKey("WEAPON_UNARMED"), true)
+	SetCurrentPedWeapon(ped, `WEAPON_UNARMED`, true)
 	RemoveAllPedWeapons(ped, true)
 
 	self.equipped = nil
@@ -137,7 +137,16 @@ function State:Set(weapon)
 
 	GiveWeaponToPed(ped, weapon, 999, true, true)
 
-	if weapon == `GADGET_PARACHUTE` or weapon == `GADGET_NIGHTVISION` then
+	if weapon == `GADGET_NIGHTVISION` then
+		local nightvision = not GetUsingnightvision()
+		if nightvision then
+			SetPedPropIndex(ped, 0, 195, 0, true)
+		else
+			ClearPedProp(ped, 0)
+		end
+		SetNightvision(nightvision)
+		return
+	elseif weapon == `GADGET_PARACHUTE` then
 		SetPedGadget(ped, weapon, true)
 		return
 	end
