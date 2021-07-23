@@ -246,7 +246,7 @@ AddEventHandler("inventory:onContainerCreate", function(container)
 end)
 
 AddEventHandler("inventory:updateSlot", function(containerId, slotId, slot, item)
-	if containerId ~= Preview.containerId then return end
+	if containerId ~= Preview.containerId or (slot and State.currentSlot and slot.slot_id == State.currentSlot.slot_id) then return end
 
 	Preview:UpdateSlot(slotId, slot and slot.id, item)
 end)

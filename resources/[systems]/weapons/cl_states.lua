@@ -124,6 +124,9 @@ function State:Remove(skipUpdate)
 	SetCurrentPedWeapon(ped, `WEAPON_UNARMED`, true)
 	RemoveAllPedWeapons(ped, true)
 
+	self.item = nil
+	self.group = nil
+	self.currentSlot = nil
 	self.equipped = nil
 
 	local slot = self.currentSlot
