@@ -99,12 +99,12 @@ function State:Equip(item, slot)
 		
 		-- Equip.
 		if not isEquipped then
-			State:Set(weapon)
-			
 			if slot ~= nil then
 				State.currentSlot = slot
 				Preview:ClearSlot(tonumber(slot.slot_id), slot.id, exports.inventory:GetItem(slot.item_id))
 			end
+			
+			State:Set(weapon)
 	
 			local ped = PlayerPedId()
 			for componentHash, component in pairs(ComponentHashes) do
@@ -151,27 +151,45 @@ function State:Set(weapon)
 		return
 	end
 
+	local slot = self.currentSlot or {}
+
 	self.equipped = weapon
+	self.ammo = slot.fields and slot.fields[1] or 0
 	self:UpdateAmmo()
 end
 
 function State:TryReload()
+	-- Get weapon.
 	local weapon = self.equipped
 	if not weapon then return end
 
+	-- Get weapon item.
 	local item = self.item
 	if not item then return end
-
+	
+	-- Find magazine slot.
 	local magazine = item.ammo.." Magazine"
 	local slot = exports.inventory:ContainerFindFirst("self", magazine, "return (slot:GetField(1) or 0) > 0")
 	if not slot then return end
 
+	-- Check ammo in magazine.
+	local ammo = slot.fields and slot.fields[1]
+	if not ammo or ammo == 0 then return end
+
+	-- Check weapon slot.
+	if not self.currentSlot then return end
+
+	TriggerServerEvent("weapons:loadMagazine", self.currentSlot.slot_id, slot.slot_id)
+	
+	-- Set ammo.
 	local ped = PlayerPedId()
 
 	SetPedAmmo(ped, weapon, 100)
 	SetAmmoInClip(ped, weapon, 0)
 
 	SetPedConfigFlag(ped, 105, true)
+
+	self.ammo = ammo
 	self.reloading = true
 end
 
@@ -180,7 +198,6 @@ function State:UpdateAmmo()
 	if not weapon then return end
 
 	local ped = PlayerPedId()
-	-- local ammoType = GetPedAmmoTypeFromWeapon(ped, weapon)
 	local hasAmmo = self.ammo and self.ammo > 0
 	local isThrowable = self.group.Name == "Throwable"
 
@@ -199,7 +216,7 @@ function State:UpdateAmmo()
 		self.hadAmmo = hasAmmo
 	end
 
-	print(self.ammo)
+	print("ammo", self.ammo)
 end
 
 --[[ Exports ]]--
