@@ -26,14 +26,14 @@ function Shooting:UpdateShooting(weapon)
 
 	didHit = didHit == 1
 
-	if didHit then
-		Citizen.CreateThread(function()
-			for i = 1, 1000 do
-				DrawLine(coords.x, coords.y, coords.z, hitCoords.x, hitCoords.y, hitCoords.z, 255, 0, 0, 200)
-				Citizen.Wait(0)
-			end
-		end)
-	end
+	-- if didHit then
+	-- 	Citizen.CreateThread(function()
+	-- 		for i = 1, 1000 do
+	-- 			DrawLine(coords.x, coords.y, coords.z, hitCoords.x, hitCoords.y, hitCoords.z, 255, 0, 0, 200)
+	-- 			Citizen.Wait(0)
+	-- 		end
+	-- 	end)
+	-- end
 
 	-- Update recoil.
 	self:UpdateRecoil()

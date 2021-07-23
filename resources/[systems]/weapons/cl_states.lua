@@ -60,7 +60,10 @@ function State:Equip(item, slot)
 		
 		slot = self.currentSlot
 		self.currentSlot = nil
-		Preview:UpdateSlot(slot.slot_id, slot.id, item)
+
+		if slot then
+			Preview:UpdateSlot(slot.slot_id, slot.id, item)
+		end
 	end
 	
 	-- Do animation.
