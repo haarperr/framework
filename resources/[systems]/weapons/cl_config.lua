@@ -96,28 +96,32 @@ Config = {
 		},
 	},
 	Loading = {
-		Duration = 9000,
+		Duration = 6000,
 		Anim = {
-			Sequence = {
-				{
-					Duration = 6000,
-					Dict = "anim@amb@range@load_clips@",
-					Name = "idle_01_amy_skater_01",
-					Flag = 48,
-					Secondary = {
-						Dict = "anim@amb@business@weed@weed_inspecting_lo_med_hi@",
-						Name = "weed_stand_checkingleaves_kneeling_02_inspector",
-						Flag = 0,
-						Rate = 0.05,
-					}
-				},
-				{
-					Duration = 3000,
-					Dict = "amb@medic@standing@kneel@exit",
-					Name = "exit",
-					Flag = 0,
-				},
-			}
+			Duration = 6000,
+			Dict = "anim@amb@range@load_clips@",
+			Name = "idle_01_amy_skater_01",
+			Flag = 48,
+			-- Sequence = {
+			-- 	{
+			-- 		Duration = 6000,
+			-- 		Dict = "anim@amb@range@load_clips@",
+			-- 		Name = "idle_01_amy_skater_01",
+			-- 		Flag = 48,
+			-- 		Secondary = {
+			-- 			Dict = "anim@amb@business@weed@weed_inspecting_lo_med_hi@",
+			-- 			Name = "weed_stand_checkingleaves_kneeling_02_inspector",
+			-- 			Flag = 0,
+			-- 			Rate = 0.05,
+			-- 		}
+			-- 	},
+			-- 	{
+			-- 		Duration = 3000,
+			-- 		Dict = "amb@medic@standing@kneel@exit",
+			-- 		Name = "exit",
+			-- 		Flag = 0,
+			-- 	},
+			-- }
 		},
 	},
 	Reloads = {

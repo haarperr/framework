@@ -64,3 +64,32 @@ AddEventHandler("playerDropped", function(reason)
 	local source = source
 	Weapons.queue[source] = nil
 end)
+
+AddEventHandler("inventory:use", function(source, item, slot)
+	if item.ammo and item.count and item.usable == "Magazine" then
+		-- Get player container id.
+		local containerId = exports.inventory:GetPlayerContainer(source, true)
+		if not containerId then return end
+
+		-- Get fields.
+		local fields = slot.fields
+		if not fields then
+			fields = {}
+		end
+
+		-- Get ammo.
+		local ammoName = item.ammo
+		local ammo = fields[1] or 0
+
+		local bullets = math.min(exports.inventory:ContainerCountItem(containerId, ammoName), item.count - ammo)
+		if bullets == 0 then return end
+
+		ammo = ammo + bullets
+
+		-- Take bullets.
+		if not exports.inventory:TakeItem(source, ammoName, bullets) then return end
+
+		-- Set fields.
+		exports.inventory:ContainerInvokeSlot(containerId, slot.slot_id, "SetField", 1, ammo)
+	end
+end)

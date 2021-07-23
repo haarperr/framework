@@ -238,6 +238,22 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 	
 		cb(duration)
 	elseif item.usable == "Magazine" then
+		local err = nil
+		if slot.fields and (slot.fields[1] or 0) >= (item.count or 0) then
+			err = "It's already full..."
+		elseif not exports.inventory:HasItem(item.ammo) then
+			err = "No bullets that fit..."
+		end
+
+		if err then
+			exports.chat:AddToast({
+				class = "error",
+				text = err,
+			})
+
+			return
+		end
+
 		exports.emotes:PerformEmote(Config.Loading.Anim)
 		cb(Config.Loading.Duration)
 	end
