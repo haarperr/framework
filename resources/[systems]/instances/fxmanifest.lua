@@ -1,15 +1,13 @@
 fx_version 'adamant'
 game 'gta5'
 
--- shared_scripts {
--- 	'sh_config.lua',
--- 	'sh_instances.lua',
--- }
-
 client_scripts {
-	'cl_instances.lua',
+	'cl_main.lua',
+	'cl_room.lua',
 }
 
 server_scripts {
-	'sv_instances.lua',
+	'sv_main.lua',
+	'sv_room.lua',
+	'sv_commands.lua',
 }
