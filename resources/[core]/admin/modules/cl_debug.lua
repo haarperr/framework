@@ -1,8 +1,11 @@
 Debugger = { texts = {} }
 
 --[[ Functions ]]--
-function Debugger:Create()
-	
+function Debugger:Init()
+	self.active = self.showEntities or self.showPlayers
+	if not self.active then
+		self:Destroy()
+	end
 end
 
 function Debugger:Destroy()
@@ -14,30 +17,32 @@ end
 
 function Debugger:Update()
 	local coords = GetFinalRenderedCamCoord()
+	self.tempCache = {}
 
 	local peds = exports.oldutils:GetPeds()
 	local objects = exports.oldutils:GetVehicles()
 	local vehicles = exports.oldutils:GetObjects()
 
-	self.tempCache = {}
-
 	for _, ped in ipairs(peds) do
-		if IsPedAPlayer(ped) then
+		local isPlayer = IsPedAPlayer(ped)
+		if isPlayer and self.showPlayers then
 			self:RegisterPlayer(ped)
-		elseif #(coords - GetEntityCoords(ped)) < 50.0 then
+		elseif not isPlayer and self.showEntities and #(coords - GetEntityCoords(ped)) < 50.0 then
 			self:RegisterEntity(ped)
 		end
 	end
 
-	for _, object in ipairs(objects) do
-		if #(coords - GetEntityCoords(object)) < 50.0 then
-			self:RegisterEntity(object)
+	if self.showEntities then
+		for _, object in ipairs(objects) do
+			if #(coords - GetEntityCoords(object)) < 50.0 then
+				self:RegisterEntity(object)
+			end
 		end
-	end
 
-	for _, vehicle in ipairs(vehicles) do
-		if #(coords - GetEntityCoords(vehicle)) < 50.0 then
-			self:RegisterEntity(vehicle)
+		for _, vehicle in ipairs(vehicles) do
+			if #(coords - GetEntityCoords(vehicle)) < 50.0 then
+				self:RegisterEntity(vehicle)
+			end
 		end
 	end
 
@@ -59,8 +64,9 @@ function Debugger:RegisterEntity(entity, text)
 	
 	local id = "d"..entity
 	local type = GetEntityType(entity)
-	local offset
-	
+	local _entity = Entity(entity)
+	local offset = vector3(0, 0, 0)
+
 	if type == 1 then
 		text = text or "Ped"
 		offset = vector3(0, 0, 1)
@@ -69,14 +75,29 @@ function Debugger:RegisterEntity(entity, text)
 		offset = vector3(0, 0, -1)
 	elseif type == 3 then
 		text = text or "Object"
-		offset = vector3(0, 0, 0)
 	else
 		text = text or ""
-		offset = vector3(0, 0, 0)
 	end
 
+	local owner = NetworkGetEntityOwner(entity)
+	if owner == PlayerId() then
+		owner = "You"
+	else
+		owner = "["..GetPlayerServerId(owner).."]"
+	end
+	
 	text = text.."<br>ID: "..NetworkGetNetworkIdFromEntity(entity)
-	text = text.."<br>Owner: ["..NetworkGetEntityOwner(entity).."]"
+	
+	if not IsEntityAPed(entity) or not IsPedAPlayer(entity) then
+		local origin = _entity and _entity.state.origin or "Unknown"
+
+		if origin == GetPlayerServerId(PlayerId()) then
+			origin = "You"
+		end
+
+		text = text.."<br>Owner: "..owner
+		text = text.."<br>Orign: "..origin
+	end
 
 	exports.interact:AddText({
 		id = id,
@@ -109,15 +130,14 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Hooks ]]--
-Admin:AddHook("toggle", "debugger", function(active)
-	print("set debugger active?", active)
-	Debugger.active = active
-	
-	if active then
-		Debugger:Create()
-	else
-		Debugger:Destroy()
-	end
+Admin:AddHook("toggle", "debugger-entity", function(active)
+	Debugger.showEntities = active
+	Debugger:Init()
+end)
+
+Admin:AddHook("toggle", "debugger-player", function(active)
+	Debugger.showPlayers = active
+	Debugger:Init()
 end)
 
 --[[ Events ]]--

@@ -1,9 +1,10 @@
 RegisterNetEvent(Admin.event.."requestPlayer", function(serverId)
 	local source = source
-	print("req", source, serverId)
+
+	if (exports.user:Get(source, "power_level") or 0) < 25 then return end
 
 	data = {
-		name = exports.character:Get(serverId, "first_name"),
+		name = exports.character:GetName(serverId),
 	}
 
 	TriggerClientEvent(Admin.event.."receivePlayer", source, serverId, data)
