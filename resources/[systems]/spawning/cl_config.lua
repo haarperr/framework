@@ -22,6 +22,10 @@ Config = {
 					Coords = vector4(275.0482482910156, -1206.026123046875, 38.89752197265625, 187.229736328125),
 					Anim = { Dict = "timetable@reunited@ig_10", Name = "base_amanda", Flag = 1 },
 				},
+				{
+					Coords = vector4(276.9018859863281, -1205.81298828125, 38.89432907104492, 353.5223693847656),
+					Anim = { Dict = "anim@amb@business@bgen@bgen_inspecting@", Name = "inspecting_med_lookingaround_inspector", Flag = 1 },
+				},
 			},
 		}
 	},
