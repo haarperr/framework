@@ -1,10 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 
-dependencies {
-	'ui',
-}
-
 server_scripts {
 	'sv_spawning.lua',
 }

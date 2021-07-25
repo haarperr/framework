@@ -1,10 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 
-dependencies {
-	'ui',
-}
-
 shared_scripts {
 	'shared/config.lua',
 	'shared/misc.lua',
