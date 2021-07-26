@@ -117,6 +117,15 @@ function Client:SelectCharacter(id)
 	local character = (id and self:GetCharacter(id)) or nil
 	self.activeCharacter = tonumber(id)
 
+	-- Events.
 	TriggerEvent(Main.event.."selected", self.source, character)
 	TriggerClientEvent(Main.event.."select", self.source, id)
+
+	-- Logging.
+	exports.log:Add({
+		source = self.source,
+		verb = "selected",
+		noun = "character",
+		extra = ("%s %s (%s)"):format(character.first_name, character.last_name, id)
+	})
 end

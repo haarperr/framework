@@ -1,5 +1,8 @@
 function AppendText(text, append)
 	if not text then return end
+	if not append then
+		error("no text to append ("..text..")")
+	end
 	if text ~= "" then
 		text = text.." "
 	end

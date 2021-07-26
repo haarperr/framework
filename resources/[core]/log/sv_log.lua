@@ -5,22 +5,23 @@ Main = {
 
 --[[ Functions ]]--
 function Main:Init()
-	-- Cache session.
-	self.session = exports.GHMattiMySQL:QueryScalar([[
-		INSERT INTO `logs_sessions` (`id`) VALUES (DEFAULT);
-		SELECT LAST_INSERT_ID();
-	]])
-
-	-- Log.
-	self:Add({
-		verb = "initialize",
-		extra = ("session id: %s"):format(self.session),
-	})
+	-- Load database.
+	self:LoadDatabase()
 
 	-- Update current players.
 	for i = 1, GetNumPlayerIndices() do
-		local player = GetPlayerFromIndex(i - 1)
-		self:RegisterPlayer(tonumber(player), true)
+		local player = tonumber(GetPlayerFromIndex(i - 1))
+		self:RegisterPlayer(player, exports.user:Get(player, "id"), true)
+	end
+end
+
+function Main:LoadDatabase()
+	WaitForTable("users")
+
+	for _, path in ipairs({
+		"sql/logs.sql",
+	}) do
+		exports.GHMattiMySQL:Query(LoadQuery(path))
 	end
 end
 
@@ -31,40 +32,50 @@ function Main:Update()
 end
 
 function Main:Add(data)
-	if self.session == nil or type(data) ~= "table" then return end
+	if type(data) ~= "table" then return end
 
 	-- Get source.
 	local sourceInfo = nil
-	if data.source ~= nil then
-		sourceInfo = self.players[data.source]
-		if sourceInfo == nil then
-			return
-		end
+	local source = data.source
+
+	if source ~= nil then
+		sourceInfo = self.players[source]
+		if sourceInfo == nil then return end
+
+		data.source = sourceInfo.id
 	end
 
 	-- Get target.
 	local targetInfo = nil
-	if data.target ~= nil then
-		targetInfo = self.players[data.target]
-		if targetInfo == nil then
+	local target = data.target
+
+	if target ~= nil then
+		targetInfo = self.players[target]
+		if targetInfo == nil then return end
+		
+		data.target = targetInfo.id
+	end
+
+	-- Anti-spam check.
+	if source ~= nil and not data.ignoreAntispam then
+		sourceInfo.spam = sourceInfo.spam + 1
+		if sourceInfo.spam >= 60 then
+			DropPlayer(source, "anti-spam")
 			return
 		end
 	end
 
-	-- Anti-spam check.
-	if data.source ~= nil and not data.ignoreAntispam then
-		sourceInfo.spam = sourceInfo.spam + 1
-		if sourceInfo.spam >= 60 then
-			DropPlayer(data.source, "anti-spam")
-			return
-		end
-	end
+	data.ignoreAntispam = nil
 
 	-- Switch source and targets.
 	if data.switch then
 		local _source = data.source
 		data.source = data.target
 		data.target = _source
+
+		_source = source
+		source = target
+		target = source
 	end
 
 	data.switch = nil
@@ -75,49 +86,30 @@ function Main:Add(data)
 		data.channel = nil
 	end
 
-	-- Get table.
-	local table = data.table or "logs"
-	local isDefault = not data.table
+	-- Update coordinates.
+	if source ~= nil then
+		local ped = GetPlayerPed(source)
+		if DoesEntityExist(ped) then
+			local coords = GetEntityCoords(ped)
 
-	if isDefault then
-		if data.source ~= nil then
-			-- Set identifier.
-			data.source_user_id = sourceInfo.id
-			
-			-- Get the coordinates.
-			local ped = GetPlayerPed(data.source)
-			if DoesEntityExist(ped) then
-				local coords = GetEntityCoords(ped)
-
-				data.pos_x = coords.x
-				data.pos_y = coords.y
-				data.pos_z = coords.z
-			end
+			data.pos_x = coords.x
+			data.pos_y = coords.y
+			data.pos_z = coords.z
 		end
-
-		if data.target ~= nil then
-			-- Set identifier.
-			data.target_user_id = targetInfo.id
-		end
-
-		-- Set default parameters.
-		data.resource = data.resource or GetInvokingResource()
-	else
-		data.table = nil
 	end
 
-	-- Set session id.
-	data.session_id = self.session
+	-- Set resource.
+	data.resource = data.resource or GetInvokingResource()
 
 	-- Insert into the table.
-	exports.GHMattiMySQL:Insert(table, { data })
+	exports.GHMattiMySQL:Insert("logs", { data })
 
-	if isDefault and channel ~= "none" then
-		-- Get the formatted text.
+	-- Format text.
+	if channel ~= "none" then
 		local text = ""
 
 		if data.source then
-			text = AppendText(text, self:GetPlayerText(data.source))
+			text = AppendText(text, self:GetPlayerText(source))
 		end
 
 		if data.verb then
@@ -129,7 +121,7 @@ function Main:Add(data)
 		end
 
 		if data.target then
-			if data.source == data.target then
+			if source == target then
 				text = AppendText(text, "themself")
 			else
 				text = AppendText(text, self:GetPlayerText(data.target))
@@ -137,35 +129,35 @@ function Main:Add(data)
 		end
 
 		if data.extra then
-			local extra = "("..tostring(data.extra)..")"
-			text = AppendText(text, extra)
+			local extra = tostring(data.extra)
+			if text ~= "" then
+				text = text..", "
+			end
+			text = text..data.extra
 		end
 
 		-- Print the message.
 		print(("[%s] %s"):format(data.resource, text))
 
-		-- Send webhooks.
-		if not data.is_sensitive then
-			local webhook = GetConvar(channel.."_logs", "")
-			if webhook ~= "" then
-				PerformHttpRequest(webhook, function(err, text, headers)
-				end, "POST", json.encode({
-					username = "Log",
-					content = text,
-					tts = false,
-				}), { ["Content-Type"] = "application/json" })
-			end
+		-- Send webhook.
+		local webhook = GetConvar(channel.."_logs", "")
+		if webhook ~= "" then
+			PerformHttpRequest(webhook, function(err, text, headers)
+			end, "POST", json.encode({
+				username = "Log",
+				content = text,
+				tts = false,
+			}), { ["Content-Type"] = "application/json" })
 		end
 	end
 end
 
-function Main:RegisterPlayer(source, skipLog)
+function Main:RegisterPlayer(source, id, softLog)
+	-- Check user id.
+	if type(id) ~= "number" then return false end
+
 	-- Check registered already.
 	if self.players[source] ~= nil then return false end
-
-	-- Get id.
-	local id = exports.user:Get(source, "id")
-	if not id then return false end
 
 	-- Get name.
 	local name = exports.user:GetIdentifier(source, "name")
@@ -177,6 +169,7 @@ function Main:RegisterPlayer(source, skipLog)
 
 	-- Get player text.
 	local text = "["..tostring(source).."] "..tostring(name).."@"..tostring(steam)
+	local text = ("[%s:%s] %s@%s"):format(source, id, name, steam)
 
 	-- Cache player.
 	self.players[source] = {
@@ -186,10 +179,11 @@ function Main:RegisterPlayer(source, skipLog)
 	}
 
 	-- Log.
-	if not skipLog then
+	if not softLog then
 		self:Add({
 			source = source,
 			verb = "connected",
+			resource = "log",
 		})
 	end
 
@@ -197,16 +191,18 @@ function Main:RegisterPlayer(source, skipLog)
 	return true
 end
 
-function Main:DestroyPlayer(source, skipLog)
+function Main:DestroyPlayer(source, reason)
 	-- Get player.
 	local player = self.players[source]
 	if player == nil then return false end
 
 	-- Log.
-	if not skipLog then
+	if reason then
 		self:Add({
 			source = source,
 			verb = "disconnected",
+			resource = "log",
+			extra = reason,
 		})
 	end
 	
@@ -230,12 +226,12 @@ AddEventHandler(Main.event.."start", function()
 end)
 
 AddEventHandler("user:created", function(source, user)
-	Main:RegisterPlayer(source)
+	Main:RegisterPlayer(source, user.id)
 end)
 
-AddEventHandler("playerDropped", function()
+AddEventHandler("playerDropped", function(reason)
 	local source = source
-	Main:DestroyPlayer(source)
+	Main:DestroyPlayer(source, reason)
 end)
 
 --[[ Threads ]]--
