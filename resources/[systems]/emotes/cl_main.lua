@@ -99,6 +99,26 @@ function Main:PlayOnPed(ped, data)
 end
 Export(Main, "PlayOnPed")
 
+function Main:RemoveProps()
+	local ped = PlayerPedId()
+	for k, entity in ipairs(exports.oldutils:GetObjects()) do
+		if DoesEntityExist(entity) and IsEntityAttachedToEntity(entity, ped) then
+			self:Delete(entity)
+		end
+	end
+end
+
+function Main:Delete(entity)
+	Citizen.CreateThread(function()
+		while DoesEntityExist(entity) do
+			NetworkRequestControlOfEntity(entity)
+			DeleteEntity(entity)
+
+			Citizen.Wait(50)
+		end
+	end)
+end
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -115,4 +135,13 @@ Citizen.CreateThread(function()
 			Citizen.Wait(100)
 		end
 	end
+end)
+
+--[[ Events ]]--
+RegisterNetEvent("instances:join", function(id)
+	Main:RemoveProps()
+end)
+
+RegisterNetEvent("instances:leave", function(id)
+	Main:RemoveProps()
 end)

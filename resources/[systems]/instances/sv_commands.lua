@@ -5,7 +5,7 @@ exports.chat:RegisterCommand("a:joininstance", function(source, args, command, c
 		return
 	end
 
-	Instances:Join(source, id)
+	Instances:Join(source, id, true)
 end, {
 	description = "Join an existing instance.",
 	powerLevel = 25,

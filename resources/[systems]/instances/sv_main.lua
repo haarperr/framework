@@ -5,27 +5,45 @@ Instances = {
 
 --[[ Functions ]]--
 function Instances:Create(id)
+	if self.rooms[id] then
+		return false
+	end
 
+	local room = Room:Create(id)
+
+	return room
 end
 
 function Instances:Destroy(id)
+	local room = self.rooms[id]
+	if not room then return false end
 
+	return room:Destroy()
 end
 
-function Instances:Join(source, id)
-	id = tonumber(id) or math.abs(GetHashKey(id))
-
-	SetPlayerRoutingBucket(source, id)
-
-	if id ~= 0 then
-		SetRoutingBucketPopulationEnabled(id, false)
+function Instances:Join(source, id, create)
+	local room = self.rooms[id]
+	if not room and create then
+		room = self:Create(id)
+	elseif not room then
+		return false
 	end
-	
-	print("setting routing bucket", id)
+
+	TriggerClientEvent("instances:join", source, id)
+
+	return room:AddPlayer(source)
 end
 
 function Instances:Leave(source)
-	SetPlayerRoutingBucket(source, 0)
+	local id = self.players[source]
+	if not id then return false end
+
+	local room = self.rooms[id]
+	if not room then return false end
+
+	TriggerClientEvent("instances:join", source, id)
+	
+	return room:RemovePlayer(source)
 end
 
 function Instances:Get(source)
