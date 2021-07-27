@@ -3,18 +3,19 @@ game 'gta5'
 
 dependencies {
 	'GHMattiMySQL',
-	'instances',
-	'character',
+	'entities',
 }
 
 shared_scripts {
 	'sh_config.lua',
+	'sh_properties.lua',
 }
 
 client_scripts {
-	'cl_properties.lua',
+	'cl_main.lua',
 }
 
 server_scripts {
-	'sv_properties.lua',
+	'@utils/server/database.lua',
+	'sv_main.lua',
 }
