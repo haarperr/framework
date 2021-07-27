@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
 	`target` INT(10) UNSIGNED NULL DEFAULT NULL,
 	`verb` CHAR(16) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`noun` CHAR(16) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	`extra` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`extra` VARCHAR(128) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`transaction` INT(11) NULL DEFAULT NULL,
 	`pos_x` FLOAT NOT NULL DEFAULT '0',
 	`pos_y` FLOAT NOT NULL DEFAULT '0',
