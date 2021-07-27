@@ -14,6 +14,16 @@ function Main:Init()
 	self.columns = DescribeTable("users")
 end
 
+function Main:UpdatePlayers()
+	for source, user in pairs(self.users) do
+		local player = Player(source)
+		if player.state.userId ~= user.id then
+			print("BAD GUY", source, user.id, player.state.userId)
+			-- TODO: ban bad guy
+		end
+	end
+end
+
 function Main:RegisterPlayer(source)
 	-- Check user
 	source = tonumber(source)
@@ -32,6 +42,10 @@ function Main:RegisterPlayer(source)
 	TriggerClientEvent(self.event.."sync", source, user)
 	
 	user.identifiers.endpoint = endpoint
+
+	-- Set player id.
+	local player = Player(source)
+	player.state.userId = user.id
 end
 
 function Main:DestroyPlayer(source)
@@ -139,6 +153,14 @@ function Main:Mimic(endpoint, user)
 	
 	print(("'%s' will now mimic '%s'"):format(endpoint, user or "None"))
 end
+
+--[[ Thread ]]--
+Citizen.CreateThread(function()
+	while true do
+		Main:UpdatePlayers()
+		Citizen.Wait(1000)
+	end
+end)
 
 --[[ Events ]]--
 AddEventHandler(Main.event.."start", function()
