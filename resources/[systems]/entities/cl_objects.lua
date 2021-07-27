@@ -28,6 +28,9 @@ function Object:Create(data)
 		instance:SetCoords(instance.coords)
 	end
 
+	-- Trigger event.
+	TriggerEvent("entities:created", instance)
+
 	-- Instance children.
 	if instance.children then
 		for k, child in pairs(instance.children) do
@@ -57,6 +60,9 @@ function Object:Destroy()
 		-- Uncache from grid.
 		grid[self.id] = nil
 	end
+
+	-- Trigger event.
+	TriggerEvent("entities:destroyed", instance)
 
 	-- Destroy children.
 	if self.children then
@@ -161,6 +167,12 @@ end
 
 function Object:DrawDebug()
 	local size = self.radius or 0.5
+	local isSelected = self.id == Debug.selected
+	local r, g, b = 255, 255, 0
+
+	if isSelected then
+		r, g, b = 0, 255, 0
+	end
 
 	DrawMarker(
 		28, -- type
@@ -176,9 +188,9 @@ function Object:DrawDebug()
 		size, -- scaleX
 		size, -- scaleY
 		size, -- scaleZ
-		255, -- red
-		255, -- green
-		0, -- blue
+		r, -- red
+		g, -- green
+		b, -- blue
 		128, -- alpha
 		false, -- bobUpAndDown
 		false, -- faceCamera

@@ -1,64 +1,91 @@
-Debug = {}
+Debug = {
+	objects = {},
+}
 
 --[[ Functions: Debug ]]--
 function Debug:Enable(value)
 	if value then
-		local window = CodeEditor:Create({
-			prepend = {
-				type = "q-icon",
-				name = "minimize",
-				click = {
-					event = "close",
-				},
+		local window = Window:Create({
+			title = "Entities",
+			class = "compact",
+			defaults = {
+				entities = {},
 			},
 			style = {
-				["width"] = "50vmin",
-				["height"] = "60vmin",
+				["width"] = "30vmin",
+				["height"] = "auto",
 				["right"] = "2vmin",
-				["top"] = "5vmin",
+				["top"] = "15vmin",
+				["bottom"] = "10vmin",
 				["z-index"] = 100,
 			},
-		}, function(window, code)
-			local result, data = pcall(load("return { "..code.." }"))
-			if not result then
-				error(data)
-			end
-		
-			Debug:SetObject(data)
-		end)
+			template = [[
+				<q-list>
+					<q-item
+						v-for="(entity, key) in $getModel('entities')"
+						:key="key"
+						:class="[ $getModel('selected') == key ? 'bg-blue-5' : '' ]"
+						dense
+						clickable
+						@click="$invoke('select', key)"
+					>
+						<q-item-section>{{entity.name}}</q-item-section>
+						<q-item-section>{{entity.id}}</q-item-section>
+					</q-item>
+				</q-list>
+			]],
+		})
 
-		window:OnClick("close", function(self)
-			UI:Focus(false)
+		window:AddListener("select", function(self, value)
+			self:SetModel("selected", value)
+			Debug.selected = value
 		end)
 
 		self.window = window
 	else
 		self.window:Destroy()
+		self.window = nil
 	end
 
+	self.objects = {}
 	self.enabled = value
 end
 
 function Debug:Update()
+	local updateWindow = false
+	local temp = {}
+
 	-- Draw objects.
 	for gridId, grid in pairs(Main.cached) do
 		for id, object in pairs(grid) do
 			object:DrawDebug()
+			temp[id] = true
+			if not self.objects[id] then
+				self.objects[id] = object
+				updateWindow = true
+			end
 		end
 	end
 
+	-- Check objects cache.
+	for id, object in pairs(self.objects) do
+		if not temp[id] then
+			self.objects[id] = nil
+			updateWindow = true
+		end
+	end
+
+	-- Set model.
+	if self.window and updateWindow then
+		self.window:SetModel("entities", self.objects)
+	end
+
 	-- Input.
-	if IsDisabledControlJustPressed(0, 212) then
-		UI:Focus(true)
+	if IsDisabledControlJustPressed(0, 243) then
+		UI:Focus(true, true)
+	elseif IsDisabledControlJustReleased(0, 243) then
+		UI:Focus(false)
 	end
-end
-
-function Debug:SetObject(data)
-	if self.object then
-		self.object:Destroy()
-	end
-
-	self.object = Object:Create(data)
 end
 
 --[[ Threads ]]--
