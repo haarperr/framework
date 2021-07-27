@@ -9,3 +9,7 @@ RegisterNetEvent(Admin.event.."requestPlayer", function(serverId)
 
 	TriggerClientEvent(Admin.event.."receivePlayer", source, serverId, data)
 end)
+
+RegisterNetEvent(Admin.event.."invokeHook", function(_type, message, ...)
+	local source = source
+end)

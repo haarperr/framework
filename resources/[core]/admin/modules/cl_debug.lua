@@ -130,13 +130,13 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Hooks ]]--
-Admin:AddHook("toggle", "debugger-entity", function(active)
-	Debugger.showEntities = active
+Admin:AddHook("toggle", "debuggerEntity", function(value)
+	Debugger.showEntities = value
 	Debugger:Init()
 end)
 
-Admin:AddHook("toggle", "debugger-player", function(active)
-	Debugger.showPlayers = active
+Admin:AddHook("toggle", "debuggerPlayer", function(value)
+	Debugger.showPlayers = value
 	Debugger:Init()
 end)
 

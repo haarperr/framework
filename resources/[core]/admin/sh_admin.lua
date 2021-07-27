@@ -16,4 +16,5 @@ function Admin:InvokeHook(type, message, ...)
 	if func then
 		func(...)
 	end
+	TriggerServerEvent(self.event.."invokeHook", type, message, ...)
 end
