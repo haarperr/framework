@@ -21,18 +21,19 @@ function User:SetFlag(flag, value)
 	self:Set("flags", flags)
 end
 
-function Main:SetFlag(source, ...)
-	local user = self:GetUser(source)
-	if not user then return end
-
-	user:SetFlag(...)
+for _, funcName in ipairs({
+	"SetFlag",
+	"HasFlag",
+	"IsMod",
+	"IsAdmin",
+	"IsOwner",
+}) do
+	local func = User[funcName]
+	Main[funcName] = function(self, source, ...)
+		local user = self:GetUser(source)
+		if not user then return end
+	
+		return func(user, ...)
+	end
+	Export(Main, funcName)
 end
-Export(Main, "SetFlag")
-
-function Main:HasFlag(source, ...)
-	local user = self:GetUser(source)
-	if not user then return false end
-
-	return user:HasFlag(...)
-end
-Export(Main, "HasFlag")

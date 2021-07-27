@@ -1,11 +1,12 @@
+-- Valid flags: 1-63
 FlagEnums = {
-	["CAN_PLAY_ANIMAL"] = 1,
-	["CAN_PLAY_PEDS"] = 2,
+	["IS_OWNER"] = 1,
+	["IS_ADMIN"] = 2,
+	["IS_MOD"] = 3,
+	["IS_DEV"] = 4,
 	
-	["IS_OWNER"] = 100,
-	["IS_ADMIN"] = 101,
-	["IS_MOD"] = 102,
-	["IS_DEV"] = 103,
+	["CAN_PLAY_ANIMAL"] = 5,
+	["CAN_PLAY_PEDS"] = 6,
 }
 
 function User:HasFlag(flag)
@@ -24,4 +25,28 @@ function User:HasFlag(flag)
 	local mask = 1 << flag
 
 	return self.flags & mask ~= 0
+end
+
+function User:IsMod()
+	if not self.flags then
+		return false
+	end
+
+	return (self.flags & (1 << 1) | self.flags & (1 << 2) | self.flags & (1 << 3)) ~= 0
+end
+
+function User:IsAdmin()
+	if not self.flags then
+		return false
+	end
+
+	return (self.flags & (1 << 1) | self.flags & (1 << 2)) ~= 0
+end
+
+function User:IsOwner()
+	if not self.flags then
+		return false
+	end
+
+	return self.flags & (1 << 1) ~= 0
 end
