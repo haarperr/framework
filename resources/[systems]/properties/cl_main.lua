@@ -36,6 +36,20 @@ function Main:Init()
 				},
 			},
 		})
+
+		if property.garage then
+			exports.entities:Register({
+				id = "garage-"..tostring(k),
+				name = "Property "..tostring(property.id).." Garage",
+				coords = property.garage,
+				radius = 3.0,
+				navigation = {
+					id = "garage",
+					text = "Garage",
+					icon = "garage",
+				},
+			})
+		end
 	end
 end
 
