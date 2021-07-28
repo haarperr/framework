@@ -7,15 +7,20 @@ dependencies {
 }
 
 shared_scripts {
-	'sh_config.lua',
-	'sh_decorations.lua',
+	'@grids/shared/grids.lua',
+	'shared/config.lua',
+	'shared/main.lua',
 }
 
 client_scripts {
-	'@misc/misc.lua',
-	'cl_decorations.lua',
+	'@utils/client/vectors.lua',
+	'@utils/client/misc.lua',
+	'client/main.lua',
+	'client/decoration.lua',
+	'client/editor.lua',
 }
 
 server_scripts {
-	'sv_decorations.lua',
+	'server/main.lua',
+	'server/decoration.lua',
 }

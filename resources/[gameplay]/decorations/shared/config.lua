@@ -1,7 +1,18 @@
 Config = {
 	GridSize = 1,
+	MaxDistance = 5.0,
+	Controls = {
+		Place = 24,
+		Cancel = 25,
+		FineTune = 21,
+		RotateR = 44,
+		RotateL = 46,
+		VariantR = 96,
+		VariantL = 97,
+	},
 	Decorations = {
 		["Table"] = {
+			Placement = "Floor",
 			Model = {
 				"apa_mp_h_din_table_01",
 				"apa_mp_h_din_table_04",
@@ -68,6 +79,22 @@ Config = {
 				"v_res_tre_bedsidetable",
 				"v_res_m_sidetable",
 			},
+		},
+		["Ceiling Light"] = {
+			Placement = "Ceiling",
+			Model = {
+				"v_ind_cm_light_off",
+				"v_ind_cm_light_on",
+				"v_ind_cflight",
+				"v_ind_cflight02",
+				"v_ind_cs_striplight",
+				"v_serv_ct_striplight",
+			},
+		},
+		["Painting"] = {
+			Rotation = vector3(0, -90, -90),
+			Placement = "Wall",
+			Model = "ch_prop_vault_painting_01a",
 		},
 	},
 }
