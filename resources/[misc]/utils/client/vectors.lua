@@ -23,20 +23,20 @@ function ToRotation(vector)
 	return vector3(pitch, 0.0, yaw - 90)
 end
 
--- function ToRotation(v0)
--- 	local v1 = Cross(v0, Up)
--- 	local v2 = Cross(v0, v1)
+function ToRotation2(v0)
+	local v1 = Cross(v0, Up)
+	local v2 = Cross(v0, v1)
 	
--- 	local r11, r12, r13 = v0.x, v1.x, v2.x
--- 	local r21, r22, r23 = v0.y, v1.y, v2.y
--- 	local r31, r32, r33 = v0.z, v1.z, v2.z
+	local r11, r12, r13 = v0.x, v1.x, v2.x
+	local r21, r22, r23 = v0.y, v1.y, v2.y
+	local r31, r32, r33 = v0.z, v1.z, v2.z
 	
--- 	return vector3(
--- 		math.deg(math.atan2(r32, r33)),
--- 		math.deg(math.atan2(-r31, math.sqrt(r32^2 + r33^2))) - 90,
--- 		math.deg(math.atan2(r21, r11))
--- 	)
--- end
+	return vector3(
+		math.deg(math.atan2(r32, r33)),
+		math.deg(math.atan2(-r31, math.sqrt(r32^2 + r33^2))) - 90,
+		math.deg(math.atan2(r21, r11))
+	)
+end
 
 function Cross(v1, v2)
 	return vector3(
