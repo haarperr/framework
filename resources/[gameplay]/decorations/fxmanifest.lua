@@ -22,6 +22,7 @@ client_scripts {
 
 server_scripts {
 	'@utils/server/database.lua',
+	'server/config.lua',
 	'server/main.lua',
 	'server/decoration.lua',
 }
