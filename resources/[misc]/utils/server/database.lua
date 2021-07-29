@@ -82,6 +82,10 @@ function LoadQuery(path)
 	return LoadResourceFile(GetCurrentResourceName(), path)
 end
 
+function RunQuery(path)
+	exports.GHMattiMySQL:Query(LoadQuery(path))
+end
+
 function WaitForTable(table)
 	local schema = GetConvar("mysql_schema", "")
 	if schema == "" then return end
