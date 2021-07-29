@@ -30,7 +30,7 @@ function GetStreetText(coords, noZone)
 	return streetText..", "..GetLabelText(zone)
 end
 
-function RequestModel(model)
+function WaitForRequestModel(model)
 	if not IsModelValid(model) then
 		return false
 	end
