@@ -45,13 +45,3 @@ end, {
 		{ name = "Target", help = "" },
 	}
 }, 1, Config.Teleport.PowerLevel)
-
-exports.chat:RegisterCommand("a:tp", function(source, args, rawCommand)
-	local x, y, z = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
-	TriggerClientEvent("admin-tools:goto", source, vector3(x or 0.0, y or 0.0, z or 0.0))
-end, {
-	help = "",
-	params = {
-		{ name = "Target", help = "" },
-	}
-}, 3, Config.Teleport.PowerLevel)

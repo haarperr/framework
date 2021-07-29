@@ -9,6 +9,7 @@ shared_scripts {
 
 server_scripts {
 	'sv_admin.lua',
+	'sv_commands.lua',
 	'modules/sv_*.lua',
 }
 
@@ -16,5 +17,6 @@ client_scripts {
 	'@ui/scripts/cl_main.lua',
 	'cl_admin.lua',
 	'cl_menu.lua',
+	'cl_commands.lua',
 	'modules/cl_*.lua',
 }
