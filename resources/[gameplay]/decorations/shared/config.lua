@@ -81,14 +81,14 @@ Config = {
 			},
 		},
 		["Ceiling Light"] = {
+			Rotation = vector3(180, 0, 0),
 			Placement = "Ceiling",
 			Model = {
-				"v_ind_cm_light_off",
-				"v_ind_cm_light_on",
-				"v_ind_cflight",
-				"v_ind_cflight02",
-				"v_ind_cs_striplight",
-				"v_serv_ct_striplight",
+				"apa_mp_h_lampbulb_multiple_a",
+				{
+					Name = "v_serv_ct_striplight",
+					Offset = vector3(0, 0, -0.5),
+				},
 			},
 		},
 		["Painting"] = {
