@@ -31,6 +31,11 @@ function Editor:Clear()
 	end)
 end
 
+function Editor:Place()
+	TriggerServerEvent(Main.event.."place", self.item, self.variant or false, self.coords, self.rotation)
+	self:Clear()
+end
+
 function Editor:DisableControls()
 	for name, control in pairs(Config.Controls) do
 		DisableControlAction(0, control)
@@ -82,7 +87,7 @@ function Editor:Update()
 		local canPlace = (
 			(placement == "Floor" and dot > 0.5) or
 			(placement == "Wall" and dot < 0.5 and dot > -0.5) or
-			(placement == "Ceiling" and dot < -0.5)
+			(placement == "Ceiling" and dot < -0.9)
 		)
 
 		if not canPlace then
@@ -116,7 +121,7 @@ function Editor:Update()
 	local model = Main:GetModel(settings, self.variant)
 
 	-- Get rotation.
-	local rotation = ToRotation2(surfaceNormal) + (
+	local rotation = (placement == "Ceiling" and vector3(180, 0, 0) or ToRotation2(surfaceNormal)) + (
 		placement == "Wall" and vector3(0, self.angle or 0, 0) or
 		vector3(0, 0, self.angle or 0)
 	)
@@ -150,8 +155,6 @@ function Editor:Update()
 			print("invalid model: "..tostring(model))
 			model = `prop_ar_arrow_1`
 		end
-
-		print("make model", model)
 
 		entity = CreateObject(model, coords.x, coords.y, coords.z, false, true, false)
 		FreezeEntityPosition(entity, true)
@@ -192,7 +195,7 @@ function Editor:Update()
 
 	-- Placement.
 	if self.canPlace and IsDisabledControlJustReleased(0, Config.Controls.Place) then
-		self:Clear()
+		self:Place()
 	end
 end
 

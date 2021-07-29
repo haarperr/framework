@@ -1,6 +1,25 @@
 --[[ Functions ]]--
 function Main:Init()
-	
+	for item, settings in pairs(Config.Decorations) do
+		self:CheckModel(item, settings.Model)
+	end
+end
+
+function Main:CheckModel(item, model)
+	if type(model) == "table" then
+		if #model == 0 then
+			self:CheckModel(item, model.Name)
+		else
+			for k, v in ipairs(model) do
+				self:CheckModel(item, v)
+			end
+		end
+		return
+	end
+
+	if not IsModelValid(model) then
+		print(("invalid model '%s' for decoration '%s'"):format(model, item))
+	end
 end
 
 function Main:Input()
