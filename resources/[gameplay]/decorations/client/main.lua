@@ -31,6 +31,12 @@ function Main:GetModel(settings, variant)
 	return type(model) == "table" and model[variant or 1] or model
 end
 
+function Main:ClearAll()
+	for id, decoration in pairs(self.decorations) do
+		decoration:Destroy()
+	end
+end
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -42,6 +48,10 @@ end)
 --[[ Events ]]--
 AddEventHandler(Main.event.."clientStart", function()
 	Main:Init()
+end)
+
+RegisterNetEvent(Main.event.."stop", function()
+	Main:ClearAll()
 end)
 
 AddEventHandler("inventory:use", function(item, slot, cb)
@@ -59,4 +69,45 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 	end
 
 	Editor:Use(item.name, slot)
+end)
+
+AddEventHandler("eventName", function(...)
+	
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent(Main.event.."sync", function(grids)
+	Debug("Syncing decorations")
+
+	if not grids then
+		Main:ClearAll()
+		return
+	end
+
+	for gridId, grid in pairs(Main.grids) do
+		if not grids[gridId] then
+			for id, decoration in pairs(grid) do
+				decoration:Destroy()
+			end
+		end
+	end
+	
+	for gridId, grid in pairs(grids) do
+		for id, decoration in pairs(grid) do
+			if not Main.decorations[decoration.id or false] then
+				Decoration:Create(decoration)
+			end
+		end
+	end
+end)
+
+RegisterNetEvent(Main.event.."add", function(data)
+	Decoration:Create(data)
+end)
+
+RegisterNetEvent(Main.event.."remove", function(id)
+	local decoration = Main.decorations[id]
+	if decoration then
+		decoration:Destroy()
+	end
 end)

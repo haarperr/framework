@@ -25,4 +25,5 @@ server_scripts {
 	'server/config.lua',
 	'server/main.lua',
 	'server/decoration.lua',
+	'server/grids.lua',
 }

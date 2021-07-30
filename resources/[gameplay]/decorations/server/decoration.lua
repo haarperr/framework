@@ -40,5 +40,39 @@ function Decoration:Create(data)
 
 	local decoration = setmetatable(data, Decoration)
 
+	decoration:UpdateGrid()
+
+	Main.decorations[decoration.id] = decoration
+
 	return decoration
+end
+
+function Decoration:Destroy()
+	local grid = self:GetGrid()
+	if grid then
+		grid:RemoveDecoration(self.id)
+	end
+
+	Main.decorations[self.id] = nil
+end
+
+function Decoration:UpdateGrid()
+	local lastGrid = self:GetGrid()
+	if lastGrid then
+		lastGrid:RemoveDecoration(self.id)
+	end
+
+	self.grid = Grids:GetGrid(self.coords, Config.GridSize)
+	
+	local grid = self:GetGrid()
+	if not grid then
+		grid = Grid:Create(self.instance or self.grid)
+	end
+	
+	grid:AddDecoration(self)
+end
+
+function Decoration:GetGrid()
+	if not self.grid then return end
+	return Main.grids[self.instance or self.grid]
 end

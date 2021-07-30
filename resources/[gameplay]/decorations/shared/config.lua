@@ -1,4 +1,5 @@
 Config = {
+	Debug = true,
 	GridSize = 1,
 	MaxDistance = 5.0,
 	Controls = {
@@ -80,7 +81,7 @@ Config = {
 				"apa_mp_h_lampbulb_multiple_a",
 				{
 					Name = "v_serv_ct_striplight",
-					Offset = vector3(0, 0, -0.5),
+					Offset = vector3(0, 0, -0.2),
 				},
 			},
 		},
@@ -98,6 +99,25 @@ Config = {
 				"ch_prop_vault_painting_01h",
 				"ch_prop_vault_painting_01i",
 				"ch_prop_vault_painting_01j",
+			},
+		},
+		["Couch"] = {
+			Placement = "Floor",
+			Model = {
+				"prop_couch_01",
+				"prop_couch_03",
+				"prop_couch_04",
+				"prop_couch_lg_02",
+				"prop_couch_lg_05",
+				"prop_couch_lg_06",
+				"prop_couch_lg_07",
+				"prop_couch_lg_08",
+				"prop_couch_sm_02",
+				"prop_couch_sm_05",
+				"prop_couch_sm_06",
+				"prop_couch_sm_07",
+				"prop_couch_sm1_07",
+				"prop_couch_sm2_07",
 			},
 		},
 	},
