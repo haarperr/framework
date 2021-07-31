@@ -11,6 +11,20 @@ Config = {
 		VariantR = 96,
 		VariantL = 97,
 	},
+	Anims = {
+		Placing = {
+			Dict = "pickup_object",
+			Name = "putdown_low",
+			Flag = 0,
+			Duration = 1500,
+		},
+		Pickup = {
+			Dict = "pickup_object",
+			Name = "putdown_low",
+			Flag = 0,
+			Duration = 1500,
+		},
+	},
 	Decorations = {
 		["Table"] = {
 			Placement = "Floor",
@@ -118,6 +132,12 @@ Config = {
 				"prop_couch_sm_07",
 				"prop_couch_sm1_07",
 				"prop_couch_sm2_07",
+			},
+		},
+		["Bucket"] = {
+			Placement = "Floor",
+			Model = {
+				"prop_soil_bucket",
 			},
 		},
 	},

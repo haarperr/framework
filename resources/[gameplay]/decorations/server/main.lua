@@ -127,7 +127,7 @@ end)
 --[[ Events: Net ]]--
 RegisterNetEvent("grids:enter"..Config.GridSize, function(gridId)
 	local source = source
-	
+
 	if type(gridId) ~= "number" or exports.instances:IsInstanced(source) then return end
 
 	Main:SetGrid(source, gridId)
