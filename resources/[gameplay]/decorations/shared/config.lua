@@ -18,7 +18,10 @@ Config = {
 			Flag = 0,
 			Duration = 1500,
 		},
-		Pickup = {
+	},
+	Pickup = {
+		MaxDistance = 3.0,
+		Anim = {
 			Dict = "pickup_object",
 			Name = "putdown_low",
 			Flag = 0,
@@ -134,12 +137,38 @@ Config = {
 				"prop_couch_sm2_07",
 			},
 		},
+		["Bed"] = {
+			Placement = "Floor",
+			Model = {
+				"apa_mp_h_bed_double_08",
+				"apa_mp_h_bed_double_09",
+				"apa_mp_h_bed_wide_05",
+				"apa_mp_h_bed_with_table_02",
+				"apa_mp_h_yacht_bed_01",
+				"apa_mp_h_yacht_bed_02",
+				"ex_prop_exec_bed_01",
+				"gr_prop_bunker_bed_01",
+				"gr_prop_gr_campbed_01",
+				"imp_prop_impexp_sofabed_01a",
+				"p_lestersbed_s",
+				"p_mbbed_s",
+				"p_v_res_tt_bed_s",
+				"v_res_msonbed_s",
+			},
+		},
 		["Bucket"] = {
 			Placement = "Floor",
 			Model = {
 				"prop_soil_bucket",
 			},
 			Anim = { Dict = "anim@mp_snowball", Name = "pickup_snowball", Flag = 0, Duration = 1200 },
+		},
+		["Workbench"] = {
+			Placement = "Floor",
+			Model = {
+				"gr_prop_gr_bench_04b",
+				"gr_prop_gr_bench_04a",
+			},
 		},
 	},
 }

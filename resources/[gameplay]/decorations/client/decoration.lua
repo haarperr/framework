@@ -65,6 +65,43 @@ function Decoration:Destroy()
 	end
 end
 
+function Decoration:Update()
+
+end
+
+function Decoration:OnSelect()
+	SetEntityAlpha(self.entity, 128)
+
+	exports.interact:AddOption({
+		id = "decoration",
+		text = "Decoration",
+		icon = "chair",
+		sub = {
+			{
+				id = "pickup",
+				text = "Pickup",
+				icon = "gavel",
+			},
+			{
+				id = "move",
+				text = "Move",
+				icon = "carpenter",
+			},
+			{
+				id = "crafting",
+				text = "Crafting",
+				icon = "construction",
+			},
+		},
+	})
+end
+
+function Decoration:OnDeselect()
+	SetEntityAlpha(self.entity, 255)
+
+	exports.interact:RemoveOption("decoration")
+end
+
 function Decoration:CreateModel()
 	local settings = self.settings
 	if not settings then return end

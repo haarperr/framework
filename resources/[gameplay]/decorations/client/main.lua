@@ -26,6 +26,35 @@ function Main:Update()
 
 end
 
+function Main:GetTarget()
+	-- Get player coords.
+	local ped = PlayerPedId()
+	local coords = GetEntityCoords(ped)
+
+	-- Get camera coords.
+	local camCoords = GetFinalRenderedCamCoord()
+	local camDir = FromRotation(GetFinalRenderedCamRot() + vector3(0, 0, 90))
+
+	-- Update decorations.
+	local target, targetDot = nil, 0.0
+	for id, decoration in pairs(self.decorations) do
+		if decoration.coords then
+			local dist = #(coords - decoration.coords)
+			if dist and dist < Config.Pickup.MaxDistance then
+				local dir = Normalize(decoration.coords - camCoords)
+				local dot = Dot(dir, camDir)
+
+				if dot > 0.5 and (not target or targetDot < dot) then
+					target = decoration
+					targetDot = dot
+				end
+			end
+		end
+	end
+
+	return target, targetDot
+end
+
 function Main:GetModel(settings, variant)
 	local model = settings.Model
 	return type(model) == "table" and model[variant or 1] or model
@@ -50,7 +79,7 @@ AddEventHandler(Main.event.."clientStart", function()
 	Main:Init()
 end)
 
-RegisterNetEvent(Main.event.."stop", function()
+AddEventHandler(Main.event.."stop", function()
 	Main:ClearAll()
 end)
 
@@ -71,8 +100,30 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 	Editor:Use(item.name, slot)
 end)
 
-AddEventHandler("eventName", function(...)
-	
+AddEventHandler("interact:navigate", function(value)
+	if not value then
+		if Main.selection then
+			Main.selection:OnDeselect()
+			Main.selection = nil
+		end
+		return
+	end
+
+	local ped = PlayerPedId()
+	if IsPedArmed(ped, 1 | 2 | 4) then
+		return
+	end
+
+	local target = Main:GetTarget()
+	if not target then return end
+
+	target:OnSelect()
+
+	Main.selection = target
+end)
+
+AddEventHandler("interact:onNavigate_crafting", function()
+	exports.inventory:OpenStation("Workbench")
 end)
 
 --[[ Events: Net ]]--
