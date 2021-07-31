@@ -11,6 +11,7 @@ shared_scripts {
 	'@grids/shared/grids.lua',
 	'shared/config.lua',
 	'shared/main.lua',
+	'decorations/*.lua',
 }
 
 client_scripts {

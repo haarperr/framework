@@ -1,3 +1,5 @@
+Decorations = {}
+
 Main = {}
 Main.event = GetCurrentResourceName()..":"
 Main.grids = {}
@@ -15,4 +17,8 @@ function Print(text, ...)
 	else
 		print(tostring(text))
 	end
+end
+
+function Register(name, data)
+	Decorations[name] = data
 end

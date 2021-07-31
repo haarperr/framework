@@ -1,6 +1,8 @@
+Main.entities = {}
+
 --[[ Functions ]]--
 function Main:Init()
-	for item, settings in pairs(Config.Decorations) do
+	for item, settings in pairs(Decorations) do
 		self:CheckModel(item, settings.Model)
 	end
 end
@@ -92,7 +94,7 @@ end)
 AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.usable ~= "Decoration" then return end
 
-	local settings = Config.Decorations[item.name]
+	local settings = Decorations[item.name]
 	if not settings then
 		error("decoration not configured for item: "..tostring(item.name))
 	end

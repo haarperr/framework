@@ -137,7 +137,7 @@ RegisterNetEvent(Main.event.."place", function(item, variant, coords, rotation)
 	local source = source
 
 	-- Get settings.
-	local settings = Config.Decorations[item or false]
+	local settings = Decorations[item or false]
 	if not settings then
 		print("no settings")
 		return

@@ -9,7 +9,7 @@ function Editor:Use(item, slot)
 	end
 
 	self.item = item
-	self.settings = Config.Decorations[item]
+	self.settings = Decorations[item]
 	self.slot = slot
 
 	return true
@@ -96,15 +96,30 @@ function Editor:Update()
 
 	local offset = settings.Offset
 	local offsetRot = settings.Rotation
+	local shouldCenter = not settings.NoCenter
 
-	local retval, didHit, coords, surfaceNormal, materialHash, entity = Raycast()
-	local entityType = GetEntityType(entity)
+	local retval, didHit, coords, surfaceNormal, materialHash, entityHit = Raycast()
+	local entityType = GetEntityType(entityHit)
 	local ped = PlayerPedId()
 	local pedCoords = GetEntityCoords(ped)
 
 	-- Check distance.
 	local dist = #(pedCoords - coords)
-	if entityType ~= 0 or dist > Config.MaxDistance then
+	if dist > Config.MaxDistance then
+		self:DeleteEntity()
+		return
+	end
+	
+	-- Check target.
+	local targetDecoration = entityHit and Main.entities[entityHit]
+	local targetStackable = targetDecoration and targetDecoration.settings.Stackable
+	local stackable = settings.Stackable
+	local isStacking = targetStackable and (
+		(targetStackable.Foundation and (stackable.Structure or stackable.Block)) or
+		(not targetStackable.Foundation and stackable.Block)
+	)
+
+	if entityType ~= 0 and not isStacking then
 		self:DeleteEntity()
 		return
 	end
@@ -164,8 +179,20 @@ function Editor:Update()
 		if model.Offset then
 			offset = model.Offset
 		end
-		
+
+		if model.NoCenter then
+			shouldCenter = false
+		end
+
 		model = model.Name
+	end
+	
+	if shouldCenter then
+		local min, max = GetModelDimensions(model)
+		if not offset then
+			offset = vector3(0, 0, 0)
+		end
+		offset = offset + vector3(0, 0, math.abs(min.z))
 	end
 	
 	-- Apply offsets.
@@ -215,7 +242,7 @@ function Editor:Update()
 	local shapeHandle = StartShapeTestBoundingBox(entity, 16, 16)
 	local _retval, _didHit, _hitCoords, _surfaceNormal, _entityHit = GetShapeTestResult(shapeHandle)
 
-	if _didHit == 1 then
+	if _didHit == 1 and (isStacking and _entityHit ~= entityHit)  then
 		self.canPlace = false
 	end
 

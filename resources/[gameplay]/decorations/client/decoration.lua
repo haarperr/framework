@@ -7,7 +7,7 @@ function Decoration:Create(data)
 	if not item then return end
 
 	-- Get settings.
-	local settings = Config.Decorations[item.name]
+	local settings = Decorations[item.name]
 	if not settings then return end
 
 	-- Cache grid id.
@@ -70,7 +70,8 @@ function Decoration:Update()
 end
 
 function Decoration:OnSelect()
-	SetEntityAlpha(self.entity, 128)
+	-- SetEntityAlpha(self.entity, 128)
+	SetEntityDrawOutline(self.entity, true)
 
 	exports.interact:AddOption({
 		id = "decoration",
@@ -97,7 +98,8 @@ function Decoration:OnSelect()
 end
 
 function Decoration:OnDeselect()
-	SetEntityAlpha(self.entity, 255)
+	-- SetEntityAlpha(self.entity, 255)
+	SetEntityDrawOutline(self.entity, false)
 
 	exports.interact:RemoveOption("decoration")
 end
@@ -105,6 +107,14 @@ end
 function Decoration:CreateModel()
 	local settings = self.settings
 	if not settings then return end
+
+	-- Remove old entity.
+	if self.entity then
+		if DoesEntityExist(self.entity) then
+			DeleteEntity(self.entity)
+		end
+		Main.entities[self.entity] = nil
+	end
 
 	-- Get coords.
 	local coords = self.coords
@@ -135,4 +145,5 @@ function Decoration:CreateModel()
 	SetModelAsNoLongerNeeded(model)
 
 	self.entity = entity
+	Main.entities[entity] = self
 end
