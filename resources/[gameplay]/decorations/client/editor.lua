@@ -20,6 +20,7 @@ function Editor:Clear()
 	self.settings = nil
 	self.slot = nil
 	self.variant = nil
+	self.placing = nil
 
 	self:DeleteEntity()
 
@@ -32,7 +33,35 @@ function Editor:Clear()
 end
 
 function Editor:Place()
+	-- Record snowflake.
+	local snowflake = GetGameTimer()
+	self.placing = snowflake
+
+	-- Get settings.
+	local settings = self.settings
+	if not settings then
+		self:Clear()
+		print("No settings while placing.")
+		return
+	end
+
+	-- Get emote.
+	local anim = (settings and settings.Anim) or Config.Anims.Placing
+	anim.Force = true
+	
+	-- Perform emote.
+	exports.emotes:PerformEmote(anim)
+
+	-- Wait for anim.
+	Citizen.Wait(anim.Duration or 0)
+
+	-- Check placement is same.
+	if self.placing ~= snowflake then return end
+	
+	-- Trigger events.
 	TriggerServerEvent(Main.event.."place", self.item, self.variant or false, self.coords, self.rotation)
+
+	-- Clear editor.
 	self:Clear()
 end
 
