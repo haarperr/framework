@@ -30,6 +30,7 @@ function Instances:Join(source, id, create)
 	end
 
 	TriggerClientEvent("instances:join", source, id)
+	TriggerEvent("instances:join", source, id)
 
 	return room:AddPlayer(source)
 end
@@ -41,7 +42,8 @@ function Instances:Leave(source)
 	local room = self.rooms[id]
 	if not room then return false end
 
-	TriggerClientEvent("instances:join", source, id)
+	TriggerClientEvent("instances:leave", source, id)
+	TriggerEvent("instances:leave", source, id)
 	
 	return room:RemovePlayer(source)
 end
