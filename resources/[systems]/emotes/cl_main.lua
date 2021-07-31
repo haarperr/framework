@@ -11,7 +11,7 @@ function Main:Update()
 		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3)
 
 		if
-			not emote.noAutoplay and
+			not emote.noAutoplay and not settings.Force and
 			((emote.ped and emote.ped ~= ped) or
 			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0 and settings.Flag % 4 ~= 0))
 		then
@@ -20,6 +20,7 @@ function Main:Update()
 		elseif not isPlaying then
 			print("anim over", settings.Dict, settings.Name)
 			self.playing[k] = nil
+			self.isForcing = nil
 		end
 	end
 end
@@ -64,11 +65,19 @@ function Main:PerformEmote(data)
 		self.playing[key] = emote
 	end
 
+	if data.Force then
+		self.isForcing = true
+	end
+
 	self.lastKey = key
 end
 Export(Main, "PerformEmote")
 
 function Main:CancelEmote(immediate)
+	-- Don't cancel forced emotes.
+	if self.isForcing then return end
+
+	-- Get ped.
 	local ped = PlayerPedId()
 
 	-- Stop the actual animation.
