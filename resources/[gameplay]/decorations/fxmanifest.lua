@@ -17,6 +17,7 @@ client_scripts {
 	'@utils/client/misc.lua',
 	'client/main.lua',
 	'client/decoration.lua',
+	'client/queue.lua',
 	'client/editor.lua',
 }
 

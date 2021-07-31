@@ -94,20 +94,15 @@ RegisterNetEvent(Main.event.."sync", function(grids)
 	
 	for gridId, grid in pairs(grids) do
 		for id, decoration in pairs(grid) do
-			if not Main.decorations[decoration.id or false] then
-				Decoration:Create(decoration)
-			end
+			Queue:Add(decoration)
 		end
 	end
 end)
 
 RegisterNetEvent(Main.event.."add", function(data)
-	Decoration:Create(data)
+	Queue:Add(data)
 end)
 
 RegisterNetEvent(Main.event.."remove", function(id)
-	local decoration = Main.decorations[id]
-	if decoration then
-		decoration:Destroy()
-	end
+	Queue:Remove(id)
 end)

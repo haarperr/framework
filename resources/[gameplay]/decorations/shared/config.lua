@@ -1,6 +1,6 @@
 Config = {
 	Debug = true,
-	GridSize = 1,
+	GridSize = 4,
 	MaxDistance = 5.0,
 	Controls = {
 		Place = 24,
