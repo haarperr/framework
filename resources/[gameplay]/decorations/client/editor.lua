@@ -117,7 +117,7 @@ function Editor:Update()
 		self:DeleteEntity()
 		return
 	end
-	
+
 	-- Check target.
 	local targetDecoration = entityHit and Main.entities[entityHit]
 	local targetStackable = targetDecoration and targetDecoration.settings.Stackable
@@ -246,11 +246,23 @@ function Editor:Update()
 	self.coords = coords
 	self.rotation = rotation
 
+	-- Check roads/interiors.
+	local hasRoad, roadCoords = GetClosestVehicleNode(coords.x, coords.y, coords.z, 0, 0, 0)
+
+	local interiorId = GetInteriorFromEntity(ped)
+	local roomHash = GetRoomKeyFromEntity(ped)
+	local roomId = GetInteriorRoomIndexByHash(interiorId, roomHash)
+	local roomFlag = GetInteriorRoomFlag(interiorId, roomId)
+
+	if roomFlag == -1 and hasRoad and #(roadCoords - coords) < 20.0 then
+		self.canPlace = false
+	end
+
 	-- Check collision.
 	local shapeHandle = StartShapeTestBoundingBox(entity, 16, 16)
 	local _retval, _didHit, _hitCoords, _surfaceNormal, _entityHit = GetShapeTestResult(shapeHandle)
 
-	if _didHit == 1 and (isStacking and _entityHit ~= entityHit)  then
+	if _didHit == 1 and (isStacking and _entityHit ~= entityHit) then
 		self.canPlace = false
 	end
 
