@@ -56,6 +56,8 @@ function Main:SetGrid(source, gridId)
 	if not player then
 		player = {}
 		self.players[source] = player
+	elseif player.grid == gridId then
+		return
 	elseif player.grid then
 		local lastGrid = self.grids[player.grid]
 		if lastGrid then
@@ -87,7 +89,7 @@ function Main:SetGrid(source, gridId)
 		end
 	end
 
-	Debug("Sending payload to: [%s]", source)
+	Debug("Sending payload to: [%s] in %s", source, grid.id)
 
 	TriggerClientEvent(self.event.."sync", source, payload)
 end
@@ -95,6 +97,40 @@ end
 --[[ Events ]]--
 AddEventHandler(Main.event.."start", function()
 	Main:Init()
+end)
+
+AddEventHandler("playerDropped", function(reason)
+	local source = source
+
+	local player = Main.players[source]
+	if not player then return end
+	
+	local lastGrid = self.grids[player.grid]
+	if lastGrid then
+		lastGrid:RemovePlayer(source)
+	end
+	
+	Main.players[source] = nil
+end)
+
+AddEventHandler("instances:join", function(source, id)
+	Main:SetGrid(source, id)
+end)
+
+AddEventHandler("instances:leave", function(source, id)
+	local ped = GetPlayerPed(source)
+	local gridId = Grids:GetGrid(GetEntityCoords(ped), Config.GridSize)
+
+	Main:SetGrid(source, gridId)
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("grids:enter"..Config.GridSize, function(gridId)
+	local source = source
+	
+	if type(gridId) ~= "number" or exports.instances:IsInstanced(source) then return end
+
+	Main:SetGrid(source, gridId)
 end)
 
 RegisterNetEvent(Main.event.."place", function(item, variant, coords, rotation)

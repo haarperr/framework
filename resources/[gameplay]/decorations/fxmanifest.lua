@@ -3,7 +3,6 @@ game 'gta5'
 
 dependencies {
 	'GHMattiMySQL',
-	'instances',
 }
 
 shared_scripts {

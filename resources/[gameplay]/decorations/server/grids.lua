@@ -89,21 +89,3 @@ function Grid:InformAll(event, ...)
 		TriggerClientEvent(Main.event..event, source, ...)
 	end
 end
-
---[[ Events ]]--
-RegisterNetEvent("grids:enter"..Config.GridSize, function(gridId)
-	local source = source
-	if type(gridId) ~= "number" then return end
-
-	Main:SetGrid(source, gridId)
-	-- if os.clock() - player.time < 0.2 then
-	-- 	Main.queue[source] = grid
-	-- else
-		
-	-- end
-end)
-
-AddEventHandler("playerDropped", function(reason)
-	local source = source
-	Main.players[source] = nil
-end)

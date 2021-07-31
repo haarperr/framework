@@ -22,7 +22,7 @@ function Main:CheckModel(item, model)
 	end
 end
 
-function Main:Input()
+function Main:Update()
 
 end
 
@@ -40,8 +40,8 @@ end
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		Main:Input()
-		Citizen.Wait(0)
+		Main:Update()
+		Citizen.Wait(50)
 	end
 end)
 

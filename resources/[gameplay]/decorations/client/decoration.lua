@@ -9,9 +9,12 @@ function Decoration:Create(data)
 	-- Get settings.
 	local settings = Config.Decorations[item.name]
 	if not settings then return end
+
+	-- Cache grid id.
+	local gridId = data.instance or data.grid
 	
 	-- Debug.
-	Debug("Created decoration: %s", item.name)
+	Debug("Created decoration: %s in %s", item.name, gridId)
 
 	-- Create instance.
 	local decoration = setmetatable(data, Decoration)
@@ -23,10 +26,10 @@ function Decoration:Create(data)
 	Main.decorations[data.id] = decoration
 	
 	-- Add to grid.
-	local grid = Main.grids[data.grid]
+	local grid = Main.grids[gridId]
 	if not grid then
 		grid = {}
-		Main.grids[data.grid] = grid
+		Main.grids[gridId] = grid
 	end
 
 	grid[data.id] = decoration
@@ -36,7 +39,9 @@ function Decoration:Create(data)
 end
 
 function Decoration:Destroy()
-	Debug("Destroyed decoration: %s", self.id)
+	local gridId = self.instance or self.grid
+
+	Debug("Destroyed decoration: %s in %s", self.id, gridId)
 
 	-- Delete entity.
 	local entity = self.entity
@@ -48,7 +53,7 @@ function Decoration:Destroy()
 	Main.decorations[self.id] = nil
 
 	-- Remove from grid.
-	local grid = Main.grids[self.grid]
+	local grid = Main.grids[gridId]
 	if grid then
 		grid[self.id] = nil
 	end
@@ -56,7 +61,7 @@ function Decoration:Destroy()
 	-- Clean grid.
 	local next = next
 	if next(grid) == nil then
-		Main.grids[self.grid] = nil
+		Main.grids[gridId] = nil
 	end
 end
 
