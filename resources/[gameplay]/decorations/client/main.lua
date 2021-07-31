@@ -163,6 +163,13 @@ AddEventHandler("interact:onNavigate", function(id)
 	end
 end)
 
+AddEventHandler("shoot", function(didHit, coords, hitCoords, entity)
+	local decoration = Main.entities[entity]
+	if not decoration then return end
+
+	print("shooting decoration")
+end)
+
 --[[ Events: Net ]]--
 RegisterNetEvent(Main.event.."sync", function(grids)
 	Debug("Syncing decorations")

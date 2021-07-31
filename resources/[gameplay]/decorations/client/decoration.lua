@@ -75,8 +75,7 @@ function Decoration:OnSelect()
 	self.isSelected = true
 
 	-- Visual effects.
-	-- SetEntityAlpha(self.entity, 128)
-	SetEntityDrawOutline(self.entity, true)
+	SetEntityAlpha(self.entity, 192)
 
 	-- Add navigation.
 	exports.interact:AddOption({
@@ -96,8 +95,7 @@ function Decoration:OnDeselect()
 	self.isSelected = false
 	
 	-- Visual effects.
-	-- SetEntityAlpha(self.entity, 255)
-	SetEntityDrawOutline(self.entity, false)
+	SetEntityAlpha(self.entity, 255)
 
 	-- Clear main selection.
 	if Main.selection == self then

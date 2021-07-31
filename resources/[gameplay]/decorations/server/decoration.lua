@@ -7,7 +7,11 @@ function Decoration:Create(data)
 		if not item then return false end
 		
 		data.item_id = item.id
-		data.item = nil
+	elseif data.item_id then
+		local item = exports.inventory:GetItem(data.item_id)
+		if not item then return false end
+
+		data.item = item.name
 	end
 
 	if not data.id then
@@ -36,6 +40,8 @@ function Decoration:Create(data)
 			INSERT INTO `decorations` SET %s;
 			SELECT LAST_INSERT_ID();
 		]]):format(setters), values)
+
+		data.start_time = os.time() * 1000
 	end
 
 	local decoration = setmetatable(data, Decoration)
@@ -61,6 +67,25 @@ function Decoration:Destroy()
 	exports.GHMattiMySQL:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
 		["@id"] = self.id
 	})
+end
+
+function Decoration:Update()
+	-- Get settings.
+	local settings = self:GetSettings()
+	if not settings then return end
+	
+	-- Get age (in hours).
+	local age = (os.time() * 1000 - self.start_time) / 3600000
+	
+	-- Check decay.
+	local isOutside = self.instance == nil
+	if isOutside and age > (settings.Decay or 24.0) then
+		self:Destroy()
+	end
+end
+
+function Decoration:GetSettings()
+	return Decorations[self.item or false]
 end
 
 function Decoration:UpdateGrid()

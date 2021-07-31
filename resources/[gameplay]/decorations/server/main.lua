@@ -51,6 +51,13 @@ function Main:LoadDecorations()
 	end
 end
 
+function Main:Update()
+	for id, decoration in pairs(self.decorations) do
+		decoration:Update()
+		Citizen.Wait(0)
+	end
+end
+
 function Main:SetGrid(source, gridId)
 	local player = self.players[source]
 	if not player then
@@ -163,7 +170,7 @@ function Main:Pickup(source, id)
 	local durability = (decoration.durability or 1.0) - 0.1
 	if durability < 0.001 then
 		decoration:Destroy()
-		
+
 		exports.log:Add({
 			source = source,
 			verb = "broke",
@@ -256,6 +263,14 @@ RegisterNetEvent(Main.event.."pickup", function(id)
 			class = "error",
 			text = "Can't pick up ("..(result or "error")..").",
 		})
+	end
+end)
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		Main:Update()
+		Citizen.Wait(5000)
 	end
 end)
 
