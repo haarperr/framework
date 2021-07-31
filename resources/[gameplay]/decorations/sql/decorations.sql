@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS `decorations` (
 	`variant` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
 	`instance` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`start_time` DATETIME NOT NULL DEFAULT sysdate(),
+	`durability` FLOAT NULL DEFAULT NULL,
 	`pos_x` FLOAT NOT NULL DEFAULT '0',
 	`pos_y` FLOAT NOT NULL DEFAULT '0',
 	`pos_z` FLOAT NOT NULL DEFAULT '0',

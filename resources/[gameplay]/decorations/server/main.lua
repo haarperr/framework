@@ -94,7 +94,7 @@ function Main:SetGrid(source, gridId)
 	TriggerClientEvent(self.event.."sync", source, payload)
 end
 
-function Main:Place(source, item, variant, coords, rotation, instance)
+function Main:Place(source, item, variant, coords, rotation, slotId, instance, durability)
 	-- Get settings.
 	local settings = Decorations[item or false]
 	if not settings then
@@ -122,7 +122,18 @@ function Main:Place(source, item, variant, coords, rotation, instance)
 		player.lastPlaced = os.clock()
 
 		-- Take item.
-		if not exports.inventory:TakeItem(source, item, 1) then
+		local containerId = exports.inventory:GetPlayerContainer(source, true)
+		if not containerId then return false end
+
+		local slot = exports.inventory:ContainerGetSlot(containerId, tonumber(slotId))
+		if not slot then return false end
+
+		durability = slot.durability or 1.0
+		if durability > 0.999 then
+			durability = nil
+		end
+
+		if not exports.inventory:TakeItem(source, item, 1, slotId) then
 			return false
 		end
 	end
@@ -137,6 +148,7 @@ function Main:Place(source, item, variant, coords, rotation, instance)
 		coords = coords,
 		rotation = rotation,
 		variant = variant,
+		durability = durability,
 		instance = (source and exports.instances:Get(source)) or (not source and instance),
 		character_id = character,
 	})
@@ -148,7 +160,24 @@ function Main:Pickup(source, id)
 	local decoration = self.decorations[id]
 	if not decoration then return false end
 
-	local success, reason = table.unpack(exports.inventory:GiveItem(source, decoration.item_id))
+	local durability = (decoration.durability or 1.0) - 0.1
+	if durability < 0.001 then
+		decoration:Destroy()
+		
+		exports.log:Add({
+			source = source,
+			verb = "broke",
+			noun = "decoration",
+			extra = tostring(id),
+		})
+
+		return false, "it broke"
+	end
+
+	local success, reason = table.unpack(exports.inventory:GiveItem(source, {
+		item = decoration.item_id,
+		durability = durability,
+	}))
 
 	if success then
 		decoration:Destroy()

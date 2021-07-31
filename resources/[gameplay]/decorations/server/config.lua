@@ -4,5 +4,6 @@ Server = {
 		"character_id",
 		"variant",
 		"instance",
+		"durability",
 	},
 }

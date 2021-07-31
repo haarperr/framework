@@ -33,6 +33,14 @@ function Editor:Clear()
 end
 
 function Editor:Place()
+	-- Get slot.
+	local slot = self.slot
+	if not slot then
+		self:Clear()
+		print("No slot while placing.")
+		return
+	end
+
 	-- Record snowflake.
 	local snowflake = GetGameTimer()
 	self.placing = snowflake
@@ -59,7 +67,7 @@ function Editor:Place()
 	if self.placing ~= snowflake then return end
 	
 	-- Trigger events.
-	TriggerServerEvent(Main.event.."place", self.item, self.variant or false, self.coords, self.rotation)
+	TriggerServerEvent(Main.event.."place", self.item, self.variant or false, self.coords, self.rotation, slot.slot_id)
 
 	-- Clear editor.
 	self:Clear()
