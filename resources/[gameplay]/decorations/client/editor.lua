@@ -46,7 +46,7 @@ function Editor:Place()
 	end
 
 	-- Get emote.
-	local anim = (settings and settings.Anim) or Config.Anims.Placing
+	local anim = (settings and settings.Anim) or Config.Placing.Anim
 	anim.Force = true
 	
 	-- Perform emote.
@@ -114,7 +114,7 @@ function Editor:Update()
 	local targetDecoration = entityHit and Main.entities[entityHit]
 	local targetStackable = targetDecoration and targetDecoration.settings.Stackable
 	local stackable = settings.Stackable
-	local isStacking = targetStackable and (
+	local isStacking = targetStackable and stackable and (
 		(targetStackable.Foundation and (stackable.Structure or stackable.Block)) or
 		(not targetStackable.Foundation and stackable.Block)
 	)

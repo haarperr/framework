@@ -65,43 +65,53 @@ function Decoration:Destroy()
 	end
 end
 
-function Decoration:Update()
-
+function Decoration:Update(dist)
+	if self.isSelected and dist > Config.Pickup.MaxDistance then
+		self:OnDeselect()
+	end
 end
 
 function Decoration:OnSelect()
+	self.isSelected = true
+
+	-- Visual effects.
 	-- SetEntityAlpha(self.entity, 128)
 	SetEntityDrawOutline(self.entity, true)
 
+	-- Add navigation.
 	exports.interact:AddOption({
-		id = "decoration",
-		text = "Decoration",
-		icon = "chair",
-		sub = {
-			{
-				id = "pickup",
-				text = "Pickup",
-				icon = "gavel",
-			},
-			{
-				id = "move",
-				text = "Move",
-				icon = "carpenter",
-			},
-			{
-				id = "crafting",
-				text = "Crafting",
-				icon = "construction",
-			},
-		},
+		id = "decorationPickup",
+		text = "Pickup",
+		icon = "gavel",
 	})
+
+	-- exports.interact:AddOption({
+	-- 	id = "crafting",
+	-- 	text = "Crafting",
+	-- 	icon = "construction",
+	-- })
 end
 
 function Decoration:OnDeselect()
+	self.isSelected = false
+	
+	-- Visual effects.
 	-- SetEntityAlpha(self.entity, 255)
 	SetEntityDrawOutline(self.entity, false)
 
-	exports.interact:RemoveOption("decoration")
+	-- Clear main selection.
+	if Main.selection == self then
+		Main.selection = nil
+	end
+	
+	-- Remove navigation.
+	exports.interact:RemoveOption("decorationPickup")
+end
+
+function Decoration:OnNavigate(id)
+	if id == "decorationPickup" then
+		Main:Pickup(self)
+	end
 end
 
 function Decoration:CreateModel()

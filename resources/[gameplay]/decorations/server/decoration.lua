@@ -32,7 +32,7 @@ function Decoration:Create(data)
 			end
 		end
 
-		data.id = exports.GHMattiMySQL:QueryResult(([[
+		data.id = exports.GHMattiMySQL:QueryScalar(([[
 			INSERT INTO `decorations` SET %s;
 			SELECT LAST_INSERT_ID();
 		]]):format(setters), values)
@@ -48,12 +48,19 @@ function Decoration:Create(data)
 end
 
 function Decoration:Destroy()
+	-- Remove from grid.
 	local grid = self:GetGrid()
 	if grid then
 		grid:RemoveDecoration(self.id)
 	end
 
+	-- Uncache decoration.
 	Main.decorations[self.id] = nil
+
+	-- Remove from database.
+	exports.GHMattiMySQL:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
+		["@id"] = self.id
+	})
 end
 
 function Decoration:UpdateGrid()

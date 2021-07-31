@@ -11,8 +11,8 @@ Config = {
 		VariantR = 96,
 		VariantL = 97,
 	},
-	Anims = {
-		Placing = {
+	Placing = {
+		Anim = {
 			Dict = "pickup_object",
 			Name = "putdown_low",
 			Flag = 0,

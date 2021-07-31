@@ -25,7 +25,12 @@ function Main:CheckModel(item, model)
 end
 
 function Main:Update()
-
+	local ped = PlayerPedId()
+	local coords = GetEntityCoords(ped)
+	
+	for id, decoration in pairs(self.decorations) do
+		decoration:Update(#(decoration.coords - coords))
+	end
 end
 
 function Main:GetTarget()
@@ -46,7 +51,7 @@ function Main:GetTarget()
 				local dir = Normalize(decoration.coords - camCoords)
 				local dot = Dot(dir, camDir)
 
-				if dot > 0.5 and (not target or targetDot < dot) then
+				if dot > 0.85 and (not target or targetDot < dot) then
 					target = decoration
 					targetDot = dot
 				end
@@ -66,6 +71,35 @@ function Main:ClearAll()
 	for id, decoration in pairs(self.decorations) do
 		decoration:Destroy()
 	end
+end
+
+function Main:Pickup(decoration)
+	-- Record snowflake.
+	local snowflake = GetGameTimer()
+	self.pickingUp = snowflake
+
+	-- Get settings.
+	local settings = decoration.settings
+	if not settings then
+		print("No settings while picking up.")
+		return
+	end
+
+	-- Get emote.
+	local anim = Config.Pickup.Anim
+	anim.Force = true
+	
+	-- Perform emote.
+	exports.emotes:PerformEmote(anim)
+
+	-- Wait for anim.
+	Citizen.Wait(anim.Duration or 0)
+
+	-- Check placement is same.
+	if self.pickingUp ~= snowflake then return end
+	
+	-- Trigger events.
+	TriggerServerEvent(Main.event.."pickup", decoration.id)
 end
 
 --[[ Threads ]]--
@@ -106,7 +140,6 @@ AddEventHandler("interact:navigate", function(value)
 	if not value then
 		if Main.selection then
 			Main.selection:OnDeselect()
-			Main.selection = nil
 		end
 		return
 	end
@@ -124,8 +157,10 @@ AddEventHandler("interact:navigate", function(value)
 	Main.selection = target
 end)
 
-AddEventHandler("interact:onNavigate_crafting", function()
-	exports.inventory:OpenStation("Workbench")
+AddEventHandler("interact:onNavigate", function(id)
+	if Main.selection then
+		Main.selection:OnNavigate(id)
+	end
 end)
 
 --[[ Events: Net ]]--
@@ -140,7 +175,7 @@ RegisterNetEvent(Main.event.."sync", function(grids)
 	for gridId, grid in pairs(Main.grids) do
 		if not grids[gridId] then
 			for id, decoration in pairs(grid) do
-				decoration:Destroy()
+				Queue:Remove(id)
 			end
 		end
 	end

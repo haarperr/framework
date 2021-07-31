@@ -26,6 +26,7 @@ function Queue:Update()
 		if decoration then
 			decoration:Destroy()
 		end
+		table.remove(self.remove, 1)
 	end
 end
 

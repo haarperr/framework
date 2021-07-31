@@ -94,6 +94,70 @@ function Main:SetGrid(source, gridId)
 	TriggerClientEvent(self.event.."sync", source, payload)
 end
 
+function Main:Place(source, item, variant, coords, rotation, instance)
+	-- Get settings.
+	local settings = Decorations[item or false]
+	if not settings then
+		print("no settings")
+		return false
+	end
+
+	-- Check input.
+	if type(coords) ~= "vector3" or type(rotation) ~= "vector3" or (variant and type(variant) ~= "number") then
+		print("invalid input type")
+		return false
+	end
+
+	-- Source info.
+	if source then
+		-- Get player.
+		local player = Main.players[source]
+		if not player then
+			player = {}
+			Main.players[source] = player
+		end
+
+		-- Update cooldowns.
+		if player.lastPlaced and os.clock() - player.lastPlaced < 1.0 then return false end
+		player.lastPlaced = os.clock()
+
+		-- Take item.
+		if not exports.inventory:TakeItem(source, item, 1) then
+			return false
+		end
+	end
+
+	-- Get character id.
+	local character = source and exports.character:Get(source, "id")
+	if source and not character then return false end
+
+	-- Create and return decoration.
+	return Decoration:Create({
+		item = item,
+		coords = coords,
+		rotation = rotation,
+		variant = variant,
+		instance = (source and exports.instances:Get(source)) or (not source and instance),
+		character_id = character,
+	})
+end
+
+function Main:Pickup(source, id)
+	if type(id) ~= "number" then return false end
+
+	local decoration = self.decorations[id]
+	if not decoration then return false end
+
+	local success, reason = table.unpack(exports.inventory:GiveItem(source, decoration.item_id))
+
+	if success then
+		decoration:Destroy()
+		return true
+	else
+		return false, reason
+	end
+end
+
 --[[ Events ]]--
 AddEventHandler(Main.event.."start", function()
 	Main:Init()
@@ -133,49 +197,37 @@ RegisterNetEvent("grids:enter"..Config.GridSize, function(gridId)
 	Main:SetGrid(source, gridId)
 end)
 
-RegisterNetEvent(Main.event.."place", function(item, variant, coords, rotation)
+RegisterNetEvent(Main.event.."place", function(...)
 	local source = source
+	local decoration = Main:Place(source, ...)
 
-	-- Get settings.
-	local settings = Decorations[item or false]
-	if not settings then
-		print("no settings")
-		return
+	if decoration then
+		exports.log:Add({
+			source = source,
+			verb = "placed",
+			noun = "decoration",
+			extra = tostring(decoration.id),
+		})
 	end
+end)
 
-	-- Get player.
-	local player = Main.players[source]
-	if not player then
-		player = {}
-		Main.players[source] = player
+RegisterNetEvent(Main.event.."pickup", function(id)
+	local source = source
+	local retval, result = Main:Pickup(source, id)
+
+	if retval then
+		exports.log:Add({
+			source = source,
+			verb = "picked up",
+			noun = "decoration",
+			extra = tostring(id),
+		})
+	elseif result then
+		TriggerClientEvent("chat:notify", source, {
+			class = "error",
+			text = "Can't pick up ("..(result or "error")..").",
+		})
 	end
-
-	-- Update cooldowns.
-	if player.lastPlaced and os.clock() - player.lastPlaced < 1.0 then return end
-	player.lastPlaced = os.clock()
-
-	-- Check input.
-	if type(coords) ~= "vector3" or type(rotation) ~= "vector3" or (variant and type(variant) ~= "number") then
-		print("invalid input type")
-		return
-	end
-
-	-- Get character id.
-	local character = exports.character:Get(source, "id")
-	if not character then return end
-
-	-- Get instance.
-	local instance = exports.instances:Get(source)
-
-	-- Create decoration.
-	local decoration = Decoration:Create({
-		item = item,
-		coords = coords,
-		rotation = rotation,
-		variant = variant,
-		instance = instance,
-		character_id = character,
-	})
 end)
 
 --[[ Commands ]]--
