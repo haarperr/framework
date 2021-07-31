@@ -52,6 +52,10 @@ function Instances:Get(source)
 	return self.players[source]
 end
 
+function Instances:IsInstanced(source)
+	return self.players[source] ~= nil
+end
+
 --[[ Exports ]]--
 for k, v in pairs(Instances) do
 	if type(v) == "function" then
