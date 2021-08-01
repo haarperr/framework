@@ -63,6 +63,11 @@ function Decoration:Destroy()
 	if next(grid) == nil then
 		Main.grids[gridId] = nil
 	end
+
+	-- Remove container.
+	if self.container_id then
+		exports.interact:Destroy("decoration-"..tostring(self.id))
+	end
 end
 
 function Decoration:Update(dist)
@@ -154,4 +159,20 @@ function Decoration:CreateModel()
 
 	self.entity = entity
 	Main.entities[entity] = self
+
+	-- Containers.
+	if self.container_id then
+		local interactId = "decoration-"..tostring(self.id)
+
+		exports.interact:Destroy(interactId)
+		exports.interact:Register({
+			id = interactId,
+			event = "decorationContainer",
+			text = "Open Container",
+			entity = entity,
+			-- coords = self.coords,
+			-- radius = settings.Container.Radius,
+			decoration = self.id,
+		})
+	end
 end

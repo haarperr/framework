@@ -1,9 +1,10 @@
 Server = {
 	Properties = {
-		"item_id",
-		"character_id",
-		"variant",
-		"instance",
-		"durability",
+		["item_id"] = true,
+		["character_id"] = true,
+		["container_id"] = true,
+		["variant"] = true,
+		["instance"] = true,
+		["durability"] = true,
 	},
 }

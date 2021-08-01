@@ -2,6 +2,7 @@ Decoration = {}
 Decoration.__index = Decoration
 
 function Decoration:Create(data)
+	-- Get item.
 	if type(data.item) == "string" then
 		local item = exports.inventory:GetItem(data.item)
 		if not item then return false end
@@ -14,6 +15,21 @@ function Decoration:Create(data)
 		data.item = item.name
 	end
 
+	-- Get settings.
+	local settings = Decorations[data.item]
+	if not settings then return end
+
+	-- Create containers.
+	local container
+	if settings.Container then
+		container = exports.inventory:LoadContainer({
+			id = data.container_id,
+			type = settings.Container.Type or "default",
+			coords = data.coords,
+		}, true)
+	end
+
+	-- Load.
 	if not data.id then
 		local setters = "pos_x=@pos_x,pos_y=@pos_y,pos_z=@pos_z,rot_x=@rot_x,rot_y=@rot_y,rot_z=@rot_z"
 		local values = {
@@ -25,7 +41,7 @@ function Decoration:Create(data)
 			["@rot_z"] = data.rotation.z,
 		}
 
-		for _, key in pairs(Server.Properties) do
+		for key, _ in pairs(Server.Properties) do
 			local value = data[key]
 			if value then
 				if setters ~= "" then
@@ -44,11 +60,19 @@ function Decoration:Create(data)
 		data.start_time = os.time() * 1000
 	end
 
+	-- Create decoration.
 	local decoration = setmetatable(data, Decoration)
 
+	-- Update grid.
 	decoration:UpdateGrid()
 
+	-- Cache decoration.
 	Main.decorations[decoration.id] = decoration
+
+	-- Save container.
+	if container and decoration.container_id ~= container.id then
+		decoration:Set("container_id", container.id)
+	end
 
 	return decoration
 end
@@ -82,6 +106,16 @@ function Decoration:Update()
 	if isOutside and age > (settings.Decay or 24.0) then
 		self:Destroy()
 	end
+end
+
+function Decoration:Set(key, value)
+	if Server.Properties[key] then
+		exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET %s=@%s WHERE `id`=%s"):format(key, key, self.id), {
+			["@"..key] = value,
+		})
+	end
+
+	self[key] = value
 end
 
 function Decoration:GetSettings()

@@ -163,6 +163,18 @@ AddEventHandler("interact:onNavigate", function(id)
 	end
 end)
 
+AddEventHandler("interact:on_decorationContainer", function(interactable)
+	local decorationId = interactable.decoration
+	if not decorationId then return end
+
+	local decoration = Main.decorations[decorationId]
+	if not decoration then return end
+	
+	if decoration.container_id then
+		exports.inventory:Subscribe(decoration.container_id)
+	end
+end)
+
 AddEventHandler("shoot", function(didHit, coords, hitCoords, entity)
 	local decoration = Main.entities[entity]
 	if not decoration then return end
