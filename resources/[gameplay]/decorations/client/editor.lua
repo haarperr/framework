@@ -8,9 +8,16 @@ function Editor:Use(item, slot)
 		self:Clear()
 	end
 
+	local settings = Decorations[item]
+	if not settings or not settings.Model then
+		Print("Decoration '%s' missing model!", item)
+		return
+	end
+
 	self.item = item
-	self.settings = Decorations[item]
+	self.settings = settings
 	self.slot = slot
+	self.variant = self.variant and math.min(self.variant, #settings.Model or 1)
 
 	return true
 end
@@ -19,7 +26,6 @@ function Editor:Clear()
 	self.item = nil
 	self.settings = nil
 	self.slot = nil
-	self.variant = nil
 	self.placing = nil
 
 	self:DeleteEntity()
