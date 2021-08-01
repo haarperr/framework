@@ -5,18 +5,37 @@ Grid.__index = Grid
 function Grid:Create(id)
 	Debug("Create grid: %s", id)
 
+	-- Create grid.
 	local grid = setmetatable({
 		id = id,
 		players = {},
 		decorations = {},
 	}, Grid)
 
+	-- Caceh grid.
 	Main.grids[id] = grid
 
+	-- Load instances.
+	if type(id) == "string" then
+		local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `instance`=@instance", {
+			["@instance"] = id,
+		})
+
+		for _, data in ipairs(result) do
+			Main:ConvertData(data)
+			Decoration:Create(data)
+		end
+	end
+
+	-- Return grid.
 	return grid
 end
 
 function Grid:Destroy()
+	for id, decoration in pairs(self.decorations) do
+		Main.decorations[id] = nil
+	end
+
 	Main.grids[self.id] = nil
 	
 	Debug("Destroy grid: %s", self.id)
@@ -30,7 +49,7 @@ end
 
 function Grid:AddPlayer(source)
 	Debug("Player added to grid: [%s] in %s", source, self.id)
-	
+
 	self.players[source] = true
 end
 
@@ -64,8 +83,10 @@ function Grid:IsEmpty()
 	for k, v in pairs(self.players) do
 		return false
 	end
-	for k, v in pairs(self.decorations) do
-		return false
+	if type(self.id) ~= "string" then
+		for k, v in pairs(self.decorations) do
+			return false
+		end
 	end
 	return true
 end

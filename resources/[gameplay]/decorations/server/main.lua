@@ -32,22 +32,25 @@ function Main:LoadPlayers()
 	end
 end
 
+function Main:ConvertData(data)
+	data.coords = vector3(data.pos_x, data.pos_y, data.pos_z)
+	data.rotation = vector3(data.rot_x, data.rot_y, data.rot_z)
+	
+	data.pos_x = nil
+	data.pos_y = nil
+	data.pos_z = nil
+	
+	data.rot_x = nil
+	data.rot_y = nil
+	data.rot_z = nil
+end
+
 function Main:LoadDecorations()
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations`")
+	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `instance` IS NULL")
 
 	for _, data in ipairs(result) do
-		data.coords = vector3(data.pos_x, data.pos_y, data.pos_z)
-		data.rotation = vector3(data.rot_x, data.rot_y, data.rot_z)
-
-		data.pos_x = nil
-		data.pos_y = nil
-		data.pos_z = nil
-
-		data.rot_x = nil
-		data.rot_y = nil
-		data.rot_z = nil
-
-		local decoration = Decoration:Create(data)
+		self:ConvertData(data)
+		Decoration:Create(data)
 	end
 end
 
