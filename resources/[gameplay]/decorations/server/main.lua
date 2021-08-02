@@ -1,8 +1,21 @@
 Main.players = {}
 Main.queue = {}
+Main.names = {}
+Main.ids = {}
 
 --[[ Functions ]]--
 function Main:Init()
+	-- Wait for inventory.
+	while
+		GetResourceState("inventory") ~= "started" or
+		not exports.inventory:IsLoaded()
+	do
+		Citizen.Wait(50)
+	end
+
+	-- Cache items.
+	self:CacheItems()
+
 	-- Load tables.
 	self:LoadDatabase()
 
@@ -51,6 +64,17 @@ function Main:LoadDecorations()
 	for _, data in ipairs(result) do
 		self:ConvertData(data)
 		Decoration:Create(data)
+	end
+end
+
+function Main:CacheItems()
+	for name, settings in pairs(Decorations) do
+		local item = exports.inventory:GetItem(name)
+		if not item then
+			Print("Decoration '%s' is missing an item!", name)
+		end
+		self.names[name] = item.id
+		self.ids[item.id] = name
 	end
 end
 
@@ -208,12 +232,16 @@ AddEventHandler("playerDropped", function(reason)
 	local player = Main.players[source]
 	if not player then return end
 	
-	local lastGrid = self.grids[player.grid]
+	local lastGrid = Main.grids[player.grid]
 	if lastGrid then
 		lastGrid:RemovePlayer(source)
 	end
 	
 	Main.players[source] = nil
+end)
+
+AddEventHandler("inventory:loaded", function()
+	-- Main:CacheItems()
 end)
 
 AddEventHandler("instances:join", function(source, id)
@@ -267,6 +295,15 @@ RegisterNetEvent(Main.event.."pickup", function(id)
 			text = "Can't pick up ("..(result or "error")..").",
 		})
 	end
+end)
+
+RegisterNetEvent(Main.event.."access", function(id)
+	local source = source
+
+	local decoration = Main.decorations[tonumber(id) or false]
+	if not decoration then return end
+
+	decoration:AccessContainer(source)
 end)
 
 --[[ Threads ]]--

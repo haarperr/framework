@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `decorations` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`item_id` INT(10) UNSIGNED NOT NULL,
 	`character_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+	`container_id` INT(10) UNSIGNED NULL DEFAULT NULL,
 	`variant` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
 	`instance` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`start_time` DATETIME NOT NULL DEFAULT sysdate(),
@@ -16,8 +17,10 @@ CREATE TABLE IF NOT EXISTS `decorations` (
 	UNIQUE INDEX `decorations_id_unique` (`id`) USING BTREE,
 	INDEX `decorations_character_id` (`character_id`) USING BTREE,
 	INDEX `decorations_item_id` (`item_id`) USING BTREE,
-	CONSTRAINT `decorations_character_id` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
-	CONSTRAINT `decorations_item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
+	INDEX `decorations_container_id` (`container_id`) USING BTREE,
+	CONSTRAINT `decorations_character_id` FOREIGN KEY (`character_id`) REFERENCES `nonstoprp_dev`.`characters` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
+	CONSTRAINT `decorations_container_id` FOREIGN KEY (`container_id`) REFERENCES `nonstoprp_dev`.`containers` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
+	CONSTRAINT `decorations_item_id` FOREIGN KEY (`item_id`) REFERENCES `nonstoprp_dev`.`items` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
 )
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB

@@ -171,7 +171,7 @@ AddEventHandler("interact:on_decorationContainer", function(interactable)
 	if not decoration then return end
 	
 	if decoration.container_id then
-		exports.inventory:Subscribe(decoration.container_id)
+		TriggerServerEvent(Main.event.."access", decorationId)
 	end
 end)
 

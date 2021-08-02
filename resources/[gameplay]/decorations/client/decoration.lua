@@ -164,11 +164,10 @@ function Decoration:CreateModel()
 	if self.container_id then
 		local interactId = "decoration-"..tostring(self.id)
 
-		exports.interact:Destroy(interactId)
 		exports.interact:Register({
 			id = interactId,
 			event = "decorationContainer",
-			text = "Open Container",
+			text = "Open",
 			entity = entity,
 			-- coords = self.coords,
 			-- radius = settings.Container.Radius,

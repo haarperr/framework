@@ -4,15 +4,15 @@ Decoration.__index = Decoration
 function Decoration:Create(data)
 	-- Get item.
 	if type(data.item) == "string" then
-		local item = exports.inventory:GetItem(data.item)
-		if not item then return false end
+		local itemId = Main.names[data.item]
+		if not itemId then return false end
 		
-		data.item_id = item.id
+		data.item_id = itemId
 	elseif data.item_id then
-		local item = exports.inventory:GetItem(data.item_id)
-		if not item then return false end
+		local itemName = Main.ids[data.item_id]
+		if not itemName then return false end
 
-		data.item = item.name
+		data.item = itemName
 	end
 
 	-- Get settings.
@@ -26,6 +26,7 @@ function Decoration:Create(data)
 			id = data.container_id,
 			type = settings.Container.Type or "default",
 			coords = data.coords,
+			protected = true,
 		}, true)
 	end
 
@@ -141,4 +142,13 @@ end
 function Decoration:GetGrid()
 	if not self.grid then return end
 	return Main.grids[self.instance or self.grid]
+end
+
+function Decoration:AccessContainer(source)
+	local containerId = self.container_id
+	if not containerId then return end
+
+	exports.inventory:ContainerSubscribe(containerId, source, true)
+
+	TriggerClientEvent("inventory:toggle", source, true)
 end
