@@ -141,10 +141,12 @@ function Interaction:Register(data)
 	end
 
 	local interactable = self.interactables[data.id]
-	if interactable == nil then
-		interactable = Interactable:Create(data)
-		self.interactables[data.id] = interactable
+	if interactable ~= nil then
+		self:Destroy(data.id)
 	end
+
+	interactable = Interactable:Create(data)
+	self.interactables[data.id] = interactable
 
 	self:RegisterModel(data)
 	self:RegisterShape(data)
@@ -286,7 +288,7 @@ function Interaction:Update()
 	local isUnderwater = IsPedSwimmingUnderWater(ped)
 
 	-- Raycast.
-	local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = Raycast(26)
+	local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = Raycast(-1)
 	local isEntity = didHit and GetEntityType(entity) ~= 0
 	local isNearby = false
 	local modelCache, entityCache, model
