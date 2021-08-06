@@ -89,7 +89,7 @@ function MoveToCoords(coords, heading, snap, timeout)
 			end
 		end
 
-		if snap and Distance(ped, coords) < 0.1 then
+		if snap and Distance(ped, coords) < 0.01 then
 			break
 		end
 
