@@ -49,7 +49,7 @@ end
 function Decoration:LeaveStation(skipEvent)
 	local settings = self:GetSettings()
 	local station = settings and settings.Station
-	
+
 	-- Play anim.
 	local anim = station and station.Anim
 	if anim and anim.Out then
@@ -64,7 +64,7 @@ function Decoration:LeaveStation(skipEvent)
 
 	-- Events.
 	if not skipEvent then
-		TriggerServerEvent(Main.event.."exitStation", self.id)
+		TriggerServerEvent(Main.event.."exitStation")
 	end
 end
 

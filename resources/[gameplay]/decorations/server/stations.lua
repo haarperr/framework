@@ -20,7 +20,7 @@ function Decoration:ExitStation(source)
 	end
 
 	-- Close station.
-	exports.inventory:SubscribeStation(source, self.id, true)
+	exports.inventory:SubscribeStation(source, self.id, false)
 
 	-- Uncache player.
 	self:Set("player", nil)
@@ -32,16 +32,6 @@ end
 function Decoration:UpdateStation()
 	
 end
-
---[[ Events ]]--
-AddEventHandler("playerDropped", function(reason)
-	local source = source
-
-	local player = Main.players[source]
-	if player and player.station then
-		player.station:ExitStation(source)
-	end
-end)
 
 --[[ Events: Net ]]--
 RegisterNetEvent(Main.event.."enterStation", function(id)

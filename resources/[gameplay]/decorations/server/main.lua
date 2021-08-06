@@ -236,6 +236,11 @@ AddEventHandler("playerDropped", function(reason)
 	if lastGrid then
 		lastGrid:RemovePlayer(source)
 	end
+
+	local player = Main.players[source]
+	if player and player.station then
+		player.station:ExitStation(source)
+	end
 	
 	Main.players[source] = nil
 end)
