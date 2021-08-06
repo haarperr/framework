@@ -662,6 +662,7 @@ Emotes = {
 	["clean2"] = { Dict = "amb@world_human_maid_clean@", Name = "base", Flag = 49, Props = {
 		{ Model = "prop_sponge_01", Bone = 28422, Offset = { 0.0, 0.0, -0.01, 90.0, 0.0, 0.0 } },
 	}},
+	["pizza"] = { Dict = "amb@code_human_wander_eating_donut_fat@female@base", Name = "static", Flag = 48 },
 
 	["bbq"] = { Scenario = "PROP_HUMAN_BBQ", PlayEnterAnim = true },
 	["beer"] = { Scenario = "WORLD_HUMAN_PARTYING", PlayEnterAnim = true },

@@ -19,6 +19,8 @@ function Main:Update()
 			emote:Play()
 		elseif not isPlaying then
 			print("anim over", settings.Dict, settings.Name)
+			
+			emote.stopping = true
 			self.playing[k] = nil
 			self.isForcing = nil
 		end
@@ -26,17 +28,22 @@ function Main:Update()
 end
 
 function Main:UpdateQueue()
-	local data = self.queue[1]
-	if not data then return false end
+	local emote = self.queue[1]
+	if not emote then return false end
 
-	local duration = data.Duration or (data.Dict and math.floor(GetAnimDuration(data.Dict, data.Name) * 1000)) or 1000
-	data.noAutoplay = true
+	local duration = emote.Duration or (emote.Dict and math.floor(GetAnimDuration(emote.Dict, emote.Name) * 1000)) or 1000
+	emote.noAutoplay = true
 
-	print("playing", data, duration)
+	print("playing", duration, json.encode(emote))
 	
-	self:PerformEmote(data)
+	self:PerformEmote(emote)
 
-	Citizen.Wait(duration)
+	Citizen.Wait(0)
+
+	local startTime = GetGameTimer()
+	while GetGameTimer() - startTime < duration and (emote.Dict and IsEntityPlayingAnim(PlayerPedId(), emote.Dict, emote.Name, 3)) do
+		Citizen.Wait(0)
+	end
 
 	table.remove(self.queue, 1)
 
@@ -93,6 +100,8 @@ function Main:CancelEmote(immediate)
 			self.playing[k] = nil
 		end
 	end
+
+	print("clearing anims")
 
 	-- Clear queue.
 	self.queue = {}
