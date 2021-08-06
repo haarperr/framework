@@ -19,6 +19,7 @@ client_scripts {
 	'@utils/client/misc.lua',
 	'client/main.lua',
 	'client/decoration.lua',
+	'client/stations.lua',
 	'client/queue.lua',
 	'client/editor.lua',
 }
@@ -28,5 +29,6 @@ server_scripts {
 	'server/config.lua',
 	'server/main.lua',
 	'server/decoration.lua',
+	'server/stations.lua',
 	'server/grids.lua',
 }

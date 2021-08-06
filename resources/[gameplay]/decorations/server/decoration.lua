@@ -61,6 +61,11 @@ function Decoration:Create(data)
 		data.start_time = os.time() * 1000
 	end
 
+	-- Create stations.
+	if settings.Station then
+		exports.inventory:RegisterStation(data.id, settings.Station.Type)
+	end
+
 	-- Create decoration.
 	local decoration = setmetatable(data, Decoration)
 
@@ -110,13 +115,21 @@ function Decoration:Update()
 end
 
 function Decoration:Set(key, value)
+	-- Save properties.
 	if Server.Properties[key] then
 		exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET %s=@%s WHERE `id`=%s"):format(key, key, self.id), {
 			["@"..key] = value,
 		})
 	end
 
+	-- Set value.
 	self[key] = value
+
+	-- Inform users.
+	local grid = self:GetGrid()
+	if grid then
+		grid:InformNearby("updateDecoration", self.id, key, value)
+	end
 end
 
 function Decoration:GetSettings()

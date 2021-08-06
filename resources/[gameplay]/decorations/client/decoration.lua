@@ -82,6 +82,10 @@ function Decoration:OnSelect()
 	-- Visual effects.
 	SetEntityAlpha(self.entity, 192)
 
+	-- Get settings.
+	local settings = self:GetSettings()
+	if not settings then return end
+
 	-- Add navigation.
 	exports.interact:AddOption({
 		id = "decorationPickup",
@@ -89,11 +93,13 @@ function Decoration:OnSelect()
 		icon = "gavel",
 	})
 
-	-- exports.interact:AddOption({
-	-- 	id = "crafting",
-	-- 	text = "Crafting",
-	-- 	icon = "construction",
-	-- })
+	if settings.Station then
+		exports.interact:AddOption({
+			id = "decorationCrafting",
+			text = settings.Station.Type,
+			icon = "construction",
+		})
+	end
 end
 
 function Decoration:OnDeselect()
@@ -109,11 +115,14 @@ function Decoration:OnDeselect()
 	
 	-- Remove navigation.
 	exports.interact:RemoveOption("decorationPickup")
+	exports.interact:RemoveOption("decorationCrafting")
 end
 
 function Decoration:OnNavigate(id)
 	if id == "decorationPickup" then
 		Main:Pickup(self)
+	elseif id == "decorationCrafting" then
+		self:EnterStation()
 	end
 end
 
@@ -174,4 +183,8 @@ function Decoration:CreateModel()
 			decoration = self.id,
 		})
 	end
+end
+
+function Decoration:GetSettings()
+	return Decorations[self.item]
 end

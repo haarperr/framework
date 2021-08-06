@@ -213,3 +213,10 @@ end)
 RegisterNetEvent(Main.event.."remove", function(id)
 	Queue:Remove(id)
 end)
+
+RegisterNetEvent(Main.event.."updateDecoration", function(id, key, value)
+	local decoration = Main.decorations[id]
+	if decoration then
+		decoration[key] = value
+	end
+end)
