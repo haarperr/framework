@@ -3,6 +3,7 @@ Register("Workbench", {
 	NoCenter = true,
 	Station = {
 		Type = "Workbench",
+		Auto = false,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
 			Heading = 0.0,

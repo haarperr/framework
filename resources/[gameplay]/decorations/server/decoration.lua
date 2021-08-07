@@ -63,7 +63,7 @@ function Decoration:Create(data)
 
 	-- Create stations.
 	if settings.Station then
-		exports.inventory:RegisterStation(data.id, settings.Station.Type)
+		exports.inventory:RegisterStation(data.id, settings.Station.Type, settings.Station.Auto)
 	end
 
 	-- Create decoration.
