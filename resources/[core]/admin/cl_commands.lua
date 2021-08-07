@@ -4,7 +4,7 @@ exports.chat:RegisterCommand("a:tp", function(source, args, command)
 	x = x:gsub(",", "")
 	y = y:gsub(",", "")
 	z = z:gsub(",", "")
-	w = w:gsub(",", "")
+	w = w and w:gsub(",", "")
 
 	x = tonumber(x)
 	y = tonumber(y)
