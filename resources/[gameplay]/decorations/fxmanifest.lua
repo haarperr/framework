@@ -17,6 +17,7 @@ shared_scripts {
 client_scripts {
 	'@utils/client/vectors.lua',
 	'@utils/client/misc.lua',
+	'@camera/cl_camera.lua',
 	'client/main.lua',
 	'client/decoration.lua',
 	'client/stations.lua',

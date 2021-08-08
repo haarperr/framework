@@ -1,6 +1,35 @@
+--[[ Functions: Decorations ]]--
 function Decoration:OpenStation()
+	-- Get settings.
+	local settings = self:GetSettings()
+	if not settings then return end
+	
+	local station = settings.Station
+	if not station then return end
+
 	-- Cache station.
 	Main.station = self
+
+	-- Create camera.
+	if station.Camera then
+		local offset = station.Camera.Offset or vector3(0, 0, 0)
+		local coords = GetOffsetFromEntityInWorldCoords(self.entity, offset.x, offset.y, offset.z)
+		local rotation = ToRotation(Normalize((self.coords + (station.Camera.Target or vector3(0, 0, 0))) - coords))
+
+		local camera = Camera:Create({
+			coords = coords,
+			rotation = rotation,
+			fov = station.Camera.Fov or 60.0,
+			shake = {
+				type = "HAND_SHAKE",
+				amount = 0.1,
+			}
+		})
+
+		camera:Activate()
+
+		Main.camera = camera
+	end
 end
 
 function Decoration:EnterStation()
@@ -56,8 +85,11 @@ function Decoration:LeaveStation(skipEvent)
 		exports.emotes:PerformEmote(anim.Out)
 	end
 
-	-- Cancel emote.
-	exports.emotes:CancelEmote()
+	-- Destroy camera.
+	if Main.camera then
+		Main.camera:Destroy()
+		Main.camera = nil
+	end
 
 	-- Clear cache.
 	Main.station = nil
@@ -66,6 +98,14 @@ function Decoration:LeaveStation(skipEvent)
 	if not skipEvent then
 		TriggerServerEvent(Main.event.."exitStation")
 	end
+
+	-- Cancel emote.
+	exports.emotes:CancelEmote()
+end
+
+--[[ Functions: Main ]]--
+function Main:UpdateStation()
+
 end
 
 --[[ Events ]]--
@@ -84,5 +124,17 @@ RegisterNetEvent(Main.event.."enterStation", function(id, success)
 		decoration:OpenStation()
 	else
 		decoration:LeaveStation(true)
+	end
+end)
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		if Main.station then
+			Main:UpdateStation()
+			Citizen.Wait(0)
+		else
+			Citizen.Wait(200)
+		end
 	end
 end)

@@ -17,6 +17,11 @@ Register("Workbench", {
 			},
 			Out = { Dict = "anim@amb@warehouse@toolbox@", Name = "exit", Flag = 0, BlendIn = 100.0 },
 		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
 	},
 	Model = {
 		"gr_prop_gr_bench_04b",
