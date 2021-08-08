@@ -194,6 +194,12 @@ function Main:Pickup(source, id)
 	local decoration = self.decorations[id]
 	if not decoration then return false end
 
+	-- Check container.
+	if decoration.container_id and not exports.inventory:ContainerIsEmpty(decoration.container_id) then
+		return false, "must be empty"
+	end
+
+	-- Decay.
 	local durability = (decoration.durability or 1.0) - 0.1
 	if durability < 0.001 then
 		decoration:Destroy()
