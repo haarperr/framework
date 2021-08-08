@@ -5,6 +5,8 @@ function Menu:Toggle(value)
 		value = not Navigation.isOpen
 	end
 	
+	if value and not exports.user:IsMod() then return end
+
 	if value then
 		Navigation:Open("Admin", Config.Options)
 	else

@@ -8,6 +8,10 @@ function Admin:Init()
 				end
 			elseif option.options then
 				formatOptions(option.options)
+			else
+				option.func = function(self)
+					Admin:InvokeHook("select", option.hook)
+				end
 			end
 		end
 	end

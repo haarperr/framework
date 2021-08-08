@@ -1,7 +1,8 @@
+--[[ Events: Net ]]--
 RegisterNetEvent(Admin.event.."requestPlayer", function(serverId)
 	local source = source
 
-	if (exports.user:Get(source, "power_level") or 0) < 25 then return end
+	if not exports.user:IsMod(source) then return end
 
 	data = {
 		name = exports.character:GetName(serverId),

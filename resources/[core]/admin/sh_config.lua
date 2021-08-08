@@ -35,5 +35,13 @@ Config = {
 				{ label = "Shooting Visualizer", hook = "viewShooting", caption = "Watch shots being fired", checkbox = false },
 			},
 		},
+		{
+			label = "Inventory",
+			caption = "Tools to debug the inventory",
+			icon = "work",
+			options = {
+				{ label = "View Containers", hook = "viewContainers", caption = "Visualize all containers" },
+			},
+		},
 	},
 }
