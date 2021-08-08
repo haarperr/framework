@@ -66,6 +66,7 @@ function Decoration:Create(data)
 	-- Create stations.
 	if settings.Station then
 		exports.inventory:RegisterStation(data.id, settings.Station.Type, settings.Station.Auto)
+		data.station = true
 	end
 
 	-- Create decoration.
@@ -103,6 +104,25 @@ function Decoration:Destroy()
 	-- Remove container.
 	if self.container_id then
 		exports.inventory:ContainerDestroy(self.container_id, true)
+	end
+
+	-- Destroy station.
+	if self.station then
+		exports.inventory:DestroyStation(self.id)
+	end
+end
+
+function Decoration:Unload()
+	Main.decorations[self.id] = nil
+
+	-- Unload container (not destroy).
+	if self.station then
+		exports.inventory:UnloadStation(self.id)
+	end
+
+	-- Destroy container (not delete).
+	if self.container_id then
+		exports.inventory:ContainerDestroy(self.container_id)
 	end
 end
 

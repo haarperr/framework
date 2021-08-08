@@ -33,7 +33,7 @@ end
 
 function Grid:Destroy()
 	for id, decoration in pairs(self.decorations) do
-		Main.decorations[id] = nil
+		decoration:Unload()
 	end
 
 	Main.grids[self.id] = nil
