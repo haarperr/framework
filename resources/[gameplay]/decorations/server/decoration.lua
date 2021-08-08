@@ -28,9 +28,11 @@ function Decoration:Create(data)
 			coords = data.coords,
 			protected = true,
 		}, true)
+
+		data.container_id = container.id
 	end
 
-	-- Load.
+	-- Load or insert.
 	if not data.id then
 		local setters = "pos_x=@pos_x,pos_y=@pos_y,pos_z=@pos_z,rot_x=@rot_x,rot_y=@rot_y,rot_z=@rot_z"
 		local values = {
@@ -97,6 +99,11 @@ function Decoration:Destroy()
 	exports.GHMattiMySQL:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
 		["@id"] = self.id
 	})
+
+	-- Remove container.
+	if self.container_id then
+		exports.inventory:ContainerDestroy(self.container_id, true)
+	end
 end
 
 function Decoration:Update()

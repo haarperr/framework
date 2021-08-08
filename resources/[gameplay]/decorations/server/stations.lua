@@ -29,10 +29,6 @@ function Decoration:ExitStation(source)
 	return true
 end
 
-function Decoration:UpdateStation()
-	
-end
-
 --[[ Events: Net ]]--
 RegisterNetEvent(Main.event.."enterStation", function(id)
 	local source = source
