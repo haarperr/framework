@@ -19,3 +19,6 @@
 [submodule "resources/[modules]/[interiors]"]
 	path = resources/[modules]/[interiors]
 	url = https://github.com/NonstopRP/interiors
+[submodule "resources/[modules]/[systems]/devices"]
+	path = resources/[modules]/[systems]/devices
+	url = https://github.com/NonstopRP/devices
