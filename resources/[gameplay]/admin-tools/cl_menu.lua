@@ -398,7 +398,7 @@ function Menu:CreateSpawner()
 			"WEAPON_STUNGUN",
 			"WEAPON_VINTAGEPISTOL",
 		}) do
-			local text = exports.weapons:GetName(weapon)
+			local text = weapon--exports.weapons:GetName(weapon)
 			item = NativeUI.CreateItem(text, "")
 			weaponMenu.SubMenu:AddItem(item)
 			item.Activated = function(_menu, _item)
