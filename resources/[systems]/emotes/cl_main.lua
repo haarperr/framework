@@ -80,12 +80,19 @@ function Main:PerformEmote(data)
 	end
 
 	self.lastKey = key
+
+	return key
 end
 Export(Main, "PerformEmote")
 
-function Main:CancelEmote(immediate)
+function Main:CancelEmote(p1, p2)
+	local cancelEmote
+	if type(p1) == "number" then
+		cancelEmote = self.playing[p1]
+	end
+
 	-- Don't cancel forced emotes.
-	if self.isForcing then return end
+	if self.isForcing and not cancelEmote then return end
 
 	print("cancel emote")
 
@@ -93,23 +100,29 @@ function Main:CancelEmote(immediate)
 	local ped = PlayerPedId()
 
 	-- Stop the actual animation.
-	if immediate then
+	if (not cancelEmote and p1) or p2 == true then
 		ClearPedTasksImmediately(ped)
-	else
+	elseif p2 ~= 2 then
 		ClearPedTasks(ped)
 	end
 
 	-- Clear normal animations.
-	for k, emote in pairs(self.playing) do
-		if not emote.Facial then
-			self.playing[k] = nil
+	if cancelEmote then
+		print("clearing anim", p1)
+		self.playing[p1] = nil
+		self.isForcing = nil
+	else
+		for k, emote in pairs(self.playing) do
+			if not emote.Facial then
+				self.playing[k] = nil
+			end
 		end
+
+		print("clearing anims")
+
+		-- Clear queue.
+		self.queue = {}
 	end
-
-	print("clearing anims")
-
-	-- Clear queue.
-	self.queue = {}
 end
 Export(Main, "CancelEmote")
 
