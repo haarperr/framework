@@ -11,6 +11,12 @@ function Bone:Create(id, name)
 	return instance
 end
 
+function Bone:Heal()
+	self.info = {}
+
+	self:UpdateInfo()
+end
+
 function Bone:TakeDamage(amount)
 	local health = self.info.health or 1.0
 	health = math.min(math.max(health - amount, 0.0), 1.0)

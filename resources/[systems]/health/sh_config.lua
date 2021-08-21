@@ -107,14 +107,25 @@ Config = {
 			Nearby = { 45509, 31086, 24818 },
 		},
 	},
-	Writhes = {
-		{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_a", Flag = 1 },
-		{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_b", Flag = 1 },
-		{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_c", Flag = 1 },
-		{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_d", Flag = 1 },
-		{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_e", Flag = 1 },
-		{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_f", Flag = 1 },
-		{ Dict = "combat@damage@writheidle_c", Name = "writhe_idle_g", Flag = 1 },
+	Controls = {
+		Die = 22,
+	},
+	Anims = {
+		Writhes = {
+			{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_a", Flag = 1 },
+			{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_b", Flag = 1 },
+			{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_c", Flag = 1 },
+			{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_d", Flag = 1 },
+			{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_e", Flag = 1 },
+			{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_f", Flag = 1 },
+			{ Dict = "combat@damage@writheidle_c", Name = "writhe_idle_g", Flag = 1 },
+		},
+		Deaths = {
+			{ Dict = "combat@death@from_writhe", Name = "death_a", Flag = 2 },
+			{ Dict = "combat@death@from_writhe", Name = "death_b", Flag = 2 },
+			{ Dict = "combat@death@from_writhe", Name = "death_c", Flag = 2 },
+		},
+		Revive = { Dict = "get_up@directional@movement@from_seated@action", Name = "getup_r_0", Flag = 0, Duration = 1600 },
 	},
 	Down = {
 		Delay = 1000,

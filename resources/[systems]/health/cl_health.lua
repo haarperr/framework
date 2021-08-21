@@ -79,6 +79,27 @@ function Main:GetHealth()
 	return math.min(math.max(health, 0.0), 1.0)
 end
 
+function Main:UpdateInfo()
+	local info = {}
+
+	for boneId, bone in pairs(self.bones) do
+		info[bone.name] = bone.info
+	end
+
+	Menu:Invoke("main", "updateInfo", info)
+	
+	local health = Main:GetHealth()
+	
+	Menu:Invoke("main", "updateEffect", "Health", health)
+end
+
+function Main:Heal()
+	for boneId, bone in pairs(self.bones) do
+		bone.info = {}
+	end
+	self:UpdateInfo()
+end
+
 --[[ Events ]]--
 AddEventHandler("health:clientStart", function()
 	Main:Init()
