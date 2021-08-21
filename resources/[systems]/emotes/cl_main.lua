@@ -11,7 +11,7 @@ function Main:Update()
 		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3)
 
 		if
-			not emote.noAutoplay and not settings.Force and
+			not emote.noAutoplay and
 			((emote.ped and emote.ped ~= ped) or
 			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0 and settings.Flag % 4 ~= 0))
 		then
@@ -59,8 +59,11 @@ function Main:PerformEmote(data)
 		data = Emotes[data]
 	end
 
-	if not data then return end
+	if not data or (not data.Force and self.isForcing) then return end
+
 	local key = (self.lastKey or 0) + 1
+	
+	print("perform emote", key)
 
 	if data.Sequence then
 		for _, stage in ipairs(data.Sequence) do
@@ -83,6 +86,8 @@ Export(Main, "PerformEmote")
 function Main:CancelEmote(immediate)
 	-- Don't cancel forced emotes.
 	if self.isForcing then return end
+
+	print("cancel emote")
 
 	-- Get ped.
 	local ped = PlayerPedId()

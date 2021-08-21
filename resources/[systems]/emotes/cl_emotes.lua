@@ -25,7 +25,8 @@ function Emote:Play(settings)
 
 	-- Clear old emotes.
 	for k, v in pairs(Main.playing) do
-		if not v.Facial and v.isUpperBody == self.isUpperBody then
+		local settings = v.settings or {}
+		if not v.Facial and v.isUpperBody == self.isUpperBody and not settings.Force then
 			Main.playing[k] = nil
 		end
 	end
