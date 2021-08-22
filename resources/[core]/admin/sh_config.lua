@@ -8,9 +8,9 @@ Config = {
 				{ label = "God Mode", hook = "godmode", caption = "Never take damage", checkbox = false },
 				{ label = "Invisibility", hook = "invisibility", caption = "Go invisible for other players", checkbox = false },
 				{ label = "Set Model", hook = "setModel", caption = "Set a specific model by string", close = true },
-				{ label = "Appearance", hook = "viewAppearance", caption = "Open the character appearance editor", command = "a:appearance", close = true },
-				{ label = "Slay", hook = "slay", caption = "Kill yourself", command = "a:slay" },
-				{ label = "Revive", hook = "revive", caption = "Heal yourself", command = "a:revive" },
+				{ label = "Appearance", command = "a:appearance", caption = "Open the character appearance editor", close = true },
+				{ label = "Slay", command = "a:slay", caption = "Kill yourself" },
+				{ label = "Revive", command = "a:revive", caption = "Heal yourself" },
 			},
 		},
 		{
@@ -41,6 +41,14 @@ Config = {
 			icon = "work",
 			options = {
 				{ label = "View Containers", hook = "viewContainers", caption = "Visualize all containers" },
+			},
+		},
+		{
+			label = "Lookups",
+			caption = "Interface with the database",
+			icon = "inbox",
+			options = {
+				{ label = "User", hook = "lookupUser", caption = "Lookup a user", close = true },
 			},
 		},
 	},

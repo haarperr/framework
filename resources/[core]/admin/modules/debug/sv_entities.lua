@@ -86,7 +86,7 @@ AddEventHandler("entityCreating", function(entity)
 	
 	local count = Entities.players[owner] or 0
 
-	if count > 150 then
+	if count > 200 then
 		CancelEvent()
 		return
 	end
