@@ -7,10 +7,10 @@ Config = {
 			options = {
 				{ label = "God Mode", hook = "godmode", caption = "Never take damage", checkbox = false },
 				{ label = "Invisibility", hook = "invisibility", caption = "Go invisible for other players", checkbox = false },
-				{ label = "Set Model", hook = "setModel", caption = "Set a specific model by string" },
-				{ label = "Appearance", hook = "viewAppearance", caption = "Open the character appearance editor" },
-				{ label = "Slay", hook = "slay", caption = "Kill yourself" },
-				{ label = "Revive", hook = "revive", caption = "Heal yourself" },
+				{ label = "Set Model", hook = "setModel", caption = "Set a specific model by string", close = true },
+				{ label = "Appearance", hook = "viewAppearance", caption = "Open the character appearance editor", command = "a:appearance", close = true },
+				{ label = "Slay", hook = "slay", caption = "Kill yourself", command = "a:slay" },
+				{ label = "Revive", hook = "revive", caption = "Heal yourself", command = "a:revive" },
 			},
 		},
 		{

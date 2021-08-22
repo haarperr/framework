@@ -10,6 +10,12 @@ function Admin:Init()
 				formatOptions(option.options)
 			else
 				option.func = function(self)
+					if option.command then
+						ExecuteCommand(option.command)
+					end
+					if option.close then
+						Menu:Toggle(false)
+					end
 					Admin:InvokeHook("select", option.hook)
 				end
 			end
