@@ -105,8 +105,7 @@ end
 
 --[[ Listeners ]]--
 Main:AddListener("DamageBone", function(bone, amount)
-	local health = Main:GetHealth()
-	if health < 0.001 then
+	if Main:GetEffect("Health") < 0.001 then
 		Injury:Activate(true)
 	end
 end)

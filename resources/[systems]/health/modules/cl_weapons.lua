@@ -1,7 +1,7 @@
 Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	if not IsWeaponValid(weapon) then return end
 
-	local weaponDamage = GetWeaponDamage(data.weapon)
+	local weaponDamage = GetWeaponDamage(weapon)
 	if weaponDamage < 0.01 then return end
 	
 	local damageRatio = weaponDamage / 100.0

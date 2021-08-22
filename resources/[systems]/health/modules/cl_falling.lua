@@ -2,7 +2,7 @@ Falling = {
 	speedBuffer = {},
 	isFalling = false,
 	bufferSize = 10,
-	maxSpeed = 30.0,
+	maxSpeed = 40.0,
 	minSpeed = 1.0,
 	fractureSpeed = 20.0,
 }
@@ -33,7 +33,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local speed = Falling:GetAverageSpeed()
 	if speed < Falling.minSpeed then return end
 	
-	local damage = math.min((speed - Falling.minSpeed) / (Falling.maxSpeed - Falling.minSpeed), 1.0)
+	local damage = (speed - Falling.minSpeed) / (Falling.maxSpeed - Falling.minSpeed)
 	local bone = Main:GetBone(boneId)
 	if not bone or GetGameTimer() - (bone.lastDamage or 0) < 200 then return end
 	
@@ -41,7 +41,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 		bone:SetFracture(true)
 	end
 
-	bone:SpreadDamage(damage, GetRandomFloatInRange(0.7, 0.9))
+	bone:SpreadDamage(damage, 0.15, 0.2)
 end)
 
 --[[ Threads ]]--

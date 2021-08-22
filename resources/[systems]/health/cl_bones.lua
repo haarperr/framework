@@ -26,6 +26,9 @@ function Bone:Heal()
 end
 
 function Bone:TakeDamage(amount)
+	local settings = self:GetSettings()
+	if not settings or settings.Fallback then return end
+
 	local health = self.info.health or 1.0
 	health = math.min(math.max(health - amount, 0.0), 1.0)
 
@@ -34,10 +37,11 @@ function Bone:TakeDamage(amount)
 
 	self:UpdateInfo()
 
+	Main:AddEffect("Health", -amount * (settings.Modifier or 1.0))
 	Main:InvokeListener("DamageBone", self, amount)
 end
 
-function Bone:SpreadDamage(amount, falloff)
+function Bone:SpreadDamage(amount, falloff, falloff2)
 	local settings = self:GetSettings()
 	if not settings or not settings.Nearby then return end
 
@@ -46,7 +50,7 @@ function Bone:SpreadDamage(amount, falloff)
 	for _, id in ipairs(settings.Nearby) do
 		local bone = Main.bones[id]
 		if bone then
-			bone:TakeDamage(amount * (falloff or 1.0))
+			bone:TakeDamage(amount * (falloff2 and GetRandomFloatInRange(falloff, falloff2) or falloff or 1.0))
 		end
 	end
 end
@@ -67,8 +71,4 @@ end
 
 function Bone:UpdateInfo()
 	Menu:Invoke("main", "updateInfo", self.name, self.info)
-	
-	local health = Main:GetHealth()
-	
-	Menu:Invoke("main", "updateEffect", "Health", health)
 end

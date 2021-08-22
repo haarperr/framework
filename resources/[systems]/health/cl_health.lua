@@ -73,19 +73,6 @@ function Main:GetBone(boneId)
 	return self.bones[boneId]
 end
 
-function Main:GetHealth()
-	local health = 1.0
-
-	for boneId, bone in pairs(self.bones) do
-		health = health - (1.0 - (bone.info.health or 1.0)) * 0.5
-		if health < 0.0 then
-			break
-		end
-	end
-
-	return math.min(math.max(health, 0.0), 1.0)
-end
-
 function Main:UpdateInfo()
 	local info = {}
 
@@ -94,9 +81,6 @@ function Main:UpdateInfo()
 	end
 
 	Menu:Invoke("main", "updateInfo", info)
-	
-	local health = Main:GetHealth()
-	self:SetEffect("Health", health)
 end
 
 function Main:SetEffect(name, value)
@@ -148,9 +132,14 @@ AddEventHandler("onEntityDamaged", function(data)
 	Main:InvokeListener("TakeDamage", data.weapon, data.pedBone or 11816, data)
 end)
 
+RegisterNetEvent("health:damage", function(weapon, bone)
+	Main:InvokeListener("TakeDamage", weapon, bone, {})
+end)
+
 --[[ NUI Callbacks ]]--
 RegisterNUICallback("init", function(data, cb)
 	Menu:Init()
+	Main:ResetEffects()
 
 	cb(true)
 end)
