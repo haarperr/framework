@@ -38,7 +38,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	if not bone or GetGameTimer() - (bone.lastDamage or 0) < 200 then return end
 	
 	if speed > Falling.fractureSpeed then
-		bone.info.fractured = true
+		bone:SetFracture(true)
 	end
 
 	bone:SpreadDamage(damage, GetRandomFloatInRange(0.7, 0.9))

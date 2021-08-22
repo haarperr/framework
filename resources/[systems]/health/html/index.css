@@ -7,6 +7,31 @@ body {
 	overflow: hidden;
 }
 
+.overlays {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.overlays div {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: 0.0;
+}
+
+#blood {
+	background: radial-gradient(closest-side, transparent 0%, rgba(220, 40, 40, 0.8) 100%);
+}
+
+#comfort {
+	background: radial-gradient(ellipse at center, transparent 60%, rgba(254, 255, 189, 0.4) 100%);
+}
+
+#drug {
+	background: radial-gradient(ellipse at center, transparent 40%, rgba(49, 85, 28, 0.8) 100%);
+}
+
 #dummy {
 	position: absolute;
 	/* background: red; */
@@ -18,6 +43,7 @@ body {
 
 .body-part {
 	position: absolute;
+	right: 20%;
 	width: 100%;
 	height: 100%;
 	background-size: 100% 100%;

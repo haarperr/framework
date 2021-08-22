@@ -21,20 +21,6 @@ export default class Dummy {
 		"SKEL_Spine3",
 	]
 
-	effects = {
-		"Health": { bg: "grey", fg: "white", low: false, high: false },
-		"Blood": { bg: "grey", fg: "white", low: false, high: false },
-		"Hunger": { bg: "grey", fg: "white", low: false, high: false },
-		"Thirst": { bg: "grey", fg: "white", low: false, high: false },
-		"Armor": { bg: "grey", fg: "white", low: false, high: false },
-		"Comfort": { bg: "grey", fg: "white", low: false, high: false },
-		"Bac": { bg: "grey", fg: "white", low: false, high: false },
-		"Drug": { bg: "grey", fg: "white", low: false, high: false },
-		"Oxygen": { bg: "grey", fg: "white", low: false, high: false },
-		"Poison": { bg: "grey", fg: "white", low: false, high: false },
-		"Scuba": { bg: "grey", fg: "white", low: false, high: false },
-	}
-
 	canvasSize = 512;
 
 	frames = {
@@ -51,7 +37,8 @@ export default class Dummy {
 		injured: [220, 0, 0],
 	}
 
-	constructor(root, dummy) {
+	constructor(config, root, dummy) {
+		this.config = config;
 		this.root = root;
 		this.dummy = dummy;
 		this.info = {};
@@ -73,19 +60,18 @@ export default class Dummy {
 
 	updateEffect(name, value) {
 		const effect = this.effects[name];
-		const effectElement = this.effectElements[name];
-		if (!effectElement) return;
+		if (!effect) return;
 		
-		const display = (effect.high || value < 0.99) && (effect.low || value > 0.01);
+		const display = (effect.settings.High || value < 0.99) && (effect.settings.Low || value > 0.01);
 
-		effectElement.root.style.display = display ? "flex" : "none";
+		effect.root.style.display = display ? "flex" : "none";
 
 		if (!display) return;
 
-		const color = this.lerp(this.palette.injured, this.palette.healed, value);
+		const color = this.lerp(effect.settings.Invert ? this.palette.healed : this.palette.injured, effect.settings.Invert ? this.palette.injured : this.palette.healed, value);
 
-		effectElement.fill.style.top = `${(1.0 - value) * 100.0}%`;
-		effectElement.fill.style.background = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.8)`;
+		effect.fill.style.top = `${(1.0 - value) * 100.0}%`;
+		effect.fill.style.background = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 0.8)`;
 	}
 
 	build() {
@@ -113,41 +99,49 @@ export default class Dummy {
 
 		// Create effects.
 		this.effectInfo = {};
-		this.effectElements = {};
+		this.effects = {};
 
 		this.effectsRoot = document.createElement("div");
 		this.effectsRoot.classList.add("effects");
 		this.root.appendChild(this.effectsRoot);
 
-		for (var name in this.effects) {
-			const effect = this.effects[name];
+		for (let index = 0; index < this.config.effects.length; index++) {
+			// Get effect.
+			const effect = this.config.effects[index];
+
+			// Create effect root.
 			const element = document.createElement("div");
 			element.classList.add("effect");
 			element.style.display = "none";
 
-			if (effect.bg) {
-				element.classList.add(effect.bg);
+			if (effect.Background) {
+				element.classList.add(effect.Background);
 			}
 
+			// Create effect fill.
 			const fill = document.createElement("div");
 			fill.classList.add("fill");
 
+			// Create effect icon.
 			const icon = document.createElement("div");
 			icon.classList.add("icon");
-			icon.style.maskImage = `url('./images/icons/${name}.png')`;
+			icon.style.maskImage = `url('./images/icons/${effect.Name}.png')`;
 			icon.style.webkitMaskImage = icon.style.maskImage;
 			
-			if (effect.fg) {
-				icon.classList.add(effect.fg);
+			if (effect.Foreground) {
+				icon.classList.add(effect.Foreground);
 			}
 			
+			// Append children.
 			element.appendChild(fill);
 			element.appendChild(icon);
 			this.effectsRoot.appendChild(element);
 
-			this.effectElements[name] = {
-				root: element,
+			// Cache effect.
+			this.effects[effect.Name] = {
 				fill: fill,
+				root: element,
+				settings: effect,
 			}
 		}
 

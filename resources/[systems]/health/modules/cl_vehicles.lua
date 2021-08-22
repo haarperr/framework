@@ -19,7 +19,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local damage = math.min(math.max((speed - minSpeed) / (maxSpeed - minSpeed), 0.0), 1.0)
 
 	if speed > fractureSpeed then
-		bone.info.fractured = true
+		bone:SetFracture(true)
 	end
 
 	bone:TakeDamage(damage)

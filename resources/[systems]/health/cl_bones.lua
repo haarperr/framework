@@ -11,6 +11,14 @@ function Bone:Create(id, name)
 	return instance
 end
 
+function Bone:Update()
+	local bleed = self.info.bleed or 0.0
+	if bleed > 0.001 then
+		-- local blood = Main:GetEffect("Blood")
+		Main:AddEffect("Blood", bleed * 0.01)
+	end
+end
+
 function Bone:Heal()
 	self.info = {}
 
@@ -41,6 +49,16 @@ function Bone:SpreadDamage(amount, falloff)
 			bone:TakeDamage(amount * (falloff or 1.0))
 		end
 	end
+end
+
+function Bone:ApplyBlead(amount)
+	self.info.bleed = math.min((self.info.bleed or 0.0) + 0.1, 1.0)
+end
+
+function Bone:SetFracture(value)
+	self.info.fractured = value
+	
+	Main:SetEffect("Fracture", value and 1.0 or 0.0)
 end
 
 function Bone:GetSettings()

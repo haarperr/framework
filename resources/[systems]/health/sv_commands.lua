@@ -1,14 +1,15 @@
 exports.chat:RegisterCommand("a:revive", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
-	if not target then return end
+	if not target or target == 0 or target < -1 then return end
 
 	exports.log:Add({
 		source = source,
-		target = target,
+		target = target > 0 and target or nil,
 		verb = "revived",
+		noun = target == -1 and "all" or nil,
 	})
 
-	TriggerClientEvent("health:revive", target)
+	TriggerClientEvent("health:revive", target, true)
 end, {
 	description = "Revive somebody.",
 	parameters = {
@@ -18,12 +19,13 @@ end, {
 
 exports.chat:RegisterCommand("a:slay", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
-	if not target then return end
+	if not target or target == 0 or target < -1 then return end
 
 	exports.log:Add({
 		source = source,
-		target = target,
+		target = target > 0 and target or nil,
 		verb = "slayed",
+		noun = target == -1 and "all" or nil,
 	})
 
 	TriggerClientEvent("health:slay", target)

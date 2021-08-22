@@ -17,11 +17,11 @@ function Injury:Update()
 		end
 	end
 
-	if self.isWrithing and IsDisabledControlPressed(0, Config.Controls.Die) then
-		self:Die(2)
-	elseif self.isProning and not IsDisabledControlPressed(0, Config.Controls.Die) then
-		self:Writhe(2)
-	end
+	-- if self.isWrithing and IsDisabledControlPressed(0, Config.Controls.Die) then
+	-- 	self:Die(2)
+	-- elseif self.isDead and not IsDisabledControlPressed(0, Config.Controls.Die) then
+	-- 	self:Writhe(2)
+	-- end
 end
 
 function Injury:Activate(value)
@@ -34,6 +34,24 @@ function Injury:Activate(value)
 
 	if value then
 		self:Writhe()
+
+		exports.interact:AddOption({
+			id = "injury",
+			text = "Injured",
+			icon = "healing",
+			sub = {
+				{
+					id = "injury-die",
+					text = "Passout",
+					icon = "arrow_circle_down",
+				},
+				{
+					id = "injury-wakeup",
+					text = "Wake Up",
+					icon = "arrow_circle_up",
+				},
+			},
+		})
 	else
 		Main:Heal()
 
@@ -42,6 +60,8 @@ function Injury:Activate(value)
 		else
 			self:ClearEmote()
 		end
+
+		exports.interact:RemoveOption("injury")
 	end
 end
 
@@ -64,7 +84,7 @@ function Injury:Die(p2)
 	anim.BlendSpeed = 2.0
 
 	self.emote = exports.emotes:PerformEmote(anim)
-	self.isProning = true
+	self.isDead = true
 end
 
 function Injury:Getup(p2)
@@ -79,7 +99,7 @@ function Injury:ClearEmote(p2)
 	exports.emotes:CancelEmote(self.emote, p2)
 
 	self.isWrithing = false
-	self.isProning = false
+	self.isDead = false
 	self.emote = nil
 end
 
@@ -96,8 +116,34 @@ AddEventHandler("health:stop", function()
 	Injury:Activate(false)
 end)
 
-RegisterNetEvent("health:revive", function()
+AddEventHandler("interact:onNavigate_injury-wakeup", function()
+	if Injury.isDead then
+		Injury:Writhe(2)
+	else
+		TriggerEvent("chat:notify", {
+			class = "inform",
+			text = "You are already awake!",
+		})
+	end
+end)
+
+AddEventHandler("interact:onNavigate_injury-die", function()
+	if Injury.isWrithing then
+		Injury:Die(2)
+	else
+		TriggerEvent("chat:notify", {
+			class = "inform",
+			text = "You are already passed out!",
+		})
+	end
+end)
+
+RegisterNetEvent("health:revive", function(resetEffects)
 	Injury:Activate(false)
+	
+	if resetEffects then
+		Main:ResetEffects()
+	end
 end)
 
 RegisterNetEvent("health:slay", function()
