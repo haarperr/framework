@@ -18,6 +18,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/date.lua',
 	'@utils/server/database.lua',
 	'server/queries.lua',
 	'server/main.lua',

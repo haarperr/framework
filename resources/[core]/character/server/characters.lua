@@ -16,19 +16,9 @@ function Character:Create(source, data)
 	end
 
 	if type(data.dob) == "number" then
-		local dob = data.dob / 1000.0
-		local offset = 0
-
-		if dob < 0 then
-			dob = dob + 4070912400
-			offset = 129
-		end
-		
-		local date = os.date("*t", dob)
-		if date then
-			data.dob = ("%d/%02d/%02d"):format(date.year - offset, date.month, date.day)
-			data.age = math.ceil(os.date("%Y", os.time()) - date.year + offset)
-		end
+		local dob, age = DateFromTime(data.dob)
+		data.dob = dob
+		data.age = math.ceil(age)
 	end
 
 	Main.ids[data.id] = data
