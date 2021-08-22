@@ -124,8 +124,8 @@ function Client:SelectCharacter(id)
 	-- Logging.
 	exports.log:Add({
 		source = self.source,
-		verb = "selected",
+		verb = character and "selected" or "switched",
 		noun = "character",
-		extra = ("%s %s (%s)"):format(character.first_name, character.last_name, id)
+		extra = character and ("%s %s (%s)"):format(character.first_name, character.last_name, id)
 	})
 end
