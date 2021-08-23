@@ -385,6 +385,26 @@ function Editor:Build(filter)
 			</q-btn-group>
 		]],
 	})
+
+	-- Create import/export options (old).
+	tabPanels.tools:AddComponent({
+		template = [[
+			<q-btn-group style="min-width: 100%">
+				<q-input
+					filled
+					label="Import (OLD)"
+					style="flex-grow: 1"
+					@input="$setModel('importOld', $event)"
+					:value="$getModel('importOld')"
+				></q-input>
+				<q-btn
+					color="red"
+					style="min-width: 20%"
+					@click="$invoke('importOld')"
+				>Update</q-btn>
+			</q-btn-group>
+		]],
+	})
 	
 	-- Create import/export options.
 	tabPanels.tools:AddComponent({

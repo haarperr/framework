@@ -100,6 +100,33 @@ function Controller:ConvertData(data)
 	return data
 end
 
+function Controller:old_ConvertData(source, target)
+	local blendData = {
+		source[2] + 1,
+		source[3] + 1,
+		1,
+		source[2] + 1,
+		source[3] + 1,
+		1,
+		source[4] / 11.0,
+		source[5] / 11.0,
+		0.0,
+	}
+	
+	local faceFeatures = source[6]
+	for k, v in ipairs(faceFeatures) do
+		faceFeatures[k] = v / 11.0 * 2.0 - 1.0
+	end
+
+	target.features.blendData = blendData
+	target.features.eyeColor = source[9] or 1
+	target.features.faceFeatures = faceFeatures
+	target.features.overlays = {}
+	target.features.hairOverlays = {}
+
+	return self:ConvertData(target)
+end
+
 function Controller:SetMap(key, value, isMenu, bind)
 	Ped = self.ped or PlayerPedId()
 	Player = PlayerId()
@@ -252,6 +279,18 @@ function Controller:SetWindow(window)
 		if not data then return end
 
 		controller:SetData(data, true)
+	end)
+
+	window:AddListener("importOld", function(self)
+		local controller = self.controller
+
+		local model = json.decode(self.models["importOld"])
+		if not model then return end
+
+		local data = controller:GetData()
+		if not data then return end
+
+		controller:SetData(controller:old_ConvertData(model, data), true)
 	end)
 
 	window:AddListener("setTarget", function(self, target)
