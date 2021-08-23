@@ -53,7 +53,7 @@ function Main:_SelectCharacter(id)
 
 		local coords = character:GetPosition()
 		
-		exports.spawning:Spawn()
+		exports.spawning:Spawn(coords)
 	else
 		exports.spawning:Init()
 	end

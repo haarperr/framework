@@ -80,13 +80,13 @@ Config = {
 	},
 	Havens = {
 		{
-			Name = "Pillbox Hill",
+			Name = "Textile City",
 			Static = {
-				Coords = vector4(128.1701812744141, -690.90283203125, 42.02895355224609, 280.5345764160156),
+				Coords = vector4(451.6771545410156, -649.9476928710938, 28.44460487365722, 196.24769592285156),
 			},
 			Poses = {
 				{
-					Coords = vector4(137.61326599121097, -680.9774169921875, 42.02923965454101, 141.93112182617188),
+					Coords = vector4(437.3413391113281, -629.699951171875, 28.71169090270996, 91.078857421875),
 					Anim = {
 						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
 						Name = "exit_front",
@@ -95,7 +95,7 @@ Config = {
 					},
 				},
 				{
-					Coords = vector4(149.35797119140625, -680.9443359375, 42.02947998046875, 105.45870208740236),
+					Coords = vector4(432.459716796875, -653.5733642578125, 28.74376106262207, 173.40863037109375),
 					Anim = {
 						Dict = "switch@franklin@chopshop",
 						Name = "checkshoe",
@@ -104,7 +104,7 @@ Config = {
 					}
 				},
 				{
-					Coords = vector4(122.2041244506836, -681.1710815429688, 42.02921676635742, 128.904052734375),
+					Coords = vector4(450.83502197265625, -650.2658081054688, 28.46903991699218, 241.90072631835935),
 					Anim = {
 						Dict = "switch@franklin@chopshop",
 						Name = "wipehands",
@@ -113,7 +113,7 @@ Config = {
 					}
 				},
 				{
-					Coords = vector4(137.4122772216797, -676.892578125, 42.02926254272461, 191.0637969970703),
+					Coords = vector4(438.07769775390625, -615.7777099609375, 28.71072196960449, 85.1499252319336),
 					Anim = {
 						Dict = "switch@michael@sitting",
 						Name = "exit_forward",
@@ -122,7 +122,7 @@ Config = {
 					}
 				},
 				{
-					Coords = vector4(148.19158935546875, -687.7426147460938, 42.02947616577148, 337.3321228027344),
+					Coords = vector4(437.8086853027344, -617.977783203125, 28.71022605895996, 85.87105560302734),
 					Anim = {
 						Dict = "switch@michael@sitting",
 						Name = "exit_forward",
@@ -131,10 +131,45 @@ Config = {
 					}
 				},
 				{
-					Coords = vector4(130.2030029296875, -696.3775634765625, 42.0289077758789, 9.68234348297119),
+					Coords = vector4(438.5310363769531, -610.0172119140625, 28.71327590942382, 84.71148681640625),
 					Anim = {
 						Dict = "switch@michael@sitting",
 						Name = "exit_forward",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+			},
+		},
+		{
+			Name = "Textile City",
+			Static = {
+				Coords = vector4(-615.0341186523438, 206.82546997070312, 74.18211364746094, 164.99134826660156),
+			},
+			Poses = {
+				{
+					Coords = vector4(-611.47705078125, 208.94053649902344, 74.18061065673828, 182.07357788085935),
+					Anim = {
+						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
+						Name = "exit_front",
+						BlendIn = 1000.0,
+						Flag = 0,
+					},
+				},
+				{
+					Coords = vector4(-623.5969848632812, 205.4354705810547, 74.06205749511719, 100.28985595703124),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "checkshoe",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(-620.2831420898438, 208.7841339111328, 74.21112823486328, 179.18734741210938),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "wipehands",
 						BlendIn = 1000.0,
 						Flag = 0,
 					}
