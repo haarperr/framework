@@ -12,7 +12,7 @@ function Preview:Init()
 	Citizen.Wait(1000)
 
 	-- Cache settings.
-	self.settings = Config.Previews[GetRandomIntInRange(1, #Config.Previews)]
+	self.settings = Config.Previews[GetRandomIntInRange(1, #Config.Previews + 1)]
 	self.isActive = true
 	
 	-- Init functions.
@@ -94,7 +94,7 @@ function Preview:Init_Peds()
 		}
 
 		local magnet = self.settings.Peds[index]
-		local coords = magnet.Coords
+		local coords = magnet and magnet.Coords
 		local ped = magnet and exports.customization:CreatePed(data, coords)
 
 		if ped then
