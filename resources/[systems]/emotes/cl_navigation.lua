@@ -92,7 +92,27 @@ AddEventHandler("interact:onNavigate_emotes", function()
 end)
 
 AddEventHandler("interact:onNavigate_walkstyles", function()
-	print("open walkstyles menu")
+	Navigation:Close()
+
+	local options = {}
+
+	for name, walkstyle in pairs(Config.Walkstyles) do
+		options[#options + 1] = {
+			label = name,
+		}
+	end
+
+	table.sort(options, function(a, b)
+		return a.label < b.label
+	end)
+
+	Navigation:Open("Walkstyles", options)
+
+	function Navigation:OnSelect(option)
+		if option.label then
+			Main:SetWalkstyle(option.label)
+		end
+	end
 end)
 
 AddEventHandler("interact:onNavigate_cancelEmote", function()
