@@ -27,7 +27,7 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 		return
 	end
 
-	if not Emotes[name] then
+	if not Main.emotes[name] then
 		TriggerEvent("chat:notify", {
 			text = "That emote doesn't exist!",
 			class = "error",
@@ -47,7 +47,7 @@ end, {
 exports.chat:RegisterCommand("walkstyle", function(source, args, command)
 	local name  = tostring(args[1]):lower()
 
-	if not name or not Walkstyles[name] then
+	if not name or not Config.Walkstyles[name] then
 		TriggerEvent("chat:notify", {
 			text = "That walkstyle doesn't exist!",
 			class = "error",

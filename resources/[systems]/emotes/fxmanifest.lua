@@ -12,10 +12,12 @@ files {
 
 shared_scripts {
 	'sh_config.lua',
+	'sh_groups.lua',
 	'sh_main.lua',
 }
 
 client_scripts {
+	'@utils/client/misc.lua',
 	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
 	'cl_navigation.lua',

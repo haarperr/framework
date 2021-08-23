@@ -38,7 +38,7 @@ function Main:SetWalkstyle(name)
 		return
 	end
 
-	local walkstyle = Walkstyles[name]
+	local walkstyle = Config.Walkstyles[name]
 	if not walkstyle then return end
 	
 	if self.overrideWalkstyle == nil then

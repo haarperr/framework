@@ -1,14 +1,21 @@
 Emote = {}
 Emote.__index = Emote
 
-function Emote:Create(data)
+function Emote:Create(data, id)
 	if type(data) == "string" then
-		data = Emotes[data]
+		data = Main.emotes[data]
 	end
 	
-	local emote = setmetatable({ settings = data }, Emote)
+	local emote = setmetatable({
+		id = id,
+		settings = data,
+	}, Emote)
+	
+	if id then
+		Main.playing[id] = emote
+	end
+	
 	local flag = emote.settings.Flag or 0
-
 	emote.isUpperBody = (flag >= 10 and flag <= 31) or (flag >= 48 and flag <= 63)
 
 	if data.Autoplay ~= false then
@@ -26,8 +33,13 @@ function Emote:Play(settings)
 	-- Clear old emotes.
 	for k, v in pairs(Main.playing) do
 		local settings = v.settings or {}
-		if not v.Facial and v.isUpperBody == self.isUpperBody and not settings.Force then
-			Main.playing[k] = nil
+		if
+			v.id ~= self.id and
+			not v.Facial and
+			v.isUpperBody == self.isUpperBody and
+			not settings.Force
+		then
+			v:Remove()
 		end
 	end
 
@@ -63,6 +75,50 @@ function Emote:Play(settings)
 			settings.Lock or false,
 			settings.Lock or false
 		)
+	end
+
+	-- Create props.
+	if settings.Props then
+		if not self.props then
+			self.props = {}
+		end
+
+		for k, v in ipairs(settings.Props) do
+			if not IsModelValid(v.Model) then
+				print("Invalid model during emote: "..tostring(v.Model))
+				break
+			end
+
+			while not HasModelLoaded(v.Model) do
+				RequestModel(v.Model)
+				Citizen.Wait(0)
+			end
+
+			local coords = GetEntityCoords(ped)
+			local entity = CreateObject(v.Model, coords.x, coords.y, coords.z, true, true, false)
+			local offset = v.Offset or { 0, 0, 0, 0, 0, 0}
+
+			SetEntityCollision(entity, false, false)
+			AttachEntityToEntity(entity, ped, GetPedBoneIndex(ped, v.Bone), offset[1], offset[2], offset[3], offset[4], offset[5], offset[6], false, false, true, true, 0, true)
+			SetModelAsNoLongerNeeded(v.Model)
+
+			table.insert(self.props, entity)
+		end
+	end
+end
+
+function Emote:Remove()
+	print("removing", self.id)
+
+	if self.id then
+		Main.playing[self.id] = nil
+	end
+	
+	if self.props then
+		for _, entity in ipairs(self.props) do
+			Delete(entity)
+		end
+		self.props = nil
 	end
 end
 

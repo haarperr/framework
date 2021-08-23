@@ -1,12 +1,21 @@
 Main = {
+	emotes = {},
 	playing = {},
 	queue = {},
 }
 
+function Main:Init()
+	for _, group in ipairs(Config.Groups) do
+		for name, emote in pairs(group.Emotes) do
+			self.emotes[name] = emote
+		end
+	end
+end
+
 function Main:Update()
 	local ped = PlayerPedId()
 
-	for k, emote in pairs(self.playing) do
+	for id, emote in pairs(self.playing) do
 		local settings = emote.settings or {}
 		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3)
 
@@ -15,13 +24,13 @@ function Main:Update()
 			((emote.ped and emote.ped ~= ped) or
 			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0 and settings.Flag % 4 ~= 0))
 		then
-			print("replay anim", settings.Dict, settings.Name)
+			print("replay anim", id)
 			emote:Play()
 		elseif not isPlaying then
-			print("anim over", settings.Dict, settings.Name)
+			print("anim over", id)
 			
-			emote.stopping = true
-			self.playing[k] = nil
+			emote:Remove()
+
 			self.isForcing = nil
 		end
 	end
@@ -41,7 +50,7 @@ function Main:UpdateQueue()
 	Citizen.Wait(0)
 
 	local startTime = GetGameTimer()
-	while GetGameTimer() - startTime < duration and (emote.Dict and IsEntityPlayingAnim(PlayerPedId(), emote.Dict, emote.Name, 3)) do
+	while (GetGameTimer() - startTime < duration or emote.Flag % 2 ~= 0) and (emote.Dict and IsEntityPlayingAnim(PlayerPedId(), emote.Dict, emote.Name, 3)) do
 		Citizen.Wait(0)
 	end
 
@@ -56,7 +65,7 @@ end
 
 function Main:PerformEmote(data)
 	if type(data) == "string" then
-		data = Emotes[data]
+		data = self.emotes[data]
 	end
 
 	if not data or (not data.Force and self.isForcing) then return end
@@ -71,8 +80,7 @@ function Main:PerformEmote(data)
 			self:Queue(stage)
 		end
 	else
-		local emote = Emote:Create(data)
-		self.playing[key] = emote
+		Emote:Create(data, key)
 	end
 
 	if data.Force then
@@ -109,19 +117,21 @@ function Main:CancelEmote(p1, p2)
 	-- Clear normal animations.
 	if cancelEmote then
 		print("clearing anim", p1)
-		self.playing[p1] = nil
+
+		cancelEmote:Remove()
+
 		self.isForcing = nil
 	else
+		print("clearing anims")
+		
 		for k, emote in pairs(self.playing) do
 			if not emote.Facial then
-				self.playing[k] = nil
+				emote:Remove()
 			end
 		end
 
-		print("clearing anims")
-
 		-- Clear queue.
-		self.queue = {}
+		-- self.queue = {}
 	end
 end
 Export(Main, "CancelEmote")
@@ -139,20 +149,9 @@ function Main:RemoveProps()
 	local ped = PlayerPedId()
 	for k, entity in ipairs(exports.oldutils:GetObjects()) do
 		if DoesEntityExist(entity) and IsEntityAttachedToEntity(entity, ped) then
-			self:Delete(entity)
+			Delete(entity)
 		end
 	end
-end
-
-function Main:Delete(entity)
-	Citizen.CreateThread(function()
-		while DoesEntityExist(entity) do
-			NetworkRequestControlOfEntity(entity)
-			DeleteEntity(entity)
-
-			Citizen.Wait(50)
-		end
-	end)
 end
 
 --[[ Threads ]]--
@@ -174,6 +173,10 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Events ]]--
+AddEventHandler("emotes:clientStart", function()
+	Main:Init()
+end)
+
 RegisterNetEvent("instances:join", function(id)
 	Main:RemoveProps()
 end)

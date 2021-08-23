@@ -57,115 +57,38 @@ AddEventHandler("interact:onNavigate", function(id)
 end)
 
 AddEventHandler("interact:onNavigate_emotes", function()
-	local emotes = {}
-	for name, emote in pairs(Emotes) do
-		emotes[#emotes + 1] = {
-			emote = name,
+	Navigation:Close()
+
+	local options = {}
+
+	for _, group in ipairs(Config.Groups) do
+		local subOptions = {}
+		
+		for name, emote in pairs(group.Emotes) do
+			subOptions[#subOptions + 1] = {
+				label = name,
+				emote = true,
+			}
+		end
+
+		table.sort(subOptions, function(a, b)
+			return a.label < b.label
+		end)
+
+		options[#options + 1] = {
+			label = group.Name,
+			icon = group.Icon,
+			options = subOptions,
 		}
 	end
 
-	table.sort(emotes, function(a, b)
-		return a.emote < b.emote
-	end)
+	Navigation:Open("Emotes", options)
 
-	local window = Window:Create({
-		type = "window",
-		title = "Emotes",
-		class = "compact",
-		style = {
-			["width"] = "30vmin",
-			["top"] = "15vmin",
-			["right"] = "5vmin",
-		},
-		prepend = {
-			type = "q-icon",
-			name = "cancel",
-			binds = {
-				color = "red",
-			},
-			click = {
-				event = "close"
-			}
-		},
-		components = {
-			{
-				type = "q-table",
-				style = {
-					["overflow"] = "hidden",
-					["max-height"] = "90vh",
-				},
-				tableStyle = {
-					["overflow-y"] = "auto",
-				},
-				clicks = {
-					["row-click"] = {
-						callback = "this.$invoke('playEmote', arguments[0]?.emote)",
-					},
-				},
-				binds = {
-					rowKey = "emote",
-					dense = true,
-					wrapCells = true,
-					data = emotes,
-					rowsPerPageOptions = { 20 },
-					columns = {
-						{
-							name = "emote",
-							label = "Emote",
-							field = "emote",
-							align = "left",
-							sortable = true,
-						},
-					},
-				},
-			}
-		}
-	})
-
-	-- local extraWindow = Window:Create({
-	-- 	type = "window",
-	-- 	style = {
-	-- 		["width"] = "25vmin",
-	-- 		["top"] = "15vmin",
-	-- 		["right"] = "36vmin",
-	-- 	},
-	-- 	defaults = {
-	-- 		["lastEmote"] = "None",
-	-- 		["binds"] = {
-	-- 			{},
-	-- 			{ emote = "dance2" },
-	-- 			{},
-	-- 		},
-	-- 	},
-	-- 	components = {
-	-- 		{
-	-- 			template = "<div><b>Emote</b>: {{$getModel('lastEmote')}}</div>",
-	-- 		},
-	-- 		{
-	-- 			template = [[
-	-- 				<div>
-	-- 					<q-separator spaced />
-	-- 					<div v-for="(bind, key) in $getModel('binds')">
-	-- 						Bind {{key + 1}} -- {{bind.emote ?? "None"}}
-	-- 					</div>
-	-- 				</div>
-	-- 			]]
-	-- 		}
-	-- 	}
-	-- })
-
-	window:OnClick("close", function(self)
-		self:Destroy()
-		-- extraWindow:Destroy()
-
-		UI:Focus(false)
-	end)
-
-	window:AddListener("playEmote", function(self, emote)
-		Main:PerformEmote(emote)
-	end)
-
-	UI:Focus(true, true)
+	function Navigation:OnSelect(option)
+		if option.emote then
+			Main:PerformEmote(option.label)
+		end
+	end
 end)
 
 AddEventHandler("interact:onNavigate_walkstyles", function()
