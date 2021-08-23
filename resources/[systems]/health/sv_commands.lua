@@ -101,3 +101,59 @@ end, {
 		{ name = "Amount", description = "How much armor to add (default = 1.0)." },
 	}
 }, -1, 25)
+
+exports.chat:RegisterCommand("a:inflict", function(source, args, command, cb)
+	local target = tonumber(args[1]) or source
+	if not target or target == 0 or target < -1 then return end
+
+	local name = args[2]
+	if name then
+		name = name:lower()
+		for _, effect in pairs(Config.Effects) do
+			if effect.Name:lower():find(name) then
+				name = effect.Name
+				break
+			end
+		end
+	end
+
+	local amount = math.min(math.max(tonumber(args[3]) or 1.0, -1.0), 1.0)
+
+	exports.log:Add({
+		source = source,
+		target = target > 0 and target or nil,
+		verb = "inflicted",
+		noun = target == -1 and "all" or nil,
+		extra = ("effect: %s - amount: %s"):format(name or "all", amount),
+		channel = "admin",
+	})
+
+	TriggerClientEvent("health:addEffect", target, name, amount)
+end, {
+	description = "Apply health effects.",
+	parameters = {
+		{ name = "Target", description = "Person to add effect to." },
+		{ name = "Name", description = "The name of the effect (default = all)." },
+		{ name = "Amount", description = "Intensity of the effect (default = 1.0)." },
+	}
+}, -1, 25)
+
+exports.chat:RegisterCommand("a:cure", function(source, args, command, cb)
+	local target = tonumber(args[1]) or source
+	if not target or target == 0 or target < -1 then return end
+
+	exports.log:Add({
+		source = source,
+		target = target > 0 and target or nil,
+		verb = "cured",
+		noun = target == -1 and "all" or nil,
+		channel = "admin",
+	})
+
+	TriggerClientEvent("health:resetEffects", target)
+end, {
+	description = "Clear health effects.",
+	parameters = {
+		{ name = "Target", description = "Person to clear effects for." },
+	}
+}, -1, 25)

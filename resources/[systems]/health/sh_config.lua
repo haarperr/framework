@@ -135,7 +135,7 @@ Config = {
 			Default = 1.0,
 			Invert = false,
 			Background = "grey",
-			Foreground = "red",
+			Foreground = "white",
 			Low = true,
 			High = false,
 		},

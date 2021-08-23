@@ -3,8 +3,6 @@ Armor = {}
 --[[ Functions: Armor ]]--
 function Armor:Add(flag, amount)
 	for boneId, settings in pairs(Config.Bones) do
-		if settings.Armor then print(settings.Armor) end
-
 		if settings.Armor and (settings.Armor & flag) ~= 0 then
 			local bone = Main.bones[boneId]
 			if bone then

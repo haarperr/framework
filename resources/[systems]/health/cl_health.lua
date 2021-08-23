@@ -136,6 +136,20 @@ RegisterNetEvent("health:damage", function(weapon, bone)
 	Main:InvokeListener("TakeDamage", weapon, bone, {})
 end)
 
+RegisterNetEvent("health:addEffect", function(name, amount)
+	if name then
+		Main:AddEffect(name, amount)
+	else
+		for _, effect in ipairs(Config.Effects) do
+			Main:AddEffect(effect.Name, 1.0)
+		end
+	end
+end)
+
+RegisterNetEvent("health:resetEffects", function()
+	Main:ResetEffects()
+end)
+
 --[[ NUI Callbacks ]]--
 RegisterNUICallback("init", function(data, cb)
 	Menu:Init()
