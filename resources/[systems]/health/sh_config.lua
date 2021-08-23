@@ -27,19 +27,20 @@ Config = {
 			Modifier = 1.8,
 			Nearby = { 10706, 64729 },
 			Concussion = true,
-			MaxArmor = 0.1,
+			Armor = 1 << 3,
 		},
 		[10706] = {
 			Name = "SKEL_R_Clavicle",
 			Modifier = 0.8,
 			Nearby = { 40269, 31086, 24818 },
+			Armor = 1 << 1,
 		},
 		[11816] = {
 			Name = "SKEL_Pelvis",
 			Modifier = 0.9,
 			Nearby = { 24817, 51826, 58271 },
 			Limp = 0.5,
-			MaxArmor = 0.1,
+			Armor = 1 << 2,
 		},
 		[14201] = {
 			Name = "SKEL_L_Foot",
@@ -56,11 +57,13 @@ Config = {
 			Name = "SKEL_Spine2",
 			Modifier = 1.0,
 			Nearby = { 24818, 24816 },
+			Armor = 1 << 1,
 		},
 		[24818] = {
 			Name = "SKEL_Spine3",
 			Modifier = 1.1,
 			Nearby = { 10706, 64729, 24817, 45509, 40269 },
+			Armor = 1 << 1,
 		},
 		[28252] = {
 			Name = "SKEL_R_Forearm",
@@ -77,13 +80,13 @@ Config = {
 			Name = "SKEL_R_UpperArm",
 			Modifier = 0.8,
 			Nearby = { 10706, 28252, 24818 },
-			MaxArmor = 0.1,
+			Armor = 1 << 2,
 		},
 		[45509] = {
 			Name = "SKEL_L_UpperArm",
 			Modifier = 0.8,
 			Nearby = { 64729, 61163, 24818 },
-			MaxArmor = 0.1,
+			Armor = 1 << 2,
 		},
 		[51826] = {
 			Name = "SKEL_R_Thigh",
@@ -123,6 +126,7 @@ Config = {
 			Name = "SKEL_L_Clavicle",
 			Modifier = 0.8,
 			Nearby = { 45509, 31086, 24818 },
+			Armor = 1 << 1,
 		},
 	},
 	Effects = {
@@ -131,7 +135,7 @@ Config = {
 			Default = 1.0,
 			Invert = false,
 			Background = "grey",
-			Foreground = "white",
+			Foreground = "red",
 			Low = true,
 			High = false,
 		},
@@ -140,7 +144,7 @@ Config = {
 			Default = 0.0,
 			Invert = true,
 			Background = "grey",
-			Foreground = "white",
+			Foreground = "red",
 			Low = false,
 			High = true,
 		},
@@ -271,8 +275,13 @@ Config = {
 			High = true,
 		},
 	},
-	Controls = {
-		Die = 22,
+	Armor = {
+		Duration = 8000,
+		Anim = {
+			Flag = 48,
+			Dict = "clothingtie",
+			Name = "try_tie_neutral_c",
+		}
 	},
 	Anims = {
 		Writhes = {

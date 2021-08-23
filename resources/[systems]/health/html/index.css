@@ -70,7 +70,7 @@ body {
 
 .effect {
 	position: relative;
-	border: 1px solid rgba(0, 0, 0, 0.6);
+	border: 1px solid rgba(0, 0, 0, 0.4);
 	border-radius: 100%;
 	width: 4.5vmin;
 	height: 4.5vmin;
@@ -88,6 +88,7 @@ body {
 	width: auto;
 	height: auto;
 	background: rgba(50, 220, 50, 0.6);
+	opacity: 0.5;
 }
 
 .effects .icon {
@@ -110,9 +111,13 @@ body {
 }
 
 .effect.grey {
-	background: linear-gradient(to top, rgba(60, 60, 60, 0.8), rgba(0, 0, 0, 0.8));
+	background: linear-gradient(to top, rgba(60, 60, 60, 0.5), rgba(0, 0, 0, 0.5));
 }
 
 .effects .icon.white {
 	background: rgba(255, 255, 255, 1.0);
+}
+
+.effects .icon.red {
+	background: rgba(150, 20, 20, 1.0);
 }

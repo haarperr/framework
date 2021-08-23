@@ -34,7 +34,8 @@ export default class Dummy {
 
 	palette = {
 		healed: [0, 220, 0],
-		injured: [220, 0, 0],
+		injured: [240, 0, 0],
+		armored: [80, 80, 250],
 	}
 
 	constructor(config, root, dummy) {
@@ -186,18 +187,6 @@ export default class Dummy {
 		}
 	}
 
-	render() {
-		let then = Date.now();
-
-		this.nextFrame();
-		requestAnimationFrame(() => this.render())
-
-		let now = Date.now();
-		let elapsed = now - then;
-
-		console.log(elapsed);
-	}
-
 	updateBodyPart(index) {
 		const frame = this.frame;
 
@@ -208,9 +197,7 @@ export default class Dummy {
 		// Get info.
 		const name = this.parts[index];
 		const isFull = name == "Full";
-		const info = this.info[name];
-		var color = isFull ? [255, 255, 255] : this.lerp(this.palette.injured, this.palette.healed, info?.health ?? 1.0);
-		
+
 		// Update canvas.
 		const canvas = this.elements[index];
 		const ctx = canvas.getContext("2d");
@@ -221,6 +208,13 @@ export default class Dummy {
 		if (isFull) {
 			ctx.drawImage(img, 0, 0, img.width, img.height);
 		} else {
+			const info = this.info[name];
+			var color = this.lerp(this.palette.injured, this.palette.healed, info?.health ?? 1.0);
+
+			if (info?.armor && info.armor > 0.001) {
+				color = this.lerp(color, this.palette.armored, info.armor);
+			}
+
 			ctx.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			

@@ -1,4 +1,10 @@
-Bone = {}
+Bone = {
+	Process = {
+		Damage = {},
+		Bleed = {},
+	},
+}
+
 Bone.__index = Bone
 
 function Bone:Create(id, name)
@@ -29,6 +35,15 @@ function Bone:TakeDamage(amount)
 	local settings = self:GetSettings()
 	if not settings or settings.Fallback then return end
 
+	for name, func in pairs(self.Process.Damage) do
+		local result = func(self, amount)
+		if result == false then
+			return
+		elseif type(result) == "number" then
+			amount = result
+		end
+	end
+
 	local health = self.info.health or 1.0
 	health = math.min(math.max(health - amount, 0.0), 1.0)
 
@@ -56,6 +71,15 @@ function Bone:SpreadDamage(amount, falloff, falloff2)
 end
 
 function Bone:ApplyBlead(amount)
+	for name, func in pairs(self.Process.Bleed) do
+		local result = func(self, amount)
+		if result == false then
+			return
+		elseif type(result) == "number" then
+			amount = result
+		end
+	end
+
 	self.info.bleed = math.min((self.info.bleed or 0.0) + 0.1, 1.0)
 end
 
