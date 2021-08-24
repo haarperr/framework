@@ -1,7 +1,7 @@
 AddEventHandler("emotes:clientStart", function()
 	local expressions = {}
 
-	for k, expression in ipairs(Expressions) do
+	for k, expression in ipairs(Config.Expressions) do
 		if expression.Icon then
 			expressions[#expressions + 1] = {
 				id = "expression-"..tostring(k),
@@ -50,7 +50,7 @@ AddEventHandler("interact:onNavigate", function(id)
 	local index = tonumber(value)
 	if not index then return end
 
-	local expression = Expressions[index]
+	local expression = Config.Expressions[index]
 	if not expression then return end
 
 	Main:PerformEmote(expression.Anim)

@@ -98,7 +98,7 @@ Config.Walkstyles = {
 	["crouch"] = { Name = "move_ped_crouched" },
 }
 
-Expressions = {
+Config.Expressions = {
 	{
 		Name = "Normal",
 		Icon = "sentiment_neutral",
