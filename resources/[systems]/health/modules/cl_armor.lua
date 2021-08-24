@@ -19,8 +19,7 @@ function Bone:AddArmor(value)
 		armor = nil
 	end
 
-	self.info.armor = armor
-
+	self:SetInfo("armor", armor)
 	self:UpdateInfo()
 end
 
