@@ -23,14 +23,14 @@ function Bone:AddArmor(value)
 	self:UpdateInfo()
 end
 
-function Bone.Process.Damage:Armor(amount)
+function Bone.process.damage:Armor(amount)
 	if (self.info.armor or 0.0) > 0.001 then
 		self:AddArmor(-amount)
 		return false
 	end
 end
 
-function Bone.Process.Bleed:Armor(amount)
+function Bone.process.bleed:Armor(amount)
 	if (self.info.armor or 0.0) > 0.001 then
 		return false
 	end

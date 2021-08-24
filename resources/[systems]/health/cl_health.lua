@@ -2,6 +2,7 @@ Main = {
 	bones = {},
 	listeners = {},
 	effects = {},
+	update = {},
 	snowflake = 0,
 	snowflakeSynced = 0,
 }
@@ -80,12 +81,6 @@ function Main:Restore(data)
 	for boneId, bone in pairs(self.bones) do
 		bone.info = data.info and data.info[boneId] or data.info[tostring(boneId)] or {}
 		bone:UpdateInfo()
-	end
-end
-
-function Main:UpdateBones()
-	for boneId, bone in pairs(self.bones) do
-		bone:Update()
 	end
 end
 
@@ -272,7 +267,10 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		Main:UpdateBones()
+		for name, func in pairs(Main.update) do
+			func(Main)
+		end
+
 		Citizen.Wait(200)
 	end
 end)

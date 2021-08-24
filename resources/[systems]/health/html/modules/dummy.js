@@ -209,11 +209,13 @@ export default class Dummy {
 			ctx.drawImage(img, 0, 0, img.width, img.height);
 		} else {
 			const info = this.info[name];
-			var color = this.lerp(this.palette.injured, this.palette.healed, info?.health ?? 1.0);
+			var color = this.palette.healed;
 
 			if (info?.armor && info.armor > 0.001) {
 				color = this.lerp(color, this.palette.armored, info.armor);
 			}
+
+			color = this.lerp(this.palette.injured, color, info?.health ?? 1.0);
 
 			ctx.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
 			ctx.fillRect(0, 0, canvas.width, canvas.height);

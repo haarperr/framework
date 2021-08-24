@@ -17,8 +17,8 @@ shared_scripts {
 }
 
 client_scripts {
-	'cl_bones.lua',
 	'cl_health.lua',
+	'cl_bones.lua',
 	'cl_injury.lua',
 	'cl_menu.lua',
 	'modules/cl_*.lua',

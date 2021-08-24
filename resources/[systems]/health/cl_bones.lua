@@ -1,12 +1,21 @@
 Bone = {
-	Process = {
-		Damage = {},
-		Bleed = {},
+	process = {
+		damage = {},
+		bleed = {},
+		update = {},
 	},
 }
 
 Bone.__index = Bone
 
+--[[ Functions: Main ]]--
+function Main.update:Bones()
+	for boneId, bone in pairs(self.bones) do
+		bone:Update()
+	end
+end
+
+--[[ Functions: Bone ]]--
 function Bone:Create(id, name)
 	local instance = setmetatable({
 		id = id,
@@ -23,10 +32,8 @@ function Bone:SetInfo(key, value)
 end
 
 function Bone:Update()
-	local bleed = self.info.bleed or 0.0
-	if bleed > 0.001 then
-		-- local blood = Main:GetEffect("Blood")
-		Main:AddEffect("Blood", bleed * 0.01)
+	for name, func in pairs(self.process.update) do
+		func(self)
 	end
 end
 
@@ -41,7 +48,7 @@ function Bone:TakeDamage(amount)
 	local settings = self:GetSettings()
 	if not settings or settings.Fallback then return end
 
-	for name, func in pairs(self.Process.Damage) do
+	for name, func in pairs(self.process.damage) do
 		local result = func(self, amount)
 		if result == false then
 			return
@@ -74,19 +81,6 @@ function Bone:SpreadDamage(amount, falloff, falloff2)
 			bone:TakeDamage(amount * (falloff2 and GetRandomFloatInRange(falloff, falloff2) or falloff or 1.0))
 		end
 	end
-end
-
-function Bone:ApplyBlead(amount)
-	for name, func in pairs(self.Process.Bleed) do
-		local result = func(self, amount)
-		if result == false then
-			return
-		elseif type(result) == "number" then
-			amount = result
-		end
-	end
-
-	self:SetInfo("bleed", math.min((self.info.bleed or 0.0) + 0.1, 1.0))
 end
 
 function Bone:SetFracture(value)
