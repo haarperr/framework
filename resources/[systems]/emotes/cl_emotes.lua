@@ -15,8 +15,7 @@ function Emote:Create(data, id)
 		Main.playing[id] = emote
 	end
 	
-	local flag = emote.settings.Flag or 0
-	emote.isUpperBody = (flag >= 10 and flag <= 31) or (flag >= 48 and flag <= 63)
+	emote.isUpperBody = IsUpperBody(emote.settings.Flag)
 
 	if data.Autoplay ~= false then
 		emote:Play()

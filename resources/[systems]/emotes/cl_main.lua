@@ -4,6 +4,7 @@ Main = {
 	queue = {},
 }
 
+--[[ Functions: Main ]]--
 function Main:Init()
 	for _, group in ipairs(Config.Groups) do
 		for name, emote in pairs(group.Emotes) do
@@ -37,24 +38,27 @@ function Main:Update()
 end
 
 function Main:UpdateQueue()
-	local emote = self.queue[1]
-	if not emote then return false end
+	local data = self.queue[1]
+	if not data or not data.id then return false end
 
-	local duration = emote.Duration or (emote.Dict and math.floor(GetAnimDuration(emote.Dict, emote.Name) * 1000)) or 1000
-	emote.noAutoplay = true
+	local duration = data.Duration or (data.Dict and math.floor(GetAnimDuration(data.Dict, data.Name) * 1000)) or 1000
+	local emote = Emote:Create(data, data.id)
 
-	print("playing", duration, json.encode(emote))
+	table.remove(self.queue, 1)
 	
-	self:PerformEmote(emote)
+	print("playing", duration, json.encode(data))
 
 	Citizen.Wait(0)
 
 	local startTime = GetGameTimer()
-	while (GetGameTimer() - startTime < duration or emote.Flag % 2 ~= 0) and (emote.Dict and IsEntityPlayingAnim(PlayerPedId(), emote.Dict, emote.Name, 3)) do
+
+	while
+		not emote.stopping and
+		(GetGameTimer() - startTime < math.max(duration - 100, 0)) and
+		(data.Dict and IsEntityPlayingAnim(PlayerPedId(), data.Dict, data.Name, 3))
+	do
 		Citizen.Wait(0)
 	end
-
-	table.remove(self.queue, 1)
 
 	return true
 end
@@ -63,55 +67,50 @@ function Main:Queue(data)
 	table.insert(self.queue, data)
 end
 
-function Main:PerformEmote(data)
+function Main:PerformEmote(data, force)
 	if type(data) == "string" then
 		data = self.emotes[data]
+	elseif not data then
+		return
 	end
 
-	if not data or (not data.Force and self.isForcing) then return end
-
-	local key = (self.lastKey or 0) + 1
-	
-	print("perform emote", key)
+	local id = (self.lastId or 0) + 1
+	self.lastId = id
 
 	if data.Sequence then
-		for _, stage in ipairs(data.Sequence) do
-			stage.key = key
-			self:Queue(stage)
+		self:CancelEmote()
+		
+		for _, _data in ipairs(data.Sequence) do
+			_data.id = id
+			self:Queue(_data)
 		end
+	elseif not IsUpperBody(data.Flag) then
+		self:CancelEmote()
+
+		data.id = id
+		self:Queue(data)
 	else
-		Emote:Create(data, key)
+		Emote:Create(data, id)
 	end
 
-	if data.Force then
-		self.isForcing = true
+	if force then
+		self:CancelEmote(true)
 	end
 
-	self.lastKey = key
-
-	return key
+	return id
 end
 Export(Main, "PerformEmote")
 
 function Main:CancelEmote(p1, p2)
-	local cancelEmote
-	if type(p1) == "number" then
-		cancelEmote = self.playing[p1]
-	end
-
-	-- Don't cancel forced emotes.
-	if self.isForcing and not cancelEmote then return end
-
 	print("cancel emote")
 
-	-- Get ped.
+	local cancelEmote = nil
+	local isLocked = false
 	local ped = PlayerPedId()
 
-	-- Stop the actual animation.
-	if (not cancelEmote and p1) or p2 == true then
-		ClearPedTasksImmediately(ped)
-	elseif p2 ~= 2 then
-		ClearPedTasks(ped)
+	-- Get emote from p1.
+	if type(p1) == "number" then
+		cancelEmote = self.emotes[p1]
 	end
 
 	-- Clear normal animations.
@@ -125,13 +124,22 @@ function Main:CancelEmote(p1, p2)
 		print("clearing anims")
 		
 		for k, emote in pairs(self.playing) do
-			if not emote.Facial then
+			if emote.settings and emote.settings.Locked and not p1 then
+				isLocked = true
+			elseif not emote.Facial then
+				emote.stopping = true
 				emote:Remove()
 			end
 		end
+	end
 
-		-- Clear queue.
-		-- self.queue = {}
+	-- Stop the actual animation.
+	if #self.queue == 0 and not isLocked then
+		if (not cancelEmote and p1) or p2 == true then
+			ClearPedTasksImmediately(ped)
+		elseif p2 ~= 2 then
+			ClearPedTasks(ped)
+		end
 	end
 end
 Export(Main, "CancelEmote")
@@ -152,6 +160,11 @@ function Main:RemoveProps()
 			Delete(entity)
 		end
 	end
+end
+
+--[[ Functions ]]--
+function IsUpperBody(flag)
+	return flag and ((flag >= 10 and flag <= 31) or (flag >= 48 and flag <= 63))
 end
 
 --[[ Threads ]]--
