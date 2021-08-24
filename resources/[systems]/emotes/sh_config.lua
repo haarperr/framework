@@ -95,7 +95,7 @@ Config.Walkstyles = {
 	["trash2"] = { Name = "missfbi4prepp1_garbageman" },
 	["trevor"] = { Name = "move_p_m_two" },
 	["wide"] = { Name = "move_m@bag" },
-	["crouch"] = { Name = "move_ped_crouched" },
+	["crouch"] = { Name = "move_ped_crouched", Strafe = "move_ped_crouched_strafing" },
 }
 
 Config.Expressions = {

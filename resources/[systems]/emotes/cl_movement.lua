@@ -34,6 +34,8 @@ function Main:SetWalkstyle(name)
 	
 	if not name or name:lower() == "reset" then
 		ResetPedMovementClipset(ped, 1.0)
+		ResetPedStrafeClipset(ped, 1.0)
+
 		self.walkstyle = nil
 		return
 	end
@@ -41,13 +43,21 @@ function Main:SetWalkstyle(name)
 	local walkstyle = Config.Walkstyles[name]
 	if not walkstyle then return end
 	
+	print(json.encode(walkstyle))
+
 	if self.overrideWalkstyle == nil then
 		self.walkstyle = name
 	end
 	
 	self:LoadAnimSet(walkstyle.Name)
 	SetPedMovementClipset(ped, walkstyle.Name, 1.0)
-	SetPedWeaponMovementClipset(ped, walkstyle.Name, 1.0)
+	
+	if walkstyle.Strafe then
+		self:LoadAnimSet(walkstyle.Strafe)
+		SetPedStrafeClipset(ped, walkstyle.Strafe, 1.0)
+	else
+		ResetPedStrafeClipset(ped, 1.0)
+	end
 end
 Export(Main, "SetWalkstyle")
 
