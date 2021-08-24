@@ -1,7 +1,9 @@
 Config = {
 	Values = {
-		BloodLoss = 0.01,
-		BloodHealthLoss = 0.008,
+		Blood = {
+			LossMult = 0.01,
+			HealthLossMult = 0.008,
+		},
 	},
 	Saving = {
 		Cooldown = 5000,

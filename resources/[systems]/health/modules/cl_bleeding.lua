@@ -1,8 +1,12 @@
 --[[ Functions: Main ]]--
 function Main.update:Bleeding()
 	local blood = Main:GetEffect("Blood")
-	if blood > 0.001 then
-		
+	if blood > 0.8 then
+		self.walkstyle = "drunk3"
+	elseif blood > 0.6 then
+		self.walkstyle = "drunk2"
+	elseif blood > 0.4 then
+		self.walkstyle = "drunk"
 	end
 end
 
@@ -10,8 +14,8 @@ end
 function Bone.process.update:Bleeding()
 	local bleed = self.info.bleed or 0.0
 	if bleed > 0.001 then
-		Main:AddEffect("Blood", bleed * Config.Values.BloodLoss)
-		Main:AddEffect("Health", -bleed * Config.Values.BloodHealthLoss)
+		Main:AddEffect("Blood", bleed * Config.Values.Blood.LossMult)
+		Main:AddEffect("Health", -bleed * Config.Values.Blood.HealthLossMult)
 	end
 end
 

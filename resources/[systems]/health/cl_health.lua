@@ -267,8 +267,15 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
+		local walkstyle = Main.walkstyle
+		Main.walkstyle = nil
+
 		for name, func in pairs(Main.update) do
 			func(Main)
+		end
+
+		if walkstyle ~= Main.walkstyle then
+			exports.emotes:OverrideWalkstyle(Main.walkstyle)
 		end
 
 		Citizen.Wait(200)
