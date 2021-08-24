@@ -54,7 +54,7 @@ function Main:UpdateQueue()
 
 	while
 		not emote.stopping and
-		(GetGameTimer() - startTime < math.max(duration - 100, 0)) and
+		(GetGameTimer() - startTime < math.max(duration - 100, 0) or (data.Flag or 0) % 3 == 1) and
 		(data.Dict and IsEntityPlayingAnim(PlayerPedId(), data.Dict, data.Name, 3))
 	do
 		Citizen.Wait(0)
