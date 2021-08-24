@@ -1,6 +1,4 @@
-Injury = {
-	t = {},
-}
+Injury = {}
 
 --[[ Functions: Injury ]]--
 function Injury:Update()
@@ -16,12 +14,6 @@ function Injury:Update()
 			self.isInAir = isInAir
 		end
 	end
-
-	-- if self.isWrithing and IsDisabledControlPressed(0, Config.Controls.Die) then
-	-- 	self:Die(2)
-	-- elseif self.isDead and not IsDisabledControlPressed(0, Config.Controls.Die) then
-	-- 	self:Writhe(2)
-	-- end
 end
 
 function Injury:Activate(value)
@@ -66,31 +58,27 @@ function Injury:Activate(value)
 end
 
 function Injury:Writhe(p2)
-	self:ClearEmote(p2)
-
 	local anim = Config.Anims.Writhes[GetRandomIntInRange(1, #Config.Anims.Writhes)]
-	anim.Force = true
+	anim.Locked = true
 	anim.BlendSpeed = 2.0
 
-	self.emote = exports.emotes:PerformEmote(anim)
+	self.emote = exports.emotes:PerformEmote(anim, true)
 	self.isWrithing = true
 end
 
 function Injury:Die(p2)
-	self:ClearEmote(p2)
-
 	local anim = Config.Anims.Deaths[GetRandomIntInRange(1, #Config.Anims.Deaths)]
-	anim.Force = true
+	anim.Locked = true
 	anim.BlendSpeed = 2.0
 
-	self.emote = exports.emotes:PerformEmote(anim)
+	self.emote = exports.emotes:PerformEmote(anim, true)
 	self.isDead = true
 end
 
 function Injury:Getup(p2)
-	self:ClearEmote(p2)
+	self.emote = nil
 
-	exports.emotes:PerformEmote(Config.Anims.Revive)
+	exports.emotes:PerformEmote(Config.Anims.Revive, true)
 end
 
 function Injury:ClearEmote(p2)
