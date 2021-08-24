@@ -12,6 +12,7 @@ files {
 
 shared_scripts {
 	'sh_config.lua',
+	'sh_health.lua',
 	'modules/sh_*.lua',
 }
 

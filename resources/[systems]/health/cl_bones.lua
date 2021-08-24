@@ -95,4 +95,6 @@ end
 
 function Bone:UpdateInfo()
 	Menu:Invoke("main", "updateInfo", self.name, self.info)
+	
+	Main.snowflake = Main.snowflake + 1
 end

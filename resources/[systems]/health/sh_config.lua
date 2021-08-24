@@ -1,4 +1,13 @@
 Config = {
+	Saving = {
+		Cooldown = 5000,
+		ValidInfo = {
+			["armor"] = true,
+			["bleed"] = true,
+			["fractured"] = true,
+			["health"] = true,
+		}
+	},
 	Bones = {
 		-- Fallbacks.
 		[0] = {

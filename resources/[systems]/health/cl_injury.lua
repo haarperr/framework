@@ -6,12 +6,21 @@ function Injury:Update()
 		ResurrectPed(Ped)
 		ClearPedTasksImmediately(Ped)
 	end
-
+	
+	local health = Main.effects["Health"]
 	if self.isInjured then
 		local isInAir = GetPedConfigFlag(Ped, 76)
 		if isInAir ~= self.isInAir then
 			ClearPedTasksImmediately(Ped)
 			self.isInAir = isInAir
+		end
+
+		if health > 0.001 then
+			self:Activate(false)
+		end
+	else
+		if health and health < 0.001 then
+			self:Activate(true)
 		end
 	end
 end
@@ -45,8 +54,6 @@ function Injury:Activate(value)
 			},
 		})
 	else
-		Main:Heal()
-
 		if self.isWrithing then
 			self:Getup(2)
 		else
@@ -76,8 +83,10 @@ function Injury:Die(p2)
 end
 
 function Injury:Getup(p2)
+	self.isWrithing = nil
+	self.isDead = nil
 	self.emote = nil
-
+	
 	exports.emotes:Play(Config.Anims.Revive, true)
 end
 
@@ -85,18 +94,11 @@ function Injury:ClearEmote(p2)
 	if not self.emote then return end
 
 	exports.emotes:Stop(self.emote, p2)
-
+	
 	self.isWrithing = false
 	self.isDead = false
 	self.emote = nil
 end
-
---[[ Listeners ]]--
-Main:AddListener("DamageBone", function(bone, amount)
-	if Main:GetEffect("Health") < 0.001 then
-		Injury:Activate(true)
-	end
-end)
 
 --[[ Events ]]--
 AddEventHandler("health:stop", function()
@@ -123,18 +125,6 @@ AddEventHandler("interact:onNavigate_injury-die", function()
 			text = "You are already passed out!",
 		})
 	end
-end)
-
-RegisterNetEvent("health:revive", function(resetEffects)
-	Injury:Activate(false)
-	
-	if resetEffects then
-		Main:ResetEffects()
-	end
-end)
-
-RegisterNetEvent("health:slay", function()
-	Injury:Activate(true)
 end)
 
 --[[ Threads ]]--

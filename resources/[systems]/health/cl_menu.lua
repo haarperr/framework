@@ -1,6 +1,7 @@
 Menu = {}
 
 function Menu:Init()
+	self.loaded = true
 	self:Invoke(false, "loadConfig", {
 		effects = Config.Effects,
 	})
