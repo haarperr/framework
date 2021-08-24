@@ -18,9 +18,9 @@ function ToggleMenu(toggle, faction)
 		TriggerServerEvent("mdt:requestCriminalCode")
 	end
 	if toggle then
-		exports.emotes:PerformEmote("tablet")
+		exports.emotes:Play("tablet")
 	else
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 	end
 end
 

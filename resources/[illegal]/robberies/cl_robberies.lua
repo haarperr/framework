@@ -220,14 +220,14 @@ function BeginRobbing(robbable)
 				end)
 			end
 			if stage.Anim then
-				exports.emotes:PerformEmote(stage.Anim)
+				exports.emotes:Play(stage.Anim)
 			end
 		end
 		while isProgressing do
 			Citizen.Wait(0)
 		end
 		if not stage.Duration then
-			exports.emotes:CancelEmote()
+			exports.emotes:Stop()
 		end
 		if wasCancelled then
 			return

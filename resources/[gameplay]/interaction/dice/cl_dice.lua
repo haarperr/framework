@@ -2,7 +2,7 @@ RegisterNetEvent("interaction:dice")
 AddEventHandler("interaction:dice", function()
 	local ped = PlayerPedId()
 
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "gestures@miss@fra_0",
 		Name = "lamar_fkn0_cjae_01_g2",
 		Flag = 48,
@@ -55,14 +55,14 @@ AddEventHandler("inventory:use_ScratchOff", function(item, slotId)
 		return
 	end
 
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "amb@world_human_clipboard@male@idle_a",
 		Name = "idle_c",
 		Flag = 49,
 	})
 
 	TriggerEvent("quickTime:begin", "linear", GetRandomFloatInRange(15.0, 25.0), function(status)
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 		TriggerServerEvent("interaction:scratchOff", slotId, status)
 		if status then
 			exports.mythic_notify:SendAlert("success", "You've won!", 7000)

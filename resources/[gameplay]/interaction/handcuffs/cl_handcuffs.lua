@@ -77,7 +77,7 @@ end)
 Messages["handcuff"] = function(source, message, value)
 	if not value then
 		SetHandcuffed(false)
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 
 		return
 	elseif IsHandcuffed and value then
@@ -87,7 +87,7 @@ Messages["handcuff"] = function(source, message, value)
 	Citizen.CreateThread(function()
 		HandcuffTime = GetGameTimer()
 
-		exports.emotes:PerformEmote({
+		exports.emotes:Play({
 			Dict = "mp_arrest_paired",
 			Name = "crook_p2_back_right"
 		})
@@ -113,7 +113,7 @@ Messages["handcuff"] = function(source, message, value)
 			SetHandcuffed(false)
 			SendMessage(source, "handcuff-breakout", true)
 
-			exports.emotes:CancelEmote()
+			exports.emotes:Stop()
 		else
 			SetHandcuffed(true)
 			UpdateCuffs()
@@ -150,7 +150,7 @@ Items["Handcuff Keys"] = function()
 end
 
 function UpdateCuffs()
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "mp_arresting",
 		Name = "idle",
 		Props = {
@@ -198,7 +198,7 @@ AddEventHandler("inventory:use_Handcuffs", function()
 	
 	SendMessage(player, "handcuff", true)
 
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "mp_arrest_paired",
 		Name = "cop_p2_back_right",
 		Duration = 3000,
@@ -211,7 +211,7 @@ AddEventHandler("inventory:use_HandcuffKeys", function()
 	if player == 0 then return end
 	if not CanHandcuff(player) then return end
 	
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "mp_arresting",
 		Name = "a_uncuff",
 		Duration = 3000,

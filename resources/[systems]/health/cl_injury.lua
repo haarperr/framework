@@ -62,7 +62,7 @@ function Injury:Writhe(p2)
 	anim.Locked = true
 	anim.BlendSpeed = 2.0
 
-	self.emote = exports.emotes:PerformEmote(anim, true)
+	self.emote = exports.emotes:Play(anim, true)
 	self.isWrithing = true
 end
 
@@ -71,20 +71,20 @@ function Injury:Die(p2)
 	anim.Locked = true
 	anim.BlendSpeed = 2.0
 
-	self.emote = exports.emotes:PerformEmote(anim, true)
+	self.emote = exports.emotes:Play(anim, true)
 	self.isDead = true
 end
 
 function Injury:Getup(p2)
 	self.emote = nil
 
-	exports.emotes:PerformEmote(Config.Anims.Revive, true)
+	exports.emotes:Play(Config.Anims.Revive, true)
 end
 
 function Injury:ClearEmote(p2)
 	if not self.emote then return end
 
-	exports.emotes:CancelEmote(self.emote, p2)
+	exports.emotes:Stop(self.emote, p2)
 
 	self.isWrithing = false
 	self.isDead = false

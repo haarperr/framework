@@ -116,7 +116,7 @@ Citizen.CreateThread(function()
 
 					Citizen.Wait(200)
 
-					exports.emotes:PerformEmote(Config.CatchAnim)
+					exports.emotes:Play(Config.CatchAnim)
 					TriggerServerEvent("fishing:catch", Slot, GetHabitat(GetEntityCoords(PlayerPedId()), depth))
 				end)
 			else
@@ -165,13 +165,13 @@ end
 function StartFishing()
 	TriggerEvent("disarmed")
 	IsFishing = true
-	exports.emotes:PerformEmote(Config.Anim, function(canceled)
+	exports.emotes:Play(Config.Anim, function(canceled)
 		StopFishing()
 	end)
 end
 
 function StopFishing()
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 	IsFishing = false
 end
 

@@ -27,7 +27,7 @@ function Mine(slotId)
 
 	exports.mythic_notify:SendAlert("inform", "Mining...", 6000)
 
-	exports.emotes:PerformEmote(Config.Anim, function()
+	exports.emotes:Play(Config.Anim, function()
 		wasCanceled = true
 	end)
 
@@ -38,7 +38,7 @@ function Mine(slotId)
 	if wasCanceled then return end
 	
 	TriggerEvent("quickTime:begin", "linear", GetRandomFloatInRange(60.0, 80.0), function(status)
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 		
 		if not status then return end
 		

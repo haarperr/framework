@@ -58,8 +58,8 @@ function ChangePosition(position)
 	local ped = PlayerPedId()
 	local coords = CurrentBed + position.Offset
 
-	exports.emotes:CancelEmote(true)
-	exports.emotes:PerformEmote(position.Anim)
+	exports.emotes:Stop(true)
+	exports.emotes:Play(position.Anim)
 
 	FreezeEntityPosition(ped, true)
 	SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z)
@@ -71,7 +71,7 @@ function EndSex(fromServer)
 	CurrentBed = nil
 	FreezeEntityPosition(ped, false)
 
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 
 	if not fromServer then
 		TriggerServerEvent("erp:stopSex")

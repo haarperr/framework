@@ -90,7 +90,7 @@ function Main:Pickup(decoration)
 	anim.Locked = true
 	
 	-- Perform emote.
-	exports.emotes:PerformEmote(anim)
+	exports.emotes:Play(anim)
 
 	-- Wait for anim.
 	Citizen.Wait(anim.Duration or 0)

@@ -107,7 +107,7 @@ function Animations:ToggleMenu()
 	window:AddListener("playanim", function(self, anim)
 		anim.Flag = tonumber(self.models["flag"])
 		
-		Main:PerformEmote(anim)
+		Main:Play(anim)
 	end)
 
 	window:AddListener("search", function(self, filter)

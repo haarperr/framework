@@ -39,7 +39,7 @@ function EnterView(settings)
 	CurrentSettings = settings
 
 	if settings.Anim then
-		exports.emotes:PerformEmote(settings.Anim, function()
+		exports.emotes:Play(settings.Anim, function()
 			ExitView()
 		end)
 	end
@@ -96,7 +96,7 @@ function ExitView()
 
 	CurrentSettings = nil
 	
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 end
 
 function UpdateInput()

@@ -62,7 +62,7 @@ Citizen.CreateThread(function()
 							if not IsPedRagdoll(BuyerPed) and not IsPedDeadOrDying(BuyerPed) then
 								IsSelling = true
 
-								exports.emotes:PerformEmote(Config.Slinging.Anim)
+								exports.emotes:Play(Config.Slinging.Anim)
 								TaskPlayAnim(BuyerPed, Config.Slinging.Anim.Dict, Config.Slinging.Anim.Name, 4.0, 4.0, -1, Config.Slinging.Anim.Flag, 0, false, false, false)
 
 								local ped = BuyerPed

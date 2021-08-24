@@ -53,7 +53,7 @@ AddEventHandler("interact:onNavigate", function(id)
 	local expression = Config.Expressions[index]
 	if not expression then return end
 
-	Main:PerformEmote(expression.Anim)
+	Main:Play(expression.Anim)
 end)
 
 AddEventHandler("interact:onNavigate_emotes", function()
@@ -86,7 +86,7 @@ AddEventHandler("interact:onNavigate_emotes", function()
 
 	function Navigation:OnSelect(option)
 		if option.emote then
-			Main:PerformEmote(option.label)
+			Main:Play(option.label)
 		end
 	end
 end)
@@ -116,5 +116,5 @@ AddEventHandler("interact:onNavigate_walkstyles", function()
 end)
 
 AddEventHandler("interact:onNavigate_cancelEmote", function()
-	Main:CancelEmote()
+	Main:Stop()
 end)

@@ -53,16 +53,16 @@ function Main:BeginPlacing(id)
 	-- Perform QTE.
 	local qte = { 80.0, 60.0, 40.0, 20.0 }
 
-	exports.emotes:PerformEmote(Config.Bombs.Anims.Place)
+	exports.emotes:Play(Config.Bombs.Anims.Place)
 	
 	TriggerEvent("disarmed")
 
 	TriggerEvent("quickTime:begin", "linear", qte, function(success, _stage)
 		if success then
-			exports.emotes:PerformEmote(Config.Bombs.Anims.Success)
+			exports.emotes:Play(Config.Bombs.Anims.Success)
 		else
 			-- Perform emote.
-			exports.emotes:PerformEmote(Config.Bombs.Anims.Fail)
+			exports.emotes:Play(Config.Bombs.Anims.Fail)
 			
 			-- Register evidence.
 			if GetRandomFloatInRange(0.0, 1.0) < Config.Bombs.Fail.EvidenceChance then
@@ -221,7 +221,7 @@ end)
 RegisterNetEvent("inventory:use_Detonater")
 AddEventHandler("inventory:use_Detonater", function(item, slot)
 	-- Emote.
-	exports.emotes:PerformEmote(Config.Bombs.Anims.Detonate)
+	exports.emotes:Play(Config.Bombs.Anims.Detonate)
 
 	-- Wait.
 	Citizen.Wait(3000)

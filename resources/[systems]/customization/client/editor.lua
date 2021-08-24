@@ -602,7 +602,7 @@ function Editor:Toggle(value, filter)
 		end
 
 		self:Destroy()
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 	elseif value and not self.open then
 		self.initialHeading = GetEntityHeading(ped)
 		self.headingOffset = 0.0
@@ -626,16 +626,16 @@ function Editor:SetTarget(target)
 	end
 
 	if emote then
-		exports.emotes:PerformEmote(emote)
+		exports.emotes:Play(emote)
 	else
-		exports.emotes:CancelEmote(true)
+		exports.emotes:Stop(true)
 	end
 end
 
 function Editor:ClearTarget()
 	self.target = nil
 
-	exports.emotes:CancelEmote(true)
+	exports.emotes:Stop(true)
 end
 
 --[[ Events ]]--

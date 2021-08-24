@@ -42,7 +42,7 @@ end)
 Messages["ziptie"] = function(source, message, value)
 	if not value then
 		SetZiptied(false)
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 
 		return
 	elseif IsZiptied and value then
@@ -52,7 +52,7 @@ Messages["ziptie"] = function(source, message, value)
 	Citizen.CreateThread(function()
 		ZiptieTime = GetGameTimer()
 
-		exports.emotes:PerformEmote({
+		exports.emotes:Play({
 			Dict = "mp_arrest_paired",
 			Name = "crook_p2_back_right"
 		})
@@ -78,7 +78,7 @@ Messages["ziptie"] = function(source, message, value)
 			SetZiptied(false)
 			SendMessage(source, "ziptie-breakout", true)
 
-			exports.emotes:CancelEmote()
+			exports.emotes:Stop()
 		else
 			SetZiptied(true)
 			UpdateTies()
@@ -91,7 +91,7 @@ Items["Ziptie"] = function()
 end
 
 function UpdateTies()
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "mp_arresting",
 		Name = "idle",
 		Props = {
@@ -138,7 +138,7 @@ AddEventHandler("inventory:use_Ziptie", function()
 	
 	SendMessage(player, "ziptie", true)
 
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "mp_arrest_paired",
 		Name = "cop_p2_back_right",
 		Duration = 3000,

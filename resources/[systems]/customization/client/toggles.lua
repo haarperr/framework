@@ -201,7 +201,7 @@ function Main:ToggleOption(toggle)
 
 	-- Do animation.
 	if toggle.Anims then
-		exports.emotes:PerformEmote(toggle.Anims[active and "Off" or "On"])
+		exports.emotes:Play(toggle.Anims[active and "Off" or "On"])
 	end
 
 	if toggle.Delay then

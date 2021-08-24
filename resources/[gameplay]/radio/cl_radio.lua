@@ -17,9 +17,9 @@ end)
 function Radio:Update()
 	if self.isTalking ~= self.wasTalking then
 		if self.isTalking then
-			exports.emotes:PerformEmote(Config.Anims.Talking)
+			exports.emotes:Play(Config.Anims.Talking)
 		else
-			exports.emotes:CancelEmote()
+			exports.emotes:Stop()
 		end
 		if IsOpen then
 			if GetResourceState("interaction") == "started" and not exports.interaction:CanDo() then
@@ -56,7 +56,7 @@ function Radio:Toggle(value)
 
 	self.isOpen = value
 
-	exports.emotes:PerformEmote(value and Config.Anims.Open or Config.Anims.Close)
+	exports.emotes:Play(value and Config.Anims.Open or Config.Anims.Close)
 	
 	TriggerEvent("disarmed")
 end

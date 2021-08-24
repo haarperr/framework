@@ -3,13 +3,13 @@ function WaitForAnimWhileFacingVehicle(anim, vehicle)
 	local startTime = GetGameTimer()
 
 	-- Start emote.
-	exports.emotes:PerformEmote(anim)
+	exports.emotes:Play(anim)
 
 	-- Check vehicle.
 	while GetGameTimer() - startTime < anim.Duration do
 		exports.interact:Suppress()
 		if vehicle ~= exports.oldutils:GetFacingVehicle() then
-			exports.emotes:CancelEmote()
+			exports.emotes:Stop()
 			return false
 		end
 		Citizen.Wait(200)

@@ -203,7 +203,7 @@ end)
 
 AddEventHandler("inventory:use_Microphone", function()
     if HoldingMicrophone then
-        exports.emotes:CancelEmote()
+        exports.emotes:Stop()
     else
         EnterMic()
     end
@@ -211,7 +211,7 @@ end)
 
 AddEventHandler("inventory:use_BoomMicrophone", function()
     if HoldingBoomMic then
-        exports.emotes:CancelEmote()
+        exports.emotes:Stop()
     else
         EnterBoomMic()
     end
@@ -310,21 +310,21 @@ end
 
 function ExitCamera()
     HoldingCamera = false
-    exports.emotes:CancelEmote()
+    exports.emotes:Stop()
 end
 
 function EnterCamera()
     HoldingCamera = true
-    exports.emotes:PerformEmote(Config.Camera.Anim, function()
+    exports.emotes:Play(Config.Camera.Anim, function()
         ExitCamera()
     end)
 	DisplayNotification("To enter News cam press ~INPUT_PICKUP~ \nTo Enter Movie Cam press ~INPUT_VEH_HEADLIGHT~")
 end
 
 function EnterMic()
-    exports.emotes:PerformEmote(Config.Mic.Anim)
+    exports.emotes:Play(Config.Mic.Anim)
 end
 
 function EnterBoomMic()
-    exports.emotes:PerformEmote(Config.BoomMic.Anim)
+    exports.emotes:Play(Config.BoomMic.Anim)
 end

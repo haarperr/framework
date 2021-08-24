@@ -292,7 +292,7 @@ function BeginForensics()
 	exports.mythic_notify:SendAlert("inform", "Starting forensics... Select the first piece of evidence.", 8000)
 
 	-- Emote.
-	exports.emotes:PerformEmote("clipboard")
+	exports.emotes:Play("clipboard")
 
 	-- Open inventory.
 	exports.inventory:ToggleMenu(true)
@@ -378,7 +378,7 @@ function BeginForensics()
 	end
 
 	-- Stop emoting.
-	-- exports.emotes:CancelEmote()
+	-- exports.emotes:Stop()
 
 	-- End.
 	InForensics = false

@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
 				TackleTime = GetGameTimer()
 				SendMessage(player, "tackle")
 
-				exports.emotes:PerformEmote({
+				exports.emotes:Play({
 					Dict = "missmic2ig_11",
 					Name = "mic_2_ig_11_intro_goon",
 					Flag = 48,
@@ -31,7 +31,7 @@ end)
 
 --[[ Functions ]]--
 Messages["tackle"] = function(source, message, value)
-	--exports.emotes:PerformEmote({
+	--exports.emotes:Play({
 	--	Dict = "missmic2ig_11",
 	--	Name = "mic_2_ig_11_intro_p_one",
 	--	Flag = 32,

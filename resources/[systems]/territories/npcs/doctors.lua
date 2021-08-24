@@ -76,7 +76,7 @@ AddEventHandler("territories:revive", function(doctorId)
 	SetEntityCoords(ped, doctor.target.x, doctor.target.y, doctor.target.z)
 	SetEntityHeading(ped, doctor.target.w)
 
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "switch@franklin@bed",
 		Name = "sleep_loop",
 		Flag = 1,
@@ -87,7 +87,7 @@ AddEventHandler("territories:revive", function(doctorId)
 	
 	Citizen.Wait(waitTime)
 
-	exports.emotes:PerformEmote({
+	exports.emotes:Play({
 		Dict = "switch@franklin@bed",
 		Name = "sleep_getup_rubeyes",
 		Flag = 0,

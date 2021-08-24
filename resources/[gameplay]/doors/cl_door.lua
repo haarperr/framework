@@ -287,7 +287,7 @@ end
 
 function Door:ToggleLock()
 	-- Emote and movement.
-	exports.emotes:PerformEmote(Config.Locking.Anim)
+	exports.emotes:Play(Config.Locking.Anim)
 
 	-- Disable movement - emotes can be interrupted so force it.
 	local startTime = GetGameTimer()
@@ -309,7 +309,7 @@ function Door:UseItem(item)
 	local canceled = false
 
 	if action.Anim then
-		exports.emotes:PerformEmote(action.Anim, function(state)
+		exports.emotes:Play(action.Anim, function(state)
 			canceled = not state
 		end)
 	end
@@ -322,7 +322,7 @@ function Door:UseItem(item)
 
 	if canceled then return end
 	
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 	
 	TriggerServerEvent("doors:toggle", self.hash, 2, item)
 end

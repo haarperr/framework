@@ -127,7 +127,7 @@ function Actions:Rob(ped, action)
 			exports.mythic_progbar:Cancel()
 		end
 	end, function(wasCancelled)
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 		ped:CancelAction(action)
 
 		if wasCancelled then return end

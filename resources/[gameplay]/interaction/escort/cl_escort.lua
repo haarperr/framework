@@ -111,7 +111,7 @@ Citizen.CreateThread(function()
 				if IsHandcuffed or exports.health:IsPedDead(PlayerPedId()) then
 					StopBeingEscorted()
 				elseif not currentEmote or not currentEmote.Escort then
-					exports.emotes:PerformEmote(escortConfig.TargetAnim)
+					exports.emotes:Play(escortConfig.TargetAnim)
 				end
 			end
 		end
@@ -156,7 +156,7 @@ Messages["escort"] = function(source, message, value)
 		SetEntityCollision(ped, false, false)
 
 		if escortConfig.TargetAnim then
-			exports.emotes:PerformEmote(escortConfig.TargetAnim)
+			exports.emotes:Play(escortConfig.TargetAnim)
 		end
 	else
 		Escortee = false
@@ -173,7 +173,7 @@ Messages["escort-response"] = function(source, message, value)
 
 		Citizen.Wait(0)
 
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 		ClearPedTasks(PlayerPedId())
 	end
 end
@@ -200,7 +200,7 @@ function StopEscorting()
 
 	Citizen.Wait(0)
 
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 	ClearPedTasks(PlayerPedId())
 end
 exports("StopEscorting", StopEscorting)
@@ -213,7 +213,7 @@ function StopBeingEscorted()
 
 	Citizen.Wait(0)
 
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 	ClearPedTasks(PlayerPedId())
 end
 exports("StopBeingEscorted", StopBeingEscorted)
@@ -244,12 +244,12 @@ function Escort(_type)
 
 	if Escorting then
 		Escorting = false
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 	else
 		Escorting = player
 		EscortType = _type
 		if escortConfig.Anim then
-			exports.emotes:PerformEmote(escortConfig.Anim, function(finished)
+			exports.emotes:Play(escortConfig.Anim, function(finished)
 				StopEscorting()
 			end)
 		end
@@ -263,7 +263,7 @@ function DetachSelf()
 
 	Citizen.Wait(0)
 
-	exports.emotes:CancelEmote()
+	exports.emotes:Stop()
 	ClearPedTasks(ped)
 end
 

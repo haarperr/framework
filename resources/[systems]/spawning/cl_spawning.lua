@@ -104,7 +104,7 @@ function Main:SpawnAtHaven(coords, static)
 	DoScreenFadeIn(1000)
 
 	if pose.Anim then
-		exports.emotes:PerformEmote(pose.Anim)
+		exports.emotes:Play(pose.Anim)
 	end
 end
 

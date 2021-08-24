@@ -50,7 +50,7 @@ function Process(action, start, tick, finish)
 					mythic_action.Anim.IgnoreLoopCorrection = true
 				end
 
-				exports.emotes:PerformEmote(mythic_action.Anim, function(finished)
+				exports.emotes:Play(mythic_action.Anim, function(finished)
 					if not finished then
 						Cancel()
 					end
@@ -91,7 +91,7 @@ function Process(action, start, tick, finish)
 						TriggerEvent("mythic_progbar:client:cancel")
 					end
 				end
-				exports.emotes:CancelEmote()
+				exports.emotes:Stop()
 				if finish ~= nil then
 					finish(wasCancelled)
 				end

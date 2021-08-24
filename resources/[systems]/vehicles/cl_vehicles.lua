@@ -1116,7 +1116,7 @@ function GetInTrunk()
 			-- Emote.
 			local emote = exports.emotes:GetCurrentEmote()
 			if not emote or not emote.IsTrunk then
-				exports.emotes:PerformEmote({
+				exports.emotes:Play({
 					Dict = "amb@world_human_bum_slumped@male@laying_on_right_side@base",
 					Name = "base",
 					Flag = 1,
@@ -1140,7 +1140,7 @@ function GetInTrunk()
 			SetEntityCoordsNoOffset(ped, outCoords)
 		end
 		
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 	end)
 end
 exports("GetInTrunk", GetInTrunk)
@@ -1234,7 +1234,7 @@ AddEventHandler("interaction:toggleLock", function()
 	exports.oldutils:RequestAccess(vehicle)
 
 	if not IsPedInAnyVehicle(ped, false) then
-		exports.emotes:PerformEmote(Config.Locking.Anim)
+		exports.emotes:Play(Config.Locking.Anim)
 	end
 
 	local locked = GetVehicleDoorsLockedForPlayer(vehicle, PlayerId())

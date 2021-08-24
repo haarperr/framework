@@ -81,7 +81,7 @@ Citizen.CreateThread(function()
 
 		if #(targetCoords - pedCoords) < 2.0 and exports.oldutils:DrawContext("Receive Delivery", targetCoords) then
 			IsDelivering = true
-			exports.emotes:PerformEmote(Config.Delivery.Anim, function(finished)
+			exports.emotes:Play(Config.Delivery.Anim, function(finished)
 				IsDelivering = false
 			end)
 		end
@@ -94,7 +94,7 @@ Citizen.CreateThread(function()
 				destinationState = 2
 			end
 			if destinationCoords and #(destinationCoords - pedCoords) < 2.0 and exports.oldutils:DrawContext({ {183,"Deliver"} }, destinationCoords, destinationState) and destinationState == 1 then
-				exports.emotes:PerformEmote(Config.Deliver.Anim)
+				exports.emotes:Play(Config.Deliver.Anim)
 				TriggerServerEvent("deliveries:finishDelivery", NearestDestination.id, exports.jobs:GetCurrentJob().Name)
 				
 				NearestDestination.complete = true

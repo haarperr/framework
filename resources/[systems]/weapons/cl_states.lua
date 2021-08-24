@@ -86,7 +86,7 @@ function State:Equip(item, slot)
 		if animation ~= nil then
 			State.equipping = true
 	
-			exports.emotes:PerformEmote(animation)
+			exports.emotes:Play(animation)
 	
 			local startTime = GetGameTimer()
 
@@ -277,7 +277,7 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 			return
 		end
 
-		exports.emotes:PerformEmote(Config.Loading.Anim)
+		exports.emotes:Play(Config.Loading.Anim)
 		cb(Config.Loading.Duration)
 	end
 end)
@@ -285,7 +285,7 @@ end)
 AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.usable == "Magazine" then
 		print("wow loaded")
-		exports.emotes:CancelEmote()
+		exports.emotes:Stop()
 	end
 end)
 

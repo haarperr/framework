@@ -44,7 +44,7 @@ Citizen.CreateThread(function()
 			local anim
 			if IsOpen then
 				IsEmoting = true
-				exports.emotes:PerformEmote(Config.Open.Anim, function(wasCanceled)
+				exports.emotes:Play(Config.Open.Anim, function(wasCanceled)
 					if wasOpen and IsOpen then
 						IsEmoting = false
 						ToggleMenu(false)
@@ -86,7 +86,7 @@ function ToggleMenu(toggle)
 		display = toggle
 	})
 	if not toggle and IsEmoting then
-		exports.emotes:PerformEmote(Config.Close.Anim)
+		exports.emotes:Play(Config.Close.Anim)
 	end
 end
 exports("ToggleMenu", ToggleMenu)

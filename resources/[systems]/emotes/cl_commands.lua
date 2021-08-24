@@ -23,7 +23,7 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 	local name  = tostring(args[1]):lower()
 
 	if name == "c" or name == "cancel" then
-		Main:CancelEmote()
+		Main:Stop()
 		return
 	end
 
@@ -35,7 +35,7 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 		return
 	end
 	
-	Main:PerformEmote(name)
+	Main:Play(name)
 end, {
 	description = "Play an emote.",
 	parameters = {

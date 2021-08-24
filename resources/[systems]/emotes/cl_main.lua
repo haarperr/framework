@@ -67,7 +67,7 @@ function Main:Queue(data)
 	table.insert(self.queue, data)
 end
 
-function Main:PerformEmote(data, force)
+function Main:Play(data, force)
 	if type(data) == "string" then
 		data = self.emotes[data]
 	elseif not data then
@@ -78,14 +78,14 @@ function Main:PerformEmote(data, force)
 	self.lastId = id
 
 	if data.Sequence then
-		self:CancelEmote()
+		self:Stop()
 		
 		for _, _data in ipairs(data.Sequence) do
 			_data.id = id
 			self:Queue(_data)
 		end
 	elseif not IsUpperBody(data.Flag) then
-		self:CancelEmote()
+		self:Stop()
 
 		data.id = id
 		self:Queue(data)
@@ -94,14 +94,14 @@ function Main:PerformEmote(data, force)
 	end
 
 	if force then
-		self:CancelEmote(true)
+		self:Stop(true)
 	end
 
 	return id
 end
-Export(Main, "PerformEmote")
+Export(Main, "Play")
 
-function Main:CancelEmote(p1, p2)
+function Main:Stop(p1, p2)
 	print("cancel emote")
 
 	local cancelEmote = nil
@@ -142,7 +142,7 @@ function Main:CancelEmote(p1, p2)
 		end
 	end
 end
-Export(Main, "CancelEmote")
+Export(Main, "Stop")
 
 function Main:PlayOnPed(ped, data)
 	if not ped or not DoesEntityExist(ped) then return end

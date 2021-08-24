@@ -7,11 +7,11 @@ Citizen.CreateThread(function()
 		local emote = exports.emotes:GetCurrentEmote()
 		if InCall then
 			if not emote or not emote.IsCall then
-				exports.emotes:PerformEmote(Config.Call.Anim)
+				exports.emotes:Play(Config.Call.Anim)
 			end
 		else
 			if emote and emote.IsCall then
-				exports.emotes:CancelEmote()
+				exports.emotes:Stop()
 			end
 			Citizen.Wait(500)
 		end
