@@ -17,6 +17,11 @@ function Bone:Create(id, name)
 	return instance
 end
 
+function Bone:SetInfo(key, value)
+	self.info[key] = value
+	Main:UpdateSnowflake()
+end
+
 function Bone:Update()
 	local bleed = self.info.bleed or 0.0
 	if bleed > 0.001 then
@@ -29,6 +34,7 @@ function Bone:Heal()
 	self.info = {}
 
 	self:UpdateInfo()
+	Main:UpdateSnowflake()
 end
 
 function Bone:TakeDamage(amount)
@@ -47,9 +53,9 @@ function Bone:TakeDamage(amount)
 	local health = self.info.health or 1.0
 	health = math.min(math.max(health - amount, 0.0), 1.0)
 
-	self.info.health = health
 	self.lastDamage = GetGameTimer()
-
+	
+	self:SetInfo("health", health)
 	self:UpdateInfo()
 
 	Main:AddEffect("Health", -amount * (settings.Modifier or 1.0))
@@ -80,12 +86,11 @@ function Bone:ApplyBlead(amount)
 		end
 	end
 
-	self.info.bleed = math.min((self.info.bleed or 0.0) + 0.1, 1.0)
+	self:SetInfo("bleed", math.min((self.info.bleed or 0.0) + 0.1, 1.0))
 end
 
 function Bone:SetFracture(value)
-	self.info.fractured = value
-	
+	self:SetInfo("fractured", value)
 	Main:SetEffect("Fracture", value and 1.0 or 0.0)
 end
 
@@ -95,6 +100,4 @@ end
 
 function Bone:UpdateInfo()
 	Menu:Invoke("main", "updateInfo", self.name, self.info)
-	
-	Main.snowflake = Main.snowflake + 1
 end

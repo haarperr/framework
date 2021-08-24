@@ -7,11 +7,6 @@ Main = {
 }
 
 --[[ Functions ]]--
--- function Main:TakeDamage(weapon, bone, damage)
-	
--- 	local isWeapon = IsWeaponValid(weapon)
--- end
-
 function Main:Init()
 	for boneId, settings in pairs(Config.Bones) do
 		if settings.Name and not settings.Fallback then
@@ -137,8 +132,6 @@ function Main:UpdateInfo()
 	end
 
 	Menu:Invoke("main", "updateInfo", info)
-
-	self.snowflake = self.snowflake + 1
 end
 
 function Main:SetEffect(name, value)
@@ -149,7 +142,7 @@ function Main:SetEffect(name, value)
 	Menu:Invoke("main", "updateEffect", name, value)
 	Menu:Invoke(false, "setOverlay", name, value)
 
-	self.snowflake = self.snowflake + 1
+	Main:UpdateSnowflake()
 end
 
 function Main:GetEffect(name)
@@ -175,6 +168,10 @@ function Main:ResetInfo()
 	end
 
 	self:UpdateInfo()
+end
+
+function Main:UpdateSnowflake()
+	self.snowflake = self.snowflake + 1
 end
 
 --[[ Events ]]--
