@@ -83,7 +83,7 @@ function Main:Restore(data)
 	end
 	
 	for boneId, bone in pairs(self.bones) do
-		bone.info = data.info and data.info[boneId] or {}
+		bone.info = data.info and data.info[boneId] or data.info[tostring(boneId)] or {}
 		bone:UpdateInfo()
 	end
 end
