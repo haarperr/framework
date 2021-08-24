@@ -61,7 +61,7 @@ function Editor:Place()
 
 	-- Get emote.
 	local anim = (settings and settings.Anim) or Config.Placing.Anim
-	anim.Force = true
+	anim.Locked = true
 	
 	-- Perform emote.
 	exports.emotes:PerformEmote(anim)

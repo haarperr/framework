@@ -100,7 +100,7 @@ function Decoration:LeaveStation(skipEvent)
 	end
 
 	-- Cancel emote.
-	exports.emotes:CancelEmote()
+	exports.emotes:CancelEmote(true)
 end
 
 --[[ Functions: Main ]]--

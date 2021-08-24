@@ -87,7 +87,7 @@ function Main:Pickup(decoration)
 
 	-- Get emote.
 	local anim = Config.Pickup.Anim
-	anim.Force = true
+	anim.Locked = true
 	
 	-- Perform emote.
 	exports.emotes:PerformEmote(anim)

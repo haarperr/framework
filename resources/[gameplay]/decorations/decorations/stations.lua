@@ -10,9 +10,10 @@ Register("Workbench", {
 		},
 		Anim = {
 			In = {
+				Locked = true,
 				Sequence = {
-					{ Dict = "anim@amb@warehouse@toolbox@", Name = "enter", Flag = 0, BlendOut = 100.0 },
-					{ Dict = "anim@amb@warehouse@toolbox@", Name = "idle", Flag = 1, BlendIn = 100.0 },
+					{ Dict = "anim@amb@warehouse@toolbox@", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "anim@amb@warehouse@toolbox@", Name = "idle", Flag = 1, Locked = true },
 				},
 			},
 			Out = { Dict = "anim@amb@warehouse@toolbox@", Name = "exit", Flag = 0, BlendIn = 100.0 },
