@@ -14,8 +14,8 @@ end
 function Bone.process.update:Bleeding()
 	local bleed = self.info.bleed or 0.0
 	if bleed > 0.001 then
-		Main:AddEffect("Blood", bleed * Config.Values.Blood.LossMult)
-		Main:AddEffect("Health", -bleed * Config.Values.Blood.HealthLossMult)
+		Main:AddEffect("Blood", bleed * Config.Blood.LossMult)
+		Main:AddEffect("Health", -bleed * Config.Blood.HealthLossMult)
 	end
 end
 

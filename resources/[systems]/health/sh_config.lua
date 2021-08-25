@@ -1,10 +1,4 @@
 Config = {
-	Values = {
-		Blood = {
-			LossMult = 0.01,
-			HealthLossMult = 0.008,
-		},
-	},
 	Saving = {
 		Cooldown = 5000,
 		ValidInfo = {
@@ -289,6 +283,18 @@ Config = {
 			Low = false,
 			High = true,
 		},
+	},
+	Blood = {
+		LossMult = 0.01, -- How much blood is lost, multiplied by 
+		HealthLossMult = 0.008,
+	},
+	Stress = {
+		Shake = "VIBRATE_SHAKE",
+		Delay = { 15000, 1000 },
+		RandomDelay = { 0, 2000 },
+		Intensity = 0.4,
+		PerShot = 0.005,
+		PassiveDegen = 60.0 * 3.0, -- How long it takes for 100% stress to degenerate, in minutes.
 	},
 	Armor = {
 		Duration = 8000,

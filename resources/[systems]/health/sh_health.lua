@@ -1,3 +1,7 @@
+TickRate = 200
+MinutesToTicks = 1.0 / 60000.0 * TickRate
+
+local floatPrecision = 1000.0
 local effectsCache = {}
 for k, effect in ipairs(Config.Effects) do
 	effectsCache[effect.Name] = true
@@ -22,7 +26,7 @@ function IsPayloadValid(payload)
 				elseif type(_v) ~= "number" then
 					return false, ("effect value is type '%s'"):format(type(_v))
 				else
-					v[_k] = math.floor(_v * 100.0) / 100.0
+					v[_k] = math.floor(_v * floatPrecision) / floatPrecision
 				end
 			end
 		elseif k == "info" then
@@ -40,7 +44,7 @@ function IsPayloadValid(payload)
 					elseif __type ~= "number" and __type ~= "boolean" then
 						return false, ("info value type is '%s'"):format(__type)
 					elseif __type == "number" then
-						_v[__k] = math.floor(__v * 100.0) / 100.0
+						_v[__k] = math.floor(__v * floatPrecision) / floatPrecision
 					end
 				end
 			end

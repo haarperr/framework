@@ -1,6 +1,7 @@
 Main = {
 	bones = {},
 	listeners = {},
+	effectsCached = {},
 	effects = {},
 	update = {},
 	snowflake = 0,
@@ -37,7 +38,7 @@ function Main:Sync()
 		effects = {},
 		info = {},
 	}
-	
+
 	-- Get effects.
 	for _, effect in ipairs(Config.Effects) do
 		local value = self.effects[effect.Name] or effect.Default or 0.0
@@ -53,7 +54,7 @@ function Main:Sync()
 			payload.info[boneId] = bone.info
 		end
 	end
-	
+
 	-- Update cache.
 	self.snowflakeSynced = self.snowflake
 	self.lastSync = GetGameTimer()
@@ -133,7 +134,18 @@ function Main:SetEffect(name, value)
 	if not self.loaded then return end
 
 	value = math.min(math.max(value, 0.0), 1.0)
+	
 	self.effects[name] = value
+	
+	local cachedValue = self.effectsCached[name]
+	if cachedValue and math.abs(cachedValue - value) < 0.01 then
+		return
+	end
+
+	self.effectsCached[name] = value
+
+	print("updating", name, value)
+
 	Menu:Invoke("main", "updateEffect", name, value)
 	Menu:Invoke(false, "setOverlay", name, value)
 
@@ -278,7 +290,7 @@ Citizen.CreateThread(function()
 			exports.emotes:OverrideWalkstyle(Main.walkstyle)
 		end
 
-		Citizen.Wait(200)
+		Citizen.Wait(TickRate)
 	end
 end)
 

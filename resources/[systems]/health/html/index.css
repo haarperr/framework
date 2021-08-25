@@ -20,6 +20,10 @@ body {
 	opacity: 0.0;
 }
 
+#stress {
+	background: radial-gradient(ellipse at center, transparent 50%, rgba(237, 33, 70, 0.8) 100%);
+}
+
 #blood {
 	background: radial-gradient(closest-side, transparent 0%, rgba(220, 40, 40, 0.8) 100%);
 }
