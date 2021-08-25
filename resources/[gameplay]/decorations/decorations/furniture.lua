@@ -1,3 +1,16 @@
+Register("Debug Prop", {
+	-- Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = true,
+		Block = true,
+	},
+	Snap = "CUBE",
+	Model = {
+		"h4_dfloor_strobe_lightproxy",
+	},
+})
+
 Register("Table", {
 	Placement = "Floor",
 	Stackable = {

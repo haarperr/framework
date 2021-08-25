@@ -208,6 +208,31 @@ function Editor:Update()
 		end
 		offset = offset + vector3(0, 0, math.abs(min.z))
 	end
+
+	-- Check snapping.
+	-- if settings.Snap then
+	-- 	local nearest, nearestDist = nil, 0.0
+
+	-- 	for id, decoration in pairs(Main.decorations) do
+	-- 		local _settings = decoration:GetSettings()
+	-- 		local dist = decoration.coords and #(decoration.coords - coords)
+	-- 		if dist and _settings and _settings.Snap == settings.Snap and (not nearest or dist < nearestDist) then
+	-- 			nearest = decoration
+	-- 			nearestDist = dist
+	-- 		end
+	-- 	end
+
+	-- 	if nearest and nearest.entity then
+	-- 		local forward = GetEntityForwardVector(nearest.entity)
+	-- 		local min, max = GetModelDimensions(model)
+	
+	-- 		local snapDir = coords - nearest.coords
+	-- 		snapDir = snapDir / #snapDir
+	
+	-- 		rotation = nearest.rotation
+	-- 		coords = nearest.coords + forward
+	-- 	end
+	-- end
 	
 	-- Apply offsets.
 	if offset then
