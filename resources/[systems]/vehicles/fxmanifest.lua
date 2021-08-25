@@ -8,12 +8,8 @@ shared_script {
 
 client_scripts {
 	'cl_vehicles.lua',
-	'cl_repair.lua',
-	'cl_items.lua',
-	'cl_trunks.lua',
 }
 
 server_scripts {
 	'sv_vehicles.lua',
-	'sv_items.lua',
 }
