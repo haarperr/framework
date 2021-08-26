@@ -100,7 +100,7 @@ end)
 RegisterKeyMapping("+nsrp_navigate", "Interact - Navigation Wheel", "KEYBOARD", "LMENU")
 
 RegisterCommand("+nsrp_navigate", function(source, args, command)
-	if not IsControlEnabled(0, 51) then
+	if not IsControlEnabled(0, 52) then
 		return
 	end
 	
