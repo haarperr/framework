@@ -203,17 +203,17 @@ Config.Groups = {
 			["pushups"] = { Sequence = {
 				{ Dict = "amb@world_human_push_ups@male@enter", Name = "enter", Flag = 0  },
 				{ Dict = "amb@world_human_push_ups@male@idle_a", Name = "idle_d", Flag = 1  },
-				{ Dict = "amb@world_human_push_ups@male@exit", Name = "exit", Flag = 0 },
+				{ Dict = "amb@world_human_push_ups@male@exit", Name = "exit", Flag = 0, Locked = true },
 			}},
 			["situps"] = { Sequence = {
 				{ Dict = "amb@world_human_sit_ups@male@enter", Name = "enter", Flag = 0  },
 				{ Dict = "amb@world_human_sit_ups@male@idle_a", Name = "idle_a", Flag = 1  },
-				{ Dict = "amb@world_human_sit_ups@male@exit", Name = "exit", Flag = 0 },
+				{ Dict = "amb@world_human_sit_ups@male@exit", Name = "exit", Flag = 0, Locked = true },
 			}},
 			["situps2"] = { Sequence = {
 				{ Dict = "amb@world_human_sit_ups@male@enter", Name = "enter", Flag = 0  },
 				{ Dict = "amb@world_human_sit_ups@male@idle_a", Name = "idle_c", Flag = 1  },
-				{ Dict = "amb@world_human_sit_ups@male@exit", Name = "exit", Flag = 0 },
+				{ Dict = "amb@world_human_sit_ups@male@exit", Name = "exit", Flag = 0, Locked = true },
 			}},
 		},
 	},
@@ -564,7 +564,7 @@ Config.Groups = {
 				Sequence = {
 					{ Dict = "amb@medic@standing@kneel@enter", Name = "enter", Flag = 0 },
 					{ Dict = "amb@medic@standing@kneel@idle_a", Name = "idle_a", Flag = 1 },
-					{ Dict = "amb@medic@standing@kneel@exit", Name = "exit", Flag = 0 },
+					{ Dict = "amb@medic@standing@kneel@exit", Name = "exit", Flag = 0, Locked = true },
 				},
 			},
 			["meditate"] = { Dict = "rcmcollect_paperleadinout@", Name = "meditiate_idle", Flag = 1 },

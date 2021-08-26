@@ -68,33 +68,41 @@ function Main:Queue(data)
 end
 
 function Main:Play(data, force)
+	print("play", json.encode(data), force)
+	
+	-- Load prefab emote from string.
 	if type(data) == "string" then
 		data = self.emotes[data]
 	elseif not data then
 		return
 	end
 
+	-- Clear queue.
+	self:ClearQueue(force)
+
+	-- Check playing.
+	local next = next
+	local isPlaying = next(self.playing) ~= nil
+
+	-- Get the id.
 	local id = (self.lastId or 0) + 1
 	self.lastId = id
 
+	-- Determine to queue or play the emote.
 	if data.Sequence then
-		self:Stop()
-		
+		-- Queue the sequence.
 		for _, _data in ipairs(data.Sequence) do
 			_data.id = id
 			self:Queue(_data)
 		end
-	elseif not IsUpperBody(data.Flag) then
-		self:Stop()
-
+	else
 		data.id = id
 		self:Queue(data)
-	else
-		Emote:Create(data, id)
 	end
 
-	if force then
-		self:Stop(true)
+	-- Stop current animation.
+	if not IsUpperBody(data.Flag) and isPlaying then
+		self:Stop(force)
 	end
 
 	return id
@@ -153,11 +161,36 @@ function Main:PlayOnPed(ped, data)
 end
 Export(Main, "PlayOnPed")
 
-function Main:IsPlaying(id)
+function Main:IsPlaying(id, checkQueue)
 	local emote = self.playing[id or false]
-	return emote and not emote.stopping
+	if emote and not emote.stopping then
+		return true
+	end
+	if checkQueue then
+		for k, v in ipairs(self.queue) do
+			if v.id == id then
+				return true
+			end
+		end
+	end
+	return false
 end
 Export(Main, "IsPlaying")
+
+function Main:ClearQueue(forced)
+	if forced then
+		self.queue = {}
+		return
+	end
+
+	for i = #self.queue, 0, -1 do
+		local queued = self.queue[i]
+		if queued and not queued.Locked then
+			print("remove from queue", queued.id)
+			table.remove(self.queue, i)
+		end
+	end
+end
 
 function Main:RemoveProps()
 	local ped = PlayerPedId()
