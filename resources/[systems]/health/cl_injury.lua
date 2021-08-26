@@ -33,20 +33,26 @@ function Injury:Update()
 	
 	local health = Main.effects["Health"]
 	if self.isInjured then
+		-- Stop getting up.
 		local isInAir = GetPedConfigFlag(Ped, 76)
 		if isInAir ~= self.isInAir then
 			ClearPedTasksImmediately(Ped)
 			self.isInAir = isInAir
 		end
 
+		-- Deactivate when healed.
 		if health > 0.001 then
 			self:Activate(false)
 		end
 
-		for _, control in ipairs(Config.Controls) do
-			DisableControlAction(0, control)
+		-- Disable controls.
+		for i = 0, 360 do
+			if not Config.EnableControls[i] then
+				DisableControlAction(0, i)
+			end
 		end
 
+		-- Replay emotes.
 		if self.anim and (not self.emote or not exports.emotes:IsPlaying(self.emote, true)) then
 			self.emote = exports.emotes:Play(self.anim, true)
 		end
