@@ -10,11 +10,14 @@ Main = {
 
 --[[ Functions ]]--
 function Main:Init()
+	self.boneIds = {}
 	for boneId, settings in pairs(Config.Bones) do
 		if settings.Name and not settings.Fallback then
 			self.bones[boneId] = Bone:Create(boneId, settings.Name)
+			self.boneIds[#self.boneIds + 1] = boneId
 		end
 	end
+	self:BuildNavigation()
 end
 
 function Main:Update()
@@ -181,6 +184,29 @@ function Main:UpdateSnowflake()
 	self.snowflake = self.snowflake + 1
 end
 
+function Main:GetRandomBone()
+	return self.bones[self.boneIds[GetRandomIntInRange(1, #self.boneIds + 1)]]
+end
+
+function Main:BuildNavigation()
+	local options = {
+		{
+			id = "health-examine",
+			text = "Examine",
+			icon = "visibility",
+		},
+	}
+
+	self:InvokeListener("BuildNavigation", options)
+
+	exports.interact:AddOption({
+		id = "health",
+		text = "Self",
+		icon = "spa",
+		sub = options,
+	})
+end
+
 --[[ Events ]]--
 AddEventHandler("health:clientStart", function()
 	Main:Init()
@@ -240,7 +266,7 @@ RegisterNetEvent("health:revive", function(resetEffects)
 end)
 
 RegisterNetEvent("health:slay", function()
-	self:SetEffect("Health", 0.0)
+	Main:SetEffect("Health", 0.0)
 end)
 
 RegisterNetEvent("health:damage", function(weapon, bone)

@@ -1,4 +1,28 @@
-Injury = {}
+Injury = {
+	options = {
+		{
+			id = "injury-passout",
+			text = "Passout",
+			icon = "arrow_circle_down",
+			anim = "Deaths",
+		},
+		{
+			id = "injury-writhe",
+			text = "Writhe",
+			icon = "arrow_circle_up",
+			anim = "Writhes",
+		},
+		{
+			id = "injury-situp",
+			text = "Sit Up",
+			icon = "chair",
+			anim = "Sit",
+			func = function()
+				return true
+			end,
+		},
+	}
+}
 
 --[[ Functions: Injury ]]--
 function Injury:Update()
@@ -18,6 +42,14 @@ function Injury:Update()
 		if health > 0.001 then
 			self:Activate(false)
 		end
+
+		for _, control in ipairs(Config.Controls) do
+			DisableControlAction(0, control)
+		end
+
+		if self.anim and (not self.emote or not exports.emotes:IsPlaying(self.emote, true)) then
+			self.emote = exports.emotes:Play(self.anim, true)
+		end
 	else
 		if health and health < 0.001 then
 			self:Activate(true)
@@ -34,96 +66,85 @@ function Injury:Activate(value)
 	SetPedConfigFlag(Ped, 17, value)
 
 	if value then
-		self:Writhe()
-
-		exports.interact:AddOption({
-			id = "injury",
-			text = "Injured",
-			icon = "healing",
-			sub = {
-				{
-					id = "injury-die",
-					text = "Passout",
-					icon = "arrow_circle_down",
-				},
-				{
-					id = "injury-wakeup",
-					text = "Wake Up",
-					icon = "arrow_circle_up",
-				},
-			},
-		})
+		self:SetAnim("Writhes")
 	else
-		if self.isWrithing then
+		if self.anim then
 			self:Getup(2)
 		else
 			self:ClearEmote()
 		end
 
-		exports.interact:RemoveOption("injury")
+		Main:BuildNavigation()
 	end
 end
 
-function Injury:Writhe(p2)
-	local anim = Config.Anims.Writhes[GetRandomIntInRange(1, #Config.Anims.Writhes)]
-	anim.Locked = true
-	anim.BlendSpeed = 2.0
-
-	self.emote = exports.emotes:Play(anim, true)
-	self.isWrithing = true
-end
-
-function Injury:Die(p2)
-	local anim = Config.Anims.Deaths[GetRandomIntInRange(1, #Config.Anims.Deaths)]
-	anim.Locked = true
-	anim.BlendSpeed = 2.0
-
-	self.emote = exports.emotes:Play(anim, true)
-	self.isDead = true
-end
-
 function Injury:Getup(p2)
-	self.isWrithing = nil
-	self.isDead = nil
+	self.anim = nil
 	self.emote = nil
 	
 	exports.emotes:Play(Config.Anims.Revive, true)
 end
 
-function Injury:ClearEmote(p2)
-	if not self.emote then return end
+function Injury:SetAnim(name, p2)
+	local anim = Config.Anims[name]
+	if #anim > 0 then
+		anim = anim[GetRandomIntInRange(1, #anim + 1)]
+	end
 
-	exports.emotes:Stop(self.emote, p2)
-	
-	self.isWrithing = false
-	self.isDead = false
-	self.emote = nil
+	if anim == self.anim then
+		return false
+	end
+
+	anim.Locked = true
+	anim.BlendSpeed = 2.0
+
+	self.emote = exports.emotes:Play(anim, true)
+	self.anim = anim
+	self.name = name
+
+	Main:BuildNavigation()
+
+	return true
 end
+
+function Injury:ClearEmote(p2)
+	if self.emote then
+		exports.emotes:Stop(self.emote, p2)
+	end
+	
+	self.emote = nil
+	self.anim = nil
+end
+
+--[[ Listeners ]]--
+Main:AddListener("BuildNavigation", function(options)
+	if not Injury.isInjured then return end
+	
+	for k, option in ipairs(Injury.options) do
+		if option.anim ~= Injury.name and (not option.func or option.func()) then
+			options[#options + 1] = {
+				id = option.id,
+				text = option.text,
+				icon = option.icon,
+			}
+		end
+	end
+end)
 
 --[[ Events ]]--
 AddEventHandler("health:stop", function()
 	Injury:Activate(false)
 end)
 
-AddEventHandler("interact:onNavigate_injury-wakeup", function()
-	if Injury.isDead then
-		Injury:Writhe(2)
-	else
-		TriggerEvent("chat:notify", {
-			class = "inform",
-			text = "You are already awake!",
-		})
+AddEventHandler("interact:onNavigate", function(id)
+	if id:sub(1, ("injury"):len()) ~= "injury" then
+		return
 	end
-end)
-
-AddEventHandler("interact:onNavigate_injury-die", function()
-	if Injury.isWrithing then
-		Injury:Die(2)
-	else
-		TriggerEvent("chat:notify", {
-			class = "inform",
-			text = "You are already passed out!",
-		})
+	for k, option in ipairs(Injury.options) do
+		if option.id == id then
+			Injury:SetAnim(option.anim, 2)
+			break
+		end
 	end
 end)
 

@@ -1,4 +1,5 @@
 Config = {
+	Controls = { 8, 9, 21, 22, 23, 24, 25, 30, 31, 55, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 86, 90, 137, 143, 346, 347 },
 	Saving = {
 		Cooldown = 5000,
 		ValidInfo = {
@@ -285,7 +286,8 @@ Config = {
 		},
 	},
 	Blood = {
-		LossMult = 0.01, -- How much blood is lost, multiplied by 
+		BleedMult = 0.5, -- How much bleed is applied, multiplied by damage.
+		LossMult = 0.01, -- How much blood is lost, multiplied by bleed.
 		HealthLossMult = 0.008,
 	},
 	Stress = {
@@ -321,6 +323,7 @@ Config = {
 		},
 		Sit = { Dict = "rcm_barry3", Name = "barry_3_sit_loop", Flag = 1 },
 		Revive = { Dict = "get_up@directional@movement@from_seated@action", Name = "getup_r_0", Flag = 0, Duration = 1600 },
+		Burning = { Dict = "anim@heists@ornate_bank@hostages@ped_c@", Name = "flinch_loop_underfire", Flag = 49 },
 	},
 	Down = {
 		Delay = 1000,
