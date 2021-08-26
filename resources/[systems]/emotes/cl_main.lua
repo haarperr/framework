@@ -153,6 +153,12 @@ function Main:PlayOnPed(ped, data)
 end
 Export(Main, "PlayOnPed")
 
+function Main:IsPlaying(id)
+	local emote = self.playing[id or false]
+	return emote and not emote.stopping
+end
+Export(Main, "IsPlaying")
+
 function Main:RemoveProps()
 	local ped = PlayerPedId()
 	for k, entity in ipairs(exports.oldutils:GetObjects()) do
