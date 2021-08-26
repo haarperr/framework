@@ -5,6 +5,7 @@ Shops = {
 			Colour = 48,
 			Scale = 0.5,
 			Sprite = 73,
+			AsShortRange = true,
 		},
 		Locations = {
 			{ Coords = vector4(463.523193359375, -999.3453369140624, 30.689516067504883, 44.3731803894043) }, -- MRPD.
@@ -57,6 +58,7 @@ Shops = {
 			Colour = 48,
 			Scale = 0.5,
 			Sprite = 71,
+			AsShortRange = true,
 		},
 		Locations = {
 			{ Coords = vector4(-1281.5960693359375, -1116.8616943359375, 6.9901123046875, 90.61395263671876), Blip = true }, -- Magellan Ave, Vespucci Canals
@@ -74,6 +76,7 @@ Shops = {
 			Colour = 48,
 			Scale = 0.5,
 			Sprite = 75,
+			AsShortRange = true,
 		},
 		Locations = {
 			{ Coords = vector4(-1155.0814208984375, -1425.79150390625, 4.95446252822876, 301.84002685546875), Blip = true }, -- Aguja St, Vespucci Canals
