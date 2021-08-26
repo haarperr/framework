@@ -110,7 +110,7 @@ function Main:Stop(p1, p2)
 
 	-- Get emote from p1.
 	if type(p1) == "number" then
-		cancelEmote = self.emotes[p1]
+		cancelEmote = self.playing[p1]
 	end
 
 	-- Clear normal animations.
