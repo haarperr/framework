@@ -182,6 +182,8 @@ end
 
 function Main:UpdateSnowflake()
 	self.snowflake = self.snowflake + 1
+
+	Menu:Focus()
 end
 
 function Main:GetRandomBone()
