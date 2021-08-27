@@ -19,7 +19,7 @@ function Bone.process.update:Bleeding()
 	end
 end
 
-function Bone:ApplyBlead(amount)
+function Bone:ApplyBleed(amount)
 	for name, func in pairs(self.process.bleed) do
 		local result = func(self, amount)
 		if result == false then

@@ -339,6 +339,12 @@ Config = {
 		LossMult = 0.01, -- How much blood is lost, multiplied by bleed.
 		HealthLossMult = 0.008,
 	},
+	Nutrition = {
+		HungerRate = 60.0 * 3.0, -- How long it takes to become hungry, in minutes.
+		ThirstRate = 60.0 * 2.0, -- How long it takes to become hungry, in minutes.
+		SprintMult = 2.0, -- Multiplied value when sprinting.
+		RunMult = 4.0, -- Multiplied value when running (slower than sprinting)
+	},
 	Stress = {
 		Shake = "VIBRATE_SHAKE",
 		Delay = { 15000, 1000 },
