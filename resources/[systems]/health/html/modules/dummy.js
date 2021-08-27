@@ -154,11 +154,32 @@ export default class Dummy {
 		this.updateFrame();
 	}
 
+	focus(fade, duration) {
+		const root = this.root;
+		if (!root) return;
+
+		if (this.focusTimeout) {
+			clearTimeout(this.focusTimeout);
+		}
+
+		root.style.animation = `fade-in ${fade}ms normal forwards ease-in-out`;
+		
+		if (duration != -1) {
+			this.focusTimeout = setTimeout(() => {
+				root.style.animation = `fade-out ${fade}ms normal forwards ease-in-out`;
+			}, duration)
+		}
+	}
+
 	getFramePath(name, frame) {
 		return `${this.frames.path}/${name}/${frame.toString().padStart(this.frames.padding, "0")}.png`;
 	}
 
 	nextFrame(frame) {
+		if (window.getComputedStyle(this.root).getPropertyValue("opacity") < 0.001) {
+			return;
+		}
+
 		let nextFrame = (frame ?? this.frame) + this.frames.step;
 
 		if (nextFrame >= this.frames.end) {
