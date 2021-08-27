@@ -3,13 +3,13 @@ Injury = {
 		{
 			id = "injury-passout",
 			text = "Passout",
-			icon = "arrow_circle_down",
+			icon = "healing",
 			anim = "Deaths",
 		},
 		{
 			id = "injury-writhe",
 			text = "Writhe",
-			icon = "arrow_circle_up",
+			icon = "personal_injury",
 			anim = "Writhes",
 		},
 		{

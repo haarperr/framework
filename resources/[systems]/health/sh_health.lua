@@ -1,5 +1,5 @@
 TickRate = 200
-MinutesToTicks = 1.0 / 60000.0 * TickRate
+MinutesToTicks = 0.0
 
 local floatPrecision = 1000.0
 local effectsCache = {}

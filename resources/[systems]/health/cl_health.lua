@@ -140,6 +140,9 @@ function Main:SetEffect(name, value)
 	
 	self.effects[name] = value
 	
+	Menu:Invoke("main", "updateEffect", name, value)
+	Menu:Invoke(false, "setOverlay", name, value)
+
 	local cachedValue = self.effectsCached[name]
 	if cachedValue and math.abs(cachedValue - value) < 0.01 then
 		return
@@ -148,9 +151,6 @@ function Main:SetEffect(name, value)
 	self.effectsCached[name] = value
 
 	print("updating", name, value)
-
-	Menu:Invoke("main", "updateEffect", name, value)
-	Menu:Invoke(false, "setOverlay", name, value)
 
 	Main:UpdateSnowflake()
 end
@@ -306,14 +306,26 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+	local lastUpdate = GetGameTimer()
+	
 	while true do
+		-- Cache walkstyle.
 		local walkstyle = Main.walkstyle
 		Main.walkstyle = nil
 
+		-- Update delta.
+		DeltaTime = GetGameTimer() - lastUpdate
+		MinutesToTicks = 1.0 / 60000.0 * DeltaTime
+
+		-- Update functions.
 		for name, func in pairs(Main.update) do
 			func(Main)
 		end
 
+		-- Update time.
+		lastUpdate = GetGameTimer()
+
+		-- Update walkstyle.
 		if walkstyle ~= Main.walkstyle then
 			exports.emotes:OverrideWalkstyle(Main.walkstyle)
 		end
