@@ -91,6 +91,12 @@ function addText(data) {
 		innerElement.style.height = "100%";
 	}
 
+	if (data.style) {
+		for (var style in data.style) {
+			innerElement.style[style] = data.style[style];
+		}
+	}
+
 	if (data.useCanvas) {
 		data.width = Math.min(Math.max(data.width, 0.0), 1.0) ?? 1.0;
 		data.height = Math.min(Math.max(data.height, 0.0), 1.0) ?? 1.0;
