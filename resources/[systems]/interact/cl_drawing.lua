@@ -36,7 +36,9 @@ Citizen.CreateThread(function()
 			if data.entity then
 				if DoesEntityExist(data.entity) then
 					local coords = GetEntityCoords(data.entity)
-					if data.offset then
+					if data.bone then
+						coords = data.entityType == 1 and GetPedBoneCoords(data.entity, data.bone) or GetWorldPositionOfEntityBone(data.entity, data.bone)
+					elseif data.offset then
 						coords = GetOffsetFromEntityInWorldCoords(data.entity, data.offset)
 					end
 					SetCoords(id, coords)
@@ -72,6 +74,11 @@ function AddText(data)
 	-- Default coords.
 	if not data.coords then
 		data.coords = { x = 0, y = 0, z = 0 }
+	end
+
+	-- Entity defaults.
+	if data.entity then
+		data.entityType = GetEntityType(data.entity)
 	end
 
 	-- Update NUI.
