@@ -52,6 +52,7 @@ end)
 
 --[[ Functions: Text ]]--
 function AddText(data)
+	-- Set id.
 	local id
 	if data.id == nil then
 		id = Id
@@ -62,15 +63,24 @@ function AddText(data)
 
 	(data or {}).id = id
 
+	-- Cache resource.
+	local resource = GetInvokingResource()
+	if not data.resource and resource then
+		data.resource = resource
+	end
+
+	-- Default coords.
 	if not data.coords then
 		data.coords = { x = 0, y = 0, z = 0 }
 	end
 
+	-- Update NUI.
 	SendNUIMessage({
 		method = "addText",
 		data = data
 	})
 
+	-- Cache label.
 	Labels[id] = data
 	LabelCount = LabelCount + 1
 
@@ -120,3 +130,12 @@ function SetVisible(id, value)
 	})
 end
 exports("SetVisible", SetVisible)
+
+--[[ Events ]]--
+AddEventHandler("onClientResourceStart", function(resourceName)
+	for id, label in pairs(Labels) do
+		if label.resource == resourceName then
+			RemoveText(id)
+		end
+	end
+end)
