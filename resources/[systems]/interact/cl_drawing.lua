@@ -111,7 +111,13 @@ end
 exports("RemoveText", RemoveText)
 
 function SetText(id, text)
-
+	SendNUIMessage({
+		method = "updateText",
+		data = {
+			id = id,
+			text = text,
+		}
+	})
 end
 exports("SetText", SetText)
 
