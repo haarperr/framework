@@ -21,6 +21,7 @@ function Main:Init()
 end
 
 function Main:Update()
+	Player = PlayerId()
 	Ped = PlayerPedId()
 
 	if self.ped ~= Ped then
@@ -28,6 +29,8 @@ function Main:Update()
 
 		SetPedMaxHealth(Ped, 1000)
 		SetEntityHealth(Ped, 1000)
+		SetPedDiesInWater(Ped, false)
+		SetPedDiesInstantlyInWater(Ped, false)
 	end
 
 	if IsPedDeadOrDying(Ped) then
@@ -178,12 +181,14 @@ function Main:ResetInfo()
 	end
 
 	self:UpdateInfo()
+	self:InvokeListener("ResetInfo")
 end
 
 function Main:UpdateSnowflake()
 	self.snowflake = self.snowflake + 1
 
 	Menu:Focus()
+	self:InvokeListener("UpdateSnowflake")
 end
 
 function Main:GetRandomBone()
@@ -196,6 +201,11 @@ function Main:BuildNavigation()
 			id = "health-examine",
 			text = "Examine",
 			icon = "visibility",
+		},
+		{
+			id = "health-status",
+			text = "Quick Status",
+			icon = "accessibility",
 		},
 	}
 

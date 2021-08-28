@@ -5,6 +5,7 @@ function Menu:Init()
 	self.loaded = true
 	self:Invoke(false, "loadConfig", {
 		effects = Config.Effects,
+		bones = Config.Bones,
 	})
 end
 
@@ -26,6 +27,11 @@ function Menu:Focus()
 	self.lastFocus = GetGameTimer()
 	self:Invoke("main", "focus", 1000, 8000)
 end
+
+--[[ Events ]]--
+AddEventHandler("interact:onNavigate_health-status", function()
+	Menu:Focus()
+end)
 
 --[[ Commands ]]--
 exports.chat:RegisterCommand("status", function()

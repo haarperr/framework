@@ -70,7 +70,7 @@ Config = {
 		},
 		[24816] = {
 			Name = "SKEL_Spine1",
-			Fallback = 11816,
+			Fallback = 24817,
 		},
 		[39317] = {
 			Name = "SKEL_Neck_1",
@@ -83,6 +83,7 @@ Config = {
 		-- Bones.
 		[31086] = {
 			Name = "SKEL_Head",
+			Label = "Head",
 			Modifier = 1.8,
 			Nearby = { 10706, 64729 },
 			Concussion = true,
@@ -90,12 +91,14 @@ Config = {
 		},
 		[10706] = {
 			Name = "SKEL_R_Clavicle",
+			Label = "Right Clavicle",
 			Modifier = 0.8,
 			Nearby = { 40269, 31086, 24818 },
 			Armor = 1 << 1,
 		},
 		[11816] = {
 			Name = "SKEL_Pelvis",
+			Label = "Pelvis",
 			Modifier = 0.9,
 			Nearby = { 24817, 51826, 58271 },
 			Limp = 0.5,
@@ -103,86 +106,101 @@ Config = {
 		},
 		[14201] = {
 			Name = "SKEL_L_Foot",
+			Label = "Left Foot",
 			Modifier = 0.6,
 			Nearby = { 63931 },
 			Limp = 0.25,
 		},
 		[18905] = {
 			Name = "SKEL_L_Hand",
+			Label = "Left Hand",
 			Modifier = 0.6,
 			Nearby = { 61163 },
 		},
 		[24817] = {
 			Name = "SKEL_Spine2",
+			Label = "Abdomen",
 			Modifier = 1.0,
 			Nearby = { 24818, 24816 },
 			Armor = 1 << 1,
 		},
 		[24818] = {
 			Name = "SKEL_Spine3",
+			Label = "Chest",
 			Modifier = 1.1,
 			Nearby = { 10706, 64729, 24817, 45509, 40269 },
 			Armor = 1 << 1,
 		},
 		[28252] = {
 			Name = "SKEL_R_Forearm",
+			Label = "Right Forearm",
 			Modifier = 0.7,
 			Nearby = { 40269, 57005 },
 		},
 		[36864] = {
 			Name = "SKEL_R_Calf",
+			Label = "Right Calf",
 			Modifier = 0.7,
 			Nearby = { 51826, 52301 },
 			Limp = 0.5,
 		},
 		[40269] = {
 			Name = "SKEL_R_UpperArm",
+			Label = "Right Arm",
 			Modifier = 0.8,
 			Nearby = { 10706, 28252, 24818 },
 			Armor = 1 << 2,
 		},
 		[45509] = {
 			Name = "SKEL_L_UpperArm",
+			Label = "Left Arm",
 			Modifier = 0.8,
 			Nearby = { 64729, 61163, 24818 },
 			Armor = 1 << 2,
 		},
 		[51826] = {
 			Name = "SKEL_R_Thigh",
+			Label = "Right Thigh",
 			Modifier = 0.8,
 			Nearby = { 11816, 36864 },
 			Limp = 0.5,
 		},
 		[52301] = {
 			Name = "SKEL_R_Foot",
+			Label = "Right Foot",
 			Modifier = 0.6,
 			Nearby = { 36864 },
 			Limp = 0.25,
 		},
 		[57005] = {
 			Name = "SKEL_R_Hand",
+			Label = "Right Hand",
 			Modifier = 0.6,
 			Nearby = { 28252 },
 		},
 		[58271] = {
 			Name = "SKEL_L_Thigh",
+			Label = "Left Thigh",
 			Modifier = 0.8,
 			Nearby = { 11816, 63931 },
 			Limp = 0.5,
 		},
 		[61163] = {
 			Name = "SKEL_L_Forearm",
+			Label = "Left Forearm",
 			Modifier = 0.7,
 			Nearby = { 45509, 18905 },
 		},
 		[63931] = {
 			Name = "SKEL_L_Calf",
+			Label = "Left Calf",
 			Modifier = 0.7,
 			Nearby = { 58271, 14201 },
 			Limp = 0.5,
 		},
 		[64729] = {
 			Name = "SKEL_L_Clavicle",
+			Label = "Left Clavicle",
 			Modifier = 0.8,
 			Nearby = { 45509, 31086, 24818 },
 			Armor = 1 << 1,
@@ -308,12 +326,12 @@ Config = {
 		},
 		{
 			Name = "Oxygen",
-			Default = 0.0,
+			Default = 1.0,
 			Invert = false,
 			Background = "grey",
 			Foreground = "white",
-			Low = false,
-			High = true,
+			Low = true,
+			High = false,
 		},
 		{
 			Name = "Poison",
@@ -334,6 +352,44 @@ Config = {
 			High = true,
 		},
 	},
+	Inuries = {
+		["Gunshot"] = {
+			Description = "A hole.",
+		},
+		["Stab"] = {
+
+		},
+		["Overdose"] = {
+
+		},
+		["Shock"] = {
+
+		},
+		["Drown"] = {
+
+		},
+		["Starvation"] = {
+
+		},
+		["Dehydration"] = {
+
+		},
+		["Fracture"] = {
+
+		},
+		["Electrocution"] = {
+
+		},
+		["1st Degree Burn"] = {
+
+		},
+		["2nd Degree Burn"] = {
+
+		},
+		["3rd Degree Burn"] = {
+
+		},
+	},
 	Blood = {
 		BleedMult = 0.5, -- How much bleed is applied, multiplied by damage.
 		LossMult = 0.01, -- How much blood is lost, multiplied by bleed.
@@ -344,6 +400,23 @@ Config = {
 		ThirstRate = 60.0 * 2.0, -- How long it takes to become hungry, in minutes.
 		SprintMult = 2.0, -- Multiplied value when sprinting.
 		RunMult = 4.0, -- Multiplied value when running (slower than sprinting)
+	},
+	Stamina = {
+		RegenRate = 0.5,
+		Swimming = {
+			Run = 2.0,
+			Sprint = 1.0,
+		},
+		UnderWater = {
+			Normal = 1.0,
+			Run = 0.5,
+			Sprint = 0.5,
+			HealthLoss = 0.15,
+		},
+		Land = {
+			Run = 5.0,
+			Sprint = 2.0,
+		},
 	},
 	Stress = {
 		Shake = "VIBRATE_SHAKE",

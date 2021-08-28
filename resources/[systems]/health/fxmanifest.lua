@@ -11,6 +11,7 @@ files {
 }
 
 shared_scripts {
+	'@utils/shared/math.lua',
 	'sh_config.lua',
 	'sh_health.lua',
 	'modules/sh_*.lua',
@@ -20,6 +21,7 @@ client_scripts {
 	'cl_health.lua',
 	'cl_bones.lua',
 	'cl_injury.lua',
+	'cl_treatment.lua',
 	'cl_menu.lua',
 	'modules/cl_*.lua',
 }

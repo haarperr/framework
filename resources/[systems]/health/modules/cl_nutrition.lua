@@ -1,4 +1,3 @@
--- Sprinting should make you thirsty.
 --[[ Functions: Main ]]--
 function Main.update:Nutrition()
 	local isSprinting = IsPedSprinting(Ped)

@@ -4,9 +4,51 @@ let Dummies = {};
 let Funcs = {};
 let Intervals = {};
 let Config = {};
+let Debug = false;
 
 document.addEventListener("DOMContentLoaded", function() {
-	post("init");
+	if (Debug) {
+		const config = {
+			effects: [],
+			bones: [
+				{ Name: "SKEL_Head" },
+				{ Name: "SKEL_L_Calf" },
+				{ Name: "SKEL_L_Clavicle" },
+				{ Name: "SKEL_L_Foot" },
+				{ Name: "SKEL_L_Forearm" },
+				{ Name: "SKEL_L_Hand" },
+				{ Name: "SKEL_L_Thigh" },
+				{ Name: "SKEL_L_UpperArm" },
+				{ Name: "SKEL_Pelvis" },
+				{ Name: "SKEL_R_Calf" },
+				{ Name: "SKEL_R_Clavicle" },
+				{ Name: "SKEL_R_Foot" },
+				{ Name: "SKEL_R_Forearm" },
+				{ Name: "SKEL_R_Hand" },
+				{ Name: "SKEL_R_Thigh" },
+				{ Name: "SKEL_R_UpperArm" },
+				{ Name: "SKEL_Spine2" },
+				{ Name: "SKEL_Spine3" },
+			]
+		}
+		
+		window.postMessage({
+			invoke: {
+				method: "loadConfig",
+				args: [ config ]
+			}
+		})
+
+		window.postMessage({
+			invoke: {
+				target: "other",
+				method: "loadConfig",
+				args: [ config ]
+			}
+		})
+	} else {
+		post("init");
+	}
 });
 
 window.addEventListener("message", function(event) {
@@ -16,7 +58,9 @@ window.addEventListener("message", function(event) {
 		if (data.invoke.target) {
 			var dummy = Dummies[data.invoke.target ?? false];
 			if (!dummy) {
-				console.log("create dummy maybe lol");
+				dummy = createDummy(data.invoke.target);
+				dummy.root.classList.add("left");
+
 				return
 			}
 	
@@ -64,10 +108,53 @@ Funcs["loadConfig"] = function(data) {
 	
 	Config = data;
 
-	const root = document.getElementById("dummy");
-	if (root) {
-		Dummies.main = new Dummy(data, root);
+	var dummy = createDummy("main");
+	dummy.root.classList.add("right");
+
+	if (Debug) {
+		dummy.info = {
+			"SKEL_Head": {
+				health: 0.2,
+				injuries: {
+					"9mm GSW": {
+						amount: 2,
+					},
+				},
+			},
+			"SKEL_L_Clavicle": {
+				armor: 1.0,
+			},
+			"SKEL_R_Clavicle": {
+				armor: 1.0,
+			},
+			"SKEL_Spine3": {
+				armor: 1.0,
+			},
+			"SKEL_Spine2": {
+				armor: 1.0,
+			},
+			"Other": {
+				
+			},
+		}
+
+		dummy.openPanel();
 	}
+}
+
+function createDummy(id) {
+	// Create root.
+	const root = document.createElement("div");
+	root.classList.add("dummy");
+	root.id = id;
+
+	document.body.appendChild(root);
+
+	// Create dummy.
+	const dummy = new Dummy(Config, root);
+	Dummies[id] = dummy;
+
+	return dummy
 }
 
 function lerp(a, b, t) {
