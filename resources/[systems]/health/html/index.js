@@ -4,7 +4,7 @@ let Dummies = {};
 let Funcs = {};
 let Intervals = {};
 let Config = {};
-let Debug = false;
+let Debug = true;
 
 document.addEventListener("DOMContentLoaded", function() {
 	if (Debug) {
@@ -137,8 +137,6 @@ Funcs["loadConfig"] = function(data) {
 				
 			},
 		}
-
-		dummy.openPanel();
 	}
 }
 

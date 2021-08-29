@@ -1,6 +1,4 @@
 export default class Dummy {
-	// parts = [ "SKEL_Head", "SKEL_L_Calf", "SKEL_L_Clavicle", "SKEL_L_Foot", "SKEL_L_Forearm", "SKEL_L_Hand", "SKEL_L_Thigh", "SKEL_L_UpperArm", "SKEL_Pelvis", "SKEL_R_Calf", "SKEL_R_Clavicle", "SKEL_R_Foot", "SKEL_R_Forearm", "SKEL_R_Hand", "SKEL_R_Thigh", "SKEL_R_UpperArm", "SKEL_Spine2", "SKEL_Spine3" ]
-
 	canvasSize = 512;
 
 	frames = {
@@ -59,11 +57,6 @@ export default class Dummy {
 		this.elements = {};
 		this.frame = this.frames.start;
 		this.bufferSize = 8;
-
-		// Create panels.
-		this.panel = document.createElement("div");
-		this.panel.classList.add("panel");
-		this.root.appendChild(this.panel);
 
 		// Create parts.
 		this.parts = [ "Full" ];
@@ -273,31 +266,6 @@ export default class Dummy {
 
 	// 	delete this.buffer[index][frame];
 	// }
-
-	openPanel() {
-		var panel = this.panel;
-		panel.style.display = "flex";
-		panel.innerHTML = "";
-
-		for (var name of this.parts) {
-			var bone = this.bones[name];
-			var info = this.info[name];
-			if (bone && info?.injuries) {
-				var group = document.createElement("div");
-				group.classList.add("group");
-				group.innerHTML = `<div class="title">${bone.Label ?? bone.Name}</div>`;
-				panel.appendChild(group);
-
-				for (var injuryName in info.injuries) {
-					var injury = info.injuries[injuryName];
-					var element = document.createElement("div");
-					element.classList.add("injury");
-					element.innerHTML = injuryName + " x" + (injury.amount ?? 1);
-					group.appendChild(element);
-				}
-			}
-		}
-	}
 
 	lerp(from, to, value) {
 		var output = []

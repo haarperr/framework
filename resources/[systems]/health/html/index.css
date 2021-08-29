@@ -88,46 +88,6 @@ body {
 	-webkit-mask-size: contain;
 }
 
-.panel {
-	display: none;
-	flex-direction: column;
-	width: 20vmin;
-	height: 100%;
-	bottom: 2vmin;
-	background: rgba(50, 50, 50, 0.8);
-	border: 1px solid rgba(40, 40, 40, 0.8);
-	border-radius: 1vmin;
-	color: white;
-	overflow-x: hidden;
-	overflow-y: auto;
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-.left .panel {
-	left: 100%;
-}
-
-.right .panel {
-	right: 100%;
-}
-
-.panel .group {
-	height: auto;
-	background: rgb(20, 20, 20, 0.2);
-}
-
-.panel .title {
-	padding: 0.5vmin;
-	font-weight: 700;
-	color: rgba(255, 255, 255, 0.6);
-}
-
-.panel .injury {
-	background: rgba(40, 40, 40, 0.4);
-	padding: 0.5vmin;
-	font-weight: normal;
-}
-
 /* Effects */
 .effects {
 	position: absolute;
