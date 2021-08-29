@@ -390,6 +390,16 @@ Config = {
 
 		},
 	},
+	Treatment = {
+		Anims = {
+			Self = { Dict = "clothingshoes", Name = "try_shoes_base", Flag = 1, Locked = true },
+		},
+		Camera = {
+			Offset = vector3(0.8, 1.2, 0.4),
+			Target = vector3(0.0, 0.0, -0.1),
+			Fov = 70.0,
+		},
+	},
 	Blood = {
 		BleedMult = 0.5, -- How much bleed is applied, multiplied by damage.
 		LossMult = 0.01, -- How much blood is lost, multiplied by bleed.

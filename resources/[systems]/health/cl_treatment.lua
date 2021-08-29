@@ -35,6 +35,7 @@ function Treatment:GetText(boneId, info)
 		<div style="width: auto; height: auto">
 			<div style='
 				position: absolute;
+				border-radius: 3px;
 				background: rgba(]]..color[1]..[[, ]]..color[2]..[[, ]]..color[3]..[[, 0.8);
 				left: 0%;
 				right: ]]..(100.0 - health * 100.0)..[[%;
@@ -57,8 +58,14 @@ function Treatment:Begin(ped, bones)
 	self:End()
 
 	self.ped = ped
+	self.isLocal = ped == PlayerPedId()
 
 	self:Update(bones)
+	self:CreateCam()
+
+	if self.isLocal then
+		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
+	end
 end
 
 function Treatment:End()
@@ -68,8 +75,40 @@ function Treatment:End()
 		exports.interact:RemoveText(label)
 	end
 
+	if self.camera then
+		self.camera:Destroy()
+	end
+
 	self.labels = {}
+	self.camera = nil
 	self.ped = nil
+
+	if self.isLocal then
+		exports.emotes:Stop(self.emote)
+
+		self.emote = nil
+		self.isLocal = nil
+	end
+end
+
+function Treatment:CreateCam()
+	local camera = Camera:Create({
+		fov = 80.0,
+	})
+
+	local ped = PlayerPedId()
+	local offset = Config.Treatment.Camera.Offset
+	local target = Config.Treatment.Camera.Target
+
+	function camera:Update()
+		AttachCamToEntity(self.handle, ped, offset.x, offset.y, offset.z, true)
+		PointCamAtPedBone(self.handle, ped, 11816, target.x, target.y, target.z, true)
+		SetCamFov(self.handle, Config.Treatment.Camera.Fov)
+	end
+
+	camera:Activate()
+
+	self.camera = camera
 end
 
 function Treatment:Update(bones)
