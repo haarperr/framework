@@ -32,7 +32,7 @@ function Treatment:GetText(boneId, info)
 	end
 
 	return [[
-		<div style="width: auto; height: auto">
+		<div style="width: auto; height: auto;">
 			<div style='
 				position: absolute;
 				border-radius: 3px;
@@ -48,7 +48,7 @@ function Treatment:GetText(boneId, info)
 				align-items: center;
 				flex-direction: row;
 				position: relative;
-				font-size: 0.8em
+				font-size: 0.8em;
 			'>]]..text..[[</div>
 		</div>
 	]]
@@ -60,12 +60,15 @@ function Treatment:Begin(ped, bones)
 	self.ped = ped
 	self.isLocal = ped == PlayerPedId()
 
-	self:Update(bones)
+	self:SetBones(bones)
 	self:CreateCam()
 
 	if self.isLocal then
 		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
 	end
+
+	SetNuiFocus(true, true)
+	SetNuiFocusKeepInput(true)
 end
 
 function Treatment:End()
@@ -89,6 +92,70 @@ function Treatment:End()
 		self.emote = nil
 		self.isLocal = nil
 	end
+
+	SetNuiFocus(false, false)
+	SetNuiFocusKeepInput(false)
+end
+
+function Treatment:Update()
+	if not self.ped or not self.bones then return end
+
+	-- Get cursor stuff.
+	local camCoords = GetFinalRenderedCamCoord()
+	local mouseX, mouseY = GetNuiCursorPosition()
+	local width, height = GetActiveScreenResolution()
+	local activeBone, activeDist = nil
+
+	-- Selecting bones.
+	if IsDisabledControlJustReleased(0, 237) then
+		if self.treating then
+			self.treating = false
+			Menu:Invoke(false, "setTreatment")
+		elseif self.activeBone then
+			self.treating = true
+			
+			local coords = GetPedBoneCoords(self.ped, self.activeBone, 0.0, 0.0, 0.0)
+			local retval, screenX, screenY = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
+
+			Menu:Invoke(false, "setTreatment", screenX, screenY, {
+				{ label = "Gauze", icon = "nui://inventory/icons/Gauze.png" },
+				{ label = "Bandage", icon = "nui://inventory/icons/Bandage.png" },
+				{ label = "Icepack", icon = "nui://inventory/icons/NONE.png" },
+				{ label = "Forceps", icon = "nui://inventory/icons/NONE.png" },
+			})
+		end
+	end
+
+	-- Cooldowns.
+	if self.lastUpdateCursor and GetGameTimer() - self.lastUpdateCursor < 100 then
+		return
+	end
+
+	self.lastUpdateCursor = GetGameTimer()
+
+	-- Check bones.
+	for boneId, bone in pairs(self.bones) do
+		local coords = GetPedBoneCoords(self.ped, boneId, 0.0, 0.0, 0.0)
+		local retval, screenX, screenY = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
+
+		if retval then
+			screenX = screenX * width
+			screenY = screenY * height
+
+			local screenDist = ((screenX - mouseX)^2 + (screenY - mouseY)^2)^0.5
+			local isActive = screenDist < 100.0
+
+			if isActive and (activeBone == nil or screenDist < activeDist) then
+				activeBone = boneId
+				activeDist = screenDist
+			end
+		end
+	end
+
+	-- Update active.
+	if self.activeBone ~= activeBone then
+		self.activeBone = activeBone
+	end
 end
 
 function Treatment:CreateCam()
@@ -111,12 +178,12 @@ function Treatment:CreateCam()
 	self.camera = camera
 end
 
-function Treatment:Update(bones)
+function Treatment:SetBones(bones)
 	if not self.ped then return end
 
 	for boneId, bone in pairs(bones) do
 		local label = self.labels[boneId]
-		local text = self:GetText(boneId, bone.info)
+		local text = self:GetText(boneId, bone.info, self.activeBone == boneId)
 
 		if label and text then
 			exports.interact:SetText(label, text)
@@ -129,13 +196,18 @@ function Treatment:Update(bones)
 		elseif label then
 			exports.interact:RemoveText(label)
 			self.labels[boneId] = nil
+			bones[boneId] = nil
+		elseif not text then
+			bones[boneId] = nil
 		end
 	end
+
+	self.bones = bones
 end
 
 --[[ Listeners ]]--
 Main:AddListener("UpdateSnowflake", function()
-	Treatment:Update(Main.bones)
+	Treatment:SetBones(Main.bones)
 end)
 
 --[[ Events ]]--
@@ -145,5 +217,17 @@ AddEventHandler("interact:onNavigate_health-examine", function()
 		Treatment:End()
 	else
 		Treatment:Begin(ped, Main.bones)
+	end
+end)
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		if Treatment.ped then
+			Treatment:Update()
+			Citizen.Wait(0)
+		else
+			Citizen.Wait(200)
+		end
 	end
 end)

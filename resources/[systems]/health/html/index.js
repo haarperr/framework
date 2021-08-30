@@ -1,13 +1,15 @@
 import Dummy from "./modules/dummy.js"
+import Treatment from "./modules/treatment.js"
 
-let Dummies = {};
-let Funcs = {};
-let Intervals = {};
-let Config = {};
-let Debug = true;
+let dummies = {};
+let funcs = {};
+let intervals = {};
+let config = {};
+let debug = false;
+let treatment = undefined;
 
 document.addEventListener("DOMContentLoaded", function() {
-	if (Debug) {
+	if (debug) {
 		const config = {
 			effects: [],
 			bones: [
@@ -41,9 +43,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
 		window.postMessage({
 			invoke: {
-				target: "other",
-				method: "loadConfig",
-				args: [ config ]
+				method: "setTreatment",
+				args: [
+					[
+						{ label: "Bandage" },
+						{ label: "Insert gauze" },
+						{ label: "" },
+						{ label: "" },
+					]
+				]
 			}
 		})
 	} else {
@@ -56,7 +64,7 @@ window.addEventListener("message", function(event) {
 
 	if (data.invoke) {
 		if (data.invoke.target) {
-			var dummy = Dummies[data.invoke.target ?? false];
+			var dummy = dummies[data.invoke.target ?? false];
 			if (!dummy) {
 				dummy = createDummy(data.invoke.target);
 				dummy.root.classList.add("left");
@@ -71,7 +79,7 @@ window.addEventListener("message", function(event) {
 				}
 			}
 		} else {
-			var func = Funcs[data.invoke.method];
+			var func = funcs[data.invoke.method];
 			if (func) {
 				func(...(data.invoke.args ?? []));
 			}
@@ -79,23 +87,23 @@ window.addEventListener("message", function(event) {
 	}
 });
 
-Funcs["setOverlay"] = function(id, value) {
+funcs["setOverlay"] = function(id, value) {
 	let element = document.querySelector(`.overlays #${id.toLowerCase()}`);
 	if (!element) return;
 
-	var interval = Intervals[id];
+	var interval = intervals[id];
 	if (interval) {
 		clearInterval(interval);
 	}
 
-	Intervals[id] = setInterval(() => {
+	intervals[id] = setInterval(() => {
 		var opacity = parseFloat(element.style.opacity);
 		if (isNaN(opacity)) opacity = 0.0;
 
 		var newOpacity = lerp(opacity, value, 0.02);
 		
 		if (Math.abs(opacity - newOpacity) < 0.001) {
-			clearInterval(Intervals[id])
+			clearInterval(intervals[id])
 			newOpacity = value;
 		}
 
@@ -103,15 +111,15 @@ Funcs["setOverlay"] = function(id, value) {
 	}, 20);
 }
 
-Funcs["loadConfig"] = function(data) {
+funcs["loadConfig"] = function(data) {
 	console.log("load config");
 	
-	Config = data;
+	config = data;
 
 	var dummy = createDummy("main");
 	dummy.root.classList.add("right");
 
-	if (Debug) {
+	if (debug) {
 		dummy.info = {
 			"SKEL_Head": {
 				health: 0.2,
@@ -140,6 +148,16 @@ Funcs["loadConfig"] = function(data) {
 	}
 }
 
+funcs["setTreatment"] = function(x, y, options) {
+	if (treatment) {
+		treatment.destroy();
+	}
+
+	if (options) {
+		treatment = new Treatment(x, y, options);
+	}
+}
+
 function createDummy(id) {
 	// Create root.
 	const root = document.createElement("div");
@@ -149,8 +167,8 @@ function createDummy(id) {
 	document.body.appendChild(root);
 
 	// Create dummy.
-	const dummy = new Dummy(Config, root);
-	Dummies[id] = dummy;
+	const dummy = new Dummy(config, root);
+	dummies[id] = dummy;
 
 	return dummy
 }
