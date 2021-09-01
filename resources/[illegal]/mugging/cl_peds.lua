@@ -17,7 +17,7 @@ function Ped:Create(entity, canInteract)
 	-- Get hostile.
 	math.randomseed(entity + 821)
 
-	local isImmune = GetResourceState("jobs") == "started" or exports.jobs:IsInEmergency()
+	local isImmune = false
 	local isHostile = math.random() < Config.HostileChance and not isImmune
 	
 	-- Create ped.

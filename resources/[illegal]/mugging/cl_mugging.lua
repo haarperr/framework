@@ -7,7 +7,7 @@ function Main:CanInteract()
 	local player = PlayerId()
 	local ped = PlayerPedId()
 
-	return IsPedArmed(ped, 4) and IsPlayerFreeAiming(player) and (GetResourceState("health") ~= "started" or not exports.health:IsPedDead(ped))
+	return IsPedArmed(ped, 4) and IsPlayerFreeAiming(player) and IsControlEnabled(0, 51) == 1
 end
 
 function Main:Update()
