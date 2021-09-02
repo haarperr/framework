@@ -11,8 +11,12 @@ function Entering:Update()
 
 	if DoesEntityExist(CurrentVehicle) or not IsControlEnabled(0, 51) or not IsControlEnabled(0, 52) then return end
 
-	if (IsControlPressed(0, 30) or IsControlPressed(0, 31)) and DoesEntityExist(EnteringVehicle) then
-		ClearPedTasks(Ped)
+	if DoesEntityExist(EnteringVehicle) then
+		if IsControlPressed(0, 30) or IsControlPressed(0, 31) then
+			ClearPedTasks(Ped)
+		else
+			return
+		end
 	end
 
 	if IsDisabledControlJustPressed(0, 23) then
@@ -35,7 +39,7 @@ function Entering:Activate(goToDriver)
 
 	-- Check driver.
 	local driver = GetPedInVehicleSeat(vehicle, -1)
-	local hasDriver = driver and DoesEntityExist(driver)
+	local hasDriver = driver and DoesEntityExist(driver) and not IsPedDeadOrDying(driver)
 	if hasDriver and not IsPedAPlayer(driver) then
 		if Config.Taxis[model] then
 			TaskSetBlockingOfNonTemporaryEvents(driver, true)
@@ -49,17 +53,6 @@ function Entering:Activate(goToDriver)
 	if seatIndex then
 		-- Enter vehicle.
 		SetVehicleDoorsLocked(vehicle, 0)
-		TaskEnterVehicle(Ped, vehicle, -1, seatIndex, IsControlPressed(0, 21) and 2.0 or 1.0, 1, 0)
+		TaskEnterVehicle(Ped, vehicle, -1, seatIndex, IsControlPressed(0, 21) and 2.0 or 1.0, 8, 0)
 	end
 end
-
-Citizen.CreateThread(function()
-	RequestModel(`a_m_y_skater_02`)
-	RequestModel(`taxi`)
-
-	Citizen.Wait(200)
-
-	local c = GetEntityCoords(PlayerPedId()) + vector3(5.0, 0.0, 0.0)
-	local vehicle = CreateVehicle(`taxi`, c.x, c.y, c.z, 0.0, true, true)
-	CreatePedInsideVehicle(vehicle, 0, `a_m_y_skater_02`, -1, true, true)
-end)

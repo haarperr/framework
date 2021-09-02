@@ -82,7 +82,7 @@ function Main:GetClosestSeat(coords, vehicle, mustBeEmpty)
 
 	for index = -1, GetVehicleModelNumberOfSeats(model) - 2 do
 		local ped = mustBeEmpty and GetPedInVehicleSeat(vehicle, index)
-		if not mustBeEmpty or not ped or not DoesEntityExist(ped) then
+		if not mustBeEmpty or not ped or not DoesEntityExist(ped) or IsPedDeadOrDying(ped) then
 			local doorCoords = GetEntityBonePosition_2(vehicle, GetEntityBoneIndexByName(vehicle, Config.Bones[index + 2]))
 			local dist = doorCoords and #doorCoords > 0.001 and #(doorCoords - coords)
 
