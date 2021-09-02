@@ -24,9 +24,12 @@ function Parking:Update()
 		local grid = self.grids[gridId]
 		if grid then
 			for __, parking in ipairs(grid) do
+				local coords = parking.coords
+				local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z)
+
 				DrawMarker(
 					36,
-					parking.coords.x, parking.coords.y, parking.coords.z,
+					coords.x, coords.y, groundZ + 1.0,
 					0.0, 0.0, 0.0,
 					0.0, 0.0, 0.0,
 					scale, scale, scale,
