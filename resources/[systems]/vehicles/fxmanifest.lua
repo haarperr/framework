@@ -5,7 +5,6 @@ shared_script {
 	'@grids/shared/grids.lua',
 	'config/*.lua',
 	'sh_main.lua',
-	'sh_vehicle.lua',
 	'modules/sh_*.lua',
 }
 
@@ -14,7 +13,6 @@ client_scripts {
 	'@utils/client/misc.lua',
 	'@utils/client/vehicles.lua',
 	'cl_main.lua',
-	'cl_vehicle.lua',
 	'modules/cl_*.lua',
 }
 

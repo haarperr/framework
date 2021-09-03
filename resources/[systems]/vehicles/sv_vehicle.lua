@@ -1,3 +1,6 @@
+Vehicle = {}
+Vehicle.__index = Vehicle
+
 --[[ Functions: Vehicle ]]--
 function Vehicle:Create(entity, info)
 	local vehicle = setmetatable({
