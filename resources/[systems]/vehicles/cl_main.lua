@@ -33,7 +33,9 @@ function Main:Update()
 	-- Update current vehicle.
 	local isInVehicle = DoesEntityExist(CurrentVehicle)
 	if CurrentVehicle ~= (self.vehicle or 0) then
+		-- The last vehicle has been exited.
 		if self.vehicle and DoesEntityExist(self.vehicle) then
+			-- Events.
 			print("exited", self.vehicle)
 			self:InvokeListener("Exit", self.vehicle)
 			TriggerEvent("vehicles:exit", self.vehicle)
@@ -44,7 +46,9 @@ function Main:Update()
 			end
 		end
 		
+		-- A new vehicle has been entered.
 		if isInVehicle then
+			-- Events.
 			print("entered", CurrentVehicle)
 			self:InvokeListener("Enter", CurrentVehicle)
 			TriggerEvent("vehicles:enter", CurrentVehicle)
@@ -53,6 +57,10 @@ function Main:Update()
 			if netId then
 				TriggerServerEvent("vehicles:enter", netId)
 			end
+
+			-- Global settings.
+			Class = GetVehicleClass(CurrentVehicle)
+			ClassSettings = Classes[Class] or {}
 		end
 		
 		self.vehicle = CurrentVehicle
@@ -66,7 +74,7 @@ function Main:Update()
 		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
 
 		-- Anti-roll.
-		if InAir or not OnWheels then
+		if (InAir or not OnWheels) and not ClassSettings.AirControl then
 			DisableControlAction(0, 59)
 			DisableControlAction(0, 60)
 		end
