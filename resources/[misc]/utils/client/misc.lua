@@ -58,6 +58,10 @@ function Delete(entity)
 	end)
 end
 
+function GetNetworkId(entity)
+	return NetworkGetEntityIsNetworked(entity) and NetworkGetNetworkIdFromEntity(entity)
+end
+
 function Distance(a, b)
 	if type(a) == "number" then
 		a = GetEntityCoords(a)
