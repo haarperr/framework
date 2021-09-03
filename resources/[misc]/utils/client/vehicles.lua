@@ -53,3 +53,8 @@ function GetClosestSeat(coords, vehicle, mustBeEmpty)
 
 	return nearestDoor, nearestDist
 end
+
+function DoesVehicleHaveEngine(vehicle)
+	local class = GetVehicleClass(vehicle)
+	return class ~= 11 and class ~= 13 and class ~= 21
+end
