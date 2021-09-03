@@ -3,7 +3,7 @@
 copy resources\GHMattiMySQL\settings_dev.xml resources\GHMattiMySQL\settings.xml
 
 %~dp0\..\FXServer\FXServer.exe ^
-+set sv_enforceGameBuild 2189 ^
++set sv_enforceGameBuild 2372 ^
 +exec config\server_dev.cfg ^
 +set onesync on ^
 +set onesync_enableInfinity 1 ^
