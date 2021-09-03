@@ -5,95 +5,75 @@ Main.processes = {}
 Main.vehicles = {}
 
 function Main:Update()
+	-- Update globals.
 	Ped = PlayerPedId()
 	CurrentVehicle = GetVehiclePedIsIn(Ped)
 	EnteringVehicle = GetVehiclePedIsEntering(Ped)
 	IsDriver = GetPedInVehicleSeat(CurrentVehicle, -1) == Ped
 
+	-- Disables hotwiring.
+	DisableControlAction(0, 77)
+	DisableControlAction(0, 78)
+
+	-- Update vehicle being entered.
 	if EnteringVehicle ~= (self.entering or 0) then
-		print("entering", EnteringVehicle)
+		if DoesEntityExist(EnteringVehicle) then
+			print("begin enter", EnteringVehicle)
+			self:InvokeListener("BeginEnter", EnteringVehicle)
+			TriggerEvent("vehicles:beginEnter", EnteringVehicle)
+		elseif DoesEntityExist(self.entering) then
+			print("finish enter", self.entering)
+			self:InvokeListener("FinishEnter", self.entering)
+			TriggerEvent("vehicles:finishEnter", self.entering)
+		end
+
 		self.entering = EnteringVehicle
 	end
 
+	-- Update current vehicle.
+	local isInVehicle = DoesEntityExist(CurrentVehicle)
 	if CurrentVehicle ~= (self.vehicle or 0) then
-		print("entered", CurrentVehicle)
-
-		if self.vehicle then
+		if self.vehicle and DoesEntityExist(self.vehicle) then
+			print("exited", self.vehicle)
 			self:InvokeListener("Exit", self.vehicle)
-			
 			TriggerEvent("vehicles:exit", self.vehicle)
 
-			if DoesEntityExist(self.vehicle) and NetworkGetEntityIsNetworked(self.vehicle) then
-				TriggerServerEvent("vehicles:exit", NetworkGetNetworkIdFromEntity(self.vehicle))
+			local netId = GetNetworkId(self.vehicle)
+			if netId then
+				TriggerServerEvent("vehicles:exit", netId)
 			end
 		end
 		
-		if DoesEntityExist(CurrentVehicle) then
+		if isInVehicle then
+			print("entered", CurrentVehicle)
 			self:InvokeListener("Enter", CurrentVehicle)
 			TriggerEvent("vehicles:enter", CurrentVehicle)
 			
-			if DoesEntityExist(CurrentVehicle) and NetworkGetEntityIsNetworked(CurrentVehicle) then
-				TriggerServerEvent("vehicles:enter", NetworkGetNetworkIdFromEntity(CurrentVehicle))
+			local netId = GetNetworkId(CurrentVehicle)
+			if netId then
+				TriggerServerEvent("vehicles:enter", netId)
 			end
 		end
 		
 		self.vehicle = CurrentVehicle
 	end
 
-	self:InvokeListener("Update")
-end
+	-- Value stuff.
+	if isInVehicle then
+		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
+		InAir = IsEntityInAir(CurrentVehicle)
+		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
+		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
 
-function Main:GetNearestVehicle(coords, maxDist)
-	local nearestVehicle = nil
-	local nearestDist = 0.0
-
-	for vehicle, _ in EnumerateVehicles() do
-		local dist = #(coords - GetEntityCoords(vehicle))
-		if (not maxDist or dist < maxDist) and (not nearestVehicle or dist < nearestDist) then
-			nearestVehicle = vehicle
-			nearestDist = dist
+		-- Anti-roll.
+		if InAir or not OnWheels then
+			DisableControlAction(0, 59)
+			DisableControlAction(0, 60)
 		end
 	end
 
-	return nearestVehicle, nearestDist
-end
-
-function Main:GetClosestDoor(coords, vehicle)
-	local nearestDoor = nil
-	local nearestDist = 0.0
-
-	for index = 0, GetNumberOfVehicleDoors(vehicle) - 1 do
-		local doorCoords = GetEntryPositionOfDoor(vehicle, index)
-		local dist = doorCoords and #doorCoords > 0.001 and #(doorCoords - coords)
-
-		if dist and (not nearestDoor or dist < nearestDist) then
-			nearestDoor = index
-			nearestDist = dist
-		end
-	end
-
-	return nearestDoor, nearestDist
-end
-
-function Main:GetClosestSeat(coords, vehicle, mustBeEmpty)
-	local nearestDoor = nil
-	local nearestDist = 0.0
-	local model = GetEntityModel(vehicle)
-
-	for index = -1, GetVehicleModelNumberOfSeats(model) - 2 do
-		local ped = mustBeEmpty and GetPedInVehicleSeat(vehicle, index)
-		if not mustBeEmpty or not ped or not DoesEntityExist(ped) or IsPedDeadOrDying(ped) then
-			local doorCoords = GetEntityBonePosition_2(vehicle, GetEntityBoneIndexByName(vehicle, Config.Bones[index + 2]))
-			local dist = doorCoords and #doorCoords > 0.001 and #(doorCoords - coords)
-
-			if dist and (not nearestDoor or dist < nearestDist) then
-				nearestDoor = index
-				nearestDist = dist
-			end
-		end
-	end
-
-	return nearestDoor, nearestDist
+	-- Invoke update listener.
+	self:InvokeListener("Update", isInVehicle)
 end
 
 --[[ Threads ]]--

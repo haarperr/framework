@@ -1,7 +1,4 @@
-Main:AddListener("Enter", function(vehicle)
-
-end)
-
+--[[ Functions: Main ]]--
 function Main.update:Ignition()
 	
 end
@@ -9,14 +6,19 @@ end
 function Main:ToggleEngine(value)
 	if not IsDriver then return end
 
-	if value == nil then
-		value = not GetIsVehicleEngineRunning(CurrentVehicle)
-	end
+	TriggerServerEvent("vehicles:toggleEnigne", netId)
 
-	SetVehicleEngineOn(CurrentVehicle, value, false, true)
+	-- if value == nil then
+	-- 	value = not GetIsVehicleEngineRunning(CurrentVehicle)
+	-- end
+
+	-- SetVehicleEngineOn(CurrentVehicle, value, false, true)
 end
 
---[[ Keys ]]--
+--[[ Listeners ]]--
+
+
+--[[ Commands ]]--
 RegisterCommand("+nsrp_ignition", function()
 	if not IsControlEnabled(0, 51) then
 		return

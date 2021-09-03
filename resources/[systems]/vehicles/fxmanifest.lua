@@ -11,6 +11,8 @@ shared_script {
 
 client_scripts {
 	'@utils/client/entities.lua',
+	'@utils/client/misc.lua',
+	'@utils/client/vehicles.lua',
 	'cl_main.lua',
 	'cl_vehicle.lua',
 	'modules/cl_*.lua',

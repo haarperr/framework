@@ -2,14 +2,17 @@ Entering = {
 	pressed = 0
 }
 
-Main:AddListener("Update", function()
-	Entering:Update()
-end)
-
-function Entering:Update()
+--[[ Functions: Entering ]]--
+function Entering:Update(isInVehicle)
 	DisableControlAction(0, 23)
 
-	if DoesEntityExist(CurrentVehicle) or not IsControlEnabled(0, 51) or not IsControlEnabled(0, 52) then return end
+	if
+		DoesEntityExist(CurrentVehicle) or
+		not IsControlEnabled(0, 51) or
+		not IsControlEnabled(0, 52)
+	then
+		return
+	end
 
 	if DoesEntityExist(EnteringVehicle) then
 		if IsControlPressed(0, 30) or IsControlPressed(0, 31) then
@@ -31,7 +34,7 @@ function Entering:Activate(goToDriver)
 	local coords = GetEntityCoords(Ped)
 
 	-- Get vehicle.
-	local vehicle = Main:GetNearestVehicle(coords, 8.0)
+	local vehicle = GetNearestVehicle(coords, 8.0)
 	if not vehicle or not DoesEntityExist(vehicle) then return end
 
 	-- Get model.
@@ -49,10 +52,34 @@ function Entering:Activate(goToDriver)
 	end
 
 	-- Find seat.
-	local seatIndex, doorDist = (goToDriver and not hasDriver and -1) or Main:GetClosestSeat(coords, vehicle, true)
+	local seatIndex, doorDist = (goToDriver and not hasDriver and -1) or GetClosestSeat(coords, vehicle, true) or (not hasDriver and -1)
 	if seatIndex then
 		-- Enter vehicle.
 		SetVehicleDoorsLocked(vehicle, 0)
 		TaskEnterVehicle(Ped, vehicle, -1, seatIndex, IsControlPressed(0, 21) and 2.0 or 1.0, 8, 0)
 	end
 end
+
+--[[ Listeners ]]--
+Main:AddListener("BeginEnter", function(vehicle, lastVehicle)
+	-- if DoesEntityExist(vehicle) then
+	-- 	Main.cachedEngineState = GetIsVehicleEngineRunning(vehicle)
+	-- else
+	-- 	Main.cachedEngineState = nil
+	-- end
+end)
+
+Main:AddListener("Enter", function(vehicle)
+	SetVehicleNeedsToBeHotwired(vehicle, false)
+	-- SetVehicleEngineOn(vehicle, Main.cachedEngineState or false, true, true)
+	
+	-- Main.cachedEngineState = nil
+end)
+
+Main:AddListener("Exit", function(vehicle)
+	-- SetVehicleEngineOn(vehicle, Main.cachedEngineState or false, true, true)
+end)
+
+Main:AddListener("Update", function()
+	Entering:Update()
+end)
