@@ -2,21 +2,32 @@ Vehicle = {}
 Vehicle.__index = Vehicle
 
 --[[ Functions: Vehicle ]]--
-function Vehicle:Create(entity, info)
+function Vehicle:Create(netId, info)
 	local vehicle = setmetatable({
-		entity = entity,
-		netId = NetworkGetNetworkIdFromEntity(entity),
+		netId = netId,
 		info = info or {
 			key = true,
 			hotwired = false,
+			vin = Main:GetUniqueVin(),
 		},
 	}, Vehicle)
 
-	Main.vehicles[entity] = vehicle
+	print(vehicle.info.vin)
+
+	Main.vehicles[netId] = vehicle
 
 	return vehicle
 end
 
 function Vehicle:Destroy()
-	Main.vehicles[self.entity] = nil
+	Main.vehicles[self.netId] = nil
+end
+
+function Vehicle:Set(key, value)
+	print("set", self.netId, key, value)
+	self.info[key] = value
+end
+
+function Vehicle:Get(key)
+	return self.info[key]
 end

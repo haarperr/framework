@@ -61,11 +61,11 @@ Classes = {
 	},
 	[15] = {
 		Name = "Helicopters",
-		AirControl = false,
+		AirControl = true,
 	},
 	[16] = {
 		Name = "Planes",
-		AirControl = false,
+		AirControl = true,
 	},
 	[17] = {
 		Name = "Service",
@@ -85,6 +85,6 @@ Classes = {
 	},
 	[21] = {
 		Name = "Trains",
-		AirControl = false,
+		AirControl = true,
 	},
 }

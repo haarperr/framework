@@ -17,6 +17,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/random.lua',
 	'sv_main.lua',
 	'sv_vehicle.lua',
 	'sv_commands.lua',

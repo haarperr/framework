@@ -1,4 +1,5 @@
 Main.vehicles = {}
+Main.vinCache = {}
 
 --[[ Functions: Main ]]--
 function Main:Spawn(model, coords, heading)
@@ -7,10 +8,10 @@ function Main:Spawn(model, coords, heading)
 	return entity
 end
 
-function Main:Enter(source, entity)
-	local vehicle = self.vehicles[entity]
+function Main:Enter(source, netId)
+	local vehicle = self.vehicles[netId]
 	if not vehicle then
-		vehicle = Vehicle:Create(entity)
+		vehicle = Vehicle:Create(netId)
 	end
 
 	exports.log:Add({
@@ -21,13 +22,29 @@ function Main:Enter(source, entity)
 	})
 end
 
+function Main:GetUniqueVin()
+	local vin
+
+	while true do
+		vin = GetRandomText(17, UpperCase, Numbers)
+
+		if not self.vinCache[vin] then
+			break
+		else
+			Citizen.Wait(0)
+		end
+	end
+
+	self.vinCache[vin] = true
+
+	return vin
+end
+
 --[[ Events ]]--
 AddEventHandler("entityCreated", function(entity)
 	if not entity or not DoesEntityExist(entity) then return end
 
-	math.randomseed(entity)
-
-	Entity(entity).state.locked = math.random() < 0.8
+	-- Do something with vehicle when created?
 end)
 
 AddEventHandler("entityRemoved", function(entity)
@@ -42,9 +59,8 @@ end)
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:enter", function(netId)
 	local source = source
-	
-	local entity = Main:GetEntityFromNetworkId(netId)
-	if not entity then return end
 
-	Main:Enter(source, entity)
+	if type(netId) ~= "number" then return end
+
+	Main:Enter(source, netId)
 end)
