@@ -38,7 +38,9 @@ exports.chat:RegisterCommand("a:vehspawn", function(source, args, command, cb)
 	-- Create new vehicle.
 	local hash = GetHashKey(model)
 	local heading = GetEntityHeading(ped)
-	local vehicle = Main:Spawn(hash, coords, heading)
+	local vehicle = Main:Spawn(hash, coords, heading, {
+		key = true,
+	})
 
 	-- Put ped into vehicle.
 	SetPedIntoVehicle(ped, vehicle, -1)

@@ -2,8 +2,17 @@ Main.vehicles = {}
 Main.vinCache = {}
 
 --[[ Functions: Main ]]--
-function Main:Spawn(model, coords, heading)
+function Main:Spawn(model, coords, heading, info)
 	local entity = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
+	
+	if info then
+		while not DoesEntityExist(entity) do
+			Citizen.Wait(0)
+		end
+
+		local netId = NetworkGetNetworkIdFromEntity(entity)
+		local vehicle = Vehicle:Create(netId, info)
+	end
 
 	return entity
 end
@@ -18,7 +27,7 @@ function Main:Enter(source, netId)
 		source = source,
 		verb = "entered",
 		noun = "vehicle",
-		extra = entity,
+		extra = vehicle:Get("vin"),
 	})
 end
 
