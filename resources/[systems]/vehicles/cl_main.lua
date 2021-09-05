@@ -1,7 +1,6 @@
 TickRate = 200
 
 Main.update = {}
-Main.processes = {}
 Main.vehicles = {}
 
 function Main:Update()
@@ -72,6 +71,21 @@ function Main:Update()
 		InAir = IsEntityInAir(CurrentVehicle)
 		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
 		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
+		Gear = GetVehicleCurrentGear(CurrentVehicle)
+		Clutch = GetVehicleClutch(CurrentVehicle)
+
+		-- Gear shifting.
+		if Gear ~= self.gear then
+			self.gearDelta = Gear - (self.gear or 0)
+			self.gearSwitchTime = GetGameTimer()
+			self.gear = Gear
+		end
+
+		-- Anti-double clutch.
+		if self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
+			-- SetVehicleClutch(CurrentVehicle, 0.0)
+			SetVehicleCurrentRpm(CurrentVehicle, 0.2)
+		end
 
 		-- Anti-roll.
 		if (InAir or not OnWheels) and not ClassSettings.AirControl then

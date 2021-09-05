@@ -24,8 +24,8 @@ function Vehicle:Create(netId, info)
 
 	-- Create vehicle.
 	local vehicle = setmetatable({
-		netId = netId,
 		info = info,
+		netId = netId,
 	}, Vehicle)
 
 	-- Cache vehicle.
@@ -37,6 +37,10 @@ end
 
 function Vehicle:Destroy()
 	Main.vehicles[self.netId] = nil
+end
+
+function Vehicle:GetEntity()
+	return Main:GetEntityFromNetworkId(self.netId)
 end
 
 function Vehicle:Set(key, value)
