@@ -37,6 +37,7 @@ function Main:Update()
 	end
 
 	if GetGameTimer() - (self.lastNotify or 0) > 1000 * Config.Cooldown then
+		TriggerEvent("chat:notify", "You stare into the world, and it stares back.")
 		TriggerServerEvent("stare")
 		self.lastNotify = GetGameTimer()
 	end
