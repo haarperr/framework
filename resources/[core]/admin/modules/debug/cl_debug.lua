@@ -140,6 +140,42 @@ Admin:AddHook("toggle", "debuggerPlayer", function(value)
 	Debugger:Init()
 end)
 
+Admin:AddHook("select", "spawnEntity", function()
+	local isDynamic = Navigation.window.models.entityDynamic
+	
+	Navigation:Close()
+
+	Citizen.Wait(200)
+
+	UI:Dialog({
+		title = "Spawn Entity",
+		message = "Model for entity:",
+		prompt = {
+			model = "",
+			type = "text",
+		},
+		cancel = true,
+	}, function(name)
+		local hash = GetHashKey(name)
+		print(name, hash)
+		if not IsModelValid(hash) then
+			TriggerEvent("chat:notify", { class = "error", text = "Invalid model!" })
+			return
+		end
+
+		while not HasModelLoaded(hash) do
+			RequestModel(hash)
+			Citizen.Wait(0)
+		end
+
+		local ped = PlayerPedId()
+		local coords = GetEntityCoords(ped)
+		local entity = CreateObject(hash, coords.x, coords.y, isUnderMap and -500.0 or coords.z, false, true, false)
+
+		SetEntityDynamic(entity, isDynamic or false)
+	end)
+end)
+
 --[[ Events ]]--
 AddEventHandler(Admin.event.."stop", function()
 	Debugger:Destroy()

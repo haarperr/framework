@@ -33,6 +33,10 @@ Config = {
 				{ label = "Entity Debugger", hook = "debuggerEntity", caption = "View entity info", checkbox = false },
 				{ label = "Player Debugger", hook = "debuggerPlayer", caption = "View player info", checkbox = false },
 				{ label = "Shooting Visualizer", hook = "viewShooting", caption = "Watch shots being fired", checkbox = false },
+				{ label = "Entity Spawner", options = {
+					{ label = "Dynamic", caption = "Can the entity move?", checkbox = false, _checkbox = "entityDynamic" },
+					{ label = "Spawn Entity", hook = "spawnEntity", caption = "Spawn an entity" },
+				} },
 			},
 		},
 		{
