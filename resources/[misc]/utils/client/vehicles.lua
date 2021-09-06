@@ -32,6 +32,20 @@ Doors = {
 	["door_pside_r"] = 3,
 }
 
+function FindSeatPedIsIn(ped)
+	if not IsPedInAnyVehicle(ped) then return end
+
+	local vehicle = GetVehiclePedIsIn(ped)
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	local model = GetEntityModel(vehicle)
+	for i = -1, GetVehicleModelNumberOfSeats(model) - 2 do
+		if GetPedInVehicleSeat(vehicle, i) == ped then
+			return i
+		end
+	end
+end
+
 function GetNearestVehicle(coords, maxDist)
 	local nearestVehicle = nil
 	local nearestDist = 0.0
