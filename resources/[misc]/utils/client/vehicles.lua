@@ -55,6 +55,11 @@ function GetClosestSeat(coords, vehicle, mustBeEmpty)
 end
 
 function DoesVehicleHaveEngine(vehicle)
-	local class = GetVehicleClass(vehicle)
-	return class ~= 11 and class ~= 13 and class ~= 21
+	for _, boneName in ipairs({ "engine", "engine_l", "engine_r" }) do
+		local boneIndex = GetEntityBoneIndexByName(vehicle, boneName)
+		if boneIndex ~= -1 then
+			return true
+		end
+	end
+	return false
 end
