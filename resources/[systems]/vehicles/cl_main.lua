@@ -68,26 +68,77 @@ function Main:Update()
 	-- Value stuff.
 	if isInVehicle then
 		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
+
+		Clutch = GetVehicleClutch(CurrentVehicle)
+		Gear = GetVehicleCurrentGear(CurrentVehicle)
 		InAir = IsEntityInAir(CurrentVehicle)
 		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
 		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
-		Gear = GetVehicleCurrentGear(CurrentVehicle)
-		Clutch = GetVehicleClutch(CurrentVehicle)
+		Speed = GetEntitySpeed(CurrentVehicle)
+
+		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
+
+		-- Idling.
+		if IsIdling ~= self.isIdling then
+			self.isIdling = IsIdling
+			
+			if not IsIdling then
+				self.lastIdleTime = GetGameTimer()
+			end
+		end
 
 		-- Gear shifting.
 		if Gear ~= self.gear then
 			self.gearDelta = Gear - (self.gear or 0)
 			self.gearSwitchTime = GetGameTimer()
 			self.gear = Gear
+
+			print("Switch gear", Gear)
 		end
 
-		-- Anti-double clutch.
+		-- Prevent double clutching, results in slower acceleration immediately after down shifting.
 		if self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
-			-- SetVehicleClutch(CurrentVehicle, 0.0)
-			SetVehicleCurrentRpm(CurrentVehicle, 0.2)
+			SetVehicleClutch(CurrentVehicle, 0.0)
+			-- SetVehicleCurrentRpm(CurrentVehicle, 0.2)
 		end
 
-		-- Anti-roll.
+		-- Controls.
+		Braking = (IsControlPressed(0, 72) or IsControlPressed(0, 76)) and Gear > 0
+		if Braking ~= self.braking then
+			print("Braking", Braking, Gear)
+			self.braking = Braking
+			if Braking then
+				self.brakeGear = Speed > 1.0 and Gear
+			end
+		end
+		
+		Accelerating = IsControlPressed(0, 71)
+		if Accelerating ~= self.accelerating then
+			print("Accelerating", Accelerating)
+			self.accelerating = Accelerating
+		end
+
+		-- Prevent accidental reversing when braking.
+		if IsDisabledControlPressed(0, 72) or IsDisabledControlPressed(0, 76) then
+			if self.brakeGear and self.brakeGear > 0 and Gear == 0 then
+				DisableControlAction(0, 72)
+			end
+		else
+			self.brakeGear = nil
+		end
+
+		-- Prevent burn-out when leaving an idle state.
+		local idlePadding = Accelerating and not IsDisabledControlPressed(0, 21) and self.lastIdleTime and (GetGameTimer() - self.lastIdleTime) / 2000.0
+		if idlePadding and idlePadding < 1.0 then
+			-- -- SetVehicleCurrentRpm(CurrentVehicle, math.min(Rpm, 0.4))
+			SetVehicleClutch(CurrentVehicle, math.min(Clutch, idlePadding * 0.8 + 0.2))
+			-- DisableControlAction(0, 71)
+			-- SetControlNormal(0, 71, 0.5)
+
+			print(idlePadding)
+		end
+
+		-- Prevent vehicle rolling.
 		if (InAir or not OnWheels) and not ClassSettings.AirControl then
 			DisableControlAction(0, 59)
 			DisableControlAction(0, 60)
@@ -96,6 +147,63 @@ function Main:Update()
 
 	-- Invoke update listener.
 	self:InvokeListener("Update", isInVehicle)
+end
+
+function Main.update:Proximity()
+	if IsDriver then
+		NearestVehicle = nil
+		NearestDoor = nil
+	else
+		local ped = PlayerPedId()
+		local coords = GetEntityCoords(ped)
+
+		NearestVehicle = GetNearestVehicle(coords, 10.0)
+
+		if NearestVehicle and DoesEntityExist(NearestVehicle) then
+			NearestDoor = GetClosestDoor(coords, NearestVehicle)
+		else
+			NearestDoor = nil
+		end
+	end
+
+	if self.nearestVehicle ~= NearestVehicle then
+		self.nearestVehicle = NearestVehicle
+		self:InvokeListener("UpdateNearestVehicle", NearestVehicle)
+	end
+
+	if self.nearestDoor ~= NearestDoor then
+		self.nearestDoor = NearestDoor
+		self:InvokeListener("UpdateNearestDoor", NearestVehicle, NearestDoor)
+	end
+end
+
+-- function Main:UpdateBones(vehicle)
+-- 	self.bones = {}
+
+-- 	local boneCache = {}
+-- 	for _, boneName in ipairs(Bones) do
+-- 		local boneIndex = GetEntityBoneIndexByName(vehicle, boneName)
+-- 		if boneIndex ~= -1 then
+-- 			boneCache[boneIndex] = boneName
+-- 		end
+-- 	end
+
+-- 	local boneCount = GetEntityBoneCount(vehicle)
+-- 	for i = 0, boneCount - 1 do
+-- 		local name = boneCache[i]
+-- 		if name then
+-- 			self.bones[name] = i
+-- 		end
+-- 	end
+-- end
+
+function Main:ToggleDoor(vehicle, index)
+	local angleRatio = GetVehicleDoorAngleRatio(vehicle, index)
+	if angleRatio > 0.5 then
+		SetVehicleDoorShut(vehicle, index, false)
+	else
+		SetVehicleDoorOpen(vehicle, index, false, false)
+	end
 end
 
 --[[ Threads ]]--
@@ -115,10 +223,8 @@ Citizen.CreateThread(function()
 		MinutesToTicks = 1.0 / 60000.0 * DeltaTime
 
 		-- Update functions.
-		if Main.vehicle then
-			for name, func in pairs(Main.update) do
-				func(Main)
-			end
+		for name, func in pairs(Main.update) do
+			func(Main)
 		end
 
 		-- Update time.
