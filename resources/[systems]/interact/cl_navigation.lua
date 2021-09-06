@@ -34,15 +34,42 @@ function Navigation:Toggle(value)
 	})
 end
 
+function Navigation:CacheOption(data)
+	if not data.id then return end
+
+	self.options[data.id] = data
+
+	if data.sub then
+		for _, sub in ipairs(data.sub) do
+			self:CacheOption(sub)
+		end
+	end
+end
+
+function Navigation:UncacheOption(id)
+	local option = self.options[id]
+	if not option then return end
+
+	if option.sub then
+		for _, sub in ipairs(option) do
+			self:UncacheOption(sub.id)
+		end
+	end
+
+	self.options[id] = nil
+end
+
 function Navigation:AddOption(data)
 	while not Interaction.ready do
 		Citizen.Wait(0)
 	end
-
+	
 	SendNUIMessage({
 		method = "addOption",
 		data = data,
 	})
+
+	self:CacheOption(data)
 end
 
 function Navigation:RemoveOption(id)
@@ -50,6 +77,8 @@ function Navigation:RemoveOption(id)
 		method = "removeOption",
 		data = id,
 	})
+
+	self:UncacheOption(id)
 end
 
 function Navigation:Update()
@@ -92,8 +121,10 @@ RegisterNUICallback("selectNavigation", function(id, cb)
 	SetNuiFocus(false, false)
 	SetNuiFocusKeepInput(false)
 
-	TriggerEvent("interact:onNavigate", id)
-	TriggerEvent("interact:onNavigate_"..tostring(id))
+	local option = Navigation.options[id or false]
+
+	TriggerEvent("interact:onNavigate", id, option)
+	TriggerEvent("interact:onNavigate_"..tostring(id), option)
 end)
 
 --[[ Commands ]]--
