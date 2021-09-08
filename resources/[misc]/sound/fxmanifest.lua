@@ -9,9 +9,9 @@ files {
 }
 
 client_scripts {
-	'cl_interactSound.lua',
+	'cl_sound.lua',
 }
 
 server_scripts {
-	'sv_interactSound.lua',
+	'sv_sound.lua',
 }
