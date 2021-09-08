@@ -1,7 +1,33 @@
 TickRate = 200
 
 Main.update = {}
+Main.settings = {}
 Main.vehicles = {}
+Main.classes = {}
+
+function Main:Init()
+	for model, settings in pairs(Vehicles) do
+		-- Get name.
+		settings.Name = GetLabelText(model)
+		if settings.Name == "NULL" then
+			settings.Name = model:gsub("^%l", string.upper)
+		end
+
+		-- Get class.
+		settings.Class = GetVehicleClassFromName(model)
+
+		-- Cache settings.
+		self.settings[model] = settings
+
+		-- Cache class.
+		local classList = self.classes[settings.Class]
+		if not classList then
+			classList = {}
+			self.classes[settings.Class] = classList
+		end
+		classList[model] = settings
+	end
+end
 
 function Main:Update()
 	-- Update globals.
@@ -210,6 +236,28 @@ function Main:ToggleBay(vehicle)
 		OpenBombBayDoors(vehicle)
 	end
 end
+
+--[[ Exports ]]--
+exports("GetSettings", function(model)
+	return Vehicles[model]
+end)
+
+exports("GetClass", function(id)
+	return Classes[id]
+end)
+
+exports("GetVehicles", function()
+	return Main.settings
+end)
+
+exports("GetClasses", function()
+	return Main.classes
+end)
+
+--[[ Events ]]--
+AddEventHandler("vehicles:clientStart", function()
+	Main:Init()
+end)
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
