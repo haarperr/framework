@@ -62,10 +62,12 @@ Classes = {
 	[15] = {
 		Name = "Helicopters",
 		AirControl = true,
+		InsideDoors = true,
 	},
 	[16] = {
 		Name = "Planes",
 		AirControl = true,
+		InsideDoors = true,
 	},
 	[17] = {
 		Name = "Service",
@@ -79,6 +81,7 @@ Classes = {
 	[19] = {
 		Name = "Military",
 		AirControl = false,
+		InsideDoors = true,
 	},
 	[20] = {
 		Name = "Commercial",

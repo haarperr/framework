@@ -9,6 +9,8 @@ end
 
 --[[ Functions: Main ]]--
 function Main:BuildNavigation()
+	if not ClassSettings then return end
+
 	local options = {}
 	local vehicle = nil
 	local ped = PlayerPedId()
@@ -18,8 +20,17 @@ function Main:BuildNavigation()
 	local trunk = false
 
 	if CurrentVehicle and DoesEntityExist(CurrentVehicle) then
-		if IsDriver then
-			
+		if IsDriver and ClassSettings.InsideDoors then
+			hood = true
+			trunk = true
+
+			if DoesVehicleHaveBone(CurrentVehicle, "cargo_node") then
+				options[#options + 1] = {
+					id = "vehicleToggleBay",
+					text = "Cargo Bay",
+					icon = "archive",
+				}
+			end
 		end
 
 		door = FindSeatPedIsIn(ped) + 1
@@ -40,7 +51,7 @@ function Main:BuildNavigation()
 	-- Doors!
 	if trunk and GetIsDoorValid(vehicle, 5) then
 		options[#options + 1] = {
-			id = "vehicleToggleDoor",
+			id = "vehicleToggleTrunk",
 			text = "Trunk",
 			icon = "inventory_2",
 			doorIndex = 5,
@@ -49,7 +60,7 @@ function Main:BuildNavigation()
 
 	if hood and GetIsDoorValid(vehicle, 4) then
 		options[#options + 1] = {
-			id = "vehicleToggleDoor",
+			id = "vehicleToggleHood",
 			text = "Hood",
 			icon = "home_repair_service",
 			doorIndex = 4,
@@ -92,11 +103,18 @@ Main:AddListener("UpdateNearestDoor", function(vehicle, door)
 end)
 
 --[[ Events ]]--
-AddEventHandler("interact:onNavigate_vehicleToggleDoor", function(option)
+AddEventHandler("interact:onNavigate", function(id, option)
 	if not option.doorIndex then return end
 
 	local vehicle = GetVehicle()
 	if not vehicle then return end
 
 	Main:ToggleDoor(vehicle, option.doorIndex)
+end)
+
+AddEventHandler("interact:onNavigate_vehicleToggleBay", function(option)
+	local vehicle = GetVehicle()
+	if not vehicle then return end
+
+	Main:ToggleBay(vehicle)
 end)

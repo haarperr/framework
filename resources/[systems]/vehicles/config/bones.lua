@@ -40,6 +40,7 @@ Bones = {
 	"bucket",
 	"bumper_f",
 	"bumper_r",
+	"cargo_node",
 	"carriage",
 	"chassis_Control",
 	"chassis_dummy",

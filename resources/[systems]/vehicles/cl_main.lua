@@ -47,6 +47,10 @@ function Main:Update()
 		
 		-- A new vehicle has been entered.
 		if IsInVehicle then
+			-- Global settings.
+			Class = GetVehicleClass(CurrentVehicle)
+			ClassSettings = Classes[Class] or {}
+
 			-- Events.
 			print("entered", CurrentVehicle)
 			self:InvokeListener("Enter", CurrentVehicle)
@@ -56,10 +60,6 @@ function Main:Update()
 			if netId then
 				TriggerServerEvent("vehicles:enter", netId)
 			end
-
-			-- Global settings.
-			Class = GetVehicleClass(CurrentVehicle)
-			ClassSettings = Classes[Class] or {}
 		end
 		
 		self.vehicle = CurrentVehicle
@@ -196,10 +196,18 @@ end
 
 function Main:ToggleDoor(vehicle, index)
 	local angleRatio = GetVehicleDoorAngleRatio(vehicle, index)
-	if angleRatio > 0.5 then
+	if angleRatio > 0.1 then
 		SetVehicleDoorShut(vehicle, index, false)
 	else
 		SetVehicleDoorOpen(vehicle, index, false, false)
+	end
+end
+
+function Main:ToggleBay(vehicle)
+	if AreBombBayDoorsOpen(vehicle) then
+		CloseBombBayDoors(vehicle)
+	else
+		OpenBombBayDoors(vehicle)
 	end
 end
 
