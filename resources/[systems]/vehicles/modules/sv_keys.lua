@@ -22,6 +22,8 @@ function Main:ToggleEngine(source, netId)
 		if not exports.inventory:TakeItem(source, "Vehicle Key", 1, slot.slot_id) then
 			return
 		end
+		
+		TriggerClientEvent("playSound", source, "keys", 0.5)
 
 		vehicle:Set("key", true)
 	end
@@ -32,6 +34,8 @@ function Main:ToggleEngine(source, netId)
 			item = "Vehicle Key",
 			fields = { vin },
 		})
+
+		TriggerClientEvent("playSound", source, "keys", 0.5)
 
 		vehicle:Set("key", false)
 	end
