@@ -33,6 +33,27 @@ function Main:BuildNavigation()
 			end
 		end
 
+		local seats = GetVehicleModelNumberOfSeats(Model)
+		local seatOptions = {}
+
+		for seatIndex = -1, seats - 2 do
+			if self:CanGetInSeat(CurrentVehicle, seatIndex) then
+				seatOptions[#seatOptions + 1] = {
+					id = "vehicleSeat"..seatIndex,
+					text = SeatNames[seatIndex] or "Passenger "..(seatIndex - 2),
+					icon = "chair",
+					seatIndex = seatIndex,
+				}
+			end
+		end
+
+		options[#options + 1] = {
+			id = "vehicleSeat",
+			text = "Seat",
+			icon = "airline_seat_recline_normal",
+			sub = seatOptions,
+		}
+
 		door = FindSeatPedIsIn(ped) + 1
 		vehicle = CurrentVehicle
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
@@ -104,12 +125,16 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("interact:onNavigate", function(id, option)
-	if not option.doorIndex then return end
+	if not option.doorIndex and not option.seatIndex then return end
 
 	local vehicle = GetVehicle()
 	if not vehicle then return end
 
-	Main:ToggleDoor(vehicle, option.doorIndex)
+	if option.doorIndex then
+		Main:ToggleDoor(vehicle, option.doorIndex)
+	elseif option.seatIndex then
+		SetPedIntoVehicle(PlayerPedId(), vehicle, option.seatIndex)
+	end
 end)
 
 AddEventHandler("interact:onNavigate_vehicleToggleBay", function(option)

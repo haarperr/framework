@@ -21,6 +21,13 @@ Seats = {
 	["seat_pside_r7"] = 16,
 }
 
+SeatNames = {
+	[-1] = "Driver",
+	[0] = "Front Passenger",
+	[1] = "Back Left",
+	[2] = "Back Right",
+}
+
 Doors = {
 	["bonnet"] = 4,
 	["boot"] = 5,

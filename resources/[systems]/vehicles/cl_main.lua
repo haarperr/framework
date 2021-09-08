@@ -56,6 +56,19 @@ function Main:Update()
 		self.entering = EnteringVehicle
 	end
 
+	-- General values.
+	if IsInVehicle then
+		IsSirenOn = IsVehicleSirenOn(CurrentVehicle)
+		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
+		InAir = IsEntityInAir(CurrentVehicle)
+		Clutch = GetVehicleClutch(CurrentVehicle)
+		Gear = GetVehicleCurrentGear(CurrentVehicle)
+		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
+		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
+		Speed = GetEntitySpeed(CurrentVehicle)
+		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
+	end
+
 	-- Update current vehicle.
 	if CurrentVehicle ~= (self.vehicle or 0) then
 		-- The last vehicle has been exited.
@@ -76,6 +89,7 @@ function Main:Update()
 			-- Global settings.
 			Class = GetVehicleClass(CurrentVehicle)
 			ClassSettings = Classes[Class] or {}
+			Model = GetEntityModel(CurrentVehicle)
 
 			-- Events.
 			print("entered", CurrentVehicle)
@@ -89,19 +103,6 @@ function Main:Update()
 		end
 		
 		self.vehicle = CurrentVehicle
-	end
-
-	-- General values.
-	if IsInVehicle then
-		IsSirenOn = IsVehicleSirenOn(CurrentVehicle)
-		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
-		InAir = IsEntityInAir(CurrentVehicle)
-		Clutch = GetVehicleClutch(CurrentVehicle)
-		Gear = GetVehicleCurrentGear(CurrentVehicle)
-		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
-		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
-		Speed = GetEntitySpeed(CurrentVehicle)
-		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
 	end
 	
 	-- Driver stuff.
@@ -235,6 +236,10 @@ function Main:ToggleBay(vehicle)
 	else
 		OpenBombBayDoors(vehicle)
 	end
+end
+
+function Main:CanGetInSeat(vehicle, seat)
+	return IsVehicleSeatFree(vehicle, seat) -- add more checks I guess
 end
 
 --[[ Exports ]]--
