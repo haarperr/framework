@@ -16,7 +16,7 @@ local states = {
 RegisterNetEvent("vehicles:setState", function(key, state)
 	local source = source
 
-	if type(key) ~= "string" or type(state) ~= "number" then return end
+	if type(key) ~= "string" or type(state) ~= "number" or not states[key] then return end
 
 	local vehicle = GetVehicle(source)
 	if not vehicle then return end
