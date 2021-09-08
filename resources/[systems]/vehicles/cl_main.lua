@@ -9,6 +9,7 @@ function Main:Update()
 	CurrentVehicle = GetVehiclePedIsIn(Ped)
 	EnteringVehicle = GetVehiclePedIsEntering(Ped)
 	IsDriver = GetPedInVehicleSeat(CurrentVehicle, -1) == Ped
+	IsInVehicle = DoesEntityExist(CurrentVehicle)
 
 	-- Disables hotwiring.
 	DisableControlAction(0, 77)
@@ -30,7 +31,6 @@ function Main:Update()
 	end
 
 	-- Update current vehicle.
-	local isInVehicle = DoesEntityExist(CurrentVehicle)
 	if CurrentVehicle ~= (self.vehicle or 0) then
 		-- The last vehicle has been exited.
 		if self.vehicle and DoesEntityExist(self.vehicle) then
@@ -46,7 +46,7 @@ function Main:Update()
 		end
 		
 		-- A new vehicle has been entered.
-		if isInVehicle then
+		if IsInVehicle then
 			-- Events.
 			print("entered", CurrentVehicle)
 			self:InvokeListener("Enter", CurrentVehicle)
@@ -65,19 +65,21 @@ function Main:Update()
 		self.vehicle = CurrentVehicle
 	end
 
-	-- Value stuff.
-	if isInVehicle then
+	-- General values.
+	if IsInVehicle then
+		IsSirenOn = IsVehicleSirenOn(CurrentVehicle)
 		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
-
+		InAir = IsEntityInAir(CurrentVehicle)
 		Clutch = GetVehicleClutch(CurrentVehicle)
 		Gear = GetVehicleCurrentGear(CurrentVehicle)
-		InAir = IsEntityInAir(CurrentVehicle)
 		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
 		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
 		Speed = GetEntitySpeed(CurrentVehicle)
-
 		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
-
+	end
+	
+	-- Driver stuff.
+	if IsDriver then
 		-- Idling.
 		if IsIdling ~= self.isIdling then
 			self.isIdling = IsIdling
@@ -96,12 +98,6 @@ function Main:Update()
 			print("Switch gear", Gear)
 		end
 
-		-- Prevent double clutching, results in slower acceleration immediately after down shifting.
-		if self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
-			SetVehicleClutch(CurrentVehicle, 0.0)
-			-- SetVehicleCurrentRpm(CurrentVehicle, 0.2)
-		end
-
 		-- Controls.
 		Braking = (IsControlPressed(0, 72) or IsControlPressed(0, 76)) and Gear > 0
 		if Braking ~= self.braking then
@@ -116,6 +112,12 @@ function Main:Update()
 		if Accelerating ~= self.accelerating then
 			print("Accelerating", Accelerating)
 			self.accelerating = Accelerating
+		end
+
+		-- Prevent double clutching, results in slower acceleration immediately after down shifting.
+		if Accelerating and self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
+			SetVehicleClutch(CurrentVehicle, 0.0)
+			-- SetVehicleCurrentRpm(CurrentVehicle, 0.2)
 		end
 
 		-- Prevent accidental reversing when braking.
@@ -146,7 +148,7 @@ function Main:Update()
 	end
 
 	-- Invoke update listener.
-	self:InvokeListener("Update", isInVehicle)
+	self:InvokeListener("Update")
 end
 
 function Main.update:Proximity()

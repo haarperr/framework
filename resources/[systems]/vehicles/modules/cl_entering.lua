@@ -3,7 +3,7 @@ Entering = {
 }
 
 --[[ Functions: Entering ]]--
-function Entering:Update(isInVehicle)
+function Entering:Update()
 	DisableControlAction(0, 23)
 
 	if
