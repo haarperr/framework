@@ -186,9 +186,6 @@ Main:AddListener("Update", function()
 			end
 
 			TriggerServerEvent("vehicles:setState", "blinker", turnSignal)
-
-			-- SetVehicleIndicatorLights(CurrentVehicle, 0, turnSignal == 2 or turnSignal == 3)
-			-- SetVehicleIndicatorLights(CurrentVehicle, 1, turnSignal == 1 or turnSignal == 3)
 		end
 	end
 end)
