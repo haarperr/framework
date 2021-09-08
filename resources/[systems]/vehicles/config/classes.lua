@@ -74,6 +74,7 @@ Classes = {
 	[18] = {
 		Name = "Emergency",
 		AirControl = false,
+		UseSirens = true,
 	},
 	[19] = {
 		Name = "Military",

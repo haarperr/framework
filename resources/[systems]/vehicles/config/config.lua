@@ -12,6 +12,12 @@ Config = {
 		["engine_l"] = "Engine",
 		["engine_r"] = "Engine",
 	},
+	Sirens = {
+		[1] = false, -- Default siren.
+		[2] = "VEHICLES_HORNS_SIREN_1",
+		[3] = "VEHICLES_HORNS_SIREN_2",
+		[4] = "VEHICLES_HORNS_POLICE_WARNING",
+	},
 	Handling = {
 		Fields = {
 			["fMass"] = "float",
