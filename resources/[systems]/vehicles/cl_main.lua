@@ -117,7 +117,6 @@ function Main:Update()
 		-- Prevent double clutching, results in slower acceleration immediately after down shifting.
 		if Accelerating and self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
 			SetVehicleClutch(CurrentVehicle, 0.0)
-			-- SetVehicleCurrentRpm(CurrentVehicle, 0.2)
 		end
 
 		-- Prevent accidental reversing when braking.
@@ -132,12 +131,8 @@ function Main:Update()
 		-- Prevent burn-out when leaving an idle state.
 		local idlePadding = Accelerating and not IsDisabledControlPressed(0, 21) and self.lastIdleTime and (GetGameTimer() - self.lastIdleTime) / 2000.0
 		if idlePadding and idlePadding < 1.0 then
-			-- -- SetVehicleCurrentRpm(CurrentVehicle, math.min(Rpm, 0.4))
+			SetVehicleCurrentRpm(CurrentVehicle, math.min(Rpm, idlePadding * 0.8 + 0.2))
 			SetVehicleClutch(CurrentVehicle, math.min(Clutch, idlePadding * 0.8 + 0.2))
-			-- DisableControlAction(0, 71)
-			-- SetControlNormal(0, 71, 0.5)
-
-			print(idlePadding)
 		end
 
 		-- Prevent vehicle rolling.
