@@ -25,6 +25,7 @@ end
 function Lights:UpdateSiren(vehicle, state)
 	self.sirens[vehicle] = state
 
+	SetVehicleHasMutedSirens(vehicle, true)
 	SetVehicleSiren(vehicle, state and state > 0)
 
 	local siren = state and state > 0 and Config.Sirens[state]
@@ -124,7 +125,7 @@ Main:AddListener("Update", function()
 		end
 		
 		-- Siren stages.
-		if IsDisabledControlJustPressed(0, 224) and currentSiren then
+		if IsDisabledControlJustPressed(0, 224) and currentSiren and currentSiren > 1 then
 			sirenValue = (entity.state.siren or 1) + 1
 			if sirenValue > 3 then
 				sirenValue = 2
@@ -169,11 +170,11 @@ Main:AddListener("Update", function()
 
 		local turnSignal = nil
 
-		if IsDisabledControlJustReleased(0, 63) then
+		if IsDisabledControlJustPressed(0, 63) then
 			turnSignal = 1
-		elseif IsDisabledControlJustReleased(0, 64) then
+		elseif IsDisabledControlJustPressed(0, 64) then
 			turnSignal = 2
-		elseif IsDisabledControlJustReleased(0, 72) then
+		elseif IsDisabledControlJustPressed(0, 72) then
 			turnSignal = 3
 		end
 
