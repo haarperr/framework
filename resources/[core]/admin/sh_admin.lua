@@ -18,3 +18,7 @@ function Admin:InvokeHook(type, message, ...)
 	end
 	TriggerServerEvent(self.event.."invokeHook", type, message, ...)
 end
+
+function GetVehicles()
+	
+end

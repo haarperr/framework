@@ -18,6 +18,7 @@ Config = {
 			caption = "Vehicle options",
 			icon = "commute",
 			options = {
+				{ label = "List", hook = "listVehicles", caption = "View a list of vehicles to spawn" },
 				{ label = "Repair", hook = "repairVehicle", caption = "Instantly and completely fix your vehicle" },
 				{ label = "Clean", hook = "cleanVehicle", caption = "Make your vehicle squeeky clean" },
 				{ label = "Enter", hook = "enterVehicle", caption = "Teleport yourself into the nearest vehicle" },
