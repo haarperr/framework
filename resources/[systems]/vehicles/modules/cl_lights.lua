@@ -1,20 +1,12 @@
 Lights = {
 	blinkers = {},
+	horns = {},
 	sirens = {},
 	sounds = {},
 }
 
 --[[ Functions ]]--
-
-function Lights:UpdateSiren(vehicle, state)
-	self.sirens[vehicle] = state
-
-	print(vehicle, state)
-
-	SetVehicleSiren(vehicle, state and state > 0)
-	-- PlaySoundFromEntity(vehicle, "VEHICLES_HORNS_SIREN_2", veh, 0, 0, 0)
-
-	-- Clear sound.
+function Lights:PlaySound(vehicle, sound)
 	local soundId = self.sounds[vehicle]
 	if soundId then
 		StopSound(soundId)
@@ -22,16 +14,28 @@ function Lights:UpdateSiren(vehicle, state)
 		self.sounds[vehicle] = nil
 	end
 
-	-- Play sound.
-	if state and state > 0 then
+	if sound then
 		soundId = GetSoundId()
 		self.sounds[vehicle] = soundId
 
-		local siren = Config.Sirens[state]
-		if siren then
-			PlaySoundFromEntity(soundId, siren, vehicle, 0, 0, 0)
-		end
+		PlaySoundFromEntity(soundId, sound, vehicle, 0, 0, 0)
 	end
+end
+
+function Lights:UpdateSiren(vehicle, state)
+	self.sirens[vehicle] = state
+
+	SetVehicleSiren(vehicle, state and state > 0)
+
+	local siren = state and state > 0 and Config.Sirens[state]
+
+	self:PlaySound(vehicle, siren)
+end
+
+function Lights:UpdateHorn(vehicle, state)
+	self.horns[vehicle] = state
+
+	self:PlaySound(vehicle, state == 1 and "SIRENS_AIRHORN")
 end
 
 function Lights:UpdateBlinkers(vehicle, state)
@@ -55,6 +59,19 @@ function Lights:Update()
 			if entity.state.blinker and self.blinkers[vehicle] ~= entity.state.blinker then
 				self:UpdateBlinkers(vehicle, entity.state.blinker)
 			end
+
+			if entity.state.horn and self.horns[vehicle] ~= entity.state.horn then
+				self:UpdateHorn(vehicle, entity.state.horn)
+			end
+		end
+	end
+
+	for vehicle, soundId in pairs(self.sounds) do
+		if not cached[vehicle] then
+			StopSound(soundId)
+			ReleaseSoundId(soundId)
+
+			self.sounds[vehicle] = nil
 		end
 	end
 
@@ -87,33 +104,59 @@ Main:AddListener("Update", function()
 		for i = 80, 86 do
 			DisableControlAction(0, i)
 		end
-
-		local setValue = nil
+		
+		local entity = Entity(CurrentVehicle)
+		if not entity then return end
+		
+		local currentSiren = IsSirenOn and entity.state.siren
+		local sirenValue = nil
+		local hornValue = nil
 
 		-- Toggle light.
 		if IsDisabledControlJustPressed(0, 85) then
 			local enabled = not IsSirenOn
-			setValue = enabled and 1 or 0
-		end
-		
-		-- Siren stages.
-		if IsDisabledControlJustPressed(0, 80) and IsSirenOn then
-			local entity = Entity(CurrentVehicle)
-			setValue = (entity and entity.state.siren or 1) + 1
-			if not Config.Sirens[setValue] then
-				setValue = 2
-			end
+			sirenValue = enabled and 1 or 0
 		end
 
 		-- Toggle sound.
-		if IsDisabledControlJustPressed(0, 224) then
-			local entity = Entity(CurrentVehicle)
-			setValue = (entity and entity.state.siren or 1) > 1 and 1 or 2
+		if IsDisabledControlJustPressed(0, 80) then
+			sirenValue = (entity.state.siren or 1) > 1 and 1 or 2
+		end
+		
+		-- Siren stages.
+		if IsDisabledControlJustPressed(0, 224) and currentSiren then
+			sirenValue = (entity.state.siren or 1) + 1
+			if sirenValue > 3 then
+				sirenValue = 2
+			end
 		end
 
-		-- Update value.
-		if setValue then
-			TriggerServerEvent("vehicles:setState", "siren", setValue)
+		-- Horny.
+		if IsDriver then
+			if IsDisabledControlJustPressed(0, 86) then
+				if currentSiren and currentSiren > 1 then
+					Lights.lastSiren = currentSiren == 4 and Lights.lastSiren or currentSiren
+					sirenValue = 4
+				else
+					hornValue = 1
+				end
+			elseif IsDisabledControlJustReleased(0, 86) then
+				if currentSiren == 4 then
+					sirenValue = Lights.lastSiren or 2
+				else
+					hornValue = 0
+				end
+			end
+		end
+		
+		-- Update sirens.
+		if sirenValue then
+			TriggerServerEvent("vehicles:setState", "siren", sirenValue)
+		end
+
+		-- Update horns.
+		if hornValue then
+			TriggerServerEvent("vehicles:setState", "horn", hornValue)
 		end
 	end
 
@@ -126,11 +169,11 @@ Main:AddListener("Update", function()
 
 		local turnSignal = nil
 
-		if IsDisabledControlJustPressed(0, 63) then
+		if IsDisabledControlJustReleased(0, 63) then
 			turnSignal = 1
-		elseif IsDisabledControlJustPressed(0, 64) then
+		elseif IsDisabledControlJustReleased(0, 64) then
 			turnSignal = 2
-		elseif IsDisabledControlJustPressed(0, 72) then
+		elseif IsDisabledControlJustReleased(0, 72) then
 			turnSignal = 3
 		end
 
@@ -153,6 +196,6 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Lights:Update()
-		Citizen.Wait(400)
+		Citizen.Wait(200)
 	end
 end)

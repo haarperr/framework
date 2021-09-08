@@ -11,6 +11,7 @@ end
 local states = {
 	["siren"] = true,
 	["blinker"] = true,
+	["horn"] = true,
 }
 
 RegisterNetEvent("vehicles:setState", function(key, state)
