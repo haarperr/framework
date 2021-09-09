@@ -24,6 +24,15 @@ function Main:BuildNavigation()
 		door = seat + 1
 		vehicle = CurrentVehicle
 
+		-- Engine.
+		if IsDriver then
+			options[#options + 1] = {
+				id = "vehicleEngine",
+				text = "Ignition",
+				icon = "car_rental",
+			}
+		end
+
 		-- Doors.
 		if IsDriver and ClassSettings.InsideDoors then
 			hood = true
@@ -32,7 +41,7 @@ function Main:BuildNavigation()
 			-- Cargo bays!
 			if DoesVehicleHaveBone(CurrentVehicle, "cargo_node") then
 				options[#options + 1] = {
-					id = "vehicleToggleBay",
+					id = "vehicleBay",
 					text = "Cargo Bay",
 					icon = "archive",
 				}
@@ -76,7 +85,7 @@ function Main:BuildNavigation()
 	-- Doors!
 	if trunk and GetIsDoorValid(vehicle, 5) then
 		options[#options + 1] = {
-			id = "vehicleToggleTrunk",
+			id = "vehicleTrunk",
 			text = "Trunk",
 			icon = "inventory_2",
 			doorIndex = 5,
@@ -85,7 +94,7 @@ function Main:BuildNavigation()
 
 	if hood and GetIsDoorValid(vehicle, 4) then
 		options[#options + 1] = {
-			id = "vehicleToggleHood",
+			id = "vehicleHood",
 			text = "Hood",
 			icon = "home_repair_service",
 			doorIndex = 4,
@@ -94,7 +103,7 @@ function Main:BuildNavigation()
 
 	if door then
 		options[#options + 1] = {
-			id = "vehicleToggleDoor",
+			id = "vehicleDoor",
 			text = "Door",
 			icon = "door_back",
 			doorIndex = door,
@@ -157,7 +166,11 @@ AddEventHandler("interact:onNavigate", function(id, option)
 	end
 end)
 
-AddEventHandler("interact:onNavigate_vehicleToggleBay", function(option)
+AddEventHandler("interact:onNavigate_vehicleEngine", function(option)
+	Main:ToggleEngine()
+end)
+
+AddEventHandler("interact:onNavigate_vehicleBay", function(option)
 	local vehicle = GetVehicle()
 	if not vehicle then return end
 

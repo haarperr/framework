@@ -3,7 +3,7 @@ function Main.update:Ignition()
 	
 end
 
-function Main:ToggleEngine(value)
+function Main:ToggleEngine()
 	if not IsDriver then return end
 
 	local netId = GetNetworkId(CurrentVehicle)
@@ -15,12 +15,6 @@ function Main:ToggleEngine(value)
 	end
 
 	TriggerServerEvent("vehicles:toggleEnigne", netId)
-
-	-- if value == nil then
-	-- 	value = not GetIsVehicleEngineRunning(CurrentVehicle)
-	-- end
-
-	-- SetVehicleEngineOn(CurrentVehicle, value, false, true)
 end
 
 --[[ Listeners ]]--
