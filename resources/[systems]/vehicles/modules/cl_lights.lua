@@ -93,9 +93,9 @@ end
 Main:AddListener("Update", function()
 	if
 		not IsInVehicle or
-		-- not IsDriver or
 		not IsControlEnabled(0, 51) or
-		not IsControlEnabled(0, 52)
+		not IsControlEnabled(0, 52) or
+		FindSeatPedIsIn(Ped) > 0
 	then
 		return
 	end
