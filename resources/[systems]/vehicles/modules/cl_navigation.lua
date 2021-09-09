@@ -115,6 +115,22 @@ Main:AddListener("Enter", function(vehicle)
 	Main:BuildNavigation()
 end)
 
+Main:AddListener("Update", function()
+	if not IsInVehicle then return end
+
+	local func
+	if IsDisabledControlJustPressed(0, 187) then
+		func = RollDownWindow
+	elseif IsDisabledControlJustPressed(0, 188) then
+		func = RollUpWindow
+	end
+
+	if func then
+		local windowIndex = FindSeatPedIsIn(Ped) + 1
+		func(CurrentVehicle, windowIndex)
+	end
+end)
+
 Main:AddListener("UpdateNearestVehicle", function(vehicle)
 	Main:BuildNavigation()
 end)
