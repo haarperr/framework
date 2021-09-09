@@ -20,10 +20,16 @@ function Main:BuildNavigation()
 	local trunk = false
 
 	if CurrentVehicle and DoesEntityExist(CurrentVehicle) then
+		local seat = FindSeatPedIsIn(ped)
+		door = seat + 1
+		vehicle = CurrentVehicle
+
+		-- Doors.
 		if IsDriver and ClassSettings.InsideDoors then
 			hood = true
 			trunk = true
 
+			-- Cargo bays!
 			if DoesVehicleHaveBone(CurrentVehicle, "cargo_node") then
 				options[#options + 1] = {
 					id = "vehicleToggleBay",
@@ -33,16 +39,17 @@ function Main:BuildNavigation()
 			end
 		end
 
+		-- Update seats.
 		local seats = GetVehicleModelNumberOfSeats(Model)
 		local seatOptions = {}
 
-		for seatIndex = -1, seats - 2 do
-			if self:CanGetInSeat(CurrentVehicle, seatIndex) then
+		for seat = -1, seats - 2 do
+			if self:CanGetInSeat(CurrentVehicle, seat) then
 				seatOptions[#seatOptions + 1] = {
-					id = "vehicleSeat"..seatIndex,
-					text = SeatNames[seatIndex] or "Passenger "..(seatIndex - 2),
+					id = "vehicleSeat"..seat,
+					text = SeatNames[seat] or "Passenger "..(seat - 2),
 					icon = "chair",
-					seatIndex = seatIndex,
+					seatIndex = seat,
 				}
 			end
 		end
@@ -53,9 +60,6 @@ function Main:BuildNavigation()
 			icon = "airline_seat_recline_normal",
 			sub = seatOptions,
 		}
-
-		door = FindSeatPedIsIn(ped) + 1
-		vehicle = CurrentVehicle
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
 		hood = NearestDoor == 4
 		trunk = NearestDoor == 5

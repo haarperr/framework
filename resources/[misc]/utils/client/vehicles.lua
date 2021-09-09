@@ -39,6 +39,26 @@ Doors = {
 	["door_pside_r"] = 3,
 }
 
+-- Windows = {
+-- 	["window_lf"] = 2,
+-- 	["window_lm"] = 6,
+-- 	["window_lr"] = 4,
+-- 	["window_rf"] = 3,
+-- 	["window_rm"] = 7,
+-- 	["window_rr"] = 5,
+-- }
+
+-- WindowNames = {
+-- 	[0] = "Front Window",
+-- 	[1] = "Back Window",
+-- 	[2] = "Front Left",
+-- 	[3] = "Front Right",
+-- 	[4] = "Back Left",
+-- 	[5] = "Back Right",
+-- 	[6] = "Middle Left",
+-- 	[7] = "Middle Right",
+-- }
+
 function FindSeatPedIsIn(ped)
 	if not IsPedInAnyVehicle(ped) then return end
 
