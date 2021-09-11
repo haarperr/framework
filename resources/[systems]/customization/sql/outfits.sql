@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `outfits` (
 	UNIQUE INDEX `outfits_unique_key` (`character_id`, `name`(100)) USING BTREE,
 	INDEX `outfits_character_id` (`character_id`) USING BTREE,
 	INDEX `outfits_name` (`name`(100)) USING BTREE,
-	CONSTRAINT `outfits_character_id` FOREIGN KEY (`character_id`) REFERENCES `gtarp_dev2`.`characters` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
+	CONSTRAINT `outfits_character_id` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
 )
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB

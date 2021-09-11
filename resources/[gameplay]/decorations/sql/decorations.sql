@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS `decorations` (
 	INDEX `decorations_character_id` (`character_id`) USING BTREE,
 	INDEX `decorations_item_id` (`item_id`) USING BTREE,
 	INDEX `decorations_container_id` (`container_id`) USING BTREE,
-	CONSTRAINT `decorations_character_id` FOREIGN KEY (`character_id`) REFERENCES `nonstoprp_dev`.`characters` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
-	CONSTRAINT `decorations_container_id` FOREIGN KEY (`container_id`) REFERENCES `nonstoprp_dev`.`containers` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
-	CONSTRAINT `decorations_item_id` FOREIGN KEY (`item_id`) REFERENCES `nonstoprp_dev`.`items` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
+	CONSTRAINT `decorations_character_id` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
+	CONSTRAINT `decorations_container_id` FOREIGN KEY (`container_id`) REFERENCES `containers` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE,
+	CONSTRAINT `decorations_item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
 )
 COLLATE='utf8mb4_general_ci'
 ENGINE=InnoDB
