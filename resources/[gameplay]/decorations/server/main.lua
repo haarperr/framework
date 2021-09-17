@@ -29,6 +29,7 @@ end
 function Main:LoadDatabase()
 	WaitForTable("characters")
 	WaitForTable("items")
+	WaitForTable("containers")
 
 	RunQuery("sql/decorations.sql")
 end
