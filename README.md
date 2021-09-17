@@ -2,4 +2,5 @@
 - [Conventions](docs/conventions.md)
 - [Installation](docs/installation.md)
 - [Resources](docs/resources.md)
-- [Utility](docs/utils.md)
+	- [Utility](docs/utils.md)
+	- [Interact](docs/interact.md)
