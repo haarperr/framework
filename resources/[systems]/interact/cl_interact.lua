@@ -9,7 +9,7 @@ Interaction = {
 	optionsCache = {},
 }
 
-function Interaction:AddOption(id, type)
+function Interaction:AddOption(id, type, entity)
 	if not id then return end
 
 	-- Get the interaction.
@@ -46,7 +46,10 @@ function Interaction:AddOption(id, type)
 	})
 
 	-- Update caches.
-	self.optionsCache[id] = type
+	self.optionsCache[id] = {
+		type = type,
+		entity = entity,
+	}
 
 	table.insert(self.options, id)
 end
@@ -111,6 +114,10 @@ function Interaction:SelectOption()
 	-- Check conditions.
 	local isVisible, canUse = interactable:UpdateConditions()
 	if not isVisible or not canUse then return end
+
+	-- Get cache.
+	local cache = self.optionsCache[id] or {}
+	interactable.entity = cache.entity
 
 	-- Trigger events.
 	local eventName = "interact:on_"..(interactable.event or id)
@@ -332,7 +339,7 @@ function Interaction:Update()
 		self.entity = entity
 
 		for id, cache in pairs(self.optionsCache) do
-			if cache == "entity" then
+			if cache.type == "entity" then
 				self:RemoveOption(id)
 			end
 		end
@@ -344,6 +351,7 @@ function Interaction:Update()
 					table.insert(options, {
 						id = option,
 						type = "entity",
+						entity = entity,
 					})
 				end
 			end
@@ -354,6 +362,7 @@ function Interaction:Update()
 					table.insert(options, {
 						id = option,
 						type = "entity",
+						entity = entity,
 					})
 				end
 			end
@@ -387,7 +396,7 @@ function Interaction:Update()
 		self.shapeHit = shapeHit
 
 		for id, cache in pairs(self.optionsCache) do
-			if cache == "shape" then
+			if cache.type == "shape" then
 				self:RemoveOption(id)
 			end
 		end
@@ -409,7 +418,7 @@ function Interaction:Update()
 		end)
 
 		for k, option in ipairs(options) do
-			self:AddOption(option.id, option.type)
+			self:AddOption(option.id, option.type, option.entity)
 		end
 	end
 end
