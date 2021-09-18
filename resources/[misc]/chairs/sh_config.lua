@@ -1,7 +1,7 @@
 Models = {
 	[`vw_prop_casino_chair_01a`] = {
-		Stool = {
-			Offset = vector3(0.0, 0.0, 1.05),
+		Slots = {
+			Offset = vector3(0.0, -0.15, 0.75),
 			Rotation = vector3(0.0, 0.0, 0.0),
 		},
 	},
@@ -25,7 +25,7 @@ Models = {
 
 	-- Hospital.
 	[`v_med_bed1`] = {
-		Chair = { Offset = vector3(-0.15, 0.0, 1.35), Rotation = vector3(0.0, 0.0, 180.0), Anim = { Dict = "rcm_barry3", Name = "barry_3_sit_loop", Flag = 1 }, Camera = { Offset = vector3(0.0, -2.5, 2.0), Target = vector3(0.0, 0.0, 0.5) } },
+		Chair = { Offset = vector3(-0.15, 0.0, 1.35), Rotation = vector3(0.0, 0.0, 180.0), Anim = { Dict = "rcm_barry3", Name = "barry_3_sit_loop" }, Camera = { Offset = vector3(0.0, -2.5, 2.0), Target = vector3(0.0, 0.0, 0.5) } },
 		Medical = { Offset = vector3(-0.1, 0.0, 1.35), Rotation = vector3(0.0, 0.0, 180.0), Camera = { Offset = vector3(0.0, -2.5, 2.0), Target = vector3(0.0, 0.0, 0.5) } },
 	},
 	[`v_med_cor_medstool`] = {
@@ -41,20 +41,20 @@ Models = {
 
 Bases = {
 	Chair = {
-		Anim = { Dict = "amb@prop_human_seat_chair@male@generic@idle_a", Name = "idle_a", Flag = 1 },
+		Anim = { Dict = "amb@prop_human_seat_chair@male@generic@idle_a", Name = "idle_a" },
 	},
 	Stool = {
-		Anim = { Dict = "anim_casino_a@amb@casino@games@spectate@slots@ped_male@sit_withdrink@01a@idles", Name = "idle_a", Flag = 1 },
+		Anim = { Dict = "anim_casino_a@amb@casino@games@spectate@slots@ped_male@sit_withdrink@01a@idles", Name = "idle_a" },
 	},
 	Slots = {
-		Anim = { Dict = "anim_casino_a@amb@casino@games@slots@male", Name = "base_idle_b", Flag = 1 },
+		Anim = { Dict = "anim_casino_a@amb@casino@games@slots@male", Name = "base_idle_b" },
 	},
 	Bed = {
 		Text = "Lie",
-		Anim = { Dict = "savecountryside@", Name = "t_sleep_loop_countryside", Flag = 1 },
+		Anim = { Dict = "savecountryside@", Name = "t_sleep_loop_countryside" },
 	},
 	Medical = {
 		Text = "Lie",
-		Anim = { Dict = "missfbi1", Name = "cpr_pumpchest_idle", Flag = 1 },
+		Anim = { Dict = "missfbi1", Name = "cpr_pumpchest_idle" },
 	},
 }

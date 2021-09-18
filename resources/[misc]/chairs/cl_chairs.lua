@@ -81,6 +81,7 @@ function Chairs:Activate(entity, offset, rotation, anim, camera)
 	-- Emote.
 	if anim then
 		anim.BlendSpeed = 100.0
+		anim.Flag = 1
 
 		self.emote = exports.emotes:Play(anim)
 	end
