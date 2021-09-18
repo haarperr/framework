@@ -23,6 +23,10 @@ Camera.__index = Camera
 
 --[[ Functions ]]--
 function Camera:Create(data)
+	if not data then
+		data = {}
+	end
+	
 	-- Create camera.
 	data.handle = CreateCam(data.type or "DEFAULT_SCRIPTED_CAMERA", false)
 
