@@ -23,7 +23,7 @@ function Main:Update()
 		if
 			not emote.noAutoplay and
 			((emote.ped and emote.ped ~= ped) or
-			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0 and settings.Flag % 4 ~= 0))
+			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0))
 		then
 			print("replay anim", id)
 			emote:Play()
@@ -68,8 +68,6 @@ function Main:Queue(data)
 end
 
 function Main:Play(data, force)
-	print("play", json.encode(data), force)
-	
 	-- Load prefab emote from string.
 	if type(data) == "string" then
 		data = self.emotes[data]
@@ -88,6 +86,9 @@ function Main:Play(data, force)
 	local id = (self.lastId or 0) + 1
 	self.lastId = id
 
+	-- Debug.
+	print("play", json.encode(data), force, id)
+
 	-- Determine to queue or play the emote.
 	if data.Sequence then
 		-- Queue the sequence.
@@ -95,6 +96,8 @@ function Main:Play(data, force)
 			_data.id = id
 			self:Queue(_data)
 		end
+	elseif IsUpperBody(data.Flag) then
+		Emote:Create(data, id)
 	else
 		data.id = id
 		self:Queue(data)
@@ -102,6 +105,7 @@ function Main:Play(data, force)
 
 	-- Stop current animation.
 	if not IsUpperBody(data.Flag) and isPlaying then
+		print("stop by", id, force)
 		self:Stop(force)
 	end
 
