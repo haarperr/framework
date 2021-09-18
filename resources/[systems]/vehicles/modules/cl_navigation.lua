@@ -9,8 +9,6 @@ end
 
 --[[ Functions: Main ]]--
 function Main:BuildNavigation()
-	if not ClassSettings then return end
-
 	local options = {}
 	local vehicle = nil
 	local ped = PlayerPedId()
@@ -34,7 +32,7 @@ function Main:BuildNavigation()
 		end
 
 		-- Doors.
-		if IsDriver and ClassSettings.InsideDoors then
+		if IsDriver and ClassSettings and ClassSettings.InsideDoors then
 			hood = true
 			trunk = true
 
@@ -70,9 +68,15 @@ function Main:BuildNavigation()
 			sub = seatOptions,
 		}
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
-		hood = NearestDoor == 4
-		trunk = NearestDoor == 5
-		door = not hood and not trunk and NearestDoor
+		local nearestDoor = NearestDoor
+		local doorCoords = NearestDoor and GetEntityBonePosition_2(NearestDoor)
+		if not doorCoords or doorCoords > NearestDoor then
+			
+		end
+
+		hood = nearestDoor == 4
+		trunk = nearestDoor == 5
+		door = not hood and not trunk and nearestDoor
 		vehicle = NearestVehicle
 	end
 
@@ -129,6 +133,8 @@ Main:AddListener("Enter", function(vehicle)
 end)
 
 Main:AddListener("Update", function()
+
+
 	if not IsInVehicle then return end
 
 	local func
