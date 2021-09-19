@@ -46,6 +46,14 @@ function Debug:Enable(value)
 	else
 		self.window:Destroy()
 		self.window = nil
+
+		for id, object in pairs(self.objects) do
+			local label = self.labels[id]
+			if label then
+				exports.interact:RemoveText(label)
+				self.labels[id] = nil
+			end
+		end
 	end
 
 	self.objects = {}
