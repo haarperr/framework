@@ -153,6 +153,10 @@ function addText(data) {
 	const label = new THREE.CSS2DObject(domElement);
 	label.domElement = innerElement;
 
+	if (data.coords) {
+		label.position.set(data.coords.x, data.coords.y, data.coords.z);
+	}
+
 	Scene.add(label);
 
 	Objects[data.id] = label;
