@@ -51,6 +51,13 @@ function Main:Register(data)
 end
 Main:Export("Register")
 
+function Main:RegisterBulk(data)
+	for k, v in ipairs(data) do
+		self:Register(v)
+	end
+end
+Main:Export("RegisterBulk")
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

@@ -1,5 +1,6 @@
 Debug = {
 	objects = {},
+	labels = {},
 }
 
 --[[ Functions: Debug ]]--
@@ -61,8 +62,13 @@ function Debug:Update()
 			object:DrawDebug()
 			temp[id] = true
 			if not self.objects[id] then
-				self.objects[id] = object
 				updateWindow = true
+				
+				self.objects[id] = object
+				self.labels[id] = exports.interact:AddText({
+					coords = object.coords,
+					text = tostring(id),
+				})
 			end
 		end
 	end
@@ -72,6 +78,12 @@ function Debug:Update()
 		if not temp[id] then
 			self.objects[id] = nil
 			updateWindow = true
+
+			local label = self.labels[id]
+			if label then
+				exports.interact:RemoveText(label)
+				self.labels[id] = nil
+			end
 		end
 	end
 
