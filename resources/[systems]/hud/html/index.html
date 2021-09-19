@@ -14,26 +14,25 @@
 					<div id="spinner">
 						<img src="images/compass.png">
 					</div>
-					<div class="circle"></div>
 				</div>
 				<div id="vehicle">
-					<div class="speed">
-						<span id="speed">0</span>
-						<span style="font-size: 65%">MPH</span>
+					<div class="fuel-outer">
+						<div class="fuel-inner">
+							<div id="fuel-bar"></div>
+						</div>
 					</div>
-					<canvas class="radial" id="fuel"></canvas>
-					<!-- <canvas class="radial" id="rpm"></canvas> -->
+					<span id="fuel">100%</span>
+					<div class="speed">
+						<span style="font-size: 100%" id="speed">0</span>
+						<span style="font-size: 50%">MPH</span>
+					</div>
 					<div id="air" style="display: none">
-						<span id="altitude"></span>
-						<span style="font-size: 65%">FT</span>
+						<span style="font-size: 100%" id="altitude"></span>
+						<span style="font-size: 50%">FT</span>
 					</div>
 				</div>
-				<!-- <div id="aspect-error" style="display: none;">
-					<span>Go to Settings/Advanced Graphics and set Aspect Ratio to auto.</span>
-				</div> -->
 			</div>
 			<span id="location"></span>
 		</div>
-		<div id="scoreboard" style="display: none"></div>
 	</body>
 </html>

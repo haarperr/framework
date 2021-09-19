@@ -17,16 +17,18 @@ end
 function HUD:Update()
 	self.ped = PlayerPedId()
 	self.vehicle = GetVehiclePedIsIn(self.ped, false)
-
+	
 	if DoesEntityExist(self.vehicle) then
 		local class = GetVehicleClass(self.vehicle)
 
 		self.entity = self.vehicle
 		self.inVehicle = true
 		self.inAir = class == 15 or class == 16
+		self.isUnderwater = class == 14 or GetEntitySubmergedLevel(self.vehicle) > 0.01
 	else
 		self.entity = self.ped
 		self.inVehicle = false
+		self.lastVehicle = nil
 	end
 
 	for name, func in pairs(Thread) do
@@ -144,6 +146,11 @@ function Thread:Visibility()
 		HUD.wasInAir = HUD.inAir
 		HUD:Commit("setDisplay", { target = "air", value = HUD.inAir })
 	end
+	-- Land.
+	if HUD.wasUnderwater ~= HUD.isUnderwater then
+		HUD.wasUnderwater = HUD.isUnderwater
+		HUD:Commit("setUnderwater", HUD.isUnderwater)
+	end
 	-- Overall visibility.
 	local isVisible = HUD.inVehicle and not IsCinematicCamRendering() and not IsPauseMenuActive()
 	if not isVisible and GetResourceState("emotes") == "started" then
@@ -232,21 +239,6 @@ function Thread:Frames()
 	return 0
 end
 
--- function Thread:Rpm()
--- 	if not HUD.inVehicle then return end
-
--- 	-- Get RPM.
--- 	local rpm = GetVehicleCurrentRpm(HUD.entity)
-
--- 	-- Update RPM.
--- 	HUD:Commit("setBar", {
--- 		id = "rpm",
--- 		value = rpm * 100.0,
--- 	})
-
--- 	return 200
--- end
-
 function Thread:Fuel()
 	if not HUD.inVehicle then return end
 
@@ -255,10 +247,7 @@ function Thread:Fuel()
 	local maxFuel = GetVehicleHandlingFloat(HUD.entity, "CHandlingData", "fPetrolTankVolume") or 60.0
 
 	-- Update fuel.
-	HUD:Commit("setBar", {
-		id = "fuel",
-		value = fuel / maxFuel * 100,
-	})
+	HUD:Commit("setFuel", fuel / maxFuel)
 
 	return 500
 end
@@ -284,16 +273,10 @@ function Thread:Speedometer()
 	})
 
 	if HUD.inAir then
-		local coords = GetEntityCoords(HUD.entity)
-		local hasGround, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z)
-		if hasGround then
-			groundZ = math.floor((coords.z - math.max(groundZ, 0)) * 3.28084)
-		else
-			groundZ = "ERR"
-		end
+		local groundZ = GetEntityHeightAboveGround(HUD.entity) or 0.0
 		HUD:Commit("setText", {
 			element = "altitude",
-			text = groundZ,
+			text = math.floor(groundZ * 3.28084),
 		})
 	end
 
