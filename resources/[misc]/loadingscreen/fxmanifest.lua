@@ -6,6 +6,8 @@ files {
 	'html/index.html',
 	'html/index.js',
 	'html/fonts/*.woff',
+	'html/assets/background.jpg',
+	'html/assets/slices/*.png',
 }
 
 loadscreen 'html/index.html'
