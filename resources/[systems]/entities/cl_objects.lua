@@ -82,12 +82,19 @@ function Object:Load()
 		local entity = CreateObject(self.model, self.coords.x, self.coords.y, self.coords.z, false, true)
 
 		if self.rotation then
-			SetEntityRotation(entity, self.rotation.x, self.rotation.y, self.rotation.z)
+			SetEntityRotation(entity, self.rotation.x, self.rotation.y, self.rotation.z, true)
 		end
 
 		FreezeEntityPosition(entity, true)
 
 		self.entity = entity
+	end
+
+	if self.floor then
+		local hasGround, groundZ = GetGroundZFor_3dCoord(self.coords.x, self.coords.y, self.coords.z)
+		if hasGround then
+			self.coords = vector3(self.coords.x, self.coords.y, groundZ)
+		end
 	end
 end
 
