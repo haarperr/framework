@@ -46,6 +46,7 @@ Config = {
 			icon = "work",
 			options = {
 				{ label = "View Containers", hook = "viewContainers", caption = "Visualize all containers" },
+				{ label = "View Items", hook = "viewItems", caption = "See a list of items" },
 			},
 		},
 		{
