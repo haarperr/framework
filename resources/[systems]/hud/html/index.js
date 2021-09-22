@@ -52,7 +52,8 @@ function setFuel(value) {
 	var bar = document.querySelector("#fuel-bar");
 	var label = document.querySelector("#fuel");
 
-	bar.style.top = `${(1.0 - value) * 30.0 + 70.0}%`
+	// bar.style.top = `${(1.0 - value) * 100.0}%`
+	bar.style.top = `${(1.0 - value) * 50.0 + 50.0}%`
 	label.textContent = `${Math.round(value * 100.0)}%`;
 }
 

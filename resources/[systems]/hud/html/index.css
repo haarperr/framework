@@ -35,16 +35,16 @@ span {
 .fuel-outer {
 	position: absolute;
 	
-	left: 0%;
-	right: 0%;
-	top: 0%;
-	bottom: 0%;
-	z-index: 1;
+	left: -2vmin;
+	right: -2vmin;
+	top: -2vmin;
+	bottom: -2vmin;
+	z-index: -1;
 	
 	border-radius: 100%;
 
-	-webkit-mask-image: radial-gradient(closest-side, transparent 75%, rgba(255, 255, 255, 0.5) 90%, white 100%);
-	mask-image: radial-gradient(closest-side, transparent 75%, rgba(255, 255, 255, 0.5) 90%, white 100%);
+	-webkit-mask-image: radial-gradient(closest-side, transparent 90%, white 91%, white 100%);
+	mask-image: radial-gradient(closest-side, transparent 90%, white 91%, white 100%);
 	object-fit: contain;
 }
 
@@ -57,11 +57,11 @@ span {
 	bottom: 0%;
 	z-index: 1;
 	
-	background: rgba(220, 100, 50, 0.5);
+	background: linear-gradient(to top, rgba(220, 100, 50, 0.2) 0%, rgba(220, 100, 50, 0.5) 50%, transparent 51%);
 	border-radius: 100%;
 
-	-webkit-mask-image: linear-gradient(to top, white 0%, rgba(255, 255, 255, 0.4) 28%, rgba(255, 255, 255, 0.6) 29%, transparent 30%);
-	mask-image: linear-gradient(to top, white 0%, rgba(255, 255, 255, 0.4) 28%, rgba(255, 255, 255, 0.6) 29%, transparent 30%);
+	-webkit-mask-image: linear-gradient(to top, white 0%, rgba(255, 255, 255, 0.4) 100%);
+	mask-image: linear-gradient(to top, white 0%, rgba(255, 255, 255, 0.4) 100%);
 	object-fit: contain;
 }
 
@@ -76,16 +76,29 @@ span {
 	filter: blur(1px);
 }
 
-#fuel {
+.fuel {
 	position: absolute;
-	color: white;
+	display: flex !important;
+
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	width: auto;
+	height: auto;
+	
 	bottom: 22%;
 	right: 12.5%;
-	font-size: 0.8em;
+	font-size: 0.9em;
 	opacity: 0.5;
 }
 
-.underwater #fuel {
+.fuel span {
+	display: block;
+	position: relative !important;
+}
+
+.underwater .fuel {
 	display: none;
 }
 
@@ -155,6 +168,10 @@ span {
 
 	left: 0%;
 	bottom: 0%;
+
+	border-radius: 100%;
+	/* border: 2px solid rgba(0, 0, 0, 0.8); */
+	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
 }
 
 #minimap .fade {
