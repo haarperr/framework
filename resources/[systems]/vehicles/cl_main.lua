@@ -4,6 +4,7 @@ Main.update = {}
 Main.settings = {}
 Main.vehicles = {}
 Main.classes = {}
+Main.info = {}
 
 function Main:Init()
 	for model, settings in pairs(Vehicles) do
@@ -58,6 +59,7 @@ function Main:Update()
 
 	-- General values.
 	if IsInVehicle then
+		Coords = GetEntityCoords(CurrentVehicle)
 		IsSirenOn = IsVehicleSirenOn(CurrentVehicle)
 		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
 		InAir = IsEntityInAir(CurrentVehicle)
@@ -66,7 +68,16 @@ function Main:Update()
 		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
 		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
 		Speed = GetEntitySpeed(CurrentVehicle)
+		SpeedVector = GetEntitySpeedVector(CurrentVehicle, false)
+		Forward = GetEntityForwardVector(CurrentVehicle)
+		Velocity = GetEntityVelocity(CurrentVehicle)
+		
+		ForwardDot = Dot(Forward, SpeedVector)
 		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
+
+		if Speed > 1.0 then
+			LastVelocity = Velocity
+		end
 	end
 
 	-- Update current vehicle.
@@ -107,6 +118,9 @@ function Main:Update()
 	
 	-- Driver stuff.
 	if IsDriver then
+		local fuel = GetVehicleFuelLevel(CurrentVehicle)
+		SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+
 		-- Idling.
 		if IsIdling ~= self.isIdling then
 			self.isIdling = IsIdling
@@ -131,7 +145,7 @@ function Main:Update()
 			print("Braking", Braking, Gear)
 			self.braking = Braking
 			if Braking then
-				self.brakeGear = Speed > 1.0 and Gear
+				self.brakeGear = Speed > 1.0 and ForwardDot > 0.0 and Gear
 			end
 		end
 		
@@ -262,6 +276,13 @@ end)
 --[[ Events ]]--
 AddEventHandler("vehicles:clientStart", function()
 	Main:Init()
+end)
+
+RegisterNetEvent("vehicles:sync", function(netId, info)
+	if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
+
+	Main.info = info
+	Main:InvokeListener("Sync", info)
 end)
 
 --[[ Threads ]]--

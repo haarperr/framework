@@ -70,9 +70,9 @@ function Main:BuildNavigation()
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
 		local nearestDoor = NearestDoor
 		local doorCoords = NearestDoor and GetEntityBonePosition_2(NearestDoor)
-		if not doorCoords or doorCoords > NearestDoor then
+		-- if not doorCoords or doorCoords > NearestDoor then
 			
-		end
+		-- end
 
 		hood = nearestDoor == 4
 		trunk = nearestDoor == 5

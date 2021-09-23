@@ -22,6 +22,11 @@ function Vehicle:Create(netId, info)
 		info.key = GetIsVehicleEngineRunning(entity) == 1
 	end
 
+	-- Load damage.
+	if info.damage == nil then
+		info.damage = {}
+	end
+
 	-- Create vehicle.
 	local vehicle = setmetatable({
 		info = info,

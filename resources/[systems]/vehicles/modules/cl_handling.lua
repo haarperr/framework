@@ -40,6 +40,15 @@ function Handling:GetDefault(name)
 	return self.defaults[name]
 end
 
+function Handling:SetModifier(name, func)
+	local default = self:GetDefault(name)
+	if not default then
+		error(("no default when modifying handling (%s)"):format(name))
+	end
+
+	self:SetField(name, func(default))
+end
+
 function Handling:Init(vehicle)
 	self.vehicle = vehicle
 	self.defaults = {}

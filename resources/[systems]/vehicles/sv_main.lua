@@ -23,6 +23,8 @@ function Main:Enter(source, netId)
 		vehicle = Vehicle:Create(netId)
 	end
 
+	TriggerClientEvent("vehicles:sync", source, netId, vehicle.info)
+
 	exports.log:Add({
 		source = source,
 		verb = "entered",

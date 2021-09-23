@@ -1,24 +1,78 @@
 Damage = {
+	info = {},
 	cache = {},
 	process = {},
 	healths = {},
 }
 
-function Damage.process:Main(deltas)
-	deltas.engine = (deltas.engine + deltas.body) * 10.0
-	deltas.body = 0.0
-	
-	for name, delta in pairs(deltas) do
-		print(name, delta)
+--[[ Functions: Main ]]--
+function Main:TakeDamage(name, amount)
+	local part = Config.Parts[name]
+	if not part then return end
+
+	local damage = self.info and self.info.damage
+	if not damage then
+		damage = {}
+		self.info.damage = damage
 	end
+
+	local value = damage[name] or 1.0
+	value = math.min(math.max(value - amount, 0.0), 1.0)
+	
+	if part.Update then
+		local retval = part.Update(value, Handling)
+		if retval then
+			value = retval
+		end
+	end
+	
+	damage[name] = value
+
+	-- if name == "Engine" then
+	-- 	Damage.healths.engine = value * 1000.0
+	-- 	Damage:UpdateVehicle()
+	-- end
+
+	print("Set damage", name, value)
+end
+
+--[[ Functions: Damage ]]--
+function Damage:Init(info)
+	if not info.damage then return end
+
+	self.healths = self:GetHealths(vehicle)
+	self.cache = self.healths
+end
+
+function Damage.process:Parts(data, deltas, direction)
+	local damage = ((deltas.engine or 0.0) + (deltas.body or 0.0) + (deltas.petrol or 0.0)) / 1000.0
+	
+	-- local delta = (deltas.engine + deltas.body) / 1000.0
+	
+	-- for name, delta in pairs(deltas) do
+	-- 	print(name, delta)
+	-- end
+
+	-- Main:TakeDamage("Engine", delta)
 end
 
 function Main.update:Damage()
 	-- local driveForce = Handling:GetDefault("fInitialDriveForce")
 	-- Handling:SetField("fInitialDriveForce", driveForce * 1.5)
+	
+	-- Testing: faulty fuel injector?
+	-- local d = self.nextChoke and GetGameTimer() - self.nextChoke
+	-- local max = 2000.0
+	-- if not d or d > max then
+	-- 	self.nextChoke = GetGameTimer() + GetRandomIntInRange(5000, 10000)
+	-- 	d = 0.0
+	-- end
+	-- local t = math.min(math.max(math.abs(d) / max, 0.0), 1.0) * 0.8 + 0.2
+	-- if t < 0.99 then
+	-- 	SetVehicleCurrentRpm(CurrentVehicle, Rpm * t)
+	-- end
 end
 
---[[ Functions ]]--
 function Damage:GetHealths(vehicle)
 	return {
 		body = GetVehicleBodyHealth(vehicle),
@@ -28,6 +82,10 @@ function Damage:GetHealths(vehicle)
 end
 
 function Damage:UpdateVehicle()
+	if not self.healths then
+		self.healths = {}
+	end
+
 	SetVehicleBodyHealth(CurrentVehicle, self.healths.body or 1000.0)
 	SetVehicleEngineHealth(CurrentVehicle, self.healths.engine or 1000.0)
 	SetVehiclePetrolTankHealth(CurrentVehicle, self.healths.petrol or 1000.0)
@@ -36,20 +94,19 @@ function Damage:UpdateVehicle()
 end
 
 --[[ Listeners ]]--
-Main:AddListener("Enter", function(vehicle)
-	Damage.healths = Damage:GetHealths(vehicle)
-	Damage.cache = Damage.healths
+Main:AddListener("Sync", function(info)
+	Damage:Init(info)
 end)
 
 --[[ Events ]]--
 AddEventHandler("onEntityDamaged", function(data)
 	if not IsDriver or data.victim ~= CurrentVehicle or not data.weapon then return end
 
-	local attackerType = GetEntityType(data.attacker or 0)
-	if attackerType == 0 then
-		Damage:UpdateVehicle()
-		return
-	end
+	local attackerType = data.attacker ~= Ped and GetEntityType(data.attacker or 0) or 0
+	-- if attackerType == 0 then
+	-- 	Damage:UpdateVehicle()
+	-- 	return
+	-- end
 
 	-- Get current healths.
 	local healths = Damage:GetHealths(CurrentVehicle)
@@ -61,25 +118,40 @@ AddEventHandler("onEntityDamaged", function(data)
 		Damage.cache[name] = value
 	end
 
+	-- Calculate out damage direction.
+	local direction
+	if attackerType == 0 then
+		direction = LastVelocity and Normalize(LastVelocity)
+	else
+		local coords = GetEntityCoords(data.attacker)
+		direction = Normalize(coords - Coords)
+	end
+
+	-- Random direction.
+	if not direction then
+		local rad = GetRandomFloatInRange(0.0, 2.0 * math.pi)
+		direction = vector3(math.cos(rad), math.sin(rad), 0.0)
+	end
+
+	-- Debug: draw damage direction.
+	-- Citizen.CreateThread(function()
+	-- 	for i = 1, 100 do
+	-- 		DrawLine(Coords.x, Coords.y, Coords.z + 1.0, Coords.x + direction.x * 10.0, Coords.y + direction.y * 10.0, Coords.z + direction.z * 10.0 + 1.0, 255, 0, 0, 255)
+	-- 		Citizen.Wait(0)
+	-- 	end
+	-- end)
+
 	-- Process damage functions.
 	for name, func in pairs(Damage.process) do
-		func(Damage, deltas)
+		print("processing", name, func)
+		func(Damage, data, deltas, direction)
 	end
 
-	-- Process deltas.
-	for name, delta in pairs(deltas) do
-		local value = (tonumber(Damage.healths[name]) or 1000.0) - delta
-		Damage.healths[name] = value
-	end
-
-	-- Debug.
-	print(json.encode(deltas), json.encode(data))
-	
 	-- Update vehicle's health.
 	Damage:UpdateVehicle()
 
 	-- Events.
-	Main:InvokeListener("TakeDamage", data.weapon, data, Damage.deltas)
+	-- Main:InvokeListener("TakeDamage", data.weapon, data, Damage.deltas)
 end)
 
 AddEventHandler("vehicles:start", function()
@@ -87,4 +159,11 @@ AddEventHandler("vehicles:start", function()
 	if not DoesEntityExist(vehicle) then return end
 
 	Damage.healths = Damage:GetHealths(vehicle)
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("vehicles:fix", function()
+	if not CurrentVehicle then return end
+
+	SetVehicleFixed(CurrentVehicle)
 end)

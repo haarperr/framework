@@ -1,6 +1,10 @@
 fx_version 'adamant'
 game 'gta5'
 
+files {
+	'icons/*.png',
+}
+
 shared_script {
 	'@grids/shared/grids.lua',
 	'config/*.lua',
@@ -12,6 +16,7 @@ client_scripts {
 	'@utils/client/entities.lua',
 	'@utils/client/misc.lua',
 	'@utils/client/vehicles.lua',
+	'@utils/client/vectors.lua',
 	'cl_main.lua',
 	'modules/cl_*.lua',
 }

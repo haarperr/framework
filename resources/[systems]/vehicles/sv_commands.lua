@@ -60,6 +60,20 @@ end, {
 	}
 }, -1, 25)
 
+exports.chat:RegisterCommand("a:fix", function(source, args, command, cb)
+	TriggerClientEvent("vehicles:fix", source)
+
+	-- Log it.
+	exports.log:Add({
+		source = source,
+		verb = "fixed",
+		noun = "vehicle",
+		channel = "admin",
+	})
+end, {
+	description = "Completely fix your vehicle.",
+}, -1, 25)
+
 exports.chat:RegisterCommand("a:flip", function(source, args, command, cb)
 	if setVehicleRotation(source, 0.0, 180.0) then
 		exports.log:Add({
