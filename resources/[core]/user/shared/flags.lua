@@ -9,6 +9,11 @@ FlagEnums = {
 	["CAN_PLAY_PEDS"] = 6,
 }
 
+function Main:GetFlags()
+	return FlagEnums
+end
+Export(Main, "GetFlags")
+
 function User:HasFlag(flag)
 	if not self.flags then
 		return false
