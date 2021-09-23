@@ -58,7 +58,7 @@ end, {
 	parameters = {
 		{ name = "Model", description = "The vehicle model to spawn." },
 	}
-}, -1, 25)
+}, "Mod")
 
 exports.chat:RegisterCommand("a:fix", function(source, args, command, cb)
 	TriggerClientEvent("vehicles:fix", source)
@@ -72,7 +72,7 @@ exports.chat:RegisterCommand("a:fix", function(source, args, command, cb)
 	})
 end, {
 	description = "Completely fix your vehicle.",
-}, -1, 25)
+}, "Admin")
 
 exports.chat:RegisterCommand("a:flip", function(source, args, command, cb)
 	if setVehicleRotation(source, 0.0, 180.0) then
@@ -87,7 +87,7 @@ exports.chat:RegisterCommand("a:flip", function(source, args, command, cb)
 	end
 end, {
 	description = "Flip... your vehicle? Yes! Not unflip.",
-}, -1, 25)
+}, "Mod")
 
 exports.chat:RegisterCommand("a:unflip", function(source, args, command, cb)
 	if setVehicleRotation(source, 0.0, 0.0) then
@@ -102,4 +102,4 @@ exports.chat:RegisterCommand("a:unflip", function(source, args, command, cb)
 	end
 end, {
 	description = "Unflip your vehicle if you're upside down.",
-}, -1, 25)
+}, "Mod")

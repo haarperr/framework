@@ -128,9 +128,7 @@ exports.chat:RegisterCommand("entities:debug", function(source, args, command)
 		class = "inform",
 		text = ("%s debugging entities!"):format(Debug.enabled and "Started" or "Stopped")
 	})
-end, {
-	powerLevel = 50,
-})
+end, {}, "Dev")
 
 -- TEST.
 -- Citizen.CreateThread(function()

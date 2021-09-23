@@ -1,6 +1,5 @@
 DynamicWeather = true
 TimeOffset = 0
-PowerLevel = 50
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
@@ -128,10 +127,11 @@ exports.chat:RegisterCommand("a:weather", function(source, args, rawCommand)
 	end
 	SendMessage(source, message)
 end, {
-	params = {
-		{ name = "Weather", help = "Weather types: EXTRASUNNY, CLEAR, NEUTRAL, SMOG, FOGGY, OVERCAST, CLOUDS, CLEARING, RAIN, THUNDER, SNOW, BLIZZARD, SNOWLIGHT, XMAS, HALLOWEEN" },
+	description = "Change the weather!",
+	parameters = {
+		{ name = "Weather", description = "Weather types: EXTRASUNNY, CLEAR, NEUTRAL, SMOG, FOGGY, OVERCAST, CLOUDS, CLEARING, RAIN, THUNDER, SNOW, BLIZZARD, SNOWLIGHT, XMAS, HALLOWEEN" },
 	}
-}, 1, PowerLevel)
+}, "Admin")
 
 exports.chat:RegisterCommand("a:time", function(source, args, rawCommand)
 	local hour, minute, second = tonumber(args[1]) or 12, tonumber(args[2]) or 0, tonumber(args[3]) or 0
@@ -144,12 +144,13 @@ exports.chat:RegisterCommand("a:time", function(source, args, rawCommand)
 		channel = "admin",
 	})
 end, {
-	params = {
-		{ name = "Hour", help = "Hour of day (1-24)" },
-		{ name = "Minute", help = "Minute of day (0-60)" },
-		{ name = "Second", help = "Second of day (0-60)" },
+	description = "Change the time instantly.",
+	parameters = {
+		{ name = "Hour", description = "Hour of day (1-24)" },
+		{ name = "Minute", description = "Minute of day (0-60)" },
+		{ name = "Second", description = "Second of day (0-60)" },
 	}
-}, -1, PowerLevel)
+}, "Admin")
 
 RegisterCommand("nextweather", function(source)
 	if source ~= 0 then return end

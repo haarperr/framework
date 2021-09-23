@@ -26,6 +26,5 @@ exports.chat:RegisterCommand("a:tp", function(source, args, command)
 		SetEntityHeading(ped, w)
 	end
 end, {
-	power_level = 25,
 	description = "Teleport to XYZ coordinates."
-})
+}, "Mod")

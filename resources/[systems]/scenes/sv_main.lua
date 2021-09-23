@@ -369,4 +369,4 @@ exports.chat:RegisterCommand("a:sceneremove", function(source, args, command)
 		extra = ("id: %s"):format(id),
 		channel = "admin",
 	})
-end, {}, -1, 25)
+end, {}, "Mod")

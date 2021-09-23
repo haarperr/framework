@@ -679,8 +679,7 @@ exports.chat:RegisterCommand("a:appearance", function(source, args, command)
 	end
 end, {
 	description = "Open the appearance editor for your character.",
-	powerLevel = 25,
 	parameters = {
 		{ name = "Value", description = "True or false; should the menu open or close?" },
 	},
-})
+}, "Mod")

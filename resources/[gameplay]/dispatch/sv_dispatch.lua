@@ -222,4 +222,4 @@ end, {
 	params = {
 		{ name = "Message", help = "Send a message directly to dispatch at your position." },
 	}
-}, -1, 75)
+}, "Admin")

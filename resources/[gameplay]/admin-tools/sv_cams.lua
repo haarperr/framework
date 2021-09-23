@@ -70,9 +70,4 @@ exports.chat:RegisterCommand("a:spectate", function(source, args, rawCommand)
 	end
 
 	Spectating[source] = target
-end, {
-	help = "Spectate somebody.",
-	params = {
-		{ name = "ID", help = "ID of the player" },
-	}
-}, paramCount or -1, 25)
+end, {}, "Mod")

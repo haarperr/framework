@@ -64,4 +64,4 @@ exports.chat:RegisterCommand("a:parkingtp", function(source, args, command, cb)
 	SetEntityCoords(ped, nearest.x, nearest.y, nearest.z, true)
 end, {
 	description = "Goto the nearest parking spot.",
-}, -1, 25)
+}, "Dev")

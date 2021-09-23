@@ -44,7 +44,4 @@ exports.chat:RegisterCommand("a:playback", function(source, args, rawCommand)
 	else
 		Playbacks[source] = true
 	end
-end, {
-	help = "Rewind time.",
-	params = {}
-}, -1, 25)
+end, {}, "Mod")
