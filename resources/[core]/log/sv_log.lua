@@ -215,7 +215,7 @@ end
 
 function Main:GetPlayerText(source)
 	local player = self.players[source]
-	if player == nil then return end
+	if player == nil then return "" end
 
 	return player.text
 end
