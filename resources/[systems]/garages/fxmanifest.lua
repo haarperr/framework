@@ -6,11 +6,12 @@ dependencies {
 }
 
 shared_script {
-	'sh_config.lua',
+	'config/*.lua',
 }
 
 client_scripts {
 	'cl_garages.lua',
+	'cl_parking.lua',
 }
 
 server_scripts {
