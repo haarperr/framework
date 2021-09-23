@@ -1,6 +1,7 @@
 Main.users = {}
 Main.blacklist = {}
 Main.mimics = {}
+Main.players = {}
 
 --[[ Functions ]]--
 function Main:Init()
@@ -33,6 +34,7 @@ function Main:RegisterPlayer(source)
 	local data = self:GetData(source)
 	local user = User:Create(data)
 	self.users[source] = user
+	self.players[user.id] = source
 
 	-- Inform client.
 	local endpoint = user.identifiers.endpoint
@@ -52,6 +54,7 @@ function Main:DestroyPlayer(source)
 	local user = self.users[source]
 	if user == nil then return end
 
+	self.players[user.id or false] = nil
 	self.users[user.source or false] = nil
 end
 
@@ -145,6 +148,11 @@ function Main:GetIdentifier(source, identifier)
 	return identifiers ~= nil and identifiers[identifier]
 end
 Export(Main, "GetIdentifier")
+
+function Main:GetPlayer(id)
+	return self.players[id]
+end
+Export(Main, "GetPlayer")
 
 function Main:Mimic(endpoint, user)
 	if not endpoint then return end
