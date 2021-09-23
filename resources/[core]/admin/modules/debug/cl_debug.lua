@@ -170,7 +170,7 @@ Admin:AddHook("select", "spawnEntity", function()
 
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
-		local entity = CreateObject(hash, coords.x, coords.y, isUnderMap and -500.0 or coords.z, false, true, false)
+		local entity = CreateObject(hash, coords.x, coords.y, isUnderMap and -500.0 or coords.z, true, true, false)
 
 		SetEntityDynamic(entity, isDynamic or false)
 	end)
