@@ -58,3 +58,11 @@ function User:IsOwner()
 
 	return self.flags & (1 << 1) ~= 0
 end
+
+function User:IsDev()
+	if not self.flags then
+		return false
+	end
+
+	return (self.flags & (1 << 1) | self.flags & (1 << 4)) ~= 0
+end

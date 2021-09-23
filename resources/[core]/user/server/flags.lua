@@ -24,6 +24,7 @@ end
 for _, funcName in ipairs({
 	"SetFlag",
 	"HasFlag",
+	"IsDev",
 	"IsMod",
 	"IsAdmin",
 	"IsOwner",
