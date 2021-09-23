@@ -1,3 +1,29 @@
+local window
+local user
+
+--[[ Functions ]]--
+local function GetFlagToggles(flags)
+	local toggles = {}
+	local flagEnums = exports.user:GetFlags()
+
+	for enum, flag in pairs(flagEnums) do
+		local mask = 1 << flag
+		toggles[#toggles + 1] = {
+			label = enum.." ("..flag..")",
+			value = (flags or 0) & mask ~= 0,
+			flag = flag,
+			disabled = flag == flagEnums["IS_OWNER"] or (flag == flagEnums["IS_ADMIN"] and not exports.user:IsOwner()),
+		}
+	end
+
+	table.sort(toggles, function(a, b)
+		return a.flag < b.flag
+	end)
+
+	return toggles
+end
+
+--[[ Hooks ]]--
 Admin:AddHook("select", "lookupUser", function()
 	Citizen.Wait(100)
 
@@ -14,6 +40,7 @@ Admin:AddHook("select", "lookupUser", function()
 	end)
 end)
 
+--[[ Events ]]--
 RegisterNetEvent(Admin.event.."receiveUser", function(user, characters, warnings)
 	-- Conert user fields.
 	local fields = {}
@@ -44,12 +71,13 @@ RegisterNetEvent(Admin.event.."receiveUser", function(user, characters, warnings
 	end
 
 	-- Create window.
-	local window = Window:Create({
+	window = Window:Create({
 		type = "window",
 		title = "User",
 		class = "compact",
 		defaults = {
 			tab = "info",
+			flags = GetFlagToggles(user.flags),
 		},
 		style = {
 			["width"] = "80vmin",
@@ -80,6 +108,22 @@ RegisterNetEvent(Admin.event.."receiveUser", function(user, characters, warnings
 						<q-tab name="characters" label="Characters" />
 						<q-tab name="warnings" label="Warnings" />
 					</q-tabs>
+				]]
+			},
+			{
+				type = "div",
+				condition = "this.$getModel('tab') == 'info'",
+				template = [[
+					<q-card class="q-pa-sm">
+						<q-checkbox
+							v-for="(option, key) in $getModel('flags')"
+							:key="key"
+							:label="option.label"
+							:value="option.value"
+							:disable="option.disabled"
+							@input="$invoke('setFlag', option.flag, $event)"
+						/>
+					</q-card>
 				]]
 			},
 			{
@@ -144,7 +188,19 @@ RegisterNetEvent(Admin.event.."receiveUser", function(user, characters, warnings
 	window:OnClick("close", function(self)
 		self:Destroy()
 		UI:Focus(false)
+
+		TriggerServerEvent(Admin.event.."unsubscribeUser")
+	end)
+
+	window:AddListener("setFlag", function(self, flag, value)
+		TriggerServerEvent(Admin.event.."setFlag", flag, value)
 	end)
 
 	UI:Focus(true)
+end)
+
+RegisterNetEvent(Admin.event.."updateFlags", function(flags)
+	if not window then return end
+
+	window:SetModel("flags", GetFlagToggles(flags))
 end)
