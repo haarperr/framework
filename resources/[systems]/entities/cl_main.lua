@@ -75,6 +75,14 @@ AddEventHandler("entities:stop", function()
 	end
 end)
 
+AddEventHandler("onResourceStop", function(resourceName)
+	for id, object in pairs(Main.objects) do
+		if object.resource == resourceName then
+			object:Destroy()
+		end
+	end
+end)
+
 AddEventHandler("interact:onNavigate", function(id)
 	local object = Main.objects[id]
 	if object then

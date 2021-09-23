@@ -11,6 +11,7 @@ function Object:Create(data)
 	-- Other defaults.
 	data.root = data.root or data.parent or data
 	data.depth = data.depth or 0
+	data.resource = data.resource or GetInvokingResource()
 
 	-- Create instance.
 	local instance = setmetatable(data or {}, Object)
