@@ -7,6 +7,9 @@ FlagEnums = {
 	
 	["CAN_PLAY_ANIMAL"] = 5,
 	["CAN_PLAY_PEDS"] = 6,
+
+	["POOR_ROLEPLAY"] = 31,
+	["POSSIBLE_CHEATER"] = 32,
 }
 
 function Main:GetFlags()
