@@ -28,7 +28,8 @@ body {
 	width: 100%;
 	height: 100%;
 	background-image: url("assets/background.jpg");
-	filter: blur(6px);
+	background-size: 100% 100%;
+	filter: blur(0.5vmin);
 	transform: scale(1.1);
 }
 
