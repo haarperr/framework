@@ -124,7 +124,7 @@ function Main:Add(data)
 			if source == target then
 				text = AppendText(text, "themself")
 			else
-				text = AppendText(text, self:GetPlayerText(data.target))
+				text = AppendText(text, self:GetPlayerText(target))
 			end
 		end
 
