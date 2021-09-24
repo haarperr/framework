@@ -25,6 +25,7 @@ function Parts:Destroy()
 
 	self.parts = nil
 	self.built = nil
+	self.nearLift = nil
 end
 
 function Parts:Update()
@@ -77,6 +78,11 @@ function Parts:Build(parts, parent, hood)
 		if hood and info.Name ~= "Engine" then
 			goto skipPart
 		end
+		
+		-- Check conditions.
+		if info.Condition and not info.Condition(self.vehicle, parent) then
+			goto skipPart
+		end
 			
 		-- Build parts from bones.
 		local boneType = type(info.Bone)
@@ -85,7 +91,7 @@ function Parts:Build(parts, parent, hood)
 				local _boneType = type(bone)
 				if _boneType == "string" then
 					self:Create(info, bone, parent)
-				elseif _boneType == "table" and bone.Name and (not bone.Condition or bone.Condition(self.vehicle)) then
+				elseif _boneType == "table" and bone.Name and (not bone.Condition or bone.Condition(self.vehicle, parent)) then
 					self:Create(info, bone.Name, parent)
 				end
 			end
@@ -173,10 +179,10 @@ function Part:Draw()
 
 		self.label = exports.interact:AddText({
 			text = "<div style='display: flex'>"..imgHtml..barHtml.."</div>",
-			-- text = self.name,
 			transparent = true,
 			entity = Parts.vehicle,
 			offset = self.offset,
+			distance = 20.0,
 		})
 	end
 end

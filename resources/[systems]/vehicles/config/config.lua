@@ -36,6 +36,9 @@ Config = {
 				{
 					Name = "Fuel Injector",
 					Offset = vector3(0.4, 0.0, 0.0),
+					Condition = function(vehicle, parent)
+						return GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume") > 0.01
+					end,
 				},
 			},
 		},
@@ -43,28 +46,57 @@ Config = {
 			Name = "Fuel Tank",
 			Bone = "wheel_lr",
 			Offset = vector3(0.0, 0.0, 0.4),
+			Condition = function(vehicle, parent)
+				return GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume") > 0.01
+			end,
 		},
 		{
 			Name = "Muffler",
 			Bone = {
-				"exhaust",
+				"exhaust_10",
+				"exhaust_11",
+				"exhaust_12",
+				"exhaust_13",
+				"exhaust_14",
+				"exhaust_15",
+				"exhaust_16",
 				"exhaust_2",
+				"exhaust_3",
+				"exhaust_4",
+				"exhaust_5",
+				"exhaust_6",
+				"exhaust_7",
+				"exhaust_8",
+				"exhaust_9",
+				"exhaust",
 			},
 		},
 		{
 			Name = "Tire",
 			Bone = {
-				{ Name = "wheel_f", Condition = function(vehicle) return true end },
-				{ Name = "wheel_r", Condition = function(vehicle) return true end },
-				{ Name = "wheel_lf", Condition = function(vehicle) return true end },
-				{ Name = "wheel_lr", Condition = function(vehicle) return true end },
-				{ Name = "wheel_rf", Condition = function(vehicle) return true end },
-				{ Name = "wheel_rr", Condition = function(vehicle) return true end },
+				"wheel_f",
+				"wheel_lf",
+				"wheel_lm1",
+				"wheel_lm2",
+				"wheel_lm3",
+				"wheel_lr",
+				"wheel_r",
+				"wheel_rf",
+				"wheel_rm1",
+				"wheel_rm2",
+				"wheel_rm3",
+				"wheel_rr",
 			},
 			Parts = {
 				{
 					Name = "Brakes",
 					Offset = vector3(0.0, -0.2, 0.2),
+					Condition = function(vehicle, parent)
+						local frontBias = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fBrakeBiasFront")
+						local isFront = parent and parent.offset and parent.offset.y > 0.0
+
+						return (frontBias >= 0.4 and frontBias <= 0.6) or (frontBias > 0.6 and isFront) or (frontBias < 0.4 and not isFront)
+					end,
 				},
 				{
 					Name = "Shocks",
