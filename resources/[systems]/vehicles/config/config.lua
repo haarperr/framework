@@ -17,7 +17,12 @@ Config = {
 				{
 					-- Uses coolant to prevent the engine from overheating.
 					Name = "Radiator",
-					Offset = vector3(0.0, 0.3, 0.0),
+					Offset = vector3(0.0, 0.2, 0.0),
+				},
+				{
+					-- Uses coolant to prevent the engine from overheating.
+					Name = "Air Filter",
+					Offset = vector3(0.0, 0.4, 0.0),
 				},
 				{
 					-- Runs electrical components.
@@ -90,7 +95,7 @@ Config = {
 			Parts = {
 				{
 					Name = "Brakes",
-					Offset = vector3(0.0, -0.2, 0.2),
+					Offset = vector3(0.0, 0.15, 0.15),
 					Condition = function(vehicle, parent)
 						local frontBias = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fBrakeBiasFront")
 						local isFront = parent and parent.offset and parent.offset.y > 0.0
