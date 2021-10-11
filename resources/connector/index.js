@@ -10,7 +10,9 @@ const server = new WebSocketServer({
 	autoAcceptConnections: false,
 });
 
+// Caches.
 const endpoints = new Set();
+let websocket = undefined;
 
 // Websocket server: callbacks.
 server.on("request", function(socket) {
@@ -19,13 +21,19 @@ server.on("request", function(socket) {
 		return
 	}
 
-	console.log("connected!")
+	console.log("WebSocket connected!")
 
 	// Accept the socket.
-	var websocket = socket.accept(null, socket.origin);
+	websocket = socket.accept(null, socket.origin);
+	
+	// Send the endpoint.
+	endpoints.forEach(endpoint => {
+		websocket.send(endpoint);
+	});
 
-	websocket.on("message", message => {
-		console.log("messaging", message)
+	// Close the connection.
+	websocket.on("close", () => {
+		console.log("Closing WebSocket!")
 	});
 });
 
@@ -40,6 +48,10 @@ on("playerConnecting", (name, setKickReason, deferrals) => {
 
 	if (!endpoints.has(endpoint)) {
 		endpoints.add(endpoint);
+
+		if (websocket) {
+			websocket.send(endpoint);
+		}
 	}
 
 	deferrals.defer();
