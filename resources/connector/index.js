@@ -14,6 +14,13 @@ const server = new WebSocketServer({
 const endpoints = new Set();
 let websocket = undefined;
 
+for (var i = 0; i < GetNumPlayerIndices(); i++) {
+	var player = GetPlayerFromIndex(i);
+	var endpoint = GetPlayerEndpoint(player);
+
+	endpoints.add(endpoint);
+}
+
 // Websocket server: callbacks.
 server.on("request", function(socket) {
 	if (!socket.remoteAddress || !socket.remoteAddress.match(/^::\d+/g)) {
@@ -21,12 +28,11 @@ server.on("request", function(socket) {
 		return
 	}
 
-	console.log("WebSocket connected!")
+	console.log("WebSocket connected!");
 
 	// Accept the socket.
 	websocket = socket.accept(null, socket.origin);
 	
-	// Send the endpoint.
 	endpoints.forEach(endpoint => {
 		websocket.send(endpoint);
 	});
@@ -53,6 +59,4 @@ on("playerConnecting", (name, setKickReason, deferrals) => {
 			websocket.send(endpoint);
 		}
 	}
-
-	deferrals.defer();
 })
