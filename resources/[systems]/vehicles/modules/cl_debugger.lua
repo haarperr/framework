@@ -35,7 +35,7 @@ function Debugger:Destroy()
 end
 
 --[[ Commands ]]--
-exports.chat:RegisterCommand("a:vehdebug", function(source, args, command, cb)
+exports.chat:RegisterCommand("a:vehbones", function(source, args, command, cb)
 	if Debugger.vehicle and DoesEntityExist(Debugger.vehicle) then
 		Debugger:Destroy()
 	else
@@ -47,5 +47,4 @@ exports.chat:RegisterCommand("a:vehdebug", function(source, args, command, cb)
 	end
 end, {
 	description = "Visualize the nearest vehicle's information.",
-	power_level = 50,
-})
+}, "Dev")
