@@ -104,15 +104,23 @@ function Emote:Play(settings)
 			table.insert(self.props, entity)
 		end
 	end
+
+	-- Trigger event.
+	TriggerEvent("emotes:play", self.id, settings)
 end
 
 function Emote:Remove()
 	print("removing", self.id)
 
+	-- Trigger event.
+	TriggerEvent("emotes:cancel", self.id)
+
+	-- Clear cache.
 	if self.id then
 		Main.playing[self.id] = nil
 	end
 	
+	-- Clear props.
 	if self.props then
 		for _, entity in ipairs(self.props) do
 			Delete(entity)
