@@ -239,6 +239,27 @@ function Parts:Focus(value)
 	end
 end
 
+function Parts:Find(name, coords)
+	local nearestPart, nearestDist = nil, 0.0
+	
+	for partId, part in pairs(self.parts) do
+		if part.name == name then
+			if not coords then
+				return part
+			end
+
+			local partCoords = part:GetCoords()
+			local dist = #(partCoords - coords)
+			if not nearestPart or dist < nearestDist then
+				nearestPart = part
+				nearestDist = dist
+			end
+		end
+	end
+
+	return nearestPart, nearestDist
+end
+
 --[[ Functions: Part ]]--
 function Part:GetText()
 	local imgHtml = "<img src='nui://vehicles/icons/"..self.name:gsub("%s+", "")..".png' style='height: 32px !important; padding: 4px; filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.5))' />"
