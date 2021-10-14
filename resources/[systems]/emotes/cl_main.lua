@@ -166,10 +166,16 @@ end
 Export(Main, "PlayOnPed")
 
 function Main:IsPlaying(id, checkQueue)
+	if not id then
+		local next = next
+		return next(self.playing) ~= nil
+	end
+
 	local emote = self.playing[id or false]
 	if emote and not emote.stopping then
 		return true
 	end
+	
 	if checkQueue then
 		for k, v in ipairs(self.queue) do
 			if v.id == id then
