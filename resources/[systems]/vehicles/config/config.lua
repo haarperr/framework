@@ -18,25 +18,45 @@ Config = {
 					-- Uses coolant to prevent the engine from overheating.
 					Name = "Radiator",
 					Offset = vector3(0.0, 0.2, 0.0),
+					Repair = {
+						Duration = 3000,
+						Emote = "mechfix",
+					},
 				},
 				{
 					-- Uses coolant to prevent the engine from overheating.
 					Name = "Air Filter",
 					Offset = vector3(0.0, 0.4, 0.0),
+					Repair = {
+						Duration = 3000,
+						Emote = "mechfix",
+					},
 				},
 				{
 					-- Runs electrical components.
 					Name = "Battery",
 					Offset = vector3(-0.4, 0.3, 0.0),
+					Repair = {
+						Duration = 3000,
+						Emote = "mechfix",
+					},
 				},
 				{
 					-- Recharges the battery.
 					Name = "Alternator",
 					Offset = vector3(-0.2, 0.15, 0.0),
+					Repair = {
+						Duration = 3000,
+						Emote = "mechfix",
+					},
 				},
 				{
 					Name = "Transmission",
 					Offset = vector3(0.0, -0.3, 0.0),
+					Repair = {
+						Duration = 3000,
+						Emote = "mechfix",
+					},
 				},
 				{
 					Name = "Fuel Injector",
@@ -44,6 +64,10 @@ Config = {
 					Condition = function(vehicle, parent)
 						return GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume") > 0.01
 					end,
+					Repair = {
+						Duration = 3000,
+						Emote = "mechfix",
+					},
 				},
 			},
 		},
