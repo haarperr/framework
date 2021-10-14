@@ -9,7 +9,7 @@ function Damage.process:Parts(data, deltas, direction)
 
 	local damage = ((deltas.engine or 0.0) + (deltas.body or 0.0) + (deltas.petrol or 0.0)) / 1000.0
 
-	for id, part in pairs(Parts.parts) do
+	for partId, part in pairs(Parts.parts) do
 		local dot = part.direction and Dot(part.direction, direction) or GetRandomFloatInRange(0.0, 1.0)
 		if dot > 0.0 then
 			part:Damage(dot * damage * 10.0)
@@ -64,7 +64,7 @@ function Parts:Sync(info)
 	if not damage then return end
 
 	if self.vehicle and self.parts then
-		for id, part in pairs(self.parts) do
+		for partId, part in pairs(self.parts) do
 			local health = damage[id] or 1.0
 			if math.abs(health - part.health) > 0.01 then
 				part.health = health
@@ -185,13 +185,14 @@ function Parts:Create(info, boneName, parent)
 	local part = setmetatable({
 		boneIndex = boneIndex,
 		boneName = boneName,
-		rootName = parent and parent.rootName or boneName,
+		direction = #offset > 0.001 and Normalize(offset) or nil,
+		health = self.healths and self.healths[id] or 1.0,
 		id = id,
 		name = info.Name,
 		offset = offset,
-		direction = #offset > 0.001 and Normalize(offset) or nil,
 		parent = parent,
-		health = self.healths and self.healths[id] or 1.0,
+		rootName = parent and parent.rootName or boneName,
+		settings = info,
 	}, Part)
 	
 	self.parts[id] = part
@@ -208,7 +209,7 @@ end
 function Parts:GetPayload()
 	local payload = {}
 
-	for id, part in pairs(self.parts) do
+	for partId, part in pairs(self.parts) do
 		payload[id] = part.health and part.health < 0.999 and part.health or nil
 	end
 
@@ -218,7 +219,7 @@ end
 function Parts:Restore()
 	if not self.parts then return end
 
-	for id, part in pairs(self.parts) do
+	for partId, part in pairs(self.parts) do
 		part:Restore()
 	end
 end
@@ -316,6 +317,10 @@ end
 
 function Part:IsEngine()
 	return self.name == "Engine" or (self.parent and self.parent.name == "Engine")
+end
+
+function Part:GetCoords()
+	return GetOffsetFromEntityInWorldCoords(Parts.vehicle, self.offset.x, self.offset.y, self.offset.z)
 end
 
 --[[ Listeners ]]--
