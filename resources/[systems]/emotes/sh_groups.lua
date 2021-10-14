@@ -553,13 +553,11 @@ Config.Groups = {
 			["lol"] = { Dict = "anim@arena@celeb@flat@paired@no_props", Name = "laugh_a_player_b", Flag = 48 },
 			["lookforchange"] = { Dict = "amb@prop_human_parking_meter@male@base", Name = "base", Flag = 49 },
 			["makeitrain"] = { Dict = "anim@mp_player_intupperraining_cash", Name = "idle_a_fp", Flag = 48 },
-			["mechfix"] = { Dict = "anim@amb@garage@chassis_repair@", Name = "idle_01_amy_skater_01", Flag = 1 },
-			["mechfix2"] = { Dict = "anim@amb@garage@chassis_repair@", Name = "idle_02_amy_skater_01", Flag = 1 },
-			["mechfix3"] = { Dict = "mini@repair", Name = "fixing_a_ped", Flag = 1 },
-			["mechfix4"] = { Dict = "mini@repair", Name = "fixing_a_player", Flag = 1 },
-			["mechfix5"] = { Dict = "mini@repair", Name = "fixing_a_ped", Flag = 49 },
-			["mechfix6"] = { Dict = "mini@repair", Name = "fixing_a_player", Flag = 49 },
-			["mechfix7"] = { Dict = "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", Name = "machinic_loop_mechandplayer", Flag = 1 },
+			["mechfix"] = { Dict = "mini@repair", Name = "fixing_a_player", Flag = 1 },
+			["mechfix2"] = { Dict = "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", Name = "machinic_loop_mechandplayer", Flag = 1 },
+			["mechfix3"] = { Dict = "missmechanic", Name = "work2_base", Flag = 1 },
+			["mechfix4"] = { Dict = "missmechanic", Name = "work_base", Flag = 1 },
+			["mechfix5"] = { Dict = "anim@amb@garage@chassis_repair@", Name = "idle_01_amy_skater_01", Flag = 1 },
 			["medic"] = {
 				Sequence = {
 					{ Dict = "amb@medic@standing@kneel@enter", Name = "enter", Flag = 0 },
