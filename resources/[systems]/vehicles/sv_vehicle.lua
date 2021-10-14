@@ -31,6 +31,7 @@ function Vehicle:Create(netId, info)
 	local vehicle = setmetatable({
 		info = info,
 		netId = netId,
+		viewers = {},
 	}, Vehicle)
 
 	-- Cache vehicle.
@@ -51,8 +52,26 @@ end
 function Vehicle:Set(key, value)
 	print("set", self.netId, key, value)
 	self.info[key] = value
+	
+	for source, _ in pairs(self.viewers) do
+		TriggerClientEvent("vehicles:update", source, self.netId, key, value)
+	end
 end
 
 function Vehicle:Get(key)
 	return self.info[key]
+end
+
+function Vehicle:Subscribe(source, value)
+	value = value or nil
+
+	if self.viewers[source] == value then
+		return
+	end
+
+	self.viewers[source] = value
+
+	if value then
+		TriggerClientEvent("vehicles:sync", source, self.netId, self.info)
+	end
 end

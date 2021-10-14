@@ -23,7 +23,7 @@ function Main:Enter(source, netId)
 		vehicle = Vehicle:Create(netId)
 	end
 
-	TriggerClientEvent("vehicles:sync", source, netId, vehicle.info)
+	vehicle:Subscribe(source, true)
 
 	exports.log:Add({
 		source = source,
@@ -60,8 +60,9 @@ end)
 
 AddEventHandler("entityRemoved", function(entity)
 	if not entity then return end
-
-	local vehicle = Main.vehicles[entity]
+	
+	local netId = NetworkGetNetworkIdFromEntity(entity)
+	local vehicle = Main.vehicles[netId or false]
 	if vehicle then
 		vehicle:Destroy()
 	end
@@ -74,4 +75,16 @@ RegisterNetEvent("vehicles:enter", function(netId)
 	if type(netId) ~= "number" then return end
 
 	Main:Enter(source, netId)
+end)
+
+RegisterNetEvent("vehicles:subscribe", function(netId, value)
+	local source = source
+	value = value == true
+
+	if type(netId) ~= "number" then return end
+	
+	local vehicle = Main.vehicles[netId]
+	if vehicle then
+		vehicle:Subscribe(source, value)
+	end
 end)

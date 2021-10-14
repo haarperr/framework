@@ -42,18 +42,8 @@ function Damage:Init(info)
 
 	self.healths = self:GetHealths(vehicle)
 	self.cache = self.healths
-end
 
-function Damage.process:Parts(data, deltas, direction)
-	local damage = ((deltas.engine or 0.0) + (deltas.body or 0.0) + (deltas.petrol or 0.0)) / 1000.0
-	
-	-- local delta = (deltas.engine + deltas.body) / 1000.0
-	
-	-- for name, delta in pairs(deltas) do
-	-- 	print(name, delta)
-	-- end
-
-	-- Main:TakeDamage("Engine", delta)
+	print("init?")
 end
 
 function Main.update:Damage()
@@ -93,20 +83,11 @@ function Damage:UpdateVehicle()
 	print("Updating", json.encode(self.healths))
 end
 
---[[ Listeners ]]--
-Main:AddListener("Sync", function(info)
-	Damage:Init(info)
-end)
-
 --[[ Events ]]--
 AddEventHandler("onEntityDamaged", function(data)
 	if not IsDriver or data.victim ~= CurrentVehicle or not data.weapon then return end
 
 	local attackerType = data.attacker ~= Ped and GetEntityType(data.attacker or 0) or 0
-	-- if attackerType == 0 then
-	-- 	Damage:UpdateVehicle()
-	-- 	return
-	-- end
 
 	-- Get current healths.
 	local healths = Damage:GetHealths(CurrentVehicle)
@@ -121,7 +102,7 @@ AddEventHandler("onEntityDamaged", function(data)
 	-- Calculate out damage direction.
 	local direction
 	if attackerType == 0 then
-		direction = LastVelocity and Normalize(LastVelocity)
+		direction = LastVelocity
 	else
 		local coords = GetEntityCoords(data.attacker)
 		direction = Normalize(coords - Coords)
@@ -154,16 +135,17 @@ AddEventHandler("onEntityDamaged", function(data)
 	-- Main:InvokeListener("TakeDamage", data.weapon, data, Damage.deltas)
 end)
 
-AddEventHandler("vehicles:start", function()
-	local vehicle = GetVehiclePedIsIn(PlayerPedId())
-	if not DoesEntityExist(vehicle) then return end
+-- AddEventHandler("vehicles:start", function()
+-- 	local vehicle = GetVehiclePedIsIn(PlayerPedId())
+-- 	if not DoesEntityExist(vehicle) then return end
 
-	Damage.healths = Damage:GetHealths(vehicle)
-end)
+-- 	Damage.healths = Damage:GetHealths(vehicle)
+-- end)
 
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:fix", function()
 	if not CurrentVehicle then return end
 
 	SetVehicleFixed(CurrentVehicle)
+	Parts:Restore()
 end)

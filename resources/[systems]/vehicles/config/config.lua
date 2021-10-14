@@ -111,6 +111,11 @@ Config = {
 		},
 	},
 	Lifts = {
+		-- Benny's Original Motorworks.
+		{
+			Coords = vector3(-223.23358154296875, -1330.025634765625, 30.890380859375),
+			Radius = 5.0,
+		},
 		-- Power Autos.
 		{
 			Coords = vector3(-32.56019973754883, -1065.721923828125, 28.3964900970459),

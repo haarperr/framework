@@ -75,8 +75,9 @@ function Main:Update()
 		ForwardDot = Dot(Forward, SpeedVector)
 		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
 
-		if Speed > 1.0 then
-			LastVelocity = Velocity
+		if #Velocity > 1.0 then
+			LastVelocity = Velocity / #Velocity
+			-- DrawLine(Coords.x, Coords.y, Coords.z, Coords.x + LastVelocity.x * 10.0, Coords.y + LastVelocity.y * 10.0, Coords.z + LastVelocity.z * 10.0, 255, 255, 0, 128)
 		end
 	end
 
@@ -256,6 +257,10 @@ function Main:CanGetInSeat(vehicle, seat)
 	return IsVehicleSeatFree(vehicle, seat) -- add more checks I guess
 end
 
+function Main:Subscribe(vehicle, value)
+	TriggerServerEvent("vehicles:subscribe", GetNetworkId(vehicle), value)
+end
+
 --[[ Exports ]]--
 exports("GetSettings", function(model)
 	return Vehicles[model]
@@ -278,11 +283,24 @@ AddEventHandler("vehicles:clientStart", function()
 	Main:Init()
 end)
 
-RegisterNetEvent("vehicles:sync", function(netId, info)
-	if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
+RegisterNetEvent("vehicles:sync", function(netId, key, value)
+	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
 
-	Main.info = info
-	Main:InvokeListener("Sync", info)
+	if type(key) == "table" then
+		Main.info = info
+	end
+
+	print("Sync", netId, json.encode(key), json.encode(value))
+
+	Main:InvokeListener("Sync", key, value)
+end)
+
+RegisterNetEvent("vehicles:update", function(netId, key, value)
+	if not Main.info then return end
+
+	Main.info[key] = value
+
+	print("Update", netId, key, json.encode(value))
 end)
 
 --[[ Threads ]]--
