@@ -2,6 +2,38 @@ Main.vehicles = {}
 Main.vinCache = {}
 
 --[[ Functions: Main ]]--
+function Main:Init()
+	self:CacheParts(Config.Parts)
+end
+
+function Main:CacheParts(parts)
+	self.parts = {}
+	for k, part in ipairs(parts) do
+		local bone = part.Bone or -1
+		if type(bone) == "table" then
+			for _k, _bone in ipairs(bone) do
+				self:CacheBone(part, _bone)
+			end
+		else
+			self:CacheBone(part, bone)
+		end
+	end
+end
+
+function Main:CacheBone(part, bone)
+	if part.Name then
+		local id = GetHashKey(part.Name.."_"..bone)
+		print(id, part.Name, bone)
+
+		self.parts[id] = part
+	end
+	if part.Parts then
+		for k, _part in ipairs(part.Parts) do
+			self:CacheBone(_part, bone)
+		end
+	end
+end
+
 function Main:Spawn(model, coords, heading, info)
 	local entity = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
 	
@@ -52,6 +84,10 @@ function Main:GetUniqueVin()
 end
 
 --[[ Events ]]--
+AddEventHandler("vehicles:start", function()
+	Main:Init()
+end)
+
 AddEventHandler("entityCreated", function(entity)
 	if not entity or not DoesEntityExist(entity) then return end
 
