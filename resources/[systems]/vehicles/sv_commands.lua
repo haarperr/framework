@@ -103,3 +103,22 @@ exports.chat:RegisterCommand("a:unflip", function(source, args, command, cb)
 end, {
 	description = "Unflip your vehicle if you're upside down.",
 }, "Mod")
+
+exports.chat:RegisterCommand("a:vehkey", function(source, args, command, cb)
+	local ped = GetPlayerPed(source)
+	local vehicle = GetVehiclePedIsIn(ped)
+	if not vehicle then
+		cb("error", "Must be in a vehicle!")
+	end
+
+	print(Main:GiveKey(source, NetworkGetNetworkIdFromEntity(vehicle)))
+	
+	exports.log:Add({
+		source = source,
+		verb = "gave",
+		noun = "vehicle key",
+		channel = "admin",
+	})
+end, {
+	description = "Give a key to a vehicle.",
+}, "Mod")
