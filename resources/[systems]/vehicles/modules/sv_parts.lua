@@ -11,14 +11,18 @@ RegisterNetEvent("vehicles:setDamage", function(netId, info)
 	local vehicle = Main.vehicles[netId]
 	if not vehicle then return end
 
+	-- Check driver.
+	if GetPedInVehicleSeat(entity, -1) ~= GetPlayerPed(source) then
+		return
+	end
+
 	-- Check info.
-	local count = 0
-	for k, v in pairs(info) do
-		count = count + 1
-		if count > 32 or type(k) ~= "number" or type(v) ~= "number" then
+	for id, value in pairs(info) do
+		if type(id) ~= "number" or type(value) ~= "number" or not Main.parts[id] then
+			-- TODO: anti-cheat.
 			return
 		else
-			info[k] = math.ceil(v * 1000.0) / 1000.0
+			info[id] = math.ceil(value * 1000.0) / 1000.0
 		end
 	end
 
