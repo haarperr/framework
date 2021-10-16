@@ -8,9 +8,24 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 	local part, dist = Parts:Find(partName, pedCoords)
 
 	local repair = part and part.settings.Repair
-	if not repair or not dist or dist > (repair.Dist or 3.0) then
+	if not repair or not dist or dist > (repair.Dist or 1.5) then
 		TriggerEvent("chat:notify", {
 			text = "Cannot find that part...",
+			class = "error",
+		})
+		return
+	end
+
+	if not exports.health:CheckEnergy(Config.Repairing.Energy, true) then
+		return
+	end
+
+	local direction = Normalize(part:GetCoords() - pedCoords)
+	local forward = GetEntityForwardVector(ped)
+	
+	if Dot(direction, forward) < 0.5 then
+		TriggerEvent("chat:notify", {
+			text = "You aren't facing that part!",
 			class = "error",
 		})
 		return
@@ -21,6 +36,8 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		slot = slot and slot.id,
 		vehicle = Parts.vehicle,
 	}
+
+	exports.emotes:Stop(true)
 
 	cb(repair.Duration or 3000, repair.Emote)
 end)
@@ -38,5 +55,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 	local part = repairing.part
 	if not part then return end
 
-	TriggerServerEvent("vehicles:setDamage", GetNetworkId(Parts.vehicle), part.id, slot.slot_id)
+	TriggerServerEvent("vehicles:useItem", GetNetworkId(Parts.vehicle), part.id, slot.slot_id)
+
+	exports.health:TakeEnergy(Config.Repairing.Energy)
 end)

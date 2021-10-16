@@ -54,7 +54,7 @@ function Vehicle:Set(key, value)
 	self.info[key] = value
 	
 	for source, _ in pairs(self.viewers) do
-		TriggerClientEvent("vehicles:update", source, self.netId, key, value)
+		TriggerClientEvent("vehicles:sync", source, self.netId, key, value)
 	end
 end
 

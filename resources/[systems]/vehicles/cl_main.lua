@@ -287,20 +287,14 @@ RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
 
 	if type(key) == "table" then
-		Main.info = info
+		Main.info = key
+	else
+		Main.info[key] = value
 	end
 
 	print("Sync", netId, json.encode(key), json.encode(value))
 
 	Main:InvokeListener("Sync", key, value)
-end)
-
-RegisterNetEvent("vehicles:update", function(netId, key, value)
-	if not Main.info then return end
-
-	Main.info[key] = value
-
-	print("Update", netId, key, json.encode(value))
 end)
 
 --[[ Threads ]]--

@@ -59,13 +59,10 @@ function Parts:Save()
 	TriggerServerEvent("vehicles:setDamage", GetNetworkId(self.vehicle), self:GetPayload())
 end
 
-function Parts:Sync(info)
-	local damage = info.damage
-	if not damage then return end
-
+function Parts:Sync(damage)
 	if self.vehicle and self.parts then
 		for partId, part in pairs(self.parts) do
-			local health = damage[id] or 1.0
+			local health = damage[partId] or 1.0
 			if math.abs(health - part.health) > 0.01 then
 				part.health = health
 				part:Update()
@@ -181,7 +178,9 @@ function Parts:Create(info, boneName, parent)
 	end
 
 	-- Create part.
-	local id = GetHashKey(info.Name.."_"..(parent and parent.rootName or boneName))
+	local rootName = parent and parent.rootName or boneName
+	local id = GetHashKey(info.Name.."_"..rootName)
+	
 	local part = setmetatable({
 		boneIndex = boneIndex,
 		boneName = boneName,
@@ -191,7 +190,7 @@ function Parts:Create(info, boneName, parent)
 		name = info.Name,
 		offset = offset,
 		parent = parent,
-		rootName = parent and parent.rootName or boneName,
+		rootName = rootName,
 		settings = info,
 	}, Part)
 	
@@ -210,7 +209,7 @@ function Parts:GetPayload()
 	local payload = {}
 
 	for partId, part in pairs(self.parts) do
-		payload[id] = part.health and part.health < 0.999 and part.health or nil
+		payload[partId] = part.health and part.health < 0.999 and part.health or nil
 	end
 
 	return payload
@@ -324,8 +323,12 @@ function Part:GetCoords()
 end
 
 --[[ Listeners ]]--
-Main:AddListener("Sync", function(info)
-	Parts:Sync(info)
+Main:AddListener("Sync", function(key, value)
+	if type(key) == "table" and key.damage then
+		Parts:Sync(key.damage)
+	elseif key == "damage" then
+		Parts:Sync(value)
+	end
 end)
 
 Main:AddListener("Enter", function(vehicle)

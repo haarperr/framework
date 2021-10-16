@@ -2,6 +2,9 @@ Config = {
 	Values = {
 		GearShiftDownDelay = 800, -- How long, in milliseconds, the clutch will be forced to 0.0 after clutching down, preventing a double clutch.
 	},
+	Repairing = {
+		Energy = 0.05,
+	},
 	Parts = {
 		{
 			-- Sends power to wheels and turn car?
@@ -9,6 +12,11 @@ Config = {
 			Offset = function()
 
 			end,
+			Repair = {
+				Duration = 9000,
+				Emote = "mechfix2",
+				Dist = 3.0,
+			},
 		},
 		{
 			Name = "Engine",
@@ -19,7 +27,7 @@ Config = {
 					Name = "Radiator",
 					Offset = vector3(0.0, 0.2, 0.0),
 					Repair = {
-						Duration = 3000,
+						Duration = 7000,
 						Emote = "mechfix",
 					},
 				},
@@ -28,7 +36,7 @@ Config = {
 					Name = "Air Filter",
 					Offset = vector3(0.0, 0.4, 0.0),
 					Repair = {
-						Duration = 3000,
+						Duration = 7000,
 						Emote = "mechfix",
 					},
 				},
@@ -37,7 +45,7 @@ Config = {
 					Name = "Battery",
 					Offset = vector3(-0.4, 0.3, 0.0),
 					Repair = {
-						Duration = 3000,
+						Duration = 7000,
 						Emote = "mechfix",
 					},
 				},
@@ -46,7 +54,7 @@ Config = {
 					Name = "Alternator",
 					Offset = vector3(-0.2, 0.15, 0.0),
 					Repair = {
-						Duration = 3000,
+						Duration = 7000,
 						Emote = "mechfix",
 					},
 				},
@@ -54,7 +62,7 @@ Config = {
 					Name = "Transmission",
 					Offset = vector3(0.0, -0.3, 0.0),
 					Repair = {
-						Duration = 3000,
+						Duration = 7000,
 						Emote = "mechfix",
 					},
 				},
@@ -65,7 +73,7 @@ Config = {
 						return GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume") > 0.01
 					end,
 					Repair = {
-						Duration = 3000,
+						Duration = 7000,
 						Emote = "mechfix",
 					},
 				},
@@ -78,6 +86,10 @@ Config = {
 			Condition = function(vehicle, parent)
 				return GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume") > 0.01
 			end,
+			Repair = {
+				Duration = 9000,
+				Emote = "mechfix3",
+			},
 		},
 		{
 			Name = "Muffler",
@@ -98,6 +110,10 @@ Config = {
 				"exhaust_8",
 				"exhaust_9",
 				"exhaust",
+			},
+			Repair = {
+				Duration = 9000,
+				Emote = "mechfix2",
 			},
 		},
 		{
@@ -126,11 +142,23 @@ Config = {
 
 						return (frontBias >= 0.4 and frontBias <= 0.6) or (frontBias > 0.6 and isFront) or (frontBias < 0.4 and not isFront)
 					end,
+					Repair = {
+						Duration = 9000,
+						Emote = "mechfix2",
+					},
 				},
 				{
 					Name = "Shocks",
 					Offset = vector3(-0.2, 0.0, 0.0),
+					Repair = {
+						Duration = 9000,
+						Emote = "mechfix2",
+					},
 				},
+			},
+			Repair = {
+				Duration = 9000,
+				Emote = "mechfix2",
 			},
 		},
 	},

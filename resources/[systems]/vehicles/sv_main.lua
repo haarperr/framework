@@ -23,8 +23,6 @@ end
 function Main:CacheBone(part, bone)
 	if part.Name then
 		local id = GetHashKey(part.Name.."_"..bone)
-		print(id, part.Name, bone)
-
 		self.parts[id] = part
 	end
 	if part.Parts then
@@ -120,7 +118,9 @@ RegisterNetEvent("vehicles:subscribe", function(netId, value)
 	if type(netId) ~= "number" then return end
 	
 	local vehicle = Main.vehicles[netId]
-	if vehicle then
-		vehicle:Subscribe(source, value)
+	if not vehicle then
+		vehicle = Vehicle:Create(netId)
 	end
+
+	vehicle:Subscribe(source, value)
 end)
