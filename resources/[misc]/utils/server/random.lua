@@ -29,3 +29,8 @@ function GetRandomText(length, ...)
 
 	return output
 end
+
+function GetRandomFloatInRange(min, max)
+	UpdateSeed()
+	return math.random() * (max - min) + min
+end
