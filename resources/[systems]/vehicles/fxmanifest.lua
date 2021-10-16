@@ -23,6 +23,7 @@ client_scripts {
 
 server_scripts {
 	'@utils/server/random.lua',
+	'@utils/server/players.lua',
 	'sv_main.lua',
 	'sv_vehicle.lua',
 	'sv_commands.lua',

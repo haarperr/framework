@@ -1,6 +1,11 @@
 RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId)
+	local source = source
+
 	-- Check parameters.
 	if type(netId) ~= "number" or type(partId) ~= "number" or type(slotId) ~= "number" then return end
+
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 3.0, true) then return end
 
 	-- Check entity exists.
 	local entity = NetworkGetEntityFromNetworkId(netId)

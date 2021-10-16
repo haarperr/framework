@@ -106,8 +106,13 @@ end)
 RegisterNetEvent("vehicles:enter", function(netId)
 	local source = source
 
+	-- Check input.
 	if type(netId) ~= "number" then return end
 
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+		
+	PlayerUtil:UpdateCooldown(source)
 	Main:Enter(source, netId)
 end)
 

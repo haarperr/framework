@@ -1,7 +1,11 @@
 RegisterNetEvent("vehicles:setDamage", function(netId, info)
 	local source = source
 	
+	-- Check input.
 	if type(info) ~= "table" then return end
+
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0, true) then return end
 
 	-- Get entity from net id.
 	local entity = Main:GetEntityFromNetworkId(netId)

@@ -58,5 +58,9 @@ end
 
 RegisterNetEvent("vehicles:toggleEnigne", function(netId)
 	local source = source
-	Main:ToggleEngine(source, netId)
+
+	if PlayerUtil:CheckCooldown(source, 1.0) then
+		PlayerUtil:UpdateCooldown(source)
+		Main:ToggleEngine(source, netId)
+	end
 end)
