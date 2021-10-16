@@ -1,6 +1,4 @@
 RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId)
-	print(netId, partId, slotId)
-
 	-- Check parameters.
 	if type(netId) ~= "number" or type(partId) ~= "number" or type(slotId) ~= "number" then return end
 
@@ -32,12 +30,8 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId)
 		vehicle = Vehicle:Create(netId)
 	end
 
-	print("WOW GREAT JOB CHANGE YOUR PART OUT NOW", item.name)
-
 	-- Get durabilities.
-	math.randomseed(math.ceil(os.clock() * 1000.0))
-
-	local oldDurability = (vehicle.info.damage[partId] or 1.0) - math.random() * 0.01
+	local oldDurability = (vehicle.info.damage[partId] or 1.0) - GetRandomFloatInRange(0.0, 0.1)
 	local newDurability = slot.durability or 1.0
 
 	-- Take item.
@@ -58,7 +52,7 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId)
 		source = source,
 		verb = "switched",
 		noun = "part",
-		extra = ("vin: %s - part: %s"):format(vehicle:Get("vin"), item.name),
+		extra = ("vin: %s - part: %s (%.2f->%.2f)"):format(vehicle:Get("vin"), item.name, oldDurability, newDurability),
 	})
 
 	-- Set damage.
