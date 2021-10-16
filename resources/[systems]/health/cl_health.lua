@@ -157,21 +157,25 @@ function Main:SetEffect(name, value)
 
 	Main:UpdateSnowflake()
 end
+Export(Main, "SetEffect")
 
 function Main:GetEffect(name)
 	return self.effects[name] or 0.0
 end
+Export(Main, "GetEffect")
 
 function Main:AddEffect(name, amount)
 	local effect = self.effects[name] or 0.0
 	self:SetEffect(name, effect + amount)
 end
+Export(Main, "AddEffect")
 
 function Main:ResetEffects()
 	for _, effect in ipairs(Config.Effects) do
 		self:SetEffect(effect.Name, effect.Default or 0.0)
 	end
 end
+Export(Main, "ResetEffects")
 
 function Main:ResetInfo()
 	ClearPedBloodDamage(Ped)

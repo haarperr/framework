@@ -208,6 +208,15 @@ Config = {
 	},
 	Effects = {
 		{
+			Name = "Energy",
+			Default = 1.0,
+			Invert = false,
+			Background = "grey",
+			Foreground = "white",
+			Low = true,
+			High = false,
+		},
+		{
 			Name = "Health",
 			Default = 1.0,
 			Invert = false,
@@ -221,7 +230,7 @@ Config = {
 			Default = 0.0,
 			Invert = true,
 			Background = "grey",
-			Foreground = "red",
+			Foreground = "white",
 			Low = false,
 			High = true,
 		},
@@ -404,6 +413,9 @@ Config = {
 		BleedMult = 0.5, -- How much bleed is applied, multiplied by damage.
 		LossMult = 0.01, -- How much blood is lost, multiplied by bleed.
 		HealthLossMult = 0.008,
+	},
+	Energy = {
+		RegenRate = 60.0 * 2.0, -- How long it takes to completely restore energy, in minutes.
 	},
 	Nutrition = {
 		HungerRate = 60.0 * 3.0, -- How long it takes to become hungry, in minutes.
