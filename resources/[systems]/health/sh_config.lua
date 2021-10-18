@@ -212,7 +212,7 @@ Config = {
 			Default = 1.0,
 			Invert = false,
 			Background = "grey",
-			Foreground = "white",
+			Foreground = "gold",
 			Low = true,
 			High = false,
 		},

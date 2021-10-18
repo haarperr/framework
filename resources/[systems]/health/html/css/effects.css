@@ -65,3 +65,7 @@
 .effects .icon.red {
 	background: rgba(240, 40, 40, 1.0);
 }
+
+.effects .icon.gold {
+	background: linear-gradient(to top, rgb(255, 240, 50), rgb(255, 200, 0));
+}
