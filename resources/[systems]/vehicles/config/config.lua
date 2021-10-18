@@ -5,22 +5,47 @@ Config = {
 	Repairing = {
 		Energy = 0.05,
 	},
+	DamageMults = {
+		Base = 1.5,
+		CarCollision = 2.0,
+		WorldCollision = 1.0,
+	},
 	Parts = {
 		{
 			-- Sends power to wheels and turn car?
 			Name = "Axle",
-			Offset = function()
+			DamageMult = 0.5,
+			-- Offset = function()
 
-			end,
+			-- end,
 			Repair = {
 				Duration = 9000,
 				Emote = "mechfix2",
 				Dist = 3.0,
 			},
+			Update = function(part, vehicle, health, handling)
+				handling["fSteeringLock"] = handling["fSteeringLock"] * Lerp(0.7, 1.0, health)
+				handling["fSuspensionReboundDamp"] = handling["fSuspensionReboundDamp"] * Lerp(0.9, 1.0, health)
+				handling["fSuspensionCompDamp"] = handling["fSuspensionCompDamp"] * Lerp(0.9, 1.0, health)
+				handling["fSuspensionForce"] = handling["fSuspensionForce"] * Lerp(0.8, 1.0, health)
+			end,
 		},
 		{
 			Name = "Engine",
 			Bone = "engine",
+			DamageMult = 0.5,
+			Update = function(part, vehicle, health, handling)
+				local health = (part.health or 1.0) * 1000.0
+
+				health = health > 1.0 and health or -4000.0
+				
+				if not Damage.healths.engine or math.abs(Damage.healths.engine - health) > 1.0 then
+					Damage.healths.engine = health
+					Damage:UpdateVehicle()
+				end
+
+				handling["fInitialDriveMaxFlatVel"] = handling["fInitialDriveMaxFlatVel"] * Lerp(0.8, 1.0, health)
+			end,
 			Parts = {
 				{
 					-- Uses coolant to prevent the engine from overheating.
@@ -30,6 +55,9 @@ Config = {
 						Duration = 7000,
 						Emote = "mechfix",
 					},
+					Update = function(part, vehicle, health, handling)
+						OverheatRate = (OverheatRate or 0.0) + (1.0 - health)
+					end,
 				},
 				{
 					-- Uses coolant to prevent the engine from overheating.
@@ -39,6 +67,9 @@ Config = {
 						Duration = 7000,
 						Emote = "mechfix",
 					},
+					Update = function(part, vehicle, health, handling)
+						OverheatRate = (OverheatRate or 0.0) + (1.0 - health)
+					end,
 				},
 				{
 					-- Runs electrical components.
@@ -65,6 +96,10 @@ Config = {
 						Duration = 7000,
 						Emote = "mechfix",
 					},
+					Update = function(part, vehicle, health, handling)
+						handling["fClutchChangeRateScaleUpShift"] = handling["fClutchChangeRateScaleUpShift"] * Lerp(0.2, 1.0, health)
+						handling["fClutchChangeRateScaleDownShift"] = handling["fClutchChangeRateScaleDownShift"] * Lerp(0.2, 1.0, health)
+					end,
 				},
 				{
 					Name = "Fuel Injector",
@@ -76,6 +111,9 @@ Config = {
 						Duration = 7000,
 						Emote = "mechfix",
 					},
+					Update = function(part, vehicle, health, handling)
+						handling["fInitialDriveMaxFlatVel"] = handling["fInitialDriveMaxFlatVel"] * Lerp(0.7, 1.0, health)
+					end,
 				},
 			},
 		},
@@ -146,6 +184,9 @@ Config = {
 						Duration = 9000,
 						Emote = "mechfix2",
 					},
+					Update = function(part, vehicle, health, handling)
+						handling["fBrakeForce"] = handling["fBrakeForce"] * Lerp(0.5, 1.0, health)
+					end,
 				},
 				{
 					Name = "Shocks",
@@ -154,6 +195,11 @@ Config = {
 						Duration = 9000,
 						Emote = "mechfix2",
 					},
+					Update = function(part, vehicle, health, handling)
+						handling["fSuspensionReboundDamp"] = handling["fSuspensionReboundDamp"] * Lerp(0.8, 1.0, health)
+						handling["fSuspensionCompDamp"] = handling["fSuspensionCompDamp"] * Lerp(0.8, 1.0, health)
+						handling["fSuspensionForce"] = handling["fSuspensionForce"] * Lerp(0.7, 1.0, health)
+					end,
 				},
 			},
 			Repair = {
@@ -246,7 +292,7 @@ Config = {
 				setter = function(vehicle, _type, fieldName, value)
 					local value = tonumber(value)
 					if value == nil then error("value not number") end
-	
+
 					SetVehicleHandlingFloat(vehicle, _type, fieldName, value + 0.0)
 				end,
 			},
@@ -255,7 +301,7 @@ Config = {
 				setter = function(vehicle, _type, fieldName, value)
 					local value = tonumber(value)
 					if value == nil then error("value not number") end
-	
+
 					SetVehicleHandlingInt(vehicle, _type, fieldName, math.floor(value))
 				end,
 			},

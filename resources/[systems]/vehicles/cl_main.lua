@@ -35,8 +35,8 @@ function Main:Update()
 	Ped = PlayerPedId()
 	CurrentVehicle = GetVehiclePedIsIn(Ped)
 	EnteringVehicle = GetVehiclePedIsEntering(Ped)
-	IsDriver = GetPedInVehicleSeat(CurrentVehicle, -1) == Ped
 	IsInVehicle = DoesEntityExist(CurrentVehicle)
+	IsDriver = IsInVehicle and GetPedInVehicleSeat(CurrentVehicle, -1) == Ped
 
 	-- Disables hotwiring.
 	DisableControlAction(0, 77)
@@ -119,8 +119,12 @@ function Main:Update()
 	
 	-- Driver stuff.
 	if IsDriver then
-		local fuel = GetVehicleFuelLevel(CurrentVehicle)
+		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
 		SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+
+		-- Temperature.
+		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
+		TemperatureRatio = Temperature / 104.444
 
 		-- Idling.
 		if IsIdling ~= self.isIdling then
@@ -283,6 +287,7 @@ AddEventHandler("vehicles:clientStart", function()
 	Main:Init()
 end)
 
+--[[ Events: Net ]]--
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
 

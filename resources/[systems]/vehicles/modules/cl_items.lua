@@ -4,6 +4,10 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 	local ped = PlayerPedId()
 	local pedCoords = GetEntityCoords(ped)
 
+	if IsPedInAnyVehicle(ped) then
+		return
+	end
+
 	local partName = item.repair or item.name
 	local part, dist = Parts:Find(partName, pedCoords)
 

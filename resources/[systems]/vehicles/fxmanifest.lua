@@ -7,6 +7,7 @@ files {
 
 shared_script {
 	'@grids/shared/grids.lua',
+	'@utils/shared/math.lua',
 	'config/*.lua',
 	'sh_main.lua',
 	'modules/sh_*.lua',

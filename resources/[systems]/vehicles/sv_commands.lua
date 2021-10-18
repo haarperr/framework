@@ -105,20 +105,107 @@ end, {
 }, "Mod")
 
 exports.chat:RegisterCommand("a:vehkey", function(source, args, command, cb)
-	local ped = GetPlayerPed(source)
-	local vehicle = GetVehiclePedIsIn(ped)
-	if not vehicle then
-		cb("error", "Must be in a vehicle!")
+	-- Get target.
+	local target = tonumber(args[1]) or source
+	local ped = GetPlayerPed(target)
+	if not ped or not DoesEntityExist(ped) then
+		cb("error", "Invalid target!")
+		return
 	end
 
-	print(Main:GiveKey(source, NetworkGetNetworkIdFromEntity(vehicle)))
+	-- Get vehicle.
+	local vehicle = GetVehiclePedIsIn(ped)
+	if not vehicle or not DoesEntityExist(vehicle) then
+		cb("error", "Must be in a vehicle!")
+		return
+	end
+
+	-- Give key and log it.
+	if Main:GiveKey(target, NetworkGetNetworkIdFromEntity(vehicle)) then
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = "gave",
+			noun = "vehicle key",
+			channel = "admin",
+		})
+	end
+end, {
+	description = "Give a key to a vehicle.",
+	parameters = {
+		{ name = "Target", description = "Who to give the key to (default = you)." },
+	}
+}, "Admin")
+
+exports.chat:RegisterCommand("a:vehdamage", function(source, args, command, cb)
+	-- Get target.
+	local target = tonumber(args[3]) or source
+	local ped = GetPlayerPed(target)
+	if not ped or not DoesEntityExist(ped) then
+		cb("error", "Invalid target!")
+		return
+	end
 	
+	-- Get vehicle.
+	local entity = GetVehiclePedIsIn(ped)
+	if not entity or not DoesEntityExist(entity) then
+		cb("error", "Must be in a vehicle!")
+		return
+	end
+
+	-- Get cached vehicle.
+	local vehicle = Main.vehicles[NetworkGetNetworkIdFromEntity(entity) or false]
+	if not vehicle then
+		cb("error", "Vehicle (cache) does not exist!")
+		return
+	end
+
+	-- Get damage.
+	local damage = tonumber(args[2])
+	if not damage then
+		cb("error", "Damage must be a number!")
+		return
+	end
+
+	-- Find part.
+	local setName = (args[1] or ""):lower()
+	local setCount = 0
+	local damages = vehicle.info.damage or {}
+
+	for partId, part in pairs(Main.parts) do
+		if part.Name then
+			if setName == "*" or part.Name:lower():gsub("%s+", ""):find(setName) then
+				setCount = setCount + 1
+				damages[partId] = damage
+			end
+		end
+	end
+
+	if setCount <= 0 then
+		cb("error", "Parts not found!")
+		return
+	end
+
+	-- Update vehicle.
+	vehicle:Set("damage", damages)
+
+	-- Message client.
+	cb("success", ("%s part(s) set to %.0f%% matching filter '%s'!"):format(setCount, damage * 100.0, setName))
+
+	-- Log it.
 	exports.log:Add({
 		source = source,
-		verb = "gave",
-		noun = "vehicle key",
+		target = target,
+		verb = "set",
+		noun = "vehicle damage",
+		extra = ("filter: %s - damage: %.2f"):format(setName, damage),
 		channel = "admin",
 	})
 end, {
-	description = "Give a key to a vehicle.",
-}, "Mod")
+	description = "Set the damage of a specific part.",
+	parameters = {
+		{ name = "Part", description = "Name of the part to set." },
+		{ name = "Damage", description = "Health of the part to set." },
+		{ name = "Target", description = "Who's vehicle to set (default = yours)." },
+	}
+}, "Dev")

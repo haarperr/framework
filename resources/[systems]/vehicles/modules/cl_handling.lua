@@ -71,6 +71,14 @@ function Handling:Restore()
 	end
 end
 
+function Handling:CopyDefaults()
+	local handling = {}
+	for name, value in pairs(self.defaults) do
+		handling[name] = value
+	end
+	return handling
+end
+
 -- function Handling:UpdateField(name, value)
 -- 	self.cached[name] = value
 

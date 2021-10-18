@@ -61,6 +61,25 @@ function Main.update:Damage()
 	-- if t < 0.99 then
 	-- 	SetVehicleCurrentRpm(CurrentVehicle, Rpm * t)
 	-- end
+
+	if not IsDriver then return end
+	
+	local engine = Parts:Find("Engine")
+	if not engine then return end
+
+	-- Overheating.
+	local temperatureDamage = OverheatRate and OverheatRate > 0.01 and (
+		math.pow(((Rpm - 0.2) / 0.8) * math.min(TemperatureRatio, 1.0) * math.min(OverheatRate, 1.0), 2.0)
+	) or 0.0
+
+	local temperatureDelta = 1000.0 / DeltaTime * temperatureDamage * 0.001
+	if temperatureDamage > 0.001 then
+		engine:Damage(temperatureDelta)
+	end
+
+	-- Damage factor.
+	SetVehicleAudioBodyDamageFactor(CurrentVehicle, temperatureDamage)
+	SetVehicleAudioEngineDamageFactor(CurrentVehicle, temperatureDamage)
 end
 
 function Damage:GetHealths(vehicle)
