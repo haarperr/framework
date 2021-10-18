@@ -10,6 +10,10 @@ Config = {
 		CarCollision = 2.0,
 		WorldCollision = 1.0,
 	},
+	Stalling = {
+		MinDamage = 20.0,
+		StallTime = { 2000, 4000 },
+	},
 	Parts = {
 		{
 			-- Sends power to wheels and turn car?
