@@ -56,13 +56,13 @@ function Main.update:Damage()
 	if not radiator then return end
 
 	-- Overheating.
-	local overheatRate = 1.0 - (radiator.health or 1.0)
+	local overheatRate = math.pow(1.0 - (radiator.health or 1.0), 4.0)
 	local temperatureDamage = overheatRate and overheatRate > 0.01 and (
-		math.pow(((Rpm - 0.2) / 0.8) * math.min(TemperatureRatio, 1.0) * math.min(overheatRate, 1.0), 2.0)
+		((Rpm - 0.2) / 0.8) * math.min(TemperatureRatio, 1.0) * math.min(overheatRate, 1.0)
 	) or 0.0
 
 	local temperatureDelta = 1000.0 / DeltaTime * temperatureDamage * 0.001
-	if temperatureDamage > 0.001 then
+	if temperatureDamage > 0.001 and (radiator.health < 0.1 or engine.health > radiator.health) then
 		engine:Damage(temperatureDelta)
 	end
 
