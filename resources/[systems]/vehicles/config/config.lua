@@ -29,6 +29,7 @@ Config = {
 				handling["fSuspensionReboundDamp"] = handling["fSuspensionReboundDamp"] * Lerp(0.9, 1.0, health)
 				handling["fSuspensionCompDamp"] = handling["fSuspensionCompDamp"] * Lerp(0.9, 1.0, health)
 				handling["fSuspensionForce"] = handling["fSuspensionForce"] * Lerp(0.8, 1.0, health)
+				handling["fTractionCurveLateral"] = handling["fTractionCurveLateral"] * Lerp(1.0, 2.0, 1.0 - health)
 			end,
 		},
 		{
@@ -142,6 +143,10 @@ Config = {
 		},
 		{
 			Name = "Tire",
+			Update = function(part, vehicle, health, handling)
+				handling["fTractionCurveLateral"] = handling["fTractionCurveLateral"] * Lerp(1.0, 1.15, 1.0 - health)
+				handling["fTractionLossMult"] = handling["fTractionLossMult"] * Lerp(1.0, 1.15, 1.0 - health)
+			end,
 			Bone = {
 				"wheel_f",
 				"wheel_lf",
