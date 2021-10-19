@@ -145,3 +145,44 @@ function DoesVehicleHaveEngine(vehicle)
 	end
 	return false
 end
+
+function GetVehicleEngineDoor(vehicle)
+	-- Get and check engine.
+	local engineIndex = GetEntityBoneIndexByName(vehicle, "engine")
+	if engineIndex == -1 then return end
+	
+	-- Get hood and trunk.
+	local hoodIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
+	local trunkIndex = GetEntityBoneIndexByName(vehicle, "boot")
+
+	-- Get engine coords.
+	local engineOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetEntityBonePosition_2(vehicle, engineIndex))
+	local engineSign = engineOffset.y > 0.0 and 1 or -1
+
+	-- Check hood.
+	if hoodIndex ~= -1 then
+		local hoodOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetEntityBonePosition_2(vehicle, hoodIndex))
+		local hoodSign = hoodOffset.y > 0.0 and 1 or -1
+
+		if engineSign == hoodSign then
+			return "bonnet"
+		end
+	end
+
+	-- Check trunk.
+	if trunkIndex ~= -1 then
+		local trunkOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetEntityBonePosition_2(vehicle, trunkIndex))
+		local trunkSign = trunkOffset.y > 0.0 and 1 or -1
+
+		if engineSign == trunkSign then
+			return "boot"
+		end
+	end
+end
+
+function IsVehicleEngineVisible(vehicle)
+	local engineDoor  = GetVehicleEngineDoor(vehicle)
+	if not engineDoor then return false end
+	
+	return GetVehicleDoorAngleRatio(vehicle, engineDoor == "boot" and 5 or 4) > 0.5, engineDoor
+end
