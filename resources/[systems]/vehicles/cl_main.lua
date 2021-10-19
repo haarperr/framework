@@ -242,7 +242,21 @@ end
 
 function Main:ToggleDoor(vehicle, index)
 	local angleRatio = GetVehicleDoorAngleRatio(vehicle, index)
-	if angleRatio > 0.1 then
+	local state = angleRatio < 0.1
+
+	self:SetDoorState(vehicle, index, not state)
+end
+
+function Main:SetDoorState(vehicle, index, state, fromServer)
+	local driver = GetPedInVehicleSeat(vehicle, -1)
+	if driver and DoesEntityExist(driver) and driver ~= PlayerPedId() and not fromServer then
+		TriggerServerEvent("vehicles:toggleDoor", GetNetworkId(vehicle), index, state)
+		return
+	end
+
+	WaitForAccess(vehicle)
+
+	if state then
 		SetVehicleDoorShut(vehicle, index, false)
 	else
 		SetVehicleDoorOpen(vehicle, index, false, false)
@@ -300,6 +314,13 @@ RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	print("Sync", netId, json.encode(key), json.encode(value))
 
 	Main:InvokeListener("Sync", key, value)
+end)
+
+RegisterNetEvent("vehicles:toggleDoor", function(netId, index, state)
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	Main:SetDoorState(vehicle, index, state, true)
 end)
 
 --[[ Threads ]]--

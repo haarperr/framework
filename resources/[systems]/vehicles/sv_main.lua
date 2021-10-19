@@ -129,3 +129,28 @@ RegisterNetEvent("vehicles:subscribe", function(netId, value)
 
 	vehicle:Subscribe(source, value)
 end)
+
+RegisterNetEvent("vehicles:toggleDoor", function(netId, door, state)
+	local source = source
+
+	-- Check input.
+	if type(netId) ~= "number" or type(door) ~= "number" or type(state) ~= "boolean" then return end
+	
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0, true) then return end
+
+	-- Check vehicle.
+	local entity = NetworkGetEntityFromNetworkId(netId)
+	if not entity or not DoesEntityExist(entity) then return end
+
+	local target = NetworkGetEntityOwner(entity)
+	if not target then return end
+
+	exports.log:Add({
+		source = source,
+		verb = state and "closed" or "opened",
+		noun = "vehicle door",
+	})
+
+	TriggerClientEvent("vehicles:toggleDoor", target, netId, door, state)
+end)
