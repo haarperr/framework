@@ -107,11 +107,16 @@ function Parts:Update()
 	end
 
 	if self.parts then
+		local isEngineVisible, engineDoor = false, nil
+		if self.isNearHood or self.isNearTrunk or self.nearLift then
+			isEngineVisible, engineDoor = IsVehicleEngineVisible(self.vehicle)
+		end
+
 		local hasFocus = (self.debug and (1 << 1 | 1 << 2)) or (
 			(self.nearLift and 1 << 1 or 0) |
 			(
-				(self.isNearHood or self.nearLift) and (
-					GetVehicleDoorAngleRatio(self.vehicle, 4) > 0.5 or (self.nearLift and GetEntityBoneIndexByName(self.vehicle, "bonnet") == -1)
+				((self.isNearHood and engineDoor == "bonnet") or (self.isNearTrunk and engineDoor == "boot") or self.nearLift) and (
+					isEngineVisible or (self.nearLift and not engineDoor)
 				) and 1 << 2 or 0
 			)
 		)
@@ -393,6 +398,7 @@ end)
 
 Main:AddListener("UpdateNearestDoor", function(vehicle, door)
 	Parts.isNearHood = door == 4
+	Parts.isNearTrunk = door == 5
 end)
 
 Main:AddListener("UpdateNearestVehicle", function(vehicle)
