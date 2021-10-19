@@ -405,6 +405,8 @@ Main:AddListener("UpdateNearestVehicle", function(vehicle)
 end)
 
 Main:AddListener("Update", function()
+	if not IsDriver then return end
+	
 	local fuelInjector = Parts:Find("Fuel Injector")
 	if not fuelInjector then return end
 
