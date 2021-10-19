@@ -19,9 +19,6 @@ Config = {
 			-- Sends power to wheels and turn car?
 			Name = "Axle",
 			DamageMult = 0.5,
-			-- Offset = function()
-
-			-- end,
 			Repair = {
 				Duration = 9000,
 				Emote = "mechfix2",
@@ -54,31 +51,16 @@ Config = {
 				{
 					-- Uses coolant to prevent the engine from overheating.
 					Name = "Radiator",
-					Offset = vector3(0.0, 0.2, 0.0),
+					Offset = vector3(0.0, 0.3, 0.0),
 					Repair = {
 						Duration = 7000,
 						Emote = "mechfix",
 					},
-					Update = function(part, vehicle, health, handling)
-						OverheatRate = (OverheatRate or 0.0) + (1.0 - health)
-					end,
-				},
-				{
-					-- Uses coolant to prevent the engine from overheating.
-					Name = "Air Filter",
-					Offset = vector3(0.0, 0.4, 0.0),
-					Repair = {
-						Duration = 7000,
-						Emote = "mechfix",
-					},
-					Update = function(part, vehicle, health, handling)
-						OverheatRate = (OverheatRate or 0.0) + (1.0 - health)
-					end,
 				},
 				{
 					-- Runs electrical components.
 					Name = "Battery",
-					Offset = vector3(-0.4, 0.3, 0.0),
+					Offset = vector3(-0.4, 0.0, 0.0),
 					Repair = {
 						Duration = 7000,
 						Emote = "mechfix",
@@ -87,7 +69,7 @@ Config = {
 				{
 					-- Recharges the battery.
 					Name = "Alternator",
-					Offset = vector3(-0.2, 0.15, 0.0),
+					Offset = vector3(-0.4, 0.3, 0.0),
 					Repair = {
 						Duration = 7000,
 						Emote = "mechfix",

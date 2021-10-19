@@ -126,8 +126,6 @@ function Parts:Update()
 			local values = Handling.values
 			local handling = Handling:CopyDefaults()
 
-			OverheatRate = nil
-
 			for partId, part in pairs(self.parts) do
 				local health = part.health or 1.0
 				if part.settings.Update then
@@ -406,7 +404,7 @@ end)
 
 Main:AddListener("Update", function()
 	if not IsDriver then return end
-	
+
 	local fuelInjector = Parts:Find("Fuel Injector")
 	if not fuelInjector then return end
 

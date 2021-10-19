@@ -47,29 +47,18 @@ function Damage:Init(info)
 end
 
 function Main.update:Damage()
-	-- local driveForce = Handling:GetDefault("fInitialDriveForce")
-	-- Handling:SetField("fInitialDriveForce", driveForce * 1.5)
-	
-	-- Testing: faulty fuel injector?
-	-- local d = self.nextChoke and GetGameTimer() - self.nextChoke
-	-- local max = 2000.0
-	-- if not d or d > max then
-	-- 	self.nextChoke = GetGameTimer() + GetRandomIntInRange(5000, 10000)
-	-- 	d = 0.0
-	-- end
-	-- local t = math.min(math.max(math.abs(d) / max, 0.0), 1.0) * 0.8 + 0.2
-	-- if t < 0.99 then
-	-- 	SetVehicleCurrentRpm(CurrentVehicle, Rpm * t)
-	-- end
-
 	if not IsDriver then return end
 	
 	local engine = Parts:Find("Engine")
 	if not engine then return end
+	
+	local radiator = Parts:Find("Radiator")
+	if not radiator then return end
 
 	-- Overheating.
-	local temperatureDamage = OverheatRate and OverheatRate > 0.01 and (
-		math.pow(((Rpm - 0.2) / 0.8) * math.min(TemperatureRatio, 1.0) * math.min(OverheatRate, 1.0), 2.0)
+	local overheatRate = 1.0 - (radiator.health or 1.0)
+	local temperatureDamage = overheatRate and overheatRate > 0.01 and (
+		math.pow(((Rpm - 0.2) / 0.8) * math.min(TemperatureRatio, 1.0) * math.min(overheatRate, 1.0), 2.0)
 	) or 0.0
 
 	local temperatureDelta = 1000.0 / DeltaTime * temperatureDamage * 0.001
