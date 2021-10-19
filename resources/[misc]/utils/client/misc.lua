@@ -47,6 +47,15 @@ function WaitForRequestModel(model)
 	return true
 end
 
+function WaitForAccess(entity, timeout)
+	local timeout = GetGameTimer() + (timeout or 5000)
+	while not NetworkHasControlOfEntity(entity) and GetGameTimer() < timeout do
+		NetworkRequestControlOfEntity(entity)
+		Citizen.Wait(20)
+	end
+	return NetworkHasControlOfEntity(entity)
+end
+
 function Delete(entity)
 	Citizen.CreateThread(function()
 		while DoesEntityExist(entity) do
