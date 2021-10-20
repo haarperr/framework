@@ -2,8 +2,14 @@ Config = {
 	Values = {
 		GearShiftDownDelay = 800, -- How long, in milliseconds, the clutch will be forced to 0.0 after clutching down, preventing a double clutch.
 	},
-	Repairing = {
-		Energy = 0.05,
+	Repair = {
+		Energy = 0.05, -- How much energy is required and taken when switching parts or repairing.
+		SalvageChance = 0.8, -- The chance when, removing a broken part, they obtain its "salvage."
+		Degradation = 0.1, -- How much random durability can be taken (from 0) from the part being removed.
+		Engine = { -- Repairing the engine (using a Repair Kit, or other item definition where item.part == "Engine").
+			ItemDurability = { 0.1, 0.15 }, -- Range of durability taken from the item used to repair.
+			MaxHealth = 0.8, -- The health to set the engine when not near a lift.
+		},
 	},
 	DamageMults = {
 		Base = 1.5,
@@ -36,6 +42,10 @@ Config = {
 			Name = "Engine",
 			Bone = "engine",
 			DamageMult = 0.5,
+			Repair = {
+				Duration = 7000,
+				Emote = "mechfix",
+			},
 			Update = function(part, vehicle, health, handling)
 				local health = (part.health or 1.0) * 1000.0
 

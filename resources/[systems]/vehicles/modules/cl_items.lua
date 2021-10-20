@@ -1,5 +1,5 @@
 AddEventHandler("inventory:use", function(item, slot, cb)
-	if item.category ~= "Vehicle" then return end
+	if item.category ~= "Vehicle" or (slot.durability and slot.durability < 0.01) then return end
 
 	local ped = PlayerPedId()
 	local pedCoords = GetEntityCoords(ped)
@@ -20,7 +20,16 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		return
 	end
 
-	if not exports.health:CheckEnergy(Config.Repairing.Energy, true) then
+	local isEngine = partName == "Engine"
+	if isEngine and (part.health or 1.0) > (Parts.nearLift and 0.99 or Config.Repair.Engine.MaxHealth) then
+		TriggerEvent("chat:notify", {
+			text = "There's nothing more I can do...",
+			class = "error",
+		})
+		return
+	end
+
+	if not exports.health:CheckEnergy(Config.Repair.Energy, true) then
 		return
 	end
 
@@ -59,7 +68,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 	local part = repairing.part
 	if not part then return end
 
-	TriggerServerEvent("vehicles:useItem", GetNetworkId(Parts.vehicle), part.id, slot.slot_id)
+	TriggerServerEvent("vehicles:useItem", GetNetworkId(Parts.vehicle), part.id, slot.slot_id, Parts.nearLift)
 
-	exports.health:TakeEnergy(Config.Repairing.Energy)
+	exports.health:TakeEnergy(Config.Repair.Energy)
 end)
