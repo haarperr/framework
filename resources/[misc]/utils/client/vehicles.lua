@@ -73,6 +73,15 @@ function FindSeatPedIsIn(ped)
 	end
 end
 
+function FindFirstFreeVehicleSeat(vehicle)
+	local model = GetEntityModel(vehicle)
+	for i = -1, GetVehicleModelNumberOfSeats(model) - 2 do
+		if IsVehicleSeatFree(vehicle, i) then
+			return i
+		end
+	end
+end
+
 function GetNearestVehicle(coords, maxDist)
 	local nearestVehicle = nil
 	local nearestDist = 0.0
