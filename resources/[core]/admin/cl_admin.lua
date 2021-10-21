@@ -50,6 +50,26 @@ RegisterNetEvent(Admin.event.."receivePlayer", function(serverId, data)
 	Admin.players[serverId] = data
 end)
 
+RegisterNetEvent(Admin.event.."goto", function(coords, instance, serverId)
+	exports.teleporters:TeleportTo(coords, instance)
+
+	local player = GetPlayerFromServerId(serverId)
+	if not player or player == PlayerId() then return end
+
+	local playerPed = GetPlayerPed(player)
+	if not DoesEntityExist(playerPed) then return end
+
+	local ped = PlayerPedId()
+	local vehicle = GetVehiclePedIsIn(playerPed)
+
+	if DoesEntityExist(vehicle) then
+		local seatIndex = FindFirstFreeVehicleSeat(vehicle)
+		if seatIndex then
+			SetPedIntoVehicle(ped, vehicle, seatIndex)
+		end
+	end
+end)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

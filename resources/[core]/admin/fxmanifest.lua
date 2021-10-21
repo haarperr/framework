@@ -16,6 +16,7 @@ server_scripts {
 
 client_scripts {
 	'@ui/scripts/cl_main.lua',
+	'@utils/client/vehicles.lua',
 	'cl_admin.lua',
 	'cl_menu.lua',
 	'cl_commands.lua',
