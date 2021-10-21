@@ -23,34 +23,35 @@ end
 function TeleportTo(target)
 	if IsTeleporting then return end
 	IsTeleporting = true
-
+	
 	DoScreenFadeOut(Config.FadeTime)
 	Citizen.Wait(Config.FadeTime)
+
 
 	local ped = PlayerPedId()
 	local wasVisible = IsEntityVisible(ped)
 
 	FreezeEntityPosition(ped, true)
 	SetEntityCoords(ped, target.x, target.y, target.z)
-	SetEntityHeading(ped, target.w or 0.0)
+	SetEntityHeading(ped, type(target) == "vector4" and target.w or 0.0)
 
 	if wasVisible then
 		SetEntityVisible(ped, false)
 	end
 
-	local hasGround, groundZ = false
+	local hasGround, groundZ = false, nil
 	local startTime = GetGameTimer()
+
 
 	while not hasGround and GetGameTimer() - startTime < 5000 do
 		Citizen.Wait(1)
 		hasGround, groundZ = GetGroundZFor_3dCoord(target.x, target.y, target.z)
 	end
 
-	if hasGround then
-		SetEntityCoords(ped, vector3(target.x, target.y, groundZ))
-	end
+	ped = PlayerPedId()
 
 	DoScreenFadeIn(Config.FadeTime)
+	SetEntityCoords(ped, target.x, target.y, hasGround and groundZ or target.z)
 	FreezeEntityPosition(ped, false)
 
 	if wasVisible then
