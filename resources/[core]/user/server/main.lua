@@ -73,7 +73,7 @@ function Main:GetData(source)
 	
 	-- Set identifiers.
 	if mimic then
-		local user = mimic ~= 0 and exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `id`=@id", {
+		local user = mimic ~= 0 and exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `id`=@id LIMIT 1", {
 			["@id"] = mimic,
 		})[1]
 	
@@ -91,7 +91,7 @@ function Main:GetData(source)
 		for i = 1, numIdentifiers do
 			local identifier = GetPlayerIdentifier(source, i - 1)
 			if identifier ~= nil then
-				local key, value = identifier:match("([^:]+):([^:]+)")
+				local key, value = GetIdentifiers(identifier)
 				identifiers[key] = value
 			end
 		end
@@ -116,8 +116,27 @@ function Main:GetData(source)
 	}
 end
 
+function Main:Whitelist(hex, value)
+	value = value or nil
+
+	if Queue.whitelist[hex] == value then
+		return false
+	end
+
+	Queue.whitelist[hex] = value
+
+	exports.GHMattiMySQL:QueryAsync((
+		value and "INSERT INTO `users` SET `steam`=@steam ON DUPLICATE KEY UPDATE `priority`=0"
+		or "UPDATE `users` SET `priority`=-128 WHERE `steam`=@steam"
+	), {
+		["@steam"] = hex,
+	})
+
+	return true
+end
+
 function Main:Ban(target, duration, reason)
-	local key, value = target:match("([^:]+):([^:]+)")
+	local key, value = GetIdentifiers(target)
 	print("BAN", key, value)
 end
 Export(Main, "Ban")

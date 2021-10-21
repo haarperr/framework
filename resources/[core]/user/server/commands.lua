@@ -10,3 +10,23 @@ RegisterCommand("mimic", function(source, args, command)
 
 	Main:Mimic(endpoint, user)
 end, true)
+
+RegisterCommand("whitelist", function(source, args, command)
+	if source ~= 0 then return end
+
+	local action = args[1]
+	local hex = GetHex(args[2])
+
+	local toAdd = action == "add"
+	local toRemove = not toAdd and action == "remove"
+
+	if hex and (toAdd or toRemove) then
+		if Main:Whitelist(hex, toAdd) then
+			print(("steam:%s %s whitelist"):format(hex, toAdd and "added to" or "removed from"))
+		else
+			print(("%s is already %s"):format(hex, toAdd and "whitelisted" or "unwhitelisted"))
+		end
+	else
+		print("Invalid format: whitelist <add/remove> <Steam hex or decimal>")
+	end
+end)
