@@ -46,7 +46,7 @@ function Queue:Init()
 	-- Cache users.
 	local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
 	for index, row in ipairs(users) do
-		self.whitelist[row.steam] = index
+		self.whitelist[row.steam] = true
 	end
 
 	-- Final init.

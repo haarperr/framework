@@ -117,13 +117,12 @@ function Main:GetData(source)
 end
 
 function Main:Whitelist(hex, value)
-	value = value or nil
-
-	if Queue.whitelist[hex] == value then
+	local index = Queue.whitelist[hex]
+	if (value and index) or (not value and not index) then
 		return false
 	end
 
-	Queue.whitelist[hex] = value
+	Queue.whitelist[hex] = value and true or nil
 
 	exports.GHMattiMySQL:QueryAsync((
 		value and "INSERT INTO `users` SET `steam`=@steam ON DUPLICATE KEY UPDATE `priority`=0"
