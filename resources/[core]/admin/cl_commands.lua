@@ -1,9 +1,9 @@
 exports.chat:RegisterCommand("a:tp", function(source, args, command)
 	local x, y, z, w = table.unpack(args)
 
-	x = x:gsub(",", "")
-	y = y:gsub(",", "")
-	z = z:gsub(",", "")
+	x = x and x:gsub(",", "")
+	y = y and y:gsub(",", "")
+	z = z and z:gsub(",", "")
 	w = w and w:gsub(",", "")
 
 	x = tonumber(x)
