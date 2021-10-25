@@ -70,5 +70,5 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 
 	TriggerServerEvent("vehicles:useItem", GetNetworkId(Parts.vehicle), part.id, slot.slot_id, Parts.nearLift)
 
-	exports.health:TakeEnergy(Config.Repair.Energy)
+	exports.health:TakeEnergy(Parts.nearLift and Config.Repair.EnergyNearLift or Config.Repair.Energy)
 end)

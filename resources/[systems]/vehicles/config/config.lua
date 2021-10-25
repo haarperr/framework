@@ -4,6 +4,7 @@ Config = {
 	},
 	Repair = {
 		Energy = 0.05, -- How much energy is required and taken when switching parts or repairing.
+		EnergyNearLift = 0.01, -- Same as energy, but while near a lift.
 		SalvageChance = 0.8, -- The chance when, removing a broken part, they obtain its "salvage."
 		Degradation = 0.1, -- How much random durability can be taken (from 0) from the part being removed.
 		Engine = { -- Repairing the engine (using a Repair Kit, or other item definition where item.part == "Engine").
