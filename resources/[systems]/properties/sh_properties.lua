@@ -1063,7 +1063,7 @@ Properties = {
 	{ id = 1122, type = "house", coords = vector4(1336.8, -1578.8, 54.4366, 36.8504), garage = vector4(1352.68, -1576.11, 53.9985, 31.1811) },
 	{ id = 1123, type = "house", coords = vector4(-1058.29, -1643.3, 4.47693, 124.724), garage = vector4(-1074.76, -1661.63, 4.3927, 82.2047) },
 	{ id = 1124, type = "house", coords = vector4(1354.91, -1690.52, 60.4857, 82.2047), garage = vector4(1194.76, -1764.41, 39.1033, 317.48) },
-	{ id = 1125, type = "house", coords = vector4(1296.76, -1610.19, 58.4132, 104.882) },
+	{ id = 1125, type = "house", coords = vector4(1296.76, -1610.19, 58.4132, 104.882), garage = vector4(1293.66, -1636.65, 51.43, 219.94) },
 	{ id = 1126, type = "house", coords = vector4(1728.79, 3852, 34.7729, 36.8504), garage = vector4(1733.51, 3860.65, 34.6886, 195.591) },
 	{ id = 1127, type = "house", coords = vector4(1193.59, -1656.53, 43.0125, 218.268), garage = vector4(1153.79, -1650.05, 36.5084, 215.433) },
 	{ id = 1128, type = "house", coords = vector4(1193.39, -1622.29, 45.2197, 306.142), garage = vector4(1166.7, -1643.96, 36.9128, 172.913) },
@@ -1663,7 +1663,7 @@ Properties = {
 	{ id = 1840, type = "garage2", coords = vector4(449.525, -1786.98, 28.589, 238.11) },
 	{ id = 1841, type = "garage3", coords = vector4(-72.4747, -1821.01, 26.9377, 51.0236) },
 
-	-- 2000+ reserved for auto-apartments.
+	-- 5000+ reserved for auto-apartments.
 }
 
 for i = 1, 1000 do
