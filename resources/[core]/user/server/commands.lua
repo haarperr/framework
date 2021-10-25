@@ -84,3 +84,19 @@ RegisterCommand("whitelist", function(source, args, command)
 		print("Invalid format: whitelist <add/remove> <Steam hex or decimal>")
 	end
 end)
+
+RegisterCommand("status", function(source, args, command)
+	if source ~= 0 then return end
+
+	local numPlayers = GetNumPlayerIndices()
+	local maxPlayers = GetConvarInt("sv_maxClients", 32)
+	
+	print(numPlayers.."/"..maxPlayers.." players")
+
+	for i = 1, numPlayers do
+		local player = tonumber(GetPlayerFromIndex(i - 1))
+		local user = Main.users[player]
+
+		print(player..":"..(user and user.id or "?"), GetPlayerName(player), GetPlayerLastMsg(player).."ms")
+	end
+end, true)
