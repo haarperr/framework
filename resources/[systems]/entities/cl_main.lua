@@ -7,6 +7,7 @@ function Main:Update()
 	local ped = PlayerPedId()
 	local pedCoords = GetEntityCoords(ped)
 
+	local instance = GetResourceState("instances") == "started" and exports.instances:GetInstance()
 	local coords = GetFinalRenderedCamCoord()
 	local nearbyGrids = Grids:GetImmediateGrids(coords, Config.GridSize)
 	local nearbyCache = {}
@@ -21,7 +22,9 @@ function Main:Update()
 
 			-- Load objects.
 			for objectId, object in pairs(grid) do
-				object:Load()
+				if object.instance == instance then
+					object:Load()
+				end
 			end
 		end
 		nearbyCache[gridId] = true
@@ -31,7 +34,9 @@ function Main:Update()
 	for gridId, grid in pairs(self.cached) do
 		if nearbyCache[gridId] then
 			for objectId, object in pairs(grid) do
-				object:Update(pedCoords)
+				if object.isLoaded then
+					object:Update(pedCoords)
+				end
 			end
 		else
 			-- Uncache grid.
@@ -41,6 +46,18 @@ function Main:Update()
 			for objectId, object in pairs(grid) do
 				object:Unload()
 			end
+		end
+	end
+end
+
+function Main:ClearCache()
+	for gridId, grid in pairs(self.cached) do
+		-- Uncache grid.
+		self.cached[gridId] = nil
+
+		-- Unload objects.
+		for objectId, object in pairs(grid) do
+			object:Unload()
 		end
 	end
 end
@@ -88,4 +105,13 @@ AddEventHandler("interact:onNavigate", function(id)
 	if object then
 		object:OnInteract()
 	end
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("instances:join", function(id)
+	Main:ClearCache()
+end)
+
+RegisterNetEvent("instances:leave", function(id)
+	Main:ClearCache()
 end)

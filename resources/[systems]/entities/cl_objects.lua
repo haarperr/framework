@@ -74,6 +74,8 @@ function Object:Destroy()
 end
 
 function Object:Load()
+	self.isLoaded = true
+
 	if self.model then
 		while not HasModelLoaded(self.model) do
 			RequestModel(self.model)
@@ -100,6 +102,8 @@ function Object:Load()
 end
 
 function Object:Unload()
+	self.isLoaded = nil
+
 	if self.isInside then
 		self.isInside = false
 		self:OnExit()
@@ -180,6 +184,8 @@ function Object:DrawDebug()
 
 	if isSelected then
 		r, g, b = 0, 255, 0
+	elseif not self.isLoaded then
+		r, g, b = 255, 64, 64
 	end
 
 	DrawMarker(
