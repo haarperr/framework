@@ -11,7 +11,7 @@ function Queue:Init()
 	self.banned.tokens = {}
 	
 	-- Cache bans.
-	local bans = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans`")
+	local bans = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans` WHERE `unbanned`=0")
 	for index, row in ipairs(bans) do
 		self:AddBan(row)
 	end
@@ -58,8 +58,17 @@ function Queue:AddBan(info)
 	self.bans[index] = info
 end
 
-function Queue:RemoveBan(index)
-	self.bans[index] = nil
+function Queue:RemoveBan(info)
+	for key, value in pairs(info) do
+		local banned = self.banned[key]
+		if banned then
+			local index = banned[value]
+			if index then
+				self.bans[index] = nil
+				self.banned[key][value] = nil
+			end
+		end
+	end
 end
 
 function Queue:Connect(source, name, setKickReason, deferrals)

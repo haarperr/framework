@@ -205,15 +205,21 @@ function Main:Unban(target)
 	local targetQuery = ("`%s`=@%s"):format(key, key)
 	local values = { ["@"..key] = value }
 
-	-- local index = 
-
-	if isBanned == 1 and Queue:RemoveBan() then
-		exports.GHMattiMySQL:QueryAsync("DELETE FROM `bans` WHERE "..targetQuery, values)
-
-		return true, key..":"..value
-	else
+	-- Get bans.
+	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans` WHERE "..targetQuery, values)
+	if not result[1] then
 		return false, "not banned"
 	end
+
+	-- Unban query.
+	exports.GHMattiMySQL:QueryAsync("UPDATE `bans` SET `unbanned`=1 WHERE "..targetQuery, values)
+
+	-- Uncache bans.
+	for _, info in ipairs(result) do
+		Queue:RemoveBan(info)
+	end
+	
+	return true, key..":"..value
 end
 Export(Main, "Unban")
 
