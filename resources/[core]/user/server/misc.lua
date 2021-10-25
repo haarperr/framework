@@ -6,12 +6,13 @@ function ConvertTarget(target, checkPlayers)
 
 	-- Convert target.
 	local key, value
-	local targetUser = checkPlayers and tonumber(target) and Main.users[target]
+	local targetN = tonumber(target)
+	local targetUser = checkPlayers and targetN and Main.users[targetN]
 	local targetId = target:sub(1, 1) == ":" and tonumber(target:sub(2))
 
 	if targetUser then
 		key = "steam"
-		value = targetUser:Get("steam")
+		value = targetUser.identifiers.steam
 	elseif targetId then
 		key = "id"
 		value = targetId
