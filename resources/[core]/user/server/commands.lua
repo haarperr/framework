@@ -51,6 +51,11 @@ exports.chat:RegisterCommand("a:unban", function(source, args, command, cb)
 		cb("error", ("Couldn't unban: %s (%s)"):format(target, result))
 	end
 end, {
+	description = "Lift a ban tied to a certain identifier.",
+	parameters = {
+		{ name = "Target", description = targetDescription },
+	},
+}, "Mod")
 	description = "Pull out the hammer.",
 	parameters = {
 		{ name = "Target", description = targetDescription },
