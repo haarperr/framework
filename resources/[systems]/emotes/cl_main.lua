@@ -75,6 +75,20 @@ function Main:Play(data, force)
 		return
 	end
 
+	-- Check weapon.
+	if data.Unarmed or data.Armed then
+		local weaponGroup = exports.weapons:GetWeaponGroup()
+		if weaponGroup and weaponGroup.Anim and data.Armed then
+			data = data.Armed[weaponGroup.Anim]
+		elseif (not weaponGroup or not weaponGroup.Anim) and data.Unarmed then
+			data = data.Unarmed
+		else
+			return
+		end
+
+		if not data then return end
+	end
+
 	-- Clear queue.
 	self:ClearQueue(force)
 
