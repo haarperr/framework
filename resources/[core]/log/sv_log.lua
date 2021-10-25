@@ -37,8 +37,14 @@ function Main:Add(data)
 	-- Get source.
 	local sourceInfo = nil
 	local source = data.source
+	local isServer = false
 
-	if source ~= nil then
+	if source == 0 then
+		source = nil
+		isServer = true
+
+		data.source = nil
+	elseif source ~= nil then
 		sourceInfo = self.players[source]
 		if sourceInfo == nil then return end
 
@@ -108,8 +114,8 @@ function Main:Add(data)
 	if channel ~= "none" then
 		local text = ""
 
-		if data.source then
-			text = AppendText(text, self:GetPlayerText(source))
+		if data.source or isServer then
+			text = AppendText(text, isServer and "Server" or self:GetPlayerText(source))
 		end
 
 		if data.verb then
