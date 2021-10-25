@@ -1,4 +1,4 @@
-local targetDescription = "There are several methods to ban somebody:\nServer ID <number>\nUser ID <:number>\nSteam <steam:hex, hex, or binary>\nOther identifiers <identifier:value>"
+local targetDescription = "There are several methods to ban somebody: server ID (<number>), user ID (:<number>), Steam (steam:<hex>, <hex>, or <binary>), or other identifier (identifier:<value>). Other identifiers include license, license2, discord, endpoint, xbl, live, and tokens."
 
 exports.chat:RegisterCommand("a:ban", function(source, args, command, cb)
 	local target, duration = args[1], tonumber(args[2])
@@ -56,9 +56,36 @@ end, {
 		{ name = "Target", description = targetDescription },
 	},
 }, "Mod")
+
+exports.chat:RegisterCommand("a:kick", function(source, args, command, cb)
+	local target = tonumber(args[1])
+	local guid = target and target > 0 and GetPlayerGuid(target)
+
+	if not guid then
+		cb("error", ("Player not found: [%s]"):format(target or "None"))
+		return
+	end
+
+	table.remove(args, 1)
+
+	local reason = table.concat(args, " ")
+	
+	cb("success", ("Kicked [%s]!"):format(target))
+	
+	exports.log:Add({
+		source = source,
+		target = target,
+		verb = "kicked",
+		extra = reason and "reason: "..reason,
+		channel = "admin"
+	})
+
+	DropPlayer(target, Server.Kicked.Default..(reason and Server.Kicked.Reason:format(reason) or ""))
+end, {
 	description = "Pull out the hammer.",
 	parameters = {
-		{ name = "Target", description = targetDescription },
+		{ name = "Target", description = "Enter the server id of the player being kicked." },
+		{ name = "Reason", description = "Your reason for the kick (default = None)." },
 	},
 }, "Mod")
 
