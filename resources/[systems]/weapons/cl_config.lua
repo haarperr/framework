@@ -203,3 +203,11 @@ Config = {
 		},
 	},
 }
+
+exports("GetWeaponGroup", function(group)
+	if not group then
+		group = GetWeapontypeGroup(GetSelectedPedWeapon(PlayerPedId()))
+	end
+
+	return Config.Groups[group or false]
+end)
