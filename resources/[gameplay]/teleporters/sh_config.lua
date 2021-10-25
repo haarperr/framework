@@ -7,7 +7,12 @@ Config = {
 	},
 	Types = {
 		["elevator"] = {
-			Anim = { Dict = "friends@", Name = "pickupwait", Flag = 48 },
+			Anim = {
+				Unarmed = { Dict = "friends@", Name = "pickupwait", Flag = 48 },
+				Armed = {
+					["2h"] = { Dict = "move_action@p_m_two@armed@2h_short@idle@high_energy@a", Name = "idle", Flag = 48 },
+				},
+			},
 			Message = "Waiting for the elevator...",
 			Duration = 4000,
 			Text = "Call Elevator",
