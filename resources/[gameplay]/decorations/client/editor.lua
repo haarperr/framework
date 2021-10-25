@@ -133,7 +133,7 @@ function Editor:Update()
 		(not targetStackable.Foundation and stackable.Block)
 	)
 
-	if entityType ~= 0 and not isStacking then
+	if entityType ~= 0 and not isStacking and GetEntityScript(entityHit) ~= "properties" then
 		self:DeleteEntity()
 		return
 	end
