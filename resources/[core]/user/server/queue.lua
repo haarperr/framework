@@ -13,34 +13,7 @@ function Queue:Init()
 	-- Cache bans.
 	local bans = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans`")
 	for index, row in ipairs(bans) do
-		-- Update identifiers.
-		for __, key in ipairs(Server.Identifiers) do
-			local value = row[key]
-			if value ~= nil then
-				if self.banned[key] == nil then
-					self.banned[key] = {}
-				end
-				self.banned[key][value] = index
-			end
-		end
-
-		-- Update tokens.
-		local tokens = row.tokens
-		if tokens ~= nil then
-			tokens = json.decode(tokens)
-			for _, token in ipairs(tokens) do
-				self.banned.tokens[token] = index
-			end
-		end
-
-		-- Get end time.
-		local endTime = (row.duration == 0 and 0) or (row.start_time / 1000.0 + row.duration * 3600.0)
-
-		-- Cache ban.
-		self.bans[index] = {
-			endTime = endTime,
-			reason = row.reason,
-		}
+		self:AddBan(row)
 	end
 
 	-- Cache users.
@@ -51,6 +24,42 @@ function Queue:Init()
 
 	-- Final init.
 	self.init = true
+end
+
+function Queue:AddBan(info)
+	local index = #self.bans + 1
+
+	-- Update identifiers.
+	for __, key in ipairs(Server.Identifiers) do
+		local value = info[key]
+		if value ~= nil then
+			if self.banned[key] == nil then
+				self.banned[key] = {}
+			end
+			self.banned[key][value] = index
+		end
+	end
+
+	-- Update tokens.
+	local tokens = info.tokens
+	if tokens ~= nil then
+		tokens = json.decode(tokens)
+		for _, token in ipairs(tokens) do
+			self.banned.tokens[token] = index
+		end
+	end
+
+	-- Get end time.
+	local endTime = (info.duration == 0 and 0) or (info.start_time / 1000.0 + info.duration * 3600.0)
+
+	info.endTime = endTime
+
+	-- Cache ban.
+	self.bans[index] = info
+end
+
+function Queue:RemoveBan(index)
+	self.bans[index] = nil
 end
 
 function Queue:Connect(source, name, setKickReason, deferrals)

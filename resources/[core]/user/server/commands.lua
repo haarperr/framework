@@ -1,7 +1,57 @@
-RegisterCommand("a:ban", function(source, args, command)
-	local target, duration, reason = table.unpack(args)
-	Main:Ban(target, duration, reason)
-end)
+local targetDescription = "There are several methods to ban somebody:\nServer ID <number>\nUser ID <:number>\nSteam <steam:hex, hex, or binary>\nOther identifiers <identifier:value>"
+
+exports.chat:RegisterCommand("a:ban", function(source, args, command, cb)
+	local target, duration = args[1], tonumber(args[2])
+
+	table.remove(args, 1)
+	table.remove(args, 1)
+
+	local reason = table.concat(args, " ")
+	local retval, result = Main:Ban(target, duration, reason)
+
+	if retval then
+		cb("success", ("Banned %s!"):format(result))
+
+		exports.log:Add({
+			source = source,
+			verb = "banned",
+			extra = ("%s - %s"):format(result, reason),
+			channel = "admin"
+		})
+	else
+		cb("error", ("Couldn't ban: %s (%s)"):format(target, result))
+	end
+end, {
+	description = "Pull out the hammer.",
+	parameters = {
+		{ name = "Target", description = targetDescription },
+		{ name = "Duration", description = "How long, in hours, their ban is (default = 0). Zero is permanent." },
+		{ name = "Reason", description = "What is the reason (default = 'No reason specified')?" },
+	},
+}, "Mod")
+
+exports.chat:RegisterCommand("a:unban", function(source, args, command, cb)
+	local target = args[1]
+	local retval, result = Main:Unban(target)
+
+	if retval then
+		cb("success", ("Unbanned %s!"):format(result))
+
+		exports.log:Add({
+			source = source,
+			verb = "unbanned",
+			extra = ("%s"):format(result),
+			channel = "admin"
+		})
+	else
+		cb("error", ("Couldn't unban: %s (%s)"):format(target, result))
+	end
+end, {
+	description = "Pull out the hammer.",
+	parameters = {
+		{ name = "Target", description = targetDescription },
+	},
+}, "Mod")
 
 RegisterCommand("mimic", function(source, args, command)
 	if source ~= 0 then return end

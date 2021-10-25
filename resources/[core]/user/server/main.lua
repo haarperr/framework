@@ -13,6 +13,7 @@ function Main:Init()
 	end
 
 	self.columns = DescribeTable("users")
+	self.banColumns = DescribeTable("bans")
 end
 
 function Main:UpdatePlayers()
@@ -135,10 +136,86 @@ function Main:Whitelist(hex, value)
 end
 
 function Main:Ban(target, duration, reason)
-	local key, value = GetIdentifiers(target)
-	print("BAN", key, value)
+	local key, value = ConvertTarget(target, true)
+	if not key then
+		return false, value
+	end
+
+	-- Defaults.
+	duration = math.floor(duration or 0)
+	reason = "No reason specified"
+
+	-- Check reason.
+	if reason:len() > 255 then
+		return false, "reason too long"
+	end
+	
+	-- Find users.
+	local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `"..key.."`=@identifier", {
+		["@identifier"] = value,
+	})
+	
+	-- Ban users.
+	for _, user in ipairs(users) do
+		local setters = "`duration`=@duration,`reason`=@reason"
+		local values = {
+			["@duration"] = duration,
+			["@reason"] = reason,
+		}
+
+		local ban = {
+			duration = duration,
+			reason = reason,
+			start_time = os.time() * 1000,
+		}
+
+		-- Get bannable identifiers.
+		for _key, column in pairs(self.banColumns) do
+			local _value = user[_key]
+			if _value and type(_value) == column.type then
+				setters = setters..(",`%s`=@%s"):format(_key, _key)
+				values["@".._key] = _value
+				ban[_key] = _value
+			end
+		end
+
+		-- Save ban.
+		exports.GHMattiMySQL:QueryAsync("INSERT INTO `bans` SET "..setters, values)
+
+		-- Cache ban.
+		Queue:AddBan(ban)
+
+		-- Drop player.
+		local serverId = self:GetPlayer(user.id)
+		if serverId then
+			DropPlayer(serverId, ("You have been banned. (%s)"):format(reason))
+		end
+	end
+
+	return true, key..":"..value
 end
 Export(Main, "Ban")
+
+function Main:Unban(target)
+	local key, value = ConvertTarget(target)
+	if not key then
+		return false, value
+	end
+
+	local targetQuery = ("`%s`=@%s"):format(key, key)
+	local values = { ["@"..key] = value }
+
+	-- local index = 
+
+	if isBanned == 1 and Queue:RemoveBan() then
+		exports.GHMattiMySQL:QueryAsync("DELETE FROM `bans` WHERE "..targetQuery, values)
+
+		return true, key..":"..value
+	else
+		return false, "not banned"
+	end
+end
+Export(Main, "Unban")
 
 function Main:Set(source, ...)
 	local user = self.users[source]
