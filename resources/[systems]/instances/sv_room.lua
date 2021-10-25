@@ -1,18 +1,19 @@
 Room = {}
 Room.__index = Room
 
-function Room:Create(id)
+function Room:Create(id, data)
 	local bucket = math.abs(GetHashKey(id))
 
 	if bucket ~= 0 then
 		SetRoutingBucketPopulationEnabled(bucket, false)
 	end
 
-	local room = setmetatable({
-		id = id,
-		bucket = bucket,
-		players = {},
-	}, Room)
+	data = data or {}
+	data.id = id
+	data.bucket = bucket
+	data.players = {}
+
+	local room = setmetatable(data, Room)
 
 	Instances.rooms[id] = room
 
@@ -43,10 +44,12 @@ function Room:RemovePlayer(source)
 	SetPlayerRoutingBucket(source, 0)
 
 	-- Cleanup room.
-	local next = next
-	if next(self.players) == nil then
-		self:Destroy()
-		return true
+	if not self.persistent then
+		local next = next
+		if next(self.players) == nil then
+			self:Destroy()
+			return true
+		end
 	end
 
 	return true
