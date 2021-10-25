@@ -7,15 +7,19 @@ exports.chat:RegisterCommand("a:ban", function(source, args, command, cb)
 	table.remove(args, 1)
 
 	local reason = table.concat(args, " ")
+	
+	if reason == "" then
+		reason = nil
+	end
+	
 	local retval, result = Main:Ban(target, duration, reason)
-
 	if retval then
 		cb("success", ("Banned %s!"):format(result))
 
 		exports.log:Add({
 			source = source,
 			verb = "banned",
-			extra = ("%s - %s"):format(result, reason),
+			extra = ("%s - %s"):format(result, reason or "No reason specified"),
 			channel = "admin"
 		})
 	else

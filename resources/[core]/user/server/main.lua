@@ -143,7 +143,7 @@ function Main:Ban(target, duration, reason)
 
 	-- Defaults.
 	duration = math.floor(duration or 0)
-	reason = "No reason specified"
+	reason = reason or "No reason specified"
 
 	-- Check reason.
 	if reason:len() > 255 then
