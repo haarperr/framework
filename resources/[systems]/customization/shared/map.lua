@@ -1244,7 +1244,12 @@ Map = {
 				if not map then return end
 
 				if isMenu and bind and trigger == "hairOverlays" then
-					Editor:SetTarget("head")
+					local hair = bind.index and Overlays.Head.Hair[bind.index]
+					Editor:SetTarget(hair and hair.target or "head")
+
+					if hair and hair.onchange then
+						hair.onchange()
+					end
 				end
 
 				local hairOverlays = map.hairOverlays
