@@ -8,9 +8,10 @@ files {
 shared_script {
 	'@grids/shared/grids.lua',
 	'@utils/shared/math.lua',
+	'@utils/shared/color.lua',
 	'config/*.lua',
 	'sh_main.lua',
-	'modules/sh_*.lua',
+	'modules/**/sh_*.lua',
 }
 
 client_scripts {
@@ -18,8 +19,9 @@ client_scripts {
 	'@utils/client/misc.lua',
 	'@utils/client/vehicles.lua',
 	'@utils/client/vectors.lua',
+	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
-	'modules/cl_*.lua',
+	'modules/**/cl_*.lua',
 }
 
 server_scripts {
@@ -28,5 +30,5 @@ server_scripts {
 	'sv_main.lua',
 	'sv_vehicle.lua',
 	'sv_commands.lua',
-	'modules/sv_*.lua',
+	'modules/**/sv_*.lua',
 }

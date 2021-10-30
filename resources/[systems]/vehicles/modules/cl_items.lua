@@ -1,5 +1,5 @@
 AddEventHandler("inventory:use", function(item, slot, cb)
-	if item.category ~= "Vehicle" or (slot.durability and slot.durability < 0.01) then return end
+	if item.category ~= "Vehicle Repair" or (slot.durability and slot.durability < 0.01) then return end
 
 	local ped = PlayerPedId()
 	local pedCoords = GetEntityCoords(ped)
