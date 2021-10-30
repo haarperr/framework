@@ -106,6 +106,16 @@ function Camera:Update()
 	if self.fov then
 		SetCamFov(self.handle, self.fov)
 	end
+
+	if self.lookAt then
+		local _type = type(self.lookAt)
+
+		if _type == "vector3" then
+			PointCamAtCoord(self.handle, self.lookAt)
+		elseif _type == "number" then
+			PointCamAtEntity(self.handle, self.lookAt)
+		end
+	end
 end
 
 --[[ Threads ]]--

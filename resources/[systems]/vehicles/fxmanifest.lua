@@ -15,6 +15,7 @@ shared_script {
 }
 
 client_scripts {
+	'@camera/cl_camera.lua',
 	'@utils/client/entities.lua',
 	'@utils/client/misc.lua',
 	'@utils/client/vehicles.lua',

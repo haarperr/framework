@@ -39,9 +39,9 @@ Modding = {
 	}
 }
 
-function Modding:TogglePaint(vehicle)
+function Modding:TogglePaint(vehicle, emote)
 	self.vehicle = vehicle
-
+	
 	local palette = self:GetPalette()
 	local components = {}
 	local defaults = {
@@ -156,7 +156,12 @@ function Modding:TogglePaint(vehicle)
 								{
 									type = "q-card-section",
 									class = "row items-center",
-									template = "<div>Would you like to apply these changes?</div>",
+									template = [[
+										<div>
+											<div>Would you like to apply these changes?</div><br>
+											<div>Saving will use one paint bucket.</div>
+										</div>
+									]],
 								},
 								{
 									type = "q-card-actions",
@@ -209,16 +214,18 @@ function Modding:TogglePaint(vehicle)
 		},
 	})
 
+	-- Window buttons.
 	window:OnClick("save", function(window)
-		window:Destroy()
+		self:Exit()
 		UI:Focus(false)
 	end)
 
 	window:OnClick("discard", function(window)
-		window:Destroy()
+		self:Exit()
 		UI:Focus(false)
 	end)
 
+	-- Window events.
 	window:AddListener("setColor", function(window, _type, name, hex)
 		local isRgb = _type == "rgb"
 		local funcs = isRgb and Modding.colors[name] or Modding.palettes[name]
@@ -240,27 +247,140 @@ function Modding:TogglePaint(vehicle)
 		end
 	end)
 
-	window:AddListener("setPaletteColor", function(window, name, hex)
-		funcs.setter(Modding.vehicle, r, g, b)
-	end)
+	-- Cache window.
+	self.window = window
 
-	UI:Focus(true)
+	-- Focus the UI.
+	UI:Focus(true, true)
+
+	-- Play/cache emotes.
+	if emote then
+		self.emote = exports.emotes:Play(emote)
+	else
+		self.emote = nil
+	end
+
+	-- Calculate bounds.
+	local model = GetEntityModel(vehicle)
+	local min, max = GetModelDimensions(model)
+	local size = max - min
+
+	self.length = math.max(math.max(size.x, size.y), size.z) * 0.5
+
+	-- Create camera.
+	self:InitCam()
+end
+
+function Modding:Exit()
+	if self.emote then
+		exports.emotes:Stop(self.emote)
+		self.emote = nil
+	end
+
+	if self.window then
+		self.window:Destroy()
+		self.window = nil
+	end
+
+	if self.camera then
+		self.camera:Destroy()
+		self.camera = nil
+	end
+end
+
+function Modding:InitCam()
+	local vehicle = self.vehicle
+	local coords = GetEntityCoords(vehicle)
+	local camera = Camera:Create({
+		lookAt = vehicle,
+		fov = 70.0,
+		shake = {
+			type = "HAND_SHAKE",
+			amount = 0.1,
+		}
+	})
+
+	camera:Activate()
+	
+	self.center = coords
+	self.camera = camera
+
+	self:UpdateCam()
+end
+
+function Modding:UpdateCam()
+	local camera = self.camera
+	if not camera then return end
+	
+	-- Calculate offset.
+	local horizontal = math.rad(self.horizontal or 0.0)
+	local vertical = self.vertical or 0.5
+	local height = (self.height or 0.5) * 2.0 + 0.5
+	local radius = self.length * (1.5 + vertical * 0.5)
+	local offset = vector3(math.cos(horizontal) * radius, math.sin(horizontal) * radius, height)
+
+	-- Set coords.
+	camera.coords = self.center + offset
+
+	-- Left and right.
+	if IsDisabledControlPressed(0, 35) then
+		self.horizontal = (self.horizontal or 0.0) + 90.0 * GetFrameTime()
+	elseif IsDisabledControlPressed(0, 34) then
+		self.horizontal = (self.horizontal or 0.0) - 90.0 * GetFrameTime()
+	end
+
+	-- Forward and back.
+	if IsDisabledControlPressed(0, 32) then
+		self.vertical = math.max((self.vertical or 0.5) - 1.0 * GetFrameTime(), 0.0)
+	elseif IsDisabledControlPressed(0, 33) then
+		self.vertical = math.min((self.vertical or 0.5) + 1.0 * GetFrameTime(), 1.0)
+	end
+
+	-- Up and down.
+	if IsDisabledControlPressed(0, 44) then
+		self.height = math.min((self.height or 0.5) + 1.0 * GetFrameTime(), 1.0)
+	elseif IsDisabledControlPressed(0, 46) then
+		self.height = math.max((self.height or 0.5) - 1.0 * GetFrameTime(), 0.0)
+	end
+
+	-- Disable controls.
+	DisableControlAction(0, 30)
+	DisableControlAction(0, 31)
+	DisableControlAction(0, 44)
+	DisableControlAction(0, 46)
+
+	-- Lights!
+	DrawLightWithRange(self.center.x, self.center.y, self.center.z + 10.0, 255, 255, 255, 20.0, 2.0)
 end
 
 function Modding:GetPalette()
 	if self.generatedPalette then
 		return self.generatedPalette
 	end
+	
+	local sortedColors = {}
+	for id, color in pairs(Colors) do
+		local startIndex, endIndex = string.find(color.Name, "%s[^%s]*$")
+		local sortBy = (not startIndex and color.Name or color.Name:sub(startIndex + 1)):lower()
+
+		table.insert(sortedColors, {
+			sortBy = sortBy,
+			color = color,
+			id = id,
+		})
+	end
+	
+	table.sort(sortedColors, function(a, b)
+		return a.sortBy > b.sortBy
+	end)
 
 	self.paletteCache = {}
 	
 	local palette = {}
-	for id, color in pairs(Colors) do
-		self.paletteCache[color.Hex] = id
-		table.insert(palette, color.Hex)
+	for k, v in ipairs(sortedColors) do
+		self.paletteCache[v.color.Hex] = v.id
+		palette[k] = v.color.Hex
 	end
-
-	table.sort(palette)
 
 	self.generatedPalette = palette
 
@@ -283,8 +403,17 @@ function Modding:GetPaletteModel(name, id)
 	}
 end
 
+--[[ Events ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
-	if item.name == "Screwdriver" then
-		Modding:TogglePaint(NearestVehicle)
+	if item.name == "Paint Can" and NearestVehicle then
+		Modding:TogglePaint(NearestVehicle, "notepad")
+	end
+end)
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		Modding:UpdateCam()
+		Citizen.Wait(0)
 	end
 end)

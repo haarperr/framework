@@ -90,7 +90,7 @@ Colors = {
 	[88] = { Name = "Metallic Taxi Yellow", Hex = "#ffcf20" },
 	[89] = { Name = "Metallic Race Yellow", Hex = "#fbe212" },
 	[90] = { Name = "Metallic Bronze", Hex = "#916532" },
-	[91] = { Name = "Metallic Yellow Bird", Hex = "#e0e13d" },
+	[91] = { Name = "Metallic Yellow", Hex = "#e0e13d" },
 	[92] = { Name = "Metallic Lime", Hex = "#98d223" },
 	[93] = { Name = "Metallic Champagne", Hex = "#9b8c78" },
 	[94] = { Name = "Metallic Pueblo Beige", Hex = "#503218" },
