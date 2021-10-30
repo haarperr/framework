@@ -7,48 +7,48 @@ PedComponents = {
 	},
 	{
 		index = 1,
-		emptySlot = true,
+		emptySlot = false,
 		name = "Mask",
 		focus = "head",
 	},
 	{
 		index = 7,
-		emptySlot = true,
+		emptySlot = false,
 		name = "Accessory",
 	},
 	{
 		index = 10,
-		emptySlot = true,
+		emptySlot = false,
 		name = "Decals",
 	},
 	{
 		index = 5,
-		emptySlot = true,
+		emptySlot = false,
 		name = "Bag",
 	},
 	{
 		index = 9,
-		emptySlot = true,
-		name = "Kevlar",
+		emptySlot = false,
+		name = "Vest",
 	},
 	{
 		index = 11,
-		emptySlot = true,
+		emptySlot = 15,
 		name = "Jacket",
 	},
 	{
 		index = 8,
-		emptySlot = true,
+		emptySlot = 15,
 		name = "Undershirt",
 	},
 	{
 		index = 3,
-		emptySlot = true,
+		emptySlot = 15,
 		name = "Torso",
 	},
 	{
 		index = 4,
-		emptySlot = true,
+		emptySlot = 15,
 		name = "Leg",
 		locked = {
 			{ id = 217, factions = "alien" },
@@ -56,7 +56,7 @@ PedComponents = {
 	},
 	{
 		index = 6,
-		emptySlot = true,
+		emptySlot =  { 119, 118 },
 		name = "Shoes",
 		focus = "feet",
 	},

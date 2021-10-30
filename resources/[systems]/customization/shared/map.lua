@@ -225,8 +225,16 @@ Map = {
 					local value = components[k] or 1
 					local offset = v.emptySlot and 2 or 1
 					local texture = components[k + n] or 1
+
+					local value = value == 1 and v.emptySlot or value - offset
+					if type(value) == "table" then
+						local bodyType = controller.map["bodyType"]
+						local isMale = bodyType == "Masculine"
+
+						value = value[isMale and 2 or 1]
+					end
 					
-					SetPedComponentVariation(Ped, v.index, value == 1 and v.emptySlot and -1 or value - offset, math.max(texture - 1, 0), 0)
+					SetPedComponentVariation(Ped, v.index, value, math.max(texture - 1, 0), 0)
 				end
 			end,
 		},
