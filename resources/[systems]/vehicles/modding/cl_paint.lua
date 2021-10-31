@@ -55,6 +55,11 @@ function Paint:Enable(vehicle)
 		palette = palette,
 	}
 
+	self.defaults = {
+		colors = {},
+		palettes = {},
+	}
+
 	for index, mod in ipairs(self.colors) do
 		local r, g, b = mod.getter(vehicle)
 		local component = {
@@ -77,6 +82,8 @@ function Paint:Enable(vehicle)
 		}
 
 		table.insert(components, component)
+
+		self.defaults.colors[index] = { r, g, b }
 	end
 
 	for index, mod in ipairs(self.palettes) do
@@ -128,12 +135,15 @@ function Paint:Enable(vehicle)
 		end
 
 		table.insert(components, component)
+
+		self.defaults.palettes[index] = currentId
 	end
 
 	local window = Window:Create({
 		type = "window",
 		title = "Paint",
 		class = "compact",
+		defaults = defaults,
 		style = {
 			["width"] = "40vmin",
 			["height"] = "90vmin",
@@ -141,7 +151,6 @@ function Paint:Enable(vehicle)
 			["left"] = "2vmin",
 			["overflow"] = "visible !important",
 		},
-		defaults = defaults,
 		prepend = {
 			type = "q-icon",
 			name = "cancel",
@@ -264,9 +273,17 @@ function Paint:Enable(vehicle)
 end
 
 function Paint:Disable(vehicle, discard)
-	if discard then
-		
+	if discard and self.defaults then
+		for k, v in pairs(self.defaults) do
+			local funcs = self[k]
+			for _k, _v in pairs(v) do
+				local func = funcs[_k]
+				func.setter(vehicle, type(_v) == "table" and table.unpack(_v) or _v)
+			end
+		end
 	end
+
+	self.defaults = nil
 end
 
 function Paint:GetPalette()

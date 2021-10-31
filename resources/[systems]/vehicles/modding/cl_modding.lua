@@ -11,6 +11,14 @@ function Modding:Enable(vehicle, name, emote)
 	local meta = Modding.items[name]
 	if not meta then return end
 
+	if not self:CanModify(vehicle) then
+		TriggerEvent("chat:notify", {
+			class = "error",
+			text = "Cannot modify that vehicle right now!"
+		})
+		return
+	end
+
 	self.vehicle = vehicle
 	self.meta = meta
 
@@ -60,6 +68,18 @@ function Modding:Exit(discard)
 
 		self.vehicle = nil
 		self.meta = nil
+	end
+end
+
+function Modding:CanModify(vehicle)
+	return DoesEntityExist(vehicle) and IsVehicleSeatFree(vehicle, -1) and (not self.center or #(GetEntityCoords(vehicle) - self.center) < 3.0)
+end
+
+function Modding:Update()
+	if not self.vehicle then return end
+
+	if not self:CanModify(self.vehicle) then
+		self:Exit(true)
 	end
 end
 
@@ -140,5 +160,12 @@ Citizen.CreateThread(function()
 	while true do
 		Modding:UpdateCam()
 		Citizen.Wait(0)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Modding:Update()
+		Citizen.Wait(200)
 	end
 end)
