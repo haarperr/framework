@@ -23,6 +23,8 @@ client_scripts {
 	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
 	'modules/**/cl_*.lua',
+	'modding/cl_modding.lua',
+	'modding/cl_paint.lua',
 }
 
 server_scripts {
