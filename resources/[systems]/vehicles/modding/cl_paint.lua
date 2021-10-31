@@ -1,22 +1,27 @@
 Modding.colors = {
-	["Primary"] = {
+	{
+		name = "Primary",
 		setter = SetVehicleCustomPrimaryColour,
 	},
-	["Secondary"] = {
+	{
+		name = "Secondary",
 		setter = SetVehicleCustomSecondaryColour,
 	},
 }
 
 Modding.palettes = {
-	["Interior"] = {
+	{
+		name = "Interior",
 		setter = SetVehicleInteriorColor,
 		getter = GetVehicleInteriorColor,
 	},
-	["Dashboard"] = {
+	{
+		name = "Dashboard",
 		setter = SetVehicleDashboardColor,
 		getter = GetVehicleDashboardColor,
 	},
-	["Pearlescent"] = {
+	{
+		name = "Pearlescent",
 		setter = function(vehicle, id)
 			local pearlescent, wheel = GetVehicleExtraColours(vehicle)
 			SetVehicleExtraColours(vehicle, id, wheel)
@@ -26,7 +31,8 @@ Modding.palettes = {
 			return pearlescent
 		end,
 	},
-	["Wheel"] = {
+	{
+		name = "Wheel",
 		setter = function(vehicle, id)
 			local pearlescent, wheel = GetVehicleExtraColours(vehicle)
 			SetVehicleExtraColours(vehicle, pearlescent, id)
@@ -47,11 +53,11 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 		palette = palette,
 	}
 
-	for name, funcs in pairs(self.colors) do
+	for index, mod in ipairs(self.colors) do
 		local component = {
 			type = "q-card",
 			class = "q-pa-sm q-mb-md",
-			text = name.." Color",
+			text = mod.name.." Color",
 			components = {
 				{
 					template = [[
@@ -59,7 +65,7 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 							flat
 							square
 							style="width: 10vmin"
-							@change="hex => this.$invoke('setColor', 'rgb', ']]..name..[[', hex)"
+							@change="hex => this.$invoke('setColor', 'rgb', ]]..index..[[, hex)"
 						/>
 					]],
 				},
@@ -69,7 +75,7 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 		table.insert(components, component)
 	end
 
-	for name, funcs in pairs(self.palettes) do
+	for index, mod in ipairs(self.palettes) do
 		local component =  {
 			type = "q-card",
 			class = "q-pa-sm q-mb-md",
@@ -82,13 +88,13 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 								:style="`
 									width: 10;
 									padding: 4px;
-									background: ${this.$getModel('colorHex-]]..name..[[')};
-									color: ${this.$getModel('colorText-]]..name..[[')};
+									background: ${this.$getModel('colorHex-]]..mod.name..[[')};
+									color: ${this.$getModel('colorText-]]..mod.name..[[')};
 								`"
-								:label="this.$getModel('colorName-]]..name..[[')"
+								:label="this.$getModel('colorName-]]..mod.name..[[')"
 								floating
 							/>
-							<span>]]..name..[[</span>
+							<span>]]..mod.name..[[</span>
 						</div>
 					]]
 				},
@@ -102,15 +108,15 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 							default-view="palette"
 							style="max-width: 10vmin"
 							:palette="this.$getModel('palette')"
-							@change="hex => this.$invoke('setColor', 'palette', ']]..name..[[', hex)"
+							@change="hex => this.$invoke('setColor', 'palette', ]]..index..[[, hex)"
 						/>
 					]],
 				},
 			},
 		}
 
-		local currentId = funcs.getter(vehicle)
-		local paletteModel = self:GetPaletteModel(name, currentId)
+		local currentId = mod.getter(vehicle)
+		local paletteModel = self:GetPaletteModel(mod.name, currentId)
 		if paletteModel then
 			for k, v in pairs(paletteModel) do
 				defaults[k] = v
@@ -225,19 +231,19 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 	end)
 
 	-- Window events.
-	window:AddListener("setColor", function(window, _type, name, hex)
+	window:AddListener("setColor", function(window, _type, index, hex)
 		local isRgb = _type == "rgb"
-		local funcs = isRgb and Modding.colors[name] or Modding.palettes[name]
-		if not funcs then return end
+		local mod = isRgb and Modding.colors[index] or Modding.palettes[index]
+		if not mod then return end
 		
 		if isRgb then
 			local r, g, b = HexToRgb(hex)
-			funcs.setter(Modding.vehicle, r, g, b)
+			mod.setter(Modding.vehicle, r, g, b)
 		else
 			local id = Modding.paletteCache[hex]
-			funcs.setter(Modding.vehicle, id)
+			mod.setter(Modding.vehicle, id)
 
-			local paletteModel = self:GetPaletteModel(name, id)
+			local paletteModel = self:GetPaletteModel(mod.name, id)
 			if paletteModel then
 				for k, v in pairs(paletteModel) do
 					window:SetModel(k, v)
