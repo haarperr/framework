@@ -1,52 +1,54 @@
-Modding.colors = {
-	{
-		name = "Primary",
-		setter = SetVehicleCustomPrimaryColour,
+Paint = {
+	colors = {
+		{
+			name = "Primary",
+			setter = SetVehicleCustomPrimaryColour,
+			getter = GetVehicleCustomPrimaryColour,
+		},
+		{
+			name = "Secondary",
+			setter = SetVehicleCustomSecondaryColour,
+			getter = GetVehicleCustomSecondaryColour,
+		},
 	},
-	{
-		name = "Secondary",
-		setter = SetVehicleCustomSecondaryColour,
+	palettes = {
+		{
+			name = "Interior",
+			setter = SetVehicleInteriorColor,
+			getter = GetVehicleInteriorColor,
+		},
+		{
+			name = "Dashboard",
+			setter = SetVehicleDashboardColor,
+			getter = GetVehicleDashboardColor,
+		},
+		{
+			name = "Pearlescent",
+			setter = function(vehicle, id)
+				local pearlescent, wheel = GetVehicleExtraColours(vehicle)
+				SetVehicleExtraColours(vehicle, id, wheel)
+			end,
+			getter = function(vehicle)
+				local pearlescent, wheel = GetVehicleExtraColours(vehicle)
+				return pearlescent
+			end,
+		},
+		{
+			name = "Wheel",
+			setter = function(vehicle, id)
+				local pearlescent, wheel = GetVehicleExtraColours(vehicle)
+				SetVehicleExtraColours(vehicle, pearlescent, id)
+			end,
+			getter = function(vehicle)
+				local pearlescent, wheel = GetVehicleExtraColours(vehicle)
+				return wheel
+			end,
+		},
 	},
 }
 
-Modding.palettes = {
-	{
-		name = "Interior",
-		setter = SetVehicleInteriorColor,
-		getter = GetVehicleInteriorColor,
-	},
-	{
-		name = "Dashboard",
-		setter = SetVehicleDashboardColor,
-		getter = GetVehicleDashboardColor,
-	},
-	{
-		name = "Pearlescent",
-		setter = function(vehicle, id)
-			local pearlescent, wheel = GetVehicleExtraColours(vehicle)
-			SetVehicleExtraColours(vehicle, id, wheel)
-		end,
-		getter = function(vehicle)
-			local pearlescent, wheel = GetVehicleExtraColours(vehicle)
-			return pearlescent
-		end,
-	},
-	{
-		name = "Wheel",
-		setter = function(vehicle, id)
-			local pearlescent, wheel = GetVehicleExtraColours(vehicle)
-			SetVehicleExtraColours(vehicle, pearlescent, id)
-		end,
-		getter = function(vehicle)
-			local pearlescent, wheel = GetVehicleExtraColours(vehicle)
-			return wheel
-		end,
-	},
-}
-
-Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
-	self.vehicle = vehicle
-	
+--[[ Functions: Paint ]]--
+function Paint:Enable(vehicle)
 	local palette = self:GetPalette()
 	local components = {}
 	local defaults = {
@@ -54,6 +56,7 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 	}
 
 	for index, mod in ipairs(self.colors) do
+		local r, g, b = mod.getter(vehicle)
 		local component = {
 			type = "q-card",
 			class = "q-pa-sm q-mb-md",
@@ -65,6 +68,7 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 							flat
 							square
 							style="width: 10vmin"
+							value="#]]..RgbToHex(r, g, b)..[["
 							@change="hex => this.$invoke('setColor', 'rgb', ]]..index..[[, hex)"
 						/>
 					]],
@@ -221,27 +225,27 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 
 	-- Window buttons.
 	window:OnClick("save", function(window)
-		self:Exit()
+		Modding:Exit()
 		UI:Focus(false)
 	end)
 
 	window:OnClick("discard", function(window)
-		self:Exit()
+		Modding:Exit(true)
 		UI:Focus(false)
 	end)
 
 	-- Window events.
 	window:AddListener("setColor", function(window, _type, index, hex)
 		local isRgb = _type == "rgb"
-		local mod = isRgb and Modding.colors[index] or Modding.palettes[index]
+		local mod = isRgb and Paint.colors[index] or Paint.palettes[index]
 		if not mod then return end
 		
 		if isRgb then
 			local r, g, b = HexToRgb(hex)
-			mod.setter(Modding.vehicle, r, g, b)
+			mod.setter(vehicle, r, g, b)
 		else
-			local id = Modding.paletteCache[hex]
-			mod.setter(Modding.vehicle, id)
+			local id = Paint.paletteCache[hex]
+			mod.setter(vehicle, id)
 
 			local paletteModel = self:GetPaletteModel(mod.name, id)
 			if paletteModel then
@@ -252,48 +256,20 @@ Modding:RegisterItem("Paint Can", function(self, vehicle, emote)
 		end
 	end)
 
-	-- Cache window.
-	self.window = window
-
 	-- Focus the UI.
 	UI:Focus(true, true)
 
-	-- Play/cache emotes.
-	if emote then
-		self.emote = exports.emotes:Play(emote)
-	else
-		self.emote = nil
-	end
+	-- Return the window.
+	return window
+end
 
-	-- Calculate bounds.
-	local model = GetEntityModel(vehicle)
-	local min, max = GetModelDimensions(model)
-	local size = max - min
-
-	self.length = math.max(math.max(size.x, size.y), size.z) * 0.5
-
-	-- Create camera.
-	self:InitCam()
-end)
-
-function Modding:Exit()
-	if self.emote then
-		exports.emotes:Stop(self.emote)
-		self.emote = nil
-	end
-
-	if self.window then
-		self.window:Destroy()
-		self.window = nil
-	end
-
-	if self.camera then
-		self.camera:Destroy()
-		self.camera = nil
+function Paint:Disable(vehicle, discard)
+	if discard then
+		
 	end
 end
 
-function Modding:GetPalette()
+function Paint:GetPalette()
 	if self.generatedPalette then
 		return self.generatedPalette
 	end
@@ -327,7 +303,7 @@ function Modding:GetPalette()
 	return palette
 end
 
-function Modding:GetPaletteModel(name, id)
+function Paint:GetPaletteModel(name, id)
 	if not id then return end
 
 	local color = Colors[id]
@@ -342,3 +318,6 @@ function Modding:GetPaletteModel(name, id)
 		["colorName-"..name] = color.Name,
 	}
 end
+
+--[[ Functions: Modding ]]--
+Modding:RegisterItem("Paint Can", Paint)

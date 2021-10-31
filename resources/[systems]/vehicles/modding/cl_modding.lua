@@ -3,8 +3,64 @@ Modding = {
 }
 
 --[[ Functions ]]--
-function Modding:RegisterItem(name, callback)
-	self.items[name] = callback
+function Modding:RegisterItem(name, meta)
+	self.items[name] = meta
+end
+
+function Modding:Enable(vehicle, name, emote)
+	local meta = Modding.items[name]
+	if not meta then return end
+
+	self.vehicle = vehicle
+	self.meta = meta
+
+	-- Meta callback.
+	if meta.Enable then
+		self.window = meta:Enable(NearestVehicle)
+	end
+
+	-- Calculate bounds.
+	local model = GetEntityModel(vehicle)
+	local min, max = GetModelDimensions(model)
+	local size = max - min
+
+	self.length = math.max(math.max(size.x, size.y), size.z) * 0.5
+
+	-- Create camera.
+	self:InitCam()
+
+	-- Play/cache emotes.
+	if emote then
+		self.emote = exports.emotes:Play(emote)
+	else
+		self.emote = nil
+	end
+end
+
+function Modding:Exit(discard)
+	if self.emote then
+		exports.emotes:Stop(self.emote)
+		self.emote = nil
+	end
+
+	if self.window then
+		self.window:Destroy()
+		self.window = nil
+	end
+
+	if self.camera then
+		self.camera:Destroy()
+		self.camera = nil
+	end
+
+	if self.meta then
+		if self.meta.Disable then
+			self.meta:Disable(self.vehicle, discard)
+		end
+
+		self.vehicle = nil
+		self.meta = nil
+	end
 end
 
 function Modding:InitCam()
@@ -74,12 +130,9 @@ end
 
 --[[ Events ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
-	if not NearestVehicle then return end
+	if not NearestVehicle or item.category ~= "Vehicle" then return end
 
-	local callback = Modding.items[item.name]
-	if not callback then return end
-
-	callback(Modding, NearestVehicle, "notepad")
+	Modding:Enable(NearestVehicle, item.name, "notepad")
 end)
 
 --[[ Threads ]]--
