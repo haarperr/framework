@@ -82,6 +82,47 @@ function FindFirstFreeVehicleSeat(vehicle)
 	end
 end
 
+function GetFacingVehicle(ped, maxDist)
+	-- Not facing vehicle while inside one.
+	if IsPedInAnyVehicle(ped) then
+		return
+	end
+
+	-- Get ped coords.
+	local coords = GetEntityCoords(ped)
+
+	-- Get nearest vehicle.
+	local vehicle = GetNearestVehicle(coords)
+	if not vehicle or not HasEntityClearLosToEntityInFront(ped, vehicle) then
+		return
+	end
+
+	-- Find nearest hit target.
+	local nearestCoords, nearestDist = nil, 0.0
+	for i = 1, 4 do
+		local target = i == 1 and GetEntityCoords(vehicle) or coords + GetEntityForwardVector(ped) * (i == 2 and 2.0 or 10.0) - vector3(0.0, 0.0, 1.0)
+		local handle = StartShapeTestRay(coords.x, coords.y, coords.z, target.x, target.y, target.z, -1, PlayerPedId(), 0)
+		local retval, didHit, hitCoords, hitNormal, entity = GetShapeTestResult(handle)
+
+		-- DrawLine(coords.x, coords.y, coords.z, target.x, target.y, target.z, i == 1 and 255 or 0, 0, i ~= 1 and 255 or 0, 255)
+
+		if didHit and entity == vehicle then
+			local hitDist = #(hitCoords - coords)
+			if (not maxDist or hitDist < maxDist) and (not nearestCoords or nearestDist < hitDist) then
+				nearestCoords = hitCoords
+				nearestDist = hitDist
+			end
+		end
+	end
+
+	if not nearestCoords then
+		return
+	end
+
+	-- Return result.
+	return vehicle, nearestCoords, nearestDist
+end
+
 function GetNearestVehicle(coords, maxDist)
 	local nearestVehicle = nil
 	local nearestDist = 0.0
@@ -195,3 +236,4 @@ function IsVehicleEngineVisible(vehicle)
 	
 	return GetVehicleDoorAngleRatio(vehicle, engineDoor == "boot" and 5 or 4) > 0.5, engineDoor
 end
+
