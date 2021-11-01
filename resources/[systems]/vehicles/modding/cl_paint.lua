@@ -151,79 +151,7 @@ function Paint:Enable(vehicle)
 			["left"] = "2vmin",
 			["overflow"] = "visible !important",
 		},
-		prepend = {
-			type = "q-icon",
-			name = "cancel",
-			style = {
-				["font-size"] = "1.3em",
-			},
-			binds = {
-				color = "red",
-			},
-			click = {
-				callback = "this.$setModel('closing', true)",
-			},
-			components = {
-				{
-					type = "q-dialog",
-					model = "closing",
-					components = {
-						{
-							type = "q-card",
-							components = {
-								{
-									type = "q-card-section",
-									class = "row items-center",
-									template = [[
-										<div>
-											<div>Would you like to apply these changes?</div><br>
-											<div>Saving will use one paint bucket.</div>
-										</div>
-									]],
-								},
-								{
-									type = "q-card-actions",
-									binds = {
-										["align"] = "right",
-									},
-									components = {
-										{
-											type = "q-btn",
-											text = "Save and Exit",
-											binds = {
-												color = "green",
-											},
-											click = {
-												event = "save",
-												callback = "this.$setModel('saving', true)",
-											},
-										},
-										{
-											type = "q-btn",
-											text = "Exit without Saving",
-											binds = {
-												color = "red",
-											},
-											click = {
-												event = "discard",
-											},
-										},
-									},
-								},
-								{
-									type = "q-inner-loading",
-									condition = "this.$getModel('saving')",
-									template = "<q-spinner size='30px' />",
-									binds = {
-										showing = true,
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		},
+		prepend = Modding.prepend,
 		components = {
 			{
 				class = "row justify-evenly q-pt-sm",
@@ -235,12 +163,10 @@ function Paint:Enable(vehicle)
 	-- Window buttons.
 	window:OnClick("save", function(window)
 		Modding:Exit()
-		UI:Focus(false)
 	end)
 
 	window:OnClick("discard", function(window)
 		Modding:Exit(true)
-		UI:Focus(false)
 	end)
 
 	-- Window events.
@@ -265,10 +191,6 @@ function Paint:Enable(vehicle)
 		end
 	end)
 
-	-- Focus the UI.
-	UI:Focus(true, true)
-
-	-- Return the window.
 	return window
 end
 
@@ -278,7 +200,14 @@ function Paint:Disable(vehicle, discard)
 			local funcs = self[k]
 			for _k, _v in pairs(v) do
 				local func = funcs[_k]
-				func.setter(vehicle, type(_v) == "table" and table.unpack(_v) or _v)
+				local a, b, c
+				if type(_v) == "table" then
+					a, b, c = table.unpack(_v)
+				else
+					a = _v
+				end
+
+				func.setter(vehicle, a, b, c)
 			end
 		end
 	end

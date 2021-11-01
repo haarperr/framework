@@ -1,5 +1,64 @@
 Modding = {
 	items = {},
+	prepend = {
+		type = "q-icon",
+		name = "cancel",
+		style = {
+			["font-size"] = "1.3em",
+		},
+		binds = {
+			color = "red",
+		},
+		click = {
+			callback = "this.$setModel('closing', true)",
+		},
+		components = {
+			{
+				type = "q-dialog",
+				model = "closing",
+				components = {
+					{
+						type = "q-card",
+						components = {
+							{
+								type = "q-card-section",
+								class = "row items-center",
+								template = "<div>Would you like to apply these changes?</div>",
+							},
+							{
+								type = "q-card-actions",
+								binds = {
+									["align"] = "right",
+								},
+								components = {
+									{
+										type = "q-btn",
+										text = "Save and Exit",
+										binds = {
+											color = "green",
+										},
+										click = {
+											event = "save",
+										},
+									},
+									{
+										type = "q-btn",
+										text = "Exit without Saving",
+										binds = {
+											color = "red",
+										},
+										click = {
+											event = "discard",
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	},
 }
 
 --[[ Functions ]]--
@@ -25,6 +84,9 @@ function Modding:Enable(vehicle, name, emote)
 	-- Meta callback.
 	if meta.Enable then
 		self.window = meta:Enable(NearestVehicle)
+		if self.window then
+			UI:Focus(true, true)
+		end
 	end
 
 	-- Calculate bounds.
@@ -54,6 +116,8 @@ function Modding:Exit(discard)
 	if self.window then
 		self.window:Destroy()
 		self.window = nil
+
+		UI:Focus(false)
 	end
 
 	if self.camera then
@@ -69,6 +133,8 @@ function Modding:Exit(discard)
 		self.vehicle = nil
 		self.meta = nil
 	end
+
+	self.center = nil
 end
 
 function Modding:CanModify(vehicle)
@@ -111,7 +177,7 @@ function Modding:UpdateCam()
 	local horizontal = math.rad(self.horizontal or 0.0)
 	local vertical = self.vertical or 0.5
 	local height = (self.height or 0.5) * 2.0 + 0.5
-	local radius = self.length * (1.5 + vertical * 0.5)
+	local radius = self.length * (1.2 + vertical * 0.8)
 	local offset = vector3(math.cos(horizontal) * radius, math.sin(horizontal) * radius, height)
 
 	-- Set coords.
