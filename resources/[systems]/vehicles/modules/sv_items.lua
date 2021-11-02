@@ -1,8 +1,11 @@
+Items = {}
+
 RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 	local source = source
 
 	-- Check parameters.
-	if type(netId) ~= "number" or type(partId) ~= "number" or type(slotId) ~= "number" then return end
+	local inputType = type(partId)
+	if type(netId) ~= "number" or type(slotId) ~= "number" or (inputType ~= "string" and inputType ~= "number") then return end
 
 	-- Check cooldown.
 	if not PlayerUtil:CheckCooldown(source, 3.0, true) then return end
@@ -10,12 +13,6 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 	-- Check entity exists.
 	local entity = NetworkGetEntityFromNetworkId(netId)
 	if not DoesEntityExist(entity) then return end
-
-	-- Get part.
-	local part = Main.parts[partId]
-	if not part then
-		return
-	end
 
 	-- Get player container.
 	local containerId = exports.inventory:GetPlayerContainer(source, true)
@@ -27,7 +24,25 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 
 	-- Get item.
 	local item = exports.inventory:ContainerInvokeSlot(containerId, slotId, "GetItem")
-	if not item or (item.repair or item.name) ~= part.Name then return end
+	if not item then return end
+
+	-- Arbitrary items.
+	if inputType == "string" then
+		local _item = Items[item.name]
+		if _item then
+			_item(entity, containerId, slot)
+		end
+		return
+	end
+
+	-- Check item for part.
+	if (item.repair or item.name) ~= part.Name then return end
+
+	-- Get part from cache.
+	local part = Main.parts[partId]
+	if not part then
+		return
+	end
 
 	-- Check engine.
 	local isEngine = item.repair == "Engine"
@@ -75,3 +90,11 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 	vehicle.info.damage[partId] = newDurability
 	vehicle:Set("damage", vehicle.info.damage)
 end)
+
+Items["Rag"] = function(vehicle, containerId, slot)
+	local dirtLevel = (GetVehicleDirtLevel(vehicle) or 0.0) / 15.0
+
+	SetVehicleDirtLevel(vehicle, 0.0)
+
+	exports.inventory:ContainerInvokeSlot(containerId, slot.slot_id, "Decay", dirtLevel * Config.Washing.ItemDurability)
+end

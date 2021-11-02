@@ -12,6 +12,9 @@ Config = {
 			MaxHealth = 0.8, -- The health to set the engine when not near a lift.
 		},
 	},
+	Washing = {
+		ItemDurability = 0.1, -- How much durability to take, scaled with vehicle dirt level.
+	},
 	DamageMults = {
 		Base = 1.5,
 		CarCollision = 2.0,
