@@ -30,7 +30,7 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 	if inputType == "string" then
 		local _item = Items[item.name]
 		if _item then
-			_item(entity, containerId, slot)
+			_item(netId, entity, containerId, slot)
 		end
 		return
 	end
@@ -91,10 +91,12 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 	vehicle:Set("damage", vehicle.info.damage)
 end)
 
-Items["Rag"] = function(vehicle, containerId, slot)
+Items["Rag"] = function(netId, vehicle, containerId, slot)
 	local dirtLevel = (GetVehicleDirtLevel(vehicle) or 0.0) / 15.0
 
 	SetVehicleDirtLevel(vehicle, 0.0)
 
 	exports.inventory:ContainerInvokeSlot(containerId, slot.slot_id, "Decay", dirtLevel * Config.Washing.ItemDurability)
+	
+	TriggerClientEvent("vehicles:clean", -1, netId) -- Removes additional decals for clients.
 end

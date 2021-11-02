@@ -323,6 +323,15 @@ RegisterNetEvent("vehicles:toggleDoor", function(netId, index, state)
 	Main:SetDoorState(vehicle, index, state, true)
 end)
 
+RegisterNetEvent("vehicles:clean", function(netId)
+	if not NetworkDoesEntityExistWithNetworkId(netId) then return end
+
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	RemoveDecalsFromVehicle(vehicle)
+end)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

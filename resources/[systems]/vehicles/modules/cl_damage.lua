@@ -155,5 +155,7 @@ RegisterNetEvent("vehicles:fix", function()
 	if not CurrentVehicle then return end
 
 	SetVehicleFixed(CurrentVehicle)
+	SetVehicleDirtLevel(CurrentVehicle, 0.0)
+
 	Parts:Restore()
 end)

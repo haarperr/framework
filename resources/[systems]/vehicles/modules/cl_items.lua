@@ -134,12 +134,6 @@ Items["Rag"] = {
 		return true
 	end,
 	Finish = function(vehicle, item, slot)
-		if not WaitForAccess(vehicle) then
-			return false
-		end
-
-		RemoveDecalsFromVehicle(vehicle)
-
 		return true
 	end,
 }
