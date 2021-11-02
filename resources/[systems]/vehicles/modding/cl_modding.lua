@@ -219,6 +219,8 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 	if not NearestVehicle or item.category ~= "Vehicle" then return end
 
 	Modding:Enable(NearestVehicle, item.name, "notepad")
+
+	TriggerEvent("inventory:toggle", false)
 end)
 
 --[[ Threads ]]--

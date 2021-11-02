@@ -24,6 +24,7 @@ client_scripts {
 	'cl_main.lua',
 	'modules/**/cl_*.lua',
 	'modding/cl_modding.lua',
+	'modding/cl_mods.lua',
 	'modding/cl_paint.lua',
 }
 
