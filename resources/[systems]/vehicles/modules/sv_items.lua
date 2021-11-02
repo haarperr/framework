@@ -35,14 +35,14 @@ RegisterNetEvent("vehicles:useItem", function(netId, partId, slotId, nearLift)
 		return
 	end
 
-	-- Check item for part.
-	if (item.repair or item.name) ~= part.Name then return end
-
 	-- Get part from cache.
 	local part = Main.parts[partId]
 	if not part then
 		return
 	end
+	
+	-- Check item for part.
+	if (item.repair or item.name) ~= part.Name then return end
 
 	-- Check engine.
 	local isEngine = item.repair == "Engine"
