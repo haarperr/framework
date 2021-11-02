@@ -39,6 +39,17 @@ Doors = {
 	["door_pside_r"] = 3,
 }
 
+Tires = {
+	["wheel_f"] = 0,
+	["wheel_lf"] = 0,
+	["wheel_lm1"] = 2,
+	["wheel_lr"] = 4,
+	["wheel_r"] = 4,
+	["wheel_rf"] = 1,
+	["wheel_rm1"] = 3,
+	["wheel_rr"] = 5,
+}
+
 -- Windows = {
 -- 	["window_lf"] = 2,
 -- 	["window_lm"] = 6,
@@ -183,6 +194,36 @@ function GetClosestSeat(coords, vehicle, mustBeEmpty)
 	return nearestSeat, nearestDist
 end
 
+function GetNearestTire(coords, vehicle)
+	local nearestTire = nil
+	local nearestDist = 0.0
+
+	for boneName, tireIndex in pairs(GetTires(vehicle)) do
+		local boneIndex = GetEntityBoneIndexByName(vehicle, boneName)
+		if boneIndex ~= -1 then
+			local target = GetEntityBonePosition_2(vehicle, boneIndex)
+			local dist = target and #(target - coords)
+			
+			if dist and (not nearestTire or dist < nearestDist) then
+				nearestTire = tireIndex
+				nearestDist = dist
+			end
+		end
+	end
+
+	return nearestTire, nearestDist
+end
+
+function GetTires(vehicle)
+	local tires = {}
+	for boneName, wheelIndex in pairs(Tires) do
+		if DoesVehicleHaveBone(vehicle, boneName) then
+			tires[boneName] = wheelIndex
+		end
+	end
+	return tires
+end
+
 function DoesVehicleHaveBone(vehicle, boneName)
 	return GetEntityBoneIndexByName(vehicle, boneName) ~= -1
 end
@@ -236,4 +277,3 @@ function IsVehicleEngineVisible(vehicle)
 	
 	return GetVehicleDoorAngleRatio(vehicle, engineDoor == "boot" and 5 or 4) > 0.5, engineDoor
 end
-
