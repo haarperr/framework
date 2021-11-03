@@ -113,7 +113,7 @@ function Main:Update()
 				TriggerServerEvent("vehicles:enter", netId)
 			end
 		end
-		
+
 		self.vehicle = CurrentVehicle
 	end
 	

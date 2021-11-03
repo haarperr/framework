@@ -100,3 +100,14 @@ Items["Rag"] = function(netId, vehicle, containerId, slot)
 	
 	TriggerClientEvent("vehicles:clean", -1, netId) -- Removes additional decals for clients.
 end
+
+Items["Car Jack"] = function(netId, vehicle, containerId, slot)
+	-- Decay car jack.
+	exports.inventory:ContainerInvokeSlot(containerId, slot.slot_id, "Decay", GetRandomFloatInRange(table.unpack(Config.Repair.CarJack.ItemDurability)))
+
+	-- Break a wheel.
+	local wheelSlot = exports.inventory:ContainerFindFirst(containerId, "Wheel", "return not slot.durability or slot.durability > 0.001")
+	if wheelSlot then
+		exports.inventory:ContainerInvokeSlot(containerId, wheelSlot.slot_id, "Decay", 1.0)
+	end
+end

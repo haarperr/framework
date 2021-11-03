@@ -8,7 +8,7 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		local _item = Items[item.name]
 		if _item and _item.Use then
 			local vehicle = GetFacingVehicle(PlayerPedId(), 1.0)
-			if vehicle then
+			if vehicle and (GetVehicleBodyHealth(vehicle) > 0 or IsVehicleDriveable(vehicle)) then
 				Items.vehicle = vehicle
 				local retval, result = _item.Use(vehicle, item, slot, cb)
 				if not retval and result then
@@ -134,6 +134,86 @@ Items["Rag"] = {
 		return true
 	end,
 	Finish = function(vehicle, item, slot)
+		return true
+	end,
+}
+
+Items["Body Repair Kit"] = {
+	Use = function(vehicle, item, slot, cb)
+		if not Modding:CanModify(vehicle) then
+			return false, "Cannot modify that vehicle right now!"
+		end
+
+		cb(12000, "mechfix2")
+
+		return true
+	end,
+	Finish = function(vehicle, item, slot)
+		if not WaitForAccess(vehicle) then
+			return false
+		end
+
+		local tires = {}
+		for boneName, wheelIndex in pairs(GetTires(vehicle)) do
+			tires[wheelIndex] = { IsVehicleTyreBurst(vehicle, wheelIndex, true) and 1 or IsVehicleTyreBurst(vehicle, wheelIndex) and 2 or 0, GetTyreHealth(vehicle, wheelIndex) }
+		end
+		
+		SetVehicleFixed(vehicle)
+		
+		for wheelIndex, values in pairs(tires) do
+			local state, health = table.unpack(values)
+
+			SetTyreHealth(vehicle, wheelIndex, health or 1000.0)
+
+			if state ~= 0 then
+				SetVehicleTyreBurst(vehicle, wheelIndex, state == 1, 1000.0 - (health or 1000.0))
+			end
+		end
+
+		return true
+	end,
+}
+
+Items["Car Jack"] = {
+	Use = function(vehicle, item, slot, cb)
+		if not Modding:CanModify(vehicle) then
+			return false, "Cannot modify that vehicle right now!"
+		end
+
+		local ped = PlayerPedId()
+		local coords = GetEntityCoords(ped)
+		local tireIndex, tireDist = GetNearestTire(coords, vehicle)
+
+		if not tireIndex or tireDist > 1.5 then
+			return false, "Cannot find a tire to replace..."
+		end
+
+		if not IsVehicleTyreBurst(vehicle, tireIndex, true) and not IsVehicleTyreBurst(vehicle, tireIndex) then
+			return false, "That tire is fine..."
+		end
+
+		if not exports.inventory:HasItem("Wheel", 0.01) then
+			return false, "You need a wheel..."
+		end
+
+		Items.tire = tireIndex
+
+		cb(8000, "mechfix2")
+
+		return true
+	end,
+	Finish = function(vehicle, item, slot)
+		local tireIndex = Items.tire
+
+		if not tireIndex or not WaitForAccess(vehicle) or not exports.inventory:HasItem("Wheel", 0.01) then
+			return false
+		end
+
+		SetTyreHealth(vehicle, tireIndex, 1000.0)
+		SetVehicleTyreFixed(vehicle, tireIndex)
+
+		Items.tire = nil
+
 		return true
 	end,
 }

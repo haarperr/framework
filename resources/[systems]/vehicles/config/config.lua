@@ -11,6 +11,9 @@ Config = {
 			ItemDurability = { 0.1, 0.15 }, -- Range of durability taken from the item used to repair.
 			MaxHealth = 0.8, -- The health to set the engine when not near a lift.
 		},
+		CarJack = { -- Repairing tires (using a Car Jack).
+			ItemDurability = { 0.05, 0.1 }, -- Range of durability taken from the item used to repair.
+		},
 	},
 	Washing = {
 		ItemDurability = 0.1, -- How much durability to take, scaled with vehicle dirt level.

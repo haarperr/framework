@@ -68,14 +68,14 @@ end
 
 function Modding:Enable(vehicle, name, emote)
 	local meta = Modding.items[name]
-	if not meta then return end
+	if not meta then return false end
 
 	if not self:CanModify(vehicle) then
 		TriggerEvent("chat:notify", {
 			class = "error",
 			text = "Cannot modify that vehicle right now!"
 		})
-		return
+		return false
 	end
 
 	self.vehicle = vehicle
@@ -105,6 +105,8 @@ function Modding:Enable(vehicle, name, emote)
 	else
 		self.emote = nil
 	end
+
+	return true
 end
 
 function Modding:Exit(discard)
@@ -218,9 +220,9 @@ end
 AddEventHandler("inventory:use", function(item, slot, cb)
 	if not NearestVehicle or item.category ~= "Vehicle" then return end
 
-	Modding:Enable(NearestVehicle, item.name, "notepad")
-
-	TriggerEvent("inventory:toggle", false)
+	if Modding:Enable(NearestVehicle, item.name, "notepad") then
+		TriggerEvent("inventory:toggle", false)
+	end
 end)
 
 --[[ Threads ]]--
