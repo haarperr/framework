@@ -51,8 +51,5 @@ function Dot(a, b)
 end
 
 function Normalize(vector)
-	if type(vector) ~= "vector3" then return end
-
-	local norm = Vmag(vector)
-	return vector3(vector.x / norm, vector.y / norm, vector.z / norm)
+	return vector / #vector
 end
