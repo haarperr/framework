@@ -16,7 +16,7 @@ function Admin:Init()
 					if option.close then
 						Menu:Toggle(false)
 					end
-					Admin:InvokeHook("select", option.hook)
+					Admin:InvokeHook("select", option.hook, self)
 				end
 			end
 		end

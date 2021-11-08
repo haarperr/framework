@@ -1,4 +1,4 @@
-Admin:AddHook("select", "listVehicles", function()
+Admin:AddHook("select", "listVehicles", function(option)
 	local options = {}
 	local classes = exports.vehicles:GetClasses()
 
