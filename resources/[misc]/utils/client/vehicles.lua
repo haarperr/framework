@@ -149,26 +149,31 @@ function GetNearestVehicle(coords, maxDist)
 	return nearestVehicle, nearestDist
 end
 
-function GetClosestDoor(coords, vehicle, enterable)
+function GetClosestDoor(coords, vehicle, enterable, handles)
 	local nearestDoor = nil
 	local nearestDist = 0.0
+	local nearestCoords = nil
 
 	for boneName, doorIndex in pairs(Doors) do
-		local boneIndex = GetEntityBoneIndexByName(vehicle, boneName)
+		local handleName = handles and boneName:gsub("door", "handle")
+		local handleIndex = handles and GetEntityBoneIndexByName(vehicle, handleName) or -1
+		local boneIndex = handleIndex == -1 and GetEntityBoneIndexByName(vehicle, boneName) or handleIndex
+
 		if boneIndex ~= -1 then
 			if not enterable or doorIndex < 4 then
-				local target = GetEntityBonePosition_2(vehicle, boneIndex)
-				local dist = target and #target > 0.001 and #(target - coords)
+				local boneCoords = GetEntityBonePosition_2(vehicle, boneIndex)
+				local dist = boneCoords and #boneCoords > 0.001 and #(boneCoords - coords)
 				
 				if dist and (not nearestDoor or dist < nearestDist) then
-					nearestDoor = doorIndex
+					nearestDoor = boneName
 					nearestDist = dist
+					nearestCoords = boneCoords
 				end
 			end
 		end
 	end
 
-	return nearestDoor, nearestDist
+	return nearestDoor, nearestDist, nearestCoords
 end
 
 function GetClosestSeat(coords, vehicle, mustBeEmpty)

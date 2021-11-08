@@ -90,7 +90,7 @@ local vector = Normalize(vector)
 ### Vehicles
 ```Lua
 local vehicle, dist = GetNearestVehicle(coords, maxDist)
-local doorIndex, dist = GetClosestDoor(coords, vehicle)
+local boneName, dist = GetClosestDoor(coords, vehicle)
 local seatIndex, dist = GetClosestSeat(coords, vehicle, mustBeEmpty)
 local vehicle, hitCoords, hitDist = GetFacingVehicle(ped, maxDist) -- Find the nearest vehicle that the ped is facing.
 ```
