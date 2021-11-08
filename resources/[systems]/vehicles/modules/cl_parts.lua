@@ -397,8 +397,8 @@ Main:AddListener("Exit", function(vehicle)
 end)
 
 Main:AddListener("UpdateNearestDoor", function(vehicle, door)
-	Parts.isNearHood = door == 4
-	Parts.isNearTrunk = door == 5
+	Parts.isNearHood = door == "bonnet"
+	Parts.isNearTrunk = door == "boot"
 end)
 
 Main:AddListener("UpdateNearestVehicle", function(vehicle)

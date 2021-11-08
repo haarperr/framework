@@ -9,9 +9,13 @@ end
 
 --[[ Functions: Main ]]--
 function Main:BuildNavigation()
+	local navigation = {}
+	self.navigation = navigation
+
 	local options = {}
 	local vehicle = nil
 	local ped = PlayerPedId()
+	local coords = GetEntityCoords(ped)
 
 	local door = nil
 	local hood = false
@@ -68,21 +72,44 @@ function Main:BuildNavigation()
 			sub = seatOptions,
 		}
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
-		local nearestDoor = NearestDoor
-		local doorCoords = NearestDoor and GetEntityBonePosition_2(NearestDoor)
-		-- if not doorCoords or doorCoords > NearestDoor then
-			
-		-- end
+		local nearestDoor, nearestDoorDist, nearestDoorCoords = GetClosestDoor(coords, NearestVehicle, false, true)
+		if not nearestDoor then goto skipDoor end
 
-		hood = nearestDoor == 4
-		trunk = nearestDoor == 5
-		door = not hood and not trunk and nearestDoor
+		local doorIndex = Doors[nearestDoor]
+		local doorOffset = GetOffsetFromEntityGivenWorldCoords(NearestVehicle, nearestDoorCoords)
+		local doorNormal = #doorOffset > 0.001 and Normalize(vector3(doorOffset.x, doorOffset.y, 0.0)) or vector3(0.0, 0.0, 0.0)
+		
+		if doorIndex == 4 or doorIndex == 5 then
+			doorOffset = doorOffset + doorNormal * 1.0
+		end
+
+		-- Citizen.CreateThread(function()
+		-- 	for i = 1, 100 do
+		-- 		local c = GetOffsetFromEntityInWorldCoords(NearestVehicle, doorOffset)
+		-- 		DrawLine(c.x, c.y, c.z, coords.x, coords.y, coords.z, 255, 255, 0, 255)
+
+		-- 		Citizen.Wait(0)
+		-- 	end
+		-- end)
+
+		if #(GetOffsetFromEntityInWorldCoords(NearestVehicle, doorOffset) - coords) > (Config.Navigation.Doors.Distances[doorIndex] or Config.Navigation.Doors.Distances[-1]) then
+			doorIndex = nil
+		end
+
+		hood = doorIndex == 4
+		trunk = doorIndex == 5
+		door = not hood and not trunk and doorIndex
 		vehicle = NearestVehicle
+
+		navigation.nearestDoor = doorIndex
+		navigation.doorOffset = doorOffset
+
+		::skipDoor::
 	end
 
 	-- Clear options.
 	if not vehicle then
-		exports.interact:RemoveOption("vehicle")
+		self:CloseNavigation()
 		return
 	end
 
@@ -123,7 +150,29 @@ function Main:BuildNavigation()
 			sub = options,
 		})
 	else
-		exports.interact:RemoveOption("vehicle")
+		self:CloseNavigation()
+	end
+end
+
+function Main:CloseNavigation()
+	self.navigation = nil
+
+	exports.interact:RemoveOption("vehicle")
+end
+
+function Main.update:Navigation()
+	local navigation = self.navigation
+	if not navigation then return end
+
+	local ped = PlayerPedId()
+	local coords = GetEntityCoords(ped)
+
+	-- Check nearest door.
+	local door = navigation.nearestDoor
+	local doorOffset = navigation.doorOffset
+
+	if doorOffset and #(GetOffsetFromEntityInWorldCoords(NearestVehicle, doorOffset) - coords) > (Config.Navigation.Doors.Distances[door] or Config.Navigation.Doors.Distances[-1]) then
+		self:BuildNavigation()
 	end
 end
 
@@ -133,8 +182,6 @@ Main:AddListener("Enter", function(vehicle)
 end)
 
 Main:AddListener("Update", function()
-
-
 	if not IsInVehicle then return end
 
 	local func
@@ -150,14 +197,6 @@ Main:AddListener("Update", function()
 	end
 end)
 
-Main:AddListener("UpdateNearestVehicle", function(vehicle)
-	Main:BuildNavigation()
-end)
-
-Main:AddListener("UpdateNearestDoor", function(vehicle, door)
-	Main:BuildNavigation()
-end)
-
 --[[ Events ]]--
 AddEventHandler("interact:onNavigate", function(id, option)
 	if not option.doorIndex and not option.seatIndex then return end
@@ -167,6 +206,7 @@ AddEventHandler("interact:onNavigate", function(id, option)
 
 	if option.doorIndex then
 		Main:ToggleDoor(vehicle, option.doorIndex)
+		exports.emotes:Play(Config.Navigation.Doors.Anim)
 	elseif option.seatIndex then
 		SetPedIntoVehicle(PlayerPedId(), vehicle, option.seatIndex)
 	end
@@ -181,4 +221,13 @@ AddEventHandler("interact:onNavigate_vehicleBay", function(option)
 	if not vehicle then return end
 
 	Main:ToggleBay(vehicle)
+end)
+
+AddEventHandler("interact:navigate", function(value)
+	if not value then
+		Main:CloseNavigation()
+		return
+	end
+
+	Main:BuildNavigation()
 end)

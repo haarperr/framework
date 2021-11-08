@@ -1,4 +1,14 @@
 Config = {
+	Navigation = {
+		Doors = {
+			Anim = { Dict = "pickup_object", Name = "putdown_low", Flag = 48, Duration = 1200 },
+			Distances = {
+				[-1] = 1.5,
+				[4] = 2.0,
+				[5] = 2.0,
+			},
+		}
+	},
 	Values = {
 		GearShiftDownDelay = 800, -- How long, in milliseconds, the clutch will be forced to 0.0 after clutching down, preventing a double clutch.
 	},
