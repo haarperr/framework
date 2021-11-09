@@ -1666,6 +1666,6 @@ Properties = {
 	-- 5000+ reserved for auto-apartments.
 }
 
-for i = 1, 1000 do
-	Properties[#Properties + 1] = { id = 2000 + (i - 1), type = "apartment" }
-end
+-- for i = 1, 1000 do
+-- 	Properties[#Properties + 1] = { id = 2000 + (i - 1), type = "apartment" }
+-- end

@@ -7,6 +7,7 @@ dependencies {
 }
 
 shared_scripts {
+	'@grids/shared/grids.lua',
 	'sh_config.lua',
 	'sh_properties.lua',
 }
