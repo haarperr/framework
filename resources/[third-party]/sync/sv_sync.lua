@@ -16,8 +16,6 @@ function Main:NextWeather()
 	-- end
 
 	local nextWeather = self:GetRandomWeather(weather.Next)
-	print(nextWeather)
-
 	if nextWeather then
 		self:SetWeather(nextWeather)
 		return nextWeather
@@ -89,7 +87,8 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Main:NextWeather()
-		Citizen.Wait(1000 * 60 * 0.25)
+		
+		Citizen.Wait(1000 * 60 * math.random(10, 15))
 	end
 end)
 
