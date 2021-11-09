@@ -75,6 +75,16 @@ function Main:RegisterBulk(data)
 end
 Main:Export("RegisterBulk")
 
+function Main:Destroy(id)
+	local instance = self.objects[id]
+	if not instacne then return false end
+
+	instance:Destroy()
+
+	return true
+end
+Main:Export("Destroy")
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

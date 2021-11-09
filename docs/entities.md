@@ -34,3 +34,6 @@ Other options.
 - `floor`: when set to true, the coordinates will snap to the ground.
 
 ### Destroying
+```Lua
+exports.entities:Destroy(id)
+```
