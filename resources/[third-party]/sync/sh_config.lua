@@ -1,6 +1,10 @@
 Config = {
 	TimeScale = 1.0 / 8.0, -- 1.0 = Time passes 1:1.
 	TransitionTime = 15.0,
+	Winter = {
+		Start = 10,
+		End = 3,
+	},
 	Weathers = {
 		["EXTRASUNNY"] = {
 			Next = {
@@ -40,7 +44,6 @@ Config = {
 				["EXTRASUNNY"] = 1.0,
 				["SMOG"] = 0.5,
 				["FOGGY"] = 0.5,
-				["SNOWLIGHT"] = 0.02,
 			},
 		},
 		["CLOUDS"] = {

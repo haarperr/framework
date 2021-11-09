@@ -12,4 +12,5 @@ client_scripts {
 
 server_scripts {
 	'sv_sync.lua',
+	'sv_commands.lua',
 }

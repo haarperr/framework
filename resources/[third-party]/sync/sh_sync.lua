@@ -1,27 +1,27 @@
-CurrentWeather = "EXTRASUNNY"
+Main = Main or {}
+Main.weather = "EXTRASUNNY"
 
-function GetHour()
-	return math.floor((GetTime() / 60.0) % 24.0)
+--[[ Functions ]]--
+function Main:GetHour()
+	return math.floor((self:GetTime() / 60.0) % 24.0)
 end
 
-function GetMinute()
-	return math.floor(GetTime() % 60.0)
+function Main:GetMinute()
+	return math.floor(self:GetTime() % 60.0)
 end
 
-function GetSecond()
-	return math.floor((GetTime() * 60.0) % 60.0)
+function Main:GetSecond()
+	return math.floor((self:GetTime() * 60.0) % 60.0)
 end
 
-function GetTimes()
-	serverTime = GetTime()
+function Main:GetTimes()
+	serverTime = self:GetTime()
 
-	local day, month, year, hour, minute, second =
-		math.floor((serverTime / 1440) % 31),
-		math.floor((serverTime / 44640) % 12),
-		math.floor(serverTime / 535680),
-		math.floor((serverTime / 60) % 24),
-		math.floor(serverTime % 60),
-		math.floor((serverTime * 60) % 60)
-
-	return day, month, year, hour, minute, second
+	return
+		math.floor((serverTime / 1440) % 31), -- day
+		math.floor((serverTime / 44640) % 12), -- month
+		math.floor(serverTime / 535680), -- year
+		math.floor((serverTime / 60) % 24), -- hour
+		math.floor(serverTime % 60), -- minute
+		math.floor((serverTime * 60) % 60) -- second
 end
