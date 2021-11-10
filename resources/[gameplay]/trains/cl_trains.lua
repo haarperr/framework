@@ -1,9 +1,28 @@
+local models = {
+	"freight",
+	"freightcar",
+	"freightcar2",
+	"freightgrain",
+	"freightcont1",
+	"freightcont2",
+	"freighttrailer",
+	"tankercar",
+	"metrotrain",
+	"freightgrain",
+}
+
 Citizen.CreateThread(function()
-	SwitchTrainTrack(0, true)
-	SwitchTrainTrack(3, true)
-	SetTrainTrackSpawnFrequency(0, 30000)
-	SetTrainTrackSpawnFrequency(1, 30000)
-	SetTrainTrackSpawnFrequency(2, 30000)
-	SetTrainTrackSpawnFrequency(3, 30000)
-	SetRandomTrains(true)
+	for k, model in ipairs(models) do
+		while not HasModelLoaded(model) do
+			RequestModel(model)
+			Citizen.Wait(0)
+		end
+	end
+
+	-- local vehicle = CreateMissionTrain(25, 523.067, -1177.32, 28.35, true)
+	-- print(vehicle)
+
+	-- while true do
+	-- 	Citizen.Wait(1000)
+	-- end
 end)

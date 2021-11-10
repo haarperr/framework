@@ -3,7 +3,9 @@ game 'gta5'
 
 shared_script {
 	-- 'sh_config.lua',
-	-- 'sh_trains.lua',
+	'@grids/shared/grids.lua',
+	'sh_config.lua',
+	'sh_tracks.lua',
 }
 
 client_scripts {
@@ -11,5 +13,6 @@ client_scripts {
 }
 
 server_scripts {
-	-- 'sv_trains.lua',
+	'@utils/server/random.lua',
+	'sv_trains.lua',
 }
