@@ -41,73 +41,80 @@ function Main:UpdateGrids(_, nearbyGrids)
 end
 
 function Main:RegisterGrid(gridId)
-	local grid = self.grids[gridId]
-	if not grid then return end
+	-- local grid = self.grids[gridId]
+	-- if not grid then return end
 
-	for _, propertyId in ipairs(grid) do
-		local property = Properties[propertyId]
-
-		exports.entities:Register({
-			id = "property-"..propertyId,
-			name = "Property "..propertyId,
-			coords = property.coords,
-			radius = 1.0,
-			navigation = {
-				id = "property",
-				text = "Property",
-				icon = "house",
-				sub = {
-					{
-						id = "enterProperty",
-						text = "Enter",
-						icon = "door_front",
-					},
-					{
-						id = "knockProperty",
-						text = "Knock",
-						icon = "notifications",
-					},
-					{
-						id = "lockProperty",
-						text = "Toggle Lock",
-						icon = "lock",
-					},
-					{
-						id = "examineProperty",
-						text = "Examine",
-						icon = "search",
-					},
-				},
-			},
-		})
-
-		if property.garage then
-			exports.entities:Register({
-				id = "garage-"..propertyId,
-				name = "Property "..propertyId.." Garage",
-				coords = property.garage,
-				radius = 3.0,
-				navigation = {
-					id = "garage",
-					text = "Garage",
-					icon = "garage",
-				},
-			})
-		end
-	end
+	-- for _, propertyId in ipairs(grid) do
+	-- 	self:RegisterEntity(propertyId)
+	-- end
 end
 
 function Main:UnregisterGrid(gridId)
-	local grid = self.grids[gridId]
-	if not grid then return end
+	-- local grid = self.grids[gridId]
+	-- if not grid then return end
 
-	for _, propertyId in ipairs(grid) do
-		local property = Properties[propertyId]
-		exports.entities:Destroy("property-"..propertyId)
+	-- for _, propertyId in ipairs(grid) do
+	-- 	local property = Properties[propertyId]
+	-- 	exports.entities:Destroy("property-"..propertyId)
 		
-		if property.garage then
-			exports.entities:Destroy("garage-"..propertyId)
-		end
+	-- 	if property.garage then
+	-- 		exports.entities:Destroy("garage-"..propertyId)
+	-- 	end
+	-- end
+end
+
+function Main:RegisterEntity(propertyId)
+	local property = Properties[propertyId]
+	if not property then return end
+
+	local options = {}
+
+	exports.entities:Register({
+		id = "property-"..propertyId,
+		name = "Property "..propertyId,
+		coords = property.coords,
+		radius = 1.0,
+		navigation = {
+			id = "property",
+			text = "Property",
+			icon = "house",
+			sub = {
+				{
+					id = "enterProperty",
+					text = "Enter",
+					icon = "door_front",
+				},
+				{
+					id = "knockProperty",
+					text = "Knock",
+					icon = "notifications",
+				},
+				{
+					id = "lockProperty",
+					text = "Toggle Lock",
+					icon = "lock",
+				},
+				{
+					id = "examineProperty",
+					text = "Examine",
+					icon = "search",
+				},
+			},
+		},
+	})
+
+	if property.garage then
+		exports.entities:Register({
+			id = "garage-"..propertyId,
+			name = "Property "..propertyId.." Garage",
+			coords = property.garage,
+			radius = 3.0,
+			navigation = {
+				id = "garage",
+				text = "Garage",
+				icon = "garage",
+			},
+		})
 	end
 end
 
@@ -235,6 +242,19 @@ function Main:Update()
 	SetRainLevel(0.0)
 end
 
+function Main:AddOption(property)
+	print(property)
+
+	local options = {}
+
+	exports.interact:AddOption({
+		id = "property",
+		text = "Property",
+		icon = "house",
+		sub = options,
+	})
+end
+
 Citizen.CreateThread(function()
 	while true do
 		Main:Update()
@@ -246,6 +266,21 @@ end)
 AddEventHandler("properties:clientStart", function()
 	Main:Init()
 	-- Main:EnterShell("test")
+end)
+
+AddEventHandler("interact:navigate", function(value)
+	if not value then
+		exports.interact:RemoveOption("property")
+		return
+	end
+
+	local ped = PlayerPedId()
+	local coords = GetEntityCoords(ped)
+	local property, distance = Main:FindNearestProperty(coords)
+
+	if property and distance < Config.DoorRadius then
+		TriggerServerEvent("properties:request", property.id)
+	end
 end)
 
 AddEventHandler("interact:onNavigate_enterProperty", function(option)
@@ -266,6 +301,11 @@ end)
 
 AddEventHandler("grids:enter"..Config.GridSize, function(...)
 	Main:UpdateGrids(...)
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("properties:receive", function(property)
+	Main:AddOption(property)
 end)
 
 --[[ Commands ]]--
