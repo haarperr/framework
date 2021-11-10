@@ -34,6 +34,28 @@
 
 Config = {
 	GridSize = 2,
+	DoorRadius = 2.0,
+	GarageRadisu = 3.0,
+	Types = {
+		["motel"] = {
+			Entry = vector4(151.44100952148438, -1007.7667846679688, -99.00001525878906, 357.2196044921875),
+		},
+		["apartment_sm"] = {
+			Shell = "apartment_sm",
+		},
+		["house"] = {
+		},
+		["mansion"] = {
+		},
+		["warehouse_sm"] = {
+		},
+		["warehouse_md"] = {
+		},
+		["warehouse_lg"] = {
+		},
+		["warehouse_xl"] = {
+		},
+	},
 	Shells = {
 		["apartment_sm"] = {
 			Name = "Apartment",

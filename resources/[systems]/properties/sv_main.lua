@@ -2,7 +2,7 @@ Main = {}
 
 function Main:Init()
 	Main:LoadDatabase()
-	Main:SyncProperties()
+	Main:LoadProperties()
 end
 
 function Main:LoadDatabase()
@@ -13,19 +13,56 @@ function Main:LoadDatabase()
 	}) do
 		exports.GHMattiMySQL:Query(LoadQuery(path))
 	end
+
+	-- local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
+
 end
 
-function Main:SyncProperties()
-	-- local queries = {}
+function Main:LoadProperties()
+	-- Load property info from database.
+	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
+	local cache = {}
+	for k, property in ipairs(result) do
+		cache[property.id] = property
+	end
 
-	-- for k, property in ipairs(Properties) do
-	-- 	queries[k] = ("INSERT IGNORE INTO `properties` SET `id`="):format()
-	-- end
+	-- Create property instances.
+	local count = 0
+	self.properties = {}
 
-	-- exports.GHMattiMySQL:Transaction(queries)
+	for k, property in ipairs(Properties) do
+		if property.id then
+			local info = cache[property.id]
+			if info then
+				info.characterId = info.character_id
+				info.character_id = nil
+
+				info.keys = json.decode(info.keys)
+			end
+
+			self.properties[property.id] = Property:Create(info or { id = property.id })
+			count = count + 1
+		end
+	end
+
+	-- Debug.
+	print(("%s properties loaded!"):format(count))
+
+	-- Remove property definitions from cache.
+	Properties = nil
+end
+
+function Main:RequestProperty(source, id)
+	TriggerClientEvent("properties:receive", source, self.properties[id])
 end
 
 --[[ Events ]]--
 AddEventHandler("properties:start", function()
 	Main:Init()
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("properties:request", function(id)
+	local source = source
+	Main:RequestProperty(source, id)
 end)
