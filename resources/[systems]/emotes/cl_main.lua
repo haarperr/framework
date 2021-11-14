@@ -179,6 +179,14 @@ function Main:PlayOnPed(ped, data)
 end
 Export(Main, "PlayOnPed")
 
+function Main:StopOnPed(ped)
+	if not ped or not DoesEntityExist(ped) then return end
+
+	self:RemoveProps(ped)
+	ClearPedTasks(ped)
+end
+Export(Main, "PlayOnPed")
+
 function Main:IsPlaying(id, checkQueue)
 	if not id then
 		local next = next
@@ -216,8 +224,8 @@ function Main:ClearQueue(forced)
 	end
 end
 
-function Main:RemoveProps()
-	local ped = PlayerPedId()
+function Main:RemoveProps(ped)
+	local ped = ped or PlayerPedId()
 	for k, entity in ipairs(exports.oldutils:GetObjects()) do
 		if DoesEntityExist(entity) and IsEntityAttachedToEntity(entity, ped) then
 			Delete(entity)
