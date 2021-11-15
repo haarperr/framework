@@ -51,9 +51,6 @@ function Emote:Play(settings)
 		self:Play(settings.Secondary)
 	end
 
-	-- Clear old props.
-	Main:RemoveProps(ped)
-
 	-- Play animations.
 	if settings.Facial then
 		self:RequestDict(settings.Dict)
