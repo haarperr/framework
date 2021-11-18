@@ -23,15 +23,6 @@ AddEventHandler("interact:on_trainingPortal", function(interactable)
 	local portal = Config.Portals[interactable.portal or false]
 	if not portal then return end
 
-	TriggerServerEvent("training:enter", interactable.portal)
-	TriggerEvent("instances:join")
-end)
-
---[[ Events: Net ]]--
-RegisterNetEvent("training:enter", function(id, isEntering)
-	local portal = Config.Portals[id]
-	if not portal then return end
-
 	if not exports.user:IsMod() then -- TODO: add job check.
 		TriggerEvent("chat:notify", {
 			class = "error",
@@ -40,7 +31,16 @@ RegisterNetEvent("training:enter", function(id, isEntering)
 		
 		return
 	end
-	
+
+	TriggerServerEvent("training:enter", interactable.portal)
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("training:enter", function(id, isEntering)
+	local portal = Config.Portals[id]
+	if not portal then return end
+
+	TriggerEvent("instances:join")
 	TriggerEvent("chat:notify", Config.Message[isEntering and "Enter" or "Exit"])
 
 	local ped = PlayerPedId()
