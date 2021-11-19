@@ -76,6 +76,7 @@ end
 function Main:GetPlayer(source)
 	return self.players[source]
 end
+Export(Main, "GetPlayer")
 
 function Main:CreateCharacter(source, data)
 	local client = Main:GetPlayer(source)
@@ -85,6 +86,7 @@ function Main:CreateCharacter(source, data)
 
 	return client:AddCharacter(data)
 end
+Export(Main, "CreateCharacter")
 
 function Main:ValidateData(data)
 	-- Check fields.
@@ -149,6 +151,7 @@ function Main:ValidateData(data)
 	-- Validate success.
 	return true
 end
+Export(Main, "ValidateData")
 
 function Main:SelectCharacter(source, id)
 	local client = self.players[source]
@@ -156,6 +159,7 @@ function Main:SelectCharacter(source, id)
 	
 	client:SelectCharacter(id)
 end
+Export(Main, "SelectCharacter")
 
 function Main:GetCharacter(source)
 	local client = self:GetPlayer(source)
@@ -163,12 +167,14 @@ function Main:GetCharacter(source)
 
 	return client:GetActiveCharacter()
 end
+Export(Main, "GetCharacter")
 
 function Main:IsSelected(source)
 	local character = self:GetCharacter(source)
 	
 	return character ~= nil
 end
+Export(Main, "IsSelected")
 
 function Main:Get(source, key)
 	local character = self:GetCharacter(source)
@@ -176,6 +182,7 @@ function Main:Get(source, key)
 
 	return character:Get(key)
 end
+Export(Main, "Get")
 
 function Main:Set(source, key, value)
 	local character = self:GetCharacter(source)
@@ -183,6 +190,7 @@ function Main:Set(source, key, value)
 
 	return character:Set(key, value)
 end
+Export(Main, "Set")
 
 function Main:GetName(source)
 	local character = self:GetCharacter(source)
@@ -190,6 +198,7 @@ function Main:GetName(source)
 
 	return character:GetName()
 end
+Export(Main, "GetName")
 
 function Main:GetActiveCharacters()
 	local characters = {}
@@ -202,6 +211,7 @@ function Main:GetActiveCharacters()
 
 	return characters
 end
+Export(Main, "GetActiveCharacters")
 
 function Main:Cache()
 	if GetResourceState("cache") ~= "started" then return end
@@ -251,27 +261,20 @@ AddEventHandler("playerDropped", function(reason)
 	end
 end)
 
--- RegisterNetEvent(Main.event.."ready")
--- AddEventHandler(Main.event.."ready", function()
--- 	local source = source
--- end)
-
-RegisterNetEvent(Main.event.."create")
-AddEventHandler(Main.event.."create", function(data)
+--[[ Events: Net ]]--
+RegisterNetEvent(Main.event.."create", function(data)
 	local source = source
 	local success, result = Main:CreateCharacter(source, data)
 
 	TriggerClientEvent(Main.event.."created", source, success, result)
 end)
 
-RegisterNetEvent(Main.event.."delete")
-AddEventHandler(Main.event.."delete", function(id)
+RegisterNetEvent(Main.event.."delete", function(id)
 	local source = source
 	-- local character = Main:GetCharacterById(id)
 end)
 
-RegisterNetEvent(Main.event.."select")
-AddEventHandler(Main.event.."select", function(id)
+RegisterNetEvent(Main.event.."select", function(id)
 	local source = source
 	if id ~= nil and type(id) ~= "number" then return end
 
