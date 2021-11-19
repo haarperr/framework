@@ -12,6 +12,11 @@ function Emote:Create(data, id)
 	}, Emote)
 	
 	if id then
+		local override = Main.playing[id]
+		if override then
+			override:Remove()
+		end
+
 		Main.playing[id] = emote
 	end
 	
@@ -121,12 +126,17 @@ function Emote:Remove()
 	end
 	
 	-- Clear props.
-	if self.props then
-		for _, entity in ipairs(self.props) do
-			Delete(entity)
-		end
-		self.props = nil
+	self:RemoveProps()
+end
+
+function Emote:RemoveProps()
+	if not self.props then return end
+
+	for _, entity in ipairs(self.props) do
+		Delete(entity)
 	end
+
+	self.props = nil
 end
 
 function Emote:RequestDict(dict)
