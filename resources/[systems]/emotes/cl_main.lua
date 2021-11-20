@@ -137,12 +137,21 @@ function Main:Stop(p1, p2)
 	-- Get emote from p1.
 	if type(p1) == "number" then
 		cancelEmote = self.playing[p1]
+
+		-- Remove from queue.
+		for i = #self.queue, 1, -1 do
+			local queued = self.queue[i]
+			if queued and queued.id == p1 and queued.Flag ~= 48 and queued.Flag ~= 0 then
+				table.remove(self.queue, i)
+			end
+		end
 	end
 
 	-- Clear normal animations.
 	if cancelEmote then
 		print("clearing anim", p1)
 
+		cancelEmote.stopping = true
 		cancelEmote:Remove()
 
 		self.isForcing = nil
