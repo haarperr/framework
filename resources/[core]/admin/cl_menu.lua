@@ -17,7 +17,7 @@ function Menu:Toggle(value)
 end
 
 --[[ Commands ]]--
-RegisterKeyMapping("+nsrp_admin", "Admin", "KEYBOARD", "HOME")
+RegisterKeyMapping("+nsrp_admin", "Admin - Menu", "KEYBOARD", "HOME")
 RegisterCommand("+nsrp_admin", function(source, args, command)
 	Menu:Toggle()
 end, true)
