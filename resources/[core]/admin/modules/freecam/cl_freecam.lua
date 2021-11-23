@@ -1,5 +1,6 @@
 Freecam = {
 	speed = 0.2,
+	fov = 70.0,
 }
 
 function Freecam:Update()
@@ -7,7 +8,13 @@ function Freecam:Update()
 	if not camera then return end
 
 	local ped = PlayerPedId()
+	local vehicle = IsPedInAnyVehicle(ped) and GetVehiclePedIsIn(ped) or nil
 	local delta = GetFrameTime()
+
+	-- Check vehicle.
+	if vehicle and GetPedInVehicleSeat(vehicle, -1) ~= ped then
+		vehicle = nil
+	end
 
 	-- Get input.
 	local lookX = GetDisabledControlNormal(0, 1) -- Mouse left/right.
@@ -22,8 +29,16 @@ function Freecam:Update()
 	local right = Cross(forward, Up)
 	local up = Cross(forward, right)
 
-	-- Speeds.
-	self.speed = math.min(math.max(self.speed + ((IsDisabledControlPressed(0, 241) and 0.1) or (IsDisabledControlPressed(0, 242) and -0.1) or 0.0), 0.1), 1.0)
+	-- Scrolling.
+	local scroll = ((IsDisabledControlPressed(0, 241) and 1.0) or (IsDisabledControlPressed(0, 242) and -1.0) or 0.0)
+	if IsDisabledControlPressed(0, 19) then -- Left alt.
+		-- Changing fov.
+		self.fov = math.min(math.max(self.fov - scroll * 10.0, 10.0), 100.0)
+		camera.fov = self.fov
+	else
+		-- Changing speed.
+		self.speed = math.min(math.max(self.speed + scroll * 0.1, 0.1), 1.0)
+	end
 
 	-- Get offsets.
 	local speed = math.pow(self.speed, 2.0) * 400.0 * (IsDisabledControlPressed(0, 209) and 2.0 or 1.0)
@@ -65,8 +80,13 @@ function Freecam:Update()
 	if IsDisabledControlJustPressed(0, 69) then -- Left click.
 		self:Deactivate()
 	elseif IsDisabledControlJustPressed(0, 70) then -- Right click.
-		SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, true)
-		SetEntityHeading(ped, rotation.z)
+		SetEntityCoordsNoOffset(vehicle or ped, coords.x, coords.y, coords.z, true)
+		
+		if vehicle then
+			SetEntityRotation(vehicle, 0.0, 0.0, rotation.z)
+		else
+			SetEntityHeading(ped, rotation.z)
+		end
 	end
 
 	-- Disable controls.
@@ -83,7 +103,7 @@ function Freecam:Activate()
 	self.camera = Camera:Create({
 		coords = self.coords,
 		rotation = self.rotation,
-		fov = 70.0,
+		fov = self.fov,
 	})
 
 	self.camera:Activate()
