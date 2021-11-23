@@ -235,7 +235,7 @@ end
 
 function Main:RemoveProps(ped)
 	local ped = ped or PlayerPedId()
-	for k, entity in ipairs(exports.oldutils:GetObjects()) do
+	for entity, _ in EnumerateObjects() do
 		if DoesEntityExist(entity) and IsEntityAttachedToEntity(entity, ped) then
 			Delete(entity)
 		end
