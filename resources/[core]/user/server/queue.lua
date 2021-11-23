@@ -82,6 +82,10 @@ function Queue:Connect(source, name, setKickReason, deferrals)
 	
 	-- Get endpoint.
 	local endpoint = GetPlayerEndpoint(source)
+	if not endpoint then
+		print(("no endpoint for [%S]"):format(source))
+		return
+	end
 	
 	-- Check tries.
 	local tries = self.attempts[endpoint] or 0
