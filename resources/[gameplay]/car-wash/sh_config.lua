@@ -1,3 +1,0 @@
-Config = {
-	Price = 20,
-}
