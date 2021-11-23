@@ -19,11 +19,7 @@ function Debugger:Update()
 	local coords = GetFinalRenderedCamCoord()
 	self.tempCache = {}
 
-	local peds = exports.oldutils:GetPeds()
-	local objects = exports.oldutils:GetVehicles()
-	local vehicles = exports.oldutils:GetObjects()
-
-	for _, ped in ipairs(peds) do
+	for ped, _ in EnumeratePeds() do
 		local isPlayer = IsPedAPlayer(ped)
 		if isPlayer and self.showPlayers then
 			self:RegisterPlayer(ped)
@@ -33,13 +29,13 @@ function Debugger:Update()
 	end
 
 	if self.showEntities then
-		for _, object in ipairs(objects) do
+		for object, _ in EnumerateObjects() do
 			if #(coords - GetEntityCoords(object)) < 50.0 then
 				self:RegisterEntity(object)
 			end
 		end
 
-		for _, vehicle in ipairs(vehicles) do
+		for vehicle, _ in EnumerateVehicles() do
 			if #(coords - GetEntityCoords(vehicle)) < 50.0 then
 				self:RegisterEntity(vehicle)
 			end
