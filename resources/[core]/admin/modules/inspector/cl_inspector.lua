@@ -87,12 +87,44 @@ function Inspector:UpdateInput()
 	end
 
 	-- Lock entity.
-	if IsDisabledControlJustPressed(0, 121) then
+	if IsDisabledControlPressed(0, 209) and IsDisabledControlJustPressed(0, 121) then -- Left shift & insert.
+		if self.editing then
+			SetEntityDrawOutline(self.editing, false)
+			self.editing = nil
+		else
+			SetEntityDrawOutline(self.entity, true)
+			self.editing = self.entity
+		end
+	elseif IsDisabledControlJustPressed(0, 121) then -- Insert.
 		self.locked = not self.locked
 
 		if self.window then
 			self.window:SetModel("locked", self.locked)
 		end
+	end
+
+	-- Editing entities.
+	if self.editing and DoesEntityExist(self.editing) then
+		local coords = GetEntityCoords(self.editing)
+		local rotation = GetEntityRotation(self.editing)
+
+		local horizontal = GetDisabledControlNormal(0, 30) -- Left/right.
+		local vertical = GetDisabledControlNormal(0, 31) -- Forward/back.
+		local height = (IsDisabledControlPressed(0, 205) and -1.0) or (IsDisabledControlPressed(0, 206) and 1.0) or 0.0 -- Q/e.
+
+		if IsDisabledControlPressed(0, 209) then -- Left shift.
+			rotation = rotation + vector3(horizontal, vertical, height) * GetFrameTime() * 35.0
+		else
+			coords = coords + vector3(horizontal, vertical, height) * GetFrameTime() * 0.5
+		end
+
+		DisableControlAction(0, 30)
+		DisableControlAction(0, 31)
+		DisableControlAction(0, 44)
+		DisableControlAction(0, 46)
+
+		SetEntityCoords(self.editing, coords)
+		SetEntityRotation(self.editing, rotation)
 	end
 end
 
