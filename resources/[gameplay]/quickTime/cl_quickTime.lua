@@ -10,7 +10,7 @@ function Main:Begin(data)
 	if self.active then return end
 
 	-- Enable nui focus.
-	SetNuiFocus(true, true)
+	SetNuiFocus(true, false)
 	SetNuiFocusKeepInput(true)
 	SetCursorLocation(0.5, 0.5)
 	
@@ -50,6 +50,11 @@ end)
 
 RegisterNetEvent("quickTime:end", function(status)
 	Main:End(status)
+end)
+
+--[[ Exports ]]--
+exports("Begin", function(...)
+	return Main:Begin(...)
 end)
 
 --[[ NUI Callbacks ]]--
