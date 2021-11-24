@@ -1,10 +1,6 @@
 fx_version 'adamant'
 game 'gta5'
 
-dependencies {
-	'oldutils',
-}
-
 shared_script {
 	'sh_config.lua',
 	-- 'sh_peds.lua',
