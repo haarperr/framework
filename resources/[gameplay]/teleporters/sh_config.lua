@@ -1,8 +1,53 @@
 Config = {
-	DefaultText = "Enter",
-	Radius = 0.75,
 	FadeTime = 1000,
+	Defaults = {
+		Text = "Enter",
+		Icon = "door_front",
+		Radius = 1.0,
+	},
+	Types = {
+		["elevator"] = {
+			Anim = {
+				Unarmed = { Dict = "friends@", Name = "pickupwait", Flag = 48 },
+				Armed = {
+					["2h"] = { Dict = "move_action@p_m_two@armed@2h_short@idle@high_energy@a", Name = "idle", Flag = 48 },
+				},
+			},
+			Message = "Waiting for the elevator...",
+			Duration = 4000,
+			Text = "Call Elevator",
+			Icon = "elevator",
+			MaxDistance = 1.5,
+		},
+		["manhole"] = {
+			Anim = { Dict = "missexile3", Name = "ex03_dingy_search_case_a_michael", Flag = 0 },
+			Message = "Lifting manhole...",
+			Duration = 6000,
+			Text = "Enter Manhole",
+			Icon = "do_not_touch",
+			MaxDistance = 0.5,
+		},
+		["ladder"] = {
+			Anim = { Dict = "ladders", Name = "get_on_bottom_left_stand_high", Flag = 0 },
+			Message = "Climbing ladder...",
+			Duration = 500,
+			Text = "Climb Ladder",
+			Icon = "do_not_touch",
+			MaxDistance = 1.5,
+		},
+	},
 	Teleporters = {
+		-- {
+		-- 	From = {
+		-- 		Coords = vector4(-22.64442825317382, -1160.19873046875, 26.10279846191406, 272.1470031738281),
+		-- 		Text = "Strange Door",
+		-- 	},
+		-- 	To = {
+		-- 		Coords = vector4(-30.84466552734375, -1160.7952880859375, 26.08261680603027, 93.84049987792967),
+		-- 		Instance = "nether",
+		-- 	},
+		-- 	Text = "Enter Portal",
+		-- },
 		-- Scrapyard.
 		{
 			From = vector4(-593.26336669922, -1595.2761230469, 26.798873901367, 351.53842163086), -- Inside paper.
@@ -10,7 +55,8 @@ Config = {
 		},
 		{
 			From = vector4(-613.04907226563, -1624.1762695313, 33.010581970215, 170.87001037598), -- Elevator.
-			To = vector4(-621.45239257813, -1640.7094726563, 25.974946975708, 148.32035827637) -- Front door.
+			To = vector4(-621.45239257813, -1640.7094726563, 25.974946975708, 148.32035827637), -- Front door.
+			Type = "elevator",
 		},
 		{
 			From = vector4(-621.39630126953, -1632.6276855469, 33.034114837646, 182.0991973877), -- Inside window.
@@ -25,11 +71,13 @@ Config = {
 		-- Sewers.
 		{
 			From = vector4(1013.3727416992, -201.98756408691, 70.19563293457, 56.696697235107), -- Mirror Park Blvd & Glory Way.
-			To = vector4(984.64434814453, -147.03244018555, 34.957717895508, 150.81785583496) -- Underground.
+			To = vector4(984.64434814453, -147.03244018555, 34.957717895508, 150.81785583496), -- Underground.
+			Type = "manhole",
 		},
 		{
 			From = vector4(815.44970703125, -275.24844360352, 66.306716918945, 189.94067382813), -- Glory Way Park.
-			To = vector4(858.92047119141, -270.62103271484, 12.242241859436, 52.617195129395) -- Underground.
+			To = vector4(858.92047119141, -270.62103271484, 12.242241859436, 52.617195129395), -- Underground.
+			Type = "manhole",
 		},
 		-- Morgue.
 		{
@@ -42,7 +90,8 @@ Config = {
 		},
 		{
 			From = vector4(248.83158874512, -1369.8731689453, 29.64799118042, 311.33029174805), -- Elevator basement 1.
-			To = vector4(247.1224822998, -1371.6297607422, 24.537784576416, 318.46032714844) -- Elevator basement 2.
+			To = vector4(247.1224822998, -1371.6297607422, 24.537784576416, 318.46032714844), -- Elevator basement 2.
+			Type = "elevator",
 		},
 		{ -- Big residential building near the beach.
 			From = vector4(-1398.8795166015625, -985.8211669921876, 19.380441665649418, 119.89460754394533), -- Balcony.
@@ -51,23 +100,28 @@ Config = {
 		-- Pillbox.
 		{
 			From = vector4(327.2931823730469, -603.4369506835938, 43.2840576171875, 338.6206970214844), -- Right elevator.
-			To = vector4(339.34515380859375, -584.1315307617188, 74.1644058227539, 248.34255981445312) -- Roof.
+			To = vector4(339.34515380859375, -584.1315307617188, 74.1644058227539, 248.34255981445312), -- Roof.
+			Type = "elevator",
 		},
 		{
 			From = vector4(332.0316467285156, -595.5174560546875, 43.28401565551758, 69.5161361694336), -- Left elevator.
-			To = vector4(341.5236511230469, -581.0281982421875, 28.796846389770508, 68.74055480957031) -- Lower garage.
+			To = vector4(343.3429870605469, -581.6258544921875, 28.79893684387207, 67.9540023803711), -- Lower garage.
+			Type = "elevator",
 		},
 		{
 			From = vector4(330.4169921875, -601.190673828125, 43.28408813476563, 68.19266510009766), -- Center elevator.
-			To = vector4(344.3099670410156, -586.2251586914062, 28.79684066772461, 248.79537963867188) -- Lower lobby.
+			To = vector4(341.8624572753906, -585.1767578125, 28.79873466491699, 66.40909576416016), -- Lower lobby.
+			Type = "elevator",
 		},
 		{ -- IAA bunker.
 			From = vector4(2049.514892578125, 2949.754150390625, 47.73577499389649, 248.834228515625),
 			To = vector4(2033.67138671875, 2942.20361328125, -61.9017448425293, 257.638671875), -- Inside elevator.
+			Type = "elevator",
 		},
 		{ -- IAA server room.
 			From = vector4(2155.11767578125, 2920.984130859375, -61.902469635009766, 89.92036437988281), -- Bunker elevator.
 			To = vector4(2154.71142578125, 2920.994384765625, -81.07551574707031, 266.5259399414063), -- Server elevator.
+			Type = "elevator",
 		},
 		-- Vinewood hills mansion with poorly designed pool.
 		{
@@ -103,47 +157,40 @@ Config = {
 		{ -- Union Depository.
 			From = vector4(10.178876876831056, -668.1754150390625, 33.44928741455078, 5.22531795501709), -- Top.
 			To = vector4(0.8698683381080627, -703.1637573242188, 16.13101387023926, 334.4388122558594), -- Bottom.
-			Text = "Take Elevator",
+			Type = "elevator",
 		},
 		{ -- Little Seoul Access Tunnel.
 			From = vector4(-743.48388671875, -667.9166259765625, 30.21894073486328, 230.23558044433597), -- Top.
 			To = vector4(-763.9580078125, -690.603515625, 11.601003646850586, 98.96837615966795), -- Bottom.
+			Type = "manhole",
 		},
 		{ -- Humane Labs Elevator.
 			From = vector4(3540.52294921875, 3675.4013671875, 28.121139526367188, 169.53482055664065), -- Top.
 			To = vector4(3540.454345703125, 3675.357666015625, 20.991792678833008, 165.5758056640625), -- Bottom.
+			Type = "elevator",
 		},
 		{ -- Submarine.
 			From = vector4(2692.54736328125, 6653.55517578125, -18.546817779541016, 89.20428466796875), -- In.
 			To = vector4(514.335693359375, 4888.3505859375, -62.5894889831543, 179.2608642578125), -- Out.
 		},
-		{ -- Casino.
+		-- Casino.
+		{
 			From = vector4(935.5089111328124, 46.9787483215332, 81.09574890136719, 138.0622711181641), -- Outside.
 			To = vector4(1089.7069091796875, 205.898681640625, -48.99971008300781, 356.0259704589844), -- Inside.
 		},
-		{ -- Court House.
-			From = vector4(254.89988708496097, -1083.895263671875, 29.294282913208, 90.351318359375), -- Bottom.
-			To = vector4(254.49607849121097, -1083.896240234375, 36.13301849365234, 90.7496109008789), -- Top.
-			Text = "Take Elevator",
+		{
+			From = vector4(1121.02587890625, 214.94447326660156, -49.44014739990234, 89.25188446044922), -- Outside teller.
+			To = vector4(1120.8780517578125, 222.0347900390625, -49.43510437011719, 89.21711730957031), -- Inside teller.
 		},
 		{ -- Cayo Perico: Villa.
 			From = vector4(5011.47998046875, -5750.4345703125, 28.93979263305664, 146.691650390625), -- Top.
 			To = vector4(5012.53125, -5746.75439453125, 15.48443412780761, 146.7845001220703), -- Bottom.
+			Type = "elevator",
 		},
 		{ -- Cayo Perico: Air Control Tower.
 			From = vector4(4367.57666015625, -4574.70654296875, 4.20775079727172, 22.37722969055175), -- Bottom.
 			To = vector4(4366.3662109375, -4574.59228515625, 13.21381473541259, 203.3589782714844), -- Top.
 			Text = "Take Stairs",
-		},
-		{ -- Fox Hound Solutions.
-			From = vector4(-1585.1771240234375, -570.75927734375, 34.9788932800293, 301.86083984375), -- Bottom.
-			To = vector4(-1581.6180419921875, -562.31982421875, 108.52294158935548, 308.3854064941406), -- Top.
-			Text = "Fox-Hound Solutions",
-		},
-		{ -- Fox Hound Solutions.
-			From = vector4(-1577.6572265625, -563.5852661132812, 108.52288055419922, 313.1265563964844), -- Office.
-			To = vector4(-1569.79052734375, -576.6785888671875, 114.44841003417967, 35.82474899291992), -- Top.
-			Text = "Helipad",
 		},
 	}
 }

@@ -1,6 +1,7 @@
 Main.users = {}
 Main.blacklist = {}
 Main.mimics = {}
+Main.players = {}
 
 --[[ Functions ]]--
 function Main:Init()
@@ -12,6 +13,7 @@ function Main:Init()
 	end
 
 	self.columns = DescribeTable("users")
+	self.banColumns = DescribeTable("bans")
 end
 
 function Main:UpdatePlayers()
@@ -33,6 +35,7 @@ function Main:RegisterPlayer(source)
 	local data = self:GetData(source)
 	local user = User:Create(data)
 	self.users[source] = user
+	self.players[user.id] = source
 
 	-- Inform client.
 	local endpoint = user.identifiers.endpoint
@@ -52,6 +55,7 @@ function Main:DestroyPlayer(source)
 	local user = self.users[source]
 	if user == nil then return end
 
+	self.players[user.id or false] = nil
 	self.users[user.source or false] = nil
 end
 
@@ -70,7 +74,7 @@ function Main:GetData(source)
 	
 	-- Set identifiers.
 	if mimic then
-		local user = mimic ~= 0 and exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `id`=@id", {
+		local user = mimic ~= 0 and exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `id`=@id LIMIT 1", {
 			["@id"] = mimic,
 		})[1]
 	
@@ -88,7 +92,7 @@ function Main:GetData(source)
 		for i = 1, numIdentifiers do
 			local identifier = GetPlayerIdentifier(source, i - 1)
 			if identifier ~= nil then
-				local key, value = identifier:match("([^:]+):([^:]+)")
+				local key, value = GetIdentifiers(identifier)
 				identifiers[key] = value
 			end
 		end
@@ -113,11 +117,111 @@ function Main:GetData(source)
 	}
 end
 
+function Main:Whitelist(hex, value)
+	local index = Queue.whitelist[hex]
+	if (value and index) or (not value and not index) then
+		return false
+	end
+
+	Queue.whitelist[hex] = value and true or nil
+
+	exports.GHMattiMySQL:QueryAsync((
+		value and "INSERT INTO `users` SET `steam`=@steam ON DUPLICATE KEY UPDATE `priority`=0"
+		or "UPDATE `users` SET `priority`=-128 WHERE `steam`=@steam"
+	), {
+		["@steam"] = hex,
+	})
+
+	return true
+end
+
 function Main:Ban(target, duration, reason)
-	local key, value = target:match("([^:]+):([^:]+)")
-	print("BAN", key, value)
+	local key, value = ConvertTarget(target, true)
+	if not key then
+		return false, value
+	end
+
+	-- Defaults.
+	duration = math.floor(duration or 0)
+	reason = reason or "No reason specified"
+
+	-- Check reason.
+	if reason:len() > 255 then
+		return false, "reason too long"
+	end
+	
+	-- Find users.
+	local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `"..key.."`=@identifier", {
+		["@identifier"] = value,
+	})
+	
+	-- Ban users.
+	for _, user in ipairs(users) do
+		local setters = "`duration`=@duration,`reason`=@reason"
+		local values = {
+			["@duration"] = duration,
+			["@reason"] = reason,
+		}
+
+		local ban = {
+			duration = duration,
+			reason = reason,
+			start_time = os.time() * 1000,
+		}
+
+		-- Get bannable identifiers.
+		for _key, column in pairs(self.banColumns) do
+			local _value = user[_key]
+			if _value and type(_value) == column.type then
+				setters = setters..(",`%s`=@%s"):format(_key, _key)
+				values["@".._key] = _value
+				ban[_key] = _value
+			end
+		end
+
+		-- Save ban.
+		exports.GHMattiMySQL:QueryAsync("INSERT INTO `bans` SET "..setters, values)
+
+		-- Cache ban.
+		Queue:AddBan(ban)
+
+		-- Drop player.
+		local serverId = self:GetPlayer(user.id)
+		if serverId then
+			DropPlayer(serverId, ("You have been banned. (%s)"):format(reason))
+		end
+	end
+
+	return true, key..":"..value
 end
 Export(Main, "Ban")
+
+function Main:Unban(target)
+	local key, value = ConvertTarget(target)
+	if not key then
+		return false, value
+	end
+
+	local targetQuery = ("`%s`=@%s"):format(key, key)
+	local values = { ["@"..key] = value }
+
+	-- Get bans.
+	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans` WHERE "..targetQuery, values)
+	if not result[1] then
+		return false, "not banned"
+	end
+
+	-- Unban query.
+	exports.GHMattiMySQL:QueryAsync("UPDATE `bans` SET `unbanned`=1 WHERE "..targetQuery, values)
+
+	-- Uncache bans.
+	for _, info in ipairs(result) do
+		Queue:RemoveBan(info)
+	end
+	
+	return true, key..":"..value
+end
+Export(Main, "Unban")
 
 function Main:Set(source, ...)
 	local user = self.users[source]
@@ -145,6 +249,11 @@ function Main:GetIdentifier(source, identifier)
 	return identifiers ~= nil and identifiers[identifier]
 end
 Export(Main, "GetIdentifier")
+
+function Main:GetPlayer(id)
+	return self.players[id]
+end
+Export(Main, "GetPlayer")
 
 function Main:Mimic(endpoint, user)
 	if not endpoint then return end

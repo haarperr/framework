@@ -21,6 +21,7 @@ client_scripts {
 server_scripts {
 	'@utils/server/database.lua',
 	'server/config.lua',
+	'server/misc.lua',
 	'server/main.lua',
 	'server/users.lua',
 	'server/flags.lua',

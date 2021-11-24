@@ -579,6 +579,14 @@ function Editor:Update()
 	local lightDirection = Normalize(pedCoords - lightCoords)
 
 	DrawSpotLight(lightCoords.x, lightCoords.y, lightCoords.z, lightDirection.x, lightDirection.y, lightDirection.z, 255, 255, 255, 20.0, 0.5, 0.0, 12.0, 6.0)
+
+	-- Hide other players.
+	local localPlayer = PlayerId()
+	for _, player in ipairs(GetActivePlayers()) do
+		if player ~= localPlayer then
+			SetPlayerInvisibleLocally(player)
+		end
+	end
 end
 
 function Editor:Destroy()
@@ -612,6 +620,8 @@ function Editor:Toggle(value, filter)
 
 	self.open = value
 	UI:Focus(value)
+	
+	NetworkSetEntityInvisibleToNetwork(PlayerId(), value)
 end
 
 function Editor:SetTarget(target)
@@ -679,8 +689,7 @@ exports.chat:RegisterCommand("a:appearance", function(source, args, command)
 	end
 end, {
 	description = "Open the appearance editor for your character.",
-	powerLevel = 25,
 	parameters = {
 		{ name = "Value", description = "True or false; should the menu open or close?" },
 	},
-})
+}, "Mod")

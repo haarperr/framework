@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
 	PRIMARY KEY (`id`) USING BTREE,
 	UNIQUE INDEX `id_UNIQUE` (`id`) USING BTREE,
 	INDEX `id_idx` (`user_id`) USING BTREE,
-	CONSTRAINT `character_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE RESTRICT ON DELETE RESTRICT
+	CONSTRAINT `character_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE RESTRICT ON DELETE CASCADE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB

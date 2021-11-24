@@ -7,7 +7,15 @@ FlagEnums = {
 	
 	["CAN_PLAY_ANIMAL"] = 5,
 	["CAN_PLAY_PEDS"] = 6,
+
+	["POOR_ROLEPLAY"] = 31,
+	["POSSIBLE_CHEATER"] = 32,
 }
+
+function Main:GetFlags()
+	return FlagEnums
+end
+Export(Main, "GetFlags")
 
 function User:HasFlag(flag)
 	if not self.flags then
@@ -49,4 +57,12 @@ function User:IsOwner()
 	end
 
 	return self.flags & (1 << 1) ~= 0
+end
+
+function User:IsDev()
+	if not self.flags then
+		return false
+	end
+
+	return (self.flags & (1 << 1) | self.flags & (1 << 4)) ~= 0
 end

@@ -20,7 +20,12 @@ function Main:CreatePed(data, coords)
 	local features = data.features
 	if not features then return end
 
-	local model = GetHashKey(((Models[(BodyTypes.Index[features.bodyType or false] or false)] or {})[features.model] or {}).name or 0)
+	local model = GetHashKey(
+		(type(data.model) == "string" and data.model)
+		or ((Models[(BodyTypes.Index[features.bodyType or false] or false)] or {})[features.model] or {}).name
+		or 0
+	)
+	
 	if not model or not IsModelValid(model) then return end
 
 	while not HasModelLoaded(model) do

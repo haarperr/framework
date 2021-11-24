@@ -1,5 +1,6 @@
 for _, funcName in ipairs({
 	"HasFlag",
+	"IsDev",
 	"IsMod",
 	"IsAdmin",
 	"IsOwner",

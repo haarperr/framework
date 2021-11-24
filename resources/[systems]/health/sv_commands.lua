@@ -16,7 +16,7 @@ end, {
 	parameters = {
 		{ name = "Target", description = "Who to revive?" },
 	}
-}, -1, 25)
+}, "Mod")
 
 exports.chat:RegisterCommand("a:slay", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
@@ -36,7 +36,7 @@ end, {
 	parameters = {
 		{ name = "Target", description = "Who to slay?" },
 	}
-}, -1, 25)
+}, "Mod")
 
 exports.chat:RegisterCommand("a:damage", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
@@ -74,7 +74,7 @@ end, {
 		{ name = "Weapon", description = "Which weapon is the source of damage (default = WEAPON_PISTOL)." },
 		{ name = "Bone", description = "Which bone to apply to (default = pelvis)." },
 	}
-}, -1, 25)
+}, "Dev")
 
 exports.chat:RegisterCommand("a:armorup", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
@@ -100,7 +100,7 @@ end, {
 		{ name = "Flag", description = "Where to add the armor (1 = normal, 2 = heavy, 3 = head, default = 1)." },
 		{ name = "Amount", description = "How much armor to add (default = 1.0)." },
 	}
-}, -1, 25)
+}, "Dev")
 
 exports.chat:RegisterCommand("a:inflict", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
@@ -136,7 +136,7 @@ end, {
 		{ name = "Name", description = "The name of the effect (default = all)." },
 		{ name = "Amount", description = "Intensity of the effect (default = 1.0)." },
 	}
-}, -1, 25)
+}, "Dev")
 
 exports.chat:RegisterCommand("a:cure", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
@@ -156,4 +156,4 @@ end, {
 	parameters = {
 		{ name = "Target", description = "Person to clear effects for." },
 	}
-}, -1, 25)
+}, "Dev")

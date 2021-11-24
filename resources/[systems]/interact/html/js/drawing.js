@@ -1,5 +1,5 @@
-const Objects = {};
-const Right = new THREE.Vector3(1, 0, 0);
+let Objects = {};
+let Right = new THREE.Vector3(1, 0, 0);
 
 const Config = {
 	MaxPlaneSize: 2.0,
@@ -70,6 +70,15 @@ function updateCamera(data) {
 	Camera.lookAt(data.target.x, data.target.y, data.target.z);
 
 	Camera.updateProjectionMatrix();
+
+	for (var id in Objects) {
+		var object = Objects[id]
+		if (object?.maxDistance) {
+			var dist = Camera.position.distanceTo(object.position) / object.maxDistance;
+			var element = object.domElement;
+			element.style.transform = `scale(${1.0 - Math.min(Math.max(dist, 0.0), 1.0)})`;
+		}
+	}
 }
 
 /* Text */
@@ -152,6 +161,11 @@ function addText(data) {
 
 	const label = new THREE.CSS2DObject(domElement);
 	label.domElement = innerElement;
+	label.maxDistance = data.distance;
+
+	if (data.coords) {
+		label.position.set(data.coords.x, data.coords.y, data.coords.z);
+	}
 
 	Scene.add(label);
 

@@ -1,159 +1,100 @@
-DynamicWeather = true
-TimeOffset = 0
-PowerLevel = 50
+Main = Main or {}
 
---[[ Threads ]]--
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(30000)
-		Sync()
-	end
-end)
-
-Citizen.CreateThread(function()
-	while true do
-		if DynamicWeather then
-			local previousWeather = CurrentWeather
-			NextWeatherStage()
-			if previousWeather ~= CurrentWeather then
-				print("[SYNC] Weather transitioning from "..previousWeather.." to "..CurrentWeather)
-			end
-		end
-		Citizen.Wait(60000 * 15)
-	end
-end)
-
---[[ Events ]]--
-RegisterServerEvent("sync:requestSync")
-AddEventHandler("sync:requestSync", function()
-	local source = source
-	Sync(source, true, true)
-end)
-
-AddEventHandler("schedule:warn", function()
-	SetWeather("THUNDER")
-	Sync(-1, true, true)
-end)
-
---[[ Functions ]]--
-function GetTime()
-	return os.time() * Config.TimeScale
-end
-
-function NextWeatherStage()
-	local weatherSettings = Config.Weathers[CurrentWeather]
-	if not weatherSettings.Next then
+--[[ Functions: Weather ]]--
+function Main:NextWeather()
+	local weather = Config.Weathers[self.weather]
+	if not weather.Next then
 		return
 	end
 
-	local day, month, year, hour, minute, second = GetTimes()
+	local day, month, year, hour, minute, second = self:GetTimes()
 	
-	local nextWeather
-	local totalProbability = 0.0
-	for weather, chance in pairs(weatherSettings.Next) do
-		totalProbability = totalProbability + chance
-	end
-	local random = math.random() * totalProbability
-	for weather, chance in pairs(weatherSettings.Next) do
-		if chance > random then
-			nextWeather = weather
-			break
-		end
-		random = random - chance
-	end
+	-- local nextWeather = nil
+	-- local isWinter = month >= Config.Winter.Start or month <= Config.Winter.End
+	-- if isWinter then
+	-- else
+	-- end
+
+	local nextWeather = self:GetRandomWeather(weather.Next)
 	if nextWeather then
-		-- print(nextWeather)
-		SetWeather(nextWeather)
+		self:SetWeather(nextWeather)
 		return nextWeather
 	end
 end
 
-function Sync(source, weather, time)
-	if not source then source = -1 end
-	-- TriggerClientEvent("sync:update", source, data)
-	TriggerClientEvent("sync:update", source, os.time() + TimeOffset, CurrentWeather)
+function Main:GetRandomWeather(weathers)
+	-- Add the total probability up.
+	local total = 0.0
+	for weather, chance in pairs(weathers) do
+		total = total + chance
+	end
+
+	-- Find the weather within the probability.
+	local random = math.random() * total
+	for weather, chance in pairs(weathers) do
+		if chance > random then
+			return weather
+		end
+		random = random - chance
+	end
 end
 
-function SetWeather(weather)
-	weather = weather:upper()
-	if weather == CurrentWeather or not Config.Weathers[weather] then
+function Main:SetWeather(weather)
+	if self.weather == weather then
 		return false
 	end
-	CurrentWeather = weather
-	Sync()
+
+	self.weather = weather
+
+	TriggerClientEvent("sync:update", -1, "Weather", weather)
+
 	return true
 end
 
-function SetTimeOfDay(hour, minute, second)
-	local currentHour, currentMinute, currentSecond = GetHour(), GetMinute(), GetSecond()
+--[[ Functions: Time ]]--
+function Main:GetTimeWithOffset()
+	return os.time() + (self.timeOffset or 0)
+end
+
+function Main:GetTime()
+	return os.time() * Config.TimeScale
+end
+
+function Main:SetTimeOfDay(hour, minute, second)
+	local currentHour, currentMinute, currentSecond = self:GetHour(), self:GetMinute(), self:GetSecond()
 	
-	TimeOffset =
+	self.timeOffset = (
 		(hour - currentHour) * (60.0 / Config.TimeScale) +
 		(minute - currentMinute) * (1.0 / Config.TimeScale) +
 		(second - currentSecond) * (0.016667 / Config.TimeScale)
+	)
 
-	Sync()
+	self:SyncTime()
 end
 
-function SendMessage(source, message)
-	if source == 0 then
-		print(message)
-	else
-		TriggerEvent("chat:addMessage", source, message)
-	end
+function Main:SyncTime()
+	TriggerClientEvent("sync:update", -1, "Time", Main:GetTimeWithOffset())
 end
 
---[[ Commands ]]--
-exports.chat:RegisterCommand("a:weather", function(source, args, rawCommand)
-	local weather = args[1]:upper()
-	if not weather then return end
+--[[ Events ]]--
+RegisterNetEvent("sync:ready", function()
+	local source = source
+	
+	TriggerClientEvent("sync:update", -1, "Both", Main:GetTimeWithOffset(), Main.weather)
+end)
 
-	local message = ""
-	local lastWeather = CurrentWeather
-	if SetWeather(weather) then
-		message = "Weather set to "..weather.."!"
-		exports.log:Add({
-			source = source,
-			verb = "set",
-			noun = "weather",
-			extra = ("%s to %s"):format(lastWeather, weather),
-			channel = "admin",
-		})
-	else
-		if weather == CurrentWeather then
-			message = "Already set to "..weather.."!"
-		else
-			message = "Weather "..weather.." does not exist!"
-		end
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		Main:NextWeather()
+		
+		Citizen.Wait(1000 * 60 * math.random(10, 15))
 	end
-	SendMessage(source, message)
-end, {
-	params = {
-		{ name = "Weather", help = "Weather types: EXTRASUNNY, CLEAR, NEUTRAL, SMOG, FOGGY, OVERCAST, CLOUDS, CLEARING, RAIN, THUNDER, SNOW, BLIZZARD, SNOWLIGHT, XMAS, HALLOWEEN" },
-	}
-}, 1, PowerLevel)
+end)
 
-exports.chat:RegisterCommand("a:time", function(source, args, rawCommand)
-	local hour, minute, second = tonumber(args[1]) or 12, tonumber(args[2]) or 0, tonumber(args[3]) or 0
-	SetTimeOfDay(hour, minute, second)
-	exports.log:Add({
-		source = source,
-		verb = "set",
-		noun = "time",
-		extra = ("%s:%s:%s"):format(hour, minute, second),
-		channel = "admin",
-	})
-end, {
-	params = {
-		{ name = "Hour", help = "Hour of day (1-24)" },
-		{ name = "Minute", help = "Minute of day (0-60)" },
-		{ name = "Second", help = "Second of day (0-60)" },
-	}
-}, -1, PowerLevel)
-
-RegisterCommand("nextweather", function(source)
-	if source ~= 0 then return end
-
-	NextWeatherStage()
-	print(("[SYNC] next into %s"):format(CurrentWeather))
-end, true)
+Citizen.CreateThread(function()
+	while true do
+		Main:SyncTime()
+		Citizen.Wait(1000 * 60)
+	end
+end)

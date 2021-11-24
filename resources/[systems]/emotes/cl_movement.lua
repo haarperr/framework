@@ -6,7 +6,7 @@ function Main:UpdateCrouching()
 
 	if not isCrouching and IsControlJustPressed(0, 36) then
 		self.lastCrouch = GetGameTimer()
-	elseif IsDisabledControlJustReleased(0, 36) and (isCrouching or (GetGameTimer() - lastCrouch > 500 and IsControlEnabled(0, 26) and not IsPedInAnyVehicle(ped))) then
+	elseif IsDisabledControlJustReleased(0, 36) and lastCrouch and (isCrouching or (GetGameTimer() - lastCrouch > 500 and IsControlEnabled(0, 26) and not IsPedInAnyVehicle(ped))) then
 		isCrouching = not isCrouching
 		Main:OverrideWalkstyle((isCrouching and "crouch") or (not isCrouching and nil))
 	elseif isCrouching and GetPedStealthMovement(ped) then

@@ -2,7 +2,7 @@ fx_version 'adamant'
 game 'gta5'
 
 dependencies {
-	'interact',
+	'entities',
 }
 
 shared_scripts {
@@ -11,4 +11,8 @@ shared_scripts {
 
 client_scripts {
 	'cl_teleporters.lua',
+}
+
+server_scripts {
+	'sv_teleporters.lua',
 }

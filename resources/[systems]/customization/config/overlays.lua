@@ -8,7 +8,7 @@ Overlays = {
 		Hair = {
 			{ index = 1, name = "Facial Hair" },
 			{ index = 2, name = "Eyebrows" },
-			{ index = 10, name = "Chest Hair" },
+			{ index = 10, name = "Chest Hair", target = "chest" },
 		},
 		Other = {
 			{ index = 0, name = "Blemishes" },

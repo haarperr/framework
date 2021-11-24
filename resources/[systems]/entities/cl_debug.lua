@@ -1,5 +1,6 @@
 Debug = {
 	objects = {},
+	labels = {},
 }
 
 --[[ Functions: Debug ]]--
@@ -45,6 +46,14 @@ function Debug:Enable(value)
 	else
 		self.window:Destroy()
 		self.window = nil
+
+		for id, object in pairs(self.objects) do
+			local label = self.labels[id]
+			if label then
+				exports.interact:RemoveText(label)
+				self.labels[id] = nil
+			end
+		end
 	end
 
 	self.objects = {}
@@ -61,8 +70,13 @@ function Debug:Update()
 			object:DrawDebug()
 			temp[id] = true
 			if not self.objects[id] then
-				self.objects[id] = object
 				updateWindow = true
+				
+				self.objects[id] = object
+				self.labels[id] = exports.interact:AddText({
+					coords = object.coords,
+					text = tostring(id),
+				})
 			end
 		end
 	end
@@ -72,6 +86,12 @@ function Debug:Update()
 		if not temp[id] then
 			self.objects[id] = nil
 			updateWindow = true
+
+			local label = self.labels[id]
+			if label then
+				exports.interact:RemoveText(label)
+				self.labels[id] = nil
+			end
 		end
 	end
 
@@ -108,9 +128,7 @@ exports.chat:RegisterCommand("entities:debug", function(source, args, command)
 		class = "inform",
 		text = ("%s debugging entities!"):format(Debug.enabled and "Started" or "Stopped")
 	})
-end, {
-	powerLevel = 50,
-})
+end, {}, "Dev")
 
 -- TEST.
 -- Citizen.CreateThread(function()

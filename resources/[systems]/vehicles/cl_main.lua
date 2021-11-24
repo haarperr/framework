@@ -4,6 +4,7 @@ Main.update = {}
 Main.settings = {}
 Main.vehicles = {}
 Main.classes = {}
+Main.info = {}
 
 function Main:Init()
 	for model, settings in pairs(Vehicles) do
@@ -34,8 +35,8 @@ function Main:Update()
 	Ped = PlayerPedId()
 	CurrentVehicle = GetVehiclePedIsIn(Ped)
 	EnteringVehicle = GetVehiclePedIsEntering(Ped)
-	IsDriver = GetPedInVehicleSeat(CurrentVehicle, -1) == Ped
 	IsInVehicle = DoesEntityExist(CurrentVehicle)
+	IsDriver = IsInVehicle and GetPedInVehicleSeat(CurrentVehicle, -1) == Ped
 
 	-- Disables hotwiring.
 	DisableControlAction(0, 77)
@@ -58,6 +59,7 @@ function Main:Update()
 
 	-- General values.
 	if IsInVehicle then
+		Coords = GetEntityCoords(CurrentVehicle)
 		IsSirenOn = IsVehicleSirenOn(CurrentVehicle)
 		EngineOn = GetIsVehicleEngineRunning(CurrentVehicle)
 		InAir = IsEntityInAir(CurrentVehicle)
@@ -66,7 +68,17 @@ function Main:Update()
 		OnWheels = IsVehicleOnAllWheels(CurrentVehicle)
 		Rpm = EngineOn and GetVehicleCurrentRpm(CurrentVehicle) or 0.0
 		Speed = GetEntitySpeed(CurrentVehicle)
+		SpeedVector = GetEntitySpeedVector(CurrentVehicle, false)
+		Forward = GetEntityForwardVector(CurrentVehicle)
+		Velocity = GetEntityVelocity(CurrentVehicle)
+		
+		ForwardDot = Dot(Forward, SpeedVector)
 		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
+
+		if #Velocity > 1.0 then
+			LastVelocity = Velocity / #Velocity
+			-- DrawLine(Coords.x, Coords.y, Coords.z, Coords.x + LastVelocity.x * 10.0, Coords.y + LastVelocity.y * 10.0, Coords.z + LastVelocity.z * 10.0, 255, 255, 0, 128)
+		end
 	end
 
 	-- Update current vehicle.
@@ -101,12 +113,19 @@ function Main:Update()
 				TriggerServerEvent("vehicles:enter", netId)
 			end
 		end
-		
+
 		self.vehicle = CurrentVehicle
 	end
 	
 	-- Driver stuff.
 	if IsDriver then
+		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
+		SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+
+		-- Temperature.
+		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
+		TemperatureRatio = Temperature / 104.444
+
 		-- Idling.
 		if IsIdling ~= self.isIdling then
 			self.isIdling = IsIdling
@@ -131,7 +150,7 @@ function Main:Update()
 			print("Braking", Braking, Gear)
 			self.braking = Braking
 			if Braking then
-				self.brakeGear = Speed > 1.0 and Gear
+				self.brakeGear = Speed > 1.0 and ForwardDot > 0.0 and Gear
 			end
 		end
 		
@@ -223,7 +242,21 @@ end
 
 function Main:ToggleDoor(vehicle, index)
 	local angleRatio = GetVehicleDoorAngleRatio(vehicle, index)
-	if angleRatio > 0.1 then
+	local state = angleRatio < 0.1
+
+	self:SetDoorState(vehicle, index, not state)
+end
+
+function Main:SetDoorState(vehicle, index, state, fromServer)
+	local driver = GetPedInVehicleSeat(vehicle, -1)
+	if driver and DoesEntityExist(driver) and driver ~= PlayerPedId() and not fromServer then
+		TriggerServerEvent("vehicles:toggleDoor", GetNetworkId(vehicle), index, state)
+		return
+	end
+
+	WaitForAccess(vehicle)
+
+	if state then
 		SetVehicleDoorShut(vehicle, index, false)
 	else
 		SetVehicleDoorOpen(vehicle, index, false, false)
@@ -240,6 +273,10 @@ end
 
 function Main:CanGetInSeat(vehicle, seat)
 	return IsVehicleSeatFree(vehicle, seat) -- add more checks I guess
+end
+
+function Main:Subscribe(vehicle, value)
+	TriggerServerEvent("vehicles:subscribe", GetNetworkId(vehicle), value)
 end
 
 --[[ Exports ]]--
@@ -262,6 +299,37 @@ end)
 --[[ Events ]]--
 AddEventHandler("vehicles:clientStart", function()
 	Main:Init()
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("vehicles:sync", function(netId, key, value)
+	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
+
+	if type(key) == "table" then
+		Main.info = key
+	else
+		Main.info[key] = value
+	end
+
+	print("Sync", netId, json.encode(key), json.encode(value))
+
+	Main:InvokeListener("Sync", key, value)
+end)
+
+RegisterNetEvent("vehicles:toggleDoor", function(netId, index, state)
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	Main:SetDoorState(vehicle, index, state, true)
+end)
+
+RegisterNetEvent("vehicles:clean", function(netId)
+	if not NetworkDoesEntityExistWithNetworkId(netId) then return end
+
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	RemoveDecalsFromVehicle(vehicle)
 end)
 
 --[[ Threads ]]--

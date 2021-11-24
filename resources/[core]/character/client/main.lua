@@ -39,6 +39,7 @@ end
 function Main:SelectCharacter(id)
 	TriggerServerEvent(self.event.."select", id)
 end
+Export(Main, "SelectCharacter")
 
 function Main:_SelectCharacter(id)
 	local character = (id and self.characters[id]) or nil
@@ -65,10 +66,12 @@ end
 function Main:GetCharacters()
 	return self.characters
 end
+Export(Main, "GetCharacters")
 
 function Main:GetCharacter()
 	return self.activeCharacter
 end
+Export(Main, "GetCharacter")
 
 function Main:Get(key)
 	local character = self:GetCharacter()
@@ -76,6 +79,7 @@ function Main:Get(key)
 
 	return character:Get(key)
 end
+Export(Main, "Get")
 
 function Main:Set(key, value)
 	local character = self:GetCharacter()
@@ -83,10 +87,12 @@ function Main:Set(key, value)
 
 	character[key] = value
 end
+Export(Main, "Set")
 
 function Main:IsSelected()
 	return self.activeCharacter ~= nil
 end
+Export(Main, "IsSelected")
 
 function Main:Cache()
 	if GetResourceState("cache") ~= "started" then return end
@@ -115,18 +121,16 @@ AddEventHandler(Main.event.."stop", function()
 	Main:Cache()
 end)
 
-RegisterNetEvent(Main.event.."load")
-AddEventHandler(Main.event.."load", function(characters)
+--[[ Events: Net ]]--
+RegisterNetEvent(Main.event.."load", function(characters)
 	Main:UpdateCharacters(characters)
 end)
 
-RegisterNetEvent(Main.event.."select")
-AddEventHandler(Main.event.."select", function(id)
+RegisterNetEvent(Main.event.."select", function(id)
 	Main:_SelectCharacter(id)
 end)
 
-RegisterNetEvent(Main.event.."update")
-AddEventHandler(Main.event.."update", function(data)
+RegisterNetEvent(Main.event.."update", function(data)
 	for k, v in pairs(data) do
 		Main:Set(k, v)
 	end

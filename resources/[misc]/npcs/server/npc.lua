@@ -1,0 +1,1 @@
+Npc = Npc or {}

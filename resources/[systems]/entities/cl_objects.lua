@@ -11,6 +11,7 @@ function Object:Create(data)
 	-- Other defaults.
 	data.root = data.root or data.parent or data
 	data.depth = data.depth or 0
+	data.resource = data.resource or GetInvokingResource()
 
 	-- Create instance.
 	local instance = setmetatable(data or {}, Object)
@@ -73,6 +74,8 @@ function Object:Destroy()
 end
 
 function Object:Load()
+	self.isLoaded = true
+
 	if self.model then
 		while not HasModelLoaded(self.model) do
 			RequestModel(self.model)
@@ -82,16 +85,25 @@ function Object:Load()
 		local entity = CreateObject(self.model, self.coords.x, self.coords.y, self.coords.z, false, true)
 
 		if self.rotation then
-			SetEntityRotation(entity, self.rotation.x, self.rotation.y, self.rotation.z)
+			SetEntityRotation(entity, self.rotation.x, self.rotation.y, self.rotation.z, true)
 		end
 
 		FreezeEntityPosition(entity, true)
 
 		self.entity = entity
 	end
+
+	if self.floor then
+		local hasGround, groundZ = GetGroundZFor_3dCoord(self.coords.x, self.coords.y, self.coords.z)
+		if hasGround then
+			self.coords = vector3(self.coords.x, self.coords.y, groundZ)
+		end
+	end
 end
 
 function Object:Unload()
+	self.isLoaded = nil
+
 	if self.isInside then
 		self.isInside = false
 		self:OnExit()
@@ -172,6 +184,8 @@ function Object:DrawDebug()
 
 	if isSelected then
 		r, g, b = 0, 255, 0
+	elseif not self.isLoaded then
+		r, g, b = 255, 64, 64
 	end
 
 	DrawMarker(

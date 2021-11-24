@@ -37,5 +37,5 @@ exports.chat:RegisterCommand("grids:debug", function(source, args, command)
 		text = ("%s debugging grids!"):format(Debug.enabled and "Started" or "Stopped")
 	})
 end, {
-	powerLevel = 50,
-})
+	description = "Display the grids around your ped."
+}, "Dev")

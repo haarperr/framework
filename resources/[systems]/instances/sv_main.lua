@@ -4,12 +4,12 @@ Instances = {
 }
 
 --[[ Functions ]]--
-function Instances:Create(id)
+function Instances:Create(id, data)
 	if self.rooms[id] then
 		return false
 	end
 
-	local room = Room:Create(id)
+	local room = Room:Create(id, data)
 
 	return room
 end

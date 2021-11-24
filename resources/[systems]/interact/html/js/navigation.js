@@ -136,6 +136,10 @@ function removeOption(id, noOrder) {
 
 	if (element) {
 		element.remove();
+		
+		for (var i = 1; i < Containers.length; i++) {
+			removeContainer(i);
+		}
 
 		delete Options[id];
 

@@ -91,6 +91,48 @@ Register("Ceiling Light", {
 	},
 })
 
+Register("Lamp", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = {
+		"apa_mp_h_floor_lamp_int_08",
+		"apa_mp_h_floorlamp_a",
+		"apa_mp_h_floorlamp_b",
+		"apa_mp_h_floorlamp_c",
+		"apa_mp_h_lit_floorlamp_01",
+		"apa_mp_h_lit_floorlamp_03",
+		"apa_mp_h_lit_floorlamp_05",
+		"apa_mp_h_lit_floorlamp_06",
+		"apa_mp_h_lit_floorlamp_10",
+		"apa_mp_h_lit_floorlamp_13",
+		"apa_mp_h_lit_floorlamp_17",
+		"apa_mp_h_lit_floorlampnight_05",
+		"apa_mp_h_lit_floorlampnight_07",
+		"apa_mp_h_lit_floorlampnight_14",
+		"apa_mp_h_lit_lamptable_005",
+		"apa_mp_h_lit_lamptable_02",
+		"apa_mp_h_lit_lamptable_04",
+		"apa_mp_h_lit_lamptable_09",
+		"apa_mp_h_lit_lamptable_14",
+		"apa_mp_h_lit_lamptable_17",
+		"apa_mp_h_lit_lamptable_21",
+		"apa_mp_h_lit_lamptablenight_16",
+		"apa_mp_h_lit_lamptablenight_24",
+		"apa_mp_h_table_lamp_int_08",
+		"apa_mp_h_yacht_floor_lamp_01",
+		"apa_mp_h_yacht_table_lamp_01",
+		"apa_mp_h_yacht_table_lamp_02",
+		"apa_mp_h_yacht_table_lamp_03",
+		"bkr_prop_fakeid_desklamp_01a",
+		"xm_base_cia_lamp_floor_01a",
+		"xm_base_cia_lamp_floor_01b",
+	},
+})
+
 Register("Painting", {
 	Rotation = vector3(0, -90, -90),
 	Placement = "Wall",

@@ -3,20 +3,18 @@ exports.chat:RegisterCommand("a:animations", function(source, args, command)
 	Animations:ToggleMenu()
 end, {
 	description = "Open an animation menu for testing purposes.",
-	powerLevel = 5,
-})
+}, "Mod")
 
 exports.chat:RegisterCommand("a:playanim", function(source, args, command)
 	
 end, {
 	description = "Play any animation.",
-	powerLevel = 5,
 	parameters = {
 		{ name = "Dict", description = "Animation's dictionary." },
 		{ name = "Name", description = "Animation's name." },
 		{ name = "Flag", description = "Flag to play on the animation" },
 	},
-})
+}, "Mod")
 
 --[[ Emotes ]]--
 exports.chat:RegisterCommand("e", function(source, args, command)

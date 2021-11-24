@@ -75,6 +75,20 @@ function Main:Play(data, force)
 		return
 	end
 
+	-- Check weapon.
+	if data.Unarmed or data.Armed then
+		local weaponGroup = exports.weapons:GetWeaponGroup()
+		if weaponGroup and weaponGroup.Anim and data.Armed then
+			data = data.Armed[weaponGroup.Anim]
+		elseif (not weaponGroup or not weaponGroup.Anim) and data.Unarmed then
+			data = data.Unarmed
+		else
+			return
+		end
+
+		if not data then return end
+	end
+
 	-- Clear queue.
 	self:ClearQueue(force)
 
@@ -123,12 +137,21 @@ function Main:Stop(p1, p2)
 	-- Get emote from p1.
 	if type(p1) == "number" then
 		cancelEmote = self.playing[p1]
+
+		-- Remove from queue.
+		for i = #self.queue, 1, -1 do
+			local queued = self.queue[i]
+			if queued and queued.id == p1 and queued.Flag ~= 48 and queued.Flag ~= 0 then
+				table.remove(self.queue, i)
+			end
+		end
 	end
 
 	-- Clear normal animations.
 	if cancelEmote then
 		print("clearing anim", p1)
 
+		cancelEmote.stopping = true
 		cancelEmote:Remove()
 
 		self.isForcing = nil
@@ -165,11 +188,25 @@ function Main:PlayOnPed(ped, data)
 end
 Export(Main, "PlayOnPed")
 
+function Main:StopOnPed(ped)
+	if not ped or not DoesEntityExist(ped) then return end
+
+	self:RemoveProps(ped)
+	ClearPedTasks(ped)
+end
+Export(Main, "PlayOnPed")
+
 function Main:IsPlaying(id, checkQueue)
+	if not id then
+		local next = next
+		return next(self.playing) ~= nil
+	end
+
 	local emote = self.playing[id or false]
 	if emote and not emote.stopping then
 		return true
 	end
+	
 	if checkQueue then
 		for k, v in ipairs(self.queue) do
 			if v.id == id then
@@ -196,9 +233,9 @@ function Main:ClearQueue(forced)
 	end
 end
 
-function Main:RemoveProps()
-	local ped = PlayerPedId()
-	for k, entity in ipairs(exports.oldutils:GetObjects()) do
+function Main:RemoveProps(ped)
+	local ped = ped or PlayerPedId()
+	for entity, _ in EnumerateObjects() do
 		if DoesEntityExist(entity) and IsEntityAttachedToEntity(entity, ped) then
 			Delete(entity)
 		end

@@ -39,6 +39,17 @@ Doors = {
 	["door_pside_r"] = 3,
 }
 
+Tires = {
+	["wheel_f"] = 0,
+	["wheel_lf"] = 0,
+	["wheel_lm1"] = 2,
+	["wheel_lr"] = 4,
+	["wheel_r"] = 4,
+	["wheel_rf"] = 1,
+	["wheel_rm1"] = 3,
+	["wheel_rr"] = 5,
+}
+
 -- Windows = {
 -- 	["window_lf"] = 2,
 -- 	["window_lm"] = 6,
@@ -73,6 +84,56 @@ function FindSeatPedIsIn(ped)
 	end
 end
 
+function FindFirstFreeVehicleSeat(vehicle)
+	local model = GetEntityModel(vehicle)
+	for i = -1, GetVehicleModelNumberOfSeats(model) - 2 do
+		if IsVehicleSeatFree(vehicle, i) then
+			return i
+		end
+	end
+end
+
+function GetFacingVehicle(ped, maxDist)
+	-- Not facing vehicle while inside one.
+	if IsPedInAnyVehicle(ped) then
+		return
+	end
+
+	-- Get ped coords.
+	local coords = GetEntityCoords(ped)
+
+	-- Get nearest vehicle.
+	local vehicle = GetNearestVehicle(coords)
+	if not vehicle or not HasEntityClearLosToEntityInFront(ped, vehicle) then
+		return
+	end
+
+	-- Find nearest hit target.
+	local nearestCoords, nearestDist = nil, 0.0
+	for i = 1, 4 do
+		local target = i == 1 and GetEntityCoords(vehicle) or coords + GetEntityForwardVector(ped) * (i == 2 and 2.0 or 10.0) - vector3(0.0, 0.0, 1.0)
+		local handle = StartShapeTestRay(coords.x, coords.y, coords.z, target.x, target.y, target.z, -1, PlayerPedId(), 0)
+		local retval, didHit, hitCoords, hitNormal, entity = GetShapeTestResult(handle)
+
+		-- DrawLine(coords.x, coords.y, coords.z, target.x, target.y, target.z, i == 1 and 255 or 0, 0, i ~= 1 and 255 or 0, 255)
+
+		if didHit and entity == vehicle then
+			local hitDist = #(hitCoords - coords)
+			if (not maxDist or hitDist < maxDist) and (not nearestCoords or nearestDist < hitDist) then
+				nearestCoords = hitCoords
+				nearestDist = hitDist
+			end
+		end
+	end
+
+	if not nearestCoords then
+		return
+	end
+
+	-- Return result.
+	return vehicle, nearestCoords, nearestDist
+end
+
 function GetNearestVehicle(coords, maxDist)
 	local nearestVehicle = nil
 	local nearestDist = 0.0
@@ -88,26 +149,31 @@ function GetNearestVehicle(coords, maxDist)
 	return nearestVehicle, nearestDist
 end
 
-function GetClosestDoor(coords, vehicle, enterable)
+function GetClosestDoor(coords, vehicle, enterable, handles)
 	local nearestDoor = nil
 	local nearestDist = 0.0
+	local nearestCoords = nil
 
 	for boneName, doorIndex in pairs(Doors) do
-		local boneIndex = GetEntityBoneIndexByName(vehicle, boneName)
+		local handleName = handles and boneName:gsub("door", "handle")
+		local handleIndex = handles and GetEntityBoneIndexByName(vehicle, handleName) or -1
+		local boneIndex = handleIndex == -1 and GetEntityBoneIndexByName(vehicle, boneName) or handleIndex
+
 		if boneIndex ~= -1 then
 			if not enterable or doorIndex < 4 then
-				local target = GetEntityBonePosition_2(vehicle, boneIndex)
-				local dist = target and #target > 0.001 and #(target - coords)
+				local boneCoords = GetEntityBonePosition_2(vehicle, boneIndex)
+				local dist = boneCoords and #boneCoords > 0.001 and #(boneCoords - coords)
 				
 				if dist and (not nearestDoor or dist < nearestDist) then
-					nearestDoor = doorIndex
+					nearestDoor = boneName
 					nearestDist = dist
+					nearestCoords = boneCoords
 				end
 			end
 		end
 	end
 
-	return nearestDoor, nearestDist
+	return nearestDoor, nearestDist, nearestCoords
 end
 
 function GetClosestSeat(coords, vehicle, mustBeEmpty)
@@ -133,6 +199,36 @@ function GetClosestSeat(coords, vehicle, mustBeEmpty)
 	return nearestSeat, nearestDist
 end
 
+function GetNearestTire(coords, vehicle)
+	local nearestTire = nil
+	local nearestDist = 0.0
+
+	for boneName, tireIndex in pairs(GetTires(vehicle)) do
+		local boneIndex = GetEntityBoneIndexByName(vehicle, boneName)
+		if boneIndex ~= -1 then
+			local target = GetEntityBonePosition_2(vehicle, boneIndex)
+			local dist = target and #(target - coords)
+			
+			if dist and (not nearestTire or dist < nearestDist) then
+				nearestTire = tireIndex
+				nearestDist = dist
+			end
+		end
+	end
+
+	return nearestTire, nearestDist
+end
+
+function GetTires(vehicle)
+	local tires = {}
+	for boneName, wheelIndex in pairs(Tires) do
+		if DoesVehicleHaveBone(vehicle, boneName) then
+			tires[boneName] = wheelIndex
+		end
+	end
+	return tires
+end
+
 function DoesVehicleHaveBone(vehicle, boneName)
 	return GetEntityBoneIndexByName(vehicle, boneName) ~= -1
 end
@@ -144,4 +240,45 @@ function DoesVehicleHaveEngine(vehicle)
 		end
 	end
 	return false
+end
+
+function GetVehicleEngineDoor(vehicle)
+	-- Get and check engine.
+	local engineIndex = GetEntityBoneIndexByName(vehicle, "engine")
+	if engineIndex == -1 then return end
+	
+	-- Get hood and trunk.
+	local hoodIndex = GetEntityBoneIndexByName(vehicle, "bonnet")
+	local trunkIndex = GetEntityBoneIndexByName(vehicle, "boot")
+
+	-- Get engine coords.
+	local engineOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetEntityBonePosition_2(vehicle, engineIndex))
+	local engineSign = engineOffset.y > 0.0 and 1 or -1
+
+	-- Check hood.
+	if hoodIndex ~= -1 then
+		local hoodOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetEntityBonePosition_2(vehicle, hoodIndex))
+		local hoodSign = hoodOffset.y > 0.0 and 1 or -1
+
+		if engineSign == hoodSign then
+			return "bonnet"
+		end
+	end
+
+	-- Check trunk.
+	if trunkIndex ~= -1 then
+		local trunkOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, GetEntityBonePosition_2(vehicle, trunkIndex))
+		local trunkSign = trunkOffset.y > 0.0 and 1 or -1
+
+		if engineSign == trunkSign then
+			return "boot"
+		end
+	end
+end
+
+function IsVehicleEngineVisible(vehicle)
+	local engineDoor  = GetVehicleEngineDoor(vehicle)
+	if not engineDoor then return false end
+	
+	return GetVehicleDoorAngleRatio(vehicle, engineDoor == "boot" and 5 or 4) > 0.5, engineDoor
 end

@@ -43,7 +43,24 @@ function Main:ToggleEngine(source, netId)
 	TriggerClientEvent("vehicles:toggleEngine", source, netId, value)
 end
 
+function Main:GiveKey(source, netId)
+	local vehicle = self.vehicles[netId]
+	if not vehicle then return false end
+
+	local vin = vehicle:Get("vin") or ""
+	if vin == "" then return false end
+
+	return table.unpack(exports.inventory:GiveItem(source, {
+		item = "Vehicle Key",
+		fields = { vin },
+	}))
+end
+
 RegisterNetEvent("vehicles:toggleEnigne", function(netId)
 	local source = source
-	Main:ToggleEngine(source, netId)
+
+	if PlayerUtil:CheckCooldown(source, 1.0) then
+		PlayerUtil:UpdateCooldown(source)
+		Main:ToggleEngine(source, netId)
+	end
 end)

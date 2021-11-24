@@ -6,14 +6,12 @@ dependencies {
 }
 
 shared_script {
-	'sh_config.lua',
-	'sh_garages.lua',
+	'config/*.lua',
 }
 
 client_scripts {
-	'@NativeUILua_Reloaded/src/NativeUIReloaded.lua',
 	'cl_garages.lua',
-	'cl_garageMenu.lua',
+	'cl_parking.lua',
 }
 
 server_scripts {

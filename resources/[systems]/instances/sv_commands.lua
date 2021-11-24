@@ -8,11 +8,10 @@ exports.chat:RegisterCommand("a:joininstance", function(source, args, command, c
 	Instances:Join(source, id, true)
 end, {
 	description = "Join an existing instance.",
-	powerLevel = 25,
 	parameters = {
 		{ name = "ID", description = "The ID of the instance to join." },
 	},
-})
+}, "Mod")
 
 exports.chat:RegisterCommand("a:leaveinstance", function(source, args, command, cb)
 	if not Instances:Get(source) then
@@ -23,5 +22,4 @@ exports.chat:RegisterCommand("a:leaveinstance", function(source, args, command, 
 	Instances:Leave(source)
 end, {
 	description = "Immediately leave your instance.",
-	powerLevel = 25,
-})
+}, "Mod")

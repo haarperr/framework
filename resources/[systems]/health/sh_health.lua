@@ -55,3 +55,9 @@ function IsPayloadValid(payload)
 
 	return true
 end
+
+function Export(func, name)
+	exports(name, function(...)
+		return func[name](func, ...)
+	end)
+end

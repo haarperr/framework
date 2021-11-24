@@ -17,7 +17,7 @@ span {
 	
 	color: white;
 
-	text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
+	text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8);
 	text-align: center;
 }
 
@@ -31,22 +31,76 @@ span {
 	height: auto;
 }
 
-/* Radials */
-.radial {
-	left: 0px;
-	top: 0px;
-	width: 100%;
-	height: 100%;
+/* Fuel */
+.fuel-outer {
+	position: absolute;
+	
+	left: -2vmin;
+	right: -2vmin;
+	top: -2vmin;
+	bottom: -2vmin;
+	z-index: -1;
+	
+	border-radius: 100%;
+
+	-webkit-mask-image: radial-gradient(closest-side, transparent 90%, white 91%, white 100%);
+	mask-image: radial-gradient(closest-side, transparent 90%, white 91%, white 100%);
+	object-fit: contain;
 }
 
-#fuel {
-	transform: scalex(-1.0) rotate(-147.5deg) translate(0%, -38.5%);
+.fuel-inner {
+	position: absolute;
+	
+	left: 0%;
+	right: 0%;
+	top: 0%;
+	bottom: 0%;
+	z-index: 1;
+	
+	background: linear-gradient(to top, rgba(220, 100, 50, 0.2) 0%, rgba(220, 100, 50, 0.5) 50%, transparent 51%);
+	border-radius: 100%;
+
+	-webkit-mask-image: linear-gradient(to top, white 0%, rgba(255, 255, 255, 0.4) 100%);
+	mask-image: linear-gradient(to top, white 0%, rgba(255, 255, 255, 0.4) 100%);
+	object-fit: contain;
 }
 
-/* #rpm {
-	transform: rotate(212.5deg) translate(0%, -38.5%);
-	z-index: -100;
-} */
+#fuel-bar {
+	position: absolute;
+
+	top: 80%;
+	bottom: 0%;
+	left: 0%;
+	right: 0%;
+	background: rgba(255, 140, 70, 0.9);
+	filter: blur(1px);
+}
+
+.fuel {
+	position: absolute;
+	display: flex !important;
+
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	width: auto;
+	height: auto;
+	
+	bottom: 22%;
+	right: 12.5%;
+	font-size: 0.9em;
+	opacity: 0.5;
+}
+
+.fuel span {
+	display: block;
+	position: relative !important;
+}
+
+.underwater .fuel {
+	display: none;
+}
 
 /* Vehicles */
 #vehicle {
@@ -60,8 +114,6 @@ span {
 
 /* Values */
 .speed {
-	--size: 5vmin;
-
 	position: absolute;
 	display: flex !important;
 
@@ -69,17 +121,14 @@ span {
 	align-items: center;
 	justify-content: center;
 	
-	width: var(--size);
-	height: var(--size);
-	bottom: 0%;
+	width: auto;
+	height: auto;
+	bottom: 5%;
 	left: 50%;
 	transform: translate(-50%, 0%);
-	border-radius: 50%;
 	z-index: 3;
-
-	/* background: rgb(20, 20, 20); */
-	background: linear-gradient(to bottom, rgb(50, 50, 50), rgb(20, 20, 20));
-	border: 3px solid rgb(0, 0, 0);
+	
+	font-size: 1.4em;
 }
 
 .speed span {
@@ -88,49 +137,20 @@ span {
 }
 
 #air {
-	width: 100%;
-	height: 100%;
-}
-
-/* #altitude {
-	position: absolute;
-	bottom: 20%;
-	left: 50%;
-	font-weight: 600;
-	font-size: 150%;
-	
-	color: rgb(255, 255, 255);
-	background: rgba(0, 0, 0, 0.8);
-	padding: 0.2vmin 0.8vmin;
-	border-radius: 0.4vmin;
-	text-shadow:
-		2px 2px 4px rgba(0, 0, 0, 0.8),
-		0px 0px 4px rgba(0, 0, 0, 0.4)
-	;
-	opacity: 0.8;
-
-	transform: translate(-50%, 0%);
-} */
-
-#air {
-	--size: 5vmin;
-
 	position: absolute;
 
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	
-	width: var(--size);
-	height: var(--size);
-	bottom: 15%;
-	left: 30%;
-	transform: translate(-50%, 50%);
-	border-radius: 50%;
-	z-index: 2;
-
-	background: linear-gradient(to bottom, rgb(50, 50, 50), rgb(20, 20, 20));
-	border: 3px solid rgb(0, 0, 0);
+	width: auto;
+	height: auto;
+	bottom: 20.0%;
+	left: 50%;
+	transform: translate(-50%, 0%);
+	z-index: 3;
+	
+	font-size: 1.0em;
 }
 
 #air span {
@@ -148,14 +168,18 @@ span {
 
 	left: 0%;
 	bottom: 0%;
+
+	border-radius: 100%;
+	/* border: 2px solid rgba(0, 0, 0, 0.8); */
+	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
 }
 
 #minimap .fade {
 	width: 100%;
 	height: 100%;
 
-	-webkit-mask-image: linear-gradient(to bottom, white 0%, transparent 75%);
-	mask-image: linear-gradient(to bottom, white 0%, transparent 75%);
+	-webkit-mask-image: linear-gradient(to bottom, white 0%, transparent 80%);
+	mask-image: linear-gradient(to bottom, white 0%, transparent 80%);
 	object-fit: contain;
 }
 
@@ -172,20 +196,6 @@ span {
 #minimap img {
 	width: 100%;
 	height: 100%;
-}
-
-#minimap .circle {
-	width: auto;
-	height: auto;
-	
-	left: 7%;
-	right: 7%;
-	top: 7%;
-	bottom: 7%;
-
-	border: 3px solid rgb(0, 0, 0);
-	box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.8);
-	border-radius: 50%;
 }
 
 /* Other */
@@ -215,35 +225,4 @@ span {
 
 #aspect-error span {
 	padding: 2vmin;
-}
-
-/* Scoreboard */
-#scoreboard {
-	display: flex;
-	position: absolute;
-
-	flex-direction: row;
-	flex-wrap: wrap;
-
-	bottom: 1vmin;
-	left: 50%;
-	width: 65vmin;
-
-	border-radius: 0.5vmin;
-	border: 1px solid black;
-
-	background: rgba(0, 0, 0, 0.4);
-	transform: translate(-50%, 0%);
-}
-
-#scoreboard div {
-	display: flex;
-	justify-content: space-between;
-
-	min-width: calc(50% - 2px);
-	border: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-#scoreboard div > span {
-	margin: 0.5vmin 1vmin;
 }

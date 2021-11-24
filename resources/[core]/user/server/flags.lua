@@ -15,7 +15,7 @@ function User:SetFlag(flag, value)
 	if value and value ~= 0 then
 		flags = flags | mask
 	else
-		flags = flags | (~mask)
+		flags = flags & (~mask)
 	end
 
 	self:Set("flags", flags)
@@ -24,6 +24,7 @@ end
 for _, funcName in ipairs({
 	"SetFlag",
 	"HasFlag",
+	"IsDev",
 	"IsMod",
 	"IsAdmin",
 	"IsOwner",

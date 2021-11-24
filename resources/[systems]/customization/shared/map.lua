@@ -225,8 +225,16 @@ Map = {
 					local value = components[k] or 1
 					local offset = v.emptySlot and 2 or 1
 					local texture = components[k + n] or 1
+
+					local value = value == 1 and v.emptySlot or value - offset
+					if type(value) == "table" then
+						local bodyType = controller.map["bodyType"]
+						local isMale = bodyType == "Masculine"
+
+						value = value[isMale and 2 or 1]
+					end
 					
-					SetPedComponentVariation(Ped, v.index, value == 1 and v.emptySlot and -1 or value - offset, math.max(texture - 1, 0), 0)
+					SetPedComponentVariation(Ped, v.index, value, math.max(texture - 1, 0), 0)
 				end
 			end,
 		},
@@ -455,7 +463,7 @@ Map = {
 				local map = controller.map
 				if not map then return end
 
-				if isMenu and trigger == "hair" then
+				if isMenu and bind and trigger == "hair" then
 					Editor:SetTarget("head")
 				end
 
@@ -598,7 +606,7 @@ Map = {
 				local map = controller.map
 				if not map then return end
 
-				if isMenu and trigger == "makeupOverlays" then
+				if isMenu and bind and trigger == "makeupOverlays" then
 					Editor:SetTarget("head")
 				end
 
@@ -882,7 +890,7 @@ Map = {
 				local map = controller.map
 				if not map then return end
 
-				if isMenu and trigger == "blendData" then
+				if isMenu and bind and trigger == "blendData" then
 					Editor:SetTarget("head")
 				end
 
@@ -976,7 +984,7 @@ Map = {
 				local map = controller.map
 				if not map then return end
 				
-				if isMenu and trigger == "faceFeatures" then
+				if isMenu and bind and trigger == "faceFeatures" then
 					Editor:SetTarget("head")
 				end
 
@@ -1024,7 +1032,7 @@ Map = {
 
 				local color = map.eyeColor or 1
 				
-				if isMenu and trigger == "eyeColor" then
+				if isMenu and bind and trigger == "eyeColor" then
 					Editor:SetTarget("head")
 				end
 
@@ -1102,7 +1110,7 @@ Map = {
 				local map = controller.map
 				if not map then return end
 
-				if isMenu and trigger == "otherOverlays" then
+				if isMenu and bind and trigger == "otherOverlays" then
 					Editor:SetTarget("head")
 				end
 
@@ -1235,8 +1243,13 @@ Map = {
 				local map = controller.map
 				if not map then return end
 
-				if isMenu and trigger == "hairOverlays" then
-					Editor:SetTarget("head")
+				if isMenu and bind and trigger == "hairOverlays" then
+					local hair = bind.index and Overlays.Head.Hair[bind.index]
+					Editor:SetTarget(hair and hair.target or "head")
+
+					if hair and hair.onchange then
+						hair.onchange()
+					end
 				end
 
 				local hairOverlays = map.hairOverlays

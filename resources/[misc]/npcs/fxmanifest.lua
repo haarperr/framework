@@ -1,26 +1,31 @@
 fx_version 'adamant'
 game 'gta5'
 
-ui_page 'html/index.html'
+lua54 'yes'
 
 files {
-	'html/**/*.html',
-	'html/**/*.js',
-	'html/**/*.css',
-	'html/sound/**/*.ogg',
+	'client/*.lua',
+	'shared/*.lua',
 }
 
 shared_scripts {
-	'sh_config.lua',
+	'@grids/shared/grids.lua',
+	-- 'shared.lua',
+	-- 'shared/config.lua',
+	-- 'shared/main.lua',
+	-- 'shared/npc.lua',
+	-- 'npcs/test.lua', -- test, should glob
 }
 
 client_scripts {
-	'cl_npcs.lua',
-	'cl_ui.lua',
-	'cl_dialogue.lua',
-	'npcs/*.lua',
+	'@ui/scripts/cl_main.lua',
+	'client.lua',
+	-- 'client/main.lua',
+	-- 'client/npc.lua',
 }
 
 server_scripts {
-	'sv_npcs.lua',
+	'server.lua',
+	-- 'server/main.lua',
+	-- 'server/npc.lua',
 }
