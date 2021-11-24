@@ -5,16 +5,25 @@ Inspector = {
 		[2] = { 255, 255, 0 },
 		[3] = { 0, 255, 255 },
 	},
+	names = {
+		[0] = "None",
+		[1] = "Ped",
+		[2] = "Vehicle",
+		[3] = "Object",
+	},
 	lines = {},
 }
 
+--[[ Functions: Inspector ]]--
 function Inspector:Update()
+	-- Update targets.
 	self:UpdateHit()
+
+	-- Draw lines.
 	self:DrawLines()
 
-	if IsDisabledControlJustPressed(0, 214) and DoesEntityExist(self.entity or 0) and NetworkGetEntityIsNetworked(self.entity) then
-		TriggerServerEvent("admin:delete", NetworkGetNetworkIdFromEntity(self.entity))
-	end
+	-- Update input.
+	self:UpdateInput()
 end
 
 function Inspector:UpdateHit()
@@ -25,11 +34,18 @@ function Inspector:UpdateHit()
 		return
 	end
 
-	self.entity = entity
+	if self.entity ~= entity then
+		self.lastEntity = self.entity or self.lastEntity
+		self.entity = entity
+		self.material = materialHash
+	end
+
+	self.hitCoords = hitCoords
+	self.surfaceNormal = surfaceNormal
 	
 	-- Get entity info.
 	local entityType = GetEntityType(entity) or 0
-	local target = hitCoords + surfaceNormal * 2.0
+	local target = hitCoords + surfaceNormal * math.log(#(hitCoords - GetFinalRenderedCamCoord())) * 0.5
 
 	-- Create line.
 	local r, g, b = table.unpack(self.colors[entityType])
@@ -58,6 +74,107 @@ function Inspector:UpdateHit()
 	end
 end
 
+function Inspector:UpdateInput()
+	-- Delete entity.
+	if DoesEntityExist(self.entity or 0) and IsDisabledControlJustPressed(0, 214) and NetworkGetEntityIsNetworked(self.entity) then
+		TriggerServerEvent("admin:delete", NetworkGetNetworkIdFromEntity(self.entity))
+	end
+
+	-- Focus.
+	if IsDisabledControlJustPressed(0, 207) then
+		local hasFocus = not _Get("hasFocus")
+		UI:Focus(hasFocus, hasFocus)
+	end
+
+	-- Lock entity.
+	if IsDisabledControlJustPressed(0, 121) then
+		self.locked = not self.locked
+
+		if self.window then
+			self.window:SetModel("locked", self.locked)
+		end
+	end
+end
+
+function Inspector:UpdateMenu()
+	-- Clear options.
+	self.options = {}
+
+	-- Add ped options.
+	local ped = PlayerPedId() or 0
+	if DoesEntityExist(ped) then
+		local coords = GetEntityCoords(ped)
+		local heading = GetEntityHeading(ped)
+		
+		self:AddOption("Ped")
+
+		self:AddOption("Coords (vector3)", tostring(vector3(coords.x, coords.y, coords.z)), true)
+		self:AddOption("Coords (vector4)", tostring(vector4(coords.x, coords.y, coords.z, heading)), true)
+	end
+
+	-- Add camera options.
+	local camCoords = GetFinalRenderedCamCoord()
+	local camRot = GetFinalRenderedCamRot()
+
+	self:AddOption("Camera")
+
+	self:AddOption("Coords", tostring(camCoords), true)
+	self:AddOption("Rotation", tostring(camRot), true)
+
+	-- Hit.
+	if self.entity then
+		self:AddOption("Hit")
+
+		self:AddOption("Coords", tostring(self.hitCoords), true)
+		self:AddOption("Normal", tostring(self.surfaceNormal), true)
+		self:AddOption("Material", self.material, true)
+	end
+
+	-- Check entity.
+	local entity = self.entity and GetEntityType(self.entity) ~= 0 and self.entity or self.lastEntity
+	local _type = entity and GetEntityType(entity) or 0
+
+	if entity and _type ~= 0 then
+		-- Add entity options.
+		local speed = GetEntitySpeed(entity)
+	
+		self:AddOption(self.entity and "Target" or "Target (Previous)")
+	
+		self:AddOption("Script", GetEntityScript(entity) or 0, true)
+		self:AddOption("Type", self.names[_type], true)
+		self:AddOption("Network ID", NetworkGetEntityIsNetworked(entity) and NetworkGetNetworkIdFromEntity(entity) or "None", true)
+		self:AddOption("Entity", entity, true)
+		self:AddOption("Owner", GetPlayerServerId(NetworkGetEntityOwner(entity)), true)
+		self:AddOption("Model", GetEntityModel(entity), true)
+		self:AddOption("Coords", tostring(GetEntityCoords(entity)), true)
+		self:AddOption("Rotation", tostring(GetEntityRotation(entity)), true)
+		self:AddOption("Invincible", not GetEntityCanBeDamaged(entity), true)
+		self:AddOption("Health", ("%s/%s"):format(GetEntityHealth(entity), GetEntityMaxHealth(entity)), true)
+		self:AddOption("Speed (KMH)", speed * 3.6, true)
+		self:AddOption("Speed (MPH)", speed * 2.236936, true)
+		self:AddOption("Attached To", GetEntityAttachedTo(entity), true)
+		self:AddOption("Is Upright", IsEntityUpright(entity) == 1, true)
+		self:AddOption("Is Upsidedown", IsEntityUpsidedown(entity) == 1, true)
+		self:AddOption("Submerged Level", GetEntitySubmergedLevel(entity), true)
+	
+		local retval, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, drownProof = GetEntityProofs(entity)
+		if retval then
+			self:AddOption("Proofs")
+
+			self:AddOption("Bullet", bulletProof, true)
+			self:AddOption("Fire", fireProof, true)
+			self:AddOption("Explosion", explosionProof, true)
+			self:AddOption("Collision", collisionProof, true)
+			self:AddOption("Melee", meleeProof, true)
+			self:AddOption("Steam", steamProof, true)
+			self:AddOption("Drown", drownProof, true)
+		end
+	end
+
+	-- Update menu.
+	self.window:SetModel("options", self.options)
+end
+
 function Inspector:DrawLines()
 	for k, line in ipairs(self.lines) do
 		line[10] = math.ceil(k / #self.lines * 255)
@@ -69,16 +186,92 @@ function Inspector:Activate()
 	if self.active then return end
 	self.active = true
 	
+	self.window = Window:Create({
+		type = "Window",
+		title = "Inspector",
+		class = "compact",
+		style = {
+			["width"] = "25vmin",
+			["height"] = "auto",
+			["top"] = "5vmin",
+			["bottom"] = "5vmin",
+			["right"] = "4vmin",
+		},
+		defaults = {
+			options = self.options or {},
+			locked = self.locked,
+		},
+		components = {
+			{
+				type = "div",
+				style = {
+					["display"] = "flex",
+					["flex-direction"] = "column",
+					["height"] = "100%",
+				},
+				template = [[
+					<div>
+						<div
+							v-for="(property, index) in $getModel('options')"
+							:key="index"
+						>
+							<q-field
+								v-if="property.text != null"
+								:label="property.title"
+								:style="$getModel('locked') ? 'background: rgba(255, 20, 20, 0.4)' : null"
+								class="q-ma-sm"
+								stack-label
+								filled
+								readonly
+								dense
+							>
+								<template v-slot:control>
+									<span style="white-space: nowrap; overflow: hidden">{{property.text}}</span>
+								</template>
+								<template v-slot:append>
+									<q-btn
+										@click="$copyToClipboard(property.text)"
+										icon="copy_all"
+										transparent
+										flat
+										dense
+									/>
+								</template>
+							</q-field>
+							<div
+								v-if="property.text == null"
+								class="text-caption q-ma-sm"
+							>
+								{{property.title}}
+							</div>
+						</div>
+					</div>
+				]],
+			},
+		},
+	})
 end
 
 function Inspector:Deactivate()
 	if not self.active then return end
 	self.active = false
 	
+	if self.window then
+		self.window:Destroy()
+		self.window = nil
+
+		UI:Focus(false)
+	end
 end
 
-function Inspector:Delete()
+function Inspector:AddOption(title, text, fallback)
+	if text == true then
+		text = "Yes"
+	elseif text == false then
+		text = "No"
+	end
 
+	self.options[#self.options + 1] = { title = title, text = text or (fallback and "Unknown") or nil }
 end
 
 --[[ Threads ]]--
@@ -89,6 +282,16 @@ Citizen.CreateThread(function()
 		end
 
 		Citizen.Wait(0)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		if Inspector.active and not Inspector.locked then
+			Inspector:UpdateMenu()
+		end
+
+		Citizen.Wait(50)
 	end
 end)
 
