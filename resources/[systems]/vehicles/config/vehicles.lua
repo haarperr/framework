@@ -6,7 +6,7 @@ Vehicles = {
 	["akuma"] = { Value = 15500 },
 	["alpha"] = { Value = 39580 },
 	["alphaz1"] = { Value = 1069042 },
-	["ambulance"] = { Value = 0 },
+	["ambulance"] = { Value = 0, Type = "Ambulance" },
 	["annihilator"] = { Value = 4712479 },
 	["apc"] = { Value = 0 },
 	["ardent"] = { Value = 37471 },
@@ -196,8 +196,8 @@ Vehicles = {
 	["faggio"] = { Value = 3778 },
 	["faggio2"] = { Value = 3778 },
 	["faggio3"] = { Value = 3778 },
-	["fbi"] = { Value = 3500 },
-	["fbi2"] = { Value = 0 },
+	["fbi"] = { Value = 3500, Type = "Agency" },
+	["fbi2"] = { Value = 0, Type = "Agency" },
 	["fcr"] = { Value = 9615 },
 	["fcr2"] = { Value = 9631 },
 	["felon"] = { Value = 27000 },
@@ -365,21 +365,12 @@ Vehicles = {
 	["phoenix"] = { Value = 24999 },
 	["picador"] = { Value = 19995 },
 	["pigalle"] = { Value = 19542 },
-	["police"] = { Value = 0 },
-	["police2"] = { Value = 0 },
-	["police3"] = { Value = 0 },
-	["police4"] = { Value = 0 },
-	["policeb"] = { Value = 0 },
-	["policeold1"] = { Value = 0 },
-	["policeold2"] = { Value = 0 },
-	["policet"] = { Value = 0 },
-	["polmav"] = { Value = 1659543 },
 	["pony"] = { Value = 13023 },
 	["pony2"] = { Value = 13023 },
 	["pounder"] = { Value = 35000 },
 	["pounder2"] = { Value = 35000 },
 	["prairie"] = { Value = 5750 },
-	["pranger"] = { Value = 0 },
+	["pranger"] = { Value = 0, Type = "Agency" },
 	["predator"] = { Value = 6093 },
 	["premier"] = { Value = 5640 },
 	["primo"] = { Value = 6127 },
@@ -411,8 +402,8 @@ Vehicles = {
 	["rhapsody"] = { Value = 3599 },
 	["rhino"] = { Value = 0 },
 	["riata"] = { Value = 18215 },
-	["riot"] = { Value = 0 },
-	["riot2"] = { Value = 0 },
+	["riot"] = { Value = 0, Type = "Agency" },
+	["riot2"] = { Value = 0, Type = "Agency" },
 	["ripley"] = { Value = 97464 },
 	["rocoto"] = { Value = 15660 },
 	["rogue"] = { Value = 593166 },
@@ -542,8 +533,8 @@ Vehicles = {
 	["toro"] = { Value = 34120 },
 	["toro2"] = { Value = 34120 },
 	["tourbus"] = { Value = 9915 },
-	--["towtruck"] = { Value = 29455 },
-	--["towtruck2"] = { Value = 29455 },
+	["towtruck"] = { Value = 29455 },
+	["towtruck2"] = { Value = 29455 },
 	["tr2"] = { Value = 98307 },
 	["tr3"] = { Value = 119137 },
 	["tr4"] = { Value = 98307 },
@@ -629,12 +620,23 @@ Vehicles = {
 	["flatbed"] = { Value = 12589 },
 
 	--[[ Business Vehicles ]]--
-	["gmcsav04"] = { Value = 21409 },
 	["taco2"] = { Value = 21409 },
 	
 	--[[ SADCR Vehicles ]]--
 	["dcrfpiu"] = { Value = 1000 },
 
+	--[[ General Police ]]--
+	["police"] = { Value = 0 },
+	["police2"] = { Value = 0 },
+	["police3"] = { Value = 0 },
+	["police4"] = { Value = 0 },
+	["policeb"] = { Value = 0, Type = "Bike" },
+	["policeold1"] = { Value = 0 },
+	["policeold2"] = { Value = 0 },
+	["policet"] = { Value = 0 },
+	["polmav"] = { Value = 1659543 },
+	["rsheli"] = { Value = 2500 },
+	
 	--[[ SADPS Vehicles ]]--
 	["dpscvpi"] = { Value = 1000 }, -- Crown Vic.
 	["dpscharger"] = { Value = 5000 }, -- Charger.
@@ -650,19 +652,15 @@ Vehicles = {
 	["pdfpis"] = { Value = 3500 },
 	["pdfpiu"] = { Value = 4000 },
 	["pddemon"] = { Value = 100000 },
-	["harley"] = { Value = 2500 },
+	["harley"] = { Value = 2500, Type = "Bike" },
 
 	--[[ LSFD Vehicles ]]--
-	["emsambo"] = { Value = 0 },
-	["emsexplorer"] = { Value = 0 },
-	["emstahoe"] = { Value = 0 },
-	["lguard"] = { Value = 0 },
+	["emsambo"] = { Value = 0, Type = "Ambulance" },
+	["emsexplorer"] = { Value = 0, Type = "Ambulance" },
+	["emstahoe"] = { Value = 0, Type = "Ambulance" },
+	["lguard"] = { Value = 0, Type = "Ambulance" },
+	["firetruk"] = { Value = 0, Type = "Firetruck" },
 	
-	--[[ CDCP Vehicles ]]--
-	["crf450"] = { Value = 3700 },
-	["landcruiser2"] = { Value = 7130 },
-	["rubicon"] = { Value = 13985 },
-
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 21675 },
 	["eb110"] = { Value = 611250 },

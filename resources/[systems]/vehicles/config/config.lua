@@ -252,10 +252,34 @@ Config = {
 		},
 	},
 	Sirens = {
-		[1] = false, -- Default siren.
-		[2] = "VEHICLES_HORNS_SIREN_1",
-		[3] = "VEHICLES_HORNS_SIREN_2",
-		[4] = "VEHICLES_HORNS_POLICE_WARNING",
+		Police = {
+			[1] = false,
+			[2] = "VEHICLES_HORNS_SIREN_1",
+			[3] = "VEHICLES_HORNS_SIREN_2",
+			[4] = "VEHICLES_HORNS_POLICE_WARNING", -- RESIDENT_VEHICLES_SIREN_PA20A_WAIL
+		},
+		Ambulance = {
+			[1] = false,
+			[2] = "RESIDENT_VEHICLES_SIREN_WAIL_01",
+			[3] = "RESIDENT_VEHICLES_SIREN_QUICK_01",
+			[4] = "VEHICLES_HORNS_AMBULANCE_WARNING",
+		},
+		Firetruck = {
+			[1] = false,
+			[2] = "RESIDENT_VEHICLES_SIREN_FIRETRUCK_WAIL_01",
+			[3] = "RESIDENT_VEHICLES_SIREN_FIRETRUCK_QUICK_01",
+			[4] = "VEHICLES_HORNS_FIRETRUCK_WARNING",
+		},
+		Bike = {
+			[1] = false,
+			[2] = "RESIDENT_VEHICLES_SIREN_WAIL_03",
+			[3] = "RESIDENT_VEHICLES_SIREN_QUICK_03",
+		},
+		Agency = {
+			[1] = false,
+			[2] = "RESIDENT_VEHICLES_SIREN_WAIL_02",
+			[3] = "RESIDENT_VEHICLES_SIREN_QUICK_02",
+		},
 	},
 	Handling = {
 		Fields = {

@@ -6,17 +6,23 @@ Lights = {
 }
 
 --[[ Functions ]]--
-function Lights:PlaySound(vehicle, sound)
-	local soundId = self.sounds[vehicle]
+function Lights:PlaySound(id, vehicle, sound)
+	local sounds = self.sounds[id]
+	if not sounds then
+		sounds = {}
+		self.sounds[id] = sounds
+	end
+
+	local soundId = sounds[vehicle]
 	if soundId then
 		StopSound(soundId)
 		ReleaseSoundId(soundId)
-		self.sounds[vehicle] = nil
+		sounds[vehicle] = nil
 	end
 
 	if sound then
 		soundId = GetSoundId()
-		self.sounds[vehicle] = soundId
+		sounds[vehicle] = soundId
 
 		PlaySoundFromEntity(soundId, sound, vehicle, 0, 0, 0)
 	end
@@ -28,15 +34,17 @@ function Lights:UpdateSiren(vehicle, state)
 	SetVehicleHasMutedSirens(vehicle, true)
 	SetVehicleSiren(vehicle, state and state > 0)
 
-	local siren = state and state > 0 and Config.Sirens[state]
+	local model = GetEntityModel(vehicle)
+	local _type = Main:GetSettings(model).Type or "Police"
+	local siren = state and state > 0 and Config.Sirens[_type][state]
 
-	self:PlaySound(vehicle, siren)
+	self:PlaySound("siren", vehicle, siren)
 end
 
 function Lights:UpdateHorn(vehicle, state)
 	self.horns[vehicle] = state
 
-	self:PlaySound(vehicle, state == 1 and "SIRENS_AIRHORN")
+	self:PlaySound("horn", vehicle, state == 1 and "SIRENS_AIRHORN")
 end
 
 function Lights:UpdateBlinkers(vehicle, state)
@@ -46,11 +54,20 @@ function Lights:UpdateBlinkers(vehicle, state)
 	SetVehicleIndicatorLights(vehicle, 1, state == 1 or state == 3)
 end
 
+function Lights:UpdateCache()
+	self.vehicles = {}
+	for vehicle, _ in EnumerateVehicles() do
+		if NetworkGetEntityIsNetworked(vehicle) and GetVehicleClass(vehicle) == 18 then
+			self.vehicles[vehicle] = true
+		end
+	end
+end
+
 function Lights:Update()
 	local cached = {}
-	for vehicle, _ in EnumerateVehicles() do
-		cached[vehicle] = true
-		if NetworkGetEntityIsNetworked(vehicle) then
+	for vehicle, _ in pairs(self.vehicles) do
+		if DoesEntityExist(vehicle) then
+			cached[vehicle] = true
 			local entity = Entity(vehicle)
 			
 			if entity.state.siren and self.sirens[vehicle] ~= entity.state.siren then
@@ -67,12 +84,14 @@ function Lights:Update()
 		end
 	end
 
-	for vehicle, soundId in pairs(self.sounds) do
-		if not cached[vehicle] then
-			StopSound(soundId)
-			ReleaseSoundId(soundId)
-
-			self.sounds[vehicle] = nil
+	for id, sounds in pairs(self.sounds) do
+		for vehicle, soundId in pairs(sounds) do
+			if not cached[vehicle] then
+				StopSound(soundId)
+				ReleaseSoundId(soundId)
+	
+				sounds[vehicle] = nil
+			end
 		end
 	end
 
@@ -135,18 +154,16 @@ Main:AddListener("Update", function()
 		-- Horny.
 		if IsDriver then
 			if IsDisabledControlJustPressed(0, 86) then
-				if currentSiren and currentSiren > 1 then
-					Lights.lastSiren = currentSiren == 4 and Lights.lastSiren or currentSiren
-					sirenValue = 4
-				else
-					hornValue = 1
-				end
+				hornValue = 1
 			elseif IsDisabledControlJustReleased(0, 86) then
-				if currentSiren == 4 then
-					sirenValue = Lights.lastSiren or 2
-				else
-					hornValue = 0
-				end
+				hornValue = 0
+			end
+			
+			if IsDisabledControlJustPressed(0, 209) and currentSiren and currentSiren > 1 and Config.Sirens[Main:GetSettings(Model).Type or "Police"][4] ~= nil then
+				Lights.lastSiren = currentSiren == 4 and Lights.lastSiren or currentSiren
+				sirenValue = 4
+			elseif IsDisabledControlJustReleased(0, 209) and currentSiren == 4 then
+				sirenValue = Lights.lastSiren or 2
 			end
 		end
 		
@@ -193,7 +210,14 @@ end)
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
+		Lights:UpdateCache()
+		Citizen.Wait(1000)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
 		Lights:Update()
-		Citizen.Wait(200)
+		Citizen.Wait(20)
 	end
 end)
