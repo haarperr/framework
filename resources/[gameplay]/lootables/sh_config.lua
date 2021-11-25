@@ -7,7 +7,7 @@ Config = {
 			Radius = 0.7,
 			Energy = 0.01,
 			QuickTime = {
-				size = 0.3,
+				goalSize = 0.3,
 				speed = 1.1,
 				stages = 6,
 			},
@@ -64,7 +64,7 @@ Config = {
 			Radius = 0.9,
 			Energy = 0.02,
 			QuickTime = {
-				size = 0.3,
+				goalSize = 0.3,
 				speed = 1.2,
 				stages = 6,
 			},
@@ -106,7 +106,7 @@ Config = {
 			Radius = 0.6,
 			Energy = 0.02,
 			QuickTime = {
-				size = 0.2,
+				goalSize = 0.2,
 				speed = 1.3,
 				stages = 6,
 			},
@@ -132,6 +132,7 @@ Config = {
 		[-2096124444] = "bin_small",
 		[-115771139] = "bin_small",
 		[-1426008804] = "bin_small",
+		[-130812911] = "bin_small",
 
 		[-58485588] = "bin_large",
 		[218085040] = "bin_large",
