@@ -1,10 +1,11 @@
 TickRate = 200
 
-Main.update = {}
-Main.settings = {}
-Main.vehicles = {}
 Main.classes = {}
+Main.hashes = {}
 Main.info = {}
+Main.settings = {}
+Main.update = {}
+Main.vehicles = {}
 
 function Main:Init()
 	for model, settings in pairs(Vehicles) do
@@ -19,6 +20,7 @@ function Main:Init()
 
 		-- Cache settings.
 		self.settings[model] = settings
+		self.hashes[GetHashKey(model)] = model
 
 		-- Cache class.
 		local classList = self.classes[settings.Class]
@@ -28,6 +30,15 @@ function Main:Init()
 		end
 		classList[model] = settings
 	end
+end
+
+function Main:GetSettings(model)
+	if not model then return {} end
+	if type(model) == "number" then
+		model = self.hashes[model]
+		if not model then return {} end
+	end
+	return Vehicles[model] or {}
 end
 
 function Main:Update()
@@ -280,8 +291,8 @@ function Main:Subscribe(vehicle, value)
 end
 
 --[[ Exports ]]--
-exports("GetSettings", function(model)
-	return Vehicles[model]
+exports("GetSettings", function(...)
+	return Main:GetSettings(...)
 end)
 
 exports("GetClass", function(id)
