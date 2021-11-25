@@ -20,6 +20,7 @@ let Interval = null
 let LastUpdate = null
 
 document.addEventListener("DOMContentLoaded", function() {
+	StartAudio = new Audio("assets/start.ogg")
 	SuccessAudio = new Audio("assets/success.ogg")
 	FailAudio = new Audio("assets/fail.ogg")
 
@@ -34,6 +35,16 @@ document.addEventListener("DOMContentLoaded", function() {
 window.addEventListener("message", function(event) {
 	var data = event.data
 	if (!data) return
+
+	if (data.cancel != undefined) {
+		if (data.cancel === true) {
+			Score = GoalScore
+		}
+
+		endGame()
+
+		return
+	}
 
 	var play = data.play
 	if (play) {
@@ -70,6 +81,8 @@ function startCircle(goalSize, cursorSize) {
 	CursorProgress.set(CursorPosition, CursorPosition + CursorSize)
 
 	Interval = setInterval(updateCircle, 0)
+
+	StartAudio.play()
 }
 
 function updateCircle() {
@@ -109,8 +122,8 @@ function stopCircle() {
 
 		SuccessAudio.currentTime = 0
 		SuccessAudio.play()
-		
-		endGame()
+
+		setTimeout(endGame, 200 + Math.floor(Math.random() * 500.0))
 	} else {
 		Score = 0
 		OuterProgress.el.setAttribute("stroke", GoalProgress.el.getAttribute("stroke"));
@@ -119,6 +132,8 @@ function stopCircle() {
 		FailAudio.currentTime = 0
 		FailAudio.play()
 
+		post("finish", false)
+
 		setTimeout(endGame, 1600)
 	}
 }
@@ -126,11 +141,21 @@ function stopCircle() {
 function endGame() {
 	var hasFailed = Score == 0
 
+	if (Interval) {
+		clearInterval(Interval)
+	
+		Interval = null
+		LastUpdate = null
+	}
+
 	if (Score < GoalScore && !hasFailed) {
 		startCircle(GoalSize, CursorSize)
 	} else {
 		Root.style.display = "none"
-		post("finish", !hasFailed)
+
+		if (!hasFailed) {
+			post("finish", true)
+		}
 	}
 }
 

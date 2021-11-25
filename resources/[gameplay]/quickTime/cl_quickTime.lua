@@ -43,6 +43,12 @@ function Main:End(success)
 	SetNuiFocusKeepInput(false)
 end
 
+function Main:Cancel(success)
+	self:End(success)
+
+	SendNUIMessage({ cancel = success })
+end
+
 --[[ Events ]]--
 RegisterNetEvent("quickTime:begin", function(data)
 	Main:Begin(data)
@@ -55,6 +61,10 @@ end)
 --[[ Exports ]]--
 exports("Begin", function(...)
 	return Main:Begin(...)
+end)
+
+exports("Cancel", function(...)
+	return Main:Cancel(...)
 end)
 
 --[[ NUI Callbacks ]]--
