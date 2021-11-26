@@ -20,11 +20,12 @@ function HUD:Update()
 	
 	if DoesEntityExist(self.vehicle) then
 		local class = GetVehicleClass(self.vehicle)
+		local model = GetEntityModel(self.vehicle)
 
 		self.entity = self.vehicle
 		self.inVehicle = true
 		self.inAir = class == 15 or class == 16
-		self.isUnderwater = class == 14 or GetEntitySubmergedLevel(self.vehicle) > 0.01
+		self.isUnderwater = Config.Submersibles[model]
 	else
 		self.entity = self.ped
 		self.inVehicle = false
@@ -169,10 +170,23 @@ function Thread:Visibility()
 end
 
 function Thread:Position()
-	local screenX, screenY = GetActiveScreenResolution()
-	
 	local anchor = HUD:GetAnchor()
 	
+	if HUD.lastAnchor then
+		local diff = false
+		for k, v in pairs(anchor) do
+			local _v = HUD.lastAnchor[k]
+			local _type = type(v)
+			if (_type == "number" and math.abs(v - _v) > 0.001) or (_type ~= "number" and v ~= _v) then
+				diff = true
+				break
+			end
+		end
+		if not diff then return 2000 end
+	end
+
+	HUD.lastAnchor = anchor
+
 	local width = anchor.width
 	local height = anchor.height
 
@@ -297,11 +311,18 @@ exports("Commit", function(_type, data)
 	HUD:Commit(_type, data)
 end)
 
+--[[ NUI Callbacks ]]--
+RegisterNUICallback("ready", function(_, cb)
+	cb(true)
+	HUD.ready = true
+end)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		HUD:Update()
-
+		if HUD.ready then
+			HUD:Update()
+		end
 		Citizen.Wait(0)
 	end
 end)
