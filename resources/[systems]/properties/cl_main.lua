@@ -201,11 +201,6 @@ function Main:EnterShell(id, coords)
 					text = "Toggle Lock",
 					icon = "lock",
 				},
-				{
-					id = "peepProperty",
-					text = "Peephole",
-					icon = "visibility",
-				},
 			}
 		}
 	})
@@ -243,9 +238,30 @@ function Main:Update()
 end
 
 function Main:AddOption(property)
-	print(property)
-
 	local options = {}
+
+	options = {
+		{
+			id = "enterProperty",
+			text = "Enter",
+			icon = "door_front",
+		},
+		{
+			id = "knockProperty",
+			text = "Knock",
+			icon = "notifications",
+		},
+		{
+			id = "lockProperty",
+			text = "Toggle Lock",
+			icon = "lock",
+		},
+		{
+			id = "examineProperty",
+			text = "Examine",
+			icon = "search",
+		},
+	}
 
 	exports.interact:AddOption({
 		id = "property",
@@ -289,7 +305,7 @@ AddEventHandler("interact:onNavigate_enterProperty", function(option)
 	local property, dist = Main:FindNearestProperty(coords)
 	if not property then return end
 
-	local shell = "apartment_sm"
+	local shell = "apartment_lg1"
 
 	Main.entry = property.coords
 	Main:EnterShell(shell, property.coords + vector4(0.0, 0.0, 200.0, 0.0))
@@ -309,7 +325,31 @@ RegisterNetEvent("properties:receive", function(property)
 end)
 
 --[[ Commands ]]--
--- RegisterCommand("testshell", function(source, args, cmd)
--- 	Main:Exit()
--- 	Main:EnterShell("")
--- end)
+exports.chat:RegisterCommand("a:createshells", function(source, args, command)
+	local ped = PlayerPedId()
+	local coords = GetEntityCoords(ped)
+
+	for k, model in ipairs(Config.Models) do
+		while not HasModelLoaded(model) do
+			RequestModel(model)
+			Citizen.Wait(0)
+		end
+
+		coords = coords + vector3(0.0, 0.0, 20.0)
+
+		local entity = CreateObject(model, coords.x, coords.y, coords.z, true, true)
+		
+		FreezeEntityPosition(entity, true)
+		SetEntityCanBeDamaged(entity, false)
+		SetEntityInvincible(entity, true)
+		SetEntityDynamic(entity, false)
+		SetEntityHasGravity(entity, false)
+		SetEntityLights(entity, false)
+
+		print(k, model)
+
+		Citizen.Wait(1000)
+	end
+end, {
+	description = "Instance all interior shells."
+}, "Dev")
