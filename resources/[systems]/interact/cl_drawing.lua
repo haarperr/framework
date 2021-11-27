@@ -38,8 +38,9 @@ Citizen.CreateThread(function()
 					local coords = GetEntityCoords(data.entity)
 					if data.bone then
 						coords = data.entityType == 1 and GetPedBoneCoords(data.entity, data.bone) or GetWorldPositionOfEntityBone(data.entity, data.bone)
-					elseif data.offset then
-						coords = GetOffsetFromEntityInWorldCoords(data.entity, data.offset)
+					end
+					if data.offset then
+						coords = GetOffsetFromEntityInWorldCoords(data.entity, GetOffsetFromEntityGivenWorldCoords(data.entity, coords) + data.offset)
 					end
 					SetCoords(id, coords)
 				else
