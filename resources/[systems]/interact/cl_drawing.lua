@@ -81,6 +81,14 @@ function AddText(data)
 		data.entityType = GetEntityType(data.entity)
 	end
 
+	-- Temporary options.
+	if data.duration then
+		Citizen.CreateThread(function()
+			Citizen.Wait(data.duration)
+			RemoveText(data.id)
+		end)
+	end
+
 	-- Update NUI.
 	SendNUIMessage({
 		method = "addText",
