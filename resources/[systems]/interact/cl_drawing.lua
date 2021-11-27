@@ -1,5 +1,6 @@
 LabelCount = 0
 Labels = {}
+Threads = {}
 Id = 0
 
 CamCoords = nil
@@ -84,9 +85,16 @@ function AddText(data)
 
 	-- Temporary options.
 	if data.duration then
-		Citizen.CreateThread(function()
-			Citizen.Wait(data.duration)
+		local snowflake = GetGameTimer()
+		Threads[data.id] = snowflake
+		
+		Citizen.SetTimeout(data.duration, function()
+			if Threads[data.id] ~= snowflake then
+				return
+			end
+			
 			RemoveText(data.id)
+			Threads[data.id] = nil
 		end)
 	end
 
