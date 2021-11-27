@@ -20,6 +20,7 @@ function Main:BuildNavigation()
 	local door = nil
 	local hood = false
 	local trunk = false
+	local check = false
 
 	if CurrentVehicle and DoesEntityExist(CurrentVehicle) then
 		local seat = FindSeatPedIsIn(ped)
@@ -33,6 +34,8 @@ function Main:BuildNavigation()
 				text = "Ignition",
 				icon = "car_rental",
 			}
+
+			check = true
 		end
 
 		-- Doors.
@@ -72,11 +75,28 @@ function Main:BuildNavigation()
 			sub = seatOptions,
 		}
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
+		vehicle = NearestVehicle
+		
 		local nearestDoor, nearestDoorDist, nearestDoorCoords = GetClosestDoor(coords, NearestVehicle, false, true)
-		if not nearestDoor then goto skipDoor end
+		if not nearestDoor then
+			local handleBars = GetEntityBoneIndexByName(vehicle, "handlebars")
+			if handleBars ~= -1 then
+				local handleBarCoords = GetWorldPositionOfEntityBone(vehicle, handleBars)
+				local offset = GetOffsetFromEntityGivenWorldCoords(vehicle, handleBarCoords)
+
+				if #(coords - handleBarCoords) < Config.Navigation.Doors.Distances[-1] then
+					navigation.nearestDoor = -1
+					navigation.doorOffset = offset
+	
+					check = true
+				end
+			end
+			
+			goto skipDoor
+		end
 
 		local doorIndex = Doors[nearestDoor]
-		local doorOffset = GetOffsetFromEntityGivenWorldCoords(NearestVehicle, nearestDoorCoords)
+		local doorOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, nearestDoorCoords)
 		local doorNormal = #doorOffset > 0.001 and Normalize(vector3(doorOffset.x, doorOffset.y, 0.0)) or vector3(0.0, 0.0, 0.0)
 		
 		if doorIndex == 4 or doorIndex == 5 then
@@ -85,24 +105,27 @@ function Main:BuildNavigation()
 
 		-- Citizen.CreateThread(function()
 		-- 	for i = 1, 100 do
-		-- 		local c = GetOffsetFromEntityInWorldCoords(NearestVehicle, doorOffset)
+		-- 		local c = GetOffsetFromEntityInWorldCoords(vehicle, doorOffset)
 		-- 		DrawLine(c.x, c.y, c.z, coords.x, coords.y, coords.z, 255, 255, 0, 255)
 
 		-- 		Citizen.Wait(0)
 		-- 	end
 		-- end)
 
-		if #(GetOffsetFromEntityInWorldCoords(NearestVehicle, doorOffset) - coords) > (Config.Navigation.Doors.Distances[doorIndex] or Config.Navigation.Doors.Distances[-1]) then
+		if #(GetOffsetFromEntityInWorldCoords(vehicle, doorOffset) - coords) > (Config.Navigation.Doors.Distances[doorIndex] or Config.Navigation.Doors.Distances[-1]) then
 			doorIndex = nil
 		end
 
 		hood = doorIndex == 4
 		trunk = doorIndex == 5
 		door = not hood and not trunk and doorIndex
-		vehicle = NearestVehicle
 
 		navigation.nearestDoor = doorIndex
 		navigation.doorOffset = doorOffset
+
+		if door == 0 then
+			check = true
+		end
 
 		::skipDoor::
 	end
@@ -111,6 +134,28 @@ function Main:BuildNavigation()
 	if not vehicle then
 		self:CloseNavigation()
 		return
+	end
+	
+	-- Check distance.
+	local vehicleCoords = GetEntityCoords(vehicle)
+	local vehicleDist = #(vehicleCoords - coords)
+
+	-- Add check option.
+	if check then
+		options[#options + 1] = {
+			id = "vehicleCheck",
+			text = "Check",
+			icon = "info",
+		}
+	end
+
+	-- Carrying.
+	if not IsInVehicle and GetVehicleClass(vehicle) == 13 and vehicleDist < 3.0 then
+		options[#options + 1] = {
+			id = "vehicleCarry",
+			text = "Carry",
+			icon = "back_hand",
+		}
 	end
 
 	-- Doors!
@@ -176,6 +221,62 @@ function Main.update:Navigation()
 	end
 end
 
+function Main:CheckInfo(vehicle)
+	if self.infoEntity ~= vehicle then print("diff vehicle for info") return end
+
+	local state = (Entity(vehicle) or {}).state
+	if not state then print("no state for vehicle") return end
+	
+	local text = "<div style='max-width: 40vmin'>"
+	
+	-- Vin number.
+	if self.info and self.info.vin then
+		text = text..("<div style='background: rgb(20, 20, 20); color: white; padding: 8px; border-radius: 8px; display: inline-block'>%s</div>"):format(self.info.vin)
+	end
+	
+	-- Hotwired.
+	if state.hotwired then
+		text = text..("<br><i>Signs of hotwiring.</i>")
+	end
+
+	text = text.."</div>"
+
+	-- Get bone.
+	local bone
+	local steeringWheel = GetEntityBoneIndexByName(vehicle, "steeringwheel")
+	local handleBars = GetEntityBoneIndexByName(vehicle, "handlebars")
+
+	if steeringWheel ~= -1 then
+		bone = steeringWheel
+	elseif handleBars ~= -1 then
+		bone = handleBars
+	end
+
+	-- Remove text.
+	if self.text then
+		exports.interact:RemoveText(self.text)
+		self.text = nil
+	end
+	
+	-- Add text.
+	self.text = exports.interact:AddText({
+		id = "checkVehicle",
+		text = text,
+		bone = bone,
+		entity = vehicle,
+		offset = vector3(0.0, 0.1, 0.1),
+		transparent = true,
+		duration = 16000,
+		distance = 20.0,
+	})
+
+	-- -- Chat messsage.
+	-- TriggerEvent("chat:addMessage", {
+	-- 	html = text,
+	-- 	class = "system",
+	-- })
+end
+
 --[[ Listeners ]]--
 Main:AddListener("Enter", function(vehicle)
 	Main:BuildNavigation()
@@ -221,6 +322,20 @@ AddEventHandler("interact:onNavigate_vehicleBay", function(option)
 	if not vehicle then return end
 
 	Main:ToggleBay(vehicle)
+end)
+
+AddEventHandler("interact:onNavigate_vehicleCheck", function(option)
+	local vehicle = GetVehicle()
+	if not vehicle then return end
+
+	Main:CheckInfo(vehicle)
+end)
+
+AddEventHandler("interact:onNavigate_vehicleCarry", function(option)
+	local vehicle = GetVehicle()
+	if not vehicle or IsInVehicle then return end
+
+	Carry:Start(vehicle)
 end)
 
 AddEventHandler("interact:navigate", function(value)

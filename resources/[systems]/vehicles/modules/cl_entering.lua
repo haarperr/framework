@@ -35,7 +35,7 @@ function Entering:Activate(goToDriver)
 
 	-- Get vehicle.
 	local vehicle = GetNearestVehicle(coords, 8.0)
-	if not vehicle or not DoesEntityExist(vehicle) then return end
+	if not vehicle or not DoesEntityExist(vehicle) or IsEntityAttached(vehicle) then return end
 
 	-- Get model.
 	local model = GetEntityModel(vehicle)
