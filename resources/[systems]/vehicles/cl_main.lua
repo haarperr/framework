@@ -316,6 +316,8 @@ end)
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
 
+	Main.infoEntity = NetworkGetEntityFromNetworkId(netId)
+
 	if type(key) == "table" then
 		Main.info = key
 	else
