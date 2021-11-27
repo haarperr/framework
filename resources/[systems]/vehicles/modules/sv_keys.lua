@@ -11,6 +11,14 @@ function Main:ToggleEngine(source, netId)
 	local vin = vehicle:Get("vin") or ""
 	if vin == "" then return end
 
+	-- Check for hotwire.
+	local state = (Entity(entity) or {}).state
+
+	if state and state.hotwired then
+		value = true
+		goto sendEvent
+	end
+
 	-- No key, check if player has one!
 	if value and not hasKey then
 		local playerContainer = exports.inventory:GetPlayerContainer(source, true)
@@ -39,6 +47,8 @@ function Main:ToggleEngine(source, netId)
 
 		vehicle:Set("key", false)
 	end
+
+	::sendEvent::
 
 	TriggerClientEvent("vehicles:toggleEngine", source, netId, value)
 end
