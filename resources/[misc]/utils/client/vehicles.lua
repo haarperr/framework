@@ -93,6 +93,16 @@ function FindFirstFreeVehicleSeat(vehicle)
 	end
 end
 
+function IsVehicleOccupied(vehicle)
+	local model = GetEntityModel(vehicle)
+	for i = -1, GetVehicleModelNumberOfSeats(model) - 2 do
+		if not IsVehicleSeatFree(vehicle, i) then
+			return true
+		end
+	end
+	return false
+end
+
 function GetFacingVehicle(ped, maxDist)
 	-- Not facing vehicle while inside one.
 	if IsPedInAnyVehicle(ped) then
