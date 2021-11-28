@@ -10,8 +10,8 @@ function Main:UpdateFrame()
 	self:UpdateMelee()
 
 	-- Variables.
-	-- local isArmedMelee = IsPedArmed(Ped, 1)
-	-- local isArmedExplosives = IsPedArmed(Ped, 2)
+	local isArmedExplosives = IsPedArmed(Ped, 2)
+	local isArmedMelee = IsPedArmed(Ped, 1)
 	local isArmedOther = IsPedArmed(Ped, 4)
 
 	-- Disable dispatch services.
@@ -20,7 +20,7 @@ function Main:UpdateFrame()
 	end
 
 	-- Disable unarmed attacks.
-	if isArmedOther then
+	if (isArmedOther or isArmedExplosives or not IsControlPressed(0, 25)) and not isArmedMelee then
 		for _, control in ipairs(Config.UnarmedDisabled) do
 			DisableControlAction(0, control)
 		end
@@ -86,14 +86,19 @@ end
 
 function Main:UpdateMelee()
 	-- Update melee.
-	if IsPedPerformingMeleeAction(Ped) then
-		self.lastMelee = GetGameTimer()
+	for _, control in ipairs(Config.UnarmedDisabled) do
+		if IsControlJustPressed(0, control) then
+			self.lastMelee = GetGameTimer()
+			break
+		end
 	end
 
 	-- Cooldown disable.
 	local disableMelee = GetGameTimer() - (self.lastMelee or 0) < Config.Melee.Cooldown
 	if disableMelee then
-		DisablePlayerFiring(Player)
+		for _, control in ipairs(Config.UnarmedDisabled) do
+			DisableControlAction(0, control)
+		end
 	end
 end
 

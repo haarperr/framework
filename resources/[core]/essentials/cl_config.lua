@@ -1,6 +1,6 @@
 Config = {
 	Melee = {
-		Cooldown = 300,
+		Cooldown = 500,
 	},
 	DispatchServices = {
 		[1] = false, -- PoliceAutomobile
