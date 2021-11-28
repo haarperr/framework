@@ -233,10 +233,21 @@ function Main:CheckInfo(vehicle)
 	if self.info and self.info.vin then
 		text = text..("<div style='background: rgb(20, 20, 20); color: white; padding: 8px; border-radius: 8px; display: inline-block'>%s</div>"):format(self.info.vin)
 	end
+
+	-- Ignition.
+	if self.info.key then
+		text = text..("<br>• Key in the ignition.")
+	elseif self.info.starter then
+		text = text..("<br>• Screwdriver in the ignition.")
+	end
 	
 	-- Hotwired.
 	if state.hotwired then
-		text = text..("<br><i>Signs of hotwiring.</i>")
+		text = text..("<br>• Wires hanging loose wrapped with electrical tape.")
+	elseif state.stage == 1 then
+		text = text..("<br>• Wires hanging loose.")
+	elseif state.stage == 2 then
+		text = text..("<br>• Wires hanging loose are stripped.")
 	end
 
 	text = text.."</div>"
