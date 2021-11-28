@@ -7,12 +7,12 @@ function Main:ToggleEngine(source, netId)
 
 	local value = not GetIsVehicleEngineRunning(entity)
 	local hasKey = vehicle:Get("key")
-	local starter = not hasKey and vehicle:Get("starter")
+	local starter = not hasKey and vehicle:Get("starter") or nil
 
 	local vin = vehicle:Get("vin") or ""
 	if vin == "" then return end
 
-	local success = hasKey or starter ~= nil
+	local success = hasKey or starter
 
 	-- Get state.
 	local state = (Entity(entity) or {}).state
@@ -29,11 +29,10 @@ function Main:ToggleEngine(source, netId)
 			TriggerClientEvent("playSound", source, "keys", 0.5)
 	
 			vehicle:Set("key", true)
-		end
-	end
 
-	-- Has key, take it!
-	if not value and hasKey then
+			hasKey = true
+		end
+	elseif not value and hasKey then
 		exports.inventory:GiveItem(source, {
 			item = "Vehicle Key",
 			fields = { vin },
@@ -47,7 +46,7 @@ function Main:ToggleEngine(source, netId)
 	end
 
 	-- Try hotwiring.
-	if state and state.hotwired then
+	if not hasKey and state and state.hotwired then
 		if value and not starter then
 			local playerContainer = exports.inventory:GetPlayerContainer(source, true)
 			if not playerContainer then return end
@@ -58,9 +57,7 @@ function Main:ToggleEngine(source, netId)
 
 				success = true
 			end
-		end
-
-		if not value and starter then
+		elseif not value and starter then
 			exports.inventory:GiveItem(source, {
 				item = "Screwdriver",
 				durability = starter < 0.99 and starter or nil,
