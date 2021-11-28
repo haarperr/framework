@@ -7,12 +7,12 @@ function Main:ToggleEngine(source, netId)
 
 	local value = not GetIsVehicleEngineRunning(entity)
 	local hasKey = vehicle:Get("key")
-	local starter = vehicle:Get("starter")
+	local starter = not hasKey and vehicle:Get("starter")
 
 	local vin = vehicle:Get("vin") or ""
 	if vin == "" then return end
 
-	local success = false
+	local success = hasKey or starter ~= nil
 
 	-- Get state.
 	local state = (Entity(entity) or {}).state
@@ -47,7 +47,7 @@ function Main:ToggleEngine(source, netId)
 	end
 
 	-- Try hotwiring.
-	if not success and state and state.hotwired then
+	if state and state.hotwired then
 		if value and not starter then
 			local playerContainer = exports.inventory:GetPlayerContainer(source, true)
 			if not playerContainer then return end
