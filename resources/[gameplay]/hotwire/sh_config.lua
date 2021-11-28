@@ -1,12 +1,18 @@
 Config = {
+	FinalStage = 3,
+	Decay = { 0.05, 0.1 },
 	Items = {
-		["Lockpick"] = {
-			MaxLevel = 2,
-			Scale = 1.0,
+		["Screwdriver"] = {
+			Stage = 1,
+			Text = "You expose the ignition wires.",
 		},
-		["Hotwire Kit"] = {
-			MaxLevel = 4,
-			Scale = 0.75,
+		["Wire Cutters"] = {
+			Stage = 2,
+			Text = "You strip the ignition wires.",
+		},
+		["Electrical Tape"] = {
+			Stage = 3,
+			Text = "You tie the ignition wires together.",
 		},
 	},
 	Anim = {
