@@ -33,16 +33,18 @@ function Main:ToggleEngine(source, netId)
 			hasKey = true
 		end
 	elseif not value and hasKey then
-		exports.inventory:GiveItem(source, {
+		local gaveItem, reason = table.unpack(exports.inventory:GiveItem(source, {
 			item = "Vehicle Key",
 			fields = { vin },
-		})
+		}))
 
-		TriggerClientEvent("playSound", source, "keys", 0.5)
+		if gaveItem then
+			TriggerClientEvent("playSound", source, "keys", 0.5)
 
-		vehicle:Set("key", false)
+			vehicle:Set("key", false)
 
-		success = true
+			success = true
+		end
 	end
 
 	-- Try hotwiring.
@@ -58,14 +60,16 @@ function Main:ToggleEngine(source, netId)
 				success = true
 			end
 		elseif not value and starter then
-			exports.inventory:GiveItem(source, {
+			local gaveItem, reason = table.unpack(exports.inventory:GiveItem(source, {
 				item = "Screwdriver",
 				durability = starter < 0.99 and starter or nil,
-			})
+			}))
 
-			success = true
+			if gaveItem then
+				success = true
 
-			vehicle:Set("starter", nil)
+				vehicle:Set("starter", nil)
+			end
 		end
 	end
 
