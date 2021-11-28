@@ -6,6 +6,11 @@ function Preview:LoadContainer(container)
 	-- Clear props.
 	self:ClearAll()
 
+	-- Update cache.
+	self.containerId = container.id
+	self.ped = PlayerPedId()
+	self.visible = IsEntityVisibleToScript(self.ped)
+
 	-- Update slots.
 	for slotId, slot in pairs(container.slots) do
 		local item = exports.inventory:GetItem(slot.item_id) or {}
@@ -13,10 +18,6 @@ function Preview:LoadContainer(container)
 			self:UpdateSlot(tonumber(slotId), slot.id, item)
 		end
 	end
-
-	-- Update cache.
-	self.containerId = container.id
-	self.ped = PlayerPedId()
 end
 
 function Preview:UpdateSlot(slot, id, item)
@@ -50,6 +51,8 @@ function Preview:UpdateSlot(slot, id, item)
 end
 
 function Preview:Create(id, item)
+	if not self.visible then return end
+	
 	-- Get item.
 	if type(item) ~= "table" or not item.weapon or not item.name then return end
 	
@@ -197,9 +200,12 @@ end
 
 function Preview:UpdatePed()
 	local ped = PlayerPedId()
-	if self.ped ~= ped then
+	local visible = IsEntityVisibleToScript(ped)
+
+	if self.ped ~= ped or self.visible ~= visible then
 		self:ClearAll(true)
 		self.ped = ped
+		self.visible = visible
 	end
 end
 
