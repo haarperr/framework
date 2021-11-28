@@ -17,8 +17,11 @@ span {
 	
 	color: white;
 
-	text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8);
 	text-align: center;
+	text-shadow:
+		0px 0px 2px rgba(0, 0, 0, 0.8),
+		2px 2px 1px rgba(0, 0, 0, 0.8)
+	;
 }
 
 #content {
@@ -98,6 +101,7 @@ span {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	vertical-align: middle;
 	
 	width: 20%;
 	height: 20%;
@@ -106,8 +110,9 @@ span {
 	transform: translate(-50%, 0%);
 	z-index: 3;
 
-	/* background: red;
-	border-radius: 100%; */
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+	border-radius: 100%;
 	
 	font-size: 1.4em;
 }
@@ -124,12 +129,15 @@ span {
 	align-items: center;
 	justify-content: center;
 	
-	width: auto;
-	height: auto;
-	bottom: 30%;
-	left: 50%;
-	transform: translate(-50%, 0%);
+	width: 15%;
+	height: 15%;
+	bottom: 25%;
+	right: 25%;
 	z-index: 3;
+
+	background: rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.5);
+	border-radius: 100%;
 	
 	font-size: 1.0em;
 }
