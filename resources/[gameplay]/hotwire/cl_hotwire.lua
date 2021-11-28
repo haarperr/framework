@@ -10,10 +10,14 @@ function Main:UseItem(item, slot, cb)
 	local vehicle = GetVehiclePedIsIn(ped)
 	if not DoesEntityExist(vehicle or 0) or GetPedInVehicleSeat(vehicle, -1) ~= ped then return end
 	
-	-- Check state.
+	-- Get state.
 	local state = (Entity(vehicle) or {}).state
 	if not state then return end
 	
+	-- Check already hotwired.
+	if state.hotwired then return end
+
+	-- Check stage.
 	local stage = tonumber(state.stage) or 0
 	if settings.Stage - 1 ~= stage then return end
 	
@@ -32,8 +36,7 @@ function Main:UseItem(item, slot, cb)
 	TriggerEvent("inventory:toggle", false)
 	
 	-- Play minigame.
-	local success = exports.quickTime:Begin()
-	-- local success = exports.quickTime:Begin(tier.QuickTime)
+	local success = exports.quickTime:Begin(tier.QuickTime)
 	
 	-- Stop emote.
 	exports.emotes:Stop(emote)
@@ -43,6 +46,13 @@ function Main:UseItem(item, slot, cb)
 		stage = stage + 1
 		
 		TriggerServerEvent("hotwire:setStage", NetworkGetNetworkIdFromEntity(vehicle), stage, slot.slot_id, item.name)
+
+		if settings.Text then
+			TriggerEvent("chat:notify", {
+				class = "inform",
+				text = settings.Text,
+			})
+		end
 	end
 end
 
