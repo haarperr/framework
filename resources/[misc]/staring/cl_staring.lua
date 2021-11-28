@@ -32,6 +32,7 @@ function Main:Update()
 				text = ("<span style='font-size: 2em'>%s:%s</span>"):format(serverId, Player(serverId).state.userId),
 				entity = ped,
 				offset = vector3(0, 0, 1.5),
+				bone = 0,
 			})
 		end
 	end
