@@ -50,6 +50,8 @@ function State:Equip(item, slot)
 	local _group = GetWeapontypeGroup(weapon)
 	local group = Config.Groups[_group] or {}
 	self.group = group
+	
+	print("group", _group, json.encode(group))
 
 	-- Check equip.
 	local isEquipped = self.equipped == weapon
