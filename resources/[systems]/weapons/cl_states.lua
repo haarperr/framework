@@ -129,15 +129,15 @@ function State:Remove(skipUpdate)
 	SetCurrentPedWeapon(ped, `WEAPON_UNARMED`, true)
 	RemoveAllPedWeapons(ped, true)
 
-	self.item = nil
-	self.group = nil
-	self.currentSlot = nil
-	self.equipped = nil
-
 	local slot = self.currentSlot
 	if slot ~= nil and not skipUpdate then
 		Preview:UpdateSlot(tonumber(slot.slot_id), slot.id, exports.inventory:GetItem(slot.item_id))
 	end
+	
+	self.item = nil
+	self.group = nil
+	self.currentSlot = nil
+	self.equipped = nil
 end
 
 function State:Set(weapon)
