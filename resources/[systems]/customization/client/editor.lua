@@ -585,6 +585,8 @@ function Editor:Update()
 	for _, player in ipairs(GetActivePlayers()) do
 		if player ~= localPlayer then
 			SetPlayerInvisibleLocally(player)
+		else
+			SetPlayerVisibleLocally(player)
 		end
 	end
 end
@@ -616,12 +618,16 @@ function Editor:Toggle(value, filter)
 		self.headingOffset = 0.0
 		
 		self:Build(filter)
-	end
 
+		ped = PlayerPedId()
+	end
+	
 	self.open = value
 	UI:Focus(value)
-	
-	NetworkSetEntityInvisibleToNetwork(PlayerId(), value)
+
+	SetEntityVisible(ped, not value)
+	FreezeEntityPosition(ped, value)
+	SetEntityCollision(ped, not value, not value)
 end
 
 function Editor:SetTarget(target)

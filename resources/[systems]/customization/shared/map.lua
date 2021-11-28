@@ -804,6 +804,10 @@ Map = {
 				SetModelAsNoLongerNeeded(name)
 
 				if isMenu then
+					SetEntityVisible(ped, false)
+					FreezeEntityPosition(ped, true)
+					SetEntityCollision(ped, false, false)
+
 					Editor:ClearTarget()
 				end
 			end,
