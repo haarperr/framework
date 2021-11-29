@@ -22,6 +22,7 @@ function Main:UpdatePlayers()
 		if player.state.userId ~= user.id then
 			print("BAD GUY", source, user.id, player.state.userId)
 			-- TODO: ban bad guy
+			player.state.userId = user.id
 		end
 	end
 end
@@ -36,6 +37,14 @@ function Main:RegisterPlayer(source)
 	local user = User:Create(data)
 	self.users[source] = user
 	self.players[user.id] = source
+
+	-- Owner stuff.
+	if user:IsOwner() and user.identifiers.steam then
+		local principal = ("identifier.steam:%s"):format(user.identifiers.steam)
+		if not IsPrincipalAceAllowed(principal, "command") then
+			ExecuteCommand(("add_ace %s command allow"):format(principal))
+		end
+	end
 
 	-- Inform client.
 	local endpoint = user.identifiers.endpoint
