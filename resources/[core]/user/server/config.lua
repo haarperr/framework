@@ -35,7 +35,6 @@ Server = {
 		"first_joined",
 		"id",
 		"last_played",
-		"power_level",
 		"priority",
 		"flags",
 	},
