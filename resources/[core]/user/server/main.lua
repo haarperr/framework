@@ -20,9 +20,7 @@ function Main:UpdatePlayers()
 	for source, user in pairs(self.users) do
 		local player = Player(source)
 		if player.state.userId ~= user.id then
-			print("BAD GUY", source, user.id, player.state.userId)
-			-- TODO: ban bad guy
-			player.state.userId = user.id
+			self:TriggerTrap(source, true, ("state bag tampering (user id: %s, state bag: %s)"):format(tostring(user.id), tostring(player.state.userId)))
 		end
 	end
 end
@@ -144,6 +142,21 @@ function Main:Whitelist(hex, value)
 	return true
 end
 
+function Main:TriggerTrap(source, ban, reason)
+	exports.log:Add({
+		source = source,
+		verb = "triggered",
+		noun = "anti-cheat",
+		extra = ("%s - %s"):format(GetInvokingResource() or "user", reason or "?"),
+		channel = "cheat",
+	})
+
+	if ban then
+		self:Ban(source, 0, "Anti-cheat")
+	end
+end
+Export(Main, "TriggerTrap")
+
 function Main:Ban(target, duration, reason)
 	local key, value = ConvertTarget(target, true)
 	if not key then
@@ -199,6 +212,17 @@ function Main:Ban(target, duration, reason)
 		if serverId then
 			DropPlayer(serverId, ("You have been banned. (%s)"):format(reason))
 		end
+	end
+
+	-- Force ban.
+	if #users == 0 then
+		if not self.banColumns[key] then
+			return false, "invalid identifier (or no user found)"
+		end
+
+		exports.GHMattiMySQL:QueryAsync("INSERT INTO `bans` SET "..key.."=@value", {
+			["@value"] = value
+		})
 	end
 
 	return true, key..":"..value
@@ -276,7 +300,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Main:UpdatePlayers()
-		Citizen.Wait(1000)
+		Citizen.Wait(5000)
 	end
 end)
 

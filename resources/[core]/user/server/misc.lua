@@ -8,7 +8,7 @@ function ConvertTarget(target, checkPlayers)
 	local key, value
 	local targetN = tonumber(target)
 	local targetUser = checkPlayers and targetN and Main.users[targetN]
-	local targetId = target:sub(1, 1) == ":" and tonumber(target:sub(2))
+	local targetId = type(target) == "string" and target:sub(1, 1) == ":" and tonumber(target:sub(2))
 
 	if targetUser then
 		key = "steam"
