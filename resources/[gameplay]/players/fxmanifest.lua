@@ -7,6 +7,7 @@ shared_scripts {
 }
 
 client_scripts {
+	'@utils/client/misc.lua',
 	'cl_players.lua',
 	'modules/**/cl_*.lua',
 }
