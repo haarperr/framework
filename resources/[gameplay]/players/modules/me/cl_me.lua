@@ -26,10 +26,6 @@ local bones = {
 }
 
 --[[ Functions ]]--
-local function CreateText(texts, text)
-
-end
-
 local function UpdateText(entity)
 	local lastTexts = texts[entity]
 	if lastTexts then
