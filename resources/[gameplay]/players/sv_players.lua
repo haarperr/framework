@@ -105,3 +105,8 @@ RegisterNetEvent("grids:enter"..Config.GridSize, function(gridId, nearbyGrids)
 
 	Main:SetGrid(source, gridId)
 end)
+
+--[[ Exports ]]--
+exports("Broadcast", function(...)
+	Main:Broadcast(...)
+end)
