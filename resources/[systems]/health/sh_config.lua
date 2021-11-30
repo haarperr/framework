@@ -401,11 +401,16 @@ Config = {
 	},
 	Treatment = {
 		Anims = {
-			Self = { Dict = "clothingshoes", Name = "try_shoes_base", Flag = 1, Locked = true },
+			Self = {
+				Sequence = {
+					{ Dict = "special_ped@andy_moon@intro", Name = "idle_intro" },
+					{ Dict = "special_ped@andy_moon@base", Name = "base", Flag = 1, Locked = true },
+				},
+			},
 		},
 		Camera = {
 			Offset = vector3(0.8, 1.2, 0.4),
-			Target = vector3(0.0, 0.0, -0.1),
+			Target = vector3(0.0, 0.0, 0.0),
 			Fov = 70.0,
 		},
 	},
