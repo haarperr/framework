@@ -79,6 +79,26 @@ function Emote:Play(settings)
 			settings.Lock or false,
 			settings.Lock or false
 		)
+	elseif settings.Advanced then
+		local coords = settings.Coords or GetEntityCoords(ped)
+		local rotation = settings.Rotation or GetEntityRotation(ped)
+
+		TaskPlayAnimAdvanced(
+			ped,
+			settings.Dict,
+			settings.Name,
+			coords.x,
+			coords.y,
+			coords.z,
+			rotation.x,
+			rotation.y,
+			rotation.z,
+			settings.BlendIn or settings.BlendSpeed or 2.0,
+			settings.BlendOut or settings.BlendSpeed or 2.0,
+			settings.Duration or -1,
+			settings.Flag or 0,
+			settings.Rate or 0.0
+		)
 	end
 
 	-- Create props.
