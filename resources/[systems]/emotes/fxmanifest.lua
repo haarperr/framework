@@ -26,8 +26,10 @@ client_scripts {
 	'cl_movement.lua',
 	'cl_commands.lua',
 	'cl_animations.lua',
+	'cl_sync.lua',
 }
 
 server_scripts {
-	
+	'@utils/server/players.lua',
+	'sv_emotes.lua',
 }

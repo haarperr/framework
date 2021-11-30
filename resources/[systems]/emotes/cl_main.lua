@@ -70,10 +70,20 @@ end
 function Main:Play(data, force)
 	-- Load prefab emote from string.
 	if type(data) == "string" then
+		local name = data
+
 		data = self.emotes[data]
-	elseif not data then
-		return
+		if not data then return end
+
+		if data.Source and data.Target then
+			TriggerServerEvent("emotes:invite", name)
+
+			return
+		end
 	end
+
+	-- Check data.
+	if type(data) ~= "table" then return end
 
 	-- Check weapon.
 	if data.Unarmed or data.Armed then
@@ -87,6 +97,25 @@ function Main:Play(data, force)
 		end
 
 		if not data then return end
+	end
+
+	-- Get ped.
+	local ped = PlayerPedId()
+	
+	-- Set coords.
+	if data.ServerId then
+		local player = GetPlayerFromServerId(data.ServerId)
+		local playerPed = GetPlayerPed(player)
+		local coords = data.Offset and GetOffsetFromEntityInWorldCoords(playerPed, data.Offset)
+		local heading = data.Heading and GetEntityHeading(playerPed) + data.Heading
+
+		if coords then
+			data.Coords = coords
+		end
+
+		if heading then
+			data.Heading = heading
+		end
 	end
 
 	-- Clear queue.
@@ -268,6 +297,22 @@ end)
 --[[ Events ]]--
 AddEventHandler("emotes:clientStart", function()
 	Main:Init()
+end)
+
+RegisterNetEvent("emotes:playData", function(data, force, time)
+	if time then
+		data.Freeze = true
+
+		local ped = PlayerPedId()
+		ClearPedTasksImmediately(ped)
+		FreezeEntityPosition(ped, true)
+		
+		while GetNetworkTimeAccurate() < time do
+			Citizen.Wait(0)
+		end
+	end
+
+	Main:Play(data, force)
 end)
 
 RegisterNetEvent("instances:join", function(id)

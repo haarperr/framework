@@ -51,6 +51,22 @@ function Emote:Play(settings)
 	local ped = settings.ped or PlayerPedId()
 	self.ped = ped
 
+	-- Freezing.
+	if settings.Freeze then
+		FreezeEntityPosition(ped, true)
+		self.frozen = true
+	end
+
+	-- Set coords.
+	if settings.Coords then
+		SetEntityCoordsNoOffset(ped, settings.Coords.x, settings.Coords.y, settings.Coords.z, true)
+	end
+
+	-- Set heading.
+	if settings.Heading then
+		SetEntityHeading(ped, settings.Heading)
+	end
+
 	-- Play secondary emote.
 	if settings.Secondary then
 		self:Play(settings.Secondary)
@@ -136,6 +152,8 @@ end
 
 function Emote:Remove()
 	print("removing", self.id)
+	
+	local ped = PlayerPedId()
 
 	-- Trigger event.
 	TriggerEvent("emotes:cancel", self.id)
@@ -143,6 +161,11 @@ function Emote:Remove()
 	-- Clear cache.
 	if self.id then
 		Main.playing[self.id] = nil
+	end
+
+	-- Unfreeze.
+	if self.frozen then
+		FreezeEntityPosition(ped, false)
 	end
 	
 	-- Clear props.
