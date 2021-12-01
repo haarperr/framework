@@ -331,6 +331,16 @@ Citizen.CreateThread(function()
 		DeltaTime = GetGameTimer() - lastUpdate
 		MinutesToTicks = 1.0 / 60000.0 * DeltaTime
 
+		-- Update effects.
+		for _, effect in ipairs(Config.Effects) do
+			if effect.Passive then
+				local value = Main.effects[effect.Name]
+				if value then
+					Main:SetEffect(effect.Name, value + MinutesToTicks / effect.Passive)
+				end
+			end
+		end
+
 		-- Update functions.
 		for name, func in pairs(Main.update) do
 			func(Main)

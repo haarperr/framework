@@ -11,8 +11,6 @@ function Main.update:Stress()
 
 		self.nextStress = GetGameTimer() + delay
 	end
-
-	self:AddEffect("Stress", MinutesToTicks / -Config.Stress.PassiveDegen)
 end
 
 --[[ Events ]]--

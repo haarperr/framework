@@ -260,6 +260,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = 60.0 * -3.0,
 		},
 		{
 			Name = "Fatigue",
@@ -269,6 +270,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = 30.0,
 		},
 		{
 			Name = "Fracture",
@@ -451,7 +453,6 @@ Config = {
 		RandomDelay = { 0, 2000 },
 		Intensity = 0.4,
 		PerShot = 0.005,
-		PassiveDegen = 60.0 * 3.0, -- How long it takes for 100% stress to degenerate, in minutes.
 	},
 	Armor = {
 		Duration = 8000,
