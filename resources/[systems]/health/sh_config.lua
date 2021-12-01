@@ -270,7 +270,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
-			Passive = 30.0,
+			Passive = -30.0,
 		},
 		{
 			Name = "Fracture",
@@ -289,6 +289,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = -5.0,
 		},
 		{
 			Name = "Comfort",
@@ -298,6 +299,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = -60.0,
 		},
 		{
 			Name = "Speed",
@@ -325,6 +327,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = -30.0,
 		},
 		{
 			Name = "Drug",
@@ -334,6 +337,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = 60.0 * -3.0,
 		},
 		{
 			Name = "Oxygen",
@@ -352,6 +356,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = -30.0,
 		},
 		{
 			Name = "Scuba",
