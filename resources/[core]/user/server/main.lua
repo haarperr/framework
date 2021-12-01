@@ -133,8 +133,13 @@ function Main:Whitelist(hex, value)
 	Queue.whitelist[hex] = value and true or nil
 
 	exports.GHMattiMySQL:QueryAsync((
-		value and "INSERT INTO `users` SET `steam`=@steam ON DUPLICATE KEY UPDATE `priority`=0"
-		or "UPDATE `users` SET `priority`=-128 WHERE `steam`=@steam"
+		value and [[
+			IF EXISTS (SELECT 1 FROM `users` WHERE `steam`=@steam) THEN
+				UPDATE `users` SET `priority`=0 WHERE `steam`=@steam;
+			ELSE
+				INSERT INTO `users` SET `steam`=@steam;
+			END IF;
+		]] or "UPDATE `users` SET `priority`=-128 WHERE `steam`=@steam"
 	), {
 		["@steam"] = hex,
 	})
