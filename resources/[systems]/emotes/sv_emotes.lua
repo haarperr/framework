@@ -112,3 +112,12 @@ end)
 AddEventHandler("emotes:start", function()
 	Main:Init()
 end)
+
+--[[ Exports ]]--
+exports("PlayShared", function(...)
+	Main:PlayShared(...)
+end)
+
+exports("Invite", function(...)
+	Main:Invite(...)
+end)
