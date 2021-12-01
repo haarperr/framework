@@ -58,7 +58,7 @@ function GetHex(key)
 	key = key:lower()
 
 	if key:match(":") then
-		local key, value = GetIdentifiers(key)
+		local _key, value = GetIdentifiers(key)
 		if value then
 			key = value
 		else
