@@ -1,6 +1,6 @@
 exports.chat:RegisterCommand("a:cuff", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
-	if not target or target <= 0 then return end
+	if not target or target <= 0 then cb("error", "Invalid target!") return end
 
 	exports.log:Add({
 		source = source,
@@ -10,6 +10,8 @@ exports.chat:RegisterCommand("a:cuff", function(source, args, command, cb)
 	})
 
 	Restraints:Finish(target, "Handcuffs")
+
+	cb("success", "Cuffed!")
 end, {
 	description = "Force somebody into cuffs.",
 	parameters = {
@@ -19,7 +21,7 @@ end, {
 
 exports.chat:RegisterCommand("a:uncuff", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
-	if not target or target <= 0 then return end
+	if not target or target <= 0 then cb("error", "Invalid target!") return end
 
 	exports.log:Add({
 		source = source,
@@ -29,6 +31,8 @@ exports.chat:RegisterCommand("a:uncuff", function(source, args, command, cb)
 	})
 
 	Restraints:Finish(target)
+
+	cb("success", "Uncuffed!")
 end, {
 	description = "Free somebody from cuffs.",
 	parameters = {
