@@ -292,3 +292,7 @@ function IsVehicleEngineVisible(vehicle)
 	
 	return GetVehicleDoorAngleRatio(vehicle, engineDoor == "boot" and 5 or 4) > 0.5, engineDoor
 end
+
+function IsVehicleDoorOpen(vehicle, doorIndex)
+	return not GetIsDoorValid(vehicle, doorIndex) or IsVehicleDoorDamaged(vehicle, doorIndex) or GetVehicleDoorAngleRatio(vehicle, doorIndex) > 0.5
+end
