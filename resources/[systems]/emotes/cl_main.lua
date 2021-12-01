@@ -15,10 +15,17 @@ end
 
 function Main:Update()
 	local ped = PlayerPedId()
+	local ragdoll = IsPedRagdoll(ped) or nil
+	local wasCancelled = false
+
+	if self.ragdoll ~= ragdoll then
+		self.ragdoll = ragdoll
+		wasCancelled = not ragdoll
+	end
 
 	for id, emote in pairs(self.playing) do
 		local settings = emote.settings or {}
-		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3)
+		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3) and not wasCancelled
 
 		if
 			not emote.noAutoplay and

@@ -21,7 +21,6 @@ function Main:Invite(serverId, name)
 		text = text,
 	}
 	
-	
 	Citizen.SetTimeout(12000, function()
 		self.sync[serverId] = nil
 	end)
