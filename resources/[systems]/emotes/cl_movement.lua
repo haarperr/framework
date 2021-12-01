@@ -138,6 +138,10 @@ function Main:UpdatePointing()
 
 		self.lastState = GetGameTimer()
 	end
+
+	if IsDisabledControlJustPressed(0, 24) then
+		state:set("pointAndClick", GetNetworkTime(), true)
+	end
 end
 
 --[[ Threads ]]--
