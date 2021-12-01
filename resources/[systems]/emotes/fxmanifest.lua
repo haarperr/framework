@@ -19,6 +19,7 @@ shared_scripts {
 client_scripts {
 	'@utils/client/entities.lua',
 	'@utils/client/misc.lua',
+	'@utils/client/vectors.lua',
 	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
 	'cl_navigation.lua',
