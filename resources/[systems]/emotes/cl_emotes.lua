@@ -138,7 +138,7 @@ function Emote:Play(settings)
 			local entity = CreateObject(v.Model, coords.x, coords.y, coords.z, true, true, false)
 			local offset = v.Offset or { 0, 0, 0, 0, 0, 0}
 
-			SetEntityCollision(entity, false, false)
+			SetEntityCollision(entity, v.Collision or false, v.Collision or false)
 			AttachEntityToEntity(entity, ped, GetPedBoneIndex(ped, v.Bone), offset[1], offset[2], offset[3], offset[4], offset[5], offset[6], false, false, true, true, 0, true)
 			SetModelAsNoLongerNeeded(v.Model)
 
