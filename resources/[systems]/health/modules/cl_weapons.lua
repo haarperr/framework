@@ -42,7 +42,7 @@ local funcs = {
 	[10] = function(bone, weapon, weaponDamage)
 		-- Electric.
 		if weapon == `WEAPON_STUNGUN` then
-			bone:TakeDamage(GetRandomFloatInRange(0.05, 0.1))
+			bone:TakeDamage(GetRandomFloatInRange(0.1, 0.2))
 			bone:ApplyBleed(GetRandomFloatInRange(0.1, 0.2))
 
 			Main:AddEffect("Fatigue", GetRandomFloatInRange(0.2, 0.3))
@@ -78,6 +78,8 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local weaponDamage = GetWeaponDamage(weapon) or 0.0
 	local damageType = GetWeaponDamageType(weapon) or 0
 	local func = funcs[damageType]
+
+	print("damage type", damageType, "bone", bone and bone.Name)
 
 	if func then
 		func(bone, weapon, weaponDamage)
