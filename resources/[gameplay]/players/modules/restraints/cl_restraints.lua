@@ -115,10 +115,8 @@ end
 
 --[[ Events: Net ]]--
 RegisterNetEvent("players:restrainFinish", function(name)
-	local info = Restraints.items[name]
-	if not info then return end
-
-	if info.Restraint then
+	local info = name and Restraints.items[name]
+	if info and info.Restraint then
 		Restraints:Start(name)
 	else
 		Restraints:Stop()

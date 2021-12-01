@@ -36,17 +36,14 @@ function Restraints:UseItem(source, target, slotId)
 	
 	-- Timeout to finish usage.
 	Citizen.SetTimeout(info.Duration or 0, function()
-		Restraints:Finish(source, target, name)
+		Restraints:Finish(target, name)
 	end)
 
 	return info.Restraint and 1 or 2
 end
 
-function Restraints:Finish(source, target, name)
-	-- Get info/state.
-	local info = self.items[name]
-	if not info then return end
-
+function Restraints:Finish(target, name)
+	local info = name and self.items[name]
 	local state = self.players[target]
 
 	-- Check resisting.
@@ -56,7 +53,7 @@ function Restraints:Finish(source, target, name)
 	end
 
 	-- Reset state.
-	if not info.Restraint then
+	if not info or not info.Restraint then
 		self.players[target] = nil
 	end
 
