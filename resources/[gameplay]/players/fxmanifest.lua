@@ -4,6 +4,7 @@ game 'gta5'
 shared_scripts {
 	'@grids/shared/grids.lua',
 	'sh_config.lua',
+	'modules/**/sh_*.lua',
 }
 
 client_scripts {

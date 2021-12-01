@@ -34,6 +34,9 @@ function Main:UpdateFrame()
 
 	local zoomMode = GetFollowPedCamViewMode(Ped)
 
+	-- Stun gun/taze time.
+	SetPedMinGroundTimeForStungun(Ped, 5000)
+
 	-- Anti combat roll/jump spam.
 	local canJump = not self.lastJump or GetGameTimer() - self.lastJump > 4000
 
