@@ -12,6 +12,8 @@ function Escort:Start(source, target)
 end
 
 function Escort:Stop(source)
+	self.players[source] = nil
+	
 	TriggerClientEvent("players:escort", source)
 
 	return true
