@@ -83,7 +83,7 @@ function Queue:Connect(source, name, setKickReason, deferrals)
 	-- Get endpoint.
 	local endpoint = GetPlayerEndpoint(source)
 	if not endpoint then
-		print(("no endpoint for [%S]"):format(source))
+		print(("no endpoint for [%s]"):format(source))
 		return
 	end
 	
