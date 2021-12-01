@@ -53,7 +53,7 @@ Config = {
 		`classichouse_shell`,
 		`classichouse2_shell`,
 		`classichouse3_shell`,
-		-- `container_shell`,
+		`container_shell`,
 		-- `k4_mansion_shell`,
 		-- `k4_mansion2_shell`,
 		-- `k4_mansion3_shell`,
