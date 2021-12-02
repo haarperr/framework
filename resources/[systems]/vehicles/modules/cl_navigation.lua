@@ -226,7 +226,13 @@ function Main:CheckInfo(vehicle)
 
 	local state = (Entity(vehicle) or {}).state
 	if not state then print("no state for vehicle") return end
+
+	-- Check vehicle.
+	if CurrentVehicle ~= vehicle then
+		
+	end
 	
+	-- Update text.
 	local text = "<div style='max-width: 40vmin'>"
 	
 	-- Vin number.

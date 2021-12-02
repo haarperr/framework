@@ -71,23 +71,8 @@ function Entering:Activate(goToDriver)
 end
 
 --[[ Listeners ]]--
-Main:AddListener("BeginEnter", function(vehicle, lastVehicle)
-	-- if DoesEntityExist(vehicle) then
-	-- 	Main.cachedEngineState = GetIsVehicleEngineRunning(vehicle)
-	-- else
-	-- 	Main.cachedEngineState = nil
-	-- end
-end)
-
 Main:AddListener("Enter", function(vehicle)
 	SetVehicleNeedsToBeHotwired(vehicle, false)
-	-- SetVehicleEngineOn(vehicle, Main.cachedEngineState or false, true, true)
-	
-	-- Main.cachedEngineState = nil
-end)
-
-Main:AddListener("Exit", function(vehicle)
-	-- SetVehicleEngineOn(vehicle, Main.cachedEngineState or false, true, true)
 end)
 
 Main:AddListener("Update", function()
