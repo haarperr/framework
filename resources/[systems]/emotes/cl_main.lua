@@ -28,6 +28,7 @@ function Main:Update()
 		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3) and not wasCancelled
 
 		if
+			not settings.NoReplay and
 			not emote.noAutoplay and
 			((emote.ped and emote.ped ~= ped) or
 			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0))
