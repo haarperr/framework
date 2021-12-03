@@ -45,7 +45,7 @@ function Bone:Heal()
 end
 
 function Bone:TakeDamage(amount)
-	if GetPlayerInvincible(PlayerId()) then return end
+	if GetPlayerInvincible(PlayerId()) or not amount or amount < 0.0001 then return end
 	
 	local settings = self:GetSettings()
 	if not settings or settings.Fallback then return end

@@ -31,11 +31,12 @@ function Main:Update()
 		SetEntityHealth(Ped, 1000)
 		SetPedDiesInWater(Ped, false)
 		SetPedDiesInstantlyInWater(Ped, false)
+		SetPedConfigFlag(Ped, 3, false)
 	end
 
 	if IsPedDeadOrDying(Ped) then
 		ResurrectPed(Ped)
-		ClearPedTasksImmediately(Ped)
+		ClearPedTasks(Ped)
 	end
 end
 

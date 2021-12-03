@@ -468,48 +468,33 @@ Config = {
 		}
 	},
 	Anims = {
-		Writhes = {
-			{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_a", Flag = 1 },
-			{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_b", Flag = 1 },
-			{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_c", Flag = 1 },
-			{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_d", Flag = 1 },
-			{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_e", Flag = 1 },
-			{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_f", Flag = 1 },
-			{ Dict = "combat@damage@writheidle_c", Name = "writhe_idle_g", Flag = 1 },
+		Normal = {
+			Restrained = { Dict = "dead", Name = "dead_f", Flag = 1 },
+			Burning = { Dict = "anim@heists@ornate_bank@hostages@ped_c@", Name = "flinch_loop_underfire", Flag = 49 },
+			Sit = { Dict = "rcm_barry3", Name = "barry_3_sit_loop", Flag = 1 },
+			Deaths = {
+				{ Dict = "combat@death@from_writhe", Name = "death_a", Flag = 2 },
+				{ Dict = "combat@death@from_writhe", Name = "death_b", Flag = 2 },
+				{ Dict = "combat@death@from_writhe", Name = "death_c", Flag = 2 },
+			},
+			Writhes = {
+				{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_a", Flag = 1 },
+				{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_b", Flag = 1 },
+				{ Dict = "combat@damage@writheidle_a", Name = "writhe_idle_c", Flag = 1 },
+				{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_d", Flag = 1 },
+				{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_e", Flag = 1 },
+				{ Dict = "combat@damage@writheidle_b", Name = "writhe_idle_f", Flag = 1 },
+				{ Dict = "combat@damage@writheidle_c", Name = "writhe_idle_g", Flag = 1 },
+			},
 		},
-		Deaths = {
-			{ Dict = "combat@death@from_writhe", Name = "death_a", Flag = 2 },
-			{ Dict = "combat@death@from_writhe", Name = "death_b", Flag = 2 },
-			{ Dict = "combat@death@from_writhe", Name = "death_c", Flag = 2 },
-		},
-		Sit = { Dict = "rcm_barry3", Name = "barry_3_sit_loop", Flag = 1 },
-		Revive = { Dict = "get_up@directional@movement@from_seated@action", Name = "getup_r_0", Flag = 0, Duration = 1600 },
-		Burning = { Dict = "anim@heists@ornate_bank@hostages@ped_c@", Name = "flinch_loop_underfire", Flag = 49 },
-	},
-	Down = {
-		Delay = 1000,
-		MaxSpeed = 0.1,
-		FadeTime = 1000,
-		BlendSpeed = 2.0,
-		Anim = {
-			dict = "Dead",
-			name = "dead_%s",
-			random = { "a", "b", "c", "d", "e", "f", "g", "h" },
+		Vehicle = {
+			Normal = { Dict = "veh@bus@passenger@common@idle_duck", Name = "sit", Flag = 49 },
+			Restrained = { Dict = "veh@boat@jetski@rear@idle_duck", Name = "sit", Flag = 49 },
 		},
 		Water = {
-			Anim = {
-				dict = "dam_ko",
-				name = "drown",
-			},
-			Buoyancy = 1.2,
+			Normal = { Dict = "dam_ko", Name = "drown", Flag = 2 },
+			Restrained = { Dict = "dam_ko", Name = "drown_cuffed", Flag = 2 },
 		},
-		Vehicles = {
-			Anim = {
-				-- dict = "veh@std@ps@idle_duck", -- Floating hands
-				dict = "veh@std@rps@idle_duck", -- Tucked hands
-				name = "sit",
-				flag = 16,
-			},
-		},
+		Revive = { Dict = "get_up@directional@movement@from_seated@action", Name = "getup_r_0", Flag = 0, Duration = 1600 },
 	},
 }
