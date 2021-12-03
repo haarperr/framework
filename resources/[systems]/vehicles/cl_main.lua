@@ -113,6 +113,7 @@ function Main:Update()
 			Class = GetVehicleClass(CurrentVehicle)
 			ClassSettings = Classes[Class] or {}
 			Model = GetEntityModel(CurrentVehicle)
+			Materials = {}
 
 			-- Events.
 			print("entered", CurrentVehicle)
@@ -131,11 +132,17 @@ function Main:Update()
 	-- Driver stuff.
 	if IsDriver then
 		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
-		SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
 
 		-- Temperature.
 		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
 		TemperatureRatio = Temperature / 104.444
+
+		-- Update wheels.
+		for i = 0, GetVehicleNumberOfWheels(CurrentVehicle) - 1 do
+			local material = GetVehicleWheelSurfaceMaterial(CurrentVehicle, i)
+			Materials[i] = material
+		end
 
 		-- Idling.
 		if IsIdling ~= self.isIdling then
@@ -259,13 +266,13 @@ function Main:ToggleDoor(vehicle, index)
 end
 
 function Main:SetDoorState(vehicle, index, state, fromServer)
-	local driver = GetPedInVehicleSeat(vehicle, -1)
-	if driver and DoesEntityExist(driver) and driver ~= PlayerPedId() and not fromServer then
+	local owner = NetworkGetEntityOwner(vehicle)
+	local ownerPed = owner and owner ~= PlayerId() and GetPlayerPed(owner)
+
+	if (ownerPed and DoesEntityExist(ownerPed) and IsPedInVehicle(ownerPed, vehicle)) or not WaitForAccess(vehicle, 3000) then
 		TriggerServerEvent("vehicles:toggleDoor", GetNetworkId(vehicle), index, state)
 		return
 	end
-
-	WaitForAccess(vehicle)
 
 	if state then
 		SetVehicleDoorShut(vehicle, index, false)
