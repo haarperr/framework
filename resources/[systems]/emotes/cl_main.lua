@@ -23,6 +23,8 @@ function Main:Update()
 		wasCancelled = not ragdoll
 	end
 
+	if ragdoll then return end
+
 	for id, emote in pairs(self.playing) do
 		local settings = emote.settings or {}
 		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3) and not wasCancelled
@@ -207,7 +209,7 @@ function Main:Stop(p1, p2)
 
 	-- Stop the actual animation.
 	if #self.queue == 0 and not isLocked then
-		if (not cancelEmote and p1) or p2 == true then
+		if (not cancelEmote and p1 and p2 == nil) or p2 == true then
 			ClearPedTasksImmediately(ped)
 		elseif p2 ~= 2 then
 			ClearPedTasks(ped)
