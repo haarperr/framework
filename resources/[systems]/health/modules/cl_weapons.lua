@@ -73,7 +73,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	if not IsWeaponValid(weapon) then return end
 	
 	local bone = Main:GetBone(boneId)
-	if not bone or GetGameTimer() - (bone.lastDamage or 0) < 100 then return end
+	if not bone or GetGameTimer() - (bone.lastDamage or 0) < 50 then print("ignoring damage, too soon") return end
 	
 	local weaponDamage = GetWeaponDamage(weapon) or 0.0
 	local damageType = GetWeaponDamageType(weapon) or 0
