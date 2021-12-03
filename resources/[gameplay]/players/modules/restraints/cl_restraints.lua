@@ -33,28 +33,49 @@ Restraints.controls = {
 --[[ Functions: Restraints ]]--
 function Restraints:Start(name)
 	if self.active then return end
+	local ped = PlayerPedId()
 	
 	self.active = true
 	self.freeing = nil
+
+	SetPedConfigFlag(ped, 146, true)
+	SetPedConfigFlag(ped, 120, true)
+	SetEnableHandcuffs(ped, true)
 
 	LocalPlayer.state:set("restrained", name, true)
 end
 
 function Restraints:Stop()
 	if not self.active then return end
+	local ped = PlayerPedId()
 	
 	self.active = nil
 	self.freeing = nil
+
+	SetPedConfigFlag(ped, 146, false)
+	SetPedConfigFlag(ped, 120, false)
+	SetEnableHandcuffs(ped, false)
 
 	LocalPlayer.state:set("restrained", nil, true)
 end
 
 function Restraints:UpdateEmote()
-	local active = self.active and not self.freeing
+	local state = LocalPlayer.state or {}
+
+	-- Play emote.
+	local ped = PlayerPedId()
+	local active = (
+		self.active and
+		not self.freeing and
+		not state.immobile and
+		not IsPedGettingUp(ped) and
+		not IsPedRagdoll(ped)
+	)
+
 	if active and not self.emote then
 		self.emote = exports.emotes:Play(self.anims.cuffed)
 	elseif not active and self.emote then
-		exports.emotes:Stop(self.emote)
+		exports.emotes:Stop(self.emote, false)
 		self.emote = nil
 	end
 
@@ -68,9 +89,22 @@ end
 
 function Restraints:UpdateState(delta)
 	if not self.active then return end
+	
+	-- Check dead.
+	local state = LocalPlayer.state or {}
+	if state.immobile then return end
 
+	-- Get ped stuff.
 	local ped = PlayerPedId()
 	local chance = 0.0
+	local isRagdoll = IsPedRagdoll(ped)
+	local isMoving = GetEntitySpeed(ped) > 0.1
+
+	-- Cache ragdoll.
+	if isRagdoll ~= self.ragdoll then
+		self.ragdollTime = GetGameTimer()
+		self.ragdoll = isRagdoll
+	end
 
 	-- Sprinting.
 	if IsPedSprinting(ped) then
@@ -88,16 +122,15 @@ function Restraints:UpdateState(delta)
 	local fatigue = exports.health:GetEffect("Fatigue") or 0.0
 	
 	-- Ragdoll chance.
-	local ragdoll = GetRandomFloatInRange(0.0, 1.0) < chance / delta * (fatigue * 0.8 + 0.2)
-	if ragdoll then
+	local shouldRagdoll = GetRandomFloatInRange(0.0, 1.0) < chance / delta * (fatigue * 0.8 + 0.2)
+	if shouldRagdoll then
 		SetPedToRagdoll(ped, 1000, 0, 3, true, true, false)
 	end
-	
-	-- Ragdoll anims.
-	-- if IsPedRagdoll(ped) then
-	-- 	Citizen.Wait(200)
-	-- 	exports.emotes:Play({ Dict = "get_up@cuffed", Name = "front_to_default", Flag = 0 })
-	-- end
+
+	-- Water.
+	if IsPedSwimming(ped) and (exports.health:GetEffect("Health") or 1.0) > 0.01 then
+		exports.health:SetEffect("Health", 0.0)
+	end
 end
 
 function Restraints:UseItem(item, slot)
