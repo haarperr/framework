@@ -122,12 +122,12 @@ Items["Rag"] = {
 		end
 
 		cb(10400, {
-			Dict = "oddjobs@assassinate@multi@windowwasher",
-			Name = "_wash_loop",
+			Dict = "amb@world_human_maid_clean@",
+			Name = "base",
 			Flag = 1,
 			BlendSpeed = 1.0,
 			Props = {
-				{ Model = "prop_squeegee", Bone = 0x6F06, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 } },
+				{ Model = "prop_sponge_01", Bone = 28422, Offset = { 0.0, 0.0, -0.01, 90.0, 0.0, 0.0 } },
 			},
 		})
 
