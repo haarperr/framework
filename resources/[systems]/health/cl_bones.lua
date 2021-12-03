@@ -69,6 +69,8 @@ function Bone:TakeDamage(amount)
 
 	Main:AddEffect("Health", -amount * (settings.Modifier or 1.0))
 	Main:InvokeListener("DamageBone", self, amount)
+
+	TriggerServerEvent("health:damageBone", self.id, amount)
 end
 
 function Bone:SpreadDamage(amount, falloff, falloff2)

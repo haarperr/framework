@@ -19,15 +19,18 @@ shared_scripts {
 
 client_scripts {
 	'@camera/cl_camera.lua',
+	'@ui/scripts/cl_main.lua',
 	'cl_health.lua',
 	'cl_bones.lua',
 	'cl_injury.lua',
 	'cl_treatment.lua',
 	'cl_menu.lua',
+	'cl_history.lua',
 	'modules/cl_*.lua',
 }
 
 server_scripts {
+	'@utils/server/players.lua',
 	'sv_health.lua',
 	'sv_commands.lua',
 	'modules/sv_*.lua',

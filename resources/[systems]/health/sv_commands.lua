@@ -38,6 +38,22 @@ end, {
 	}
 }, "Mod")
 
+exports.chat:RegisterCommand("a:damagelog", function(source, args, command, cb)
+	local target = tonumber(args[1]) or source
+	local history = Main.history[target]
+
+	if history then
+		TriggerClientEvent("health:checkHistory", source, target, history)
+	else
+		cb("error", "Target does not exist or they haven't taken damage.")
+	end
+end, {
+	description = "View the damage log for a player.",
+	parameters = {
+		{ name = "Target", description = "Player to view damage for." },
+	},
+}, "Mod")
+
 exports.chat:RegisterCommand("a:damage", function(source, args, command, cb)
 	local target = tonumber(args[1]) or source
 	if not target or target == 0 or target < -1 then return end
