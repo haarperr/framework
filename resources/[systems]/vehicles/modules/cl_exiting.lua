@@ -26,7 +26,7 @@ function Exiting:Activate()
 	local state = LocalPlayer.state
 
 	-- Check door.
-	local doorIndex = FindSeatPedIsIn(ped)
+	local doorIndex = (FindSeatPedIsIn(ped) or 0) + 1
 	if state.restrained and not IsVehicleDoorOpen(vehicle, doorIndex) then
 		return
 	end
