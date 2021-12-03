@@ -54,9 +54,11 @@ function Main:UpdateFrame()
 	local zoomMode = GetFollowPedCamViewMode(Ped)
 
 	-- Anti combat roll/jump spam.
-	local canJump = not self.lastJump or GetGameTimer() - self.lastJump > 4000
+	local lastJump = self.lastJump and GetGameTimer() - self.lastJump
+	local canJump = not lastJump or lastJump > 2000
 
 	if not canJump then
+		SetPedMoveRateOverride(Ped, lastJump and (math.cos(lastJump / 2000.0 * 2.0 * math.pi) * 0.3 + 0.7) or 1.0)
 		DisableControlAction(0, 22)
 	elseif IsControlJustPressed(0, 22) then
 		if GetPedConfigFlag(Ped, 78) then
@@ -64,6 +66,13 @@ function Main:UpdateFrame()
 		end
 
 		self.lastJump = GetGameTimer()
+	end
+
+	if self.canJump ~= canJump then
+		if canJump then
+			SetPedMoveRateOverride(Ped, 1.0)
+		end
+		self.canJump = self.canJump
 	end
 
 	-- Update ped.
