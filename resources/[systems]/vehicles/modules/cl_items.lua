@@ -127,7 +127,7 @@ Items["Rag"] = {
 			Flag = 1,
 			BlendSpeed = 1.0,
 			Props = {
-				{ Model = "prop_sponge_01", Bone = 28422, Offset = { 0.0, 0.0, -0.01, 90.0, 0.0, 0.0 } },
+				{ Model = "prop_sponge_01", Bone = 0x6F06, Offset = { 0.0, 0.0, -0.02, 110.0, 0.0, 0.0 } },
 			},
 		})
 
