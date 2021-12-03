@@ -1,11 +1,13 @@
 Main = {
 	funcs = {},
+	lastRagdoll = 0,
 }
 
 --[[ Functions: Main ]]--
 function Main:UpdateFrame()
 	Ped = PlayerPedId()
 	Player = PlayerId()
+	IsRagdoll = IsPedRagdoll(Ped)
 
 	self:UpdateMelee()
 
@@ -25,6 +27,23 @@ function Main:UpdateFrame()
 			DisableControlAction(0, control)
 		end
 	end
+
+	-- Ragdolling.
+	if IsRagdoll ~= self.ragdoll then
+		self.lastRagdoll = GetGameTimer()
+		self.ragdoll = IsRagdoll
+	end
+
+	-- Tripping.
+	SetPedRagdollOnCollision(Ped,
+		GetGameTimer() - self.lastRagdoll > 4000 and
+		GetRandomFloatInRange(0.0, 1.0) < 0.6 and
+		(IsPedRunning(Ped) or IsPedSprinting(Ped)) and
+		not IsRagdoll and
+		not IsPedGettingUp(Ped) and
+		not GetPedConfigFlag(Ped, 147) and
+		not GetPedConfigFlag(Ped, 148)
+	)
 
 	-- Disable reticle.
 	HideHudComponentThisFrame(14)
