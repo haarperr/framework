@@ -81,6 +81,7 @@ function Injury:Update()
 		ClearPedTasks(Ped)
 		SetPedCanRagdoll(Ped, not isDead or (isMoving and not inWater))
 		SetBlockingOfNonTemporaryEvents(Ped, isDead)
+		SetEntityProofs(Ped, isDead, isDead, isDead, isDead, isDead, isDead, isDead, isDead)
 	end
 
 	-- Replay anim.
