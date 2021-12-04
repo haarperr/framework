@@ -131,6 +131,9 @@ function Restraints:UpdateState(delta)
 	if IsPedSwimming(ped) and (exports.health:GetEffect("Health") or 1.0) > 0.01 then
 		exports.health:SetEffect("Health", 0.0)
 	end
+
+	-- Disable interact.
+	exports.interact:Suppress()
 end
 
 function Restraints:UseItem(item, slot)
