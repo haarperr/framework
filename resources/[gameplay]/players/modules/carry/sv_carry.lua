@@ -1,7 +1,7 @@
 Carry = Carry or {}
 
 --[[ Functions ]]--
-function Carry:Activate(source, target, value)
+function Carry:Activate(source, target, value, ...)
 	local sourceState = (Player(source) or {}).state
 	local targetState = (Player(target) or {}).state
 
@@ -17,7 +17,7 @@ function Carry:Activate(source, target, value)
 	sourceState.carrying = value and target or nil
 	targetState.carrier = value and source or nil
 
-	TriggerClientEvent("players:carry", target, "Target", source, value)
+	TriggerClientEvent("players:carry", target, "Target", source, value, ...)
 	TriggerClientEvent("players:carry", source, "Source", target, value)
 
 	return true
@@ -70,6 +70,39 @@ RegisterNetEvent("players:carryEnd", function()
 			target = carrying or carrier,
 			verb = carrying and "stopped" or "left",
 			noun = "carry",
+		})
+	end
+end)
+
+RegisterNetEvent("players:force", function(netId, seatIndex)
+	local source = source
+
+	if type(netId) ~= "number" and type(seatIndex) ~= "number" then return end
+
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	PlayerUtil:UpdateCooldown(source)
+
+	-- Get state.
+	local state = Player(source).state
+	if not state then return end
+
+	-- Get target.
+	local target = state.carrying
+	if not target then return end
+
+	-- Check vehicle.
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	-- Uncarry with parameters.
+	if Carry:Activate(source, target, false, netId, seatIndex) then
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = "forced",
+			noun = "into vehicle",
+			extra = ("net id: %s"):format(netId),
 		})
 	end
 end)

@@ -1,8 +1,45 @@
 Carry = Carry or {}
 
 --[[ Functions ]]--
+function Carry:Init()
+	Main:RemoveOption("player-carry")
+
+	local sub = {}
+	for k, v in pairs(Carry.modes) do
+		local event = "player-"..k
+		if k ~= "carry" then
+			sub[#sub + 1] = {
+				id = "player-"..k,
+				text = v.Name,
+				icon = "luggage",
+			}
+		end
+
+		AddEventHandler("interact:onNavigate_"..event, function(option)
+			Carry:Send(k)
+
+			TriggerServerEvent("players:carryEnd")
+		end)
+	end
+
+	Main:AddOption({
+		id = "player-carry",
+		text = "Carry",
+		icon = "luggage",
+		sub = sub,
+	})
+end
+
 function Carry:Send(id)
 	if not Main.serverId or not self:CanCarry() then return end
+
+	local playerPed = Main.ped
+	if not playerPed then return end
+
+	if IsPedInAnyVehicle(playerPed) then
+		local seatIndex = FindSeatPedIsIn(playerPed)
+		if not seatIndex or not IsVehicleDoorOpen(GetVehiclePedIsIn(playerPed), seatIndex + 1) then return end
+	end
 
 	-- Trigger event.
 	TriggerServerEvent("players:carryBegin", Main.serverId, id)
@@ -23,18 +60,29 @@ function Carry:Activate(direction, target, id)
 	local mode = self.modes[id]
 	if not mode then return end
 
+	self.isBeingCaried = direction == "Target"
+
 	-- Attach source to target.
-	if direction == "Target" then
+	if self.isBeingCaried then
 		local attach = mode.Attachment
 		local boneIndex = GetPedBoneIndex(playerPed, attach.Bone)
 		local pos = attach.Offset
 		local rot = attach.Rotation
 
+		-- Leave vehicle.
+		while IsPedInAnyVehicle(ped) do
+			ped = PlayerPedId()
+			TaskLeaveAnyVehicle(ped, 0, 16)
+
+			Citizen.Wait(50)
+		end
+
+		-- Attach.
 		AttachEntityToEntity(ped, playerPed, boneIndex, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, false, false, false, true, 0, true)
 	end
 
 	-- Add option.
-	exports.interact:AddOption({
+	Main:AddOption({
 		id = "carryEnd",
 		text = direction == "Target" and "Break-out" or "Drop",
 		icon = "pan_tool",
@@ -72,7 +120,8 @@ function Carry:Update()
 		(playerPed and (not DoesEntityExist(playerPed) or IsPedRagdoll(playerPed))) or
 		IsPedInAnyVehicle(ped) or
 		(state.immobile and not mode.Immobile) or
-		(state.restrained and not mode.Immobile)
+		(state.restrained and not mode.Immobile) or
+		not IsEntityAttachedToEntity(self.isBeingCaried and ped or playerPed, self.isBeingCaried and playerPed or ped)
 	then
 		TriggerServerEvent("players:carryEnd")
 	end
@@ -100,6 +149,7 @@ function Carry:Deactivate()
 	self.anim = nil
 	self.player = nil
 	self.ped = nil
+	self.isBeingCaried = nil
 
 	-- Stop emote.
 	if self.emote then
@@ -108,7 +158,7 @@ function Carry:Deactivate()
 	end
 
 	-- Remove navigation option.
-	exports.interact:RemoveOption("carryEnd")
+	Main:RemoveOption("carryEnd")
 end
 
 function Carry:SetAnim(anim)
@@ -129,68 +179,82 @@ function Carry:CanCarry()
 	)
 end
 
---[[ Options ]]--
-local sub = {}
-for k, v in pairs(Carry.modes) do
-	local event = "player-"..k
-	if k ~= "carry" then
-		sub[#sub + 1] = {
-			id = "player-"..k,
-			text = v.Name,
-			icon = "luggage",
-		}
-	end
+function Carry:GetForceTarget()
+	local ped = PlayerPedId()
+	local coords = GetEntityCoords(entity)
 
-	AddEventHandler("interact:onNavigate_"..event, function(option)
-		Carry:Send(k)
+	-- Get vehicle.
+	local vehicle, hitCoords, vehicleDist = GetFacingVehicle(ped, 3.0)
+	if not vehicle then return end
+	
+	-- Get seat.
+	local seatIndex, seatDist = GetClosestSeat(hitCoords, vehicle)
+	if not seatIndex or not IsVehicleDoorOpen(vehicle, seatIndex + 1) then return end
 
-		TriggerServerEvent("players:carryEnd")
-	end)
+	-- Return result.
+	return vehicle, seatIndex
 end
 
-Main:AddOption({
-	id = "player-carry",
-	text = "Carry",
-	icon = "luggage",
-	sub = sub,
-})
-
 --[[ Events: Net ]]--
-RegisterNetEvent("players:carry", function(direction, target, id)
+RegisterNetEvent("players:carry", function(direction, target, id, netId, seatIndex)
 	if id then
 		Carry:Activate(direction, target, id)
 	else
 		Carry:Deactivate()
 	end
+
+	if netId and seatIndex then
+		local vehicle = NetworkGetEntityFromNetworkId(netId)
+		if not vehicle or not DoesEntityExist(vehicle) then return end
+		
+		SetPedIntoVehicle(PlayerPedId(), vehicle, seatIndex)
+	end
 end)
 
 --[[ Events ]]--
+AddEventHandler("players:clientStart", function()
+	Carry:Init()
+end)
+
 AddEventHandler("interact:onNavigate_carryEnd", function()
 	TriggerServerEvent("players:carryEnd")
 end)
 
 AddEventHandler("interact:onNavigate_forcePlayer", function()
-	TriggerServerEvent("players:force")
+	if not Carry.player then return end
+	
+	local vehicle, seatIndex = Carry:GetForceTarget()
+	if not vehicle or not seatIndex then return end
+	
+	TriggerServerEvent("players:force", GetNetworkId(vehicle), seatIndex)
 end)
 
 AddEventHandler("interact:navigate", function(value)
+	-- Remove option.
 	if not value then
 		if Carry.force then
-			exports.interact:RemoveOption("forcePlayer")
+			Main:RemoveOption("forcePlayer")
 			Carry.force = nil
 		end
 
 		return
 	end
 
+	-- Get state.
 	local state = (LocalPlayer or {}).state
 	if not state or not state.carrying then return end
-
-	exports.interact:AddOption({
+	
+	-- Check force target.
+	if not Carry:GetForceTarget() then return end
+	
+	-- Add option.
+	Main:AddOption({
 		id = "forcePlayer",
 		text = "Force",
+		icon = "airline_seat_recline_normal",
 	})
 
+	-- Cache carry.
 	Carry.force = true
 end)
 
