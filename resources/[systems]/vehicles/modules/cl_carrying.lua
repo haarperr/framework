@@ -59,6 +59,7 @@ function Carry:CanCarry(vehicle)
 	local ped = PlayerPedId()
 
 	return
+		not IsPedRagdoll(ped) and
 		not IsVehicleOccupied(vehicle) and
 		not IsPedInAnyVehicle(ped) and
 		IsControlEnabled(0, 52) and
