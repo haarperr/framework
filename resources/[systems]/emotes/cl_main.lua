@@ -310,6 +310,9 @@ AddEventHandler("emotes:clientStart", function()
 end)
 
 RegisterNetEvent("emotes:playData", function(data, force, time)
+	local state = (LocalPlayer or {}).state
+	if state and state.immobile then return end
+
 	if time then
 		data.Freeze = true
 
