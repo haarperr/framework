@@ -37,6 +37,9 @@ function Entering:Activate(goToDriver)
 	local coords = GetEntityCoords(Ped)
 	local state = LocalPlayer.state
 
+	-- Check carry.
+	if state.carrying or state.carried then return end
+
 	-- Get vehicle.
 	local vehicle = GetNearestVehicle(coords, 8.0)
 	if not vehicle or not DoesEntityExist(vehicle) or IsEntityAttached(vehicle) then return end
