@@ -28,6 +28,20 @@ Injury = {
 
 --[[ Functions: Injury ]]--
 function Injury:Update()
+	-- Check native death.
+	if IsPedDeadOrDying(Ped) then
+		local startTime = GetGameTimer()
+		local timer = 0
+		
+		while (isMoving and timer < 6000) or timer < 3000 do
+			timer = GetGameTimer() - startTime
+			Citizen.Wait(0)
+		end
+
+		ResurrectPed(Ped)
+		ClearPedTasksImmediately(Ped)
+	end
+
 	-- Get player state.
 	local state = LocalPlayer.state or {}
 
@@ -41,10 +55,22 @@ function Injury:Update()
 	-- Get health values.
 	local health = Main.effects["Health"] or 1.0
 	local isDead = health < 0.001
+	
+	-- Cache and set state.
+	if self.isDead ~= isDead then
+		self.isDead = isDead
+
+		state:set("immobile", isDead, true)
+
+		if isDead then
+			SetEntityHealth(Ped, 0)
+			return
+		end
+	end
 
 	-- Determine anim state.
 	local animState = (
-		(not isDead and "None") or
+		((not isDead or state.carrier or isMoving) and "None") or
 		(inVehicle and "Vehicle") or
 		(inWater and "Water") or
 		"Normal"
@@ -88,13 +114,6 @@ function Injury:Update()
 	if self.emote and not exports.emotes:IsPlaying(self.emote, true) and not inWater then
 		self:SetAnim(self.anim)
 	end
-
-	-- Cache and set state.
-	if self.isDead ~= isDead then
-		self.isDead = isDead
-
-		state:set("immobile", isDead, true)
-	end
 end
 
 function Injury:UpdateFrame()
@@ -110,6 +129,7 @@ function Injury:UpdateFrame()
 	-- Prevent getting up.
 	if IsPedGettingUp(Ped) then
 		ClearPedTasksImmediately(Ped)
+		self:Update()
 	end
 
 	-- Water up.
@@ -132,7 +152,7 @@ function Injury:SetAnim(anim)
 	self.anim = anim
 	self.emote = anim and exports.emotes:Play(anim) or nil
 
-	if not anim and not IsPedInAnyVehicle(Ped) and not IsEntityInWater(Ped) then
+	if not anim and not self.isDead and not IsPedInAnyVehicle(Ped) and not IsEntityInWater(Ped) then
 		exports.emotes:Play(Config.Anims.Revive)
 	end
 end
@@ -175,7 +195,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Injury:Update()
-		Citizen.Wait(400)
+		Citizen.Wait(50)
 	end
 end)
 
