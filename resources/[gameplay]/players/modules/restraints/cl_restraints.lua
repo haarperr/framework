@@ -155,11 +155,20 @@ function Restraints:UseItem(item, slot)
 	local serverId = GetPlayerServerId(player)
 	local playerState = (Player(serverId) or {}).state
 
-	-- Check ped.
-	local forwardLocal = GetEntityForwardVector(ped)
-	local forwardOther = GetEntityForwardVector(playerPed)
-	local dot = Dot(forwardLocal, forwardOther)
-	if not playerState.immobile and dot < 0.5 then return false end
+	if not playerState.immobile then
+		-- Check direciton.
+		local forward = GetEntityForwardVector(ped)
+		local playerForward = GetEntityForwardVector(playerPed)
+		local dot = Dot(forward, playerForward)
+		if dot < 0.5 then return false end
+
+		-- Check behind.
+		local coords = GetEntityCoords(ped)
+		local playerCoords = GetEntityCoords(playerPed)
+		local dir = Normalize(playerCoords - coords)
+		local forwardDot = Dot(forward, dir)
+		if forwardDot < 0.0 then return false end
+	end
 
 	-- Get restrained.
 	local restrained = playerState and playerState.restrained
