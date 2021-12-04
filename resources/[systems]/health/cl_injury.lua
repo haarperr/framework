@@ -90,10 +90,6 @@ function Injury:Update()
 		-- Get anim.
 		local anim = Config.Anims[animState]
 
-		-- Cache state.
-		self.state = animState
-		self.restrained = isRestrained
-
 		-- Additional states.
 		if anim then
 			-- Restrained variant.
@@ -111,7 +107,11 @@ function Injury:Update()
 		end
 
 		-- Set anim.
-		self:SetAnim(anim)
+		self:SetAnim(anim, self.state ~= "None")
+
+		-- Cache state.
+		self.state = animState
+		self.restrained = isRestrained
 
 		-- Other ped stuff.
 		ClearPedTasks(Ped)
@@ -148,7 +148,7 @@ function Injury:UpdateFrame()
 	end
 end
 
-function Injury:SetAnim(anim)
+function Injury:SetAnim(anim, revive)
 	if self.emote then
 		exports.emotes:Stop(self.emote, IsPedInAnyVehicle(Ped))
 	end
@@ -162,7 +162,7 @@ function Injury:SetAnim(anim)
 	self.anim = anim
 	self.emote = anim and exports.emotes:Play(anim) or nil
 
-	if not anim and not self.isDead and not IsPedInAnyVehicle(Ped) and not IsEntityInWater(Ped) then
+	if not anim and revive and not IsPedInAnyVehicle(Ped) and not IsEntityInWater(Ped) then
 		exports.emotes:Play(Config.Anims.Revive)
 	end
 end
