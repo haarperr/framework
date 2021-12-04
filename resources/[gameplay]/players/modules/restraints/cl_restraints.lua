@@ -137,16 +137,49 @@ function Restraints:UpdateState(delta)
 end
 
 function Restraints:UseItem(item, slot)
-	local info = Restraints.items[item.name]
+	-- Get info.
+	local name = item.name
+	local info = Restraints.items[name]
 	if not info then return false end
 	
+	-- Get player.
+	local ped = PlayerPedId()
 	local player, playerPed, playerDist = GetNearestPlayer()
 	if not player or playerDist > Config.MaxDist then return false end
 	-- local player = PlayerId()
-	
-	TriggerServerEvent("players:restrain", slot.slot_id, GetPlayerServerId(player))
 
-	return true, info.Duration
+	local serverId = GetPlayerServerId(player)
+	local playerState = (Player(serverId) or {}).state
+
+	-- Check ped.
+	local forwardLocal = GetEntityForwardVector(ped)
+	local forwardOther = GetEntityForwardVector(playerPed)
+	local dot = Dot(forwardLocal, forwardOther)
+	if not playerState.immobile and dot < 0.5 then return false end
+
+	-- Get restrained.
+	local restrained = playerState and playerState.restrained
+	local stateInfo = restrained and self.items[restrained]
+
+	-- Check counters.
+	if (info.Restraint and restrained) or (not info.Restraint and (not stateInfo or not stateInfo.Counters[name])) then return false end
+
+	-- For shared emotes.
+	if info.Shared then
+		TriggerServerEvent("players:restrain", slot.slot_id, GetPlayerServerId(player))
+	end
+
+	return true, info.Duration, (info.Shared and info.Anim or nil)
+end
+
+function Restraints:CanResist()
+	local state = (LocalPlayer or {}).state
+	local ped = PlayerPedId()
+
+	return (
+		state and
+		not state.immobile
+	)
 end
 
 --[[ Events: Net ]]--
@@ -163,7 +196,7 @@ RegisterNetEvent("players:restrainBegin", function(name)
 	local info = Restraints.items[name]
 	if not info then return end
 
-	if info.Resist then
+	if info.Resist and Restraints:CanResist() then
 		local success = exports.quickTime:Begin({ speed = 1.4, goalSize = 0.2 })
 		if success then
 			TriggerServerEvent("players:restrainResist")
@@ -183,9 +216,10 @@ AddEventHandler("emotes:cancel", function(id)
 end)
 
 AddEventHandler("inventory:use", function(item, slot, cb)
-	local success, duration = Restraints:UseItem(item, slot)
+	local success, duration, anim = Restraints:UseItem(item, slot)
 	if success then
-		cb(duration)
+		cb(duration, anim)
+		return
 	end
 end)
 

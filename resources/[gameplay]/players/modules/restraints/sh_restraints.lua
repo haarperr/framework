@@ -27,6 +27,7 @@ Restraints.anims = {
 Restraints.items = {
 	["Handcuffs"] = {
 		Anim = "cuffing",
+		Shared = true,
 		Resist = true,
 		Duration = 3000,
 		Restraint = true,
@@ -37,6 +38,7 @@ Restraints.items = {
 	},
 	["Ziptie"] = {
 		Anim = "cuffing",
+		Shared = true,
 		Resist = true,
 		Duration = 3000,
 		Restraint = true,
@@ -46,16 +48,16 @@ Restraints.items = {
 	},
 	["Handcuff Keys"] = {
 		Anim = "uncuffing",
+		Shared = true,
 		Duration = 3000,
 	},
 	["Scissors"] = {
 		Anim = "uncuffing",
+		Shared = true,
 		Duration = 3000,
 	},
 	["Lockpick"] = {
 		Anim = "lockpicking",
-		Custom = function(item, cb)
-			
-		end,
+		Shared = false,
 	},
 }

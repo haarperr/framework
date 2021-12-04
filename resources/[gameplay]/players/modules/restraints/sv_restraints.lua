@@ -21,7 +21,7 @@ function Restraints:UseItem(source, target, slotId)
 	local state = self.players[target]
 	local stateInfo = state and self.items[state]
 
-	if (info.Restraint and sate) or (not info.Restraint and (not stateInfo or not stateInfo.Counters[name])) then return false end
+	if (info.Restraint and state) or (not info.Restraint and (not stateInfo or not stateInfo.Counters[name])) then return false end
 	
 	-- Play emote.
 	if info.Anim then
