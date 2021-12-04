@@ -35,13 +35,19 @@ function Restraints:Start(name)
 	if self.active then return end
 	local ped = PlayerPedId()
 	
+	-- Update cache.
 	self.active = true
 	self.freeing = nil
 
+	-- Update ped.
 	SetPedConfigFlag(ped, 146, true)
 	SetPedConfigFlag(ped, 120, true)
 	SetEnableHandcuffs(ped, true)
 
+	-- Disarm weapon.
+	TriggerEvent("disarmed")
+
+	-- Update state.
 	LocalPlayer.state:set("restrained", name, true)
 end
 
@@ -49,13 +55,16 @@ function Restraints:Stop()
 	if not self.active then return end
 	local ped = PlayerPedId()
 	
+	-- Clear cache.
 	self.active = nil
 	self.freeing = nil
 
+	-- Update ped.
 	SetPedConfigFlag(ped, 146, false)
 	SetPedConfigFlag(ped, 120, false)
 	SetEnableHandcuffs(ped, false)
 
+	-- Update state.
 	LocalPlayer.state:set("restrained", nil, true)
 end
 

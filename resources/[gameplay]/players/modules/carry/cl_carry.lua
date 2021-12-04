@@ -62,6 +62,9 @@ function Carry:Activate(direction, target, id)
 
 	self.isBeingCaried = direction == "Target"
 
+	-- Disarm weapon.
+	TriggerEvent("disarmed")
+
 	-- Attach source to target.
 	if self.isBeingCaried then
 		local attach = mode.Attachment
@@ -174,6 +177,7 @@ function Carry:CanCarry()
 
 	return (
 		not IsPedRagdoll(ped) and
+		not IsPedArmed(ped, 1 | 2 | 4) and
 		not state.immobile and
 		not state.restrained
 	)
