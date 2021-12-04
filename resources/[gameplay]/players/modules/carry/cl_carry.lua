@@ -72,7 +72,7 @@ function Carry:Update()
 		(playerPed and (not DoesEntityExist(playerPed) or IsPedRagdoll(playerPed))) or
 		IsPedInAnyVehicle(ped) or
 		(state.immobile and not mode.Immobile) or
-		state.restrained
+		(state.restrained and not mode.Immobile)
 	then
 		TriggerServerEvent("players:carryEnd")
 	end

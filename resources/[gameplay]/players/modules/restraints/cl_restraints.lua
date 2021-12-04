@@ -68,6 +68,7 @@ function Restraints:UpdateEmote()
 		self.active and
 		not self.freeing and
 		not state.immobile and
+		not state.carrier and
 		not IsPedGettingUp(ped) and
 		not IsPedRagdoll(ped)
 	)
@@ -237,7 +238,6 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 		return
 	end
 
-	print("players:restrain", slot.slot_id, Restraints.target)
 	TriggerServerEvent("players:restrain", slot.slot_id, Restraints.target)
 
 	Restraints.target = nil
