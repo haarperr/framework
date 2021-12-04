@@ -37,9 +37,18 @@ function Injury:Update()
 			timer = GetGameTimer() - startTime
 			Citizen.Wait(0)
 		end
+		
+		local vehicle = GetVehiclePedIsIn(Ped)
+		local seatIndex = FindSeatPedIsIn(Ped)
 
 		ResurrectPed(Ped)
 		ClearPedTasksImmediately(Ped)
+
+		Citizen.Wait(0)
+
+		if vehicle and DoesEntityExist(vehicle) and seatIndex then
+			SetPedIntoVehicle(Ped, vehicle, seatIndex)
+		end
 	end
 
 	-- Get player state.

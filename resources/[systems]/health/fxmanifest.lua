@@ -20,6 +20,7 @@ shared_scripts {
 client_scripts {
 	'@camera/cl_camera.lua',
 	'@ui/scripts/cl_main.lua',
+	'@utils/client/vehicles.lua',
 	'cl_health.lua',
 	'cl_bones.lua',
 	'cl_injury.lua',
