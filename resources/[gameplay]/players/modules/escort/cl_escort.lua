@@ -24,17 +24,25 @@ function Escort:Start(serverId)
 	if IsPedInAnyVehicle(ped) then
 		TaskLeaveAnyVehicle(ped, 0, 256)
 	end
+
+	-- Update state.
+	LocalPlayer.state:set("following", serverId, true)
 end
 
 function Escort:Stop()
 	if not self.target then return end
 	local ped = PlayerPedId()
 
+	-- Clear cache.
 	self.target = nil
 	self.serverId = nil
 
+	-- Clear tasks.
 	ClearPedTasks(ped)
 	ClearPedSecondaryTask(ped)
+
+	-- Update state.
+	LocalPlayer.state:set("following", nil, true)
 end
 
 function Escort:Update()
