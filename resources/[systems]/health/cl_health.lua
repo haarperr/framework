@@ -33,11 +33,6 @@ function Main:Update()
 		SetPedDiesInstantlyInWater(Ped, false)
 		SetPedConfigFlag(Ped, 3, false)
 	end
-
-	if IsPedDeadOrDying(Ped) then
-		ResurrectPed(Ped)
-		ClearPedTasks(Ped)
-	end
 end
 
 function Main:Sync()

@@ -86,12 +86,13 @@ function Injury:Update()
 	)
 
 	-- Update anim state.
-	if animState ~= self.state then
+	if animState ~= self.state or isRestrained ~= self.restrained then
 		-- Get anim.
 		local anim = Config.Anims[animState]
 
 		-- Cache state.
 		self.state = animState
+		self.restrained = isRestrained
 
 		-- Additional states.
 		if anim then
