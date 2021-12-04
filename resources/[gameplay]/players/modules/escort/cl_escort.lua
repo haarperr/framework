@@ -47,8 +47,9 @@ function Escort:Update()
 
 	local ped = PlayerPedId()
 	local dist = Distance(GetEntityCoords(ped), GetEntityCoords(self.target))
+	local state = (LocalPlayer or {}).state
 
-	if dist > 10.0 then
+	if dist > 10.0 or not state or state.immobile or not state.restrained then
 		TriggerServerEvent("players:escort")
 		return
 	end
@@ -110,6 +111,12 @@ AddEventHandler("interact:onNavigate_playerEscort", function()
 	-- Check door.
 	local seatIndex = FindSeatPedIsIn(playerPed)
 	if seatIndex and not IsVehicleDoorOpen(GetVehiclePedIsIn(playerPed), seatIndex + 1) then
+		return
+	end
+
+	-- Get state.
+	local state = (Player(Main.serverId) or {}).state
+	if not state or state.immobile or not state.restrained then
 		return
 	end
 

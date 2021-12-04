@@ -37,7 +37,7 @@ function Main:UpdateFrame()
 	-- Tripping.
 	SetPedRagdollOnCollision(Ped,
 		GetGameTimer() - self.lastRagdoll > 4000 and
-		GetRandomFloatInRange(0.0, 1.0) < 0.6 and
+		GetRandomFloatInRange(0.0, 1.0) < 0.2 and
 		(IsPedRunning(Ped) or IsPedSprinting(Ped)) and
 		not IsRagdoll and
 		not IsPedGettingUp(Ped) and
