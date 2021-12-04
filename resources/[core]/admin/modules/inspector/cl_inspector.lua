@@ -76,8 +76,17 @@ end
 
 function Inspector:UpdateInput()
 	-- Delete entity.
-	if DoesEntityExist(self.entity or 0) and IsDisabledControlJustPressed(0, 214) and NetworkGetEntityIsNetworked(self.entity) then
-		TriggerServerEvent("admin:delete", NetworkGetNetworkIdFromEntity(self.entity))
+	local entity = self.entity
+	if DoesEntityExist(entity or 0) and IsDisabledControlJustPressed(0, 214) and NetworkGetEntityIsNetworked(entity) then
+		if IsEntityAPed(entity) and IsPedAPlayer(entity) then
+			local player = NetworkGetEntityOwner(entity)
+			local serverId = GetPlayerServerId(player)
+			local state = (Player(serverId) or {}).state
+
+			ExecuteCommand(("a:%s %s"):format(state.immobile and "revive" or "slay", serverId))
+		else
+			TriggerServerEvent("admin:delete", NetworkGetNetworkIdFromEntity(entity))
+		end
 	end
 
 	-- Focus.
