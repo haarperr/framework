@@ -153,7 +153,9 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("health:stop", function()
-	Injury:Activate(false)
+	if Injury.isInjured then
+		Injury:SetAnim()
+	end
 end)
 
 AddEventHandler("interact:onNavigate", function(id)
