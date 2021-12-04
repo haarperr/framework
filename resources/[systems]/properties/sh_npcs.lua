@@ -95,7 +95,5 @@ Citizen.CreateThread(function()
 				})
 			end
 		})
-
-		print("poggers!", npc)
 	end
 end)
