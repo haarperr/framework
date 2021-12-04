@@ -32,7 +32,7 @@ function Exiting:Activate()
 	end
 
 	-- Enter vehicle.
-	TaskLeaveVehicle(ped, vehicle, state.restrained and 256 or 64)
+	TaskLeaveVehicle(ped, vehicle, state.restrained and 256 or 4160)
 end
 
 --[[ Listeners ]]--
