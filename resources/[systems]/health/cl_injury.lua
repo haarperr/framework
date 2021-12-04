@@ -50,11 +50,6 @@ function Injury:Update()
 		"Normal"
 	)
 
-	-- Dead stuff.
-	if isDead and not isRagdoll and IsPedFalling(Ped) then
-		
-	end
-
 	-- Update anim state.
 	if animState ~= self.state then
 		-- Get anim.
@@ -90,7 +85,7 @@ function Injury:Update()
 
 	-- Replay anim.
 	if self.emote and not exports.emotes:IsPlaying(self.emote, true) and not inWater then
-		-- self:SetAnim(self.anim)
+		self:SetAnim(self.anim)
 	end
 
 	-- Cache and set state.
@@ -127,6 +122,10 @@ function Injury:SetAnim(anim)
 		exports.emotes:Stop(self.emote, IsPedInAnyVehicle(Ped))
 	end
 
+	if anim then
+		anim.Locked = true
+	end
+
 	print("set", json.encode(anim))
 	
 	self.anim = anim
@@ -154,7 +153,7 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("health:stop", function()
-	-- Injury:Activate(false)
+	Injury:Activate(false)
 end)
 
 AddEventHandler("interact:onNavigate", function(id)
@@ -163,7 +162,7 @@ AddEventHandler("interact:onNavigate", function(id)
 	end
 	for k, option in ipairs(Injury.options) do
 		if option.id == id then
-			Injury:SetAnim(option.anim, 2)
+			-- TODO: set override.
 			break
 		end
 	end
