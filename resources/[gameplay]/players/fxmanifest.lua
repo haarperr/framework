@@ -9,6 +9,7 @@ shared_scripts {
 
 client_scripts {
 	'@utils/client/misc.lua',
+	'@utils/client/vectors.lua',
 	'@utils/client/vehicles.lua',
 	'cl_players.lua',
 	'modules/**/cl_*.lua',
