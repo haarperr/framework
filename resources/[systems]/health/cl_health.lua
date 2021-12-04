@@ -119,12 +119,7 @@ function Main:GetBone(boneId)
 	local settings = Config.Bones[boneId or false]
 	if not settings then return end
 	
-	if settings.Fallback then
-		settings = Config.Bones[settings.Fallback]
-		if not settings then return end
-	end
-
-	return self.bones[boneId]
+	return self.bones[settings.Fallback or boneId]
 end
 
 function Main:UpdateInfo()
