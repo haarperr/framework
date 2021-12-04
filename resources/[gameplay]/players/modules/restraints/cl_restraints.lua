@@ -137,6 +137,9 @@ function Restraints:UpdateState(delta)
 end
 
 function Restraints:UseItem(item, slot)
+	self.using = nil
+	self.target = nil
+
 	-- Get info.
 	local name = item.name
 	local info = Restraints.items[name]
@@ -165,11 +168,16 @@ function Restraints:UseItem(item, slot)
 	if (info.Restraint and restrained) or (not info.Restraint and (not stateInfo or not stateInfo.Counters[name])) then return false end
 
 	-- For shared emotes.
+	local anim
 	if info.Shared then
 		TriggerServerEvent("players:restrain", slot.slot_id, GetPlayerServerId(player))
+	elseif info.Anim then
+		anim = self.anims[info.Anim]
+		self.using = slot
+		self.target = GetPlayerServerId(player)
 	end
 
-	return true, info.Duration, (info.Shared and info.Anim or nil)
+	return true, info.Duration, anim
 end
 
 function Restraints:CanResist()
@@ -221,6 +229,19 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		cb(duration, anim)
 		return
 	end
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slot)
+	local using = Restraints.using
+	if not using or not slot or using.slot_id ~= slot.slot_id then
+		return
+	end
+
+	print("players:restrain", slot.slot_id, Restraints.target)
+	TriggerServerEvent("players:restrain", slot.slot_id, Restraints.target)
+
+	Restraints.target = nil
+	Restraints.using = nil
 end)
 
 --[[ Threads ]]--

@@ -24,7 +24,7 @@ function Restraints:UseItem(source, target, slotId)
 	if (info.Restraint and state) or (not info.Restraint and (not stateInfo or not stateInfo.Counters[name])) then return false end
 	
 	-- Play emote.
-	if info.Anim then
+	if info.Anim and info.Shared then
 		exports.emotes:PlayShared(source, target, Restraints.anims[info.Anim])
 	end
 

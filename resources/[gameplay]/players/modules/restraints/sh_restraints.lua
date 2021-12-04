@@ -57,7 +57,8 @@ Restraints.items = {
 		Duration = 3000,
 	},
 	["Lockpick"] = {
-		Anim = "lockpicking",
+		Anim = "lockpick",
 		Shared = false,
+		Duration = 9000,
 	},
 }
