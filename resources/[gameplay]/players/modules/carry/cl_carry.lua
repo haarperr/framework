@@ -103,41 +103,6 @@ function Carry:Activate(direction, target, id)
 	end
 end
 
-function Carry:Update()
-	local mode = self.mode
-	if not mode then return end
-
-	local ped = PlayerPedId()
-	local playerPed = self.ped
-	local state =  (LocalPlayer or {}).state
-	
-	if not playerPed or not state then return end
-
-	-- Check emote.
-	if self.anim and self.emote and not exports.emotes:IsPlaying(self.emote) then
-		self:SetAnim(self.anim)
-	end
-
-	-- Check carry.
-	if
-		(playerPed and (not DoesEntityExist(playerPed) or IsPedRagdoll(playerPed))) or
-		IsPedInAnyVehicle(ped) or
-		(state.immobile and not mode.Immobile) or
-		(state.restrained and not mode.Immobile) or
-		not IsEntityAttachedToEntity(self.isBeingCaried and ped or playerPed, self.isBeingCaried and playerPed or ped)
-	then
-		TriggerServerEvent("players:carryEnd")
-	end
-end
-
-function Carry:UpdateInput()
-	if not self.mode then return end
-
-	for _, control in ipairs(self.controls) do
-		DisableControlAction(0, control)
-	end
-end
-
 function Carry:Deactivate()
 	local ped = PlayerPedId()
 
@@ -162,6 +127,42 @@ function Carry:Deactivate()
 
 	-- Remove navigation option.
 	Main:RemoveOption("carryEnd")
+end
+
+function Carry:Update()
+	local mode = self.mode
+	if not mode then return end
+
+	local ped = PlayerPedId()
+	local playerPed = self.ped
+	local state =  (LocalPlayer or {}).state
+	local isBeingCaried = self.isBeingCaried
+	
+	if not playerPed or not state then return end
+
+	-- Check emote.
+	if self.anim and self.emote and not exports.emotes:IsPlaying(self.emote) then
+		self:SetAnim(self.anim)
+	end
+
+	-- Check carry.
+	if
+		(playerPed and (not DoesEntityExist(playerPed) or IsPedRagdoll(playerPed))) or
+		IsPedInAnyVehicle(ped) or
+		(state.immobile and (not isBeingCaried or not mode.Immobile)) or
+		(state.restrained and (not isBeingCaried or not mode.Immobile)) or
+		not IsEntityAttachedToEntity(isBeingCaried and ped or playerPed, isBeingCaried and playerPed or ped)
+	then
+		TriggerServerEvent("players:carryEnd")
+	end
+end
+
+function Carry:UpdateInput()
+	if not self.mode then return end
+
+	for _, control in ipairs(self.controls) do
+		DisableControlAction(0, control)
+	end
 end
 
 function Carry:SetAnim(anim)

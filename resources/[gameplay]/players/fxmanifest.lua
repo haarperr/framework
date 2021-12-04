@@ -8,6 +8,7 @@ shared_scripts {
 }
 
 client_scripts {
+	'@utils/client/entities.lua',
 	'@utils/client/misc.lua',
 	'@utils/client/vectors.lua',
 	'@utils/client/vehicles.lua',
