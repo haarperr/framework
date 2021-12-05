@@ -62,6 +62,11 @@ function Client:AddCharacter(data)
 		return false, validateResult
 	end
 
+	-- Invalid date.
+	if not IsDateValid(data.month, data.day, data.year) then
+		return false, "Invalid date"
+	end
+
 	-- Create character.
 	local character = exports.GHMattiMySQL:QueryResult([[
 		INSERT INTO `characters` SET
