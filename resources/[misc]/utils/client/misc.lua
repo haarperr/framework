@@ -170,7 +170,7 @@ function GetNearestPlayer(p1)
 
 		local _ped = GetPlayerPed(player)
 		if _ped and DoesEntityExist(_ped) then
-			local _coords = GetEntityCoords(_ped)
+			local _coords = IsPedInAnyVehicle(_ped) and GetPedBoneCoords(_ped, -1) or GetEntityCoords(_ped, true)
 			local dist = Distance(coords, _coords)
 			if not nearestPlayer or dist < nearestDist then
 				nearestPlayer = player
