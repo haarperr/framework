@@ -23,7 +23,7 @@ function Main:BuildNavigation()
 	local check = false
 
 	if CurrentVehicle and DoesEntityExist(CurrentVehicle) then
-		local seat = FindSeatPedIsIn(ped)
+		local seat = FindSeatPedIsIn(ped) or 0
 		door = seat + 1
 		vehicle = CurrentVehicle
 

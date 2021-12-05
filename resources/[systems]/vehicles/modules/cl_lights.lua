@@ -114,7 +114,7 @@ Main:AddListener("Update", function()
 		not IsInVehicle or
 		not IsControlEnabled(0, 51) or
 		not IsControlEnabled(0, 52) or
-		FindSeatPedIsIn(Ped) > 0
+		(FindSeatPedIsIn(Ped) or 1) > 0
 	then
 		return
 	end
