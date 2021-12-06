@@ -48,7 +48,7 @@ function Stretcher:Activate(vehicle)
 	SetVehicleExtra(vehicle, 2, true)
 
 	-- Attach stretcher to ped.
-	AttachEntityToEntity(vehicle, ped, -1, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, false, false, true, true, 0, true)
+	AttachEntityToEntity(vehicle, ped, -1, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, false, false, false, true, 0, true)
 
 	-- Cache stuff.
 	self.vehicle = vehicle
