@@ -117,7 +117,114 @@ function Stretcher:Update()
 end
 
 function Stretcher:GetSettings(vehicle)
-	return vehicle and DoesEntityExist(vehicle) and self.models[GetEntityModel(vehicle)]
+	return vehicle and DoesEntityExist(vehicle) and self.models[GetEntityModel(vehicle)] or nil
+end
+
+function Stretcher:GetVehicleStretcherAttached(vehicle)
+	for _vehicle, _ in EnumerateVehicles() do
+		if self.models[GetEntityModel(_vehicle)] and IsEntityAttachedToEntity(_vehicle, vehicle) then
+			return _vehicle
+		end
+	end
+end
+
+function Stretcher:Load(stretcher, vehicle)
+	local model = GetEntityModel(vehicle)
+	local settings = Main:GetSettings(model)
+
+	settings = settings and settings.Stretcher
+	if not settings then return end
+
+	-- Request access to the vehicle.
+	if not WaitForAccess(vehicle) then return end
+
+	-- Open doors.
+	if settings.Doors then
+		for _, doorIndex in ipairs(settings.Doors) do
+			SetVehicleDoorOpen(vehicle, doorIndex, true, true)
+			Citizen.Wait(0)
+		end
+	end
+
+	Citizen.Wait(1000)
+
+	-- Request access to the stretcher.
+	if not WaitForAccess(stretcher) then return end
+	
+	local pos = settings.Offset or vector3(0.0, 0.0, 0.0)
+	local rot = settings.Rotation or vector3(0.0, 0.0, 0.0)
+	local boneIndex = settings.Bone and GetEntityBoneIndexByName(source, settings.Bone) or -1
+
+	-- Update stretcher.
+	SetVehicleExtra(stretcher, 1, false)
+	SetVehicleExtra(stretcher, 2, true)
+	
+	-- Attach stretcher.
+	AttachEntityToEntity(stretcher, vehicle, boneIndex, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, false, false, false, false, 0, true)
+
+	-- Close doors.
+	Citizen.Wait(1000)
+
+	if not WaitForAccess(vehicle) then return end
+
+	if settings.Doors then
+		for _, doorIndex in ipairs(settings.Doors) do
+			SetVehicleDoorShut(vehicle, doorIndex, true)
+			Citizen.Wait(0)
+		end
+	end
+end
+
+function Stretcher:Unload(stretcher, vehicle)
+	local model = GetEntityModel(vehicle)
+	local settings = Main:GetSettings(model)
+
+	settings = settings and settings.Stretcher
+	if not settings then return end
+
+	-- Request access to the vehicle.
+	if not WaitForAccess(vehicle) then return end
+
+	-- Open doors.
+	if settings.Doors then
+		for _, doorIndex in ipairs(settings.Doors) do
+			SetVehicleDoorOpen(vehicle, doorIndex, true, true)
+			Citizen.Wait(0)
+		end
+	end
+
+	Citizen.Wait(1000)
+
+	-- Request access to the stretcher.
+	if not WaitForAccess(stretcher) then return end
+
+	-- Get position.
+	local rotation = GetEntityRotation(vehicle)
+	local offset = settings.Unload or vector3(0.0, 0.0, 0.0)
+	local coords = GetOffsetFromEntityInWorldCoords(vehicle, offset)
+
+	-- Request access... again.
+	if not WaitForAccess(stretcher) then return end
+	
+	-- Update position.
+	DetachEntity(stretcher, true, true)
+	SetEntityCoords(stretcher, coords.x, coords.y, coords.z)
+	PlaceObjectOnGroundProperly(stretcher)
+
+	SetVehicleExtra(stretcher, 1, true)
+	SetVehicleExtra(stretcher, 2, false)
+
+	-- Close doors.
+	Citizen.Wait(1000)
+
+	if not WaitForAccess(vehicle) then return end
+
+	if settings.Doors then
+		for _, doorIndex in ipairs(settings.Doors) do
+			SetVehicleDoorShut(vehicle, doorIndex, true)
+			Citizen.Wait(0)
+		end
+	end
 end
 
 --[[ Exports ]]--
@@ -151,6 +258,26 @@ AddEventHandler("vehicles:clientStart", function()
 			event = "activateStretcher"
 		})
 	end
+end)
+
+AddEventHandler("interact:onNavigate_loadStretcher", function(option)
+	local stretcher = option.stretcher
+	if not stretcher or not DoesEntityExist(stretcher) then return end
+
+	local vehicle = option.vehicle
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	Stretcher:Load(stretcher, vehicle)
+end)
+
+AddEventHandler("interact:onNavigate_unloadStretcher", function(option)
+	local stretcher = option.stretcher
+	if not stretcher or not DoesEntityExist(stretcher) then return end
+
+	local vehicle = option.vehicle
+	if not vehicle or not DoesEntityExist(vehicle) then return end
+
+	Stretcher:Unload(stretcher, vehicle)
 end)
 
 --[[ Threads ]]--

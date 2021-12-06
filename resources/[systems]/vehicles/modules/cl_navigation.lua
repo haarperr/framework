@@ -77,7 +77,7 @@ function Main:BuildNavigation()
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
 		vehicle = NearestVehicle
 		
-		local nearestDoor, nearestDoorDist, nearestDoorCoords = GetClosestDoor(coords, NearestVehicle, false, true)
+		local nearestDoor, nearestDoorDist, nearestDoorCoords = GetClosestDoor(coords, vehicle, false, true)
 		if not nearestDoor then
 			local handleBars = GetEntityBoneIndexByName(vehicle, "handlebars")
 			if handleBars ~= -1 then
@@ -96,9 +96,13 @@ function Main:BuildNavigation()
 		end
 
 		local doorIndex = Doors[nearestDoor]
+		if not GetIsDoorValid(vehicle, doorIndex) then
+			goto skipDoor
+		end
+
 		local doorOffset = GetOffsetFromEntityGivenWorldCoords(vehicle, nearestDoorCoords)
 		local doorNormal = #doorOffset > 0.001 and Normalize(vector3(doorOffset.x, doorOffset.y, 0.0)) or vector3(0.0, 0.0, 0.0)
-		
+
 		if doorIndex == 4 or doorIndex == 5 then
 			doorOffset = doorOffset + doorNormal * 1.0
 		end
@@ -114,6 +118,7 @@ function Main:BuildNavigation()
 
 		if #(GetOffsetFromEntityInWorldCoords(vehicle, doorOffset) - coords) > (Config.Navigation.Doors.Distances[doorIndex] or Config.Navigation.Doors.Distances[-1]) then
 			doorIndex = nil
+			goto skipDoor
 		end
 
 		hood = doorIndex == 4
@@ -135,6 +140,10 @@ function Main:BuildNavigation()
 		self:CloseNavigation()
 		return
 	end
+
+	-- Get settings.
+	local model = GetEntityModel(vehicle)
+	local settings = self:GetSettings(model)
 	
 	-- Check distance.
 	local vehicleCoords = GetEntityCoords(vehicle)
@@ -184,6 +193,34 @@ function Main:BuildNavigation()
 			icon = "door_back",
 			doorIndex = door,
 		}
+	end
+
+	-- Stretchers.
+	if Stretcher:GetSettings(vehicle) then
+		local targetVehicle = GetNearestVehicle(coords, nil, vehicle)
+		local _model = targetVehicle and GetEntityModel(targetVehicle)
+		local _settings = _model and self:GetSettings(_model)
+
+		if _settings and _settings.Type == "Ambulance" then
+			options[#options + 1] = {
+				id = "loadStretcher",
+				text = "Load",
+				icon = "local_hospital",
+				stretcher = vehicle,
+				vehicle = targetVehicle,
+			}
+		end
+	elseif settings and settings.Stretcher then
+		local stretcher = Stretcher:GetVehicleStretcherAttached(vehicle)
+		if stretcher then
+			options[#options + 1] = {
+				id = "unloadStretcher",
+				text = "Unload",
+				icon = "local_hospital",
+				stretcher = stretcher,
+				vehicle = vehicle,
+			}
+		end
 	end
 
 	-- Update navigation.

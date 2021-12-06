@@ -20,7 +20,7 @@ function Stretcher:Activate(vehicle)
 	local rot = stretcher.Rotation or vector3(0.0, 0.0, 180.0)
 	
 	-- Attach to entity.
-	AttachEntityToEntity(ped, vehicle, boneIndex, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, false, false, true, false, 0, true)
+	AttachEntityToEntity(ped, vehicle, boneIndex, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, false, false, false, false, 0, true)
 
 	-- Set cache.
 	self.vehicle = vehicle

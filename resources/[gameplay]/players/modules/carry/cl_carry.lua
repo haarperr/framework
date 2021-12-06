@@ -218,7 +218,7 @@ RegisterNetEvent("players:carry", function(direction, target, id, netId, seatInd
 		local vehicle = NetworkGetEntityFromNetworkId(netId)
 		if not vehicle or not DoesEntityExist(vehicle) then return end
 
-		if exports.vehicles:IsStretcher(netId) then
+		if exports.vehicles:IsStretcher(vehicle) then
 			Stretcher:Activate(vehicle)
 			return
 		end

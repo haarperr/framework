@@ -218,7 +218,7 @@ function Main.update:Proximity()
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 
-		NearestVehicle = GetNearestVehicle(coords, 10.0)
+		NearestVehicle = GetFacingVehicle(ped, 1.0, true) or GetNearestVehicle(coords, 10.0)
 
 		if NearestVehicle and DoesEntityExist(NearestVehicle) then
 			NearestDoor = GetClosestDoor(coords, NearestVehicle)

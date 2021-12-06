@@ -656,6 +656,7 @@ Vehicles = {
 
 	--[[ LSFD Vehicles ]]--
 	["emsambo"] = { Value = 0, Type = "Ambulance" },
+	["emsspeedo"] = { Value = 0, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
 	["emsexplorer"] = { Value = 0, Type = "Ambulance" },
 	["emstahoe"] = { Value = 0, Type = "Ambulance" },
 	["lguard"] = { Value = 0, Type = "Ambulance" },
