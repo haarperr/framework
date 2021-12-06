@@ -47,6 +47,12 @@ function Entering:Activate(goToDriver)
 	-- Get model.
 	local model = GetEntityModel(vehicle)
 
+	-- Check stretchers.
+	if Stretcher.models[model] then
+		Main:InvokeListener("ActivateStretcher", vehicle)
+		return
+	end
+
 	-- Check driver.
 	local driver = GetPedInVehicleSeat(vehicle, -1)
 	local hasDriver = driver and DoesEntityExist(driver) and not IsPedDeadOrDying(driver)

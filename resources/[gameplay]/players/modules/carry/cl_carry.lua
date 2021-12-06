@@ -149,6 +149,7 @@ function Carry:Update()
 	if
 		(playerPed and (not DoesEntityExist(playerPed) or IsPedRagdoll(playerPed))) or
 		IsPedInAnyVehicle(ped) or
+		IsPedArmed(playerPed, 1 | 2 | 4) or
 		(state.immobile and (not isBeingCaried or not mode.Immobile)) or
 		(state.restrained and (not isBeingCaried or not mode.Immobile)) or
 		not IsEntityAttachedToEntity(isBeingCaried and ped or playerPed, isBeingCaried and playerPed or ped)
@@ -178,9 +179,9 @@ function Carry:CanCarry()
 
 	return (
 		not IsPedRagdoll(ped) and
-		not IsPedArmed(ped, 1 | 2 | 4) and
 		not state.immobile and
-		not state.restrained
+		not state.restrained and
+		not IsEntityAttached(ped)
 	)
 end
 
@@ -189,8 +190,13 @@ function Carry:GetForceTarget()
 	local coords = GetEntityCoords(entity)
 
 	-- Get vehicle.
-	local vehicle, hitCoords, vehicleDist = GetFacingVehicle(ped, 3.0)
+	local vehicle, hitCoords, vehicleDist = GetFacingVehicle(ped, 3.0, true)
 	if not vehicle then return end
+
+	-- Check stretcher.
+	if exports.vehicles:IsStretcher(vehicle) then
+		return vehicle, -1
+	end
 	
 	-- Get seat.
 	local seatIndex, seatDist = GetClosestSeat(hitCoords, vehicle)
@@ -211,6 +217,11 @@ RegisterNetEvent("players:carry", function(direction, target, id, netId, seatInd
 	if netId and seatIndex then
 		local vehicle = NetworkGetEntityFromNetworkId(netId)
 		if not vehicle or not DoesEntityExist(vehicle) then return end
+
+		if exports.vehicles:IsStretcher(netId) then
+			Stretcher:Activate(vehicle)
+			return
+		end
 		
 		SetPedIntoVehicle(PlayerPedId(), vehicle, seatIndex)
 	end

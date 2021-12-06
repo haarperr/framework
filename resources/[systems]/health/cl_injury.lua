@@ -79,7 +79,7 @@ function Injury:Update()
 
 	-- Determine anim state.
 	local animState = (
-		((not isDead or state.carrier or isMoving) and "None") or
+		((not isDead or IsEntityAttached(Ped) or isMoving) and "None") or
 		(inVehicle and "Vehicle") or
 		(inWater and "Water") or
 		"Normal"
@@ -123,6 +123,11 @@ function Injury:Update()
 	-- Replay anim.
 	if self.emote and not exports.emotes:IsPlaying(self.emote, true) and not inWater then
 		self:SetAnim(self.anim)
+	end
+
+	-- Suppress interact.
+	if isDead then
+		exports.interact:Suppress()
 	end
 end
 
