@@ -103,7 +103,7 @@ function IsVehicleOccupied(vehicle)
 	return false
 end
 
-function GetFacingVehicle(ped, maxDist)
+function GetFacingVehicle(ped, maxDist, ignoreLos)
 	-- Not facing vehicle while inside one.
 	if IsPedInAnyVehicle(ped) then
 		return
@@ -114,7 +114,7 @@ function GetFacingVehicle(ped, maxDist)
 
 	-- Get nearest vehicle.
 	local vehicle = GetNearestVehicle(coords)
-	if not vehicle or not HasEntityClearLosToEntityInFront(ped, vehicle) then
+	if not vehicle or (not ignoreLos and not HasEntityClearLosToEntityInFront(ped, vehicle)) then
 		return
 	end
 
