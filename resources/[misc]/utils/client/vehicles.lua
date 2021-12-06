@@ -144,15 +144,17 @@ function GetFacingVehicle(ped, maxDist, ignoreLos)
 	return vehicle, nearestCoords, nearestDist
 end
 
-function GetNearestVehicle(coords, maxDist)
+function GetNearestVehicle(coords, maxDist, filter)
 	local nearestVehicle = nil
 	local nearestDist = 0.0
 
 	for vehicle, _ in EnumerateVehicles() do
-		local dist = #(coords - GetEntityCoords(vehicle))
-		if (not maxDist or dist < maxDist) and (not nearestVehicle or dist < nearestDist) then
-			nearestVehicle = vehicle
-			nearestDist = dist
+		if not filter or vehicle ~= filter then
+			local dist = #(coords - GetEntityCoords(vehicle))
+			if (not maxDist or dist < maxDist) and (not nearestVehicle or dist < nearestDist) then
+				nearestVehicle = vehicle
+				nearestDist = dist
+			end
 		end
 	end
 
