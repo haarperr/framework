@@ -96,6 +96,16 @@ function Main:UpdatePointing()
 		state:set("pointing", isPointing, true)
 	end
 
+	-- Hands up.
+	if IsControlJustPressed(0, 252) then
+		if self.handsUp then
+			self:Stop(self.handsUp)
+			self.handsUp = nil
+		else
+			self.handsUp = self:Play("handsup"..GetRandomIntInRange(2,  6))
+		end
+	end
+
 	-- Update when pointing.
 	if not isPointing then return end
 
