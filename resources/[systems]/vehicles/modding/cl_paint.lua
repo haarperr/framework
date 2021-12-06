@@ -174,6 +174,8 @@ function Paint:Enable(vehicle)
 		local isRgb = _type == "rgb"
 		local mod = isRgb and Paint.colors[index] or Paint.palettes[index]
 		if not mod then return end
+
+		WaitForAccess(vehicle)
 		
 		if isRgb then
 			local r, g, b = HexToRgb(hex)
@@ -196,6 +198,8 @@ end
 
 function Paint:Disable(vehicle, discard)
 	if discard and self.defaults then
+		WaitForAccess(vehicle)
+		
 		for k, v in pairs(self.defaults) do
 			local funcs = self[k]
 			for _k, _v in pairs(v) do

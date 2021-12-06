@@ -73,6 +73,7 @@ function Mods:Enable(vehicle)
 
 	self.defaults = {}
 	
+	WaitForAccess(vehicle)
 	SetVehicleModKit(vehicle)
 
 	for modType, mod in pairs(self.types) do
@@ -161,6 +162,7 @@ function Mods:Enable(vehicle)
 		local settings = Mods.types[modType]
 		if not settings or settings.Hidden then return end
 
+		WaitForAccess(vehicle)
 		SetVehicleMod(vehicle, modType, modIndex)
 		window:SetModel("mod-"..modType, modIndex)
 
