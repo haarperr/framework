@@ -283,6 +283,19 @@ Config.Groups = {
 			["burger"] = { Dict = "mp_player_inteat@burger", Name = "mp_player_int_eat_burger", Flag = 49, Props = {
 				{ Model = "prop_cs_burger_01", Bone = 18905, Offset = { 0.13, 0.05, 0.02, -50.0, 16.0, 60.0 } },
 			}},
+			["busted"] = {
+				Sequence = {
+					{
+						Unarmed = { Dict = "busted", Name = "idle_2_hands_up", Flag = 0 },
+						Armed = {
+							["1h"] = { Dict = "busted", Name = "idle_2_hands_up_2h", Flag = 0, Disarm = 3000 },
+							["2h"] = { Dict = "busted", Name = "idle_2_hands_up_2h", Flag = 0, Disarm = 3000 },
+						},
+					},
+					{ Dict = "busted", Name = "idle_a", Flag = 1 },
+					{ Dict = "busted", Name = "hands_up_2_idle", Flag = 0 },
+				},
+			},
 			["sandwich"] = { Dict = "mp_player_inteat@burger", Name = "mp_player_int_eat_burger", Flag = 49, Props = {
 				{ Model = "prop_sandwich_01", Bone = 18905, Offset = { 0.13, 0.05, 0.02, -50.0, 16.0, 60.0 } },
 			}},

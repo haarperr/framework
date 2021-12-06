@@ -51,6 +51,35 @@ function Emote:Play(settings)
 	local ped = settings.ped or PlayerPedId()
 	self.ped = ped
 
+	-- Check weapon.
+	if settings.Unarmed or settings.Armed then
+		local weaponGroup = IsPedArmed(ped, 1 | 2 | 4) and exports.weapons:GetWeaponGroup()
+		local _settings = {}
+
+		if weaponGroup and weaponGroup.Anim and settings.Armed then
+			_settings = settings.Armed[weaponGroup.Anim]
+		elseif (not weaponGroup or not weaponGroup.Anim) and settings.Unarmed then
+			_settings = settings.Unarmed
+		else
+			return
+		end
+
+		if not _settings then return end
+
+		for k, v in pairs(_settings) do
+			settings[k] = v
+		end
+	end
+
+	-- Disarming.
+	if type(settings.Disarm) == "number" then
+		Citizen.SetTimeout(settings.Disarm, function()
+			TriggerEvent("disarmed")
+		end)
+	elseif settings.Disarm then
+		TriggerEvent("disarmed")
+	end
+
 	-- Freezing.
 	if settings.Freeze then
 		FreezeEntityPosition(ped, true)
