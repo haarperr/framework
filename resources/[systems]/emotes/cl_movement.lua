@@ -72,6 +72,8 @@ end
 
 function Main:UpdatePointing()
 	local ped = PlayerPedId()
+	if not IsPedHuman(ped) then return end
+
 	local isPointing = IsControlPressed(0, 29)
 	local state = LocalPlayer.state
 

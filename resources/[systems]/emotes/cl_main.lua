@@ -128,6 +128,11 @@ function Main:Play(data, force)
 		end
 	end
 
+	-- Check species.
+	if not IsPedHuman(ped) and not data.Animal then
+		return
+	end
+
 	-- Clear queue.
 	self:ClearQueue(force)
 
