@@ -39,6 +39,7 @@ function Main:UpdateFrame()
 		GetGameTimer() - self.lastRagdoll > 4000 and
 		GetRandomFloatInRange(0.0, 1.0) < 0.2 and
 		(IsPedRunning(Ped) or IsPedSprinting(Ped)) and
+		GetFollowPedCamViewMode() ~= 4 and
 		not IsRagdoll and
 		not IsPedGettingUp(Ped) and
 		not GetPedConfigFlag(Ped, 147) and
