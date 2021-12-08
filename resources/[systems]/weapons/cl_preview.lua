@@ -51,8 +51,6 @@ function Preview:UpdateSlot(slot, id, item)
 end
 
 function Preview:Create(id, item)
-	if not self.visible then return end
-	
 	-- Get item.
 	if type(item) ~= "table" or not item.weapon or not item.name then return end
 	
@@ -210,6 +208,10 @@ function Preview:UpdatePed()
 end
 
 function Preview:CheckObjects()
+	if not self.visible then
+		return
+	end
+
 	local didUpdate = false
 	for id, slot in pairs(self.slots) do
 		if not DoesEntityExist(slot.object or 0) then
