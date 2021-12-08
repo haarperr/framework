@@ -9,6 +9,7 @@ shared_scripts {
 
 server_scripts {
 	'@utils/server/date.lua',
+	'@utils/server/players.lua',
 	'sv_admin.lua',
 	'sv_commands.lua',
 	'modules/**/sv_*.lua',

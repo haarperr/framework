@@ -82,9 +82,9 @@ RegisterNetEvent(Admin.event.."receiveUser", function(user, characters, warnings
 		style = {
 			["width"] = "80vmin",
 			["top"] = "50%",
-			["left"] = "50%",
+			["left"] = "5vmin",
 			["max-height"] = "80vh",
-			["transform"] = "translate(-50%, -50%)",
+			["transform"] = "translate(0%, -50%)",
 		},
 		prepend = {
 			type = "q-icon",

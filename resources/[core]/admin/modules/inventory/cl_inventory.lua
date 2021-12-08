@@ -53,14 +53,6 @@ Admin:AddHook("select", "viewItems", function()
 			click = {
 				event = "close"
 			},
-			template = [[
-				<div>
-					<template v-slot:append>
-						<q-icon name="search" />
-					</template>
-					</q-input>
-				</div>
-			]]
 		},
 		defaults = {
 			filter = "",
