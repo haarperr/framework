@@ -30,6 +30,9 @@ function State:Update()
 end
 
 function State:Equip(item, slot)
+	-- For infinite ammo.
+	self.debug = exports.inventory:HasItem("Orb of Bias")
+
 	-- Check equipping.
 	if self.equipping then return end
 
@@ -162,7 +165,7 @@ function State:Set(weapon)
 	local slot = self.currentSlot or {}
 
 	self.equipped = weapon
-	self.ammo = slot.fields and slot.fields[1] or 0
+	self.ammo = self.debug and 100 or (slot.fields and slot.fields[1] or 0)
 	self:UpdateAmmo()
 end
 
