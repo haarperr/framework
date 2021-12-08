@@ -33,7 +33,7 @@ function Injury:Update()
 		local startTime = GetGameTimer()
 		local timer = 0
 		
-		while (isMoving and timer < 6000) or timer < 3000 do
+		while (GetEntitySpeed(Ped) > 0.2 or timer < 3000) and timer < 16000 do
 			timer = GetGameTimer() - startTime
 			Citizen.Wait(0)
 		end
@@ -79,8 +79,8 @@ function Injury:Update()
 
 	-- Determine anim state.
 	local animState = (
+		(isDead and inVehicle and "Vehicle") or
 		((not isDead or IsEntityAttached(Ped) or isMoving) and "None") or
-		(inVehicle and "Vehicle") or
 		(inWater and "Water") or
 		"Normal"
 	)
