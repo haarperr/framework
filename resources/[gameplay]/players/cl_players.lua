@@ -56,7 +56,9 @@ function Main:BuildNavigation()
 end
 
 function Main:AddOption(data)
-	self.options[#self.options + 1] = data
+	data.players = true
+	
+	table.insert(self.options, data)
 
 	if self.open then
 		self:BuildNavigation()
@@ -79,6 +81,13 @@ function Main:RemoveOption(id)
 	return false
 end
 
+--[[ Exports ]]--
+exports("AddOption", function(data)
+	data.resource = GetInvokingResource()
+
+	Main:AddOption(data)
+end)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -88,6 +97,21 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Events ]]--
+AddEventHandler("onClientResourceStop", function(resourceName)
+	local shouldUpdate = false
+	for i = #Main.options, 1, -1 do
+		local option  = Main.options[i]
+		if option and option.resource == resourceName then
+			table.remove(Main.options, i)
+			shouldUpdate = true
+		end
+	end
+
+	if shouldUpdate and Main.open then
+		Main:BuildNavigation()
+	end
+end)
+
 AddEventHandler("interact:navigate", function(value)
 	if value then
 		Main:BuildNavigation()
@@ -96,6 +120,8 @@ AddEventHandler("interact:navigate", function(value)
 	end
 end)
 
-AddEventHandler("interact:onNavigate_players", function(...)
-	print(json.encode({...}))
+AddEventHandler("interact:onNavigate", function(id, option)
+	if option.players then
+		TriggerEvent("players:on_"..id, Main.player, Main.ped)
+	end
 end)
