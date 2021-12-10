@@ -203,7 +203,7 @@ function Main:BuildNavigation()
 		local offset = ((_settings or {}).Stretcher or {}).Unload or vector3(0.0, 0.0, 0.0)
 		local coords = _settings and GetOffsetFromEntityInWorldCoords(targetVehicle, offset)
 
-		if _settings and #(vehicleCoords - coords) < 1.5 and _settings.Type == "Ambulance" then
+		if _settings and #(vehicleCoords - coords) < 3.0 and _settings.Type == "Ambulance" then
 			options[#options + 1] = {
 				id = "loadStretcher",
 				text = "Load",

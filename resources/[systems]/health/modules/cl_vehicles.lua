@@ -17,10 +17,11 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	if not bone or GetGameTimer() - (bone.lastDamage or 0) < 200 then return end
 
 	local damage = math.min(math.max((speed - minSpeed) / (maxSpeed - minSpeed), 0.0), 1.0)
+	local isFracture = speed > fractureSpeed
 
-	if speed > fractureSpeed then
+	if isFracture then
 		bone:SetFracture(true)
 	end
 
-	bone:TakeDamage(damage)
+	bone:TakeDamage(damage, isFracture and "Fracture" or "Bruising")
 end)

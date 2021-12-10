@@ -8,12 +8,12 @@ Stretcher = {
 		-- [`stretcher_basket`] = {},
 	},
 	controls = {
-		1,
 		21,
 		22,
 		24,
 		25,
 		30,
+		31,
 		34,
 		35,
 	},
@@ -61,8 +61,10 @@ function Stretcher:Deactivate()
 
 	WaitForAccess(vehicle)
 
-	SetVehicleExtra(vehicle, 1, true)
-	SetVehicleExtra(vehicle, 2, false)
+	if not IsEntityAttachedToAnyVehicle(vehicle) then
+		SetVehicleExtra(vehicle, 1, true)
+		SetVehicleExtra(vehicle, 2, false)
+	end
 	
 	if IsEntityAttachedToEntity(vehicle, ped) then
 		DetachEntity(vehicle, true, true)
@@ -90,12 +92,17 @@ function Stretcher:Update()
 	end
 
 	local deltaTime = self.lastUpdate and (GetGameTimer() - self.lastUpdate) / 1000.0 or 0
-	local heading = GetGameplayCamRelativeHeading()
+	local heading = GetEntityHeading(ped)
 	local horizontal = GetDisabledControlNormal(0, 30) --(IsDisabledControlPressed(0, 34) and -1.0) or (IsDisabledControlPressed(0, 35) and 1.0) or 0.0
-	local vertical = GetControlNormal(0, 31)
+	local vertical = math.max(-GetDisabledControlNormal(0, 31), 0.0)
 
 	self.lastUpdate = GetGameTimer()
 	self.speed = Lerp(self.speed, horizontal * vertical * 0.5, deltaTime * 2.0)
+
+	if vertical > 0.01 and (not self.lastGait or GetGameTimer() - self.lastGait > 500) then
+		SimulatePlayerInputGait(PlayerId(), 1.0, 500, 0.0, 1, 0)
+		self.lastGait = GetGameTimer()
+	end
 
 	-- Disable input.
 	for _, control in ipairs(self.controls) do
@@ -103,11 +110,11 @@ function Stretcher:Update()
 	end
 	
 	-- Update heading.
-	SetGameplayCamRelativeHeading(heading + self.speed)
+	SetEntityHeading(ped, heading - self.speed * 5.0, true)
 
 	-- Force view mode.
-	if GetFollowPedCamViewMode() ~= 4 then
-		SetFollowPedCamViewMode(4)
+	if GetFollowPedCamViewMode() ~= 1 then
+		SetFollowPedCamViewMode(1)
 	end
 
 	-- Play emote.
