@@ -15,32 +15,33 @@
 ]]--
 
 local funcs = {
-	[2] = function(bone, weapon, weaponDamage)
-		-- Melee.
+	[2] = function(bone, weapon, weaponDamage) -- Melee.
 		bone:TakeDamage(0.1, "Stab")
 	end,
-	[3] = function(bone, weapon, weaponDamage)
-		-- Bullets.
+	[3] = function(bone, weapon, weaponDamage) -- Bullets.
 		local damageRatio = weaponDamage / 100.0
 	
 		bone:TakeDamage(damageRatio, "Gunshot")
 		bone:ApplyBleed(damageRatio * Config.Blood.BleedMult)
 	end,
-	[5] = function(bone, weapon, weaponDamage)
-		-- Explosions.
-		bone:SpreadDamage(0.4, 0.3, 0.6)
+	[5] = function(bone, weapon, weaponDamage) -- Explosions.
+		bone:SpreadDamage(0.4, 0.3, 0.6, "3rd Degree Burn")
 		bone:ApplyBleed(1.0)
 
 		Main:AddEffect("Concussion", 1.0)
 		Main:AddEffect("Blood", GetRandomFloatInRange(0.3, 0.4))
 	end,
-	[6] = function(bone, weapon, weaponDamage)
-		-- Fire.
+	[6] = function(bone, weapon, weaponDamage) -- Fire.
+		if GetGameTimer() - (Main.lastFireDamage or 0) < 1000 then
+			return
+		end
+
+		Main.lastFireDamage = GetGameTimer()
+
 		bone = Main:GetRandomBone()
-		bone:TakeDamage(0.01, "2nd Degree Burn")
+		bone:TakeDamage(GetRandomFloatInRange(0.2, 0.4), "2nd Degree Burn")
 	end,
-	[10] = function(bone, weapon, weaponDamage)
-		-- Electric.
+	[10] = function(bone, weapon, weaponDamage) -- Electric.
 		if weapon == `WEAPON_STUNGUN` then
 			bone:TakeDamage(GetRandomFloatInRange(0.1, 0.2), "1st Degree Burn")
 			bone:ApplyBleed(GetRandomFloatInRange(0.1, 0.2))
@@ -48,9 +49,37 @@ local funcs = {
 			Main:AddEffect("Fatigue", GetRandomFloatInRange(0.2, 0.3))
 		end
 	end,
-	[13] = function(bone, weapon, weaponDamage)
-		-- Gas.
-		
+	[13] = function(bone, weapon, weaponDamage) -- Gas.
+		if GetGameTimer() - (Main.lastGasDamage or 0) < 1000 then
+			return
+		end
+
+		Main.lastGasDamage = GetGameTimer()
+
+		ShakeGameplayCam("SMALL_EXPLOSION_SHAKE", GetRandomFloatInRange(0.2, 0.4))
+
+		Main:AddEffect("Oxygen", GetRandomFloatInRange(0.2, 0.4))
+
+		Citizen.CreateThread(function()
+			local startTime = GetGameTimer()
+
+			if not Main.offsetY then
+				Main.offsetY = GetRandomFloatInRange(0.0, math.pi * 2.0)
+			end
+
+			while GetGameTimer() - startTime < 1000 do
+				Main.offsetX = (Main.offsetX or 0.0) + GetRandomFloatInRange(0.0, 0.1)
+				Main.offsetY = (Main.offsetY or 0.0) + GetRandomFloatInRange(0.0, 0.1)
+
+				local x = math.cos(GetGameTimer() / 500.0 + Main.offsetX) * 0.5
+				local y = math.sin(GetGameTimer() / 500.0 + Main.offsetY) * 0.5
+
+				SetControlNormal(0, 1, x)
+				SetControlNormal(0, 2, y)
+
+				Citizen.Wait(0)
+			end
+		end)
 	end,
 }
 
