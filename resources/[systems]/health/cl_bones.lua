@@ -91,11 +91,11 @@ function Bone:TakeDamage(amount, injury)
 	TriggerServerEvent("health:damageBone", self.id, amount, injury)
 end
 
-function Bone:SpreadDamage(amount, falloff, falloff2)
+function Bone:SpreadDamage(amount, falloff, falloff2, injury)
 	local settings = self:GetSettings()
 	if not settings or not settings.Nearby then return end
 
-	self:TakeDamage(amount)
+	self:TakeDamage(amount, injury)
 
 	for _, id in ipairs(settings.Nearby) do
 		local bone = Main.bones[id]

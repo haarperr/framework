@@ -184,6 +184,7 @@ function Main:ResetInfo()
 
 	for boneId, bone in pairs(self.bones) do
 		bone.info = {}
+		bone.history = {}
 	end
 
 	self:UpdateInfo()

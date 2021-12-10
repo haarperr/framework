@@ -422,6 +422,15 @@ Config = {
 				["Suture Kit"] = true,
 			},
 		},
+		["Bruising"] = {
+			
+		},
+		["Fracture"] = {
+			
+		},
+		["Compound Fracture"] = {
+			
+		},
 		["Overdose"] = {
 
 		},
