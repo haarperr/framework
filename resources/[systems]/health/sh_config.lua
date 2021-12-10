@@ -58,6 +58,26 @@ Config = {
 			["health"] = true,
 		}
 	},
+	Groups = {
+		["Head"] = {
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Cervical Collar", "Nasopharyngeal Airway", }
+		},
+		["Torso"] = {
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Spinal Board", "Fire Blanket", }
+		},
+		["Left Arm"] = {
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
+		},
+		["Right Arm"] = {
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
+		},
+		["Left Leg"] = {
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
+		},
+		["Right Leg"] = {
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
+		},
+	},
 	Bones = {
 		-- Fallbacks.
 		[0] = {
@@ -84,6 +104,7 @@ Config = {
 		[31086] = {
 			Name = "SKEL_Head",
 			Label = "Head",
+			Group = "Head",
 			Modifier = 1.8,
 			Nearby = { 10706, 64729 },
 			Concussion = true,
@@ -92,6 +113,7 @@ Config = {
 		[10706] = {
 			Name = "SKEL_R_Clavicle",
 			Label = "Right Clavicle",
+			Group = "Torso",
 			Modifier = 0.8,
 			Nearby = { 40269, 31086, 24818 },
 			Armor = 1 << 1,
@@ -99,6 +121,7 @@ Config = {
 		[11816] = {
 			Name = "SKEL_Pelvis",
 			Label = "Pelvis",
+			Group = "Torso",
 			Modifier = 0.9,
 			Nearby = { 24817, 51826, 58271 },
 			Limp = 0.5,
@@ -107,6 +130,7 @@ Config = {
 		[14201] = {
 			Name = "SKEL_L_Foot",
 			Label = "Left Foot",
+			Group = "Left Leg",
 			Modifier = 0.6,
 			Nearby = { 63931 },
 			Limp = 0.25,
@@ -114,12 +138,14 @@ Config = {
 		[18905] = {
 			Name = "SKEL_L_Hand",
 			Label = "Left Hand",
+			Group = "Left Arm",
 			Modifier = 0.6,
 			Nearby = { 61163 },
 		},
 		[24817] = {
 			Name = "SKEL_Spine2",
 			Label = "Abdomen",
+			Group = "Torso",
 			Modifier = 1.0,
 			Nearby = { 24818, 24816 },
 			Armor = 1 << 1,
@@ -127,6 +153,7 @@ Config = {
 		[24818] = {
 			Name = "SKEL_Spine3",
 			Label = "Chest",
+			Group = "Torso",
 			Modifier = 1.1,
 			Nearby = { 10706, 64729, 24817, 45509, 40269 },
 			Armor = 1 << 1,
@@ -134,12 +161,14 @@ Config = {
 		[28252] = {
 			Name = "SKEL_R_Forearm",
 			Label = "Right Forearm",
+			Group = "Right Arm",
 			Modifier = 0.7,
 			Nearby = { 40269, 57005 },
 		},
 		[36864] = {
 			Name = "SKEL_R_Calf",
 			Label = "Right Calf",
+			Group = "Right Leg",
 			Modifier = 0.7,
 			Nearby = { 51826, 52301 },
 			Limp = 0.5,
@@ -147,6 +176,7 @@ Config = {
 		[40269] = {
 			Name = "SKEL_R_UpperArm",
 			Label = "Right Arm",
+			Group = "Right Arm",
 			Modifier = 0.8,
 			Nearby = { 10706, 28252, 24818 },
 			Armor = 1 << 2,
@@ -154,6 +184,7 @@ Config = {
 		[45509] = {
 			Name = "SKEL_L_UpperArm",
 			Label = "Left Arm",
+			Group = "Left Arm",
 			Modifier = 0.8,
 			Nearby = { 64729, 61163, 24818 },
 			Armor = 1 << 2,
@@ -161,6 +192,7 @@ Config = {
 		[51826] = {
 			Name = "SKEL_R_Thigh",
 			Label = "Right Thigh",
+			Group = "Right Leg",
 			Modifier = 0.8,
 			Nearby = { 11816, 36864 },
 			Limp = 0.5,
@@ -168,6 +200,7 @@ Config = {
 		[52301] = {
 			Name = "SKEL_R_Foot",
 			Label = "Right Foot",
+			Group = "Right Leg",
 			Modifier = 0.6,
 			Nearby = { 36864 },
 			Limp = 0.25,
@@ -175,12 +208,14 @@ Config = {
 		[57005] = {
 			Name = "SKEL_R_Hand",
 			Label = "Right Hand",
+			Group = "Right Arm",
 			Modifier = 0.6,
 			Nearby = { 28252 },
 		},
 		[58271] = {
 			Name = "SKEL_L_Thigh",
 			Label = "Left Thigh",
+			Group = "Left Leg",
 			Modifier = 0.8,
 			Nearby = { 11816, 63931 },
 			Limp = 0.5,
@@ -188,12 +223,14 @@ Config = {
 		[61163] = {
 			Name = "SKEL_L_Forearm",
 			Label = "Left Forearm",
+			Group = "Left Arm",
 			Modifier = 0.7,
 			Nearby = { 45509, 18905 },
 		},
 		[63931] = {
 			Name = "SKEL_L_Calf",
 			Label = "Left Calf",
+			Group = "Left Leg",
 			Modifier = 0.7,
 			Nearby = { 58271, 14201 },
 			Limp = 0.5,
@@ -201,6 +238,7 @@ Config = {
 		[64729] = {
 			Name = "SKEL_L_Clavicle",
 			Label = "Left Clavicle",
+			Group = "Torso",
 			Modifier = 0.8,
 			Nearby = { 45509, 31086, 24818 },
 			Armor = 1 << 1,
@@ -260,7 +298,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
-			Passive = 60.0 * -3.0,
+			Passive = -60.0,
 		},
 		{
 			Name = "Fatigue",
@@ -368,12 +406,21 @@ Config = {
 			High = true,
 		},
 	},
-	Inuries = {
+	Injuries = {
 		["Gunshot"] = {
-			Description = "A hole.",
+			Treatments = {
+				["Gauze"] = true,
+				["Bandage"] = true,
+				["Forceps"] = true,
+				["Suture Kit"] = true,
+			},
 		},
 		["Stab"] = {
-
+			Treatments = {
+				["Gauze"] = true,
+				["Bandage"] = true,
+				["Suture Kit"] = true,
+			},
 		},
 		["Overdose"] = {
 
@@ -419,6 +466,73 @@ Config = {
 			Offset = vector3(0.8, 1.2, 0.4),
 			Target = vector3(0.0, 0.0, 0.0),
 			Fov = 70.0,
+		},
+		Options = {
+			["Bandage"] = {
+				Item = "Bandage",
+				Description = "Wrap the injury in bandages.",
+				Action = "Secures the injury with bandages.",
+			},
+			["Cervical Collar"] = {
+				Item = "Cervical Collar",
+				Description = "Secure a c-collar around their neck.",
+				Action = "Secures a cervical collar around neck.",
+			},
+			["Fire Blanket"] = {
+				Item = "Fire Blanket",
+				Description = "Cover in a fire blanket.",
+				Action = "Wraps a fire blanket around them.",
+			},
+			["Forceps"] = {
+				Item = "Forceps",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Gauze"] = {
+				Item = "Gauze",
+				Description = "Stuff an open wound with gauze.",
+				Action = "Inserts gauze into the open wound.",
+			},
+			["Ice Pack"] = {
+				Item = "Ice Pack",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["IV Bag"] = {
+				Item = "IV Bag",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Nasopharyngeal Airway"] = {
+				Item = "Nasopharyngeal Airway",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Saline"] = {
+				Item = "Saline",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Spinal Board"] = {
+				Item = "Spinal Board",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Splint"] = {
+				Item = "Splint",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Suture Kit"] = {
+				Item = "Suture Kit",
+				Description = "An item.",
+				Action = "Does something.",
+			},
+			["Tranexamic Acid"] = {
+				Item = "Tranexamic Acid",
+				Description = "An item.",
+				Action = "Does something.",
+			},
 		},
 	},
 	Blood = {

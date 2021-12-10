@@ -21,6 +21,7 @@ function Bone:Create(id, name)
 		id = id,
 		name = name,
 		info = {},
+		history = {},
 	}, Bone)
 	
 	return instance
@@ -39,12 +40,13 @@ end
 
 function Bone:Heal()
 	self.info = {}
+	self.history = {}
 
 	self:UpdateInfo()
 	Main:UpdateSnowflake()
 end
 
-function Bone:TakeDamage(amount)
+function Bone:TakeDamage(amount, injury)
 	if GetPlayerInvincible(PlayerId()) or not amount or amount < 0.0001 then return end
 	
 	local settings = self:GetSettings()
@@ -59,15 +61,31 @@ function Bone:TakeDamage(amount)
 		end
 	end
 
+	-- Log the injury.
+	if injury and Config.Injuries[injury] then
+		table.insert(self.history, {
+			time = GetNetworkTime(),
+			name = injury,
+		})
+
+		if #self.history > 256 then
+			table.remove(self.history, 1)
+		end
+	end
+
+	-- Cache current time.
+	self.lastDamage = GetGameTimer()
+	
+	-- Update health.
 	local health = self.info.health or 1.0
 	health = math.min(math.max(health - amount, 0.0), 1.0)
-
-	self.lastDamage = GetGameTimer()
 	
 	self:SetInfo("health", health)
 	self:UpdateInfo()
 
 	Main:AddEffect("Health", -amount * (settings.Modifier or 1.0))
+
+	-- Trigger events.
 	Main:InvokeListener("DamageBone", self, amount)
 
 	TriggerServerEvent("health:damageBone", self.id, amount)

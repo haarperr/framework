@@ -20,7 +20,7 @@ function Treatment:GetText(boneId, info)
 
 	local text = settings.Label
 	local function appendText(icon)
-		text = text.."<img style='margin-left: 0.5vmin' src='nui://health/html/images/icons/"..icon..".png' width=auto height=20vmin />"
+		text = text.."<img style='margin-left: 0.5vmin' src='nui://health/html/images/icons/"..icon..".png' width=auto height=10vmin />"
 	end
 
 	if info.fractured then
@@ -59,6 +59,7 @@ function Treatment:Begin(ped, bones)
 
 	self.ped = ped
 	self.isLocal = ped == PlayerPedId()
+	self.bones = bones
 
 	self:SetBones(bones)
 	self:CreateCam()
@@ -67,8 +68,110 @@ function Treatment:Begin(ped, bones)
 		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
 	end
 
-	SetNuiFocus(true, true)
-	SetNuiFocusKeepInput(true)
+	local window = Window:Create({
+		type = "Window",
+		class = "compact transparent",
+		style = {
+			["width"] = "50vmin",
+			["height"] = "auto",
+			["top"] = "10vmin",
+			["right"] = "5vmin",
+		},
+		defaults = {
+			groups = Main:GetGroups(),
+		},
+		components = {
+			{
+				type = "q-btn",
+				text = "Close",
+				class = "q-mb-sm",
+				click = {
+					callback = "this.$invoke('close')",
+				},
+				binds = {
+					color = "red",
+				}
+			},
+			{
+				template = [[
+					<div
+						class="flex justify-between"
+						style="overflow: hidden"
+					>
+						<q-card
+							style="width: 49%"
+						>
+							<q-expansion-item
+								v-for="group in $getModel('groups')"
+								:key="group.name"
+								:style="`background-color: rgba(200, 0, 0, ${0.5 * (group.damage ?? 0.0)})`"
+								@input="if ($event) $setModel('active', group.name)"
+								group="groups"
+								expand-separator
+								dense
+							>
+								<template v-slot:header>
+									<q-item-section side v-if="group.injuries.find(x => x.treatment)">
+										<q-icon name="healing" />
+									</q-item-section>
+									<q-item-section>
+										<q-item-label>{{group.name}}</q-item-label>
+									</q-item-section>
+								</template>
+								<q-item
+									v-for="(info, key) in group.injuries"
+									:key="key"
+									:style="`background: rgba(${(info.treatment ? '0, 200, 0' : '200, 0, 0')}, ${0.5 * (info.intensity ?? 1.0)})`"
+									inset-level="0.2"
+									dense
+								>
+									<q-item-section>
+										{{info.name}}
+									</q-item-section>
+									<q-item-section side>
+										{{info.amount ?? 1}}
+									</q-item-section>
+								</q-item>
+							</q-expansion-item>
+						</q-card>
+						<q-card
+							style="width: 49%"
+							v-for="group in $getModel('groups')"
+							:key="group.name"
+							v-if="group.name == $getModel('active')"
+						>
+							<q-item
+								v-for="(treatment, key) in group.treatments"
+								:key="key"
+								:disabled="treatment.Disabled"
+								:clickable="!treatment.Disabled"
+								@click="$invoke('useTreatment', group.name, treatment.Name)"
+							>
+								<q-item-section avatar>
+									<q-img contain :src="`nui://inventory/icons/${treatment.Icon}.png`" width="4vmin" height="4vmin" />
+								</q-item-section>
+								<q-item-section>
+									<q-item-label>{{treatment.Text}}</q-item-label>
+									<q-item-label caption>{{treatment.Description}}</q-item-label>
+								</q-item-section>
+								<q-item-section side>
+									{{treatment.Amount ?? 1}}
+								</q-item-section>
+							</q-item>
+						</q-card
+					</div>
+				]]
+			},
+		},
+	})
+	
+	window:AddListener("close", function(window)
+		Treatment:End()
+	end)
+	
+	self.window = window
+
+	UI:Focus(true, true)
 end
 
 function Treatment:End()
@@ -93,8 +196,12 @@ function Treatment:End()
 		self.isLocal = nil
 	end
 
-	SetNuiFocus(false, false)
-	SetNuiFocusKeepInput(false)
+	if self.window then
+		self.window:Destroy()
+		self.window = nil
+	end
+
+	UI:Focus(false)
 end
 
 function Treatment:Update()
@@ -110,19 +217,14 @@ function Treatment:Update()
 	if IsDisabledControlJustReleased(0, 237) then
 		if self.treating then
 			self.treating = false
-			Menu:Invoke(false, "setTreatment")
+			self:SelectBone()
 		elseif self.activeBone then
 			self.treating = true
 			
 			local coords = GetPedBoneCoords(self.ped, self.activeBone, 0.0, 0.0, 0.0)
 			local retval, screenX, screenY = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
 
-			Menu:Invoke(false, "setTreatment", screenX, screenY, {
-				{ label = "Gauze", icon = "nui://inventory/icons/Gauze.png" },
-				{ label = "Bandage", icon = "nui://inventory/icons/Bandage.png" },
-				{ label = "Icepack", icon = "nui://inventory/icons/NONE.png" },
-				{ label = "Forceps", icon = "nui://inventory/icons/NONE.png" },
-			})
+			self:SelectBone(self.activeBone)
 		end
 	end
 
@@ -178,6 +280,22 @@ function Treatment:CreateCam()
 	self.camera = camera
 end
 
+function Treatment:SelectBone(boneId)
+	if self.label then
+		exports.interact:RemoveText()
+		self.label = nil
+	end
+
+	local bone = boneId and Main:GetBone(boneId)
+	if not bone then
+		return
+	end
+end
+
+function Treatment:GetTreatments()
+	return {}
+end
+
 function Treatment:SetBones(bones)
 	if not self.ped then return end
 
@@ -196,19 +314,11 @@ function Treatment:SetBones(bones)
 		elseif label then
 			exports.interact:RemoveText(label)
 			self.labels[boneId] = nil
-			bones[boneId] = nil
-		elseif not text then
-			bones[boneId] = nil
 		end
 	end
 
 	self.bones = bones
 end
-
---[[ Listeners ]]--
-Main:AddListener("UpdateSnowflake", function()
-	Treatment:SetBones(Main.bones)
-end)
 
 --[[ Events ]]--
 AddEventHandler("interact:onNavigate_health-examine", function()

@@ -17,13 +17,13 @@
 local funcs = {
 	[2] = function(bone, weapon, weaponDamage)
 		-- Melee.
-		bone:TakeDamage(0.1)
+		bone:TakeDamage(0.1, "Stab")
 	end,
 	[3] = function(bone, weapon, weaponDamage)
 		-- Bullets.
 		local damageRatio = weaponDamage / 100.0
 	
-		bone:TakeDamage(damageRatio)
+		bone:TakeDamage(damageRatio, "Gunshot")
 		bone:ApplyBleed(damageRatio * Config.Blood.BleedMult)
 	end,
 	[5] = function(bone, weapon, weaponDamage)
@@ -37,12 +37,12 @@ local funcs = {
 	[6] = function(bone, weapon, weaponDamage)
 		-- Fire.
 		bone = Main:GetRandomBone()
-		bone:TakeDamage(0.01)
+		bone:TakeDamage(0.01, "2nd Degree Burn")
 	end,
 	[10] = function(bone, weapon, weaponDamage)
 		-- Electric.
 		if weapon == `WEAPON_STUNGUN` then
-			bone:TakeDamage(GetRandomFloatInRange(0.1, 0.2))
+			bone:TakeDamage(GetRandomFloatInRange(0.1, 0.2), "1st Degree Burn")
 			bone:ApplyBleed(GetRandomFloatInRange(0.1, 0.2))
 
 			Main:AddEffect("Fatigue", GetRandomFloatInRange(0.2, 0.3))
