@@ -1,12 +1,25 @@
 --[[ Functions: Main ]]--
 function Main.update:Bleeding()
-	local blood = Main:GetEffect("Blood")
+	local blood = self:GetEffect("Blood") or 0.0
 	if blood > 0.8 then
 		self.walkstyle = "drunk3"
 	elseif blood > 0.6 then
 		self.walkstyle = "drunk2"
 	elseif blood > 0.4 then
 		self.walkstyle = "drunk"
+	end
+
+	local scene = (blood > 0.7 and "MP_BLUR_PRE_CELEB_SCREEN_SCENE") or (blood > 0.2 and "DH2A_PREPARE_DETONATION") or nil
+	if self.bloodScene ~= scene then
+		if self.bloodScene then
+			StopAudioScene(self.bloodScene)
+		end
+
+		if scene then
+			StartAudioScene(scene)
+		end
+
+		self.bloodScene = scene
 	end
 end
 
