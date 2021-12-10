@@ -35,9 +35,14 @@ function Main:UpdateFrame()
 	end
 
 	-- Tripping.
+	if not self.nextTripCheck or GetGameTimer() > self.nextTripCheck then
+		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.2
+		self.nextTripCheck = GetGameTimer() + 1000
+	end
+
 	SetPedRagdollOnCollision(Ped,
 		GetGameTimer() - self.lastRagdoll > 4000 and
-		GetRandomFloatInRange(0.0, 1.0) < 0.2 and
+		self.shouldTrip and
 		(IsPedRunning(Ped) or IsPedSprinting(Ped)) and
 		GetFollowPedCamViewMode() ~= 4 and
 		not IsRagdoll and
