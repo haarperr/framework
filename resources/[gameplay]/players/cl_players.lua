@@ -18,7 +18,9 @@ function Main:Update()
 	if not self.open then return end
 
 	local player, playerPed, playerDist = self:GetPlayer()
-	if player ~= self.player then
+	if playerDist > Config.MaxDist then
+		Main:ClearNavigation()
+	elseif player ~= self.player then
 		self:BuildNavigation()
 	end
 end
