@@ -10,6 +10,7 @@ Main = {
 
 --[[ Functions ]]--
 function Main:Init()
+	-- Cache bones.
 	self.boneIds = {}
 	for boneId, settings in pairs(Config.Bones) do
 		if settings.Name and not settings.Fallback then
@@ -17,7 +18,16 @@ function Main:Init()
 			self.boneIds[#self.boneIds + 1] = boneId
 		end
 	end
+	
+	-- Build navigation.
 	self:BuildNavigation()
+
+	-- Add player navigation.
+	exports.players:AddOption({
+		id = "healthExaminePlayer",
+		text = "Examine",
+		icon = "visibility",
+	})
 end
 
 function Main:Update()
@@ -194,12 +204,12 @@ end
 function Main:BuildNavigation()
 	local options = {
 		{
-			id = "health-examine",
+			id = "healthExamine",
 			text = "Examine",
 			icon = "visibility",
 		},
 		{
-			id = "health-status",
+			id = "healthStatus",
 			text = "Quick Status",
 			icon = "accessibility",
 		},
@@ -213,101 +223,6 @@ function Main:BuildNavigation()
 		icon = "spa",
 		sub = options,
 	})
-end
-
-function Main:GetGroups()
-	local groups = {}
-	local groupCache = {}
-
-	for boneId, bone in pairs(self.bones) do
-		if #bone.history == 0 then goto skipBone end
-
-		local settings = bone:GetSettings()
-		if not settings or not settings.Group then goto skipBone end
-
-		local groupSettings = Config.Groups[settings.Group]
-		if not groupSettings then goto skipBone end
-
-		-- Get info.
-		local info = bone.info or {}
-
-		-- Find/create the group.
-		local groupIndex = groupCache[settings.Group]
-		local group = nil
-
-		if groupIndex then
-			group = groups[groupIndex]
-		else
-			groupIndex = #groups + 1
-
-			group = {
-				name = settings.Group,
-				damage = 1.0,
-				treatments = {},
-				treatmentCache = {},
-				injuries = {},
-				injuryCache = {},
-			}
-
-			groups[groupIndex] = group
-			groupCache[settings.Group] = groupIndex
-		end
-
-		-- Add injuries.
-		for _, event in ipairs(bone.history) do
-			local injuryIndex = group.injuryCache[event.name]
-			local injury = nil
-
-			if injuryIndex then
-				injury = group.injuries[injuryIndex]
-			else
-				injuryIndex = #group.injuries + 1
-
-				injury = {
-					name = event.name,
-					treatment = event.treatment,
-					amount = 0,
-				}
-
-				group.injuries[injuryIndex] = injury
-				group.injuryCache[event.name] = injuryIndex
-			end
-
-			injury.amount = injury.amount + 1
-		end
-
-		-- Add treatments.
-		for _, treatmentName in ipairs(groupSettings.Treatments) do
-			local treatment = Config.Treatment.Options[treatmentName]
-			if not treatment or group.treatmentCache[treatmentName] then goto skipTreatment end
-
-			treatment.Text = treatmentName
-
-			if treatment.Item then
-				-- Check for item.
-				treatment.Disabled = not exports.inventory:HasItem(treatment.Item)
-
-				-- Set icon.
-				treatment.Icon = treatment.Icon or treatment.Item:gsub("%s+", "")
-			end
-
-			group.treatments[#group.treatments + 1] = treatment
-			group.treatmentCache[treatmentName] = true
-
-			::skipTreatment::
-		end
-
-		::skipBone::
-	end
-
-	-- Uncache injuries in groups.
-	for _, group in ipairs(groups) do
-		group.injuryCache = nil
-		group.treatmentCache = nil
-	end
-
-	-- Return groups.
-	return groups
 end
 
 --[[ Events ]]--
@@ -391,6 +306,32 @@ end)
 
 RegisterNetEvent("health:resetEffects", function()
 	Main:ResetEffects()
+end)
+
+RegisterNetEvent("health:sync", function(serverId, data)
+	local player = GetPlayerFromServerId(serverId)
+	local ped = GetPlayerPed(player)
+	if ped == PlayerPedId() then return end
+
+	local bones = {}
+	for boneId, settings in pairs(Config.Bones) do
+		local info = data.info and data.info[boneId] or data.info[tostring(boneId)]
+		local history = data.history and data.history[boneId] or data.history[tostring(boneId)]
+
+		if info or history then
+			local bone = Bone:Create(boneId, settings.Name)
+			bone.info = info
+			bone.history = history
+
+			bones[boneId] = bone
+		end
+	end
+
+	if Treatment.ped == ped then
+		Treatment:SetBones(bones)
+	else
+		Treatment:Begin(ped, bones, serverId)
+	end
 end)
 
 --[[ NUI Callbacks ]]--

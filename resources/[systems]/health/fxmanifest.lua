@@ -3,6 +3,10 @@ game 'gta5'
 
 ui_page 'html/index.html'
 
+dependencies {
+	'players',
+}
+
 files {
 	'html/**/*.css',
 	'html/**/*.html',

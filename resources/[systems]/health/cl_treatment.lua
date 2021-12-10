@@ -54,17 +54,19 @@ function Treatment:GetText(boneId, info)
 	]]
 end
 
-function Treatment:Begin(ped, bones)
+function Treatment:Begin(ped, bones, serverId)
 	self:End()
 
 	self.ped = ped
 	self.isLocal = ped == PlayerPedId()
-	self.bones = bones
+	self.serverId = serverId
 
 	self:SetBones(bones)
 	self:CreateCam()
 
-	if self.isLocal then
+	local state = LocalPlayer.state or {}
+
+	if self.isLocal and not state.immobile and not state.restrained then
 		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
 	end
 
@@ -78,7 +80,7 @@ function Treatment:Begin(ped, bones)
 			["right"] = "5vmin",
 		},
 		defaults = {
-			groups = Main:GetGroups(),
+			groups = self:GetGroups(),
 		},
 		components = {
 			{
@@ -106,6 +108,7 @@ function Treatment:Begin(ped, bones)
 								:key="group.name"
 								:style="`background-color: rgba(200, 0, 0, ${0.5 * (group.damage ?? 0.0)})`"
 								@input="if ($event) $setModel('active', group.name)"
+								:value="$getModel('active') == group.name"
 								group="groups"
 								expand-separator
 								dense
@@ -168,6 +171,10 @@ function Treatment:Begin(ped, bones)
 	window:AddListener("close", function(window)
 		Treatment:End()
 	end)
+
+	window:AddListener("useTreatment", function(groupName, treatmentName)
+
+	end)
 	
 	self.window = window
 
@@ -177,25 +184,35 @@ end
 function Treatment:End()
 	if not self.ped then return end
 
+	-- Remove labels.
 	for boneId, label in pairs(self.labels) do
 		exports.interact:RemoveText(label)
 	end
 
+	-- Clear cache.
+	self.labels = {}
+	self.ped = nil
+	self.isLocal = nil
+
+	-- Destroy camera.
 	if self.camera then
 		self.camera:Destroy()
+		self.camera = nil
+	end
+	
+	-- Unsubscribe to player.
+	if self.serverId then
+		TriggerServerEvent("health:subscribe", self.serverId, false)
+		self.serverId = nil
 	end
 
-	self.labels = {}
-	self.camera = nil
-	self.ped = nil
-
-	if self.isLocal then
+	-- Stop emote.
+	if self.emote then
 		exports.emotes:Stop(self.emote)
-
 		self.emote = nil
-		self.isLocal = nil
 	end
 
+	-- Destroy window.
 	if self.window then
 		self.window:Destroy()
 		self.window = nil
@@ -206,6 +223,18 @@ end
 
 function Treatment:Update()
 	if not self.ped or not self.bones then return end
+	
+	-- Check other players.
+	if not self.isLocal then
+		local localPed = PlayerPedId()
+		local localCoords = GetEntityCoords(localPed)
+		local coords = GetEntityCoords(self.ped)
+
+		if #(coords - localCoords) > 3.0 then
+			self:End()
+			return
+		end
+	end
 
 	-- Get cursor stuff.
 	local camCoords = GetFinalRenderedCamCoord()
@@ -214,19 +243,17 @@ function Treatment:Update()
 	local activeBone, activeDist = nil
 
 	-- Selecting bones.
-	if IsDisabledControlJustReleased(0, 237) then
-		if self.treating then
-			self.treating = false
-			self:SelectBone()
-		elseif self.activeBone then
-			self.treating = true
-			
-			local coords = GetPedBoneCoords(self.ped, self.activeBone, 0.0, 0.0, 0.0)
-			local retval, screenX, screenY = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
+	if IsDisabledControlJustReleased(0, 237) and self.activeBone and self.window then
+		local bone = Main:GetBone(self.activeBone)
+		local settings = bone and bone:GetSettings()
 
-			self:SelectBone(self.activeBone)
+		if settings then
+			self.window:SetModel("active", settings.Group)
 		end
 	end
+
+	-- Suppress interacts.
+	exports.interact:Suppress()
 
 	-- Cooldowns.
 	if self.lastUpdateCursor and GetGameTimer() - self.lastUpdateCursor < 100 then
@@ -265,7 +292,7 @@ function Treatment:CreateCam()
 		fov = 80.0,
 	})
 
-	local ped = PlayerPedId()
+	local ped = self.ped
 	local offset = Config.Treatment.Camera.Offset
 	local target = Config.Treatment.Camera.Target
 
@@ -280,24 +307,12 @@ function Treatment:CreateCam()
 	self.camera = camera
 end
 
-function Treatment:SelectBone(boneId)
-	if self.label then
-		exports.interact:RemoveText()
-		self.label = nil
-	end
-
-	local bone = boneId and Main:GetBone(boneId)
-	if not bone then
-		return
-	end
-end
-
-function Treatment:GetTreatments()
-	return {}
-end
-
 function Treatment:SetBones(bones)
 	if not self.ped then return end
+
+	self.bones = bones
+
+	print("set", json.encode(bones))
 
 	for boneId, bone in pairs(bones) do
 		local label = self.labels[boneId]
@@ -317,17 +332,128 @@ function Treatment:SetBones(bones)
 		end
 	end
 
-	self.bones = bones
+	if self.window then
+		self.window:SetModel("groups", self:GetGroups())
+	end
 end
 
+function Treatment:GetGroups()
+	local groups = {}
+	local groupCache = {}
+	local isDebug = exports.inventory:HasItem("Orb of Bias")
+
+	for boneId, bone in pairs(self.bones) do
+		if not bone.history or #bone.history == 0 then goto skipBone end
+
+		local settings = bone:GetSettings()
+		if not settings or not settings.Group then goto skipBone end
+
+		local groupSettings = Config.Groups[settings.Group]
+		if not groupSettings then goto skipBone end
+
+		-- Get info.
+		local info = bone.info or {}
+
+		-- Find/create the group.
+		local groupIndex = groupCache[settings.Group]
+		local group = nil
+
+		if groupIndex then
+			group = groups[groupIndex]
+		else
+			groupIndex = #groups + 1
+
+			group = {
+				name = settings.Group,
+				damage = 1.0,
+				treatments = {},
+				treatmentCache = {},
+				injuries = {},
+				injuryCache = {},
+			}
+
+			groups[groupIndex] = group
+			groupCache[settings.Group] = groupIndex
+		end
+
+		-- Add injuries.
+		for _, event in ipairs(bone.history) do
+			local injuryIndex = group.injuryCache[event.name]
+			local injury = nil
+
+			if injuryIndex then
+				injury = group.injuries[injuryIndex]
+			else
+				injuryIndex = #group.injuries + 1
+
+				injury = {
+					name = event.name,
+					treatment = event.treatment,
+					amount = 0,
+				}
+
+				group.injuries[injuryIndex] = injury
+				group.injuryCache[event.name] = injuryIndex
+			end
+
+			injury.amount = injury.amount + 1
+		end
+
+		-- Add treatments.
+		for _, treatmentName in ipairs(groupSettings.Treatments) do
+			local treatment = Config.Treatment.Options[treatmentName]
+			if not treatment or group.treatmentCache[treatmentName] then goto skipTreatment end
+
+			treatment.Text = treatmentName
+
+			if treatment.Item then
+				-- Check for item.
+				treatment.Disabled = not isDebug and not exports.inventory:HasItem(treatment.Item)
+
+				-- Set icon.
+				treatment.Icon = treatment.Icon or treatment.Item:gsub("%s+", "")
+			end
+
+			group.treatments[#group.treatments + 1] = treatment
+			group.treatmentCache[treatmentName] = true
+
+			::skipTreatment::
+		end
+
+		::skipBone::
+	end
+
+	-- Uncache injuries in groups.
+	for _, group in ipairs(groups) do
+		group.injuryCache = nil
+		group.treatmentCache = nil
+	end
+
+	-- Return groups.
+	return groups
+end
+
+--[[ Listeners ]]--
+Main:AddListener("UpdateSnowflake", function()
+	if Treatment.ped == PlayerPedId() then
+		Treatment:SetBones(Main.bones)
+	end
+end)
+
 --[[ Events ]]--
-AddEventHandler("interact:onNavigate_health-examine", function()
+AddEventHandler("interact:onNavigate_healthExamine", function(option)
 	local ped = PlayerPedId()
 	if Treatment.ped == ped then
 		Treatment:End()
 	else
 		Treatment:Begin(ped, Main.bones)
 	end
+end)
+
+AddEventHandler("players:on_healthExaminePlayer", function(player, ped)
+	if not player then return end
+
+	TriggerServerEvent("health:subscribe", GetPlayerServerId(player), true)
 end)
 
 --[[ Threads ]]--

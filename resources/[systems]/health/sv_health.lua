@@ -1,5 +1,6 @@
 Main = {
 	history = {},
+	players = {},
 }
 
 --[[ Functions: Main ]]--
@@ -7,11 +8,46 @@ function Main:Save(source, data)
 	exports.character:Set(source, "health", data)
 end
 
+function Main:Subscribe(source, target, value)
+	local health = nil
+	local player = self.players[target]
+
+	if value then
+		-- Get health.
+		health = exports.character:Get(target, "health")
+		if not health then
+			return false
+		end
+
+		-- Create player.
+		if not player then
+			player = {}
+			self.players[target] = player
+		end
+	elseif not player then
+		return false
+	end
+
+	player[source] = value and true or nil
+
+	if value then
+		TriggerClientEvent("health:sync", source, target, health)
+	else
+		local next = next
+		if next(player) == nil then
+			self.players[target] = nil
+		end
+	end
+
+	return true
+end
+
 --[[ Events ]]--
 AddEventHandler("playerDropped", function(reason)
 	local source = source
 
 	Main.history[source] = nil
+	Main.players[source] = nil
 end)
 
 --[[ Events: Net ]]--
@@ -34,6 +70,14 @@ RegisterNetEvent("health:sync", function(data)
 		return
 	end
 
+	-- Inform viewers.
+	local player = Main.players[source]
+	if player then
+		for viewer, _ in pairs(player) do
+			TriggerClientEvent("health:sync", viewer, source, data)
+		end
+	end
+
 	-- Save.
 	Main:Save(source, data)
 end)
@@ -41,21 +85,31 @@ end)
 RegisterNetEvent("health:subscribe", function(target, value)
 	local source = source
 
+	-- Check input.
 	if type(value) ~= "boolean" or type(target) ~= "number" or target <= 0 then return end
 
-	Main:Subscribe(source, target, value)
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	PlayerUtil:UpdateCooldown(source)
+
+	-- Subscribe.
+	if Main:Subscribe(source, target, value) and value then
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = "examined",
+		})
+	end
 end)
 
-RegisterNetEvent("health:damageBone", function(boneId, amount)
+RegisterNetEvent("health:damageBone", function(boneId, amount, name)
 	local source = source
 
-	if type(amount) ~= "number" then return end
+	if type(amount) ~= "number" or (name and not Config.Injuries[name]) then return end
 	
 	local bone = Config.Bones[boneId or false]
 	if not bone then return end
 
-	print(source, boneId, amount)
-	
 	local history = Main.history[source]
 	if not history then
 		history = {}
@@ -66,9 +120,10 @@ RegisterNetEvent("health:damageBone", function(boneId, amount)
 		time = GetGameTimer(),
 		bone = boneId,
 		amount = amount,
+		name = name,
 	})
 
-	if #history > 1000 then
+	if #history > 512 then
 		table.remove(history, #history)
 	end
 end)

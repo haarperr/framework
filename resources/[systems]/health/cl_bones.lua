@@ -88,7 +88,7 @@ function Bone:TakeDamage(amount, injury)
 	-- Trigger events.
 	Main:InvokeListener("DamageBone", self, amount)
 
-	TriggerServerEvent("health:damageBone", self.id, amount)
+	TriggerServerEvent("health:damageBone", self.id, amount, injury)
 end
 
 function Bone:SpreadDamage(amount, falloff, falloff2)

@@ -29,7 +29,7 @@ function Menu:Focus()
 end
 
 --[[ Events ]]--
-AddEventHandler("interact:onNavigate_health-status", function()
+AddEventHandler("interact:onNavigate_healthStatus", function()
 	Menu:Focus()
 end)
 

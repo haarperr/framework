@@ -37,6 +37,11 @@ function Main:ViewHistory(serverId, data)
 					align = "left",
 				},
 				{
+					field = "name",
+					label = "Name",
+					align = "left",
+				},
+				{
 					field = "amount",
 					label = "Amount",
 					align = "right",
