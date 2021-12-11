@@ -70,9 +70,11 @@ function Treatment:Begin(ped, bones, serverId)
 		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
 	end
 
+	local groups = self:GetGroups()
+
 	local window = Window:Create({
 		type = "Window",
-		class = "compact transparent",
+		--class = "compact transparent",
 		style = {
 			["width"] = "50vmin",
 			["height"] = "auto",
@@ -80,7 +82,8 @@ function Treatment:Begin(ped, bones, serverId)
 			["right"] = "5vmin",
 		},
 		defaults = {
-			groups = self:GetGroups(),
+			active = groups and (groups[1] or {}).name,
+			groups = groups,
 		},
 		components = {
 			{
@@ -97,16 +100,16 @@ function Treatment:Begin(ped, bones, serverId)
 			{
 				template = [[
 					<div
-						class="flex justify-between"
-						style="overflow: hidden"
+						style="display: flex; flex-direction: row; overflow: hidden"
 					>
 						<q-card
-							style="width: 49%"
+							style="min-width: 49%; flex-grow: 1"
+							v-if="($getModel('groups') ?? []).length > 0"
 						>
 							<q-expansion-item
 								v-for="group in $getModel('groups')"
 								:key="group.name"
-								:style="`background-color: rgba(200, 0, 0, ${0.5 * (group.damage ?? 0.0)})`"
+								:style="`background-color: rgba(200, 0, 0, ${0.5 * (1.0 - (group.health ?? 1.0))})`"
 								@input="if ($event) $setModel('active', group.name)"
 								:value="$getModel('active') == group.name"
 								group="groups"
@@ -138,7 +141,7 @@ function Treatment:Begin(ped, bones, serverId)
 							</q-expansion-item>
 						</q-card>
 						<q-card
-							style="width: 49%"
+							style="min-width: 49%; margin-left: 1%"
 							v-for="group in $getModel('groups')"
 							:key="group.name"
 							v-if="group.name == $getModel('active')"
@@ -148,7 +151,7 @@ function Treatment:Begin(ped, bones, serverId)
 								:key="key"
 								:disabled="treatment.Disabled"
 								:clickable="!treatment.Disabled"
-								@click="$invoke('useTreatment', group.name, treatment.Name)"
+								@click="$invoke('useTreatment', group.name, treatment.Text)"
 							>
 								<q-item-section avatar>
 									<q-img contain :src="`nui://inventory/icons/${treatment.Icon}.png`" width="4vmin" height="4vmin" />
@@ -161,7 +164,12 @@ function Treatment:Begin(ped, bones, serverId)
 									{{treatment.Amount ?? 1}}
 								</q-item-section>
 							</q-item>
-						</q-card
+						</q-card>
+						<div
+							v-if="($getModel('groups') ?? []).length == 0"
+						>
+							No injuries...
+						</div>
 					</div>
 				]]
 			},
@@ -172,8 +180,8 @@ function Treatment:Begin(ped, bones, serverId)
 		Treatment:End()
 	end)
 
-	window:AddListener("useTreatment", function(groupName, treatmentName)
-
+	window:AddListener("useTreatment", function(window, groupName, treatmentName)
+		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName)
 	end)
 	
 	self.window = window
@@ -343,11 +351,11 @@ function Treatment:GetGroups()
 	local isDebug = exports.inventory:HasItem("Orb of Bias")
 
 	for boneId, bone in pairs(self.bones) do
-		if not bone.history or #bone.history == 0 then goto skipBone end
-
+		-- Get settings.
 		local settings = bone:GetSettings()
 		if not settings or not settings.Group then goto skipBone end
 
+		-- Get group.
 		local groupSettings = Config.Groups[settings.Group]
 		if not groupSettings then goto skipBone end
 
@@ -365,7 +373,7 @@ function Treatment:GetGroups()
 
 			group = {
 				name = settings.Group,
-				damage = 1.0,
+				health = 1.0,
 				treatments = {},
 				treatmentCache = {},
 				injuries = {},
@@ -376,27 +384,32 @@ function Treatment:GetGroups()
 			groupCache[settings.Group] = groupIndex
 		end
 
+		-- Update health.
+		group.health = group.health * (info.health or 1.0)
+
 		-- Add injuries.
-		for _, event in ipairs(bone.history) do
-			local injuryIndex = group.injuryCache[event.name]
-			local injury = nil
+		if bone.history then
+			for _, event in ipairs(bone.history) do
+				local injuryIndex = group.injuryCache[event.name]
+				local injury = nil
+	
+				if injuryIndex then
+					injury = group.injuries[injuryIndex]
+				else
+					injuryIndex = #group.injuries + 1
+	
+					injury = {
+						name = event.name,
+						treatment = event.treatment,
+						amount = 0,
+					}
+	
+					group.injuries[injuryIndex] = injury
+					group.injuryCache[event.name] = injuryIndex
+				end
 
-			if injuryIndex then
-				injury = group.injuries[injuryIndex]
-			else
-				injuryIndex = #group.injuries + 1
-
-				injury = {
-					name = event.name,
-					treatment = event.treatment,
-					amount = 0,
-				}
-
-				group.injuries[injuryIndex] = injury
-				group.injuryCache[event.name] = injuryIndex
+				injury.amount = injury.amount + 1
 			end
-
-			injury.amount = injury.amount + 1
 		end
 
 		-- Add treatments.
@@ -454,6 +467,24 @@ AddEventHandler("players:on_healthExaminePlayer", function(player, ped)
 	if not player then return end
 
 	TriggerServerEvent("health:subscribe", GetPlayerServerId(player), true)
+end)
+
+--[[ Events: Net ]]--
+RegisterNetEvent("health:treat", function(serverId, groupName, treatmentName)
+	local player = GetPlayerFromServerId(serverId)
+	if not player then return end
+
+	local ped = GetPlayerPed(player)
+	if not ped or not DoesEntityExist(ped) then return end
+
+	local group = Config.Groups[groupName or false]
+	if not group then return end
+	
+	local treatment = Config.Treatment.Options[treatmentName or false]
+	if not treatment then return end
+
+	-- Add text.
+	exports.players:AddText(ped, ("%s %s"):format(group.Bone, treatment.Action), 12000)
 end)
 
 --[[ Threads ]]--

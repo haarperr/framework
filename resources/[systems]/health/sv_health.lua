@@ -28,7 +28,7 @@ function Main:Subscribe(source, target, value)
 		return false
 	end
 
-	player[source] = value and true or nil
+	player[source] = value == true or nil
 
 	if value then
 		TriggerClientEvent("health:sync", source, target, health)
@@ -126,4 +126,35 @@ RegisterNetEvent("health:damageBone", function(boneId, amount, name)
 	if #history > 512 then
 		table.remove(history, #history)
 	end
+end)
+
+RegisterNetEvent("health:treat", function(target, groupName, treatmentName)
+	local source = source
+
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	PlayerUtil:UpdateCooldown(source)
+	
+	-- Check types.
+	target = target or source
+
+	if type(target) ~= "number" or type(groupName) ~= "string" or type(treatmentName) ~= "string" then return end
+
+	-- Check player.
+	if source ~= target and not Main.players[target] then
+		return
+	end
+
+	-- Check group.
+	if not Config.Groups[groupName] then
+		return
+	end
+
+	-- Check treatment.
+	if not Config.Treatment.Options[treatmentName] then
+		return
+	end
+
+	-- Broadcast.
+	exports.players:Broadcast(target, "health:treat", target, groupName, treatmentName)
 end)

@@ -117,3 +117,12 @@ end
 function Bone:UpdateInfo()
 	Menu:Invoke("main", "updateInfo", self.name, self.info)
 end
+
+function Bone:GetGroup()
+	local settings = bone:GetSettings()
+	if not settings or not settings.Group then
+		return nil
+	end
+
+	return settings.Group, Config.Groups[settings.Group]
+end

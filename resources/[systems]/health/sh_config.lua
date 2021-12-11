@@ -60,21 +60,27 @@ Config = {
 	},
 	Groups = {
 		["Head"] = {
+			Bone = "head",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Cervical Collar", "Nasopharyngeal Airway", }
 		},
 		["Torso"] = {
+			Bone = "spine2",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Spinal Board", "Fire Blanket", }
 		},
 		["Left Arm"] = {
+			Bone = "lforearm",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
 		},
 		["Right Arm"] = {
+			Bone = "rforearm",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
 		},
 		["Left Leg"] = {
+			Bone = "lcalf",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
 		},
 		["Right Leg"] = {
+			Bone = "rcalf",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
 		},
 	},
@@ -509,8 +515,8 @@ Config = {
 			},
 			["IV Bag"] = {
 				Item = "IV Bag",
-				Description = "An item.",
-				Action = "Does something.",
+				Description = "A bag full of fluids with a needle.",
+				Action = "Inserts a needle leading to an IV bag full of fluids.",
 			},
 			["Nasopharyngeal Airway"] = {
 				Item = "Nasopharyngeal Airway",
@@ -519,8 +525,8 @@ Config = {
 			},
 			["Saline"] = {
 				Item = "Saline",
-				Description = "An item.",
-				Action = "Does something.",
+				Description = "A bottle full of saline.",
+				Action = "Cleans the wound with saline.",
 			},
 			["Spinal Board"] = {
 				Item = "Spinal Board",
