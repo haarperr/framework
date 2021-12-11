@@ -398,8 +398,6 @@ function Treatment:SetBones(bones)
 
 	self.bones = bones
 
-	print("set", json.encode(bones))
-
 	for boneId, bone in pairs(bones) do
 		local label = self.labels[boneId]
 		local text = self:GetText(boneId, bone.info, self.activeBone == boneId)
@@ -477,7 +475,7 @@ function Treatment:GetGroups()
 	
 					injury = {
 						name = event.name,
-						treatment = event.treatment,
+						treatment = Config.Treatment.Options[event.name] ~= nil,
 						amount = 0,
 					}
 	
@@ -528,6 +526,55 @@ function Treatment:GetGroups()
 	return groups
 end
 
+function Treatment:Treat(serverId, groupName, treatmentName)
+	local player = GetPlayerFromServerId(serverId)
+	if not player then return end
+
+	local ped = GetPlayerPed(player)
+	if not ped or not DoesEntityExist(ped) then return end
+
+	local group = Config.Groups[groupName or false]
+	if not group then return end
+	
+	local treatment = Config.Treatment.Options[treatmentName or false]
+	if not treatment then return end
+
+	-- Add proximity text.
+	exports.players:AddText(ped, ("%s %s"):format(group.Bone, treatment.Action), 12000)
+
+	-- Update current treatment.
+	if self.serverId == serverId then
+		local bone = self.bones[group.Part]
+		if bone and bone.history then
+			table.insert(bone.history, {
+				time = GetNetworkTime(),
+				name = treatmentName,
+			})
+
+			self:SetBones(self.bones)
+		end
+	end
+
+	-- Check for self.
+	if player ~= PlayerId() then
+		return
+	end
+
+	-- Treat bones.
+	local bone = Main.bones[group.Part]
+
+	bone:AddTreatment(treatmentName)
+	
+	-- for boneId, bone in pairs(Main.bones) do
+	-- 	local settings = bone:GetSettings()
+	-- 	if not settings then goto skipBone end
+
+	
+
+	-- 	::skipBone::
+	-- end
+end
+
 --[[ Listeners ]]--
 Main:AddListener("UpdateSnowflake", function()
 	if Treatment.ped == PlayerPedId() then
@@ -561,20 +608,7 @@ end)
 
 --[[ Events: Net ]]--
 RegisterNetEvent("health:treat", function(serverId, groupName, treatmentName)
-	local player = GetPlayerFromServerId(serverId)
-	if not player then return end
-
-	local ped = GetPlayerPed(player)
-	if not ped or not DoesEntityExist(ped) then return end
-
-	local group = Config.Groups[groupName or false]
-	if not group then return end
-	
-	local treatment = Config.Treatment.Options[treatmentName or false]
-	if not treatment then return end
-
-	-- Add text.
-	exports.players:AddText(ped, ("%s %s"):format(group.Bone, treatment.Action), 12000)
+	Treatment:Treat(serverId, groupName, treatmentName)
 end)
 
 --[[ Threads ]]--

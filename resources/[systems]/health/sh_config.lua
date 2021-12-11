@@ -60,26 +60,32 @@ Config = {
 	},
 	Groups = {
 		["Head"] = {
+			Part = 31086,
 			Bone = "head",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Cervical Collar", "Nasopharyngeal Airway", }
 		},
 		["Torso"] = {
+			Part = 11816,
 			Bone = "spine2",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Spinal Board", "Fire Blanket", }
 		},
 		["Left Arm"] = {
+			Part = 18905,
 			Bone = "lforearm",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
 		},
 		["Right Arm"] = {
+			Part = 40269,
 			Bone = "rforearm",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
 		},
 		["Left Leg"] = {
+			Part = 58271,
 			Bone = "lcalf",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
 		},
 		["Right Leg"] = {
+			Part = 51826,
 			Bone = "rcalf",
 			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
 		},
@@ -414,19 +420,10 @@ Config = {
 	},
 	Injuries = {
 		["Gunshot"] = {
-			Treatments = {
-				["Gauze"] = true,
-				["Bandage"] = true,
-				["Forceps"] = true,
-				["Suture Kit"] = true,
-			},
+			
 		},
 		["Stab"] = {
-			Treatments = {
-				["Gauze"] = true,
-				["Bandage"] = true,
-				["Suture Kit"] = true,
-			},
+			
 		},
 		["Bruising"] = {
 			

@@ -46,6 +46,18 @@ function Bone:Heal()
 	Main:UpdateSnowflake()
 end
 
+function Bone:AddTreatment(name)
+	table.insert(self.history, {
+		time = GetNetworkTime(),
+		name = name,
+	})
+
+	self:UpdateInfo()
+	Main:UpdateSnowflake()
+
+	Main:InvokeListener("TreatBone", self, name)
+end
+
 function Bone:TakeDamage(amount, injury)
 	if GetPlayerInvincible(PlayerId()) or not amount or amount < 0.0001 then return end
 	

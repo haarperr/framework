@@ -72,6 +72,8 @@ function Main:Sync()
 	for boneId, bone in pairs(self.bones) do
 		if next(bone.info) ~= nil then
 			payload.info[boneId] = bone.info
+		end
+		if next(bone.history) ~= nil then
 			payload.history[boneId] = bone.history
 		end
 	end
