@@ -476,6 +476,12 @@ Config = {
 					{ Dict = "special_ped@andy_moon@base", Name = "base", Flag = 1, Locked = true },
 				},
 			},
+			Revive = {
+				Dict = "missexile3",
+				Name = "ex03_dingy_search_case_base_michael",
+				Flag = 48,
+				Duration = 2000,
+			},
 		},
 		Camera = {
 			Offset = vector3(0.8, 1.2, 0.4),

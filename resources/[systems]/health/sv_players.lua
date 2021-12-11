@@ -35,7 +35,13 @@ function Player:InformAll(eventName, ...)
 end
 
 function Player:SetStatus(status)
+	if status == self.status then
+		return false
+	end
+	
 	self.status = status
 
 	self:InformAll("health:updateStatus", self.serverId, status)
+
+	return true
 end

@@ -152,7 +152,6 @@ function Treatment:Begin(ped, bones, serverId, status)
 				}
 			},
 			{
-				condition = "this.$getModel('canTreat')",
 				template = [[
 					<div
 						style="display: flex; flex-direction: row; overflow: hidden"
@@ -198,7 +197,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 							style="min-width: 49%; margin-left: 1%"
 							v-for="group in $getModel('groups')"
 							:key="group.name"
-							v-if="group.name == $getModel('active')"
+							v-if="$getModel('canTreat') && group.name == $getModel('active')"
 						>
 							<q-item
 								v-for="(treatment, key) in group.treatments"
@@ -550,6 +549,14 @@ AddEventHandler("players:on_healthExaminePlayer", function(player, ped)
 	if not player then return end
 
 	TriggerServerEvent("health:subscribe", GetPlayerServerId(player), true)
+end)
+
+AddEventHandler("players:on_healthHelp", function(player, ped)
+	if not player then return end
+
+	exports.emotes:Play(Config.Treatment.Anims.Revive)
+
+	TriggerServerEvent("health:help", GetPlayerServerId(player))
 end)
 
 --[[ Events: Net ]]--

@@ -29,6 +29,12 @@ function Main:Init()
 		text = "Examine",
 		icon = "visibility",
 	})
+
+	exports.players:AddOption({
+		id = "healthHelp",
+		text = "Help Up",
+		icon = "front_hand",
+	})
 end
 
 function Main:Update()
@@ -192,6 +198,10 @@ function Main:ResetInfo()
 	self:InvokeListener("ResetInfo")
 end
 
+function Main:GetUp()
+	self:SetEffect("Health", 0.1)
+end
+
 function Main:UpdateSnowflake()
 	self.snowflake = self.snowflake + 1
 
@@ -286,6 +296,10 @@ RegisterNetEvent("health:revive", function(resetEffects)
 	if resetEffects then
 		Main:ResetEffects()
 	end
+end)
+
+RegisterNetEvent("health:getup", function(resetEffects)
+	Main:GetUp()
 end)
 
 RegisterNetEvent("health:slay", function()

@@ -151,7 +151,34 @@ RegisterNetEvent("health:setStatus", function(status)
 
 	-- Get player.
 	local player = Main.players[source]
-	if player then
-		player:SetStatus(status)
+	if player and player:SetStatus(status) then
+		exports.log:Add({
+			source = source,
+			verb  = "set",
+			noun = "status",
+			extra = status,
+		})
 	end
+end)
+
+RegisterNetEvent("health:help", function(target)
+	local source = source
+
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	PlayerUtil:UpdateCooldown(source)
+	
+	-- Check target.
+	if not target or not Main.players[target] then return end
+
+	-- Log it.
+	exports.log:Add({
+		source = source,
+		target = target,
+		verb = "helped",
+		noun = "stand",
+	})
+
+	-- Revive player.
+	TriggerClientEvent("health:getup", target)
 end)
