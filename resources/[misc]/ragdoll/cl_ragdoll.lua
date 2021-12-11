@@ -19,6 +19,8 @@ function Main:Update()
 
 	if not ragdoll and (
 		not IsPedFalling(ped) and
+		IsControlEnabled(0, 51) and
+		IsControlEnabled(0, 52) and
 		not state.restrained and
 		not state.immobile and
 		not state.carrier and
