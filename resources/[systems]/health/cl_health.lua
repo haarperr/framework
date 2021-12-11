@@ -12,13 +12,14 @@ Main = {
 function Main:Init()
 	-- Cache bones.
 	self.boneIds = {}
+
 	for boneId, settings in pairs(Config.Bones) do
 		if settings.Name and not settings.Fallback then
 			self.bones[boneId] = Bone:Create(boneId, settings.Name)
 			self.boneIds[#self.boneIds + 1] = boneId
 		end
 	end
-	
+
 	-- Build navigation.
 	self:BuildNavigation()
 
@@ -309,7 +310,7 @@ RegisterNetEvent("health:resetEffects", function()
 	Main:ResetEffects()
 end)
 
-RegisterNetEvent("health:sync", function(serverId, data)
+RegisterNetEvent("health:sync", function(serverId, data, status)
 	local player = GetPlayerFromServerId(serverId)
 	local ped = GetPlayerPed(player)
 	if ped == PlayerPedId() then return end
@@ -331,7 +332,13 @@ RegisterNetEvent("health:sync", function(serverId, data)
 	if Treatment.ped == ped then
 		Treatment:SetBones(bones)
 	else
-		Treatment:Begin(ped, bones, serverId)
+		Treatment:Begin(ped, bones, serverId, status)
+	end
+end)
+
+RegisterNetEvent("health:updateStatus", function(serverId, status)
+	if Treatment.serverId == serverId and Treatment.window then
+		Treatment.window:SetModel("status", status)
 	end
 end)
 

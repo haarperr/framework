@@ -506,7 +506,7 @@ Config = {
 			["Gauze"] = {
 				Item = "Gauze",
 				Description = "Stuff an open wound with gauze.",
-				Action = "Inserts gauze into the open wound.",
+				Action = "Packs gauze over the wound.",
 			},
 			["Ice Pack"] = {
 				Item = "Ice Pack",

@@ -1,7 +1,26 @@
 Treatment = {
 	labels = {},
 	full = { 0, 240, 0 },
-	empty = { 220, 0, 0},
+	empty = { 220, 0, 0 },
+	controls = {
+		0,
+		22,
+		23,
+		24,
+		25,
+		30,
+		31,
+		32,
+		33,
+		34,
+		35,
+		51,
+		52,
+		199,
+		200,
+		245,
+		246,
+	},
 }
 
 function Treatment:GetText(boneId, info)
@@ -54,7 +73,7 @@ function Treatment:GetText(boneId, info)
 	]]
 end
 
-function Treatment:Begin(ped, bones, serverId)
+function Treatment:Begin(ped, bones, serverId, status)
 	self:End()
 
 	self.ped = ped
@@ -84,8 +103,41 @@ function Treatment:Begin(ped, bones, serverId)
 		defaults = {
 			active = groups and (groups[1] or {}).name,
 			groups = groups,
+			isLocal = self.isLocal,
+			status = status,
 		},
 		components = {
+			{
+				template = [[
+					<div>
+						<q-input
+							:value="$getModel('action')"
+							@input="$setModel('action', $event)"
+							@keypress.enter.prevent="$invoke('performAction')"
+							class="q-mb-sm"
+							label="Action"
+							maxlength=256
+							filled
+							dense
+							clearable
+						/>
+						<q-input
+							:readonly="!$getModel('isLocal')"
+							:value="$getModel('status')"
+							@input="$setModel('status', $event)"
+							@clear="invoke('setStatus')"
+							@keypress.enter.prevent="$invoke('setStatus')"
+							class="q-mb-sm"
+							label="Status"
+							maxlength=256
+							autogrow
+							filled
+							dense
+							clearable
+						/>
+					</div>
+				]]
+			},
 			{
 				type = "q-btn",
 				text = "Close",
@@ -104,7 +156,6 @@ function Treatment:Begin(ped, bones, serverId)
 					>
 						<q-card
 							style="min-width: 49%; flex-grow: 1"
-							v-if="($getModel('groups') ?? []).length > 0"
 						>
 							<q-expansion-item
 								v-for="group in $getModel('groups')"
@@ -165,11 +216,6 @@ function Treatment:Begin(ped, bones, serverId)
 								</q-item-section>
 							</q-item>
 						</q-card>
-						<div
-							v-if="($getModel('groups') ?? []).length == 0"
-						>
-							No injuries...
-						</div>
 					</div>
 				]]
 			},
@@ -182,6 +228,27 @@ function Treatment:Begin(ped, bones, serverId)
 
 	window:AddListener("useTreatment", function(window, groupName, treatmentName)
 		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName)
+	end)
+
+	window:AddListener("performAction", function(window)
+		local action = window.models["action"]
+		if not action or (LastAction and GetGameTimer() - LastAction < 3000) then return end
+
+		LastAction = GetGameTimer()
+
+		ExecuteCommand(("me %s"):format(action))
+
+		window:SetModel("action", "")
+	end)
+
+	window:AddListener("setStatus", function(window)
+		local status = window.models["status"] or ""
+		if (LastStatus and GetGameTimer() - LastStatus < 1000) then return end
+
+		LastStatus = GetGameTimer()
+		Status = status
+
+		TriggerServerEvent("health:setStatus", status)
 	end)
 	
 	self.window = window
@@ -242,6 +309,11 @@ function Treatment:Update()
 			self:End()
 			return
 		end
+	end
+
+	-- Disable controls.
+	for _, control in ipairs(self.controls) do
+		DisableControlAction(0, control)
 	end
 
 	-- Get cursor stuff.
@@ -350,10 +422,9 @@ function Treatment:GetGroups()
 	local groupCache = {}
 	local isDebug = exports.inventory:HasItem("Orb of Bias")
 
-	for boneId, bone in pairs(self.bones) do
-		-- Get settings.
-		local settings = bone:GetSettings()
-		if not settings or not settings.Group then goto skipBone end
+	for boneId, settings in pairs(Config.Bones) do
+		local bone = self.bones[boneId] or {}
+		if not settings.Group then goto skipBone end
 
 		-- Get group.
 		local groupSettings = Config.Groups[settings.Group]
@@ -442,6 +513,11 @@ function Treatment:GetGroups()
 		group.treatmentCache = nil
 	end
 
+	-- Sort groups.
+	table.sort(groups, function(a, b)
+		return (a and a.name or "") < (b and b.name or "")
+	end)
+
 	-- Return groups.
 	return groups
 end
@@ -459,7 +535,7 @@ AddEventHandler("interact:onNavigate_healthExamine", function(option)
 	if Treatment.ped == ped then
 		Treatment:End()
 	else
-		Treatment:Begin(ped, Main.bones)
+		Treatment:Begin(ped, Main.bones, nil, Status)
 	end
 end)
 

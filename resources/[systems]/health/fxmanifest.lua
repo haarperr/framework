@@ -38,6 +38,7 @@ client_scripts {
 server_scripts {
 	'@utils/server/players.lua',
 	'sv_health.lua',
+	'sv_players.lua',
 	'sv_commands.lua',
 	'modules/sv_*.lua',
 }

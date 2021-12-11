@@ -10,36 +10,11 @@ end
 
 function Main:Subscribe(source, target, value)
 	local health = nil
+
 	local player = self.players[target]
+	if not player then return false end
 
-	if value then
-		-- Get health.
-		health = exports.character:Get(target, "health")
-		if not health then
-			return false
-		end
-
-		-- Create player.
-		if not player then
-			player = {}
-			self.players[target] = player
-		end
-	elseif not player then
-		return false
-	end
-
-	player[source] = value == true or nil
-
-	if value then
-		TriggerClientEvent("health:sync", source, target, health)
-	else
-		local next = next
-		if next(player) == nil then
-			self.players[target] = nil
-		end
-	end
-
-	return true
+	return player:Subscribe(source, value)
 end
 
 --[[ Events ]]--
@@ -51,6 +26,13 @@ AddEventHandler("playerDropped", function(reason)
 end)
 
 --[[ Events: Net ]]--
+RegisterNetEvent("health:ready", function()
+	local source = source
+	if not Main.players[source] then
+		Player:Create(source)
+	end
+end)
+
 RegisterNetEvent("health:sync", function(data)
 	local source = source
 
@@ -73,9 +55,7 @@ RegisterNetEvent("health:sync", function(data)
 	-- Inform viewers.
 	local player = Main.players[source]
 	if player then
-		for viewer, _ in pairs(player) do
-			TriggerClientEvent("health:sync", viewer, source, data)
-		end
+		player:InformAll("health:sync", source, data)
 	end
 
 	-- Save.
@@ -157,4 +137,17 @@ RegisterNetEvent("health:treat", function(target, groupName, treatmentName)
 
 	-- Broadcast.
 	exports.players:Broadcast(target, "health:treat", target, groupName, treatmentName)
+end)
+
+RegisterNetEvent("health:setStatus", function(status)
+	local source = source
+
+	-- Check input.
+	if type(status) ~= "string" or status:len() > 256 then return end
+
+	-- Get player.
+	local player = Main.players[source]
+	if player then
+		player:SetStatus(status)
+	end
 end)
