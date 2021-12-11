@@ -130,6 +130,11 @@ function AddText(entity, text, duration)
 	end)
 end
 
+--[[ Exports ]]--
+exports("AddText", function(...)
+	AddText(...)
+end)
+
 --[[ Events: Net ]]--
 RegisterNetEvent("players:me", function(netId, text, distance)
 	local entity = NetworkGetEntityFromNetworkId(netId)
