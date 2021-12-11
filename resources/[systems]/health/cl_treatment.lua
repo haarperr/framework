@@ -84,16 +84,17 @@ function Treatment:Begin(ped, bones, serverId, status)
 	self:CreateCam()
 
 	local state = LocalPlayer.state or {}
+	local groups = self:GetGroups()
+	local canTreat = not state.immobile and not state.restrained
 
-	if self.isLocal and not state.immobile and not state.restrained then
+	-- Play emote.
+	if self.isLocal and canTreat then
 		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
 	end
 
-	local groups = self:GetGroups()
-
+	-- Create menu.
 	local window = Window:Create({
 		type = "Window",
-		--class = "compact transparent",
 		style = {
 			["width"] = "50vmin",
 			["height"] = "auto",
@@ -104,6 +105,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 			active = groups and (groups[1] or {}).name,
 			groups = groups,
 			isLocal = self.isLocal,
+			canTreat = canTreat,
 			status = status,
 		},
 		components = {
@@ -125,7 +127,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 							:readonly="!$getModel('isLocal')"
 							:value="$getModel('status')"
 							@input="$setModel('status', $event)"
-							@clear="invoke('setStatus')"
+							@clear="$invoke('setStatus', true)"
 							@keypress.enter.prevent="$invoke('setStatus')"
 							class="q-mb-sm"
 							label="Status"
@@ -150,6 +152,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 				}
 			},
 			{
+				condition = "this.$getModel('canTreat')",
 				template = [[
 					<div
 						style="display: flex; flex-direction: row; overflow: hidden"
@@ -241,14 +244,18 @@ function Treatment:Begin(ped, bones, serverId, status)
 		window:SetModel("action", "")
 	end)
 
-	window:AddListener("setStatus", function(window)
-		local status = window.models["status"] or ""
+	window:AddListener("setStatus", function(window, isClearing)
+		local status = not isClearing and window.models["status"] or ""
 		if (LastStatus and GetGameTimer() - LastStatus < 1000) then return end
 
 		LastStatus = GetGameTimer()
 		Status = status
 
 		TriggerServerEvent("health:setStatus", status)
+
+		if isClearing then
+			window:SetModel("status", "")
+		end
 	end)
 	
 	self.window = window

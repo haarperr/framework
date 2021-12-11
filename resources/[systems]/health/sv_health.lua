@@ -142,6 +142,10 @@ end)
 RegisterNetEvent("health:setStatus", function(status)
 	local source = source
 
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	PlayerUtil:UpdateCooldown(source)
+
 	-- Check input.
 	if type(status) ~= "string" or status:len() > 256 then return end
 
