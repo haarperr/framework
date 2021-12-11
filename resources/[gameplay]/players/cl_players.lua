@@ -125,5 +125,6 @@ end)
 AddEventHandler("interact:onNavigate", function(id, option)
 	if option.players then
 		TriggerEvent("players:on_"..id, Main.player, Main.ped)
+		TriggerServerEvent("players:on_"..id, Main.player, Main.ped)
 	end
 end)
