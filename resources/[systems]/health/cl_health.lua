@@ -93,8 +93,7 @@ function Main:Sync()
 	TriggerServerEvent("health:sync", payload)
 	
 	-- Debug.
-	print("Updating snowflake", self.snowflake)
-	TriggerEvent("chat:addMessage", { text = json.encode(payload) })
+	print("Updating snowflake", self.snowflake, json.encode(payload))
 end
 
 function Main:Restore(data)
