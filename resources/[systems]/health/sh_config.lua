@@ -62,32 +62,32 @@ Config = {
 		["Head"] = {
 			Part = 31086,
 			Bone = "head",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Cervical Collar", "Nasopharyngeal Airway", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Cervical Collar", "Nasopharyngeal Airway", }
 		},
 		["Torso"] = {
 			Part = 11816,
 			Bone = "spine2",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Fire Blanket", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Fire Blanket", }
 		},
 		["Left Arm"] = {
 			Part = 18905,
 			Bone = "lforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
 		},
 		["Right Arm"] = {
 			Part = 40269,
 			Bone = "rforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
 		},
 		["Left Leg"] = {
 			Part = 58271,
 			Bone = "lcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "Tourniquet", }
 		},
 		["Right Leg"] = {
 			Part = 51826,
 			Bone = "rcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "Tourniquet", }
 		},
 	},
 	Bones = {
@@ -420,20 +420,27 @@ Config = {
 	},
 	Injuries = {
 		["Gunshot"] = {
-			Lifetime = 120.0,--3600.0 * 8.0,
+			Lifetime = function(bone, groupBone, treatments)
+				local sum = math.min(treatments["Gauze"] or 0, 1) + math.min(treatments["Bandage"] or 0) + math.min(treatments["Suture Kit"] or 0, 1)
+				return 28800.0 / (math.pow(sum, 2) + 1)
+			end,--3600.0 * 8.0,
 			Healing = 0.0,
+			Clear = 1.0,
 		},
 		["Stab"] = {
 			Lifetime = 3600.0 * 4.0,
 			Healing = 0.0,
+			Clear = 1.0,
 		},
 		["Bruising"] = {
 			Lifetime = 3600.0 * 0.5,
 			Healing = 0.5,
+			Clear = 0.2,
 		},
 		["Fracture"] = {
 			Lifetime = 3600.0 * 0.5,
 			Healing = 0.0,
+			Clear = 0.8,
 		},
 		["Compound Fracture"] = {
 			Lifetime = 3600.0 * 1.0,
@@ -475,41 +482,57 @@ Config = {
 			Item = "Bandage",
 			Description = "Wrap the wound in bandages.",
 			Action = "Secures the wound with bandages.",
+			Removable = true,
+			Lifetime = function(bone, groupBone, treatments)
+				if IsPedSprinting(Ped) then
+					return 300.0
+				else
+					return 3600.0
+				end
+			end,
 		},
 		["Cervical Collar"] = {
 			Item = "Cervical Collar",
 			Description = "Secure a c-collar around their neck.",
 			Action = "Secures a cervical collar around neck.",
+			Removable = true,
 		},
 		["Fire Blanket"] = {
 			Item = "Fire Blanket",
 			Description = "Cover in a fire blanket.",
 			Action = "Wraps a fire blanket around them.",
-		},
-		["Forceps"] = {
-			Item = "Forceps",
-			Description = "An item.",
-			Action = "Does something.",
+			Removable = true,
 		},
 		["Gauze"] = {
 			Item = "Gauze",
 			Description = "Stuff an open wound with gauze.",
 			Action = "Packs the wound with gauze.",
+			Removable = true,
+			Lifetime = function(bone, groupBone, treatments)
+				if IsPedSprinting(Ped) then
+					return 300.0
+				else
+					return 3600.0
+				end
+			end,
 		},
 		["Ice Pack"] = {
 			Item = "Ice Pack",
 			Description = "An item.",
 			Action = "Does something.",
+			Removable = true,
 		},
 		["IV Bag"] = {
 			Item = "IV Bag",
 			Description = "A bag full of fluids with a needle.",
 			Action = "Inserts a needle leading to an IV bag full of fluids.",
+			Removable = true,
 		},
 		["Nasopharyngeal Airway"] = {
 			Item = "Nasopharyngeal Airway",
 			Description = "An item.",
 			Action = "Does something.",
+			Removable = true,
 		},
 		["Saline"] = {
 			Item = "Saline",
@@ -520,21 +543,38 @@ Config = {
 			Item = "Splint",
 			Description = "An item.",
 			Action = "Does something.",
+			Removable = true,
+			Lifetime = function(bone, groupBone, treatments)
+				if IsPedSprinting(Ped) then
+					return 300.0
+				else
+					return 3600.0
+				end
+			end,
 		},
 		["Suture Kit"] = {
 			Item = "Suture Kit",
 			Description = "An item.",
 			Action = "Does something.",
-		},
-		["Tranexamic Acid"] = {
-			Item = "Tranexamic Acid",
-			Description = "An item.",
-			Action = "Does something.",
+			Removable = true,
+			Lifetime = function(bone, groupBone, treatments)
+				if IsPedSprinting(Ped) then
+					return 600.0
+				else
+					return 3600.0
+				end
+			end,
 		},
 		["Tourniquet"] = {
 			Item = "Tourniquet",
 			Description = "Secure the limb with a tourniquet.",
 			Action = "Secures a tourniquet.",
+			Removable = true,
+		},
+		["Tranexamic Acid"] = {
+			Item = "Tranexamic Acid",
+			Description = "An item.",
+			Action = "Does something.",
 		},
 	},
 	Examining = {

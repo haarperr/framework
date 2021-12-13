@@ -181,6 +181,8 @@ function Treatment:Begin(ped, bones, serverId, status)
 									v-for="(event, key) in group.events"
 									:key="key"
 									:style="`background: rgba(${(event.treatment ? '0, 200, 0' : '200, 0, 0')}, 0.4)`"
+									:clickable="event.removable"
+									@click="$invoke('useTreatment', group.name, event.name, true)"
 									inset-level="0.2"
 									dense
 								>
@@ -204,7 +206,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 								:key="key"
 								:disabled="treatment.Disabled"
 								:clickable="!treatment.Disabled"
-								@click="$invoke('useTreatment', group.name, treatment.Text)"
+								@click="$invoke('useTreatment', group.name, treatment.Text, false)"
 							>
 								<q-item-section avatar>
 									<q-img contain :src="`nui://inventory/icons/${treatment.Icon}.png`" width="4vmin" height="4vmin" />
@@ -228,8 +230,8 @@ function Treatment:Begin(ped, bones, serverId, status)
 		Treatment:End()
 	end)
 
-	window:AddListener("useTreatment", function(window, groupName, treatmentName)
-		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName)
+	window:AddListener("useTreatment", function(window, groupName, treatmentName, removable)
+		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName, removable)
 	end)
 
 	window:AddListener("performAction", function(window)
@@ -472,11 +474,14 @@ function Treatment:GetGroups()
 					_event = group.events[eventIndex]
 				else
 					eventIndex = #group.events + 1
+					
+					local treatment = Config.Treatments[event.name]
 	
 					_event = {
 						name = event.name,
 						amount = 0,
-						treatment = Config.Treatments[event.name] ~= nil,
+						treatment = treatment ~= nil,
+						removable = treatment and treatment.Removable,
 					}
 	
 					group.events[eventIndex] = _event
@@ -526,7 +531,7 @@ function Treatment:GetGroups()
 	return groups
 end
 
-function Treatment:Treat(serverId, groupName, treatmentName)
+function Treatment:Treat(serverId, groupName, treatmentName, isRemoving)
 	local player = GetPlayerFromServerId(serverId)
 	if not player then return end
 
@@ -540,16 +545,32 @@ function Treatment:Treat(serverId, groupName, treatmentName)
 	if not treatment then return end
 
 	-- Add proximity text.
-	exports.players:AddText(ped, ("%s %s"):format(group.Bone, treatment.Action), 12000)
+	exports.players:AddText(ped,
+		(
+			isRemoving and
+			("%s Removes %s."):format(group.Bone, treatment.Item:lower()) or
+			("%s %s"):format(group.Bone, treatment.Action)
+		),
+		12000
+	)
 
 	-- Update current treatment.
 	if self.serverId == serverId then
 		local bone = self.bones[group.Part]
 		if bone and bone.history then
-			table.insert(bone.history, {
-				time = GetNetworkTime(),
-				name = treatmentName,
-			})
+			if isRemoving then
+				for k, event in ipairs(bone.history) do
+					if event.name == treatmentName then
+						table.remove(bone.history, k)
+						break
+					end
+				end
+			else
+				table.insert(bone.history, {
+					time = GetNetworkTime(),
+					name = treatmentName,
+				})
+			end
 
 			self:SetBones(self.bones)
 		end
@@ -562,17 +583,13 @@ function Treatment:Treat(serverId, groupName, treatmentName)
 
 	-- Treat bones.
 	local bone = Main.bones[group.Part]
+	if not bone then return end
 
-	bone:AddTreatment(treatmentName)
-	
-	-- for boneId, bone in pairs(Main.bones) do
-	-- 	local settings = bone:GetSettings()
-	-- 	if not settings then goto skipBone end
-
-	
-
-	-- 	::skipBone::
-	-- end
+	if isRemoving then
+		bone:RemoveTreatment(treatmentName)
+	else
+		bone:AddTreatment(treatmentName)
+	end
 end
 
 --[[ Listeners ]]--
@@ -607,8 +624,8 @@ AddEventHandler("players:on_healthHelp", function(player, ped)
 end)
 
 --[[ Events: Net ]]--
-RegisterNetEvent("health:treat", function(serverId, groupName, treatmentName)
-	Treatment:Treat(serverId, groupName, treatmentName)
+RegisterNetEvent("health:treat", function(serverId, groupName, treatmentName, isRemoving)
+	Treatment:Treat(serverId, groupName, treatmentName, isRemoving)
 end)
 
 --[[ Threads ]]--

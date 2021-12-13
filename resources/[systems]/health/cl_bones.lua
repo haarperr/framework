@@ -51,8 +51,8 @@ function Bone:Update()
 
 	local updatedHistory = self:UpdateHistory(deltaTime)
 
-	if not Injury.isDead and not self.injured then
-		self:AddHealth(deltaTime * 0.01)
+	if not Injury.isDead and (self.healingRate or 1.0) > 0.0001 then
+		self:AddHealth(deltaTime * (1.0 / 60.0) * self.healingRate)
 	end
 
 	return updatedHistory
@@ -68,26 +68,61 @@ function Bone:Heal()
 end
 
 function Bone:UpdateHistory(deltaTime)
+	self.healingRate = 1.0
+	
 	local hasUpdated = false
-	local injured = false
+	local groupName, groupSettings = self:GetGroup()
+	if not groupSettings then return end
+	
+	local groupBone = Main:GetBone(groupSettings.Part)
+	if not groupBone then return end
+
+	local treatments = groupBone:GetTreatments()
 
 	for i = #self.history, 1, -1 do
 		local event = self.history[i] or {}
 		local injury = Config.Injuries[event.name or false]
 		local treatment = not injury and Config.Treatments[event.name or false]
-		local lifetime = 300.0
+		local eventSettings = injury or treatment or {}
 
-		if injury then
-			lifetime = injury.Lifetime or lifetime
-			injured = true
-		elseif treatment then
-			lifetime = treatment.Lifetime or lifetime
+		-- Get lifetime.
+		local lifetime = eventSettings.Lifetime or 300.0
+		if type(lifetime) == "function" then
+			lifetime = lifetime(self, groupBone, treatments) or 300.0
 		end
+		
+		-- Update healing rate.
+		local healingRate = eventSettings.Healing or 1.0
+		if type(healingRate) == "function" then
+			healingRate = healingRate(self, groupBone, treatments) or 1.0
+		end
+
+		self.healingRate = self.healingRate * healingRate
+
+		-- Generic updates.
+		if type(eventSettings.Update) == "function" then
+			eventSettings.Update(self, groupBone, treatments)
+		end
+
+		-- if injury then
+		-- elseif treatment then
+		-- end
+
+		print("lifetime", event.name, lifetime)
 
 		local time = event.time + deltaTime / lifetime
 		event.time = time
 
 		if time > 1.0 then
+			-- Inform client.
+			if treatment and treatment.Removable then
+				TriggerEvent("chat:notify", {
+					class = "inform",
+					text = ("%s has fallen off!"):format(treatment.Item:lower():gsub("^%l", string.upper)),
+				})
+			end
+
+			-- Remove from history.
 			self:RemoveHistory(i)
 			hasUpdated = true
 		elseif math.abs((self.cache[i] or 0.0) - time) > 0.05 then
@@ -95,11 +130,10 @@ function Bone:UpdateHistory(deltaTime)
 			hasUpdated = true
 		end
 	end
-
-	self.injured = injured
 	
 	return hasUpdated
 end
+
 
 function Bone:AddHistory(name)
 	table.insert(self.history, {
@@ -115,8 +149,8 @@ function Bone:AddHistory(name)
 end
 
 function Bone:RemoveHistory(index)
-	table.remove(self.history, 1)
-	table.remove(self.cache, 1)
+	table.remove(self.history, index)
+	table.remove(self.cache, index)
 end
 
 function Bone:AddTreatment(name)
@@ -125,6 +159,20 @@ function Bone:AddTreatment(name)
 
 	Main:UpdateSnowflake()
 	Main:InvokeListener("TreatBone", self, name)
+end
+
+function Bone:RemoveTreatment(name)
+	for k, event in ipairs(self.history) do
+		if event.name == name then
+			self:RemoveHistory(k)
+			break
+		end
+	end
+
+	self:UpdateInfo()
+
+	Main:UpdateSnowflake()
+	Main:InvokeListener("RemovedTreatment", self, name)
 end
 
 function Bone:AddHealth(amount)
@@ -142,7 +190,7 @@ function Bone:AddHealth(amount)
 	self:UpdateInfo()
 end
 
-function Bone:TakeDamage(amount, injury)
+function Bone:TakeDamage(amount, injuryName)
 	if GetPlayerInvincible(PlayerId()) or not amount or amount < 0.0001 then return end
 	
 	local settings = self:GetSettings()
@@ -157,9 +205,33 @@ function Bone:TakeDamage(amount, injury)
 		end
 	end
 
+	-- Get group.
+	local groupName, groupSettings = self:GetGroup()
+	local groupBone = groupSettings and Main:GetBone(groupSettings.Part)
+
 	-- Log the injury.
-	if injury and Config.Injuries[injury] then
-		self:AddHistory(injury)
+	local injury = Config.Injuries[injuryName]
+	if injury then
+		self:AddHistory(injuryName)
+
+		if injury.Clear and groupBone then
+			local hasRemoved = false
+
+			for i = #groupBone.history, 1, -1 do
+				local event = groupBone.history[i]
+				local treatment = Config.Treatments[event.name]
+
+				if treatment and treatment.Removable and GetRandomFloatInRange(0.0, 1.0) < (tonumber(injury.Clear) or 1.0) then
+					print("REMOVING", event.name)
+					groupBone:RemoveHistory(i)
+					hasRemoved = true
+				end
+			end
+
+			if hasRemoved and self ~= groupBone then
+				groupBone:UpdateInfo()
+			end
+		end
 	end
 
 	-- Cache current time.
@@ -177,7 +249,7 @@ function Bone:TakeDamage(amount, injury)
 	-- Trigger events.
 	Main:InvokeListener("DamageBone", self, amount)
 
-	TriggerServerEvent("health:damageBone", self.id, amount, injury)
+	TriggerServerEvent("health:damageBone", self.id, amount, injuryName)
 end
 
 function Bone:SpreadDamage(amount, falloff, falloff2, injury)
@@ -203,17 +275,30 @@ function Bone:GetSettings()
 	return Config.Bones[self.id]
 end
 
-function Bone:UpdateInfo()
-	Menu:Invoke("main", "updateInfo", self.name, self.info)
-end
-
 function Bone:GetGroup()
-	local settings = bone:GetSettings()
+	local settings = self:GetSettings()
 	if not settings or not settings.Group then
 		return nil
 	end
 
 	return settings.Group, Config.Groups[settings.Group]
+end
+
+function Bone:GetTreatments()
+	local treatments = {}
+
+	for _, event in ipairs(self.history) do
+		local treatment = Config.Treatments[event.name]
+		if treatment then
+			treatments[event.name] = (treatments[event.name] or 0) + 1
+		end
+	end
+
+	return treatments
+end
+
+function Bone:UpdateInfo()
+	Menu:Invoke("main", "updateInfo", self.name, self.info)
 end
 
 --[[ Threads ]]--

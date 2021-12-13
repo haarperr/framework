@@ -108,7 +108,7 @@ RegisterNetEvent("health:damageBone", function(boneId, amount, name)
 	end
 end)
 
-RegisterNetEvent("health:treat", function(target, groupName, treatmentName)
+RegisterNetEvent("health:treat", function(target, groupName, treatmentName, isRemoving)
 	local source = source
 
 	-- Check cooldown.
@@ -117,6 +117,7 @@ RegisterNetEvent("health:treat", function(target, groupName, treatmentName)
 	
 	-- Check types.
 	target = target or source
+	isRemoving = isRemoving == true
 
 	if type(target) ~= "number" or type(groupName) ~= "string" or type(treatmentName) ~= "string" then return end
 
@@ -131,12 +132,13 @@ RegisterNetEvent("health:treat", function(target, groupName, treatmentName)
 	end
 
 	-- Check treatment.
-	if not Config.Treatments[treatmentName] then
+	local treatment = Config.Treatments[treatmentName]
+	if not treatment or (isRemoving and not treatment.Removable) then
 		return
 	end
 
 	-- Broadcast.
-	exports.players:Broadcast(target, "health:treat", target, groupName, treatmentName)
+	exports.players:Broadcast(target, "health:treat", target, groupName, treatmentName, isRemoving)
 end)
 
 RegisterNetEvent("health:setStatus", function(status)
