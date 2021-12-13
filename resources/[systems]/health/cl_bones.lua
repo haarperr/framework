@@ -9,9 +9,16 @@ Bone = {
 Bone.__index = Bone
 
 --[[ Functions: Main ]]--
-function Main.update:Bones()
+function Main:UpdateBones()
+	local hasUpdated = false
 	for boneId, bone in pairs(self.bones) do
-		bone:Update()
+		if bone:Update() then
+			hasUpdated = true
+		end
+	end
+
+	if hasUpdated then
+		self:UpdateSnowflake()
 	end
 end
 
@@ -22,6 +29,8 @@ function Bone:Create(id, name)
 		name = name,
 		info = {},
 		history = {},
+		cache = {},
+		temp = {},
 	}, Bone)
 	
 	return instance
@@ -33,29 +42,104 @@ function Bone:SetInfo(key, value)
 end
 
 function Bone:Update()
+	local deltaTime = (GetGameTimer() - (self.lastUpdate or GetGameTimer())) / 1000.0
+	self.lastUpdate = GetGameTimer()
+
 	for name, func in pairs(self.process.update) do
 		func(self)
 	end
+
+	local updatedHistory = self:UpdateHistory(deltaTime)
+
+	if not Injury.isDead and not self.injured then
+		self:AddHealth(deltaTime * 0.01)
+	end
+
+	return updatedHistory
 end
 
 function Bone:Heal()
 	self.info = {}
 	self.history = {}
+	self.cache = {}
 
 	self:UpdateInfo()
 	Main:UpdateSnowflake()
 end
 
-function Bone:AddTreatment(name)
+function Bone:UpdateHistory(deltaTime)
+	local hasUpdated = false
+	local injured = false
+
+	for i = #self.history, 1, -1 do
+		local event = self.history[i] or {}
+		local injury = Config.Injuries[event.name or false]
+		local treatment = not injury and Config.Treatments[event.name or false]
+		local lifetime = 300.0
+
+		if injury then
+			lifetime = injury.Lifetime or lifetime
+			injured = true
+		elseif treatment then
+			lifetime = treatment.Lifetime or lifetime
+		end
+
+		local time = event.time + deltaTime / lifetime
+		event.time = time
+
+		if time > 1.0 then
+			self:RemoveHistory(i)
+			hasUpdated = true
+		elseif math.abs((self.cache[i] or 0.0) - time) > 0.05 then
+			self.cache[i] = time
+			hasUpdated = true
+		end
+	end
+
+	self.injured = injured
+	
+	return hasUpdated
+end
+
+function Bone:AddHistory(name)
 	table.insert(self.history, {
-		time = GetNetworkTime(),
 		name = name,
+		time = 0.0,
 	})
 
-	self:UpdateInfo()
-	Main:UpdateSnowflake()
+	table.insert(self.cache, 0.0)
 
+	if #self.history > 256 then
+		self:RemoveHistory(1)
+	end
+end
+
+function Bone:RemoveHistory(index)
+	table.remove(self.history, 1)
+	table.remove(self.cache, 1)
+end
+
+function Bone:AddTreatment(name)
+	self:AddHistory(name)
+	self:UpdateInfo()
+
+	Main:UpdateSnowflake()
 	Main:InvokeListener("TreatBone", self, name)
+end
+
+function Bone:AddHealth(amount)
+	if not amount or amount < 0.0 then return end
+
+	local health = self.info.health or 1.0
+
+	health = math.min(health + amount, 1.0)
+
+	if health > 0.999 then
+		health = nil
+	end
+	
+	self:SetInfo("health", health)
+	self:UpdateInfo()
 end
 
 function Bone:TakeDamage(amount, injury)
@@ -75,14 +159,7 @@ function Bone:TakeDamage(amount, injury)
 
 	-- Log the injury.
 	if injury and Config.Injuries[injury] then
-		table.insert(self.history, {
-			time = GetNetworkTime(),
-			name = injury,
-		})
-
-		if #self.history > 256 then
-			table.remove(self.history, 1)
-		end
+		self:AddHistory(injury)
 	end
 
 	-- Cache current time.
@@ -138,3 +215,11 @@ function Bone:GetGroup()
 
 	return settings.Group, Config.Groups[settings.Group]
 end
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		Main:UpdateBones()
+		Citizen.Wait(1000)
+	end
+end)

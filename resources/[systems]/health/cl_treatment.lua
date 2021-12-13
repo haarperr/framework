@@ -89,7 +89,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 
 	-- Play emote.
 	if self.isLocal and canTreat then
-		self.emote = exports.emotes:Play(Config.Treatment.Anims.Self)
+		self.emote = exports.emotes:Play(Config.Examining.Anims.Self)
 	end
 
 	-- Create menu.
@@ -170,7 +170,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 								dense
 							>
 								<template v-slot:header>
-									<q-item-section side v-if="group.injuries.find(x => x.treatment)">
+									<q-item-section side v-if="group.events.find(x => x.treatment)">
 										<q-icon name="healing" />
 									</q-item-section>
 									<q-item-section>
@@ -178,17 +178,17 @@ function Treatment:Begin(ped, bones, serverId, status)
 									</q-item-section>
 								</template>
 								<q-item
-									v-for="(info, key) in group.injuries"
+									v-for="(event, key) in group.events"
 									:key="key"
-									:style="`background: rgba(${(info.treatment ? '0, 200, 0' : '200, 0, 0')}, ${0.5 * (info.intensity ?? 1.0)})`"
+									:style="`background: rgba(${(event.treatment ? '0, 200, 0' : '200, 0, 0')}, 0.4)`"
 									inset-level="0.2"
 									dense
 								>
 									<q-item-section>
-										{{info.name}}
+										{{event.name}}
 									</q-item-section>
 									<q-item-section side>
-										{{info.amount ?? 1}}
+										{{event.amount ?? 1}}
 									</q-item-section>
 								</q-item>
 							</q-expansion-item>
@@ -379,13 +379,13 @@ function Treatment:CreateCam()
 	})
 
 	local ped = self.ped
-	local offset = Config.Treatment.Camera.Offset
-	local target = Config.Treatment.Camera.Target
+	local offset = Config.Examining.Camera.Offset
+	local target = Config.Examining.Camera.Target
 
 	function camera:Update()
 		AttachCamToEntity(self.handle, ped, offset.x, offset.y, offset.z, true)
 		PointCamAtPedBone(self.handle, ped, 11816, target.x, target.y, target.z, true)
-		SetCamFov(self.handle, Config.Treatment.Camera.Fov)
+		SetCamFov(self.handle, Config.Examining.Camera.Fov)
 	end
 
 	camera:Activate()
@@ -451,8 +451,8 @@ function Treatment:GetGroups()
 				health = 1.0,
 				treatments = {},
 				treatmentCache = {},
-				injuries = {},
-				injuryCache = {},
+				events = {},
+				eventsCache = {},
 			}
 
 			groups[groupIndex] = group
@@ -462,34 +462,34 @@ function Treatment:GetGroups()
 		-- Update health.
 		group.health = group.health * (info.health or 1.0)
 
-		-- Add injuries.
+		-- Add events.
 		if bone.history then
 			for _, event in ipairs(bone.history) do
-				local injuryIndex = group.injuryCache[event.name]
-				local injury = nil
+				local eventIndex = group.eventsCache[event.name]
+				local _event = nil
 	
-				if injuryIndex then
-					injury = group.injuries[injuryIndex]
+				if eventIndex then
+					_event = group.events[eventIndex]
 				else
-					injuryIndex = #group.injuries + 1
+					eventIndex = #group.events + 1
 	
-					injury = {
+					_event = {
 						name = event.name,
-						treatment = Config.Treatment.Options[event.name] ~= nil,
 						amount = 0,
+						treatment = Config.Treatments[event.name] ~= nil,
 					}
 	
-					group.injuries[injuryIndex] = injury
-					group.injuryCache[event.name] = injuryIndex
+					group.events[eventIndex] = _event
+					group.eventsCache[event.name] = eventIndex
 				end
 
-				injury.amount = injury.amount + 1
+				_event.amount = _event.amount + 1
 			end
 		end
 
 		-- Add treatments.
 		for _, treatmentName in ipairs(groupSettings.Treatments) do
-			local treatment = Config.Treatment.Options[treatmentName]
+			local treatment = Config.Treatments[treatmentName]
 			if not treatment or group.treatmentCache[treatmentName] then goto skipTreatment end
 
 			treatment.Text = treatmentName
@@ -511,9 +511,9 @@ function Treatment:GetGroups()
 		::skipBone::
 	end
 
-	-- Uncache injuries in groups.
+	-- Uncache events in groups.
 	for _, group in ipairs(groups) do
-		group.injuryCache = nil
+		group.eventsCache = nil
 		group.treatmentCache = nil
 	end
 
@@ -536,7 +536,7 @@ function Treatment:Treat(serverId, groupName, treatmentName)
 	local group = Config.Groups[groupName or false]
 	if not group then return end
 	
-	local treatment = Config.Treatment.Options[treatmentName or false]
+	local treatment = Config.Treatments[treatmentName or false]
 	if not treatment then return end
 
 	-- Add proximity text.
@@ -601,7 +601,7 @@ end)
 AddEventHandler("players:on_healthHelp", function(player, ped)
 	if not player then return end
 
-	exports.emotes:Play(Config.Treatment.Anims.Revive)
+	exports.emotes:Play(Config.Examining.Anims.Revive)
 
 	TriggerServerEvent("health:help", GetPlayerServerId(player))
 end)

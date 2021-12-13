@@ -338,8 +338,8 @@ RegisterNetEvent("health:sync", function(serverId, data, status)
 
 		if info or history then
 			local bone = Bone:Create(boneId, settings.Name)
-			bone.info = info
-			bone.history = history
+			bone.info = info or {}
+			bone.history = history or {}
 
 			bones[boneId] = bone
 		end

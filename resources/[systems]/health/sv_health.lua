@@ -131,7 +131,7 @@ RegisterNetEvent("health:treat", function(target, groupName, treatmentName)
 	end
 
 	-- Check treatment.
-	if not Config.Treatment.Options[treatmentName] then
+	if not Config.Treatments[treatmentName] then
 		return
 	end
 

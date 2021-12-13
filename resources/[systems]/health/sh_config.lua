@@ -67,27 +67,27 @@ Config = {
 		["Torso"] = {
 			Part = 11816,
 			Bone = "spine2",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Spinal Board", "Fire Blanket", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Fire Blanket", }
 		},
 		["Left Arm"] = {
 			Part = 18905,
 			Bone = "lforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
 		},
 		["Right Arm"] = {
 			Part = 40269,
 			Bone = "rforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
 		},
 		["Left Leg"] = {
 			Part = 58271,
 			Bone = "lcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "Tourniquet", }
 		},
 		["Right Leg"] = {
 			Part = 51826,
 			Bone = "rcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Forceps", "Suture Kit", "Splint", "Tourniquet", }
 		},
 	},
 	Bones = {
@@ -420,52 +420,124 @@ Config = {
 	},
 	Injuries = {
 		["Gunshot"] = {
-			
+			Lifetime = 120.0,--3600.0 * 8.0,
+			Healing = 0.0,
 		},
 		["Stab"] = {
-			
+			Lifetime = 3600.0 * 4.0,
+			Healing = 0.0,
 		},
 		["Bruising"] = {
-			
+			Lifetime = 3600.0 * 0.5,
+			Healing = 0.5,
 		},
 		["Fracture"] = {
-			
+			Lifetime = 3600.0 * 0.5,
+			Healing = 0.0,
 		},
 		["Compound Fracture"] = {
-			
+			Lifetime = 3600.0 * 1.0,
+			Healing = 0.0,
 		},
 		["Overdose"] = {
-
+			Lifetime = 300.0,
 		},
 		["Shock"] = {
-
+			Lifetime = 300.0,
 		},
 		["Drown"] = {
-
+			Lifetime = 300.0,
 		},
 		["Starvation"] = {
-
+			Lifetime = 300.0,
 		},
 		["Dehydration"] = {
-
-		},
-		["Fracture"] = {
-
+			Lifetime = 300.0,
 		},
 		["Electrocution"] = {
-
+			Lifetime = 300.0,
 		},
 		["1st Degree Burn"] = {
-
+			Lifetime = 300.0,
+			Healing = 0.8,
 		},
 		["2nd Degree Burn"] = {
-
+			Lifetime = 300.0,
+			Healing = 0.4,
 		},
 		["3rd Degree Burn"] = {
-
+			Lifetime = 300.0,
+			Healing = 0.0,
 		},
 	},
-	Treatment = {
+	Treatments = {
+		["Bandage"] = {
+			Item = "Bandage",
+			Description = "Wrap the wound in bandages.",
+			Action = "Secures the wound with bandages.",
+		},
+		["Cervical Collar"] = {
+			Item = "Cervical Collar",
+			Description = "Secure a c-collar around their neck.",
+			Action = "Secures a cervical collar around neck.",
+		},
+		["Fire Blanket"] = {
+			Item = "Fire Blanket",
+			Description = "Cover in a fire blanket.",
+			Action = "Wraps a fire blanket around them.",
+		},
+		["Forceps"] = {
+			Item = "Forceps",
+			Description = "An item.",
+			Action = "Does something.",
+		},
+		["Gauze"] = {
+			Item = "Gauze",
+			Description = "Stuff an open wound with gauze.",
+			Action = "Packs the wound with gauze.",
+		},
+		["Ice Pack"] = {
+			Item = "Ice Pack",
+			Description = "An item.",
+			Action = "Does something.",
+		},
+		["IV Bag"] = {
+			Item = "IV Bag",
+			Description = "A bag full of fluids with a needle.",
+			Action = "Inserts a needle leading to an IV bag full of fluids.",
+		},
+		["Nasopharyngeal Airway"] = {
+			Item = "Nasopharyngeal Airway",
+			Description = "An item.",
+			Action = "Does something.",
+		},
+		["Saline"] = {
+			Item = "Saline",
+			Description = "A bottle full of saline.",
+			Action = "Cleans the area with saline.",
+		},
+		["Splint"] = {
+			Item = "Splint",
+			Description = "An item.",
+			Action = "Does something.",
+		},
+		["Suture Kit"] = {
+			Item = "Suture Kit",
+			Description = "An item.",
+			Action = "Does something.",
+		},
+		["Tranexamic Acid"] = {
+			Item = "Tranexamic Acid",
+			Description = "An item.",
+			Action = "Does something.",
+		},
+		["Tourniquet"] = {
+			Item = "Tourniquet",
+			Description = "Secure the limb with a tourniquet.",
+			Action = "Secures a tourniquet.",
+		},
+	},
+	Examining = {
 		Anims = {
 			Self = {
 				Sequence = {
@@ -485,78 +557,11 @@ Config = {
 			Target = vector3(0.0, 0.0, 0.0),
 			Fov = 70.0,
 		},
-		Options = {
-			["Bandage"] = {
-				Item = "Bandage",
-				Description = "Wrap the injury in bandages.",
-				Action = "Secures the injury with bandages.",
-			},
-			["Cervical Collar"] = {
-				Item = "Cervical Collar",
-				Description = "Secure a c-collar around their neck.",
-				Action = "Secures a cervical collar around neck.",
-			},
-			["Fire Blanket"] = {
-				Item = "Fire Blanket",
-				Description = "Cover in a fire blanket.",
-				Action = "Wraps a fire blanket around them.",
-			},
-			["Forceps"] = {
-				Item = "Forceps",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-			["Gauze"] = {
-				Item = "Gauze",
-				Description = "Stuff an open wound with gauze.",
-				Action = "Packs gauze over the wound.",
-			},
-			["Ice Pack"] = {
-				Item = "Ice Pack",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-			["IV Bag"] = {
-				Item = "IV Bag",
-				Description = "A bag full of fluids with a needle.",
-				Action = "Inserts a needle leading to an IV bag full of fluids.",
-			},
-			["Nasopharyngeal Airway"] = {
-				Item = "Nasopharyngeal Airway",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-			["Saline"] = {
-				Item = "Saline",
-				Description = "A bottle full of saline.",
-				Action = "Cleans the wound with saline.",
-			},
-			["Spinal Board"] = {
-				Item = "Spinal Board",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-			["Splint"] = {
-				Item = "Splint",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-			["Suture Kit"] = {
-				Item = "Suture Kit",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-			["Tranexamic Acid"] = {
-				Item = "Tranexamic Acid",
-				Description = "An item.",
-				Action = "Does something.",
-			},
-		},
 	},
 	Blood = {
-		BleedMult = 0.5, -- How much bleed is applied, multiplied by damage.
-		LossMult = 0.01, -- How much blood is lost, multiplied by bleed.
-		HealthLossMult = 0.008,
+		BleedMult = 1.0, -- How much bleed is applied, multiplied by damage.
+		LossMult = 0.02, -- How much blood is lost, multiplied by bleed.
+		HealthLossMult = 0.016,
 	},
 	Energy = {
 		RegenRate = 60.0 * 2.0, -- How long it takes to completely restore energy, in minutes.

@@ -71,7 +71,7 @@ function IsPayloadValid(payload)
 									return false, ("bone '%s' history time type is '%s'"):format(_k, type(___v))
 								end
 							elseif ___k == "name" then
-								if not Config.Injuries[___v] and not Config.Treatment.Options[___v] then
+								if not Config.Injuries[___v] and not Config.Treatments[___v] then
 									return false, ("bone '%s' injury '%s' does not exist"):format(_k, ___v)
 								end
 							else
