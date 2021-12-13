@@ -420,31 +420,29 @@ Config = {
 	},
 	Injuries = {
 		["Gunshot"] = {
+			Clear = 1.0,
+			Healing = 0.05,
 			Lifetime = function(bone, groupBone, treatments)
 				local sum = math.min(treatments["Gauze"] or 0, 1) + math.min(treatments["Bandage"] or 0) + math.min(treatments["Suture Kit"] or 0, 1)
-				return 28800.0 / (math.pow(sum, 2) + 1)
-			end,--3600.0 * 8.0,
-			Healing = 0.0,
-			Clear = 1.0,
+				return 14400.0 / (math.pow(sum, 2) + 1)
+			end,
 		},
 		["Stab"] = {
-			Lifetime = 3600.0 * 4.0,
-			Healing = 0.0,
 			Clear = 1.0,
+			Lifetime = 3600.0 * 4.0,
 		},
 		["Bruising"] = {
-			Lifetime = 3600.0 * 0.5,
-			Healing = 0.5,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["Ice Pack"] and 300.0 or 1800.0
+			end,
 			Clear = 0.2,
 		},
 		["Fracture"] = {
-			Lifetime = 3600.0 * 0.5,
-			Healing = 0.0,
 			Clear = 0.8,
+			Lifetime = 3600.0 * 0.5,
 		},
 		["Compound Fracture"] = {
 			Lifetime = 3600.0 * 1.0,
-			Healing = 0.0,
 		},
 		["Overdose"] = {
 			Lifetime = 300.0,
@@ -466,15 +464,12 @@ Config = {
 		},
 		["1st Degree Burn"] = {
 			Lifetime = 300.0,
-			Healing = 0.8,
 		},
 		["2nd Degree Burn"] = {
 			Lifetime = 300.0,
-			Healing = 0.4,
 		},
 		["3rd Degree Burn"] = {
 			Lifetime = 300.0,
-			Healing = 0.0,
 		},
 	},
 	Treatments = {
@@ -518,10 +513,13 @@ Config = {
 		},
 		["Ice Pack"] = {
 			Item = "Ice Pack",
-			Description = "An item.",
-			Action = "Does something.",
+			Description = "An ice pack that needs to be activated.",
+			Action = "Activates an ice pack, securing it to the bruising.",
 			Limit = 1,
 			Removable = true,
+			Condition = function(bone)
+				return Main:FindInHistory(bone, "Bruising")
+			end,
 		},
 		["IV Bag"] = {
 			Item = "IV Bag",
@@ -560,8 +558,8 @@ Config = {
 		},
 		["Suture Kit"] = {
 			Item = "Suture Kit",
-			Description = "An item.",
-			Action = "Does something.",
+			Description = "Perform surgery.",
+			Action = "Uses a suture kit to stitch up the wound.",
 			Limit = 1,
 			Removable = true,
 			Lifetime = function(bone, groupBone, treatments)
@@ -580,15 +578,7 @@ Config = {
 			Description = "Add TXA to the IV bag.",
 			Action = "Adds tranexamic acid to the IV bag.",
 			Condition = function(bone)
-				if not bone.history then return false end
-
-				for k, event in ipairs(bone.history) do
-					if event.name == "IV Bag" then
-						return true
-					end
-				end
-
-				return false
+				return Main:FindInHistory(bone, "IV Bag")
 			end,
 			Update = function(bone, groupBone, treatments)
 				ClotRate = 1800.0
@@ -615,12 +605,6 @@ Config = {
 			Target = vector3(0.0, 0.0, 0.0),
 			Fov = 70.0,
 		},
-	},
-	Blood = {
-		BleedMult = 1.0, -- How much bleed is applied, multiplied by damage.
-		LossMult = 0.04, -- How much blood is lost, multiplied by bleed.
-		HealthLossMult = 0.01,
-		ClotRate = 1.0 / 3600.0,
 	},
 	Energy = {
 		RegenRate = 60.0 * 2.0, -- How long it takes to completely restore energy, in minutes.

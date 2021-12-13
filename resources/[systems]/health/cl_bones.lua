@@ -12,6 +12,11 @@ Bone.__index = Bone
 function Main:UpdateBones()
 	BleedRate = 1.0
 	ClotRate = 1.0
+	BloodLoss = 0.0
+
+	-- Get delta time.
+	local deltaTime = (GetGameTimer() - (self.lastUpdatedBones or GetGameTimer())) / 1000.0
+	self.lastUpdatedBones = GetGameTimer()
 
 	-- Reset groups.
 	for name, group in pairs(Config.Groups) do
@@ -25,11 +30,18 @@ function Main:UpdateBones()
 	-- Update bones.
 	local hasUpdated = false
 	for boneId, bone in pairs(self.bones) do
-		if bone:Update() then
+		if bone:Update(deltaTime) then
 			hasUpdated = true
 		end
 	end
 
+	-- Healing.
+	if BloodLoss < 0.001 then
+		print("healing health", 1.0 / 300.0 * deltaTime)
+		self:AddEffect("Health", 1.0 / 300.0 * deltaTime)
+	end
+
+	-- Update snowflake.
 	if hasUpdated then
 		self:UpdateSnowflake()
 	end
@@ -54,10 +66,9 @@ function Bone:SetInfo(key, value)
 	Main:UpdateSnowflake()
 end
 
-function Bone:Update()
-	-- Get delta time.
-	local deltaTime = (GetGameTimer() - (self.lastUpdate or GetGameTimer())) / 1000.0
-	self.lastUpdate = GetGameTimer()
+function Bone:Update(deltaTime)
+	-- Update rates.
+	self.healingRate = 1.0
 
 	-- Update history.
 	local updatedHistory = self:UpdateHistory(deltaTime)
@@ -68,7 +79,8 @@ function Bone:Update()
 	end
 
 	-- Healing.
-	if not Injury.isDead and (self.healingRate or 1.0) > 0.0001 then
+	if not Injury.isDead and self.info.health and (self.info.bleed or 0.0) < 0.0001 and (self.healingRate or 1.0) > 0.0001 then
+		print("healing bone", self.name, deltaTime * (1.0 / 60.0) * self.healingRate)
 		self:AddHealth(deltaTime * (1.0 / 60.0) * self.healingRate)
 	end
 
@@ -86,8 +98,6 @@ function Bone:Heal()
 end
 
 function Bone:UpdateHistory(deltaTime)
-	self.healingRate = 1.0
-	
 	local hasUpdated = false
 	local groupName, groupSettings = self:GetGroup()
 	if not groupSettings then return end
@@ -194,14 +204,14 @@ end
 function Bone:AddHealth(amount)
 	if not amount or amount < 0.0 then return end
 
-	local health = self.info.health or 1.0
+	local health = self.info.health
+	if not health then return end
 
 	health = math.min(health + amount, 1.0)
-
 	if health > 0.999 then
 		health = nil
 	end
-	
+
 	self:SetInfo("health", health)
 	self:UpdateInfo()
 end

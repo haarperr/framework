@@ -238,6 +238,20 @@ function Main:BuildNavigation()
 	})
 end
 
+function Main:FindInHistory(bone, name)
+	if not bone.history then
+		return false
+	end
+
+	for k, event in ipairs(bone.history) do
+		if event.name == name then
+			return true
+		end
+	end
+
+	return false
+end
+
 --[[ Events ]]--
 AddEventHandler("health:clientStart", function()
 	Main:Init()

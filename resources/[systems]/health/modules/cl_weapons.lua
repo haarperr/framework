@@ -22,7 +22,7 @@ local funcs = {
 		local damageRatio = weaponDamage / 100.0
 	
 		bone:TakeDamage(damageRatio, "Gunshot")
-		bone:ApplyBleed(damageRatio * Config.Blood.BleedMult)
+		bone:ApplyBleed(damageRatio * 1.2)
 	end,
 	[5] = function(bone, weapon, weaponDamage) -- Explosions.
 		bone:SpreadDamage(0.4, 0.3, 0.6, "3rd Degree Burn")
