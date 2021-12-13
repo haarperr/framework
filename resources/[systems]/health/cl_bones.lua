@@ -10,6 +10,19 @@ Bone.__index = Bone
 
 --[[ Functions: Main ]]--
 function Main:UpdateBones()
+	BleedRate = 1.0
+	ClotRate = 1.0
+
+	-- Reset groups.
+	for name, group in pairs(Config.Groups) do
+		local bone = self.bones[group.Part]
+		if bone then
+			bone.bleedRate = 1.0
+			bone.clotRate = 1.0
+		end
+	end
+
+	-- Update bones.
 	local hasUpdated = false
 	for boneId, bone in pairs(self.bones) do
 		if bone:Update() then
@@ -42,19 +55,24 @@ function Bone:SetInfo(key, value)
 end
 
 function Bone:Update()
+	-- Get delta time.
 	local deltaTime = (GetGameTimer() - (self.lastUpdate or GetGameTimer())) / 1000.0
 	self.lastUpdate = GetGameTimer()
 
+	-- Update history.
+	local updatedHistory = self:UpdateHistory(deltaTime)
+
+	-- Run processors.
 	for name, func in pairs(self.process.update) do
 		func(self)
 	end
 
-	local updatedHistory = self:UpdateHistory(deltaTime)
-
+	-- Healing.
 	if not Injury.isDead and (self.healingRate or 1.0) > 0.0001 then
 		self:AddHealth(deltaTime * (1.0 / 60.0) * self.healingRate)
 	end
 
+	-- Result if updated.
 	return updatedHistory
 end
 
@@ -77,7 +95,7 @@ function Bone:UpdateHistory(deltaTime)
 	local groupBone = Main:GetBone(groupSettings.Part)
 	if not groupBone then return end
 
-	local treatments = groupBone:GetTreatments()
+	local treatments = groupBone:GetTreatments() or {}
 
 	for i = #self.history, 1, -1 do
 		local event = self.history[i] or {}
@@ -108,8 +126,6 @@ function Bone:UpdateHistory(deltaTime)
 		-- elseif treatment then
 		-- end
 
-		print("lifetime", event.name, lifetime)
-
 		local time = event.time + deltaTime / lifetime
 		event.time = time
 
@@ -118,7 +134,7 @@ function Bone:UpdateHistory(deltaTime)
 			if treatment and treatment.Removable then
 				TriggerEvent("chat:notify", {
 					class = "inform",
-					text = ("%s has fallen off!"):format(treatment.Item:lower():gsub("^%l", string.upper)),
+					text = ("%s has fallen off!"):format(treatment.Item),
 				})
 			end
 
@@ -130,7 +146,7 @@ function Bone:UpdateHistory(deltaTime)
 			hasUpdated = true
 		end
 	end
-	
+
 	return hasUpdated
 end
 
@@ -222,7 +238,6 @@ function Bone:TakeDamage(amount, injuryName)
 				local treatment = Config.Treatments[event.name]
 
 				if treatment and treatment.Removable and GetRandomFloatInRange(0.0, 1.0) < (tonumber(injury.Clear) or 1.0) then
-					print("REMOVING", event.name)
 					groupBone:RemoveHistory(i)
 					hasRemoved = true
 				end

@@ -230,8 +230,38 @@ function Treatment:Begin(ped, bones, serverId, status)
 		Treatment:End()
 	end)
 
-	window:AddListener("useTreatment", function(window, groupName, treatmentName, removable)
-		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName, removable)
+	window:AddListener("useTreatment", function(window, groupName, treatmentName, isRemoving)
+		-- Get group.
+		local group = Config.Groups[groupName]
+		if not group then return end
+
+		-- Get bone from group.
+		local bone = Treatment.bones[group.Part]
+
+		-- Get treatment.
+		local treatment = Config.Treatments[treatmentName]
+		if not treatment then return end
+
+		-- Check conditions.
+		if not isRemoving and treatment.Condition and (not bone or not treatment.Condition(bone)) then
+			return
+		end
+
+		-- Check limits.
+		if not isRemoving and treatment.Limit and bone.history then
+			local count = 0
+			for k, event in ipairs(bone.history) do
+				if event.name == treatmentName then
+					count = count + 1
+					if count >= treatment.Limit then
+						return
+					end
+				end
+			end
+		end
+
+		-- Tell server to apply treatment.
+		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName, isRemoving)
 	end)
 
 	window:AddListener("performAction", function(window)
@@ -548,7 +578,7 @@ function Treatment:Treat(serverId, groupName, treatmentName, isRemoving)
 	exports.players:AddText(ped,
 		(
 			isRemoving and
-			("%s Removes %s."):format(group.Bone, treatment.Item:lower()) or
+			("%s Removes %s."):format(group.Bone, treatment.Item) or
 			("%s %s"):format(group.Bone, treatment.Action)
 		),
 		12000

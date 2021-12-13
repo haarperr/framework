@@ -26,9 +26,24 @@ end
 --[[ Functions: Bone ]]--
 function Bone.process.update:Bleeding()
 	local bleed = self.info.bleed or 0.0
+	
 	if bleed > 0.001 then
-		Main:AddEffect("Blood", bleed * Config.Blood.LossMult)
-		Main:AddEffect("Health", -bleed * Config.Blood.HealthLossMult)
+		-- Get group.
+		local groupName, groupSettings = self:GetGroup()
+		if not groupSettings then return end
+
+		local groupBone = Main:GetBone(groupSettings.Part) or {}
+		if not groupBone then return end
+
+		-- Calculate rate.
+		local rate = (groupBone.bleedRate or 1.0) * (BleedRate or 1.0)
+
+		-- Add effects.
+		Main:AddEffect("Blood", bleed * rate * Config.Blood.LossMult)
+		Main:AddEffect("Health", -bleed * rate * Config.Blood.HealthLossMult)
+
+		-- Clotting.
+		self:SetInfo("bleed", math.max(bleed - Config.Blood.ClotRate * (groupBone.clotRate or 1.0) * (ClotRate or 1.0), 0.0))
 	end
 end
 

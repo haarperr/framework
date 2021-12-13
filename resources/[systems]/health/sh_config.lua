@@ -484,23 +484,24 @@ Config = {
 			Action = "Secures the wound with bandages.",
 			Removable = true,
 			Lifetime = function(bone, groupBone, treatments)
-				if IsPedSprinting(Ped) then
-					return 300.0
-				else
-					return 3600.0
-				end
+				return IsPedSprinting(Ped) and 300.0 or 3600.0
+			end,
+			Update = function(bone, groupBone, treatments)
+				groupBone.bleedRate = groupBone.bleedRate * 0.4
 			end,
 		},
 		["Cervical Collar"] = {
 			Item = "Cervical Collar",
 			Description = "Secure a c-collar around their neck.",
 			Action = "Secures a cervical collar around neck.",
+			Limit = 1,
 			Removable = true,
 		},
 		["Fire Blanket"] = {
 			Item = "Fire Blanket",
 			Description = "Cover in a fire blanket.",
 			Action = "Wraps a fire blanket around them.",
+			Limit = 1,
 			Removable = true,
 		},
 		["Gauze"] = {
@@ -509,29 +510,37 @@ Config = {
 			Action = "Packs the wound with gauze.",
 			Removable = true,
 			Lifetime = function(bone, groupBone, treatments)
-				if IsPedSprinting(Ped) then
-					return 300.0
-				else
-					return 3600.0
-				end
+				return (IsPedSprinting(Ped) and 300.0 or 3600.0) * (treatments["Bandage"] and 1.0 or 0.05)
+			end,
+			Update = function(bone, groupBone, treatments)
+				groupBone.bleedRate = groupBone.bleedRate * 0.1
 			end,
 		},
 		["Ice Pack"] = {
 			Item = "Ice Pack",
 			Description = "An item.",
 			Action = "Does something.",
+			Limit = 1,
 			Removable = true,
 		},
 		["IV Bag"] = {
 			Item = "IV Bag",
 			Description = "A bag full of fluids with a needle.",
 			Action = "Inserts a needle leading to an IV bag full of fluids.",
+			Limit = 1,
 			Removable = true,
+			Lifetime = function(bone, groupBone, treatments)
+				return (IsPedRunning(Ped) or IsPedSprinting(Ped)) and 1.0 or 300.0
+			end,
+			Update = function(bone, groupBone, treatments)
+				Main:AddEffect("Blood", -1.0 / 60.0)
+			end,
 		},
 		["Nasopharyngeal Airway"] = {
 			Item = "Nasopharyngeal Airway",
 			Description = "An item.",
 			Action = "Does something.",
+			Limit = 1,
 			Removable = true,
 		},
 		["Saline"] = {
@@ -543,38 +552,47 @@ Config = {
 			Item = "Splint",
 			Description = "An item.",
 			Action = "Does something.",
+			Limit = 1,
 			Removable = true,
 			Lifetime = function(bone, groupBone, treatments)
-				if IsPedSprinting(Ped) then
-					return 300.0
-				else
-					return 3600.0
-				end
+				return IsPedSprinting(Ped) and 300.0 or 3600.0
 			end,
 		},
 		["Suture Kit"] = {
 			Item = "Suture Kit",
 			Description = "An item.",
 			Action = "Does something.",
+			Limit = 1,
 			Removable = true,
 			Lifetime = function(bone, groupBone, treatments)
-				if IsPedSprinting(Ped) then
-					return 600.0
-				else
-					return 3600.0
-				end
+				return IsPedSprinting(Ped) and 600.0 or 3600.0
 			end,
 		},
 		["Tourniquet"] = {
 			Item = "Tourniquet",
 			Description = "Secure the limb with a tourniquet.",
 			Action = "Secures a tourniquet.",
+			Limit = 1,
 			Removable = true,
 		},
 		["Tranexamic Acid"] = {
 			Item = "Tranexamic Acid",
-			Description = "An item.",
-			Action = "Does something.",
+			Description = "Add TXA to the IV bag.",
+			Action = "Adds tranexamic acid to the IV bag.",
+			Condition = function(bone)
+				if not bone.history then return false end
+
+				for k, event in ipairs(bone.history) do
+					if event.name == "IV Bag" then
+						return true
+					end
+				end
+
+				return false
+			end,
+			Update = function(bone, groupBone, treatments)
+				ClotRate = 1800.0
+			end,
 		},
 	},
 	Examining = {
@@ -600,8 +618,9 @@ Config = {
 	},
 	Blood = {
 		BleedMult = 1.0, -- How much bleed is applied, multiplied by damage.
-		LossMult = 0.02, -- How much blood is lost, multiplied by bleed.
-		HealthLossMult = 0.016,
+		LossMult = 0.04, -- How much blood is lost, multiplied by bleed.
+		HealthLossMult = 0.01,
+		ClotRate = 1.0 / 3600.0,
 	},
 	Energy = {
 		RegenRate = 60.0 * 2.0, -- How long it takes to completely restore energy, in minutes.
