@@ -603,7 +603,7 @@ Config = {
 					{ Dict = "special_ped@andy_moon@base", Name = "base", Flag = 1, Locked = true },
 				},
 			},
-			Revive = {
+			Action = {
 				Dict = "missexile3",
 				Name = "ex03_dingy_search_case_base_michael",
 				Flag = 48,

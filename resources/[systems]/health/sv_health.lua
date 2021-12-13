@@ -73,11 +73,12 @@ RegisterNetEvent("health:subscribe", function(target, value)
 	PlayerUtil:UpdateCooldown(source)
 
 	-- Subscribe.
-	if Main:Subscribe(source, target, value) and value then
+	if Main:Subscribe(source, target, value) then
 		exports.log:Add({
 			source = source,
 			target = target,
-			verb = "examined",
+			verb = value and "started" or "stopped",
+			noun = "examining",
 		})
 	end
 end)
@@ -167,7 +168,7 @@ RegisterNetEvent("health:help", function(target)
 	local source = source
 
 	-- Check cooldown.
-	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	if not PlayerUtil:CheckCooldown(source, 2.0) then return end
 	PlayerUtil:UpdateCooldown(source)
 	
 	-- Check target.

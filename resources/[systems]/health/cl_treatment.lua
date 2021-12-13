@@ -84,8 +84,8 @@ function Treatment:Begin(ped, bones, serverId, status)
 	self:CreateCam()
 
 	local state = LocalPlayer.state or {}
-	local groups = self:GetGroups()
 	local canTreat = not state.immobile and not state.restrained
+	local groups = self:GetGroups()
 
 	-- Play emote.
 	if self.isLocal and canTreat then
@@ -223,6 +223,20 @@ function Treatment:Begin(ped, bones, serverId, status)
 					</div>
 				]]
 			},
+			{
+				type = "q-linear-progress",
+				condition = "this.$getModel('cooldown')",
+				style = {
+					["position"] = "absolute",
+					["bottom"] = "0px",
+					["left"] = "0px",
+					["right"] = "0px",
+				},
+				binds = {
+					query = true,
+					color = "blue",
+				}
+			},
 		},
 	})
 	
@@ -231,6 +245,10 @@ function Treatment:Begin(ped, bones, serverId, status)
 	end)
 
 	window:AddListener("useTreatment", function(window, groupName, treatmentName, isRemoving)
+		local state = LocalPlayer.state or {}
+		local canTreat = not state.immobile and not state.restrained
+		if not canTreat then print("trick or treat") return end
+
 		-- Get group.
 		local group = Config.Groups[groupName]
 		if not group then return end
@@ -248,7 +266,7 @@ function Treatment:Begin(ped, bones, serverId, status)
 		end
 
 		-- Check limits.
-		if not isRemoving and treatment.Limit and bone.history then
+		if not isRemoving and treatment.Limit and bone and bone.history then
 			local count = 0
 			for k, event in ipairs(bone.history) do
 				if event.name == treatmentName then
@@ -260,8 +278,26 @@ function Treatment:Begin(ped, bones, serverId, status)
 			end
 		end
 
+		-- Check cooldown.
+		local cooldown = 3000
+		if LastTreatment and GetGameTimer() - LastTreatment < cooldown then return end
+		LastTreatment = GetGameTimer()
+
 		-- Tell server to apply treatment.
 		TriggerServerEvent("health:treat", Treatment.serverId or false, groupName, treatmentName, isRemoving)
+
+		-- Play emote.
+		exports.emotes:Play(Config.Examining.Anims.Action)
+
+		-- Set cooldown.
+		window:SetModel("cooldown", true)
+
+		-- Timeout.
+		Citizen.SetTimeout(cooldown, function()
+			if Treatment.window then
+				Treatment.window:SetModel("cooldown", false)
+			end
+		end)
 	end)
 
 	window:AddListener("performAction", function(window)
@@ -415,8 +451,14 @@ function Treatment:CreateCam()
 	local target = Config.Examining.Camera.Target
 
 	function camera:Update()
-		AttachCamToEntity(self.handle, ped, offset.x, offset.y, offset.z, true)
-		PointCamAtPedBone(self.handle, ped, 11816, target.x, target.y, target.z, true)
+		if Treatment.isLocal then
+			AttachCamToEntity(self.handle, ped, offset.x, offset.y, offset.z, true)
+		else
+			local _ped = PlayerPedId()
+			AttachCamToPedBone(self.handle, _ped, 0x2E28, 0.5, 0.0, 0.8, true)
+		end
+
+		PointCamAtPedBone(self.handle, ped, 0x2E28, target.x, target.y, target.z, true)
 		SetCamFov(self.handle, Config.Examining.Camera.Fov)
 	end
 
@@ -587,23 +629,29 @@ function Treatment:Treat(serverId, groupName, treatmentName, isRemoving)
 	-- Update current treatment.
 	if self.serverId == serverId then
 		local bone = self.bones[group.Part]
-		if bone and bone.history then
-			if isRemoving then
-				for k, event in ipairs(bone.history) do
-					if event.name == treatmentName then
-						table.remove(bone.history, k)
-						break
-					end
-				end
-			else
-				table.insert(bone.history, {
-					time = GetNetworkTime(),
-					name = treatmentName,
-				})
-			end
-
-			self:SetBones(self.bones)
+		if not bone then
+			bone = {
+				info = {},
+				history = {},
+			}
+			self.bones[group.Part] = bone
 		end
+
+		if isRemoving then
+			for k, event in ipairs(bone.history) do
+				if event.name == treatmentName then
+					table.remove(bone.history, k)
+					break
+				end
+			end
+		else
+			table.insert(bone.history, {
+				time = GetNetworkTime(),
+				name = treatmentName,
+			})
+		end
+
+		self:SetBones(self.bones)
 	end
 
 	-- Check for self.
@@ -648,7 +696,7 @@ end)
 AddEventHandler("players:on_healthHelp", function(player, ped)
 	if not player then return end
 
-	exports.emotes:Play(Config.Examining.Anims.Revive)
+	exports.emotes:Play(Config.Examining.Anims.Action)
 
 	TriggerServerEvent("health:help", GetPlayerServerId(player))
 end)
