@@ -37,8 +37,9 @@ function Main:UpdateBones()
 
 	-- Healing.
 	if BloodLoss < 0.001 then
-		print("healing health", 1.0 / 300.0 * deltaTime)
-		self:AddEffect("Health", 1.0 / 300.0 * deltaTime)
+		local healAmount = (1.0 / 300.0 * deltaTime) * ((self:GetEffect("Comfort") or 0.0) * 3.0 + 1.0)
+		print("healing health", healAmount)
+		self:AddEffect("Health", healAmount)
 	end
 
 	-- Update snowflake.
@@ -79,9 +80,10 @@ function Bone:Update(deltaTime)
 	end
 
 	-- Healing.
-	if not Injury.isDead and self.info.health and (self.info.bleed or 0.0) < 0.0001 and (self.healingRate or 1.0) > 0.0001 then
-		print("healing bone", self.name, deltaTime * (1.0 / 60.0) * self.healingRate)
-		self:AddHealth(deltaTime * (1.0 / 60.0) * self.healingRate)
+	if not Injury.isDead and self.info.health and (self.info.bleed or 0.0) < 0.001 and (self.healingRate or 1.0) > 0.0001 then
+		local healAmount = deltaTime * (1.0 / 60.0) * self.healingRate * ((self:GetEffect("Comfort") or 0.0) * 3.0 + 1.0)
+		print("healing bone", healAmount)
+		self:AddHealth(healAmount)
 	end
 
 	-- Result if updated.

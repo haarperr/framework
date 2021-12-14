@@ -27,7 +27,7 @@ end
 function Bone.process.update:Bleeding()
 	local bleed = self.info.bleed or 0.0
 	
-	if bleed > 0.0001 then
+	if bleed > 0.001 then
 		-- Get group.
 		local groupName, groupSettings = self:GetGroup()
 		if not groupSettings then return end
@@ -47,7 +47,7 @@ function Bone.process.update:Bleeding()
 
 		-- Clotting.
 		bleed = math.max(bleed - (1.0 / 3600.0) * (groupBone.clotRate or 1.0) * (ClotRate or 1.0), 0.0)
-		if bleed < 0.0001 then
+		if bleed < 0.001 then
 			bleed = nil
 		end
 

@@ -610,10 +610,37 @@ Config = {
 		RegenRate = 60.0 * 2.0, -- How long it takes to completely restore energy, in minutes.
 	},
 	Nutrition = {
-		HungerRate = 60.0 * 3.0, -- How long it takes to become hungry, in minutes.
-		ThirstRate = 60.0 * 2.0, -- How long it takes to become hungry, in minutes.
-		SprintMult = 2.0, -- Multiplied value when sprinting.
-		RunMult = 4.0, -- Multiplied value when running (slower than sprinting)
+		Rates = {
+			Hunger = 60.0 * 3.0, -- How long it takes to become hungry, in minutes.
+			Thirst = 60.0 * 2.0, -- How long it takes to become hungry, in minutes.
+		},
+		Modifiers = {
+			Walk = 1.25, -- Multiplied value when walking.
+			Run = 1.5, -- Multiplied value when running (slower than sprinting)
+			Sprint = 2.5, -- Multiplied value when sprinting.
+		},
+		Damage = {
+			Hunger = 5.0,
+			Thirst = 5.0,
+		},
+		Anims = {
+			Eat = {
+				Dict = "mp_player_inteat@burger",
+				Name = "mp_player_int_eat_burger",
+				Flag = 49,
+				Props = {
+					{ Model = "", Bone = 0xEB95, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 } },
+				},
+			},
+			Drink = {
+				Dict = "amb@world_human_drinking@coffee@male@idle_a",
+				Name = "idle_a",
+				Flag = 49,
+				Props = {
+					{ Model = "", Bone = 0x6F06, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 } },
+				},
+			},
+		},
 	},
 	Stamina = {
 		RegenRate = 0.5,
