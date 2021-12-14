@@ -44,14 +44,17 @@ function Bone.process.update:Bleeding()
 		Main:AddEffect("Health", -bleed * rate * 0.01)
 
 		BloodLoss = (BloodLoss or 0.0) + bloodLoss
-
+		
 		-- Clotting.
 		bleed = math.max(bleed - (1.0 / 3600.0) * (groupBone.clotRate or 1.0) * (ClotRate or 1.0), 0.0)
 		if bleed < 0.001 then
 			bleed = nil
 		end
 
+		self.bloodLoss = bloodLoss
 		self:SetInfo("bleed", bleed)
+	else
+		self.bloodLoss = nil
 	end
 end
 
