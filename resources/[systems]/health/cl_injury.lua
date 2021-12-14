@@ -1,5 +1,4 @@
 Injury = {
-	state = "None",
 	override = "Writhes",
 	options = {
 		{
@@ -20,7 +19,13 @@ Injury = {
 			icon = "chair",
 			anim = "Sit",
 			func = function()
-				return true
+				return not Main:IsInjuryPresent({
+					["Gunshot"] = true,
+					["Stab"] = true,
+					["Fracture"] = true,
+					["2nd Degree Burn"] = true,
+					["3rd Degree Burn"] = true,
+				})
 			end,
 		},
 	}
@@ -69,10 +74,16 @@ function Injury:Update()
 	if self.isDead ~= isDead then
 		self.isDead = isDead
 
+		Main:BuildNavigation()
+
 		state:set("immobile", isDead, true)
 
 		if isDead then
+			self.state = "None"
+			self.override = "Writhes"
+			
 			SetEntityHealth(Ped, 0)
+			
 			return
 		end
 	end
@@ -122,7 +133,7 @@ function Injury:Update()
 
 	-- Replay anim.
 	if self.emote and not exports.emotes:IsPlaying(self.emote, true) and not inWater then
-		self:SetAnim(self.anim)
+		-- self:SetAnim(self.anim)
 	end
 
 	-- Suppress interact.
@@ -163,7 +174,7 @@ function Injury:SetAnim(anim, revive)
 	end
 
 	print("set", json.encode(anim))
-	
+
 	self.anim = anim
 	self.emote = anim and exports.emotes:Play(anim) or nil
 
@@ -177,7 +188,7 @@ Main:AddListener("BuildNavigation", function(options)
 	if not Injury.isDead then return end
 	
 	for k, option in ipairs(Injury.options) do
-		if option.anim ~= Injury.name and (not option.func or option.func()) then
+		if option.anim ~= Injury.override and (not option.func or option.func()) then
 			options[#options + 1] = {
 				id = option.id,
 				text = option.text,
@@ -198,9 +209,14 @@ AddEventHandler("interact:onNavigate", function(id)
 	if id:sub(1, ("injury"):len()) ~= "injury" then
 		return
 	end
+
 	for k, option in ipairs(Injury.options) do
-		if option.id == id then
-			-- TODO: set override.
+		if option.id == id and Injury.override ~= option.anim then
+			Injury.override = option.anim
+			Injury.state = nil
+
+			Main:BuildNavigation()
+			
 			break
 		end
 	end

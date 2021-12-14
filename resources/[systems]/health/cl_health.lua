@@ -254,6 +254,20 @@ function Main:FindInHistory(bone, name)
 	return false
 end
 
+function Main:IsInjuryPresent(name)
+	local lookupTable = type(name) == "table"
+	for id, bone in pairs(self.bones) do
+		if bone.history then
+			for k, event in ipairs(bone.history) do
+				if (lookupTable and name[event.name]) or (not lookupTable and event.name == name) then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
 --[[ Events ]]--
 AddEventHandler("health:clientStart", function()
 	Main:Init()
