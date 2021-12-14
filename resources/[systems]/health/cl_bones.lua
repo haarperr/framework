@@ -36,10 +36,10 @@ function Main:UpdateBones()
 	end
 
 	-- Healing.
-	if BloodLoss < 0.001 and (self:GetEffect("Health") or 1.0) < 0.999 then
+	if not Injury.isDead and BloodLoss < 0.001 and (self:GetEffect("Health") or 1.0) < 0.999 then
 		local healAmount = (1.0 / 300.0 * deltaTime) * ((self:GetEffect("Comfort") or 0.0) * 3.0 + 1.0)
 		print("healing health", healAmount)
-		self:AddEffect("Health", healAmount)
+		-- self:AddEffect("Health", healAmount)
 	end
 
 	-- Update snowflake.
@@ -330,7 +330,10 @@ end
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		Main:UpdateBones()
+		if Main.isLoaded then
+			Main:UpdateBones()
+		end
+		
 		Citizen.Wait(1000)
 	end
 end)

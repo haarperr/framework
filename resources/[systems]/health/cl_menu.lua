@@ -2,7 +2,7 @@ Menu = {}
 
 --[[ Functions: Menu ]]--
 function Menu:Init()
-	self.loaded = true
+	self.isLoaded = true
 	self:Invoke(false, "loadConfig", {
 		effects = Config.Effects,
 		bones = Config.Bones,

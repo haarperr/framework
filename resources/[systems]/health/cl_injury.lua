@@ -174,7 +174,7 @@ end
 
 --[[ Listeners ]]--
 Main:AddListener("BuildNavigation", function(options)
-	if not Injury.isInjured then return end
+	if not Injury.isDead then return end
 	
 	for k, option in ipairs(Injury.options) do
 		if option.anim ~= Injury.name and (not option.func or option.func()) then
@@ -189,7 +189,7 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("health:stop", function()
-	if Injury.isInjured then
+	if Injury.isDead then
 		Injury:SetAnim()
 	end
 end)
@@ -209,14 +209,19 @@ end)
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		Injury:Update()
+		if Main.isLoaded then
+			Injury:Update()
+		end
+
 		Citizen.Wait(50)
 	end
 end)
 
 Citizen.CreateThread(function()
 	while true do
-		Injury:UpdateFrame()
+		if Main.isLoaded then
+			Injury:UpdateFrame()
+		end
 		Citizen.Wait(0)
 	end
 end)

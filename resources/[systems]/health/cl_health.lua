@@ -119,7 +119,7 @@ function Main:AddListener(_type, cb)
 end
 
 function Main:InvokeListener(_type, ...)
-	if not self.loaded then return end
+	if not self.isLoaded then return end
 
 	local listeners = self.listeners[_type]
 	if not listeners then return false end
@@ -147,7 +147,7 @@ function Main:UpdateInfo()
 end
 
 function Main:SetEffect(name, value)
-	if not self.loaded then return end
+	if not self.isLoaded then return end
 
 	value = math.min(math.max(value, 0.0), 1.0)
 	
@@ -175,7 +175,9 @@ end
 Export(Main, "GetEffect")
 
 function Main:AddEffect(name, amount)
-	local effect = self.effects[name] or 0.0
+	local effect = self.effects[name]
+	if not effect then return end
+	
 	self:SetEffect(name, effect + amount)
 end
 Export(Main, "AddEffect")
@@ -258,9 +260,9 @@ AddEventHandler("health:clientStart", function()
 end)
 
 AddEventHandler("health:start", function()
-	Main.loaded = true
+	Main.isLoaded = true
 
-	while not Menu.loaded do
+	while not Menu.isLoaded do
 		Citizen.Wait(0)
 	end
 
@@ -272,14 +274,21 @@ end)
 
 AddEventHandler("character:selected", function(character)
 	if not character then
+		if Treatment.ped then
+			Treatment:End()
+		end
+
 		Main:ResetInfo()
 		Main:ResetEffects()
-		Main.loaded = nil
+		Main.isLoaded = nil
+
+		Ped = nil
+		Player = nil
 
 		return
 	end
 
-	Main.loaded = true
+	Main.isLoaded = true
 
 	if character.health then
 		Main:Restore(character.health)
@@ -382,7 +391,10 @@ end)
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		Main:Update()
+		if Main.isLoaded then
+			Main:Update()
+		end
+
 		Citizen.Wait(0)
 	end
 end)
@@ -391,6 +403,11 @@ Citizen.CreateThread(function()
 	local lastUpdate = GetGameTimer()
 	
 	while true do
+		-- Wait to loading.
+		while not Main.isLoaded do
+			Citizen.Wait(0)
+		end
+
 		-- Cache walkstyle.
 		local walkstyle = Main.walkstyle
 		Main.walkstyle = nil
@@ -428,7 +445,7 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		if Main.loaded and Main.snowflake ~= Main.snowflakeSynced then
+		if Main.isLoaded and Main.snowflake ~= Main.snowflakeSynced then
 			Main:Sync()
 		end
 
