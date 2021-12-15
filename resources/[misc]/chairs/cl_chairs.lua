@@ -58,12 +58,21 @@ function Chairs:Update()
 	end
 end
 
-function Chairs:Activate(entity, offset, rotation, anim, camera)
+function Chairs:Activate(entity, baseName)
 	local ped = PlayerPedId()
+	local modelHash = GetEntityModel(entity)
+
+	-- Get/check settings.
+	local base = Bases[baseName or false]
+	local model = (Models[modelHash] or {})[baseName or false]
+
+	if not base or not model then return end
 	
 	-- Defaults.
-	offset = offset or vector3(0.0, 0.0, 0.0)
-	rotation = rotation or vector3(0.0, 0.0, 0.0)
+	local offset = model.Offset or vector3(0.0, 0.0, 0.0)
+	local rotation = model.Rotation or vector3(0.0, 0.0, 0.0)
+	local anim = model.Anim or base.Anim
+	local camera = model.Camera or base.Camera
 
 	-- Cache.
 	self.chair = {
@@ -137,6 +146,26 @@ function Chairs:Deactivate()
 	end
 end
 
+function Chairs:FindAll(_type)
+	local objects = {}
+	for entity in EnumerateObjects() do
+		local model = Models[GetEntityModel(entity)]
+		if model and model[_type] then
+			objects[#objects + 1] = entity
+		end
+	end
+	return objects
+end
+
+function Chairs:FindFirst(_type)
+	for entity in EnumerateObjects() do
+		local model = Models[GetEntityModel(entity)]
+		if model and model[_type] then
+			return entity
+		end
+	end
+end
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -149,16 +178,24 @@ Citizen.CreateThread(function()
 	end
 end)
 
+--[[ Exports ]]--
+exports("FindAll", function(...)
+	return Chairs:FindAll(...)
+end)
+
+exports("FindFirst", function(...)
+	return Chairs:FindFirst(...)
+end)
+
+exports("Activate", function(...)
+	return Chairs:Activate(...)
+end)
+
 --[[ Events ]]--
 AddEventHandler("chairs:clientStart", function()
 	Chairs:Init()
 end)
 
 AddEventHandler("interact:on_chair", function(interactable)
-	local base = Bases[interactable.base]
-	local model = (Models[interactable.model] or {})[interactable.base]
-
-	if not base or not model then return end
-
-	Chairs:Activate(interactable.entity, model.Offset, model.Rotation, model.Anim or base.Anim, model.Camera or base.Camera)
+	Chairs:Activate(interactable.entity, interactable.base)
 end)
