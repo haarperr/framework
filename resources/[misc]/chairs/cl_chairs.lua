@@ -82,6 +82,8 @@ function Chairs:Activate(entity, baseName)
 		anim = anim,
 		camera = camera,
 		entered = GetEntityCoords(ped, true),
+		exit = model.Exit or vector3(0.8, 0.0, 0.0),
+		heading = model.Heading,
 	}
 
 	-- Trigger events.
@@ -121,11 +123,29 @@ function Chairs:Deactivate()
 	local chair = self.chair
 	local entity = chair and chair.entity
 	
+	-- Get exit coords.
+	local coords = GetOffsetFromEntityInWorldCoords(entity, chair.exit)
+	local hasGround, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, true)
+	
+	-- Flip the exit coords if invalid exit.
+	if not hasGround or math.abs(groundZ - coords.z) > 1.0 then
+		coords = GetOffsetFromEntityInWorldCoords(entity, -chair.exit)
+		hasGround, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, true)
+	end
+
+	-- Final check for ground.
+	if not hasGround or math.abs(groundZ - coords.z) > 1.0 then
+		coords = GetEntityCoords(entity)
+		groundZ = coords.z
+	end
+	
 	-- Update ped.
 	local ped = PlayerPedId()
 	FreezeEntityPosition(ped, false)
 	DetachEntity(ped, true, true)
-	SetEntityCoordsNoOffset(ped, chair.entered.x, chair.entered.y, chair.entered.z, true)
+	SetEntityCoords(ped, coords.x, coords.y, groundZ, true)
+	SetEntityHeading(ped, GetEntityHeading(entity) + (chair.heading or 180.0))
+	ClearPedTasksImmediately(ped)
 
 	-- Trigger events.
 	TriggerEvent("chairs:deactivate", entity)
