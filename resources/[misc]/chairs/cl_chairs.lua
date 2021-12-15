@@ -113,6 +113,7 @@ function Chairs:Activate(entity, baseName)
 	
 	-- Update ped.
 	FreezeEntityPosition(ped, true)
+	SetEntityCoords(ped, GetEntityCoords(entity))
 	AttachEntityToEntity(ped, entity, 0, offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, false, false, true)
 
 	-- Update entity.
