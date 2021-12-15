@@ -152,3 +152,13 @@ Citizen.CreateThread(function()
 		Citizen.Wait(200)
 	end
 end)
+
+Citizen.CreateThread(function()
+	while true do
+		for _, model in ipairs(Config.SuppressedModels) do SetVehicleModelIsSuppressed(model, true) end
+		for _, scenario in ipairs(Config.DisabledGroups) do SetScenarioGroupEnabled(scenario, false) end
+		for _, scenario in ipairs(Config.DisabledTypes) do SetScenarioTypeEnabled(scenario, false) end
+
+		Citizen.Wait(1000)
+	end
+end)
