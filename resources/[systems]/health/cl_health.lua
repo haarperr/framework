@@ -102,8 +102,8 @@ function Main:Restore(data)
 	end
 	
 	for boneId, bone in pairs(self.bones) do
-		bone.info = data.info and data.info[boneId] or data.info[tostring(boneId)] or {}
-		bone.history = data.history and data.history[boneId] or data.history[tostring(boneId)] or {}
+		bone.info = data.info and (data.info[boneId] or data.info[tostring(boneId)]) or {}
+		bone.history = data.history and (data.history[boneId] or data.history[tostring(boneId)]) or {}
 		bone:UpdateInfo()
 	end
 end
@@ -369,8 +369,8 @@ RegisterNetEvent("health:sync", function(serverId, data, status)
 
 	local bones = {}
 	for boneId, settings in pairs(Config.Bones) do
-		local info = data.info and data.info[boneId] or data.info[tostring(boneId)]
-		local history = data.history and data.history[boneId] or data.history[tostring(boneId)]
+		local info = data.info and (data.info[boneId] or data.info[tostring(boneId)])
+		local history = data.history and (data.history[boneId] or data.history[tostring(boneId)])
 
 		if info or history then
 			local bone = Bone:Create(boneId, settings.Name)
