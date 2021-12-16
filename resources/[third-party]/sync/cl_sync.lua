@@ -3,7 +3,7 @@ Main = Main or {}
 --[[ Functions ]]--
 function Main:Update()
 	-- Update weather.
-	if self.nextWeather and self.weather ~= self.nextWeather then
+	if not self.overriding and self.nextWeather and self.weather ~= self.nextWeather then
 		self:SetWeather(self.nextWeather)
 		self.nextWeather = nil
 	end
@@ -17,6 +17,12 @@ function Main:Update()
 
 	NetworkOverrideClockTime(hour, minute, 0)
 	SetClockDate(day, month, year)
+
+	-- Force weather.
+	if self.lastChange and GetGameTimer() - self.lastChange > 1000.0 * Config.TransitionTime then
+		SetWeatherTypeNow(self.weather)
+		SetWeatherTypeNowPersist(self.weather)
+	end
 end
 
 function Main:SetBlackout(value)
@@ -26,7 +32,11 @@ end
 
 function Main:SetWeather(weather)
 	self.weather = weather
-	SetWeatherTypeOvertimePersist(weather, 15.0)
+	self.lastChange = GetGameTimer()
+	
+	print("set weather", weather)
+
+	SetWeatherTypeOvertimePersist(weather, Config.TransitionTime)
 end
 
 function Main:GetTime()
@@ -43,12 +53,29 @@ function Main:UpdateTime(time)
 end
 
 function Main:UpdateWeather(weather)
-	self.nextWeather = weather
+	if self.overriding then
+		self.overriding = weather
+	else
+		self.nextWeather = weather
+	end
 end
 
 function Main:UpdateBoth(time, weather)
 	self:UpdateTime(time)
 	self:UpdateWeather(weather)
+end
+
+function Main:OverrideWeather(weather)
+	if weather == nil then
+		weather = self.overriding
+		self.overriding = nil
+	elseif not self.overriding then
+		self.overriding = self.nextWeather or self.weather
+	end
+	
+	if weather then
+		self:SetWeather(weather)
+	end
 end
 
 --[[ Events ]]--
@@ -66,6 +93,10 @@ end)
 
 exports("SetBlackout", function(value)
 	Main:SetBlackout(value)
+end)
+
+exports("SetWeather", function(weather)
+	Main:OverrideWeather(weather)
 end)
 
 exports("GetTimes", function()
