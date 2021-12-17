@@ -1,5 +1,5 @@
 Config = {
-	Debug = true,
+	Debug = false,
 	GridSize = 4,
 	MaxDistance = 5.0,
 	Controls = {
