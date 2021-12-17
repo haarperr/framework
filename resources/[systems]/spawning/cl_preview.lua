@@ -12,8 +12,18 @@ function Preview:Init()
 	Citizen.Wait(1000)
 
 	-- Cache settings.
-	self.settings = Config.Previews[GetRandomIntInRange(1, #Config.Previews + 1)]
+	local settings = Config.Previews[GetRandomIntInRange(1, #Config.Previews + 1)]
+
+	self.settings = settings
 	self.isActive = true
+
+	-- Move to area.
+	local ped = PlayerPedId()
+	local coords = settings.Camera.Coords
+
+	if coords then
+		SetEntityCoordsNoOffset(ped, coords.x, coords.y, 0.0, true)
+	end
 	
 	-- Init functions.
 	for k, v in pairs(self) do
