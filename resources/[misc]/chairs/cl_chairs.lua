@@ -26,7 +26,7 @@ function Chairs:Update()
 	local ped = PlayerPedId()
 
 	-- Check entity.
-	if not DoesEntityExist(entity) then
+	if not DoesEntityExist(entity) or not IsEntityAttachedToEntity(ped, entity) then
 		self:Deactivate()
 		return
 	end
@@ -123,6 +123,19 @@ end
 function Chairs:Deactivate()
 	local chair = self.chair
 	local entity = chair and chair.entity
+
+	-- Trigger events.
+	TriggerEvent("chairs:deactivate", entity)
+
+	-- Update ped.
+	local ped = PlayerPedId()
+	FreezeEntityPosition(ped, false)
+
+	-- Check attachment.
+	if not DoesEntityExist(entity) or not IsEntityAttachedToEntity(ped, entity) then
+		self:Uncache()
+		return
+	end
 	
 	-- Get exit coords.
 	local coords = GetOffsetFromEntityInWorldCoords(entity, chair.exit)
@@ -141,16 +154,17 @@ function Chairs:Deactivate()
 	end
 	
 	-- Update ped.
-	local ped = PlayerPedId()
-	FreezeEntityPosition(ped, false)
+	ped = PlayerPedId()
 	DetachEntity(ped, true, true)
 	SetEntityCoords(ped, coords.x, coords.y, groundZ, true)
 	SetEntityHeading(ped, GetEntityHeading(entity) + (chair.heading or 180.0))
 	ClearPedTasksImmediately(ped)
 
-	-- Trigger events.
-	TriggerEvent("chairs:deactivate", entity)
-	
+	-- Clear cache.
+	self:Uncache()
+end
+
+function Chairs:Uncache()
 	-- Uncache chair.
 	self.chair = nil
 
