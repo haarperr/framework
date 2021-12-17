@@ -70,13 +70,9 @@ The `Npcs.NEVERMIND` provides a generic option to pass as a dialogue option.
 Whether it's in the callback, or somewhere else in the script, functions that are part of the `Npc` meta-table may be invoked on the `npc` instance.
 
 ```Lua
-Npc:_Destroy()
 Npc:Load()
 Npc:Unload()
-Npc:UncacheGrid()
-Npc:CacheGrid()
 Npc:GetAnimation()
-Npc:_Update()
 Npc:UpdateAnim()
 Npc:SetState(state) -- Will try to use animations from the animations definition.
 Npc:AddOption(p1, p2) -- May either be a formatted table (p1) or generic text value (p1) with response (p2).
@@ -87,6 +83,13 @@ Npc:GoHome()
 Npc:SelectOption(index)
 Npc:AddDialogue(text, sent) -- The text to send, and whether the text is sent by the player or npc (true for player).
 Npc:Interact()
+```
+
+There are also controller functions provided by the `Npcs` meta-object.
+
+```Lua
+local window = Npcs:OpenWindow(data)
+Npcs:CloseWindow()
 ```
 
 #### Locking

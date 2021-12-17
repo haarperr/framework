@@ -256,7 +256,7 @@ function Npc:Interact()
 	local history = self.history or {}
 	local options = self:GetOptions()
 
-	local window = Window:Create({
+	local window = Npcs:OpenWindow({
 		type = "Window",
 		title = name,
 		class = "compact",
@@ -266,19 +266,6 @@ function Npc:Interact()
 			["left"] = "4vmin",
 			["top"] = "50%",
 			["transform"] = "translate(0%, -50%)",
-		},
-		prepend = {
-			type = "q-icon",
-			name = "cancel",
-			style = {
-				["font-size"] = "1.3em",
-			},
-			binds = {
-				color = "red",
-			},
-			click = {
-				callback = "this.$invoke('close')",
-			},
 		},
 		defaults = {
 			name = name,
@@ -354,15 +341,7 @@ function Npc:Interact()
 		},
 	})
 
-	window:AddListener("close", function(window)
-		window:Destroy()
-		UI:Focus(false)
-	end)
-
 	window:AddListener("selectOption", function(window, index)
 		self:SelectOption(index + 1)
 	end)
-
-	UI:Focus(true, true)
-	Npcs.window = window
 end

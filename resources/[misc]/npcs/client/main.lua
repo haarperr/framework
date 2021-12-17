@@ -74,6 +74,46 @@ function Npcs:UnloadGrid(gridId)
 	end
 end
 
+function Npcs:OpenWindow(data)
+	data.prepend = {
+		type = "q-icon",
+		name = "cancel",
+		style = {
+			["font-size"] = "1.3em",
+		},
+		binds = {
+			color = "red",
+		},
+		click = {
+			callback = "this.$invoke('close')",
+		},
+	}
+
+	local window = Window:Create(data)
+	self.window = window
+
+	window:AddListener("close", function(window)
+		Npcs:CloseWindow()
+	end)
+
+	UI:Focus(true, true)
+
+	return window
+end
+
+function Npcs:CloseWindow()
+	if not self.window then
+		return false
+	end
+
+	self.window:Destroy()
+	self.window = nil
+
+	UI:Focus(false)
+
+	return true
+end
+
 --[[ Events ]]--
 AddEventHandler(Npcs.event.."start", function()
 	local ped = PlayerPedId()
