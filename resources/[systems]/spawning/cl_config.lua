@@ -80,6 +80,49 @@ Config = {
 	},
 	Havens = {
 		{
+			Name = "Cayo Perico",
+			Static = {
+				Coords = vector4(4497.223, -4517.912, 4.412367, 85.48471),
+			},
+			Poses = {
+				{
+					Coords = vector4(4520.55, -4521.737, 4.665187, 104.5753),
+					Anim = {
+						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
+						Name = "exit_front",
+						BlendIn = 1000.0,
+						Flag = 0,
+					},
+				},
+				{
+					Coords = vector4(4519.103, -4513.77, 4.52966, 43.23923),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "checkshoe",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(4523.861, -4532.885, 4.16428, 24.65172),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "wipehands",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(4510.61, -4544.66, 4.153752, 122.185),
+					Anim = {
+						Dict = "amb@medic@standing@tendtodead@exit",
+						Name = "exit",
+						Flag = 0
+					},
+				},
+			},
+		},
+		{
 			Name = "Textile City",
 			Static = {
 				Coords = vector4(451.6771545410156, -649.9476928710938, 28.44460487365722, 196.24769592285156),
@@ -173,6 +216,49 @@ Config = {
 						BlendIn = 1000.0,
 						Flag = 0,
 					}
+				},
+			},
+		},
+		{
+			Name = "Jetsam Terminal",
+			Static = {
+				Coords = vector4(778.9018, -2997.436, 6.022499, 88.99814),
+			},
+			Poses = {
+				{
+					Coords = vector4(797.5243, -2982.033, 6.020935, 86.7858),
+					Anim = {
+						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
+						Name = "exit_front",
+						BlendIn = 1000.0,
+						Flag = 0,
+					},
+				},
+				{
+					Coords = vector4(794.0127, -2972.146, 6.021495, 134.6754),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "checkshoe",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(822.7296, -2978.524, 6.020657, 200.1432),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "wipehands",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(820.2715, -2961.807, 6.014052, 324.1848),
+					Anim = {
+						Dict = "amb@medic@standing@tendtodead@exit",
+						Name = "exit",
+						Flag = 0
+					},
 				},
 			},
 		},
