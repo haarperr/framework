@@ -1,4 +1,5 @@
 Injury = {
+	state = "None",
 	override = "Writhes",
 	options = {
 		{
