@@ -1,4 +1,6 @@
 Chairs = {}
+Chairs.maxPlayerDist = 3.0
+Chairs.cached = {}
 
 --[[ Functions: Chair ]]--
 function Chairs:Init()
@@ -25,14 +27,13 @@ function Chairs:Update()
 	local entity = chair.entity
 	local ped = PlayerPedId()
 
-	-- Check entity.
-	if not DoesEntityExist(entity) or not IsEntityAttachedToEntity(ped, entity) then
-		self:Deactivate()
-		return
-	end
-
-	-- Standing up.
-	if IsDisabledControlJustReleased(0, 46) then
+	-- Check conditions.
+	if
+		not DoesEntityExist(entity) or
+		not IsEntityAttachedToEntity(ped, entity) or
+		IsDisabledControlJustReleased(0, 46) or
+		self:IsOccupied(entity, ped)
+	then
 		self:Deactivate()
 		return
 	end
@@ -181,24 +182,41 @@ function Chairs:Uncache()
 	end
 end
 
-function Chairs:FindAll(_type)
+function Chairs:FindAll(_type, checkOccupied)
 	local objects = {}
 	for entity in EnumerateObjects() do
 		local model = Models[GetEntityModel(entity)]
-		if model and model[_type] then
+		if model and model[_type] and (not checkOccupied or not self:IsOccupied(entity)) then
 			objects[#objects + 1] = entity
 		end
 	end
 	return objects
 end
 
-function Chairs:FindFirst(_type)
+function Chairs:FindFirst(_type, checkOccupied)
 	for entity in EnumerateObjects() do
 		local model = Models[GetEntityModel(entity)]
-		if model and model[_type] then
+		if model and model[_type] and (not checkOccupied or not self:IsOccupied(entity)) then
 			return entity
 		end
 	end
+end
+
+function Chairs:IsOccupied(entity, ped)
+	if not self.cachedTime or GetGameTimer() - self.cachedTime > 2000.0 then
+		self.cached = {}
+		self.cachedTime = GetGameTimer()
+
+		for ped in EnumeratePeds() do
+			local entity = IsEntityAttached(ped) and GetEntityAttachedTo(ped)
+			if entity and DoesEntityExist(entity) then
+				self.cached[entity] = ped
+			end
+		end
+	end
+
+	local attachedPed = self.cached[entity or false]
+	return attachedPed ~= nil and (not ped or attachedPed ~= ped)
 end
 
 --[[ Threads ]]--
