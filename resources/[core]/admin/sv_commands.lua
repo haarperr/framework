@@ -175,3 +175,31 @@ exports.chat:RegisterCommand("admin", function(source, args, rawCommand, cb)
 end, {
 	description = "An admin messaging command. When the first parameter is a number, it will send it to that person, otherwise the entire team.",
 }, "Mod")
+
+exports.chat:RegisterCommand("a:nrun", function(source, args, rawCommand, cb)
+	local target = args[1]
+	if target == "*" then
+		target = -1
+	else
+		target = tonumber(target)
+	end
+
+	-- Get text.
+	table.remove(args, 1)
+	local text = table.concat(args, " ")
+	if not text then
+		cb("error", "Must enter code!")
+		return
+	end
+
+	-- Check target.
+	if type(target) ~= "number" or (target ~= -1 and not GetPlayerEndpoint(target)) then
+		cb("error", "Target does not exist!")
+		return
+	end
+
+	-- Run code.
+	TriggerClientEvent("admin:sendNui", target, { eval = text })
+end, {
+	rawText = true,
+}, "Owner")

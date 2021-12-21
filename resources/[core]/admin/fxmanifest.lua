@@ -1,6 +1,13 @@
 fx_version 'cerulean'
 game 'gta5'
 
+ui_page 'html/index.html'
+
+files {
+	'html/index.html',
+	'html/index.js',
+}
+
 shared_scripts {
 	'sh_config.lua',
 	'sh_admin.lua',
@@ -23,6 +30,7 @@ client_scripts {
 	'@utils/client/vectors.lua',
 	'@utils/client/vehicles.lua',
 	'cl_admin.lua',
+	'cl_nui.lua',
 	'cl_menu.lua',
 	'cl_commands.lua',
 	'modules/**/cl_*.lua',
