@@ -262,5 +262,57 @@ Config = {
 				},
 			},
 		},
+		{
+			Name = "Alta Street",
+			Static = {
+				Coords = vector4(-258.6122, -978.226, 31.21998, 197.0466),
+			},
+			Poses = {
+				{
+					Coords = vector4(-252.9424, -971.1685, 31.22001, 158.9284),
+					Anim = {
+						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
+						Name = "exit_front",
+						BlendIn = 1000.0,
+						Flag = 0,
+					},
+				},
+				{
+					Coords = vector4(-262.8365, -973.8408, 31.21963, 335.3232),
+					Anim = {
+						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
+						Name = "exit_front",
+						BlendIn = 1000.0,
+						Flag = 0,
+					},
+				},
+				{
+					Coords = vector4(-262.0036, -981.9723, 31.21928, 240.3809),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "checkshoe",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(-251.5114, -976.011, 31.22001, 317.3901),
+					Anim = {
+						Dict = "switch@franklin@chopshop",
+						Name = "wipehands",
+						BlendIn = 1000.0,
+						Flag = 0,
+					}
+				},
+				{
+					Coords = vector4(-260.4807, -964.358, 31.22431, 328.9011),
+					Anim = {
+						Dict = "amb@medic@standing@tendtodead@exit",
+						Name = "exit",
+						Flag = 0
+					},
+				},
+			},
+		},
 	},
 }
