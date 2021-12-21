@@ -31,7 +31,7 @@ function Chairs:Update()
 	if
 		not DoesEntityExist(entity) or
 		not IsEntityAttachedToEntity(ped, entity) or
-		IsDisabledControlJustReleased(0, 46) or
+		(IsDisabledControlJustReleased(0, 46) and not self.locked) or
 		self:IsOccupied(entity, ped)
 	then
 		self:Deactivate()
@@ -242,6 +242,10 @@ end)
 
 exports("Activate", function(...)
 	return Chairs:Activate(...)
+end)
+
+exports("Lock", function(value)
+	Chairs.locked = value == true
 end)
 
 --[[ Events ]]--
