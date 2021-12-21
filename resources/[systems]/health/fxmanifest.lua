@@ -15,6 +15,7 @@ files {
 }
 
 shared_scripts {
+	'@grids/shared/grids.lua',
 	'@utils/shared/math.lua',
 	'sh_config.lua',
 	'sh_health.lua',
@@ -23,6 +24,7 @@ shared_scripts {
 
 client_scripts {
 	'@camera/cl_camera.lua',
+	'@npcs/client.lua',
 	'@ui/scripts/cl_main.lua',
 	'@utils/client/vectors.lua',
 	'@utils/client/vehicles.lua',
@@ -36,6 +38,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@npcs/server.lua',
 	'@utils/server/players.lua',
 	'sv_health.lua',
 	'sv_players.lua',

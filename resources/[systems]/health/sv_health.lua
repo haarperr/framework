@@ -37,7 +37,7 @@ RegisterNetEvent("health:sync", function(data)
 	local source = source
 
 	-- Check cooldown.
-	if not PlayerUtil:CheckCooldown(source, Config.Saving.Cooldown * 0.99 / 1000.0) then return end
+	if not PlayerUtil:CheckCooldown(source, 5.0) then return end
 	PlayerUtil:UpdateCooldown(source)
 
 	-- Check player is loaded.

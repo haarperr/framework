@@ -62,32 +62,32 @@ Config = {
 		["Head"] = {
 			Part = 31086,
 			Bone = "head",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Cervical Collar", "Nasopharyngeal Airway", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", }
 		},
 		["Torso"] = {
 			Part = 11816,
 			Bone = "spine2",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Fire Blanket", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Fire Blanket", }
 		},
 		["Left Arm"] = {
 			Part = 18905,
 			Bone = "lforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
 		},
 		["Right Arm"] = {
 			Part = 40269,
 			Bone = "rforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
 		},
 		["Left Leg"] = {
 			Part = 58271,
 			Bone = "lcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Tourniquet", }
 		},
 		["Right Leg"] = {
 			Part = 51826,
 			Bone = "rcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Suture Kit", "Splint", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Tourniquet", }
 		},
 	},
 	Bones = {
@@ -423,23 +423,53 @@ Config = {
 			Clear = 1.0,
 			Healing = 0.05,
 			Lifetime = function(bone, groupBone, treatments)
-				local sum = math.min(treatments["Gauze"] or 0, 1) + math.min(treatments["Bandage"] or 0) + math.min(treatments["Suture Kit"] or 0, 1)
-				return 14400.0 / (math.pow(sum, 2) + 1)
+				if (treatments["Surgical Kit"] or 0) > 0 then
+					return 600.0
+				else
+					return 14400.0 / (math.min(treatments["Gauze"] or 0, 1) + math.min(treatments["Bandage"] or 0))
+				end
 			end,
+			Treatment = {
+				{
+					Name = "IV Bag",
+					Group = "Left Arm",
+				},
+				{
+					Name = "Tranexamic Acid",
+					Group = "Left Arm",
+				},
+				"Saline",
+				"Surgical Kit",
+				"Gauze",
+				"Bandage",
+			}
 		},
 		["Stab"] = {
 			Clear = 1.0,
 			Lifetime = 3600.0 * 4.0,
 		},
 		["Bruising"] = {
+			Clear = 0.2,
 			Lifetime = function(bone, groupBone, treatments)
 				return treatments["Ice Pack"] and 300.0 or 1800.0
 			end,
-			Clear = 0.2,
+			Treatment = {
+				"Ice Pack",
+				"Bandage",
+			},
 		},
 		["Fracture"] = {
 			Clear = 0.8,
 			Lifetime = 3600.0 * 0.5,
+			Treatment = {
+				function(bone, event, groupName)
+					if groupName == "Head" then
+						return "Cervical Collar", groupName
+					else
+						return "Splint", groupName
+					end
+				end,
+			},
 		},
 		["Compound Fracture"] = {
 			Lifetime = 3600.0 * 1.0,
@@ -536,8 +566,8 @@ Config = {
 		},
 		["Nasopharyngeal Airway"] = {
 			Item = "Nasopharyngeal Airway",
-			Description = "An item.",
-			Action = "Does something.",
+			Description = "A tube designed to be inserted into the nasal passageway.",
+			Action = "Inserts an NPA into the nasal passage.",
 			Limit = 1,
 			Removable = true,
 		},
@@ -548,20 +578,27 @@ Config = {
 		},
 		["Splint"] = {
 			Item = "Splint",
-			Description = "An item.",
-			Action = "Does something.",
+			Description = "Secure a limb from moving.",
+			Action = "Attaches a splint.",
 			Limit = 1,
 			Removable = true,
 			Lifetime = function(bone, groupBone, treatments)
 				return IsPedSprinting(Ped) and 300.0 or 3600.0
 			end,
 		},
-		["Suture Kit"] = {
-			Item = "Suture Kit",
+		["Surgical Kit"] = {
+			Item = "Surgical Kit",
 			Description = "Perform surgery.",
-			Action = "Uses a suture kit to stitch up the wound.",
+			Action = "Performs surgery on the wound.",
 			Limit = 1,
 			Removable = true,
+			Condition = function(bone)
+				return bone and Main:IsInjuryPresent({
+					["Gunshot"] = true,
+					["Stab"] = true,
+					["Compound Fracture"] = true,
+				}, bone:GetGroup())
+			end,
 			Lifetime = function(bone, groupBone, treatments)
 				return IsPedSprinting(Ped) and 600.0 or 3600.0
 			end,
@@ -703,5 +740,29 @@ Config = {
 			Restrained = { Dict = "dam_ko", Name = "drown_cuffed", Flag = 2 },
 		},
 		Revive = { Dict = "get_up@directional@movement@from_seated@action", Name = "getup_r_0", Flag = 0, Duration = 1600 },
+	},
+	Hospital = {
+		Cost = { 20.0, 100.0 },
+		Limbs = 4.0, -- Divides the cost by each limb damaged.
+		Beds = {
+			[1631638868] = true,
+		},
+		Receptionists = {
+			{
+				name = "Ivy",
+				appearance = json.decode('{"components":[1,1,1,1,1,1,35,1,16,116,110,1,1,1,1,1,1,9,1,1,1,1],"hair":[9,15,15],"makeupOverlays":[15,5,1,0.39093708992004,0.09230440506096,0.39093708992004,25,25,25,7,7,7],"props":[1,104,1,1,1,1,4,1]}'),
+				features = json.decode('{"overlays":[],"bodyType":2,"model":1,"hairOverlays":[],"otherOverlays":[1,1,1,1,1,1,0,0,0,0,0,0,0.69974696636199],"faceFeatures":[0.09090909090909,0.09090909090909,0.09090909090909,0.09090909090909,0.09090909090909,0.09090909090909,0.09090909090909,0.09090909090909,0.63636363636363,0.09090909090909,-0.27272727272727,0.45454545454545,0.45454545454545,-0.27272727272727,-0.27272727272727,0.09090909090909,0.27272727272727,0.09090909090909,0.09090909090909,0.09090909090909],"blendData":[5,30,1,5,30,1,0.54545454545454,0.45454545454545,0.0],"eyeColor":1}'),
+				coords = vector4(311.6182, -594.0466, 43.28411, 337.6449),
+				animations = {
+					idle = { Dict = "anim@amb@nightclub@peds@", Name = "rcmme_amanda1_stand_loop_cop", Flag = 49 },
+				},
+				targets = {
+					{
+						coords = vector3(313.922, -581.346, 43.9395),
+						radius = 20.0,
+					},
+				},
+			},
+		},
 	},
 }

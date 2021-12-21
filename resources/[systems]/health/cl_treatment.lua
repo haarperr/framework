@@ -670,6 +670,76 @@ function Treatment:Treat(serverId, groupName, treatmentName, isRemoving)
 	end
 end
 
+function Treatment:Heal(delay)
+	local treated = {}
+	local serverId = GetPlayerServerId(PlayerId())
+
+	local function cacheTreatment(group, name)
+		local _treated = treated[group]
+		if not _treated then
+			_treated = {}
+			treated[group] = _treated
+		end
+		_treated[name] = true
+	end
+
+	local function wasTreated(group, name)
+		local _treated = treated[group]
+		return _treated and _treated[name]
+	end
+
+	-- Loop through all bones.
+	for boneId, bone in pairs(Main.bones) do
+		if bone.history then
+			local groupName = bone:GetGroup()
+			-- Loop through the bone's events.
+			for k, event in ipairs(bone.history) do
+				local injury = Config.Injuries[event.name]
+				if injury and injury.Treatment then
+					-- Loop through the injury's treatments.
+					for stage, treatment in ipairs(injury.Treatment) do
+						-- Get treatment.
+						local treatmentType = type(treatment)
+						local _groupName, treatmentName
+
+						-- Check the treatment type.
+						if treatmentType == "string" then
+							treatmentName = treatment
+							_groupName = groupName
+						elseif treatmentType == "table" then
+							treatmentName = treatment.Name
+							_groupName = treatment.Group
+						elseif treatmentType == "function" then
+							treatmentName, _groupName = treatment(bone, event, groupName)
+						end
+
+						-- Check treatment redundancy.
+						if _groupName and treatmentName and not wasTreated(_groupName, treatmentName) then
+							-- Apply the treatment.
+							self:Treat(serverId, _groupName, treatmentName)
+							cacheTreatment(_groupName, treatmentName)
+
+							-- Wait a little.
+							if delay then
+								Citizen.Wait(GetRandomIntInRange(2000, 4000))
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+	-- Give some health.
+	if Main:GetHealth() < 0.1 then
+		Main:SetEffect("Health", 0.1)
+	end
+end
+
+RegisterCommand("testheal", function()
+	Treatment:Heal(true)
+end)
+
 --[[ Listeners ]]--
 Main:AddListener("UpdateSnowflake", function()
 	if Treatment.ped == PlayerPedId() then

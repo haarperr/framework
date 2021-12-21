@@ -189,6 +189,12 @@ function Main:ResetEffects()
 end
 Export(Main, "ResetEffects")
 
+
+function Main:GetHealth()
+	return self.effects["Health"] or 1.0
+end
+Export(Main, "GetHealth")
+
 function Main:ResetInfo()
 	ClearPedBloodDamage(Ped)
 
@@ -202,7 +208,9 @@ function Main:ResetInfo()
 end
 
 function Main:GetUp()
-	self:SetEffect("Health", 0.1)
+	if self:GetHealth() then
+		self:SetEffect("Health", 0.1)
+	end
 end
 
 function Main:UpdateSnowflake()
@@ -245,8 +253,9 @@ function Main:FindInHistory(bone, name)
 		return false
 	end
 
+	local lookupTable = type(name) == "table"
 	for k, event in ipairs(bone.history) do
-		if event.name == name then
+		if (lookupTable and name[event.name]) or (not lookupTable and event.name == name) then
 			return true
 		end
 	end
@@ -254,10 +263,10 @@ function Main:FindInHistory(bone, name)
 	return false
 end
 
-function Main:IsInjuryPresent(name)
+function Main:IsInjuryPresent(name, group)
 	local lookupTable = type(name) == "table"
 	for id, bone in pairs(self.bones) do
-		if bone.history then
+		if bone.history and (not group or group == bone:GetGroup()) then
 			for k, event in ipairs(bone.history) do
 				if (lookupTable and name[event.name]) or (not lookupTable and event.name == name) then
 					return true
