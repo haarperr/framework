@@ -170,11 +170,14 @@ function Treatment:Begin(ped, bones, serverId, status)
 								dense
 							>
 								<template v-slot:header>
-									<q-item-section side v-if="group.events.find(x => x.treatment)">
-										<q-icon name="healing" />
-									</q-item-section>
 									<q-item-section>
 										<q-item-label>{{group.name}}</q-item-label>
+									</q-item-section>
+									<q-item-section side class="q-gutter-sm">
+										<div>
+											<q-icon name="healing" v-if="group.events.find(x => x.treatment)" />
+											<q-icon name="security" v-if="group.armor" />
+										</div>
 									</q-item-section>
 								</template>
 								<q-item
@@ -535,6 +538,11 @@ function Treatment:GetGroups()
 
 		-- Update health.
 		group.health = group.health * (info.health or 1.0)
+
+		-- Update armor.
+		if info.armor and info.armor > 0.001 then
+			group.armor = true
+		end
 
 		-- Add events.
 		if bone.history then
