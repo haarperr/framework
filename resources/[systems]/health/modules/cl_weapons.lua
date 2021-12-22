@@ -16,7 +16,17 @@
 
 local funcs = {
 	[2] = function(bone, weapon, weaponDamage) -- Melee.
-		bone:TakeDamage(0.1, "Stab")
+		local isSharp = exports.weapons:IsWeaponSharp(weapon)
+		local damageRatio = GetRandomFloatInRange(isSharp and 0.4 or 0.1, isSharp and 0.6 or 0.2)
+		
+		bone:TakeDamage(damageRatio, isSharp and "Stab" or "Bruising")
+
+		local health = Main:GetHealth()
+		if isSharp then
+			bone:ApplyBleed(damageRatio * 1.5)
+		elseif health < 0.3 and health > 0.001 and not IsPedRagdoll(Ped) then
+			SetPedToRagdoll(Ped, GetRandomIntInRange(12000, 16000))
+		end
 	end,
 	[3] = function(bone, weapon, weaponDamage) -- Bullets.
 		local damageRatio = weaponDamage / 100.0
@@ -104,7 +114,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local bone = Main:GetBone(boneId)
 	if not bone then
 		error(("no bone id (%s)"):format(boneId))
-	elseif GetGameTimer() - (bone.lastDamage or 0) < 50 then
+	elseif bone.lastWeaponDamaged == weapon and GetGameTimer() - (bone.lastDamage or 0) < 50 then
 		print("damage too soon, ignoring")
 		return
 	end
@@ -114,6 +124,8 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local func = funcs[damageType]
 
 	print("damage type", damageType, "bone", bone and bone.Name)
+
+	bone.lastWeaponDamaged = weapon
 
 	if func then
 		func(bone, weapon, weaponDamage)
