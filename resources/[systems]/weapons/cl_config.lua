@@ -124,9 +124,6 @@ Config = {
 			-- }
 		},
 	},
-	Reloads = {
-		[`WEAPON_STUNGUN`] = { Dict = "anim@weapons@first_person@aim_rng@generic@pistol@machine_pistol@str", Name = "reload_aim", Flag = 48 },
-	},
 	Groups = {
 		[970310034] = {
 			Name = "Assault Rifle",
@@ -202,6 +199,15 @@ Config = {
 			Class = 0,
 		},
 	},
+	Sharp = {
+		[`WEAPON_BATTLEAXE`] = true,
+		[`WEAPON_BOTTLE`] = true,
+		[`WEAPON_DAGGER`] = true,
+		[`WEAPON_HATCHET`] = true,
+		[`WEAPON_KNIFE`] = true,
+		[`WEAPON_MACHETE`] = true,
+		[`WEAPON_SWITCHBLADE`] = true,
+	},
 }
 
 exports("GetWeaponGroup", function(group)
@@ -210,4 +216,8 @@ exports("GetWeaponGroup", function(group)
 	end
 
 	return Config.Groups[group or false]
+end)
+
+exports("IsWeaponSharp", function(weapon)
+	return Config.Sharp[weapon] == true
 end)
