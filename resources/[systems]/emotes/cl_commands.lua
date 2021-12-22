@@ -18,13 +18,24 @@ end, {
 
 --[[ Emotes ]]--
 exports.chat:RegisterCommand("e", function(source, args, command)
-	local name  = tostring(args[1]):lower()
+	-- Check states.
+	local state = LocalPlayer.state
+	if
+		state.restrained or
+		state.immobile or
+		not IsControlEnabled(0, 52)
+	then
+		return
+	end
 
+	-- Convert name.
+	local name  = tostring(args[1]):lower()
 	if name == "c" or name == "cancel" then
 		Main:Stop()
 		return
 	end
 
+	-- Check emote.
 	if not Main.emotes[name] then
 		TriggerEvent("chat:notify", {
 			text = "That emote doesn't exist!",
@@ -33,6 +44,7 @@ exports.chat:RegisterCommand("e", function(source, args, command)
 		return
 	end
 	
+	-- Play emote.
 	Main:Play(name)
 end, {
 	description = "Play an emote.",
