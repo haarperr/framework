@@ -34,6 +34,7 @@ client_scripts {
 	'cl_treatment.lua',
 	'cl_menu.lua',
 	'cl_history.lua',
+	'cl_respawn.lua',
 	'modules/cl_*.lua',
 }
 
@@ -43,5 +44,6 @@ server_scripts {
 	'sv_health.lua',
 	'sv_players.lua',
 	'sv_commands.lua',
+	'sv_respawn.lua',
 	'modules/sv_*.lua',
 }

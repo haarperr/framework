@@ -82,10 +82,13 @@ function Injury:Update()
 		if isDead then
 			self.state = "None"
 			self.override = "Writhes"
+			self.deadTime = GetGameTimer()
 			
 			SetEntityHealth(Ped, 0)
 			
 			return
+		else
+			Menu:Invoke(false, "setHtml", "#respawn", "")
 		end
 	end
 
@@ -140,7 +143,22 @@ function Injury:Update()
 	-- Suppress interact.
 	if isDead then
 		exports.interact:Suppress()
+
+		local respawnTimer = self:GetRespawnTimer()
+
+		Menu:Invoke(false, "setHtml", "#respawn",
+			respawnTimer > 0.001 and
+			("%s seconds until respawn"):format(math.ceil(respawnTimer)) or
+			"You may now respawn (/respawn)"
+		)
 	end
+end
+
+function Injury:GetRespawnTimer()
+	local timeSinceDead = (GetGameTimer() - (self.deadTime or GetGameTimer())) / 1000.0
+	local respawnTimer = math.max(Config.Respawn.Time - timeSinceDead, 0.0)
+
+	return respawnTimer
 end
 
 function Injury:UpdateFrame()
