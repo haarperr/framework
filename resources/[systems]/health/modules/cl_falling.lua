@@ -40,9 +40,10 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local isFracture = speed > Falling.fractureSpeed
 	if isFracture then
 		bone:SetFracture(true)
+		bone:TakeDamage(damage, "Fracture")
 	end
 
-	bone:SpreadDamage(damage, 0.15, 0.2, isFracture and "Fracture" or "Bruising")
+	bone:SpreadDamage(damage, 0.15, 0.2, "Bruising")
 end)
 
 --[[ Threads ]]--

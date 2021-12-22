@@ -461,8 +461,11 @@ Config = {
 		},
 		["Fracture"] = {
 			Clear = 0.8,
-			Lifetime = 3600.0 * 0.5,
-			Healing = 0.02,
+			Healing = 0.05,
+			Limit = 1,
+			Lifetime = function(bone, groupBone, treatments)
+				return (treatments["Splint"] or treatments["Cervical Collar"]) and 300.0 or 3600.0
+			end,
 			Treatment = {
 				function(bone, event, groupName)
 					if groupName == "Head" then
@@ -472,6 +475,9 @@ Config = {
 					end
 				end,
 			},
+			OnRemove = function(bone, groupBone)
+				bone:SetFracture(false)
+			end,
 		},
 		["Compound Fracture"] = {
 			Lifetime = 3600.0 * 1.0,

@@ -130,10 +130,6 @@ function Bone:UpdateHistory(deltaTime)
 			eventSettings.Update(self, groupBone, treatments)
 		end
 
-		-- if injury then
-		-- elseif treatment then
-		-- end
-
 		local time = event.time + deltaTime / lifetime
 		event.time = time
 
@@ -144,6 +140,11 @@ function Bone:UpdateHistory(deltaTime)
 					class = "inform",
 					text = ("%s has fallen off!"):format(treatment.Item),
 				})
+			end
+
+			-- Callbacks.
+			if type(eventSettings.OnRemove) == "function" then
+				eventSettings.OnRemove(self, groupBone)
 			end
 
 			-- Remove from history.
@@ -226,6 +227,10 @@ function Bone:AddHealth(amount)
 	health = math.min(health + amount, 1.0)
 	if health > 0.999 then
 		health = nil
+		
+		if self.info.fractured then
+			self:SetFracture(false)
+		end
 	end
 
 	self:SetInfo("health", health)
@@ -309,7 +314,21 @@ end
 
 function Bone:SetFracture(value)
 	self:SetInfo("fractured", value)
-	Main:SetEffect("Fracture", value and 1.0 or 0.0)
+
+	if value then
+		Main:SetEffect("Fracture", 1.0)
+	else
+		local anyFracture = false
+		for boneId, bone in pairs(Main.bones) do
+			if bone.info.fractured then
+				anyFracture = true
+				break
+			end
+		end
+		if not anyFracture then
+			Main:SetEffect("Fracture", 0.0)
+		end
+	end
 end
 
 function Bone:GetSettings()
