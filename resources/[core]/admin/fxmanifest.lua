@@ -27,6 +27,7 @@ client_scripts {
 	'@ui/scripts/cl_main.lua',
 	'@utils/client/entities.lua',
 	'@utils/client/misc.lua',
+	'@utils/client/scenarios.lua',
 	'@utils/client/vectors.lua',
 	'@utils/client/vehicles.lua',
 	'cl_admin.lua',

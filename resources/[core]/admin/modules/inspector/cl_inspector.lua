@@ -151,6 +151,8 @@ function Inspector:UpdateMenu()
 
 		self:AddOption("Coords (vector3)", tostring(vector3(coords.x, coords.y, coords.z)), true)
 		self:AddOption("Coords (vector4)", tostring(vector4(coords.x, coords.y, coords.z, heading)), true)
+
+		self:AddOption("Group", GetPedRelationshipGroupHash(ped) or "None", true)
 	end
 
 	-- Add camera options.
@@ -161,6 +163,11 @@ function Inspector:UpdateMenu()
 
 	self:AddOption("Coords", tostring(camCoords), true)
 	self:AddOption("Rotation", tostring(camRot), true)
+
+	-- Other information where the camera is.
+	self:AddOption("Interior", GetInteriorAtCoords(camCoords))
+	self:AddOption("Zone (ID)", GetZoneAtCoords(camCoords))
+	self:AddOption("Zone (Name)", GetNameOfZone(camCoords))
 
 	-- Hit.
 	if self.entity then
@@ -198,7 +205,14 @@ function Inspector:UpdateMenu()
 		self:AddOption("Is Upright", IsEntityUpright(entity) == 1, true)
 		self:AddOption("Is Upsidedown", IsEntityUpsidedown(entity) == 1, true)
 		self:AddOption("Submerged Level", GetEntitySubmergedLevel(entity), true)
+
+		-- Ped stuff.
+		if IsEntityAPed(entity) then
+			self:AddOption("Scenario", GetScenarioPedIsUsing(entity) or "None", true)
+			self:AddOption("Group", GetPedRelationshipGroupHash(entity) or "None", true)
+		end
 	
+		-- Proofs.
 		local retval, bulletProof, fireProof, explosionProof, collisionProof, meleeProof, steamProof, p7, drownProof = GetEntityProofs(entity)
 		if retval then
 			self:AddOption("Proofs")
