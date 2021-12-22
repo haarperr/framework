@@ -4,7 +4,7 @@ local template = {
 
 --[[ Functions ]]--
 local function Dialogue_Pay(npc, index, option)
-	local entity = Main:FindBed()
+	local entity = Main:FindBed(npc.targets)
 	if not entity then
 		npc:AddDialogue("Sorry, your bed is no longer available. You will not be billed.")
 		npc:GoHome()
@@ -26,7 +26,7 @@ local function Dialogue_CheckIn(npc, index, option)
 
 	Citizen.Wait(GetRandomIntInRange(1000, 2000))
 
-	local entity = Main:FindBed()
+	local entity = Main:FindBed(npc.targets)
 	if entity then
 		npc.locked = false
 
@@ -55,7 +55,24 @@ function Main:FindBed(targets)
 	local entities = exports.chairs:FindAll("Medical")
 	for _, entity in ipairs(entities) do
 		if Config.Hospital.Beds[GetEntityModel(entity)] then
-			return entity
+			local isValid = targets == nil
+
+			for _, target in ipairs(targets or {}) do
+				if #(target.coords - GetEntityCoords(entity)) < target.radius then
+					isValid = true
+					break
+				end
+			end
+
+			if isValid then
+				-- Citizen.CreateThread(function()
+				-- 	for i = 1, 1000 do
+				-- 		DrawLine(GetEntityCoords(Ped), GetEntityCoords(entity), 255, 0, 0, 255)
+				-- 		Citizen.Wait(0)
+				-- 	end
+				-- end)
+				return entity
+			end
 		end
 	end
 end
