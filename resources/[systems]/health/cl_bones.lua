@@ -187,6 +187,10 @@ function Bone:AddHistory(name)
 end
 
 function Bone:RemoveHistory(index)
+	if index > #self.history then
+		return
+	end
+	
 	table.remove(self.history, index)
 	table.remove(self.cache, index)
 end
