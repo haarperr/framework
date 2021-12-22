@@ -116,6 +116,11 @@ function Bone:UpdateHistory(deltaTime)
 		if type(lifetime) == "function" then
 			lifetime = lifetime(self, groupBone, treatments) or 300.0
 		end
+
+		-- Apply comfort.
+		if injury then
+			lifetie = lifetime / ((Main:GetEffect("Comfort") or 0.0) + 1.0)
+		end
 		
 		-- Update healing rate.
 		local healingRate = eventSettings.Healing or 1.0
