@@ -49,6 +49,9 @@ function Chairs:Update()
 		end
 	end
 
+	-- Disable controls.
+	DisableControlAction(0, 52)
+
 	-- Disable camera collisions.
 	DisableCamCollisionForEntity(entity)
 
