@@ -706,7 +706,7 @@ Config = {
 	Armor = {
 		Duration = 8000,
 		Anim = {
-			Flag = 48,
+			Flag = 49,
 			Dict = "clothingtie",
 			Name = "try_tie_neutral_c",
 		}
