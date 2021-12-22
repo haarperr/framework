@@ -612,7 +612,7 @@ function Treatment:GetGroups()
 end
 
 function Treatment:Treat(serverId, groupName, treatmentName, isRemoving)
-	local player = GetPlayerFromServerId(serverId)
+	local player = serverId == 0 and PlayerId() or GetPlayerFromServerId(serverId)
 	if not player then return end
 
 	local ped = GetPlayerPed(player)
@@ -680,7 +680,6 @@ end
 
 function Treatment:Heal(delay)
 	local treated = {}
-	local serverId = GetPlayerServerId(PlayerId())
 
 	local function cacheTreatment(group, name)
 		local _treated = treated[group]
@@ -699,7 +698,7 @@ function Treatment:Heal(delay)
 	-- Loop through all bones.
 	for boneId, bone in pairs(Main.bones) do
 		if bone.history then
-			local groupName = bone:GetGroup()
+			local groupName, groupSettings, groupBone = bone:GetGroup()
 			-- Loop through the bone's events.
 			for k, event in ipairs(bone.history) do
 				local injury = Config.Injuries[event.name]
@@ -724,7 +723,7 @@ function Treatment:Heal(delay)
 						-- Check treatment redundancy.
 						if _groupName and treatmentName and not wasTreated(_groupName, treatmentName) then
 							-- Apply the treatment.
-							self:Treat(serverId, _groupName, treatmentName)
+							self:Treat(0, _groupName, treatmentName)
 							cacheTreatment(_groupName, treatmentName)
 
 							-- Wait a little.

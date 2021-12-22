@@ -100,12 +100,9 @@ end
 
 function Bone:UpdateHistory(deltaTime)
 	local hasUpdated = false
-	local groupName, groupSettings = self:GetGroup()
-	if not groupSettings then return end
-	
-	local groupBone = Main:GetBone(groupSettings.Part)
+	local groupName, groupSettings, groupBone = self:GetGroup()
 	if not groupBone then return end
-
+	
 	local treatments = groupBone:GetTreatments() or {}
 
 	for i = #self.history, 1, -1 do
@@ -161,6 +158,20 @@ function Bone:UpdateHistory(deltaTime)
 	return hasUpdated
 end
 
+function Bone:FindInHistory(name)
+	if not self.history then
+		return false
+	end
+
+	local lookupTable = type(name) == "table"
+	for k, event in ipairs(self.history) do
+		if (lookupTable and name[event.name]) or (not lookupTable and event.name == name) then
+			return true
+		end
+	end
+
+	return false
+end
 
 function Bone:AddHistory(name)
 	table.insert(self.history, {
@@ -307,7 +318,8 @@ function Bone:GetGroup()
 		return nil
 	end
 
-	return settings.Group, Config.Groups[settings.Group]
+	local groupSettings = Config.Groups[settings.Group]
+	return settings.Group, groupSettings, Main:GetBone(groupSettings.Part)
 end
 
 function Bone:GetTreatments()

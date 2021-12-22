@@ -421,7 +421,7 @@ Config = {
 	Injuries = {
 		["Gunshot"] = {
 			Clear = 1.0,
-			Healing = 0.05,
+			Healing = 0.02,
 			Lifetime = function(bone, groupBone, treatments)
 				if (treatments["Surgical Kit"] or 0) > 0 then
 					return 600.0
@@ -446,21 +446,23 @@ Config = {
 		},
 		["Stab"] = {
 			Clear = 1.0,
+			Healing = 0.02,
 			Lifetime = 3600.0 * 4.0,
 		},
 		["Bruising"] = {
 			Clear = 0.2,
+			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
 				return treatments["Ice Pack"] and 300.0 or 1800.0
 			end,
 			Treatment = {
 				"Ice Pack",
-				"Bandage",
 			},
 		},
 		["Fracture"] = {
 			Clear = 0.8,
 			Lifetime = 3600.0 * 0.5,
+			Healing = 0.02,
 			Treatment = {
 				function(bone, event, groupName)
 					if groupName == "Head" then
@@ -473,6 +475,7 @@ Config = {
 		},
 		["Compound Fracture"] = {
 			Lifetime = 3600.0 * 1.0,
+			Healing = 0.02,
 		},
 		["Overdose"] = {
 			Lifetime = 300.0,
@@ -494,20 +497,29 @@ Config = {
 		},
 		["1st Degree Burn"] = {
 			Lifetime = 300.0,
+			Healing = 0.06,
 		},
 		["2nd Degree Burn"] = {
 			Lifetime = 300.0,
+			Healing = 0.04,
 		},
 		["3rd Degree Burn"] = {
 			Lifetime = 300.0,
+			Healing = 0.02,
 		},
 	},
 	Treatments = {
 		["Bandage"] = {
 			Item = "Bandage",
+			Usable = 6000,
 			Description = "Wrap the wound in bandages.",
 			Action = "Secures the wound with bandages.",
 			Removable = true,
+			Injuries = {
+				["Compound Fracture"] = true,
+				["Gunshot"] = true,
+				["Stab"] = true,
+			},
 			Lifetime = function(bone, groupBone, treatments)
 				return IsPedSprinting(Ped) and 300.0 or 3600.0
 			end,
@@ -517,6 +529,7 @@ Config = {
 		},
 		["Cervical Collar"] = {
 			Item = "Cervical Collar",
+			Usable = 6000,
 			Description = "Secure a c-collar around their neck.",
 			Action = "Secures a cervical collar around neck.",
 			Limit = 1,
@@ -524,6 +537,7 @@ Config = {
 		},
 		["Fire Blanket"] = {
 			Item = "Fire Blanket",
+			Usable = false,
 			Description = "Cover in a fire blanket.",
 			Action = "Wraps a fire blanket around them.",
 			Limit = 1,
@@ -531,9 +545,15 @@ Config = {
 		},
 		["Gauze"] = {
 			Item = "Gauze",
+			Usable = 4000,
 			Description = "Stuff an open wound with gauze.",
 			Action = "Packs the wound with gauze.",
 			Removable = true,
+			Injuries = {
+				["Compound Fracture"] = true,
+				["Gunshot"] = true,
+				["Stab"] = true,
+			},
 			Lifetime = function(bone, groupBone, treatments)
 				return (IsPedSprinting(Ped) and 300.0 or 3600.0) * (treatments["Bandage"] and 1.0 or 0.05)
 			end,
@@ -543,16 +563,18 @@ Config = {
 		},
 		["Ice Pack"] = {
 			Item = "Ice Pack",
+			Usable = false,
 			Description = "An ice pack that needs to be activated.",
 			Action = "Activates an ice pack, securing it to the bruising.",
 			Limit = 1,
 			Removable = true,
 			Condition = function(bone)
-				return Main:FindInHistory(bone, "Bruising")
+				return bone:FindInHistory("Bruising")
 			end,
 		},
 		["IV Bag"] = {
 			Item = "IV Bag",
+			Usable = false,
 			Description = "A bag full of fluids with a needle.",
 			Action = "Inserts a needle leading to an IV bag full of fluids.",
 			Limit = 1,
@@ -566,6 +588,7 @@ Config = {
 		},
 		["Nasopharyngeal Airway"] = {
 			Item = "Nasopharyngeal Airway",
+			Usable = false,
 			Description = "A tube designed to be inserted into the nasal passageway.",
 			Action = "Inserts an NPA into the nasal passage.",
 			Limit = 1,
@@ -573,11 +596,13 @@ Config = {
 		},
 		["Saline"] = {
 			Item = "Saline",
+			Usable = false,
 			Description = "A bottle full of saline.",
 			Action = "Cleans the area with saline.",
 		},
 		["Splint"] = {
 			Item = "Splint",
+			Usable = 6000,
 			Description = "Secure a limb from moving.",
 			Action = "Attaches a splint.",
 			Limit = 1,
@@ -588,6 +613,7 @@ Config = {
 		},
 		["Surgical Kit"] = {
 			Item = "Surgical Kit",
+			Usable = false,
 			Description = "Perform surgery.",
 			Action = "Performs surgery on the wound.",
 			Limit = 1,
@@ -605,17 +631,22 @@ Config = {
 		},
 		["Tourniquet"] = {
 			Item = "Tourniquet",
+			Usable = 6000,
 			Description = "Secure the limb with a tourniquet.",
 			Action = "Secures a tourniquet.",
 			Limit = 1,
 			Removable = true,
+			Update = function(bone, groupBone, treatments)
+				groupBone.bleedRate = 0.1
+			end,
 		},
 		["Tranexamic Acid"] = {
 			Item = "Tranexamic Acid",
+			Usable = false,
 			Description = "Add TXA to the IV bag.",
 			Action = "Adds tranexamic acid to the IV bag.",
 			Condition = function(bone)
-				return Main:FindInHistory(bone, "IV Bag")
+				return bone:FindInHistory("IV Bag")
 			end,
 			Update = function(bone, groupBone, treatments)
 				ClotRate = 1800.0
@@ -740,6 +771,7 @@ Config = {
 			Restrained = { Dict = "dam_ko", Name = "drown_cuffed", Flag = 2 },
 		},
 		Revive = { Dict = "get_up@directional@movement@from_seated@action", Name = "getup_r_0", Flag = 0, Duration = 1600 },
+		Items = { Dict = "clothingshirt", Name = "try_shirt_neutral_d", Flag = 0, Flag = 48 },
 	},
 	Hospital = {
 		Cost = { 20.0, 100.0 },

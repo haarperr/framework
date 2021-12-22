@@ -248,21 +248,6 @@ function Main:BuildNavigation()
 	})
 end
 
-function Main:FindInHistory(bone, name)
-	if not bone.history then
-		return false
-	end
-
-	local lookupTable = type(name) == "table"
-	for k, event in ipairs(bone.history) do
-		if (lookupTable and name[event.name]) or (not lookupTable and event.name == name) then
-			return true
-		end
-	end
-
-	return false
-end
-
 function Main:IsInjuryPresent(name, group)
 	local lookupTable = type(name) == "table"
 	for id, bone in pairs(self.bones) do
