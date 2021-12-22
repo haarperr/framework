@@ -695,41 +695,47 @@ function Treatment:Heal(delay)
 		return _treated and _treated[name]
 	end
 
-	-- Loop through all bones.
+	-- Clear treatments.
 	for boneId, bone in pairs(Main.bones) do
-		if bone.history then
-			local groupName, groupSettings, groupBone = bone:GetGroup()
-			-- Loop through the bone's events.
-			for k, event in ipairs(bone.history) do
-				local injury = Config.Injuries[event.name]
-				if injury and injury.Treatment then
-					-- Loop through the injury's treatments.
-					for stage, treatment in ipairs(injury.Treatment) do
-						-- Get treatment.
-						local treatmentType = type(treatment)
-						local _groupName, treatmentName
+		for i = #bone.history, 1, -1 do
+			local event = bone.history[i] or {}
+			if Config.Treatments[event.name] then
+				bone:RemoveHistory(i)
+			end
+		end
+	end
 
-						-- Check the treatment type.
-						if treatmentType == "string" then
-							treatmentName = treatment
-							_groupName = groupName
-						elseif treatmentType == "table" then
-							treatmentName = treatment.Name
-							_groupName = treatment.Group
-						elseif treatmentType == "function" then
-							treatmentName, _groupName = treatment(bone, event, groupName)
-						end
+	-- Treat injuries bones.
+	for boneId, bone in pairs(Main.bones) do
+		local groupName, groupSettings, groupBone = bone:GetGroup()
+		for k, event in ipairs(bone.history) do
+			local injury = Config.Injuries[event.name]
+			if injury and injury.Treatment then
+				for stage, treatment in ipairs(injury.Treatment) do
+					-- Get treatment.
+					local treatmentType = type(treatment)
+					local _groupName, treatmentName
 
-						-- Check treatment redundancy.
-						if _groupName and treatmentName and not wasTreated(_groupName, treatmentName) then
-							-- Apply the treatment.
-							self:Treat(0, _groupName, treatmentName)
-							cacheTreatment(_groupName, treatmentName)
+					-- Check the treatment type.
+					if treatmentType == "string" then
+						treatmentName = treatment
+						_groupName = groupName
+					elseif treatmentType == "table" then
+						treatmentName = treatment.Name
+						_groupName = treatment.Group
+					elseif treatmentType == "function" then
+						treatmentName, _groupName = treatment(bone, event, groupName)
+					end
 
-							-- Wait a little.
-							if delay then
-								Citizen.Wait(GetRandomIntInRange(2000, 4000))
-							end
+					-- Check treatment redundancy.
+					if _groupName and treatmentName and not wasTreated(_groupName, treatmentName) then
+						-- Apply the treatment.
+						self:Treat(0, _groupName, treatmentName)
+						cacheTreatment(_groupName, treatmentName)
+
+						-- Wait a little.
+						if delay then
+							Citizen.Wait(GetRandomIntInRange(2000, 4000))
 						end
 					end
 				end
