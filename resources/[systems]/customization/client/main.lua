@@ -15,10 +15,11 @@ exports("SetData", function(...) Main:SetData(...) end)
 
 function Main:CreatePed(data, coords)
 	local appearance = data.appearance
-	if not appearance then return end
-
 	local features = data.features
-	if not features then return end
+
+	if (not appearance or not features) and not data.model then
+		return
+	end
 
 	local model = GetHashKey(
 		(type(data.model) == "string" and data.model)
