@@ -1,6 +1,7 @@
 Group = {}
 Group.__index = Group
 
+--[[ Functions: Group ]]--
 function Group:Create(data)
 	-- Cache players.
 	local entities = data.entities
@@ -48,39 +49,7 @@ function Group:UpdateAll(coords)
 		else
 			blip = AddBlipForCoord(coords.x, coords.y, coords.z)
 
-			print("add blip", blip)
-
-			local isPed = data.type == 1
-
-			-- Entity types.
-			local typeInfo = Config.Types[data.type or 1]
-			if typeInfo then
-				SetBlipInfo(blip, typeInfo)
-			end
-
-			-- State types.
-			local stateInfo = self.info and self.info.states[data.type or 1]
-			if stateInfo then
-				stateInfo = stateInfo[data.state or "default"]
-				if stateInfo then
-					SetBlipInfo(blip, stateInfo)
-				end
-			end
-
-			-- General blip info.
-			SetBlipScale(blip, 0.8)
-			SetBlipAsShortRange(blip, true)
-			SetBlipDisplay(blip, 6)
-			SetBlipCategory(blip, isPed and 7 or 1)
-			SetBlipHiddenOnLegend(blip, not isPed)
-			ShowHeadingIndicatorOnBlip(blip, isPed)
-			
-			-- Blip labels.
-			if data.text then
-				BeginTextCommandSetBlipName("STRING")
-				AddTextComponentSubstringPlayerName(data.text)
-				EndTextCommandSetBlipName(blip)
-			end
+			self:UpdateBlip(blip, data)
 
 			data.blip = blip
 		end
@@ -118,11 +87,21 @@ function Group:UpdateActive()
 end
 
 function Group:AddEntity(data)
-	if self.entities[data.netId] then
-		self:RemoveEntity(data.netId)
+	local netId = data.netId
+	local cachedData = self.entities[netId]
+
+	-- Data is already cached.
+	if cachedData then
+		-- Update blip.
+		local blip = cachedData.blip
+		if blip and DoesBlipExist(blip) then
+			self:UpdateBlip(blip, data)
+			data.blip = cachedData.blip
+		end
 	end
 
-	self.entities[data.netId] = data
+	-- Cache data.
+	self.entities[netId] = data
 
 	return true
 end
@@ -144,4 +123,38 @@ function Group:RemoveEntity(netId)
 	self.entities[netId] = nil
 
 	return true
+end
+
+function Group:UpdateBlip(blip, data)
+	local isPed = data.type == 1
+
+	-- Entity types.
+	local typeInfo = Config.Types[data.type or 1]
+	if typeInfo then
+		SetBlipInfo(blip, typeInfo)
+	end
+
+	-- State types.
+	local stateInfo = self.info and self.info.states[data.type or 1]
+	if stateInfo then
+		stateInfo = stateInfo[data.state or "default"]
+		if stateInfo then
+			SetBlipInfo(blip, stateInfo)
+		end
+	end
+
+	-- General blip info.
+	SetBlipScale(blip, 0.8)
+	SetBlipAsShortRange(blip, true)
+	SetBlipDisplay(blip, 6)
+	SetBlipCategory(blip, isPed and 7 or 1)
+	SetBlipHiddenOnLegend(blip, not isPed)
+	ShowHeadingIndicatorOnBlip(blip, isPed)
+	
+	-- Blip labels.
+	if data.text then
+		BeginTextCommandSetBlipName("STRING")
+		AddTextComponentSubstringPlayerName(data.text)
+		EndTextCommandSetBlipName(blip)
+	end
 end
