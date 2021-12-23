@@ -14,6 +14,11 @@ local function JoinTrackerGroup(source)
 
 	local group = GetTrackerGroup(source)
 	exports.trackers:JoinGroup("admin", source, group, Blips[source] and 6 or 2)
+
+	local vehicle = GetVehiclePedIsIn(source)
+	if DoesEntityExist(vehicle) then
+		exports.trackers:AddEntity("admin", vehicle)
+	end
 end
 
 --[[ Events: Net ]]--
@@ -41,6 +46,7 @@ end)
 --[[ Events ]]--
 AddEventHandler(Admin.event.."start", function()
 	exports.trackers:CreateGroup("admin", {
+		delay = 3000,
 		states = {
 			[1] = { -- Peds.
 				["default"] = {

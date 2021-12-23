@@ -100,7 +100,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Main:Update()
-		Citizen.Wait(2000)
+		Citizen.Wait(3000)
 	end
 end)
 

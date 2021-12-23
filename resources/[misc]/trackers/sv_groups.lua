@@ -75,8 +75,16 @@ function Group:AddPlayer(source, state, mask)
 end
 
 function Group:RemovePlayer(source)
-	if self.players[source] == nil then
+	local mask = self.players[source]
+	if mask == nil then
 		return false
+	end
+
+	-- Remove entity.
+	local ped = GetPlayerPed(source)
+
+	if self.entities[ped] then
+		self:RemoveEntity(ped)
 	end
 
 	-- Unsubscribe player.

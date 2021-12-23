@@ -103,7 +103,7 @@ function Group:UpdateActive()
 
 		-- Get entity.
 		local entity = NetworkDoesNetworkIdExist(netId) and NetworkGetEntityFromNetworkId(netId)
-		if not netId or not DoesBlipExist(entity) then goto skipEntity end
+		if not netId or not DoesEntityExist(entity) then goto skipEntity end
 
 		-- Update blip.
 		local coords = GetEntityCoords(entity)
