@@ -15,12 +15,6 @@ end
 
 --[[ Functions: Main ]]--
 function Main:Broadcast(source, event, ...)
-	print("players", json.encode(self.players))
-	print("grids", json.encode(self.grids))
-
-	-- local playerGrid = self.players[source]
-	-- if not playerGrid then return end
-
 	local ped = GetPlayerPed(source)
 	local coords = ped and DoesEntityExist(ped) and GetEntityCoords(ped)
 	if not coords then return end
