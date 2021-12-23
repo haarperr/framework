@@ -21,6 +21,9 @@ Models = {
 	[`prop_cs_office_chair`] = { Chair = { Offset = vector3(0.0, 0.08, 0.49), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
 	[`ba_prop_battle_club_chair_01`] = { Chair = { Offset = vector3(0.0, 0.08, -0.12), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
 
+	--[[ Stools ]]--
+	[`v_ret_gc_chair01`] = { Stool = { Offset = vector3(0.0, 0.0, 0.7), Rotation = vector3(0.0, 0.0, 235.0), Exit = vector3(0.0, 0.5, 0.0) } },
+
 	-- [``] = { Chair = { Offset = vector3(0.0, 0.0, 0.0) } },
 
 	-- Hospital.
