@@ -129,7 +129,7 @@ function Group:RemoveEntity(entity)
 		return false
 	end
 
-	self:InformAll("trackers:removeEntity", netId)
+	self:InformAll("trackers:removeEntity", data.netId)
 	
 	self.entities[entity] = nil
 
