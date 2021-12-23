@@ -6,6 +6,13 @@ function Main.update:Stamina()
 	local isRunning = IsPedRunning(Ped)
 	local oxygen = self:GetEffect("Oxygen")
 
+	if not isUnderWater and IsPedInAnyVehicle(Ped) then
+		local vehicle = GetVehiclePedIsIn(Ped)
+		if GetVehicleClass(vehicle) ~= 14 and GetEntitySubmergedLevel(vehicle) > 0.9 then
+			isUnderWater = true
+		end
+	end
+
 	-- Ignore vanilla stamina.
 	ResetPlayerStamina(Player)
 
