@@ -39,9 +39,14 @@ end
 
 --[[ Events ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
+	-- Check durability.
+	if (slot.durability or 1.0) < 0.001 then return end
+
+	-- Check item is usable.
 	local anim = item.usable and Config.Nutrition.Anims[item.usable]
 	if not anim then return end
 
+	-- Get values.
 	local hunger = item.hunger or 0.0
 	local thirst = item.thirst or 0.0
 
