@@ -57,6 +57,7 @@ function User:Set(key, value)
 	
 	self[key] = value
 
+	TriggerEvent(Main.event.."set", self.source, key, value)
 	TriggerClientEvent(Main.event.."set", self.source, key, value)
 
 	return true

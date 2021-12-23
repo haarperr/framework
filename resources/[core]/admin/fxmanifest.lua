@@ -8,6 +8,10 @@ files {
 	'html/index.js',
 }
 
+dependencies {
+	'trackers',
+}
+
 shared_scripts {
 	'sh_config.lua',
 	'sh_admin.lua',
