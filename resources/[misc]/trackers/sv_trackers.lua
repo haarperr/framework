@@ -6,7 +6,17 @@ Main = {
 --[[ Functions: Main ]]--
 function Main:CreateGroup(id, info)
 	print("create group", id, info)
-	return Group:Create(id, info)
+	local group = Group:Create(id, info)
+	group.resource = GetInvokingResource()
+
+	Citizen.CreateThread(function()
+		while group.active do
+			group:Update()
+			Citizen.Wait(group.info.delay or 2000)
+		end
+	end)
+
+	return group
 end
 
 function Main:DestroyGroup(id)
@@ -14,12 +24,6 @@ function Main:DestroyGroup(id)
 	if not group then return end
 
 	self.groups[id] = nil
-end
-
-function Main:Update()
-	for id, group in pairs(self.groups) do
-		group:Update()
-	end
 end
 
 function Main:JoinGroup(id, source, state, mask)
@@ -79,6 +83,14 @@ end
 -- end)
 
 --[[ Events ]]--
+AddEventHandler("onResourceStop", function(resourceName)
+	for groupId, group in pairs(Main.groups) do
+		if group.resource == resourceName then
+			group:Destroy()
+		end
+	end
+end)
+
 AddEventHandler("entityRemoved", function(entity)
 	for groupId, group in pairs(Main.groups) do
 		if group.entities[entity] then
@@ -93,14 +105,6 @@ AddEventHandler("playerDropped", function(reason)
 		if group.players[source] then
 			group:RemovePlayer(source)
 		end
-	end
-end)
-
---[[ Threads ]]--
-Citizen.CreateThread(function()
-	while true do
-		Main:Update()
-		Citizen.Wait(3000)
 	end
 end)
 

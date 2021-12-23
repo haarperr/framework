@@ -3,8 +3,9 @@ Group.__index = Group
 
 function Group:Create(id, info)
 	local group = setmetatable({
+		active = true,
 		id = id,
-		info = info,
+		info = info or {},
 		players = {},
 		entities = {},
 	}, Group)
@@ -15,6 +16,8 @@ function Group:Create(id, info)
 end
 
 function Group:Destroy()
+	self.active = false
+	
 	self:InformAll("trackers:leave")
 
 	Main.groups[self.id] = nil
