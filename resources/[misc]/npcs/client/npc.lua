@@ -65,9 +65,11 @@ function Npc:UncacheGrid()
 	local grid = gridId and Npcs.grids[gridId]
 
 	if not grid then return end
-	
+
 	-- Remove instance from grid.
 	grid[self.id] = nil
+	
+	print(self.id, "uncached in", gridId)
 
 	-- Remove empty grid.
 	local next = next
@@ -99,7 +101,7 @@ function Npc:CacheGrid()
 	end
 
 	grid[self.id] = true
-	
+
 	print(self.id, "cached in", gridId)
 
 	-- Check if grid is loaded.
@@ -252,10 +254,16 @@ function Npc:AddDialogue(text, sent)
 end
 
 function Npc:Interact()
+	if self.interact == "Talk" then
+		self:OpenDialogue()
+	end
+end
+
+function Npc:OpenDialogue()
 	local name = self.name or "???"
 	local history = self.history or {}
 	local options = self:GetOptions()
-
+	
 	local window = Npcs:OpenWindow({
 		type = "Window",
 		title = name,
@@ -340,7 +348,7 @@ function Npc:Interact()
 			},
 		},
 	})
-
+	
 	window:AddListener("selectOption", function(window, index)
 		self:SelectOption(index + 1)
 	end)

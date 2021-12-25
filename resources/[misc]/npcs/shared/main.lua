@@ -3,6 +3,10 @@ Npcs.npcs = {}
 
 --[[ Functions: Npcs ]]--
 function Npcs:Register(data)
+	while not IsNpcsReady do
+		Citizen.Wait(0)
+	end
+
 	return Npc:Create(data)
 end
 

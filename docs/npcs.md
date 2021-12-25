@@ -10,6 +10,11 @@ dependencies {
 	...
 }
 
+shared_scripts {
+	'@grids/shared/grids.lua',
+	...
+}
+
 client_scripts {
 	'@npcs/client.lua',
 	...
