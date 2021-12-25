@@ -15,5 +15,9 @@ end
 
 --[[ Events ]]--
 AddEventHandler("shoot", function(didHit, coords, hitCoords, entity, weapon)
+	if GetPlayerInvincible(PlayerId()) then
+		return
+	end
+	
 	Main:AddEffect("Stress", Config.Stress.PerShot)
 end)

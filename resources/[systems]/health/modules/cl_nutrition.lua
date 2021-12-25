@@ -1,5 +1,9 @@
 --[[ Functions: Main ]]--
 function Main.update:Nutrition()
+	if GetPlayerInvincible(PlayerId()) then
+		return
+	end
+
 	local isSprinting = IsPedSprinting(Ped)
 	local isRunning = IsPedRunning(Ped)
 	local isWalking = IsPedWalking(Ped)

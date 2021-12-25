@@ -1,5 +1,9 @@
 --[[ Functions: Main ]]--
 function Main.update:Stamina()
+	if GetPlayerInvincible(PlayerId()) then
+		return
+	end
+	
 	local isUnderWater = IsPedSwimmingUnderWater(Ped)
 	local isSwimming = IsPedSwimming(Ped)
 	local isSprinting = IsPedSprinting(Ped)
