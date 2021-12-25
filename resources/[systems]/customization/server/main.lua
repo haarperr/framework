@@ -63,9 +63,11 @@ RegisterNetEvent("customization:update", function(appearance, features)
 	local source = source
 	local retval, result = UpdateAppearance(source, appearance, features)
 
-	print(retval, result)
-	print(json.encode(appearance))
-	print(json.encode(features))
+	if IsDebug then
+		print("updating", retval, result)
+		print("appearance", json.encode(appearance))
+		print("features", json.encode(features))
+	end
 
 	TriggerClientEvent("customization:saved", source, retval, result)
 end)

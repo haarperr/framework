@@ -6,6 +6,7 @@ dependencies {
 }
 
 shared_scripts {
+	'shared/main.lua',
 	'shared/models.lua',
 	'shared/map.lua',
 }

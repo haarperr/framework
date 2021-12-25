@@ -151,13 +151,13 @@ function Controller:SetMap(key, value, isMenu, bind)
 		end
 	end
 
-	print("setting map", key, value)
+	Debug("setting map", key, value)
 
 	-- Trigger watchers.
 	local watcher = self.watchers[key]
 	if watcher then
 		for i, node in ipairs(watcher) do
-			print("|_ watcher triggered", i)
+			Debug("|_ watcher triggered", i)
 
 			if node._component then
 				local component = node.component(self)
@@ -338,7 +338,7 @@ function Controller:BindModel(source, target, index)
 end
 
 function Controller:AddWatcher(model, node)
-	print("add watcher", model, node.id)
+	Debug("add watcher", model, node.id)
 
 	local watchers = self.watchers[model]
 	if not watchers then
