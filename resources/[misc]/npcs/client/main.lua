@@ -75,27 +75,13 @@ function Npcs:UnloadGrid(gridId)
 end
 
 function Npcs:OpenWindow(data)
-	data.prepend = {
-		type = "q-icon",
-		name = "cancel",
-		style = {
-			["font-size"] = "1.3em",
-		},
-		binds = {
-			color = "red",
-		},
-		click = {
-			callback = "this.$invoke('close')",
-		},
-	}
-
-	local window = Window:Create(data)
+	local window = Window:Create(data, true)
+	
+	function window:OnDestroy()
+		Npcs.window = nil
+	end
+	
 	self.window = window
-
-	window:AddListener("close", function(window)
-		Npcs:CloseWindow()
-	end)
-
 	UI:Focus(true, true)
 
 	return window
