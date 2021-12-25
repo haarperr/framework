@@ -150,7 +150,7 @@ end)
 
 AddEventHandler("interact:onNavigate", function(id, option)
 	local teleport = option.teleport
-	if not teleport then print("no teleport") return end
+	if not teleport then return end
 
 	local teleporter = Main.teleports[teleport.id]
 	if not teleporter then print("no teleporter") return end
