@@ -127,10 +127,13 @@ AddEventHandler("grids:enter"..Npcs.Config.GridSize, function(grid, nearby)
 end)
 
 AddEventHandler("interact:on_npc", function(interactable)
-	local npc = Npcs.npcs[interactable.npc or false]
+	local id = interactable.npc
+	local npc = id and Npcs.npcs[id]
 	if not npc then return end
 
 	npc:Interact()
+
+	TriggerServerEvent(Npcs.event.."interact", id)
 end)
 
 --[[ Threads ]]--
