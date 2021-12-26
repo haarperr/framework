@@ -46,6 +46,10 @@ function Shop:CanAccessStorage()
 end
 
 function Shop:Interact(npc)
+	-- Make npc do anim.
+	npc:PlayAnim("hand")
+	
+	-- Clear cart.
 	self.cart = {}
 
 	-- Generate template.

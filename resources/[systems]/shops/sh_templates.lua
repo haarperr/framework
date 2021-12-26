@@ -4,6 +4,9 @@ Templates.npc = {
 	coords = vector4(0, 0, 0, 0),
 	model = "mp_m_shopkeep_01",
 	interact = "Shop",
+	animations = {
+		hand = { Dict = "mp_cop_armoury", Name = "package_from_counter", Flag = 0 },
+	}
 }
 
 Templates.window = {
