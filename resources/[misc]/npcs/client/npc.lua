@@ -136,6 +136,16 @@ function Npc:UpdateAnim()
 	self.anim = anim
 end
 
+function Npc:PlayAnim(name)
+	local anims = self.animations
+	if not anims then return end
+
+	local anim = anims[name]
+	if not anim then return end
+
+	exports.emotes:PlayOnPed(self.ped, anim)
+end
+
 function Npc:SetState(state)
 	self.state = state == "idle" and nil or state
 	self:UpdateAnim()
