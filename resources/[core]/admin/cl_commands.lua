@@ -3,12 +3,12 @@ Locations = {}
 exports.chat:RegisterCommand("a:tp", function(source, args, command, cb)
 	local x, y, z, w = table.unpack(args)
 
+	x = x and x:gsub(",", "")
+	y = y and y:gsub(",", "")
+	z = z and z:gsub(",", "")
+	w = w and w:gsub(",", "")
+
 	if tonumber(x) then
-		x = x and x:gsub(",", "")
-		y = y and y:gsub(",", "")
-		z = z and z:gsub(",", "")
-		w = w and w:gsub(",", "")
-	
 		x = tonumber(x)
 		y = tonumber(y)
 		z = tonumber(z)
