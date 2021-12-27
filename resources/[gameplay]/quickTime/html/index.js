@@ -1,145 +1,168 @@
-// Config.
-var invalidColor = "rgba(220, 220, 220, 0.4)";
-var validColor = "rgba(255, 255, 255, 0.8)";
-var startAudio = new Audio("assets/start.ogg");
+class Progress {
+	constructor(id) {
+		this.el = document.querySelector(`#${id}`)
+		this.radius = this.el.r.baseVal.value
+		this.circumference = this.radius * 2.0 * Math.PI
+		
+		this.el.style.strokeDasharray = `${this.circumference} ${this.circumference}`
+		this.el.style.strokeDashoffset = `${this.circumference}`
+	}
 
-var randomKeys = [
-	"1",
-	"2",
-	"3",
-	"B",
-	"C",
-	"E",
-	"F",
-	"G",
-	"Q",
-	"R",
-	"V",
-	"X",
-	"Z",
-];
-
-var keysCache = {}
-for (var key of randomKeys) {
-	keysCache[key] = true
+	set(from, to) {
+		var el = this.el
+		const offset = this.circumference - (to - from) * this.circumference
+		el.style.strokeDashoffset = offset
+		el.style.transform = `rotate(${from * 360.0 - 90.0}deg)`
+	}
 }
 
-// Cache.
-let bar = undefined;
-let context = undefined;
-let end = undefined;
-let lastPress = undefined;
-let maxPosition = undefined;
-let position = undefined;
-let progress = undefined;
-let randomKey = undefined;
-let rootNode = undefined;
-let start = undefined;
-let startTime = undefined;
-var lastTimeout = undefined;
+let Interval = null
+let LastUpdate = null
 
-// Events.
-$(document).ready(() => {
-	context = document.querySelector("#context");
-	// window.postMessage({ type: "linear", size: 20.0 });
-});
+document.addEventListener("DOMContentLoaded", function() {
+	StartAudio = new Audio("assets/start.ogg")
+	SuccessAudio = new Audio("assets/success.ogg")
+	FailAudio = new Audio("assets/fail.ogg")
+
+	Root = document.querySelector("body")
+	GoalProgress = new Progress("progressGoal")
+	CursorProgress = new Progress("progressCursor")
+	OuterProgress = new Progress("progressOuter")
+
+	// window.postMessage({ play: { stages: 20 } })
+})
 
 window.addEventListener("message", function(event) {
-	var data = event.data;
-	if (!data) return;
+	var data = event.data
+	if (!data) return
 
-	if (data.type) {
-		init(data.type, data.size || 10.0);
-	}
-});
-
-// document.addEventListener("keydown", function(event) {
-// 	if (!event) return;
-	
-// 	lastPress = event.key;
-// 	console.log(lastPress);
-// });
-
-// Functions.
-function init(rootName, size) {
-	if (lastTimeout) {
-		clearTimeout(lastTimeout);
-		lastTimeout = null;
-	}
-
-	$("body").stop(true, true);
-	$("body").fadeIn(500);
-
-	rootNode = document.querySelector("#" + rootName);
-	progress = rootNode.querySelector("#progress");
-	bar = rootNode.querySelector("#bar");
-	
-	// Gradient bars.
-	start = Math.floor(25.0 + Math.random() * (75.0 - size));
-	end = Math.floor(start + size);
-	
-	progress.style.backgroundImage = `linear-gradient(90deg, ${invalidColor} 0%, ${invalidColor} ${start}%, ${validColor} ${start}%, ${validColor} ${end}%, ${invalidColor} ${end}%)`;
-	bar.style.backgroundColor = "black";
-	bar.style.left = "0%";
-	
-	// Timing and positioning.
-	position = 0.0;
-	barRatio = bar.clientWidth / progress.clientWidth * 100.0;
-	maxPosition = 100.0 - (barRatio);
-	
-	// Random key to press.
-	randomKey = randomKeys[Math.floor(Math.random() * randomKeys.length)];
-	context.innerHTML = randomKey;
-
-	// Audio.
-	startAudio.volume = 0.2;
-	startAudio.play();
-	
-	setTimeout(() => {
-		process();
-	}, 1000);
-}
-
-function process() {
-	lastPress = undefined;
-	startTime = new Date().getTime();
-	
-	document.addEventListener("keydown", onKeydown);
-
-	var interval = setInterval(() => {
-		let time = new Date().getTime();
-		let delta = (time - startTime) / 1000.0;
-
-		position = Math.min(position + Math.pow(delta, 4.0) * 0.5, maxPosition);
-		// position = Math.min(position + delta * 0.1, maxPosition);
-
-		if (Math.ceil(position) >= maxPosition || lastPress != undefined) {
-			if ((lastPress || "").toLowerCase() == randomKey.toLowerCase() && position > start - (barRatio) && position < end) {
-				bar.style.backgroundColor = "rgb(0, 255, 0)";
-
-				$.post("http://quickTime/finish", JSON.stringify({ status: true }));
-			} else {
-				bar.style.backgroundColor = "rgb(255, 0, 0)";
-				
-				$.post("http://quickTime/finish", JSON.stringify({ status: false }));
-			}
-
-			document.removeEventListener("keydown", onKeydown);
-
-			clearInterval(interval);
-			
-			lastTimeout = setTimeout(() => {
-				$("body").fadeOut(500);
-				// init(rootName, size);
-			}, 1000);
+	if (data.cancel != undefined) {
+		if (data.cancel === true) {
+			Score = GoalScore
 		}
 
-		bar.style.left = `${position}%`;
-	}, 0);
+		endGame()
+
+		return
+	}
+
+	var play = data.play
+	if (play) {
+		Score = 0
+		GoalScore = play.stages ?? 1
+		Speed = play.speed ?? 1.5
+
+		OuterProgress.set(0.0, 0.0)
+	
+		startCircle(play.goalSize ?? 0.25, play.cursorSize ?? 0.02)
+	}
+})
+
+window.addEventListener("mousedown", function(e) {
+	stopCircle()
+})
+
+function startCircle(goalSize, cursorSize) {
+	Root.style.display = "block"
+
+	GoalSize = goalSize
+	CursorSize = cursorSize
+
+	GoalStart = Math.random()
+	GoalEnd = GoalStart + GoalSize
+
+	var minStart = (1.0 - GoalSize) * 0.5
+	var maxStart = 1.0 - (GoalEnd - GoalStart) - CursorSize
+
+	CursorOffset = (GoalEnd - GoalStart) * 0.5 + CursorSize * 0.5 + minStart + Math.random() * (maxStart - minStart)
+	CursorPosition = (GoalEnd + GoalStart) * 0.5 - CursorSize * 0.5 - CursorOffset
+
+	GoalProgress.set(GoalStart, GoalEnd)
+	CursorProgress.set(CursorPosition, CursorPosition + CursorSize)
+
+	Interval = setInterval(updateCircle, 0)
+
+	StartAudio.play()
 }
 
-function onKeydown(event) {
-	if (!event || !keysCache[event.key.toUpperCase()]) return;
+function updateCircle() {
+	if(!LastUpdate) {
+		LastUpdate = Date.now()
+		return
+	}
+
+	var delta = (Date.now() - LastUpdate) / 1000
+	LastUpdate = Date.now()
+
+	CursorPosition += Speed * delta
+	var hasFailed = CursorPosition > GoalEnd
+
+	CursorPosition = Math.min(CursorPosition, GoalEnd)
+	CursorProgress.set(CursorPosition, CursorPosition + CursorSize)
+
+	if (hasFailed) {
+		stopCircle()
+	}
+}
+
+function stopCircle() {
+	if (!Interval) return
+
+	clearInterval(Interval)
+
+	Interval = null
+	LastUpdate = null
+
+	let success = (CursorPosition + CursorSize) > GoalStart && CursorPosition < GoalEnd
+
+	if (success) {
+		Score++
+		OuterProgress.el.setAttribute("stroke", CursorProgress.el.getAttribute("stroke"));
+		OuterProgress.set(0.0, Score / GoalScore)
+
+		SuccessAudio.currentTime = 0
+		SuccessAudio.play()
+
+		setTimeout(endGame, 200 + Math.floor(Math.random() * 500.0))
+	} else {
+		Score = 0
+		OuterProgress.el.setAttribute("stroke", GoalProgress.el.getAttribute("stroke"));
+		OuterProgress.set(0.0, 1.0)
+
+		FailAudio.currentTime = 0
+		FailAudio.play()
+
+		post("finish", false)
+
+		setTimeout(endGame, 1600)
+	}
+}
+
+function endGame() {
+	var hasFailed = Score == 0
+
+	if (Interval) {
+		clearInterval(Interval)
 	
-	lastPress = event.key;
+		Interval = null
+		LastUpdate = null
+	}
+
+	if (Score < GoalScore && !hasFailed) {
+		startCircle(GoalSize, CursorSize)
+	} else {
+		Root.style.display = "none"
+
+		if (!hasFailed) {
+			post("finish", true)
+		}
+	}
+}
+
+function post(callback, payload) {
+	fetch(`https://${GetParentResourceName()}/${callback}`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json; charset=UTF-8" },
+		body: JSON.stringify(payload)
+	})
 }

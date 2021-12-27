@@ -1,101 +1,84 @@
-Callback = nil
-CurrentStage = 1
-MaxStage = 1
-LastSuccess = nil
-IsOpen = false
-
---[[ Threads ]]--
--- Citizen.CreateThread(function()
--- 	while true do
--- 		if IsOpen then
--- 			-- SetCursorLocation(0.0, 0.0)
--- 		end
-
--- 		Citizen.Wait(0)
--- 	end
--- end)
-
--- Citizen.CreateThread(function()
--- 	Citizen.Wait(1000)
-
--- 	TriggerEvent("quickTime:begin", "linear", 10.0, function(status)
--- 		print(status)
--- 	end)
--- end)
+Main = {}
 
 --[[ Functions ]]--
-function Begin(_type, size, callback, stage)
-	if type(size) == "table" then
-		MaxStage = #size
-
-		for k, _size in ipairs(size) do
-			if LastSuccess == false then
-				LastSuccess = nil
-				return
-			end
-
-			Begin(_type, _size, callback, k)
-
-			while IsOpen do
-				Citizen.Wait(0)
-			end
-		end
-		return
-	end
-	
-	if GetResourceState("inventory") == "started" then
-		exports.inventory:ToggleMenu(false)
-	end
-
-	CurrentStage = stage
-	Callback = callback
-	IsOpen = true
-	LastSuccess = nil
-	
-	SetNuiFocus(true, true)
-	SetNuiFocusKeepInput(false)
-
-	SendNUIMessage({
-		type = _type or "linear",
-		size = size,
-	})
+function Main:Update()
+	DisableControlAction(0, 24)
+	DisableControlAction(0, 25)
 end
 
-function End(status)
-	-- if status == nil then
-	-- 	SendNUIMessage({ close = true })
-	-- end
+function Main:Begin(data)
+	if self.active then return end
 
-	if MaxStage == CurrentStage then
-		LastSuccess = nil
-	else
-		LastSuccess = status
-	end
-
-	IsOpen = false
-	SetNuiFocus(false, false)
+	-- Enable nui focus.
+	SetNuiFocus(true, false)
+	SetNuiFocusKeepInput(true)
+	SetCursorLocation(0.5, 0.5)
 	
-	if Callback then
-		pcall(function()
-			Callback(status, CurrentStage)
-		end)
-		
-		Callback = nil
+	-- Enable ui minigame.
+	SendNUIMessage({
+		play = data or {}
+	})
+	
+	-- Cache.
+	self.active = true
+
+	-- Wait until done.
+	while self.active do
+		Citizen.Wait(0)
 	end
+
+	-- Return result.
+	return self.result
+end
+
+function Main:End(success)
+	if not self.active then return end
+
+	-- Cache.
+	self.result = success
+	self.active = false
+	
+	-- Disable nui focus.
+	SetNuiFocus(false, false)
+	SetNuiFocusKeepInput(false)
+end
+
+function Main:Cancel(success)
+	self:End(success)
+
+	SendNUIMessage({ cancel = success })
 end
 
 --[[ Events ]]--
-RegisterNetEvent("quickTime:begin")
-AddEventHandler("quickTime:begin", function(_type, size, callback)
-	Begin(_type, size, callback)
+RegisterNetEvent("quickTime:begin", function(data)
+	Main:Begin(data)
 end)
 
-RegisterNetEvent("quickTime:end")
-AddEventHandler("quickTime:end", function(status)
-	End(status)
+RegisterNetEvent("quickTime:end", function(status)
+	Main:End(status)
+end)
+
+--[[ Exports ]]--
+exports("Begin", function(...)
+	return Main:Begin(...)
+end)
+
+exports("Cancel", function(...)
+	return Main:Cancel(...)
 end)
 
 --[[ NUI Callbacks ]]--
-RegisterNUICallback("finish", function(data)
-	End(data.status)
+RegisterNUICallback("finish", function(success, cb)
+	cb(true)
+	Main:End(success)
+end)
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		if Main.active then
+			Main:Update()
+		end
+		Citizen.Wait(0)
+	end
 end)

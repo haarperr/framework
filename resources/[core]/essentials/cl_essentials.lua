@@ -1,17 +1,19 @@
 Main = {
 	funcs = {},
+	lastRagdoll = 0,
 }
 
 --[[ Functions: Main ]]--
 function Main:UpdateFrame()
 	Ped = PlayerPedId()
 	Player = PlayerId()
+	IsRagdoll = IsPedRagdoll(Ped)
 
 	self:UpdateMelee()
 
 	-- Variables.
-	-- local isArmedMelee = IsPedArmed(Ped, 1)
-	-- local isArmedExplosives = IsPedArmed(Ped, 2)
+	local isArmedExplosives = IsPedArmed(Ped, 2)
+	local isArmedMelee = IsPedArmed(Ped, 1)
 	local isArmedOther = IsPedArmed(Ped, 4)
 
 	-- Disable dispatch services.
@@ -20,11 +22,34 @@ function Main:UpdateFrame()
 	end
 
 	-- Disable unarmed attacks.
-	if isArmedOther then
+	if (isArmedOther or isArmedExplosives or not IsControlPressed(0, 25)) and not isArmedMelee then
 		for _, control in ipairs(Config.UnarmedDisabled) do
 			DisableControlAction(0, control)
 		end
 	end
+
+	-- Ragdolling.
+	if IsRagdoll ~= self.ragdoll then
+		self.lastRagdoll = GetGameTimer()
+		self.ragdoll = IsRagdoll
+	end
+
+	-- Tripping.
+	if not self.nextTripCheck or GetGameTimer() > self.nextTripCheck then
+		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.2
+		self.nextTripCheck = GetGameTimer() + 1000
+	end
+
+	SetPedRagdollOnCollision(Ped,
+		GetGameTimer() - self.lastRagdoll > 4000 and
+		self.shouldTrip and
+		(IsPedRunning(Ped) or IsPedSprinting(Ped)) and
+		GetFollowPedCamViewMode() ~= 4 and
+		not IsRagdoll and
+		not IsPedGettingUp(Ped) and
+		not GetPedConfigFlag(Ped, 147) and
+		not GetPedConfigFlag(Ped, 148)
+	)
 
 	-- Disable reticle.
 	HideHudComponentThisFrame(14)
@@ -35,9 +60,11 @@ function Main:UpdateFrame()
 	local zoomMode = GetFollowPedCamViewMode(Ped)
 
 	-- Anti combat roll/jump spam.
-	local canJump = not self.lastJump or GetGameTimer() - self.lastJump > 4000
+	local lastJump = self.lastJump and GetGameTimer() - self.lastJump
+	local canJump = not lastJump or lastJump > 2000
 
 	if not canJump then
+		SetPedMoveRateOverride(Ped, lastJump and (math.cos(lastJump / 2000.0 * 2.0 * math.pi) * 0.3 + 0.7) or 1.0)
 		DisableControlAction(0, 22)
 	elseif IsControlJustPressed(0, 22) then
 		if GetPedConfigFlag(Ped, 78) then
@@ -45,6 +72,13 @@ function Main:UpdateFrame()
 		end
 
 		self.lastJump = GetGameTimer()
+	end
+
+	if self.canJump ~= canJump then
+		if canJump then
+			SetPedMoveRateOverride(Ped, 1.0)
+		end
+		self.canJump = self.canJump
 	end
 
 	-- Update ped.
@@ -86,14 +120,19 @@ end
 
 function Main:UpdateMelee()
 	-- Update melee.
-	if IsPedPerformingMeleeAction(Ped) then
-		self.lastMelee = GetGameTimer()
+	for _, control in ipairs(Config.UnarmedDisabled) do
+		if IsControlJustPressed(0, control) then
+			self.lastMelee = GetGameTimer()
+			break
+		end
 	end
 
 	-- Cooldown disable.
 	local disableMelee = GetGameTimer() - (self.lastMelee or 0) < Config.Melee.Cooldown
 	if disableMelee then
-		DisablePlayerFiring(Player)
+		for _, control in ipairs(Config.UnarmedDisabled) do
+			DisableControlAction(0, control)
+		end
 	end
 end
 
@@ -111,5 +150,15 @@ Citizen.CreateThread(function()
 		Main:UpdateSlow()
 
 		Citizen.Wait(200)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		for _, model in ipairs(Config.SuppressedModels) do SetVehicleModelIsSuppressed(model, true) end
+		for _, scenario in ipairs(Config.DisabledGroups) do SetScenarioGroupEnabled(scenario, false) end
+		for _, scenario in ipairs(Config.DisabledTypes) do SetScenarioTypeEnabled(scenario, false) end
+
+		Citizen.Wait(1000)
 	end
 end)

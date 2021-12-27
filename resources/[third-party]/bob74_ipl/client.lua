@@ -70,7 +70,7 @@ Citizen.CreateThread(function()
 	HLApartment6.LoadDefault() -- -609.56690000 51.28212000 -183.98080.
 
 	--[DLC: Heists]--
-	HeistCarrier.Enable(false) -- 3082.3117, -4717.1191, 15.2622.
+	HeistCarrier.Enable(true) -- 3082.3117, -4717.1191, 15.2622.
 	HeistYacht.LoadDefault() -- -2043.974,-1031.582, 11.981.
 
 	--[DLC: Executives & Other Criminals]--

@@ -1,37 +1,3 @@
---[[
-	Labs
-		shell_coke1
-		shell_coke2
-		shell_meth
-		shell_weed
-		shell_weed2
-	
-	Offices
-		shell_office1
-		shell_office2
-		shell_officebig
-		
-	Houses
-		shell_apartment1
-		shell_apartment2
-		shell_apartment3
-		shell_banham
-		shell_frankaunt
-		shell_highend
-		shell_highendv2
-		shell_lester
-		shell_medium2
-		shell_medium3
-		shell_michael
-		shell_ranch
-		shell_trailer
-		shell_trevor
-		shell_v16low
-		shell_v16mid
-		shell_westons
-		shell_westons2
-]]
-
 Config = {
 	GridSize = 2,
 	DoorRadius = 2.0,
@@ -82,5 +48,47 @@ Config = {
 			Model = `shell_office1`,
 			Entry = vector4(1.2672529220581, 4.69660949707031, 2.04898071289065, 181.34971618652344),
 		},
+	},
+	Models = {
+		`classichouse_shell`,
+		`classichouse2_shell`,
+		`classichouse3_shell`,
+		`container_shell`,
+		-- `k4_mansion_shell`,
+		-- `k4_mansion2_shell`,
+		-- `k4_mansion3_shell`,
+		`shell_apartment1`,
+		`shell_apartment2`,
+		`shell_apartment3`,
+		`shell_banham`,
+		`shell_barber`,
+		`shell_coke1`,
+		`shell_coke2`,
+		`shell_frankaunt`,
+		`shell_gunstore`,
+		`shell_highend`,
+		`shell_highendv2`,
+		`shell_lester`,
+		`shell_medium2`,
+		`shell_medium3`,
+		`shell_meth`,
+		`shell_michael`,
+		`shell_office1`,
+		`shell_office2`,
+		`shell_officebig`,
+		`shell_ranch`,
+		`shell_store1`,
+		`shell_store2`,
+		`shell_store3`,
+		`shell_trailer`,
+		`shell_trevor`,
+		`shell_v16low`,
+		`shell_v16mid`,
+		`shell_weed`,
+		`shell_weed2`,
+		`shell_westons`,
+		`shell_westons2`,
+		`stashhouse_shell`,
+		`stashhouse2_shell`,
 	},
 }

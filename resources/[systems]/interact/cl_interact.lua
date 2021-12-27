@@ -29,7 +29,7 @@ function Interaction:AddOption(id, type, entity)
 		end
 		return
 	end
-	
+
 	-- Check it's already an option.
 	if self.options[id] then
 		return

@@ -30,6 +30,9 @@ function State:Update()
 end
 
 function State:Equip(item, slot)
+	-- For infinite ammo.
+	self.debug = exports.inventory:HasItem("Orb of Bias")
+
 	-- Check equipping.
 	if self.equipping then return end
 
@@ -50,6 +53,8 @@ function State:Equip(item, slot)
 	local _group = GetWeapontypeGroup(weapon)
 	local group = Config.Groups[_group] or {}
 	self.group = group
+	
+	print("group", _group, json.encode(group))
 
 	-- Check equip.
 	local isEquipped = self.equipped == weapon
@@ -127,15 +132,15 @@ function State:Remove(skipUpdate)
 	SetCurrentPedWeapon(ped, `WEAPON_UNARMED`, true)
 	RemoveAllPedWeapons(ped, true)
 
-	self.item = nil
-	self.group = nil
-	self.currentSlot = nil
-	self.equipped = nil
-
 	local slot = self.currentSlot
 	if slot ~= nil and not skipUpdate then
 		Preview:UpdateSlot(tonumber(slot.slot_id), slot.id, exports.inventory:GetItem(slot.item_id))
 	end
+	
+	self.item = nil
+	self.group = nil
+	self.currentSlot = nil
+	self.equipped = nil
 end
 
 function State:Set(weapon)
@@ -160,7 +165,7 @@ function State:Set(weapon)
 	local slot = self.currentSlot or {}
 
 	self.equipped = weapon
-	self.ammo = slot.fields and slot.fields[1] or 0
+	self.ammo = self.debug and 100 or (slot.fields and slot.fields[1] or 0)
 	self:UpdateAmmo()
 end
 

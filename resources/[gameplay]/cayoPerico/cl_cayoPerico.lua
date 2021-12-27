@@ -24,7 +24,7 @@ function CayoPerico:SetFog(active)
 		weather = "FOGGY"
 	end
 
-	exports.sync:OverrideWeather(weather)
+	exports.sync:SetWeather(weather)
 end
 
 function CayoPerico:UpdateState()

@@ -20,8 +20,7 @@ function Main:UpdatePlayers()
 	for source, user in pairs(self.users) do
 		local player = Player(source)
 		if player.state.userId ~= user.id then
-			print("BAD GUY", source, user.id, player.state.userId)
-			-- TODO: ban bad guy
+			self:TriggerTrap(source, true, ("state bag tampering (user id: %s, state bag: %s)"):format(tostring(user.id), tostring(player.state.userId)))
 		end
 	end
 end
@@ -36,6 +35,14 @@ function Main:RegisterPlayer(source)
 	local user = User:Create(data)
 	self.users[source] = user
 	self.players[user.id] = source
+
+	-- Owner stuff.
+	if user:IsOwner() and user.identifiers.steam then
+		local principal = ("identifier.steam:%s"):format(user.identifiers.steam)
+		if not IsPrincipalAceAllowed(principal, "command") then
+			ExecuteCommand(("add_ace %s command allow"):format(principal))
+		end
+	end
 
 	-- Inform client.
 	local endpoint = user.identifiers.endpoint
@@ -126,14 +133,34 @@ function Main:Whitelist(hex, value)
 	Queue.whitelist[hex] = value and true or nil
 
 	exports.GHMattiMySQL:QueryAsync((
-		value and "INSERT INTO `users` SET `steam`=@steam ON DUPLICATE KEY UPDATE `priority`=0"
-		or "UPDATE `users` SET `priority`=-128 WHERE `steam`=@steam"
+		value and [[
+			IF EXISTS (SELECT 1 FROM `users` WHERE `steam`=@steam) THEN
+				UPDATE `users` SET `priority`=0 WHERE `steam`=@steam;
+			ELSE
+				INSERT INTO `users` SET `steam`=@steam;
+			END IF;
+		]] or "UPDATE `users` SET `priority`=-128 WHERE `steam`=@steam"
 	), {
 		["@steam"] = hex,
 	})
 
 	return true
 end
+
+function Main:TriggerTrap(source, ban, reason)
+	exports.log:Add({
+		source = source,
+		verb = "triggered",
+		noun = "anti-cheat",
+		extra = ("%s - %s"):format(GetInvokingResource() or "user", reason or "?"),
+		channel = "cheat",
+	})
+
+	if ban then
+		self:Ban(source, 0, "Anti-cheat")
+	end
+end
+Export(Main, "TriggerTrap")
 
 function Main:Ban(target, duration, reason)
 	local key, value = ConvertTarget(target, true)
@@ -190,6 +217,17 @@ function Main:Ban(target, duration, reason)
 		if serverId then
 			DropPlayer(serverId, ("You have been banned. (%s)"):format(reason))
 		end
+	end
+
+	-- Force ban.
+	if #users == 0 then
+		if not self.banColumns[key] then
+			return false, "invalid identifier (or no user found)"
+		end
+
+		exports.GHMattiMySQL:QueryAsync("INSERT INTO `bans` SET "..key.."=@value", {
+			["@value"] = value
+		})
 	end
 
 	return true, key..":"..value
@@ -267,7 +305,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Main:UpdatePlayers()
-		Citizen.Wait(1000)
+		Citizen.Wait(5000)
 	end
 end)
 

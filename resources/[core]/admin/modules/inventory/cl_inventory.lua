@@ -53,16 +53,10 @@ Admin:AddHook("select", "viewItems", function()
 			click = {
 				event = "close"
 			},
-			template = [[
-				<div>
-					<template v-slot:append>
-						<q-icon name="search" />
-					</template>
-					</q-input>
-				</div>
-			]]
 		},
 		defaults = {
+			filter = "",
+			spawning = false,
 			data = data,
 			columns = {
 				{
@@ -77,7 +71,7 @@ Admin:AddHook("select", "viewItems", function()
 					label = "Icon",
 					field = "icon",
 					align = "left",
-					sortable = true,
+					sortable = false,
 				},
 				{
 					name = "name",
@@ -129,19 +123,44 @@ Admin:AddHook("select", "viewItems", function()
 				template = [[
 					<q-table
 						style="overflow: hidden; max-height: 90vh"
+						@row-click="(evt, row, index) => $invoke('spawn', row)"
 						:columns="$getModel('columns')"
 						:data="$getModel('data')"
+						:rows-per-page-options="[0]"
+						:filter="$getModel('filter')"
 						row-key="id"
 						dense
+						virtual-scroll
 					>
+						<template v-slot:top-right>
+							<q-toggle
+								label="Spawning"
+								:value="$getModel('spawning')"
+								@input="$setModel('spawning', $event)"
+								class="q-mr-sm"
+							/>
+							<q-input
+								filled
+								dense
+								placeholder="Search"
+								:value="$getModel('filter')"
+								@input="$setModel('filter', $event)"
+							>
+								<template v-slot:append>
+									<q-icon name="search" />
+								</template>
+							</q-input>
+						</template>
 						<template v-slot:body-cell-icon="props">
 							<q-td :props="props">
-								<img
-									:src="props.row.icon"
-									style="max-width: 64px; max-height: 64px"
-									width="auto"
-									height="auto"
-								/>
+								<div style="width: 3vmin; height: 3vmin; display: flex; justify-content: center; align-items: center">
+									<img
+										:src="props.row.icon"
+										style="max-width: 100%; max-height: 100%; object-fit: contain"
+										width="auto"
+										height="auto"
+									/>
+								</div>
 							</q-td>
 						</template>
 					</q-table>
@@ -156,11 +175,12 @@ Admin:AddHook("select", "viewItems", function()
 		UI:Focus(false)
 	end)
 
-	window:AddListener("openContainer", function(self, id)
-		TriggerServerEvent(Admin.event.."viewContainer", id)
+	window:AddListener("spawn", function(self, row)
+		if not self.models["spawning"] then return end
+		ExecuteCommand(("a:giveitem \"%s\""):format(row.name))
 	end)
 
-	UI:Focus(true, true)
+	UI:Focus(true)
 end)
 
 RegisterNetEvent(Admin.event.."receiveContainers", function(data)

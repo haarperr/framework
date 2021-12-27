@@ -1,4 +1,6 @@
 Chairs = {}
+Chairs.maxPlayerDist = 3.0
+Chairs.cached = {}
 
 --[[ Functions: Chair ]]--
 function Chairs:Init()
@@ -25,14 +27,13 @@ function Chairs:Update()
 	local entity = chair.entity
 	local ped = PlayerPedId()
 
-	-- Check entity.
-	if not DoesEntityExist(entity) then
-		self:Deactivate()
-		return
-	end
-
-	-- Standing up.
-	if IsDisabledControlJustReleased(0, 46) then
+	-- Check conditions.
+	if
+		not DoesEntityExist(entity) or
+		not IsEntityAttachedToEntity(ped, entity) or
+		(IsDisabledControlJustReleased(0, 46) and not self.locked) or
+		self:IsOccupied(entity, ped)
+	then
 		self:Deactivate()
 		return
 	end
@@ -48,6 +49,9 @@ function Chairs:Update()
 		end
 	end
 
+	-- Disable controls.
+	DisableControlAction(0, 52)
+
 	-- Disable camera collisions.
 	DisableCamCollisionForEntity(entity)
 
@@ -58,12 +62,21 @@ function Chairs:Update()
 	end
 end
 
-function Chairs:Activate(entity, offset, rotation, anim, camera)
+function Chairs:Activate(entity, baseName)
 	local ped = PlayerPedId()
+	local modelHash = GetEntityModel(entity)
+
+	-- Get/check settings.
+	local base = Bases[baseName or false]
+	local model = (Models[modelHash] or {})[baseName or false]
+
+	if not base or not model then return end
 	
 	-- Defaults.
-	offset = offset or vector3(0.0, 0.0, 0.0)
-	rotation = rotation or vector3(0.0, 0.0, 0.0)
+	local offset = model.Offset or vector3(0.0, 0.0, 0.0)
+	local rotation = model.Rotation or vector3(0.0, 0.0, 0.0)
+	local anim = model.Anim or base.Anim
+	local camera = model.Camera or base.Camera
 
 	-- Cache.
 	self.chair = {
@@ -73,6 +86,8 @@ function Chairs:Activate(entity, offset, rotation, anim, camera)
 		anim = anim,
 		camera = camera,
 		entered = GetEntityCoords(ped, true),
+		exit = model.Exit or vector3(0.8, 0.0, 0.0),
+		heading = model.Heading,
 	}
 
 	-- Trigger events.
@@ -102,6 +117,7 @@ function Chairs:Activate(entity, offset, rotation, anim, camera)
 	
 	-- Update ped.
 	FreezeEntityPosition(ped, true)
+	SetEntityCoords(ped, GetEntityCoords(entity))
 	AttachEntityToEntity(ped, entity, 0, offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, false, false, true)
 
 	-- Update entity.
@@ -111,16 +127,48 @@ end
 function Chairs:Deactivate()
 	local chair = self.chair
 	local entity = chair and chair.entity
-	
-	-- Update ped.
-	local ped = PlayerPedId()
-	FreezeEntityPosition(ped, false)
-	DetachEntity(ped, true, true)
-	SetEntityCoordsNoOffset(ped, chair.entered.x, chair.entered.y, chair.entered.z, true)
 
 	-- Trigger events.
 	TriggerEvent("chairs:deactivate", entity)
+
+	-- Update ped.
+	local ped = PlayerPedId()
+	FreezeEntityPosition(ped, false)
+
+	-- Check attachment.
+	if not DoesEntityExist(entity) or not IsEntityAttachedToEntity(ped, entity) then
+		self:Uncache()
+		return
+	end
 	
+	-- Get exit coords.
+	local coords = GetOffsetFromEntityInWorldCoords(entity, chair.exit)
+	local hasGround, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, true)
+	
+	-- Flip the exit coords if invalid exit.
+	if not hasGround or math.abs(groundZ - coords.z) > 1.0 then
+		coords = GetOffsetFromEntityInWorldCoords(entity, -chair.exit)
+		hasGround, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, true)
+	end
+
+	-- Final check for ground.
+	if not hasGround or math.abs(groundZ - coords.z) > 1.0 then
+		coords = GetEntityCoords(entity)
+		groundZ = coords.z
+	end
+	
+	-- Update ped.
+	ped = PlayerPedId()
+	DetachEntity(ped, true, true)
+	SetEntityCoords(ped, coords.x, coords.y, groundZ, true)
+	SetEntityHeading(ped, GetEntityHeading(entity) + (chair.heading or 180.0))
+	ClearPedTasksImmediately(ped)
+
+	-- Clear cache.
+	self:Uncache()
+end
+
+function Chairs:Uncache()
 	-- Uncache chair.
 	self.chair = nil
 
@@ -137,6 +185,43 @@ function Chairs:Deactivate()
 	end
 end
 
+function Chairs:FindAll(_type, checkOccupied)
+	local objects = {}
+	for entity in EnumerateObjects() do
+		local model = Models[GetEntityModel(entity)]
+		if model and model[_type] and (not checkOccupied or not self:IsOccupied(entity)) then
+			objects[#objects + 1] = entity
+		end
+	end
+	return objects
+end
+
+function Chairs:FindFirst(_type, checkOccupied)
+	for entity in EnumerateObjects() do
+		local model = Models[GetEntityModel(entity)]
+		if model and model[_type] and (not checkOccupied or not self:IsOccupied(entity)) then
+			return entity
+		end
+	end
+end
+
+function Chairs:IsOccupied(entity, ped)
+	if not self.cachedTime or GetGameTimer() - self.cachedTime > 2000.0 then
+		self.cached = {}
+		self.cachedTime = GetGameTimer()
+
+		for ped in EnumeratePeds() do
+			local entity = IsEntityAttached(ped) and GetEntityAttachedTo(ped)
+			if entity and DoesEntityExist(entity) then
+				self.cached[entity] = ped
+			end
+		end
+	end
+
+	local attachedPed = self.cached[entity or false]
+	return attachedPed ~= nil and (not ped or attachedPed ~= ped)
+end
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
@@ -149,16 +234,28 @@ Citizen.CreateThread(function()
 	end
 end)
 
+--[[ Exports ]]--
+exports("FindAll", function(...)
+	return Chairs:FindAll(...)
+end)
+
+exports("FindFirst", function(...)
+	return Chairs:FindFirst(...)
+end)
+
+exports("Activate", function(...)
+	return Chairs:Activate(...)
+end)
+
+exports("Lock", function(value)
+	Chairs.locked = value == true
+end)
+
 --[[ Events ]]--
 AddEventHandler("chairs:clientStart", function()
 	Chairs:Init()
 end)
 
 AddEventHandler("interact:on_chair", function(interactable)
-	local base = Bases[interactable.base]
-	local model = (Models[interactable.model] or {})[interactable.base]
-
-	if not base or not model then return end
-
-	Chairs:Activate(interactable.entity, model.Offset, model.Rotation, model.Anim or base.Anim, model.Camera or base.Camera)
+	Chairs:Activate(interactable.entity, interactable.base)
 end)

@@ -19,6 +19,7 @@ shared_scripts {
 client_scripts {
 	'@utils/client/entities.lua',
 	'@utils/client/misc.lua',
+	'@utils/client/vectors.lua',
 	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
 	'cl_navigation.lua',
@@ -26,8 +27,10 @@ client_scripts {
 	'cl_movement.lua',
 	'cl_commands.lua',
 	'cl_animations.lua',
+	'cl_sync.lua',
 }
 
 server_scripts {
-	
+	'@utils/server/players.lua',
+	'sv_emotes.lua',
 }

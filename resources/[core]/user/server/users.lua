@@ -12,9 +12,20 @@ function User:Create(data)
 			queryValues["@"..key] = value
 		end
 	end
+
+	-- Check Steam.
+	if not queryValues["@steam"] then
+		error(("missing steam past authentication (%s)"):format(json.encode(data.identifiers)))
+	end
 	
 	-- Update database.
-	exports.GHMattiMySQL:Query("INSERT INTO `users` SET "..queryString.." ON DUPLICATE KEY UPDATE "..queryString, queryValues)
+	exports.GHMattiMySQL:Query(([[
+		IF EXISTS (SELECT 1 FROM `users` WHERE `steam`=@steam) THEN
+			UPDATE `users` SET %s WHERE `steam`=@steam;
+		ELSE
+			INSERT INTO `users` SET %s;
+		END IF;
+	]]):format(queryString, queryString), queryValues)
 
 	-- Update fields.
 	local user = exports.GHMattiMySQL:QueryResult([[
@@ -46,6 +57,7 @@ function User:Set(key, value)
 	
 	self[key] = value
 
+	TriggerEvent(Main.event.."set", self.source, key, value)
 	TriggerClientEvent(Main.event.."set", self.source, key, value)
 
 	return true

@@ -11,6 +11,7 @@ shared_scripts {
 
 client_scripts {
 	'@camera/cl_camera.lua',
+	'@utils/client/entities.lua',
 	'@utils/client/vectors.lua',
 	'cl_chairs.lua',
 }

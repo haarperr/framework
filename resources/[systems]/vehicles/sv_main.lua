@@ -125,6 +125,7 @@ RegisterNetEvent("vehicles:subscribe", function(netId, value)
 	local vehicle = Main.vehicles[netId]
 	if not vehicle then
 		vehicle = Vehicle:Create(netId)
+		if not vehicle then return end
 	end
 
 	vehicle:Subscribe(source, value)

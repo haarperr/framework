@@ -37,11 +37,13 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local bone = Main:GetBone(boneId)
 	if not bone or GetGameTimer() - (bone.lastDamage or 0) < 200 then return end
 	
-	if speed > Falling.fractureSpeed then
+	local isFracture = speed > Falling.fractureSpeed
+	if isFracture then
 		bone:SetFracture(true)
+		bone:TakeDamage(damage, "Fracture")
 	end
 
-	bone:SpreadDamage(damage, 0.15, 0.2)
+	bone:SpreadDamage(damage, 0.15, 0.2, "Bruising")
 end)
 
 --[[ Threads ]]--

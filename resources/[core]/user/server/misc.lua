@@ -8,7 +8,7 @@ function ConvertTarget(target, checkPlayers)
 	local key, value
 	local targetN = tonumber(target)
 	local targetUser = checkPlayers and targetN and Main.users[targetN]
-	local targetId = target:sub(1, 1) == ":" and tonumber(target:sub(2))
+	local targetId = type(target) == "string" and target:sub(1, 1) == ":" and tonumber(target:sub(2))
 
 	if targetUser then
 		key = "steam"
@@ -55,8 +55,10 @@ end
 function GetHex(key)
 	if not key then return end
 
+	key = key:lower()
+
 	if key:match(":") then
-		local key, value = GetIdentifiers(key)
+		local _key, value = GetIdentifiers(key)
 		if value then
 			key = value
 		else
@@ -72,7 +74,7 @@ function GetHex(key)
 end
 
 function IsHex(key)
-	return key:len() == 15 and tonumber(key) and key:sub(1, 7) == "1100001"
+	return key:len() == 15 and key:sub(1, 7) == "1100001" and not key:match("[^0-9a-f]")
 end
 
 function IsDecimal(key)

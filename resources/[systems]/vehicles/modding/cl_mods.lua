@@ -73,6 +73,7 @@ function Mods:Enable(vehicle)
 
 	self.defaults = {}
 	
+	WaitForAccess(vehicle)
 	SetVehicleModKit(vehicle)
 
 	for modType, mod in pairs(self.types) do
@@ -161,6 +162,7 @@ function Mods:Enable(vehicle)
 		local settings = Mods.types[modType]
 		if not settings or settings.Hidden then return end
 
+		WaitForAccess(vehicle)
 		SetVehicleMod(vehicle, modType, modIndex)
 		window:SetModel("mod-"..modType, modIndex)
 
@@ -183,3 +185,44 @@ end
 
 --[[ Functions: Modding ]]--
 Modding:RegisterItem("Mod Kit", Mods)
+
+-- type = "window",
+-- title = "Paint",
+-- class = "compact",
+-- style = {
+-- 	["width"] = "40vmin",
+-- 	["height"] = "50vmin",
+-- 	["top"] = "8vmin",
+-- 	["left"] = "2vmin",
+-- 	["overflow"] = "visible !important",
+-- },
+-- defaults = {
+-- 	mods = {
+-- 		{ Name = "Test 1", index = 0, options = {
+-- 			{ label = "Option 1", value = 0 },
+-- 			{ label = "Option 2", value = 1 },
+-- 			{ label = "Option 3", value = 2 },
+-- 		} },	
+-- 		{ Name = "Test 2", index = 1 },	
+-- 		{ Name = "Test 3", index = 2 },	
+-- 	},
+-- },
+-- components = {
+-- 	{
+-- 		type = "q-list",
+-- 		template = [[
+-- 			<div>
+-- 				<q-expansion-item
+-- 					v-for="mod in $getModel('mods')"
+-- 					:key="mod.Index"
+-- 					:label="mod.Name"
+-- 					group="mods"
+-- 				>
+-- 					<q-option-group
+-- 						:options="mod.options"
+-- 					/>
+-- 				</q-expansion-item>
+-- 			</div>
+-- 		]],
+-- 	},
+-- },

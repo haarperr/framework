@@ -1,10 +1,11 @@
 TickRate = 200
 
-Main.update = {}
-Main.settings = {}
-Main.vehicles = {}
 Main.classes = {}
+Main.hashes = {}
 Main.info = {}
+Main.settings = {}
+Main.update = {}
+Main.vehicles = {}
 
 function Main:Init()
 	for model, settings in pairs(Vehicles) do
@@ -19,6 +20,7 @@ function Main:Init()
 
 		-- Cache settings.
 		self.settings[model] = settings
+		self.hashes[GetHashKey(model)] = model
 
 		-- Cache class.
 		local classList = self.classes[settings.Class]
@@ -28,6 +30,15 @@ function Main:Init()
 		end
 		classList[model] = settings
 	end
+end
+
+function Main:GetSettings(model)
+	if not model then return {} end
+	if type(model) == "number" then
+		model = self.hashes[model]
+		if not model then return {} end
+	end
+	return Vehicles[model] or {}
 end
 
 function Main:Update()
@@ -102,6 +113,7 @@ function Main:Update()
 			Class = GetVehicleClass(CurrentVehicle)
 			ClassSettings = Classes[Class] or {}
 			Model = GetEntityModel(CurrentVehicle)
+			Materials = {}
 
 			-- Events.
 			print("entered", CurrentVehicle)
@@ -120,11 +132,17 @@ function Main:Update()
 	-- Driver stuff.
 	if IsDriver then
 		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
-		SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
 
 		-- Temperature.
 		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
 		TemperatureRatio = Temperature / 104.444
+
+		-- Update wheels.
+		for i = 0, GetVehicleNumberOfWheels(CurrentVehicle) - 1 do
+			local material = GetVehicleWheelSurfaceMaterial(CurrentVehicle, i)
+			Materials[i] = material
+		end
 
 		-- Idling.
 		if IsIdling ~= self.isIdling then
@@ -200,7 +218,7 @@ function Main.update:Proximity()
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 
-		NearestVehicle = GetNearestVehicle(coords, 10.0)
+		NearestVehicle = GetFacingVehicle(ped, 1.0, true) or GetNearestVehicle(coords, 10.0)
 
 		if NearestVehicle and DoesEntityExist(NearestVehicle) then
 			NearestDoor = GetClosestDoor(coords, NearestVehicle)
@@ -248,13 +266,13 @@ function Main:ToggleDoor(vehicle, index)
 end
 
 function Main:SetDoorState(vehicle, index, state, fromServer)
-	local driver = GetPedInVehicleSeat(vehicle, -1)
-	if driver and DoesEntityExist(driver) and driver ~= PlayerPedId() and not fromServer then
+	local owner = NetworkGetEntityOwner(vehicle)
+	local ownerPed = owner and owner ~= PlayerId() and GetPlayerPed(owner)
+
+	if (ownerPed and DoesEntityExist(ownerPed) and IsPedInVehicle(ownerPed, vehicle)) or not WaitForAccess(vehicle, 3000) then
 		TriggerServerEvent("vehicles:toggleDoor", GetNetworkId(vehicle), index, state)
 		return
 	end
-
-	WaitForAccess(vehicle)
 
 	if state then
 		SetVehicleDoorShut(vehicle, index, false)
@@ -280,8 +298,8 @@ function Main:Subscribe(vehicle, value)
 end
 
 --[[ Exports ]]--
-exports("GetSettings", function(model)
-	return Vehicles[model]
+exports("GetSettings", function(...)
+	return Main:GetSettings(...)
 end)
 
 exports("GetClass", function(id)
@@ -304,6 +322,8 @@ end)
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
+
+	Main.infoEntity = NetworkGetEntityFromNetworkId(netId)
 
 	if type(key) == "table" then
 		Main.info = key

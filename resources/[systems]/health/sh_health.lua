@@ -48,6 +48,39 @@ function IsPayloadValid(payload)
 					end
 				end
 			end
+		elseif k == "history" then
+			for _k, _v in pairs(v) do
+				local bone = Config.Bones[_k]
+				if not bone then
+					return false, ("bone '%s' does not exist for history"):format(tostring(_k))
+				elseif type(_v) ~= "table" then
+					return false, ("bone value type is '%s' for history"):format(type(_v))
+				end
+				if #_v > 256 then
+					return false, ("bone '%s' history too large"):format(_k)
+				end
+				for __k, __v in pairs(_v) do
+					if type(__k) ~= "number" then
+						return false, ("bone '%s' history index type is '%s'"):format(_k, type(__k))
+					elseif type(__v) ~= "table" then
+						return false, ("bone '%s' history value type is '%s'"):format(type(__v))
+					else
+						for ___k, ___v in pairs(__v) do
+							if ___k == "time" then
+								if type(___v) ~= "number" then
+									return false, ("bone '%s' history time type is '%s'"):format(_k, type(___v))
+								end
+							elseif ___k == "name" then
+								if not Config.Injuries[___v] and not Config.Treatments[___v] then
+									return false, ("bone '%s' injury '%s' does not exist"):format(_k, ___v)
+								end
+							else
+								return false, ("bone '%s' has invalid history field '%s'"):format(_k, ___k)
+							end
+						end
+					end
+				end
+			end
 		else
 			return false, ("invalid payload key '%s'"):format(k)
 		end

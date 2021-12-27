@@ -2,7 +2,7 @@ Menu = {}
 
 --[[ Functions: Menu ]]--
 function Menu:Init()
-	self.loaded = true
+	self.isLoaded = true
 	self:Invoke(false, "loadConfig", {
 		effects = Config.Effects,
 		bones = Config.Bones,
@@ -29,7 +29,7 @@ function Menu:Focus()
 end
 
 --[[ Events ]]--
-AddEventHandler("interact:onNavigate_health-status", function()
+AddEventHandler("interact:onNavigate_healthStatus", function()
 	Menu:Focus()
 end)
 

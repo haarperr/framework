@@ -1,4 +1,6 @@
-Main = {}
+Main = {
+	peds = {},
+}
 
 function Main:SetData(ped, data)
 	local controller = Controller:Create()
@@ -14,11 +16,13 @@ end
 exports("SetData", function(...) Main:SetData(...) end)
 
 function Main:CreatePed(data, coords)
+	local resource = GetInvokingResource()
 	local appearance = data.appearance
-	if not appearance then return end
-
 	local features = data.features
-	if not features then return end
+
+	if (not appearance or not features) and not data.model then
+		return
+	end
 
 	local model = GetHashKey(
 		(type(data.model) == "string" and data.model)
@@ -36,6 +40,10 @@ function Main:CreatePed(data, coords)
 	local ped = CreatePed(2, model, coords.x, coords.y, coords.z, coords.w, false, true)
 
 	self:SetData(ped, data)
+
+	if resource then
+		self.peds[ped] = resource
+	end
 
 	return ped
 end
@@ -68,6 +76,27 @@ AddEventHandler("character:selected", function(character)
 		})
 	else
 		Editor:Toggle(true)
+	end
+end)
+
+AddEventHandler("onResourceStop", function(resourceName)
+	for ped, resource in pairs(Main.peds) do
+		if resource == resourceName then
+			DeleteEntity(ped)
+			Main.peds[ped] = nil
+		end
+	end
+end)
+
+--[[ Threads ]]--
+Citizen.CreateThread(function()
+	while true do
+		for ped, resource in pairs(Main.peds) do
+			if not DoesEntityExist(ped) then
+				Main.peds[ped] = nil
+			end
+		end
+		Citizen.Wait(2000)
 	end
 end)
 

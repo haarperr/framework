@@ -1,6 +1,12 @@
 Config = {
 	Options = {
 		{
+			label = "Online Players",
+			caption = "View a list of players that are online",
+			icon = "people",
+			hook = "viewPlayers",
+		},
+		{
 			label = "Player",
 			caption = "Player options",
 			icon = "person",
@@ -30,6 +36,7 @@ Config = {
 			caption = "Testing and miscallenous",
 			icon = "build",
 			options = {
+				{ label = "Streamer Mode", hook = "streamerMode", caption = "Disable admin messages in chat", checkbox = false },
 				{ label = "Player Blips", hook = "playerBlips", caption = "View blips on the map of other players", checkbox = false },
 				{ label = "Entity Debugger", hook = "debuggerEntity", caption = "View entity info", checkbox = false },
 				{ label = "Player Debugger", hook = "debuggerPlayer", caption = "View player info", checkbox = false },

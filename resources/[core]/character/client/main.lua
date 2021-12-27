@@ -41,7 +41,7 @@ function Main:SelectCharacter(id)
 end
 Export(Main, "SelectCharacter")
 
-function Main:_SelectCharacter(id)
+function Main:_SelectCharacter(id, wasActive)
 	local character = (id and self.characters[id]) or nil
 
 	self.activeCharacter = character
@@ -53,8 +53,9 @@ function Main:_SelectCharacter(id)
 		UI:Focus(false)
 
 		local coords = character:GetPosition()
+		local next = next
 		
-		exports.spawning:Spawn(coords)
+		exports.spawning:Spawn(coords, not character.appearance or next(character.appearance) == nil, wasActive)
 	else
 		exports.spawning:Init()
 	end
@@ -126,8 +127,8 @@ RegisterNetEvent(Main.event.."load", function(characters)
 	Main:UpdateCharacters(characters)
 end)
 
-RegisterNetEvent(Main.event.."select", function(id)
-	Main:_SelectCharacter(id)
+RegisterNetEvent(Main.event.."select", function(...)
+	Main:_SelectCharacter(...)
 end)
 
 RegisterNetEvent(Main.event.."update", function(data)

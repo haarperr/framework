@@ -12,9 +12,22 @@ end
 function Entities:CacheObject(entity)
 	local owner = NetworkGetEntityOwner(entity)
 
+	-- Attachments.
+	local attached = GetEntityAttachedTo(entity)
+	if attached and DoesEntityExist(attached) then
+		local _cached = self.entities[attached]
+		if _cached then
+			if not _cached.attachments then
+				_cached.attachments = {}
+			end
+			_cached.attachments[entity] = true
+		end
+	end
+
 	-- Cache entity.
 	self.entities[entity] = {
 		owner = owner,
+		attached = attached,
 	}
 
 	-- Set state bag.
@@ -45,9 +58,28 @@ function Entities:UncacheObject(entity)
 
 	local count = self.players[cached.owner] or 0
 
+	-- Update player owned count.
 	self.players[cached.owner] = math.max(count - 1, 0)
 
+	-- Uncache entity.
 	self.entities[entity] = nil
+
+	-- Remove attachments.
+	if cached.attachments then
+		for _entity, _ in pairs(cached.attachments) do
+			if DoesEntityExist(_entity) then
+				DeleteEntity(_entity)
+			end
+		end
+	end
+
+	-- Remove from attached to.
+	if cached.attached then
+		local _cached = self.entities[cached.attached]
+		if _cached and _cached.attachments then
+			_cached.attachments[entity] = nil
+		end
+	end
 end
 
 function Entities:RemoveAll()

@@ -49,7 +49,7 @@ function Shooting:UpdateShooting(weapon)
 	TriggerServerEvent("shoot", didHit, coords, hitCoords, entity ~= 0 and NetworkGetEntityIsNetworked(entity) and NetworkGetNetworkIdFromEntity(entity), hasWeapon and weapon, slot and slot.slot_id)
 
 	-- Update ammo.
-	State.ammo = math.max((State.ammo or 0) - 1, 0)
+	State.ammo = State.debug and 100 or math.max((State.ammo or 0) - 1, 0)
 	State:UpdateAmmo()
 
 	-- didHit, coords, hitCoords, entity, weapon, slotId

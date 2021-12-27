@@ -2,7 +2,7 @@
 *.au
 *.lock
 **/log-*.txt
-cache
+/cache/
 config/keys.cfg
 config/server.cfg
 config/webhooks.cfg

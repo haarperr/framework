@@ -30,13 +30,25 @@ function Main:Init()
 	TriggerEvent("spawning:loaded")
 end
 
-function Main:Spawn(coords, static)
+function Main:Spawn(coords, static, exact)
 	-- Find nearest haven.
 	if not coords then
 		coords = vector3(0.0, 0.0, 0.0)
 	end
 
-	self:SpawnAtHaven(coords, static)
+	-- Fade out.
+	DoScreenFadeOut(1000)
+	Citizen.Wait(1000)
+
+	-- Stop preview.
+	Preview:Destroy()
+
+	-- Update coords.
+	if exact then
+		self:SpawnAtCoords(coords, nil)
+	else
+		self:SpawnAtHaven(coords, static)
+	end
 
 	-- Get ped.
 	local ped = PlayerPedId()
@@ -50,9 +62,6 @@ function Main:Spawn(coords, static)
 
 	-- Set states.
 	self.hasSpawned = true
-
-	-- Remove preview.
-	Preview:Destroy()
 
 	-- Trigger events.
 	TriggerEvent("spawning:spawned")
@@ -90,21 +99,46 @@ function Main:SpawnAtHaven(coords, static)
 	local haven = self:FindNearestHaven(coords)
 	if not haven then return end
 
-	DoScreenFadeOut(1000)
-	Citizen.Wait(1000)
-
-	local ped = PlayerPedId()
 	local pose = (static and haven.Static) or haven.Poses[GetRandomIntInRange(1, #haven.Poses + 1)]
 
-	SetEntityCoordsNoOffset(ped, pose.Coords.x, pose.Coords.y, pose.Coords.z)
-	SetEntityHeading(ped, pose.Coords.w)
+	self:SpawnAtCoords(pose.Coords, pose.Anim)
+end
 
-	WaitForGround(pose.Coords)
-	
+function Main:SpawnAtCoords(coords, anim)
+	local startTime = GetGameTimer()
+	local ped = PlayerPedId()
+
+	-- Switch out.
+	SwitchOutPlayer(ped, 1, 2)
 	DoScreenFadeIn(1000)
 
-	if pose.Anim then
-		exports.emotes:Play(pose.Anim)
+	-- Set coords.
+	SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, true)
+	
+	-- Set heading.
+	if type(coords) == "vector4" then
+		SetEntityHeading(ped, coords.w)
+	end
+
+	-- Switch in.
+	Citizen.Wait(2000)
+
+	ped = PlayerPedId()
+
+	SwitchOutPlayer(ped, 255, 3)
+	SwitchInPlayer(ped)
+
+	-- Wait for transition.
+	while GetPlayerSwitchState() <= 8 do
+		Citizen.Wait(0)
+	end
+
+	-- Wait for ground to load.
+	WaitForGround()
+	
+	-- Play emote.
+	if anim then
+		exports.emotes:Play(anim)
 	end
 end
 

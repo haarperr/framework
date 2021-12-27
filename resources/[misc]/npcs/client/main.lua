@@ -74,6 +74,32 @@ function Npcs:UnloadGrid(gridId)
 	end
 end
 
+function Npcs:OpenWindow(data)
+	local window = Window:Create(data, true)
+	
+	function window:OnDestroy()
+		Npcs.window = nil
+	end
+	
+	self.window = window
+	UI:Focus(true, true)
+
+	return window
+end
+
+function Npcs:CloseWindow()
+	if not self.window then
+		return false
+	end
+
+	self.window:Destroy()
+	self.window = nil
+
+	UI:Focus(false)
+
+	return true
+end
+
 --[[ Events ]]--
 AddEventHandler(Npcs.event.."start", function()
 	local ped = PlayerPedId()
@@ -87,10 +113,13 @@ AddEventHandler("grids:enter"..Npcs.Config.GridSize, function(grid, nearby)
 end)
 
 AddEventHandler("interact:on_npc", function(interactable)
-	local npc = Npcs.npcs[interactable.npc or false]
+	local id = interactable.npc
+	local npc = id and Npcs.npcs[id]
 	if not npc then return end
 
 	npc:Interact()
+
+	TriggerServerEvent(Npcs.event.."interact", id)
 end)
 
 --[[ Threads ]]--

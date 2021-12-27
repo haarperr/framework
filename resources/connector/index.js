@@ -25,6 +25,7 @@ for (var i = 0; i < GetNumPlayerIndices(); i++) {
 server.on("request", function(socket) {
 	if (!socket.remoteAddress || !socket.remoteAddress.match(/^::\d+/g)) {
 		socket.reject();
+		console.log(`WebSocket connection rejected: ${socket.remoteAddress ?? "?"}`)
 		return
 	}
 
@@ -48,7 +49,7 @@ http.listen(42111, () => {
 	console.log("Connector open!")
 });
 
-on("playerConnecting", (name, setKickReason, deferrals) => {
+on("playerConnecting", (_, __, ___) => {
 	let player = source;
 	let endpoint = GetPlayerEndpoint(player);
 

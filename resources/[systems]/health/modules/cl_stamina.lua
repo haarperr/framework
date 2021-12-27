@@ -1,10 +1,21 @@
 --[[ Functions: Main ]]--
 function Main.update:Stamina()
+	if GetPlayerInvincible(PlayerId()) then
+		return
+	end
+	
 	local isUnderWater = IsPedSwimmingUnderWater(Ped)
 	local isSwimming = IsPedSwimming(Ped)
 	local isSprinting = IsPedSprinting(Ped)
 	local isRunning = IsPedRunning(Ped)
 	local oxygen = self:GetEffect("Oxygen")
+
+	if not isUnderWater and IsPedInAnyVehicle(Ped) then
+		local vehicle = GetVehiclePedIsIn(Ped)
+		if GetVehicleClass(vehicle) ~= 14 and GetEntitySubmergedLevel(vehicle) > 0.9 then
+			isUnderWater = true
+		end
+	end
 
 	-- Ignore vanilla stamina.
 	ResetPlayerStamina(Player)

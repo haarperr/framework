@@ -9,21 +9,18 @@
 	src: url(https://fonts.gstatic.com/s/materialicons/v92/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format("woff2");
 }
 
-* {
-	overflow: hidden;
-	font-size: 1.2rem;
-	font-family: Arial, Helvetica, sans-serif;
-	text-shadow: 1px 1px 0px black;
-
-	--primary-color: rgba(0, 0, 0, 0.5);
-	--secondary-color: rgba(0, 192, 255, 0.5);
-}
-
 body {
 	padding: 0px;
 	margin: 0px;
 	background: transparent;
 	overflow: hidden;
+
+	font-size: 1.2rem;
+	font-family: Arial, Helvetica, sans-serif;
+	text-shadow: 1px 1px 0px black;
+	
+	--primary-color: rgba(0, 0, 0, 0.5);
+	--secondary-color: rgba(0, 192, 255, 0.5);
 }
 
 .icon {

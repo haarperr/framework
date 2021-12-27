@@ -26,7 +26,7 @@ local function LoadFile(path)
 	until hasLoaded
 end
 
-function Init()
+local function Init()
 	for _, funcName in ipairs(funcs) do
 		local func = assert(_G[funcName])
 

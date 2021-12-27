@@ -157,3 +157,30 @@ function MoveToCoords(coords, heading, snap, timeout)
 
 	return true
 end
+
+function GetNearestPlayer(p1)
+	local nearestDist = 0.0
+	local nearestPlayer = nil
+	local nearestPed = nil
+	local coords = type(p1) == "vector3" and p1 or GetEntityCoords(tonumber(p1) or PlayerPedId())
+	local localPlayer = PlayerId()
+
+	for _, player in ipairs(GetActivePlayers()) do
+		if player == localPlayer then goto skipPlayer end
+
+		local _ped = GetPlayerPed(player)
+		if _ped and DoesEntityExist(_ped) then
+			local _coords = IsPedInAnyVehicle(_ped) and GetPedBoneCoords(_ped, -1) or GetEntityCoords(_ped, true)
+			local dist = Distance(coords, _coords)
+			if not nearestPlayer or dist < nearestDist then
+				nearestPlayer = player
+				nearestPed = _ped
+				nearestDist = dist
+			end
+		end
+		
+		::skipPlayer::
+	end
+
+	return nearestPlayer, nearestPed, nearestDist
+end

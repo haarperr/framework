@@ -100,6 +100,7 @@ function Debugger:RegisterEntity(entity, text)
 		text = text,
 		entity = entity,
 		offset = offset,
+		bone = type == 1 and 0 or nil,
 	})
 
 	self.texts[entity] = id

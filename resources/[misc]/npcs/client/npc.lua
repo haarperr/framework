@@ -65,9 +65,11 @@ function Npc:UncacheGrid()
 	local grid = gridId and Npcs.grids[gridId]
 
 	if not grid then return end
-	
+
 	-- Remove instance from grid.
 	grid[self.id] = nil
+	
+	print(self.id, "uncached in", gridId)
 
 	-- Remove empty grid.
 	local next = next
@@ -99,7 +101,7 @@ function Npc:CacheGrid()
 	end
 
 	grid[self.id] = true
-	
+
 	print(self.id, "cached in", gridId)
 
 	-- Check if grid is loaded.
@@ -132,6 +134,16 @@ function Npc:UpdateAnim()
 	end
 
 	self.anim = anim
+end
+
+function Npc:PlayAnim(name)
+	local anims = self.animations
+	if not anims then return end
+
+	local anim = anims[name]
+	if not anim then return end
+
+	exports.emotes:PlayOnPed(self.ped, anim)
 end
 
 function Npc:SetState(state)
@@ -252,11 +264,17 @@ function Npc:AddDialogue(text, sent)
 end
 
 function Npc:Interact()
+	if self.interact == "Talk" then
+		self:OpenDialogue()
+	end
+end
+
+function Npc:OpenDialogue()
 	local name = self.name or "???"
 	local history = self.history or {}
 	local options = self:GetOptions()
-
-	local window = Window:Create({
+	
+	local window = Npcs:OpenWindow({
 		type = "Window",
 		title = name,
 		class = "compact",
@@ -266,19 +284,6 @@ function Npc:Interact()
 			["left"] = "4vmin",
 			["top"] = "50%",
 			["transform"] = "translate(0%, -50%)",
-		},
-		prepend = {
-			type = "q-icon",
-			name = "cancel",
-			style = {
-				["font-size"] = "1.3em",
-			},
-			binds = {
-				color = "red",
-			},
-			click = {
-				callback = "this.$invoke('close')",
-			},
 		},
 		defaults = {
 			name = name,
@@ -353,16 +358,8 @@ function Npc:Interact()
 			},
 		},
 	})
-
-	window:AddListener("close", function(window)
-		window:Destroy()
-		UI:Focus(false)
-	end)
-
+	
 	window:AddListener("selectOption", function(window, index)
 		self:SelectOption(index + 1)
 	end)
-
-	UI:Focus(true, true)
-	Npcs.window = window
 end

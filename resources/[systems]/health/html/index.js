@@ -158,6 +158,13 @@ funcs["setTreatment"] = function(x, y, options) {
 	}
 }
 
+funcs["setHtml"] = function(selector, html) {
+	var element = document.querySelector(selector);
+	if (element) {
+		element.textContent = html;
+	}
+}
+
 function createDummy(id) {
 	// Create root.
 	const root = document.createElement("div");

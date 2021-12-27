@@ -1,5 +1,6 @@
 Main.tableColumns = { "appearance", "features", "health" }
 Main.players = {}
+Main.responses = {}
 
 function Main:Init()
 	self:LoadDatabase()
@@ -37,8 +38,9 @@ end
 
 function Main:Update()
 	for source, client in pairs(self.players) do
-		local delta = (client.lastUpdate and os.clock() - client.lastUpdate) or 0.0
-		client.lastUpdate = os.clock()
+		local clock = os.clock()
+		local delta = (client.lastUpdate and clock - client.lastUpdate) or 0.0
+		client.lastUpdate = clock
 		
 		local character = client:GetActiveCharacter()
 		if not character then goto skip end
@@ -56,7 +58,16 @@ function Main:Update()
 			["pos_z"] = coords.z,
 		})
 
+		self.responses[character.id] = clock
+
 		::skip::
+	end
+
+	local clock = os.clock()
+	for characterId, lastUpdate in pairs(self.responses) do
+		if clock - lastUpdate > 60.0 * 15.0 then
+			self.responses[characterId] = nil
+		end
 	end
 end
 

@@ -1,19 +1,14 @@
 fx_version 'adamant'
 game 'gta5'
 
-ui_page 'html/index.html'
-
-files {
-	'html/index.html',
-	'html/index.js',
-	'html/index.css',
-	'html/bootstrap/*',
+shared_scripts {
+	'sh_config.lua',
 }
 
-dependencies {
-	'interact',
+client_scripts {
+	'cl_banking.lua',
 }
 
-shared_script 'sh_config.lua'
-client_script 'cl_banking.lua'
-server_script 'sv_banking.lua'
+server_scripts {
+	'sv_banking.lua',
+}

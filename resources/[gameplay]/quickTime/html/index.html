@@ -9,11 +9,41 @@
 		<script src="index.js"></script>
 	</head>
 	<body style="display: none">
-		<div id="context"></div>
-		<div id="linear">
-			<div id="progress">
-				<div id="bar"></div>
-			</div>
-		</div>
+		<svg
+			class="progress"
+			width="200"
+			height="200"
+		>
+			<circle
+				id="progressGoal"
+				class="circle"
+				stroke="rgba(220, 0, 0, 0.8)"
+				stroke-width="20"
+				fill="transparent"
+				r="80"
+				cx="100"
+				cy="100"
+			/>
+			<circle
+				id="progressCursor"
+				class="circle"
+				stroke="rgba(0, 220, 0, 0.8)"
+				stroke-width="20"
+				fill="transparent"
+				r="80"
+				cx="100"
+				cy="100"
+			/>
+			<circle
+				id="progressOuter"
+				class="circle smooth"
+				stroke="rgba(0, 220, 0, 0.8)"
+				stroke-width="10"
+				fill="transparent"
+				r="100"
+				cx="100"
+				cy="100"
+			/>
+		</svg>
 	</body>
 </html>

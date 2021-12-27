@@ -1,10 +1,13 @@
 Config = {
-	Trackers = {
-		["tracker"] = {
-			Priority = 10,
+	Types = {
+		[1] = { -- Ped.
+			Sprite = 1,
 		},
-		["admin"] = {
-			Priority = 20,
+		[2] = { -- Vehicle.
+			Sprite = 225,
+		},
+		[3] = { -- Object.
+			Sprite = 306,
 		},
 	}
 }

@@ -1,13 +1,13 @@
 Config = {
 	Melee = {
-		Cooldown = 300,
+		Cooldown = 500,
 	},
 	DispatchServices = {
 		[1] = false, -- PoliceAutomobile
 		[2] = false, -- PoliceHelicopter
-		[3] = true, -- FireDepartment
+		[3] = false, -- FireDepartment
 		[4] = false, -- SwatAutomobile
-		[5] = true, -- AmbulanceDepartment
+		[5] = false, -- AmbulanceDepartment
 		[6] = false, -- PoliceRiders
 		[7] = false, -- PoliceVehicleRequest
 		[8] = false, -- PoliceRoadBlock
@@ -33,5 +33,36 @@ Config = {
 		257,
 		263,
 		264,
+	},
+	SuppressedModels = {
+		`jet`,
+		`lazer`,
+		`titan`,
+		`rhino`,
+		`blimp`,
+		`blimp2`,
+		`adder`,
+		`zentorno`,
+		`lazer`,
+		`rhino`,
+	},
+	DisabledGroups = {
+		"BLIMP",
+		"DEALERSHIP",
+	},
+	DisabledTypes = {
+		"WORLD_HUMAN_COP_IDLES",
+		"WORLD_VEHICLE_MILITARY_PLANES_BIG",
+		"WORLD_VEHICLE_MILITARY_PLANES_SMALL",
+		"WORLD_VEHICLE_POLICE_BIKE",
+		"WORLD_VEHICLE_POLICE_CAR",
+		"WORLD_VEHICLE_POLICE_NEXT_TO_CAR",
+		"PROP_HUMAN_ATM",
+		"PROP_HUMAN_BBQ",
+		"CODE_HUMAN_MEDIC_KNEEL",
+		"CODE_HUMAN_MEDIC_TEND_TO_DEAD",
+		"CODE_HUMAN_MEDIC_TIME_OF_DEATH",
+		"CODE_HUMAN_POLICE_CROWD_CONTROL",
+		"CODE_HUMAN_POLICE_INVESTIGATE",
 	},
 }

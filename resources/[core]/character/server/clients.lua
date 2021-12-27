@@ -62,6 +62,11 @@ function Client:AddCharacter(data)
 		return false, validateResult
 	end
 
+	-- Invalid date.
+	if not IsDateValid(data.month, data.day, data.year) then
+		return false, "Invalid date"
+	end
+
 	-- Create character.
 	local character = exports.GHMattiMySQL:QueryResult([[
 		INSERT INTO `characters` SET
@@ -115,11 +120,12 @@ function Client:SelectCharacter(id)
 	self:UpdateLastAction()
 
 	local character = (id and self:GetCharacter(id)) or nil
+	local wasActive = id and Main.responses[id] ~= nil or nil
 	self.activeCharacter = tonumber(id)
 
 	-- Events.
-	TriggerEvent(Main.event.."selected", self.source, character)
-	TriggerClientEvent(Main.event.."select", self.source, id)
+	TriggerEvent(Main.event.."selected", self.source, character, wasActive)
+	TriggerClientEvent(Main.event.."select", self.source, id, wasActive)
 
 	-- Logging.
 	exports.log:Add({

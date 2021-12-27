@@ -7,9 +7,15 @@ function Main:ToggleEngine(source, netId)
 
 	local value = not GetIsVehicleEngineRunning(entity)
 	local hasKey = vehicle:Get("key")
+	local starter = not hasKey and vehicle:Get("starter") or nil
 
 	local vin = vehicle:Get("vin") or ""
 	if vin == "" then return end
+
+	local success = hasKey or starter
+
+	-- Get state.
+	local state = (Entity(entity) or {}).state
 
 	-- No key, check if player has one!
 	if value and not hasKey then
@@ -17,30 +23,59 @@ function Main:ToggleEngine(source, netId)
 		if not playerContainer then return end
 
 		local slot = exports.inventory:ContainerFindFirst(playerContainer, "Vehicle Key", "return slot:GetField(1) == '"..vin.."'")
-		if not slot then return end
+		if slot and exports.inventory:TakeItem(source, "Vehicle Key", 1, slot.slot_id) then
+			success = true
 
-		if not exports.inventory:TakeItem(source, "Vehicle Key", 1, slot.slot_id) then
-			return
+			TriggerClientEvent("playSound", source, "keys", 0.5)
+	
+			vehicle:Set("key", true)
+
+			hasKey = true
 		end
-		
-		TriggerClientEvent("playSound", source, "keys", 0.5)
-
-		vehicle:Set("key", true)
-	end
-
-	-- Has key, take it!
-	if not value and hasKey then
-		exports.inventory:GiveItem(source, {
+	elseif not value and hasKey then
+		local gaveItem, reason = table.unpack(exports.inventory:GiveItem(source, {
 			item = "Vehicle Key",
 			fields = { vin },
-		})
+		}))
 
-		TriggerClientEvent("playSound", source, "keys", 0.5)
+		if gaveItem then
+			TriggerClientEvent("playSound", source, "keys", 0.5)
 
-		vehicle:Set("key", false)
+			vehicle:Set("key", false)
+
+			success = true
+		end
 	end
 
-	TriggerClientEvent("vehicles:toggleEngine", source, netId, value)
+	-- Try hotwiring.
+	if not hasKey and state and state.hotwired then
+		if value and not starter then
+			local playerContainer = exports.inventory:GetPlayerContainer(source, true)
+			if not playerContainer then return end
+
+			local slot = exports.inventory:ContainerFindFirst(playerContainer, "Screwdriver")
+			if slot and exports.inventory:TakeItem(source, "Screwdriver", 1, slot.slot_id) then
+				vehicle:Set("starter", slot.durability or 1.0)
+
+				success = true
+			end
+		elseif not value and starter then
+			local gaveItem, reason = table.unpack(exports.inventory:GiveItem(source, {
+				item = "Screwdriver",
+				durability = starter < 0.99 and starter or nil,
+			}))
+
+			if gaveItem then
+				success = true
+
+				vehicle:Set("starter", nil)
+			end
+		end
+	end
+
+	if success then
+		TriggerClientEvent("vehicles:toggleEngine", source, netId, value)
+	end
 end
 
 function Main:GiveKey(source, netId)

@@ -111,3 +111,11 @@ local query = LoadQuery(path)
 RunQuery(path)
 WaitForTable(table)
 ```
+
+#### Players
+`GetActivePlayers` is only available on the client-side, but this function creates a useful alternative for the server-side.
+```Lua
+for source in GetActivePlayers() do
+	-- Do something with player.
+end
+```

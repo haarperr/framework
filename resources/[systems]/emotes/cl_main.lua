@@ -15,12 +15,22 @@ end
 
 function Main:Update()
 	local ped = PlayerPedId()
+	local ragdoll = IsPedRagdoll(ped) or nil
+	local wasCancelled = false
+
+	if self.ragdoll ~= ragdoll then
+		self.ragdoll = ragdoll
+		wasCancelled = not ragdoll
+	end
+
+	if ragdoll then return end
 
 	for id, emote in pairs(self.playing) do
 		local settings = emote.settings or {}
-		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3)
+		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3) and not wasCancelled
 
 		if
+			not settings.NoReplay and
 			not emote.noAutoplay and
 			((emote.ped and emote.ped ~= ped) or
 			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0))
@@ -70,23 +80,43 @@ end
 function Main:Play(data, force)
 	-- Load prefab emote from string.
 	if type(data) == "string" then
-		data = self.emotes[data]
-	elseif not data then
-		return
-	end
+		local name = data
 
-	-- Check weapon.
-	if data.Unarmed or data.Armed then
-		local weaponGroup = exports.weapons:GetWeaponGroup()
-		if weaponGroup and weaponGroup.Anim and data.Armed then
-			data = data.Armed[weaponGroup.Anim]
-		elseif (not weaponGroup or not weaponGroup.Anim) and data.Unarmed then
-			data = data.Unarmed
-		else
+		data = self.emotes[data]
+		if not data then return end
+
+		if data.Source and data.Target then
+			TriggerServerEvent("emotes:invite", name)
+
 			return
 		end
+	end
 
-		if not data then return end
+	-- Check data.
+	if type(data) ~= "table" then return end
+
+	-- Get ped.
+	local ped = PlayerPedId()
+	
+	-- Set coords.
+	if data.ServerId then
+		local player = GetPlayerFromServerId(data.ServerId)
+		local playerPed = GetPlayerPed(player)
+		local coords = data.Offset and GetOffsetFromEntityInWorldCoords(playerPed, data.Offset)
+		local heading = data.Heading and GetEntityHeading(playerPed) + data.Heading
+
+		if coords then
+			data.Coords = coords
+		end
+
+		if heading then
+			data.Heading = heading
+		end
+	end
+
+	-- Check species.
+	if not IsPedHuman(ped) and not data.Animal then
+		return
 	end
 
 	-- Clear queue.
@@ -170,7 +200,7 @@ function Main:Stop(p1, p2)
 
 	-- Stop the actual animation.
 	if #self.queue == 0 and not isLocked then
-		if (not cancelEmote and p1) or p2 == true then
+		if (not cancelEmote and p1 and p2 == nil) or p2 == true then
 			ClearPedTasksImmediately(ped)
 		elseif p2 ~= 2 then
 			ClearPedTasks(ped)
@@ -268,6 +298,25 @@ end)
 --[[ Events ]]--
 AddEventHandler("emotes:clientStart", function()
 	Main:Init()
+end)
+
+RegisterNetEvent("emotes:playData", function(data, force, time)
+	local state = (LocalPlayer or {}).state
+	if state and state.immobile then return end
+
+	if time then
+		data.Freeze = true
+
+		local ped = PlayerPedId()
+		ClearPedTasksImmediately(ped)
+		FreezeEntityPosition(ped, true)
+		
+		while GetNetworkTimeAccurate() < time do
+			Citizen.Wait(0)
+		end
+	end
+
+	Main:Play(data, force)
 end)
 
 RegisterNetEvent("instances:join", function(id)

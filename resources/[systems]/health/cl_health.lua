@@ -10,14 +10,31 @@ Main = {
 
 --[[ Functions ]]--
 function Main:Init()
+	-- Cache bones.
 	self.boneIds = {}
+
 	for boneId, settings in pairs(Config.Bones) do
 		if settings.Name and not settings.Fallback then
 			self.bones[boneId] = Bone:Create(boneId, settings.Name)
 			self.boneIds[#self.boneIds + 1] = boneId
 		end
 	end
+
+	-- Build navigation.
 	self:BuildNavigation()
+
+	-- Add player navigation.
+	exports.players:AddOption({
+		id = "healthExaminePlayer",
+		text = "Examine",
+		icon = "visibility",
+	})
+
+	exports.players:AddOption({
+		id = "healthHelp",
+		text = "Help Up",
+		icon = "front_hand",
+	})
 end
 
 function Main:Update()
@@ -31,17 +48,14 @@ function Main:Update()
 		SetEntityHealth(Ped, 1000)
 		SetPedDiesInWater(Ped, false)
 		SetPedDiesInstantlyInWater(Ped, false)
-	end
-
-	if IsPedDeadOrDying(Ped) then
-		ResurrectPed(Ped)
-		ClearPedTasksImmediately(Ped)
+		SetPedConfigFlag(Ped, 3, false)
 	end
 end
 
 function Main:Sync()
 	local payload = {
 		effects = {},
+		history = {},
 		info = {},
 	}
 
@@ -58,6 +72,9 @@ function Main:Sync()
 	for boneId, bone in pairs(self.bones) do
 		if next(bone.info) ~= nil then
 			payload.info[boneId] = bone.info
+		end
+		if next(bone.history) ~= nil then
+			payload.history[boneId] = bone.history
 		end
 	end
 
@@ -76,8 +93,7 @@ function Main:Sync()
 	TriggerServerEvent("health:sync", payload)
 	
 	-- Debug.
-	print("Updating snowflake", self.snowflake)
-	TriggerEvent("chat:addMessage", { text = json.encode(payload) })
+	print("Updating snowflake", self.snowflake, json.encode(payload))
 end
 
 function Main:Restore(data)
@@ -86,7 +102,8 @@ function Main:Restore(data)
 	end
 	
 	for boneId, bone in pairs(self.bones) do
-		bone.info = data.info and data.info[boneId] or data.info[tostring(boneId)] or {}
+		bone.info = data.info and (data.info[boneId] or data.info[tostring(boneId)]) or {}
+		bone.history = data.history and (data.history[boneId] or data.history[tostring(boneId)]) or {}
 		bone:UpdateInfo()
 	end
 end
@@ -102,7 +119,7 @@ function Main:AddListener(_type, cb)
 end
 
 function Main:InvokeListener(_type, ...)
-	if not self.loaded then return end
+	if not self.isLoaded then return end
 
 	local listeners = self.listeners[_type]
 	if not listeners then return false end
@@ -116,14 +133,7 @@ end
 
 function Main:GetBone(boneId)
 	local settings = Config.Bones[boneId or false]
-	if not settings then return end
-	
-	if settings.Fallback then
-		settings = Config.Bones[settings.Fallback]
-		if not settings then return end
-	end
-
-	return self.bones[boneId]
+	return self.bones[settings and settings.Fallback or boneId]
 end
 
 function Main:UpdateInfo()
@@ -137,7 +147,7 @@ function Main:UpdateInfo()
 end
 
 function Main:SetEffect(name, value)
-	if not self.loaded then return end
+	if not self.isLoaded then return end
 
 	value = math.min(math.max(value, 0.0), 1.0)
 	
@@ -165,7 +175,9 @@ end
 Export(Main, "GetEffect")
 
 function Main:AddEffect(name, amount)
-	local effect = self.effects[name] or 0.0
+	local effect = self.effects[name]
+	if not effect then return end
+	
 	self:SetEffect(name, effect + amount)
 end
 Export(Main, "AddEffect")
@@ -177,15 +189,28 @@ function Main:ResetEffects()
 end
 Export(Main, "ResetEffects")
 
+
+function Main:GetHealth()
+	return self.effects["Health"] or 1.0
+end
+Export(Main, "GetHealth")
+
 function Main:ResetInfo()
 	ClearPedBloodDamage(Ped)
 
 	for boneId, bone in pairs(self.bones) do
 		bone.info = {}
+		bone.history = {}
 	end
 
 	self:UpdateInfo()
 	self:InvokeListener("ResetInfo")
+end
+
+function Main:GetUp()
+	if self:GetHealth() then
+		self:SetEffect("Health", 0.1)
+	end
 end
 
 function Main:UpdateSnowflake()
@@ -202,12 +227,12 @@ end
 function Main:BuildNavigation()
 	local options = {
 		{
-			id = "health-examine",
+			id = "healthExamine",
 			text = "Examine",
 			icon = "visibility",
 		},
 		{
-			id = "health-status",
+			id = "healthStatus",
 			text = "Quick Status",
 			icon = "accessibility",
 		},
@@ -223,15 +248,29 @@ function Main:BuildNavigation()
 	})
 end
 
+function Main:IsInjuryPresent(name, group)
+	local lookupTable = type(name) == "table"
+	for id, bone in pairs(self.bones) do
+		if bone.history and (not group or group == bone:GetGroup()) then
+			for k, event in ipairs(bone.history) do
+				if (lookupTable and name[event.name]) or (not lookupTable and event.name == name) then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
+
 --[[ Events ]]--
 AddEventHandler("health:clientStart", function()
 	Main:Init()
 end)
 
 AddEventHandler("health:start", function()
-	Main.loaded = true
+	Main.isLoaded = true
 
-	while not Menu.loaded do
+	while not Menu.isLoaded do
 		Citizen.Wait(0)
 	end
 
@@ -243,14 +282,21 @@ end)
 
 AddEventHandler("character:selected", function(character)
 	if not character then
+		if Treatment.ped then
+			Treatment:End()
+		end
+
 		Main:ResetInfo()
 		Main:ResetEffects()
-		Main.loaded = nil
+		Main.isLoaded = nil
+
+		Ped = nil
+		Player = nil
 
 		return
 	end
 
-	Main.loaded = true
+	Main.isLoaded = true
 
 	if character.health then
 		Main:Restore(character.health)
@@ -268,8 +314,11 @@ AddEventHandler("onEntityDamaged", function(data)
 
 	-- local weaponDamage = GetWeaponDamage(data.weapon)
 	-- local damageRatio = (weaponDamage or rawDamage or 0) / Config.MaxHealth
+	local bone = data.pedBone or 11816
 
-	Main:InvokeListener("TakeDamage", data.weapon, data.pedBone or 11816, data)
+	print("entity damage", data.weapon, bone)
+	
+	Main:InvokeListener("TakeDamage", data.weapon, bone, data)
 end)
 
 --[[ Events: Net ]]--
@@ -279,6 +328,10 @@ RegisterNetEvent("health:revive", function(resetEffects)
 	if resetEffects then
 		Main:ResetEffects()
 	end
+end)
+
+RegisterNetEvent("health:getup", function(resetEffects)
+	Main:GetUp()
 end)
 
 RegisterNetEvent("health:slay", function()
@@ -303,6 +356,38 @@ RegisterNetEvent("health:resetEffects", function()
 	Main:ResetEffects()
 end)
 
+RegisterNetEvent("health:sync", function(serverId, data, status)
+	local player = GetPlayerFromServerId(serverId)
+	local ped = GetPlayerPed(player)
+	if ped == PlayerPedId() then return end
+
+	local bones = {}
+	for boneId, settings in pairs(Config.Bones) do
+		local info = data.info and (data.info[boneId] or data.info[tostring(boneId)])
+		local history = data.history and (data.history[boneId] or data.history[tostring(boneId)])
+
+		if info or history then
+			local bone = Bone:Create(boneId, settings.Name)
+			bone.info = info or {}
+			bone.history = history or {}
+
+			bones[boneId] = bone
+		end
+	end
+
+	if Treatment.ped == ped then
+		Treatment:SetBones(bones)
+	else
+		Treatment:Begin(ped, bones, serverId, status)
+	end
+end)
+
+RegisterNetEvent("health:updateStatus", function(serverId, status)
+	if Treatment.serverId == serverId and Treatment.window then
+		Treatment.window:SetModel("status", status)
+	end
+end)
+
 --[[ NUI Callbacks ]]--
 RegisterNUICallback("init", function(data, cb)
 	Menu:Init()
@@ -314,7 +399,10 @@ end)
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		Main:Update()
+		if Main.isLoaded then
+			Main:Update()
+		end
+
 		Citizen.Wait(0)
 	end
 end)
@@ -323,6 +411,11 @@ Citizen.CreateThread(function()
 	local lastUpdate = GetGameTimer()
 	
 	while true do
+		-- Wait to loading.
+		while not Main.isLoaded do
+			Citizen.Wait(0)
+		end
+
 		-- Cache walkstyle.
 		local walkstyle = Main.walkstyle
 		Main.walkstyle = nil
@@ -330,6 +423,16 @@ Citizen.CreateThread(function()
 		-- Update delta.
 		DeltaTime = GetGameTimer() - lastUpdate
 		MinutesToTicks = 1.0 / 60000.0 * DeltaTime
+
+		-- Update effects.
+		for _, effect in ipairs(Config.Effects) do
+			if effect.Passive then
+				local value = Main.effects[effect.Name]
+				if value then
+					Main:SetEffect(effect.Name, value + MinutesToTicks / effect.Passive)
+				end
+			end
+		end
 
 		-- Update functions.
 		for name, func in pairs(Main.update) do
@@ -350,7 +453,7 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		if Main.loaded and Main.snowflake ~= Main.snowflakeSynced then
+		if Main.isLoaded and Main.snowflake ~= Main.snowflakeSynced then
 			Main:Sync()
 		end
 
