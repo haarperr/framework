@@ -25,3 +25,5 @@ RegisterNetEvent("instances:leave", function(id)
 		Main.instance = nil
 	end
 end)
+
+print("Test")
