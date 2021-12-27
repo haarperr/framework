@@ -93,7 +93,7 @@ function Npc:CacheGrid()
 	end
 
 	-- Get grid.
-	local gridId = Grids:GetGrid(self.coords, Npcs.Config.GridSize)
+	local gridId = self.instance or Grids:GetGrid(self.coords, Npcs.Config.GridSize)
 	local grid = Npcs.grids[gridId]
 	if not grid then
 		grid = {}
