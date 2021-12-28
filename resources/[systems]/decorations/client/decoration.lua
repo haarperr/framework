@@ -2,28 +2,26 @@ Decoration = {}
 Decoration.__index = Decoration
 
 function Decoration:Create(data)
-	-- Get item.
-	local item = exports.inventory:GetItem(data.item_id)
-	if not item then return end
+	-- Create instance.
+	self = setmetatable(data, Decoration)
 
-	-- Get settings.
-	local settings = Decorations[item.name]
-	if not settings then return end
+	-- Get item.
+	local item = data.item_id and exports.inventory:GetItem(data.item_id)
 
 	-- Cache grid id.
 	local gridId = data.instance or data.grid
 	
 	-- Debug.
-	Debug("Created decoration: %s in %s", item.name, gridId)
+	Debug("Created decoration: %s in %s", item and item.name or data.id, gridId)
 
-	-- Create instance.
-	local decoration = setmetatable(data, Decoration)
+	-- Cache settings.
+	self.settings = (item and Decorations[item.name]) or self.settings or {}
 
-	decoration.settings = settings
-	decoration:CreateModel()
+	-- Create model.
+	self:CreateModel()
 
 	-- Cache instance.
-	Main.decorations[data.id] = decoration
+	Main.decorations[data.id] = self
 	
 	-- Add to grid.
 	local grid = Main.grids[gridId]
@@ -32,10 +30,10 @@ function Decoration:Create(data)
 		Main.grids[gridId] = grid
 	end
 
-	grid[data.id] = decoration
+	grid[data.id] = self
 
 	-- Return instance.
-	return decoration
+	return self
 end
 
 function Decoration:Destroy()
@@ -140,17 +138,17 @@ function Decoration:CreateModel()
 
 	-- Get coords.
 	local coords = self.coords
-	local rotation = self.rotation
+	local rotation = self.rotation or vector3(0.0, 0.0, self.heading or 0.0)
 
 	-- Get model.
-	local model = Main:GetModel(settings, self.variant)
-
+	local model = self.model or Main:GetModel(settings, self.variant)
 	if type(model) == "table" then
 		model = model.Name
 	end
 
 	-- Request model.
 	if not WaitForRequestModel(model) then
+		print(("decoration '%s' failed to load model '%s'"):format(self.id, model))
 		return
 	end
 
@@ -186,5 +184,5 @@ function Decoration:CreateModel()
 end
 
 function Decoration:GetSettings()
-	return Decorations[self.item]
+	return Decorations[self.item] or self.settings or {}
 end
