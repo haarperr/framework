@@ -103,7 +103,7 @@ function Marking:RemoveSticker(entity)
 	exports.interact:ClearOptions(entity)
 
 	for i = 1, 5 do
-		exports.interact:Suppress()
+		TriggerEvent("interact:suppress")
 		Citizen.Wait(200)
 	end
 end

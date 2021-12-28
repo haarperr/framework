@@ -473,15 +473,16 @@ exports("ClearOptions", function(entity)
 	Interaction:ClearOptions()
 end)
 
-exports("Suppress", function()
-	Interaction.lastSuppress = GetGameTimer()
-end)
-
 --[[ NUI Callbacks ]]--
 RegisterNUICallback("ready", function(data, cb)
 	cb(true)
 	
 	Interaction.ready = true
+end)
+
+--[[ Events ]]--
+AddEventHandler("interact:suppress", function()
+	Interaction.lastSuppress = GetGameTimer()
 end)
 
 --[[ Threads ]]--

@@ -410,7 +410,7 @@ function Treatment:Update()
 	end
 
 	-- Suppress interacts.
-	exports.interact:Suppress()
+	TriggerEvent("interact:suppress")
 
 	-- Cooldowns.
 	if self.lastUpdateCursor and GetGameTimer() - self.lastUpdateCursor < 100 then

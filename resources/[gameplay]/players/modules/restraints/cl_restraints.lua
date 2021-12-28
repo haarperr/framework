@@ -143,7 +143,7 @@ function Restraints:UpdateState(delta)
 	end
 
 	-- Disable interact.
-	exports.interact:Suppress()
+	TriggerEvent("interact:suppress")
 end
 
 function Restraints:UseItem(item, slot)

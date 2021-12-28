@@ -49,7 +49,7 @@ function Main:Update()
 	
 	-- Suppress interact.
 	if GetResourceState("interact") == "started" then
-		exports.interact:Suppress()
+		TriggerEvent("interact:suppress")
 	end
 end
 
