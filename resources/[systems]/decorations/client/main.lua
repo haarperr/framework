@@ -158,11 +158,11 @@ AddEventHandler("interact:navigate", function(value)
 	end
 
 	local target = Main:GetTarget()
-	if not target or not target.item_id then return end
+	if not target then return end
 
-	target:OnSelect()
-
-	Main.selection = target
+	if target:OnSelect() then
+		Main.selection = target
+	end
 end)
 
 AddEventHandler("interact:onNavigate", function(id)

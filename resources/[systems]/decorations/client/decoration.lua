@@ -75,29 +75,38 @@ function Decoration:Update(dist)
 end
 
 function Decoration:OnSelect()
-	self.isSelected = true
-
-	-- Visual effects.
-	SetEntityAlpha(self.entity, 192)
-
 	-- Get settings.
 	local settings = self:GetSettings()
 	if not settings then return end
 
+	local hasOptions = false
+
 	-- Add navigation.
-	exports.interact:AddOption({
-		id = "decorationPickup",
-		text = "Pickup",
-		icon = "gavel",
-	})
+	if not self.temporary and self.item_id then
+		hasOptions = true
+		exports.interact:AddOption({
+			id = "decorationPickup",
+			text = "Pickup",
+			icon = "gavel",
+		})
+	end
 
 	if settings.Station then
+		hasOptions = true
 		exports.interact:AddOption({
 			id = "decorationCrafting",
 			text = settings.Station.Type,
 			icon = "construction",
 		})
 	end
+
+	-- Visual effects.
+	if hasOptions then
+		self.isSelected = true
+		SetEntityAlpha(self.entity, 192)
+	end
+
+	return hasOptions
 end
 
 function Decoration:OnDeselect()

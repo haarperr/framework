@@ -193,7 +193,7 @@ function Main:Pickup(source, id)
 	if type(id) ~= "number" then return false end
 
 	local decoration = self.decorations[id]
-	if not decoration then return false end
+	if not decoration or decoration.temporary or not decoration.item_id then return false end
 
 	-- Check container.
 	if decoration.container_id and not exports.inventory:ContainerIsEmpty(decoration.container_id) then
