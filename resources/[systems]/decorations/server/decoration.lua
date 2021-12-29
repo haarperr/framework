@@ -133,9 +133,13 @@ function Decoration:Unload()
 end
 
 function Decoration:Update()
+	if not self.start_time then
+		return
+	end
+
 	-- Get settings.
 	local settings = self:GetSettings()
-	if not settings then return end
+	if not settings or settings.NoDecay then return end
 	
 	-- Get age (in hours).
 	local age = (os.time() * 1000 - self.start_time) / 3600000
