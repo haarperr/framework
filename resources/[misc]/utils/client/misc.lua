@@ -89,6 +89,16 @@ function MoveToCoords(coords, heading, snap, timeout)
 	TaskGoToCoordAnyMeans(ped, coords.x, coords.y, coords.z, 1.0, 0, 0, 786603, 0xbf800000)
 
 	Citizen.Wait(100)
+	
+	if GetNavmeshRouteResult(ped) == 1 then
+		SetEntityCoordsNoOffset(ped, coords.x, coords.y, coords.z, true)
+		
+		if heading then
+			SetEntityHeading(ped, heading)
+		end
+		
+		return true
+	end
 
 	local startTime = GetGameTimer()
 
