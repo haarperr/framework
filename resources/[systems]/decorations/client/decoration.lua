@@ -164,6 +164,10 @@ function Decoration:CreateModel()
 
 	SetModelAsNoLongerNeeded(model)
 
+	if self.invisible then
+		SetEntityVisible(entity, false, 0)
+	end
+
 	self.entity = entity
 	Main.entities[entity] = self
 
