@@ -41,6 +41,11 @@ function Shop:Create(id, info)
 		end
 	end
 
+	-- Load shop.
+	if self.Load then
+		self:Load()
+	end
+
 	-- Cache shop.
 	Main.shops[id] = self
 
