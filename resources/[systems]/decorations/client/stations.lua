@@ -63,7 +63,7 @@ function Decoration:EnterStation()
 	-- Play anim.
 	local anim = station.Anim
 	if anim and anim.In then
-		exports.emotes:Play(anim.In)
+		self.emote = exports.emotes:Play(anim.In)
 	end
 
 	-- Check occupied, again.
@@ -100,7 +100,10 @@ function Decoration:LeaveStation(skipEvent)
 	end
 
 	-- Cancel emote.
-	exports.emotes:Stop(true)
+	if self.emote then
+		exports.emotes:Stop(self.emote)
+		self.emote = nil
+	end
 end
 
 --[[ Functions: Main ]]--
