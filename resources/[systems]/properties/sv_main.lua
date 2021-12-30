@@ -45,10 +45,6 @@ function Main:LoadProperties()
 			self.properties[property.id] = Property:Create(info or { id = property.id })
 			count = count + 1
 		end
-
-		if k % 100 == 0 then
-			Citizen.Wait(0)
-		end
 	end
 
 	-- Debug.
@@ -64,7 +60,9 @@ end
 
 --[[ Events ]]--
 AddEventHandler("properties:start", function()
-	Main:Init()
+	Citizen.CreateThread(function()
+		Main:Init()
+	end)
 end)
 
 --[[ Events: Net ]]--
