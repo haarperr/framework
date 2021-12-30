@@ -7,12 +7,8 @@ end
 
 function Main:LoadDatabase()
 	WaitForTable("characters")
-
-	for _, path in ipairs({
-		"sql/properties.sql",
-	}) do
-		RunQuery(path)
-	end
+	
+	RunQuery("sql/properties.sql")
 end
 
 function Main:LoadProperties()

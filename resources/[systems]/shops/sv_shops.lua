@@ -1,4 +1,17 @@
 --[[ Functions: Main ]]--
+function Main:_Init()
+	self:LoadDatabase()
+end
+
+function Main:LoadDatabase()
+	WaitForTable("decorations")
+
+	for _, path in ipairs({
+		"sql/shops.sql",
+	}) do
+		RunQuery(path)
+	end
+end
 
 --[[ Functions: Shop ]]--
 function Shop:Load()
