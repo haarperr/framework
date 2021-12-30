@@ -19,6 +19,8 @@ function Main:LoadDatabase()
 end
 
 function Main:LoadProperties()
+	WaitForTable("properties")
+
 	-- Load property info from database.
 	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
 	local cache = {}
@@ -42,6 +44,10 @@ function Main:LoadProperties()
 
 			self.properties[property.id] = Property:Create(info or { id = property.id })
 			count = count + 1
+		end
+
+		if k % 100 == 0 then
+			Citizen.Wait(0)
 		end
 	end
 
