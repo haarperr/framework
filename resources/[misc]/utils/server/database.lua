@@ -84,6 +84,8 @@ end
 
 function RunQuery(path)
 	exports.GHMattiMySQL:Query(LoadQuery(path))
+
+	Citizen.Wait(0)
 end
 
 function WaitForTable(table)
@@ -104,4 +106,6 @@ function WaitForTable(table)
 	}) ~= 1 do
 		Citizen.Wait(200)
 	end
+
+	Citizen.Wait(0)
 end
