@@ -11,16 +11,11 @@ function Main:LoadDatabase()
 	for _, path in ipairs({
 		"sql/properties.sql",
 	}) do
-		exports.GHMattiMySQL:Query(LoadQuery(path))
+		RunQuery(path)
 	end
-
-	-- local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
-
 end
 
 function Main:LoadProperties()
-	WaitForTable("properties")
-
 	-- Load property info from database.
 	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
 	local cache = {}
@@ -60,9 +55,7 @@ end
 
 --[[ Events ]]--
 AddEventHandler("properties:start", function()
-	Citizen.CreateThread(function()
-		Main:Init()
-	end)
+	Main:Init()
 end)
 
 --[[ Events: Net ]]--
