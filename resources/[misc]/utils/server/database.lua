@@ -25,17 +25,6 @@ local types = {
 	["timestamp"] = "number",
 }
 
-local function IsServerStarting()
-	for i = 0, GetNumResources() - 1 do
-		local resource = GetResourceByFindIndex(i)
-		local state = GetResourceState(resource)
-		if state == "starting" then
-			return true
-		end
-	end
-	return false
-end
-
 function DescribeTable(table)
 	local output = {}
 	local columns = exports.GHMattiMySQL:QueryResult("DESCRIBE `"..table.."`")
@@ -98,21 +87,17 @@ function RunQuery(path)
 end
 
 function WaitForTable(table)
-	while IsServerStarting() do
-		Citizen.Wait(200)
-	end
-
 	local schema = GetConvar("mysql_schema", "")
 	if schema == "" then return end
 
-	while exports.GHMattiMySQL:QueryResult([[
+	while exports.GHMattiMySQL:QueryScalar([[
 		SELECT 1 FROM information_schema.tables
 		WHERE table_schema=@schema AND table_name=@table
 		LIMIT 1;
 	]], {
 		["@schema"] = schema,
 		["@table"] = table,
-	})[1] ~= 1 do
+	}) ~= 1 do
 		Citizen.Wait(200)
 	end
 end
