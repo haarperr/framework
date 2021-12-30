@@ -24,6 +24,9 @@ function Main:Init()
 	
 	-- Load players.
 	self:LoadPlayers()
+
+	-- Cache initializaiton.
+	self.init = true
 end
 
 function Main:LoadDatabase()
@@ -235,6 +238,10 @@ end
 --[[ Exports ]]--
 exports("Register", function(data)
 	data.resource = GetInvokingResource()
+
+	while not Main.init do
+		Citizen.Wait(50)
+	end
 
 	return Main:Register(data)
 end)
