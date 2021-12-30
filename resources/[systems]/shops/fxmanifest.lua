@@ -4,6 +4,8 @@ game 'gta5'
 lua54 'yes'
 
 dependencies {
+	'decorations',
+	'inventory',
 	'npcs',
 }
 
