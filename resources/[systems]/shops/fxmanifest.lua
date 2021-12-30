@@ -1,8 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 
-lua54 'yes'
-
 dependencies {
 	'decorations',
 	'inventory',
@@ -23,6 +21,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/database.lua',
 	'@utils/server/players.lua',
 	'@npcs/server.lua',
 	'sv_shops.lua',
