@@ -90,6 +90,10 @@ function WaitForTable(table)
 	local schema = GetConvar("mysql_schema", "")
 	if schema == "" then return end
 
+	while GetResourceState("GHMattiMySQL") ~= "started" do
+		Citizen.Wait(200)
+	end
+
 	while exports.GHMattiMySQL:QueryScalar([[
 		SELECT 1 FROM information_schema.tables
 		WHERE table_schema=@schema AND table_name=@table
