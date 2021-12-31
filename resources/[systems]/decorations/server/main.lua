@@ -63,8 +63,7 @@ function Main:ConvertData(data)
 end
 
 function Main:LoadDecorations()
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `instance` IS NULL")
-
+	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `instance` IS NULL AND `persistent`=0")
 	for _, data in ipairs(result) do
 		self:ConvertData(data)
 		Decoration:Create(data)
@@ -196,7 +195,7 @@ function Main:Pickup(source, id)
 	if type(id) ~= "number" then return false end
 
 	local decoration = self.decorations[id]
-	if not decoration or decoration.temporary or not decoration.item_id then return false end
+	if not decoration or not decoration.item_id or decoration.temporary or decoration.persistent then return false end
 
 	-- Check container.
 	if decoration.container_id and not exports.inventory:ContainerIsEmpty(decoration.container_id) then
@@ -231,19 +230,64 @@ function Main:Pickup(source, id)
 	end
 end
 
-function Main:Register(data)
+function Main:RegisterDecoration(data)
 	return Decoration:Create(data)
 end
 
+function Main:LoadDecoration(data, shouldCreate)
+	if data.id then
+		-- Load from cache.
+		local decoration = self.decorations[data.id]
+		if decoration then
+			for k, v in pairs(data) do
+				decoration[k] = v
+			end
+
+			return decoration
+		end
+
+		-- Load from database.
+		local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `id`=@id LIMIT 1", {
+			["@id"] = data.id,
+		})[1]
+
+		if result then
+			self:ConvertData(result)
+			
+			for k, v in pairs(data) do
+				result[k] = v
+			end
+
+			return Decoration:Create(result)
+		else
+			data.id = nil
+		end
+	end
+
+	if shouldCreate then
+		return Decoration:Create(data)
+	end
+end
+
 --[[ Exports ]]--
-exports("Register", function(data)
+exports("RegisterDecoration", function(data)
 	data.resource = GetInvokingResource()
 
 	while not Main.init do
 		Citizen.Wait(50)
 	end
 
-	return Main:Register(data)
+	return Main:RegisterDecoration(data)
+end)
+
+exports("LoadDecoration", function(data, shouldCreate)
+	data.resource = GetInvokingResource()
+
+	while not Main.init do
+		Citizen.Wait(50)
+	end
+
+	return Main:LoadDecoration(data, shouldCreate)
 end)
 
 --[[ Events ]]--

@@ -43,9 +43,9 @@ function Decoration:Create(data)
 			["@pos_x"] = data.coords.x,
 			["@pos_y"] = data.coords.y,
 			["@pos_z"] = data.coords.z,
-			["@rot_x"] = data.rotation.x,
-			["@rot_y"] = data.rotation.y,
-			["@rot_z"] = data.rotation.z,
+			["@rot_x"] = data.rotation and data.rotation.x or 0.0,
+			["@rot_y"] = data.rotation and data.rotation.y or 0.0,
+			["@rot_z"] = data.rotation and data.rotation.z or data.heading or 0.0,
 		}
 
 		for key, _ in pairs(Server.Properties) do

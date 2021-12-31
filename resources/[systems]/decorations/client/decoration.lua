@@ -82,7 +82,7 @@ function Decoration:OnSelect()
 	local hasOptions = false
 
 	-- Add navigation.
-	if not self.temporary and self.item_id then
+	if not self.temporary and not self.persistent and self.item_id then
 		hasOptions = true
 		exports.interact:AddOption({
 			id = "decorationPickup",
