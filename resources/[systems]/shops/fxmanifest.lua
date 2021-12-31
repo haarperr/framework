@@ -12,6 +12,7 @@ shared_scripts {
 	'sh_templates.lua',
 	'sh_config.lua',
 	'sh_shops.lua',
+	'shops/*.lua',
 }
 
 client_scripts {

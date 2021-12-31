@@ -7,8 +7,12 @@ Shop.__index = Shop
 
 --[[ Functions: Main ]]--
 function Main:Init()
-	for k, shop in ipairs(Config.Shops) do
-		self:RegisterShop(k, shop)
+	if self._Init then
+		self:_Init()
+	end
+
+	for id, shop in pairs(Config.Shops) do
+		self:RegisterShop(id, shop)
 	end
 end
 
