@@ -52,6 +52,7 @@ end
 function Main:ConvertData(data)
 	data.coords = vector3(data.pos_x, data.pos_y, data.pos_z)
 	data.rotation = vector3(data.rot_x, data.rot_y, data.rot_z)
+	data.persistent = data.persistent == 1
 	
 	data.pos_x = nil
 	data.pos_y = nil
