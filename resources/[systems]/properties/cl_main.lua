@@ -305,7 +305,7 @@ AddEventHandler("interact:onNavigate_enterProperty", function(option)
 	local property, dist = Main:FindNearestProperty(coords)
 	if not property then return end
 
-	local shell = "apartment_lg1"
+	local shell = "motel"
 
 	Main.entry = property.coords
 	Main:EnterShell(shell, property.coords + vector4(0.0, 0.0, 200.0, 0.0))
@@ -347,8 +347,6 @@ exports.chat:RegisterCommand("a:createshells", function(source, args, command)
 		SetEntityLights(entity, false)
 
 		print(k, model)
-
-		Citizen.Wait(1000)
 	end
 end, {
 	description = "Instance all interior shells."
