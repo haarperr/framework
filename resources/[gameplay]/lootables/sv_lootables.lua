@@ -44,6 +44,11 @@ function Main:Loot(source, model, coords)
 	if not _type then
 		return false
 	end
+
+	-- Check container.
+	if not _type.Container then
+		error(("[%s] looting container without container defined (%s, %s)"):format(source, model, coords))
+	end
 	
 	-- Check already exists.
 	if self:FindLootable(coords) then
@@ -67,12 +72,41 @@ function Main:Loot(source, model, coords)
 
 	-- Generate loot table.
 	local slots = {}
+	local given = {}
+	local totalChance = 0.0
+
 	for _, item in ipairs(_type.Loot) do
-		if item.chance and GetRandomFloatInRange(0.0, 1.0) < item.chance then
-			slots[#slots + 1] = {
-				item = item.item,
-				quantity = type(item.quantity) == "table" and GetRandomIntInRange(table.unpack(item.quantity)) or item.quantity,
-			}
+		if item.chance then
+			totalChance = totalChance + item.chance
+		end
+	end
+
+	local count = math.ceil(
+		math.pow(GetRandomFloatInRange(0.0, 1.0), _type.Exponential or 2.0) *
+		((_type.Container.width or 1) * (_type.Container.height or 1))
+	)
+
+	for i = 1, count do
+		local chance = GetRandomFloatInRange(0.0, totalChance)
+		local probability = 0.0
+
+		for _, item in ipairs(_type.Loot) do
+			if not given[item.name] and item.chance then
+				probability = probability + item.chance
+
+				if probability >= chance then
+					slots[#slots + 1] = {
+						item = item.name,
+						durability = type(item.durability) == "table" and GetRandomFloatInRange(table.unpack(item.durability)) or tonumber(item.durability),
+						quantity = type(item.quantity) == "table" and GetRandomIntInRange(table.unpack(item.quantity)) or tonumber(item.quantity),
+					}
+
+					totalChance = totalChance - item.chance
+					given[item.name] = true
+					
+					break
+				end
+			end
 		end
 	end
 
