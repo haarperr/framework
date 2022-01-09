@@ -2,6 +2,12 @@ Preview = {
 	slots = {},
 }
 
+function Preview:IsVisible(ped)
+	ped = ped or self.ped
+
+	return IsEntityVisible(ped) and IsEntityVisibleToScript(ped) and not IsPlayerSwitchInProgress()
+end
+
 function Preview:LoadContainer(container)
 	-- Clear props.
 	self:ClearAll()
@@ -9,7 +15,7 @@ function Preview:LoadContainer(container)
 	-- Update cache.
 	self.containerId = container.id
 	self.ped = PlayerPedId()
-	self.visible = IsEntityVisibleToScript(self.ped)
+	self.visible = self:IsVisible(ped)
 
 	-- Update slots.
 	for slotId, slot in pairs(container.slots) do
@@ -76,26 +82,31 @@ function Preview:Create(id, item)
 	local settings = Config.Previews[preview]
 	if settings == nil then return end
 	
-	-- Get model.
-	local model = GetWeapontypeModel(weapon)
-
-	-- Request model.
-	while IsModelValid(model) and not HasModelLoaded(model) do
-		RequestModel(model)
-		Citizen.Wait(0)
-	end
-
 	-- Get ped.
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
+	
+	-- Check visibile.
+	local entity
+	if self.visible then
+		-- Get model.
+		local model = GetWeapontypeModel(weapon)
 
-	-- Play sound.
-	self:PlaySound()
+		-- Request model.
+		while IsModelValid(model) and not HasModelLoaded(model) do
+			RequestModel(model)
+			Citizen.Wait(0)
+		end
 
-	-- Create object.
-	local entity = CreateObject(model, coords.x, coords.y, coords.z, true, false, false)
-	SetEntityCollision(entity, false, false)
-	SetModelAsNoLongerNeeded(model)
+		-- Play sound.
+		self:PlaySound()
+
+		-- Create object.
+		entity = CreateObject(model, coords.x, coords.y, coords.z, true, false, false)
+
+		SetEntityCollision(entity, false, false)
+		SetModelAsNoLongerNeeded(model)
+	end
 
 	-- Cache settings.
 	local bone = settings.Bone
@@ -112,7 +123,21 @@ function Preview:Create(id, item)
 	end
 
 	-- Immediately attach.
-	AttachEntityToEntity(entity, ped, GetPedBoneIndex(ped, bone), offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, false, false, true, true, 0, true)
+	if entity then
+		AttachEntityToEntity(
+			entity,
+			ped,
+			GetPedBoneIndex(ped, bone),
+			offset.x, offset.y, offset.z,
+			rotation.x, rotation.y, rotation.z,
+			false,
+			false,
+			true,
+			true,
+			0,
+			true
+		)
+	end
 
 	-- Create preview.
 	self.lastInsertIndex = (self.lastInsertIndex or 0) + 1
@@ -154,7 +179,19 @@ function Preview:UpdateObjects()
 			offset = offset + settings.Stack * count
 		end
 
-		AttachEntityToEntity(entity.object, ped, GetPedBoneIndex(ped, entity.bone), offset.x, offset.y, offset.z, rotation.x, rotation.y, rotation.z, false, false, true, true, 0, true)
+		AttachEntityToEntity(
+			entity.object,
+			ped,
+			GetPedBoneIndex(ped, entity.bone),
+			offset.x, offset.y, offset.z,
+			rotation.x, rotation.y, rotation.z,
+			false,
+			false,
+			true,
+			true,
+			0,
+			true
+		)
 
 		counts[entity.preview] = count + 1
 	end
@@ -198,7 +235,7 @@ end
 
 function Preview:UpdatePed()
 	local ped = PlayerPedId()
-	local visible = IsEntityVisibleToScript(ped)
+	local visible = self:IsVisible(ped)
 
 	if self.ped ~= ped or self.visible ~= visible then
 		self:ClearAll(true)
