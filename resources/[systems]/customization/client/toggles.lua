@@ -201,7 +201,16 @@ function Main:ToggleOption(toggle)
 
 	-- Do animation.
 	if toggle.Anims then
-		exports.emotes:Play(toggle.Anims[active and "Off" or "On"])
+		local anim = toggle.Anims[active and "Off" or "On"]
+		local flag = anim.Flag
+
+		if IsPedInAnyVehicle(ped) then
+			anim.Flag = 48
+		end
+
+		exports.emotes:Play(anim)
+
+		anim.Flag = flag
 	end
 
 	if toggle.Delay then
