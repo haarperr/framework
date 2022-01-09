@@ -1,5 +1,5 @@
 Config = {
-	Debug = true,
+	Debug = false,
 	Anims = {
 		Locking = {
 			Dict = "anim@heists@keycard@",
