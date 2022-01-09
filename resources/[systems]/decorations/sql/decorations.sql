@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `decorations` (
 	`item_id` INT(10) UNSIGNED NOT NULL,
 	`character_id` INT(10) UNSIGNED NULL DEFAULT NULL,
 	`container_id` INT(10) UNSIGNED NULL DEFAULT NULL,
+	`persistent` BIT(1) NOT NULL DEFAULT b'0',
 	`variant` TINYINT(3) UNSIGNED NULL DEFAULT NULL,
 	`instance` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
 	`start_time` DATETIME NOT NULL DEFAULT sysdate(),
