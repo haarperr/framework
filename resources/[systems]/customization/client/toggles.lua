@@ -26,7 +26,7 @@ Main.Toggles = {
 			icon = "visibility",
 		},
 		Components = {
-			[1] = 0,
+			[1] = -1,
 		},
 	},
 	["glasses"] = {
@@ -41,7 +41,7 @@ Main.Toggles = {
 			icon = "visibility",
 		},
 		Props = {
-			[1] = 0,
+			[1] = -1,
 		},
 	},
 	["hat"] = {
@@ -56,7 +56,7 @@ Main.Toggles = {
 			icon = "visibility",
 		},
 		Props = {
-			[0] = 0,
+			[0] = -1,
 		},
 	},
 	["bag"] = {
@@ -71,7 +71,7 @@ Main.Toggles = {
 			icon = "visibility",
 		},
 		Components = {
-			[5] = 0,
+			[5] = -1,
 		},
 	},
 	["shirt"] = {
@@ -88,7 +88,7 @@ Main.Toggles = {
 		Components = {
 			[3] = 15, -- Torso
 			[8] = 15, -- Undershirt
-			[10] = 0, -- Badge
+			[10] = -1, -- Badge
 			[11] = 15, -- Jacket
 		},
 	},
@@ -104,7 +104,7 @@ Main.Toggles = {
 			icon = "visibility",
 		},
 		Components = {
-			[9] = 0,
+			[9] = -1,
 		},
 	},
 	["pants"] = {
