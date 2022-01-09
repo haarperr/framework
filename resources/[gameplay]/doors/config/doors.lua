@@ -125,11 +125,11 @@ Config.Doors = {
 	[149284793] = {},
 	[-288803980] = {},
 	[-1547307588] = {},
-	[2130672747] = { Sliding = true, Distance = 5.0, Speed = 0.2, Fob = true },
+	[2130672747] = { Sliding = true, Distance = 3.0, Speed = 0.2, Fob = true },
 	[-53345114] = {},
 	[-1258679973] = {},
-	-- [-1635161509] = { Sliding = true, Distance = 7.0 },
-	-- [-1868050792] = { Sliding = true, Distance = 7.0 },
+	[-1635161509] = { Sliding = true, Fob = true },
+	[-1868050792] = { Sliding = true, Fob = true },
 
 	--[[ Gabz Vanilla Unicorn ]]--
 	[390840000] = {},

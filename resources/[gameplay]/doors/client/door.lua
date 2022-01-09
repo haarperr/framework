@@ -222,8 +222,8 @@ function Door:FindDouble()
 	local id = self.id
 	local door
 
-	for i = 1, 2 do
-		local offset = (i == 1 and right or -right) * (math.max(size.x, size.y) * 2.0)
+	for i = 1, 3 do
+		local offset = i == 3 and vector3(0, 0, 0) or (i == 1 and right or -right) * (math.max(size.x, size.y) * 2.0)
 		local _coords = self.coords + offset
 
 		door = self.group and self.group:FindDoor(_coords, 0.1, function(_entity, _door)

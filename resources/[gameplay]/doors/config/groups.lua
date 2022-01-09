@@ -77,6 +77,10 @@ Config.Groups = {
 		coords = vector3(449.9324035644531, -987.0167236328124, 29.5869255065918),
 		radius = 100,
 		locked = true,
+		overrides = {
+			{ coords = vector3(434.7444, -983.0781, 30.8153), ignore = true },
+			{ coords = vector3(434.7444, -980.7556, 30.8153), ignore = true },
+		},
 	},
 	{
 		name = "Paleto PD",
