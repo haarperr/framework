@@ -57,6 +57,11 @@ function WaitForAccess(entity, timeout)
 end
 
 function Delete(entity)
+	if not NetworkGetEntityIsNetworked(entity) then
+		DeleteEntity(entity)
+		return
+	end
+
 	Citizen.CreateThread(function()
 		while DoesEntityExist(entity) do
 			NetworkRequestControlOfEntity(entity)
