@@ -1,10 +1,9 @@
-Groups = {
+Config.Groups = {
 	{
 		name = "Prison",
 		coords = vector3(1767.4293212890625, 2546.900146484375, 45.55982971191406),
 		radius = 500,
 		locked = true,
-		factions = { "dps", "paramedic", "lssd", "lspd", "judge", "doc", "parole", "lsda", "doctor" },
 		overrides = {
 			{ coords = vector3(1845.197998046875, 2585.239990234375, 46.09928894042969), locked = false }, -- Enterance.
 			{ coords = vector3(1835.5213623046875, 2587.24609375, 46.25360107421875), locked = false }, -- Visitation.
@@ -22,14 +21,12 @@ Groups = {
 		coords = vector3(1843.6820068359375, 3685.4541015625, 34.26052856445312),
 		radius = 260,
 		locked = true,
-		factions = { "lssd", "lspd", "paramedic", "judge", "doc", "parole", "lsda", "doctor", "dps" },
 	},
 	{
 		name = "Pillbox",
 		coords = vector3(321.57473754883, -583.23687744141, 43.279979705811),
 		radius = 50,
 		locked = true,
-		factions = { "dps", "paramedic", "lssd", "lspd", "judge", "doc", "parole", "lsda", "doctor", "hospital" },
 		overrides = {
 			{ coords = vector3(305.22186279296875, -582.3056030273438, 43.43391036987305), locked = false }, -- Main to Ward A (Double).
 			{ coords = vector3(324.23602294921875, -589.2261962890625, 43.43391036987305), locked = false }, -- Main to Ward B (Double).
@@ -51,7 +48,6 @@ Groups = {
 		coords = vector3(-256.3061828613281, 6317.18212890625, 32.42717361450195),
 		radius = 100,
 		locked = true,
-		factions = { "dps", "paramedic", "lssd", "lspd", "judge", "doc", "parole", "lsda", "doctor", "hospital" },
 		overrides = {
 			{ coords = vector3(-249.84161376953128, 6331.81640625, 32.5875015258789), locked = false }, -- Front to reception.
 			{ coords = vector3(-255.3900909423828, 6321.27685546875, 32.46699142456055), locked = false }, -- Beds area.
@@ -64,7 +60,6 @@ Groups = {
 		coords = vector3(-549.9605102539062, -195.8555908203125, 38.22295379638672),
 		radius = 50,
 		locked = true,
-		factions = { "judge", "lsda", "lssd", "lspd", "dps", "doc", "parole" },
 		overrides = {
 			{ coords = vector3(-529.7550048828125, -183.2404937744141, 38.34344100952148), ignore = true },
 			{ coords = vector3(-531.0458374023438, -180.98399353027344, 38.34344100952148), ignore = true },
@@ -78,32 +73,22 @@ Groups = {
 		},
 	},
 	{
-		name = "Courthouse",
-		coords = vector3(242.84796142578128, -1084.075927734375, 28.83721160888672),
-		radius = 50,
-		locked = true,
-		factions = { "judge", "lsda", "lssd", "lspd", "dps", "doc", "parole" },
-	},
-	{
 		name = "MRPD",
 		coords = vector3(449.9324035644531, -987.0167236328124, 29.5869255065918),
-		radius = 60,
+		radius = 100,
 		locked = true,
-		factions = { "lssd", "lspd", "paramedic", "judge", "doc", "parole", "lsda", "doctor", "dps", "mrpd-staff" },
 	},
 	{
 		name = "Paleto PD",
 		coords = vector3(-441.0958251953125, 6005.5146484375, 31.71618270874023),
 		radius = 30,
 		locked = true,
-		factions = { "lssd", "lspd", "paramedic", "judge", "doc", "parole", "lsda", "doctor", "dps" },
 	},
 	{
 		name = "La Mesa PD",
 		coords = vector3(842.8035278320312, -1299.8638916015625, 27.994426727294925),
 		radius = 50,
 		locked = true,
-		factions = { "lssd", "lspd", "paramedic", "judge", "doc", "parole", "lsda", "doctor", "dps" },
 		overrides = {
 			{ coords = vector3(840.211669921875, -1305.703857421875, 23.32078742980957), ignore = true },
 			{ coords = vector3(837.276611328125, -1305.7039794921875, 23.3207893371582), ignore = true },
@@ -115,63 +100,54 @@ Groups = {
 		coords = vector3(373.0433044433594, -1599.5450439453125, 29.29217147827148),
 		radius = 50,
 		locked = true,
-		factions = { "lssd", "lspd", "paramedic", "judge", "doc", "parole", "lsda", "doctor", "dps" },
 	},
 	{
 		name = "Cayo Villa",
 		coords = vector3(5028.58544921875, -5748.40185546875, 16.28327369689941),
 		radius = 250,
 		locked = true,
-		factions = { "cartel" },
 	},
 	{
 		name = "Cayo Hanger",
 		coords = vector3(4472.3759765625, -4512.6494140625, 4.18709707260131),
 		radius = 600,
 		locked = true,
-		factions = { "cartel" },
 	},
 	{
 		name = "Cayo Main Docks",
 		coords = vector3(4933.88720703125, -5202.65576171875, 2.4674265384674),
 		radius = 300,
 		locked = true,
-		factions = { "cartel" },
 	},
 	{
 		name = "Cayo Main Checkpoint",
 		coords = vector3(5145.69189453125, -4950.6552734375, 14.24116706848144),
 		radius = 20,
 		locked = true,
-		factions = { "cartel" },
 	},
 	{
 		name = "Cayo Cove",
 		coords = vector3(4953.65380859375, -4891.39697265625, 4.60661840438842),
 		radius = 300,
 		locked = true,
-		factions = { "cartel" },
 	},
 	{
 		name = "Weed",
 		coords = vector3(168.0943145751953, -228.05804443359375, 54.22780609130859),
 		radius = 50,
 		locked = true,
-		factions = { "weed" },
 	},
 	{
 		name = "Bail Bonds",
 		coords = vector3(-226.3581695556641, 6335.2568359375, 32.36733627319336),
 		radius = 20,
 		locked = true,
-		factions = { "bailbonds" },
 	},
 	{
 		name = "PDM",
 		coords = vector3(-45.38729476928711, -1104.2705078125, 26.42233085632324),
 		radius = 50,
 		locked = true,
-		factions = { "pdm" },
 		overrides = {
 			{ coords = vector3(-37.49523544311523, -1108.7884521484375, 26.64494132995605), locked = false },
 			{ coords = vector3(-38.98845291137695, -1108.2642822265625, 26.69929313659668), locked = false },
@@ -180,24 +156,32 @@ Groups = {
 		},
 	},
 	{
-		name = "Taco",
-		coords = vector3(13.02145957946777, -1601.5521240234375, 29.37517166137695),
+		name = "Burger Shot (Test)",
+		coords = vector3(-1190.06, -894.1384, 14.76116),
 		radius = 50,
 		locked = true,
-		factions = { "taco" },
 	},
 	{
-		name = "Security",
-		coords = vector3(-1569.873046875, -572.2139892578125, 108.52296447753906),
-		radius = 40,
+		name = "Liquour (Test)",
+		coords = vector3(1166.549, 2707.901, 38.1643),
+		radius = 30.0,
 		locked = true,
-		factions = { "security" },
 	},
 	{
-		name = "Luchettis",
-		coords = vector3(294.1844177246094, -978.3340454101564, 29.43342590332031),
-		radius = 40,
+		name = "Bank (Test)",
+		coords = vector3(1176.122, 2710.999, 38.09333),
+		radius = 30.0,
 		locked = true,
-		factions = { "luchettis" },
 	},
+	{
+		name = "Humane (Test)",
+		coords = vector3(3616.516, 3737.65, 28.68328),
+		radius = 300.0,
+		locked = true,
+		overrides = {
+			{ coords = vector3(3594.631, 3704.908, 29.839), ignore = true },
+			{ coords = vector3(3594.728, 3704.839, 29.839), ignore = true },
+			{ coords = vector3(3555.947, 3685.547, 27.121), locked = true },
+		},
+	}
 }

@@ -2,16 +2,19 @@ fx_version 'adamant'
 game 'gta5'
 
 shared_scripts {
-	'sh_config.lua',
-	'sh_groups.lua',
-	'sh_doors.lua',
+	'config/config.lua',
+	'config/doors.lua',
+	'config/groups.lua',
+	'shared/*.lua',
 }
 
 client_scripts {
-	'cl_doors.lua',
-	'cl_door.lua',
+	'@utils/client/entities.lua',
+	'@utils/client/vectors.lua',
+	'client/*.lua',
 }
 
 server_scripts {
-	'sv_doors.lua',
+	'@utils/server/players.lua',
+	'server/*.lua',
 }
