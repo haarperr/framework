@@ -1,6 +1,41 @@
 --[[ Functions: Main ]]--
 
 --[[ Functions: Shop ]]--
+function Shop:Load()
+	-- Load decorations.
+	if self.info.Decorations then
+		self.decorations = {}
+
+		for k, info in ipairs(self.info.Decorations) do
+			info.temporary = true
+
+			local decoration = exports.decorations:Register(info)
+			if decoration then
+				self.decorations[k] = decoration.id
+			end
+		end
+	end
+
+	-- Load containers.
+	if self.info.Containers then
+		self.containers = {}
+
+		for k, info in ipairs(self.info.Containers) do
+			info.temporary = true
+			info.type = "drop"
+			info.name = info.text
+			info.width = info.width or 3
+			info.height = info.height or 2
+			info.persistent = true
+
+			local container = exports.inventory:RegisterContainer(info)
+			if container then
+				self.containers[k] = container.id
+			end
+		end
+	end
+end
+
 function Shop:GetContainer()
 	-- Get cached container.
 	local containerId = self.storage

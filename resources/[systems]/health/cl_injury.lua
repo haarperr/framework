@@ -142,7 +142,7 @@ function Injury:Update()
 
 	-- Suppress interact.
 	if isDead then
-		exports.interact:Suppress()
+		TriggerEvent("interact:suppress")
 
 		local respawnTimer = self:GetRespawnTimer()
 

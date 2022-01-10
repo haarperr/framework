@@ -228,9 +228,28 @@ function Main:Pickup(source, id)
 	end
 end
 
+function Main:Register(data)
+	return Decoration:Create(data)
+end
+
+--[[ Exports ]]--
+exports("Register", function(data)
+	data.resource = GetInvokingResource()
+
+	return Main:Register(data)
+end)
+
 --[[ Events ]]--
 AddEventHandler(Main.event.."start", function()
 	Main:Init()
+end)
+
+AddEventHandler("onResourceStop", function(resourceName)
+	for id, decoration in pairs(Main.decorations) do
+		if decoration.resource == resourceName then
+			decoration:Unload()
+		end
+	end
 end)
 
 AddEventHandler("playerDropped", function(reason)

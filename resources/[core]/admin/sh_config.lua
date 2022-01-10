@@ -13,6 +13,7 @@ Config = {
 			options = {
 				{ label = "God Mode", hook = "godmode", caption = "Never take damage", checkbox = false },
 				{ label = "Invisibility", hook = "invisibility", caption = "Go invisible for other players", checkbox = false },
+				{ label = "Superman", hook = "superman", caption = "Fly around like superman", checkbox = false },
 				{ label = "Set Model", hook = "setModel", caption = "Set a specific model by string", close = true },
 				{ label = "Appearance", command = "a:appearance", caption = "Open the character appearance editor", close = true },
 				{ label = "Slay", command = "a:slay", caption = "Kill yourself" },

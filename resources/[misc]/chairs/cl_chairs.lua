@@ -57,7 +57,7 @@ function Chairs:Update()
 
 	-- Suppress interactions.
 	if GetGameTimer() - (self.lastSuppress or 0) > 200 then
-		exports.interact:Suppress()
+		TriggerEvent("interact:suppress")
 		self.lastSuppress = GetGameTimer()
 	end
 end

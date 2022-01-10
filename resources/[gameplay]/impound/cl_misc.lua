@@ -7,7 +7,7 @@ function WaitForAnimWhileFacingVehicle(anim, vehicle)
 
 	-- Check vehicle.
 	while GetGameTimer() - startTime < anim.Duration do
-		exports.interact:Suppress()
+		TriggerEvent("interact:suppress")
 		if vehicle ~= exports.oldutils:GetFacingVehicle() then
 			exports.emotes:Stop()
 			return false

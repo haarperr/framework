@@ -46,7 +46,7 @@ function Stretcher:Update()
 	end
 
 	-- Suppress interact.
-	exports.interact:Suppress()
+	TriggerEvent("interact:suppress")
 end
 
 function Stretcher:Deactivate()

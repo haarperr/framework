@@ -119,6 +119,14 @@ AddEventHandler(Main.event.."stop", function()
 	Main:ClearAll()
 end)
 
+AddEventHandler("onResourceStop", function(resourceName)
+	for id, decoration in pairs(Main.decorations) do
+		if decoration.resource == resourceName then
+			decoration:Destroy()
+		end
+	end
+end)
+
 AddEventHandler("inventory:use", function(item, slot, cb)
 	if item.usable ~= "Decoration" then return end
 
@@ -150,7 +158,7 @@ AddEventHandler("interact:navigate", function(value)
 	end
 
 	local target = Main:GetTarget()
-	if not target then return end
+	if not target or not target.item_id then return end
 
 	target:OnSelect()
 

@@ -74,6 +74,11 @@ function Interaction:RemoveOption(id)
 	for k, v in ipairs(self.options) do
 		if v == id then
 			table.remove(self.options, k)
+
+			if k >= #self.options and #self.options > 0 then
+				self:SetOption(#self.options)
+			end
+			
 			break
 		end
 	end
@@ -83,20 +88,27 @@ function Interaction:NextOption(direction)
 	local count = #self.options
 	if (count or 0) < 1 then return end
 	
-	-- Set the index.
-	self.index = (self.index or 1) + direction
-
-	if self.index < 1 then
-		self.index = count
-	elseif self.index > count then
-		self.index = 1
+	-- Get the index.
+	local index = (self.index or 1) + direction
+	if index < 1 then
+		index = count
+	elseif index > count then
+		index = 1
 	end
+
+	-- Set the index.
+	self:SetOption(index)
+end
+
+function Interaction:SetOption(index)
+	-- Cache index.
+	self.index = index
 
 	-- Send to NUI.
 	SendNUIMessage({
 		method = "selectInteraction",
 		data = {
-			index = self.index - 1
+			index = index - 1
 		}
 	})
 end
@@ -461,15 +473,16 @@ exports("ClearOptions", function(entity)
 	Interaction:ClearOptions()
 end)
 
-exports("Suppress", function()
-	Interaction.lastSuppress = GetGameTimer()
-end)
-
 --[[ NUI Callbacks ]]--
 RegisterNUICallback("ready", function(data, cb)
 	cb(true)
 	
 	Interaction.ready = true
+end)
+
+--[[ Events ]]--
+AddEventHandler("interact:suppress", function()
+	Interaction.lastSuppress = GetGameTimer()
 end)
 
 --[[ Threads ]]--

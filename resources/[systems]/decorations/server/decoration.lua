@@ -16,12 +16,11 @@ function Decoration:Create(data)
 	end
 
 	-- Get settings.
-	local settings = Decorations[data.item]
-	if not settings then return end
+	local settings = Decorations[data.item] or data.settings or {}
 
 	-- Create containers.
 	local container
-	if settings.Container then
+	if settings.Container and not data.temporary then
 		container = exports.inventory:LoadContainer({
 			id = data.container_id,
 			type = settings.Container.Type or "default",
@@ -33,7 +32,12 @@ function Decoration:Create(data)
 	end
 
 	-- Load or insert.
-	if not data.id then
+	if data.temporary then
+		local id = (Main.lastId or 0) + 1
+		Main.lastId = id
+
+		data.id = -id
+	elseif not data.id then
 		local setters = "pos_x=@pos_x,pos_y=@pos_y,pos_z=@pos_z,rot_x=@rot_x,rot_y=@rot_y,rot_z=@rot_z"
 		local values = {
 			["@pos_x"] = data.coords.x,
@@ -97,9 +101,11 @@ function Decoration:Destroy()
 	Main.decorations[self.id] = nil
 
 	-- Remove from database.
-	exports.GHMattiMySQL:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
-		["@id"] = self.id
-	})
+	if not self.temporary then
+		exports.GHMattiMySQL:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
+			["@id"] = self.id
+		})
+	end
 
 	-- Remove container.
 	if self.container_id then
@@ -143,7 +149,7 @@ end
 
 function Decoration:Set(key, value)
 	-- Save properties.
-	if Server.Properties[key] then
+	if not self.temporary and Server.Properties[key] then
 		exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET %s=@%s WHERE `id`=%s"):format(key, key, self.id), {
 			["@"..key] = value,
 		})
