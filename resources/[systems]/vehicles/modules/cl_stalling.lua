@@ -20,4 +20,6 @@ function Damage.process:Stalling(data, deltas, direction)
 	if damage > Config.Stalling.MinDamage and not IsStalling then
 		StallVehicle()
 	end
+
+	LastDamageTime = GetGameTimer()
 end

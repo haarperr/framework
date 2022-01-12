@@ -136,7 +136,7 @@ function Main:Update()
 		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
 
 		-- Tire locking.
-		if math.abs(DriftAngle) < 0.5 and Speed > 35.0 * 0.44704 then
+		if math.abs(DriftAngle) < 0.5 and Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and 30.0 or 70.0) * 0.44704 then
 			LastLock = GetGameTimer()
 		end
 		
@@ -147,6 +147,7 @@ function Main:Update()
 
 			if isLocked then
 				StallVehicle()
+				SetVehicleEngineOn(CurrentVehicle, false, true, true)
 			end
 			
 			WasLocked = isLocked
