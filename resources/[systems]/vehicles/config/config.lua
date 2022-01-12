@@ -35,7 +35,7 @@ Config = {
 	},
 	Stalling = {
 		MinDamage = 20.0,
-		StallTime = { 500, 3000 },
+		StallTime = { 1000, 3000 },
 	},
 	Parts = {
 		{
