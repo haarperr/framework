@@ -33,6 +33,17 @@ function Main.update:Nutrition()
 		self:AddEffect("Health", -MinutesToTicks / Config.Nutrition.Damage.Thirst)
 	end
 
+	-- Visual queues.
+	if (IsStarving or IsDehydrated) and (not self.nextShake or GetGameTimer() > self.nextShake) then
+		ShakeGameplayCam("JOLT_SHAKE", GetRandomFloatInRange(0.2, 0.6))
+		self.nextShake = GetGameTimer() + GetRandomIntInRange(1500, 3000)
+	end
+
+	if (IsStarving or IsDehydrated) and (not self.nextSound or GetGameTimer() > self.nextSound) then
+		TriggerEvent("playSound", "tummy", GetRandomFloatInRange(0.3, 0.6))
+		self.nextSound = GetGameTimer() + GetRandomIntInRange(12000, 24000)
+	end
+
 	-- Update sprint.
 	local isDying = IsStarving or IsDehydrated
 	if isDying ~= WasMalnourished then
