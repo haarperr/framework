@@ -71,6 +71,7 @@ body {
 	display: block;
 	position: absolute;
 
+	width: 20vmin;
 	right: 3vmin;;
 	top: 12vmin;
 
@@ -78,6 +79,12 @@ body {
 	font-size: 1em;
 
 	color: rgb(0, 255, 0);
+	text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+}
+
+#debug h4 {
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 @keyframes pulsing {

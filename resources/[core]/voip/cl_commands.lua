@@ -9,7 +9,7 @@ RegisterCommand("voip:channelhud", function()
 end)
 
 RegisterCommand("voip:reset", function()
-	Voip:Init()
+	Voip:Reset()
 end)
 
 RegisterCommand("+nsrp_voipRange", function()
@@ -27,10 +27,16 @@ RegisterKeyMapping("+nsrp_voipRange", "Voip - Change Range", "keyboard", "z")
 
 --[[ Debug ]]--
 RegisterCommand("voip:debug", function(source, args, command)
-	if (exports.user:GetUser(source).power_level or 0) < 50 then return end
+	if (exports.user:GetUser(source).power_level or 0) < 25 then return end
 
 	Voip.debug = not Voip.debug
 
+	if not Voip.debug then
+		SendNUIMessage({ debug = "" })
+	end
+
+	Voip:UpdateDebugText()
+	
 	print("Voip debug set: "..tostring(Voip.debug))
 end)
 

@@ -7,6 +7,11 @@ function Voip:Init()
 	for name, value in pairs(Config.Convars) do
 		SetConvarReplicated(name, value)
 	end
+
+	-- Create channels.
+	for i = 1, 500 do
+		MumbleCreateChannel(i)
+	end
 end
 
 --[[ Events ]]--
@@ -14,22 +19,12 @@ AddEventHandler("voip:start", function()
 	Voip:Init()
 end)
 
-AddEventHandler("playerEnteredScope", function(data)
-	local source = tonumber(data["player"])
-	local target = tonumber(data["for"])
+AddEventHandler("playerDropped", function()
+	local source = source
+	local client = Voip.clients[source]
+	if not client then return end
 
-	if not source or not target then return end
-
-	TriggerClientEvent("voip:addToScope", source, target)
-end)
-
-AddEventHandler("playerLeftScope", function(data)
-	local source = tonumber(data["player"])
-	local target = tonumber(data["for"])
-
-	if not source or not target then return end
-
-	TriggerClientEvent("voip:removeFromScope", source, target)
+	Voip.clients[source] = nil
 end)
 
 --[[ Events: Net ]]--
@@ -44,6 +39,26 @@ RegisterNetEvent("voip:init", function()
 
 	-- Inform client.
 	TriggerClientEvent("voip:init", source)
+end)
+
+RegisterNetEvent("voip:reset", function()
+	local source = source
+
+	-- Get client.
+	local client = Voip.clients[source]
+	if not client then return end
+
+	print("Voip resetting", source)
+
+	-- Reset channels.
+	for channelId, channel in pairs(client.channels) do
+		for sTarget, client in pairs(channel.clients) do
+			local target = tonumber(sTarget)
+			if target then
+				TriggerClientEvent("voip:addToChannel", target, channelId, source)
+			end
+		end
+	end
 end)
 
 RegisterNetEvent("voip:joinChannel", function(id, _type)
