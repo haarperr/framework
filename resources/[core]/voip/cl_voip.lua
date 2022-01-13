@@ -103,7 +103,7 @@ function Voip:Update()
 		end
 	end
 
-	local vehicle = exports.utils:GetNearestVehicle()
+	local vehicle = GetNearestVehicle(localCoords, 20.0)
 	if vehicle and DoesEntityExist(vehicle) then
 		local model = GetEntityModel(vehicle)
 		local amplifier = Config.Amplifiers.Vehicles[model or false]
