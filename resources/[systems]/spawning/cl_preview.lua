@@ -118,7 +118,7 @@ function Preview:Init_Peds()
 		local ped = magnet and exports.customization:CreatePed(data, coords)
 
 		if ped then
-			self.peds[ped] = tonumber(id)
+			self.peds[ped] = tonumber(id) or true
 
 			FreezeEntityPosition(ped, true)
 			SetEntityCollision(ped, false, false)
