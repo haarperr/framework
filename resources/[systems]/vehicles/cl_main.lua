@@ -394,6 +394,12 @@ Citizen.CreateThread(function()
 		DeltaTime = GetGameTimer() - lastUpdate
 		MinutesToTicks = 1.0 / 60000.0 * DeltaTime
 
+		-- Reset modifers.
+		BrakeModifier = 1.0
+		MaxFlatModifier = 1.0
+		TractionCurveModifier = 1.0
+		TractionLossModifier = 1.0
+
 		-- Update functions.
 		for name, func in pairs(Main.update) do
 			func(Main)
