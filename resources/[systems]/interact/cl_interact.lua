@@ -451,6 +451,8 @@ end
 
 --[[ Exports ]]--
 exports("Register", function(data)
+	data.resource = GetInvokingResource()
+
 	Interaction:Register(data)
 end)
 
@@ -483,6 +485,14 @@ end)
 --[[ Events ]]--
 AddEventHandler("interact:suppress", function()
 	Interaction.lastSuppress = GetGameTimer()
+end)
+
+AddEventHandler("onResourceStop", function(resourceName)
+	for id, interactable in pairs(Interaction.interactables) do
+		if interactable.resource == resourceName then
+			Interaction:Destroy(id)
+		end
+	end
 end)
 
 --[[ Threads ]]--

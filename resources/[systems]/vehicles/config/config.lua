@@ -35,7 +35,7 @@ Config = {
 	},
 	Stalling = {
 		MinDamage = 20.0,
-		StallTime = { 2000, 4000 },
+		StallTime = { 1000, 3000 },
 	},
 	Parts = {
 		{
@@ -73,7 +73,7 @@ Config = {
 					Damage:UpdateVehicle()
 				end
 
-				handling["fInitialDriveMaxFlatVel"] = handling["fInitialDriveMaxFlatVel"] * Lerp(0.8, 1.0, health)
+				handling["fInitialDriveMaxFlatVel"] = handling["fInitialDriveMaxFlatVel"] * Lerp(0.8, 1.0, health) * (MaxFlatModifier or 1.0)
 			end,
 			Parts = {
 				{
@@ -171,8 +171,8 @@ Config = {
 		{
 			Name = "Tire",
 			Update = function(part, vehicle, health, handling)
-				handling["fTractionCurveLateral"] = handling["fTractionCurveLateral"] * Lerp(1.0, 1.15, 1.0 - health)
-				handling["fTractionLossMult"] = handling["fTractionLossMult"] * Lerp(1.0, 1.15, 1.0 - health)
+				handling["fTractionCurveLateral"] = handling["fTractionCurveLateral"] * Lerp(1.0, 1.15, 1.0 - health) * (TractionCurveModifier or 1.0)
+				handling["fTractionLossMult"] = handling["fTractionLossMult"] * Lerp(1.0, 1.15, 1.0 - health) * (TractionLossModifier or 1.0)
 			end,
 			Bone = {
 				"wheel_f",
@@ -203,7 +203,7 @@ Config = {
 						Emote = "mechfix2",
 					},
 					Update = function(part, vehicle, health, handling)
-						handling["fBrakeForce"] = handling["fBrakeForce"] * Lerp(0.5, 1.0, health)
+						handling["fBrakeForce"] = handling["fBrakeForce"] * Lerp(0.5, 1.0, health) * (BrakeModifier or 1.0)
 					end,
 				},
 				{

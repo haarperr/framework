@@ -77,6 +77,43 @@ Config = {
 				},
 			},
 		},
+		{
+			Timecycle = {
+				Name = "spectator1",
+				Strength = 1.0,
+			},
+			Camera = {
+				Coords = vector3(-212.8323, -1048.54, 31.2953),
+				Rotation = vector3(-6.893959, -0.03745633, 17.65115),
+				Fov = 30.0,
+			},
+			Peds = {
+				{
+					Coords = vector4(-215.5733, -1042.243, 30.14092, 248.9163),
+					Anim = { Dict = "timetable@ron@ig_3_couch", Name = "base", Flag = 1 },
+				},
+				{
+					Coords = vector4(-215.1611, -1041.267, 30.14081, 249.5207),
+					Anim = { Dict = "timetable@ron@ig_5_p3", Name = "ig_5_p3_base", Flag = 1 },
+				},
+				{
+					Coords = vector4(-212.5559, -1036.221, 30.13952, 87.28832),
+					Anim = { Dict = "anim@amb@business@bgen@bgen_inspecting@", Name = "inspecting_med_lookingaround_inspector", Flag = 1 },
+				},
+				{
+					Coords = vector4(-216.4369, -1038.386, 30.14003, 157.7839),
+					Anim = { Dict = "amb@world_human_yoga@female@base", Name = "base_a", Flag = 1 },
+				},
+				{
+					Coords = vector4(-213.8647, -1039.319, 30.1396, 226.6808),
+					Anim = { Dict = "anim@special_peds@casino@vince@wall@cas_vince_ig3", Name = "cas_vince_ig3_need_another_bump", Flag = 1 },
+				},
+				{
+					Coords = vector4(-215.5969, -1038.433, 30.5738, 252.9429),
+					Anim = { Dict = "amb@world_human_bum_slumped@male@laying_on_right_side@idle_a", Name = "idle_c", Flag = 1 },
+				},
+			},
+		},
 	},
 	Havens = {
 		{

@@ -164,7 +164,7 @@ function Emote:Play(settings)
 			end
 
 			local coords = GetEntityCoords(ped)
-			local entity = CreateObject(v.Model, coords.x, coords.y, coords.z, true, true, false)
+			local entity = CreateObject(v.Model, coords.x, coords.y, coords.z, NetworkGetEntityIsNetworked(ped), true, false)
 			local offset = v.Offset or { 0, 0, 0, 0, 0, 0 }
 
 			SetEntityCollision(entity, v.Collision or false, v.Collision or false)

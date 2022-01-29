@@ -7,15 +7,8 @@ end
 
 function Main:LoadDatabase()
 	WaitForTable("characters")
-
-	for _, path in ipairs({
-		"sql/properties.sql",
-	}) do
-		exports.GHMattiMySQL:Query(LoadQuery(path))
-	end
-
-	-- local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
-
+	
+	RunQuery("sql/properties.sql")
 end
 
 function Main:LoadProperties()

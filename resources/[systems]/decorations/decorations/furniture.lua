@@ -79,6 +79,31 @@ Register("Table", {
 	},
 })
 
+Register("Drawer", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = true,
+		Block = false,
+	},
+	Model = {
+		"hei_heist_bed_chestdrawer_04",
+		"apa_mp_h_bed_chestdrawer_02",
+	},
+})
+
+Register("Television", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = false,
+	},
+	Model = {
+		"prop_tv_test",
+	},
+})
+
 Register("Ceiling Light", {
 	Rotation = vector3(180, 0, 0),
 	Placement = "Ceiling",

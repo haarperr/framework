@@ -45,7 +45,7 @@ function Inspector:UpdateHit()
 	
 	-- Get entity info.
 	local entityType = GetEntityType(entity) or 0
-	local target = hitCoords + surfaceNormal * math.log(#(hitCoords - GetFinalRenderedCamCoord())) * 0.5
+	local target = hitCoords + surfaceNormal * math.max(math.log(#(hitCoords - GetFinalRenderedCamCoord())) * 0.5, 0.1)
 
 	-- Create line.
 	local r, g, b = table.unpack(self.colors[entityType])

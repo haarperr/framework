@@ -96,8 +96,18 @@ function Preview:Init_Peds()
 	if not characters then return end
 
 	local index = 1
+	local order = {}
 
 	for id, character in pairs(characters) do
+		table.insert(order, { r = GetRandomFloatInRange(0.0, 1.0), id = id })
+	end
+
+	table.sort(order, function(a, b)
+		return a.r < b.r
+	end)
+
+	for k, v in ipairs(order) do
+		local character = characters[v.id]
 		local data = {
 			appearance = character.appearance,
 			features = character.features,
@@ -108,7 +118,7 @@ function Preview:Init_Peds()
 		local ped = magnet and exports.customization:CreatePed(data, coords)
 
 		if ped then
-			self.peds[ped] = tonumber(id)
+			self.peds[ped] = tonumber(id) or true
 
 			FreezeEntityPosition(ped, true)
 			SetEntityCollision(ped, false, false)

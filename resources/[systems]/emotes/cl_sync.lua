@@ -39,6 +39,18 @@ end
 
 function Main:UpdateInvites()
 	local ped = PlayerPedId()
+
+	if
+		IsPedInAnyVehicle(ped) or
+		IsPedSwimming(ped) or
+		IsPedRunning(ped) or
+		IsPedSprinting(ped) or
+		IsPedRagdoll(ped) or
+		IsPedFalling(ped)
+	then
+		return
+	end
+
 	local coords = GetEntityCoords(ped)
 	local localPlayer = PlayerId()
 

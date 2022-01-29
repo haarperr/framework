@@ -99,7 +99,7 @@ function Main:UpdatePointing()
 	end
 
 	-- Hands up.
-	if IsControlJustPressed(0, 252) then
+	if IsControlJustPressed(0, 252) and not IsPedInAnyVehicle(ped) then
 		if self.handsUp then
 			self:Stop(self.handsUp)
 			self.handsUp = nil

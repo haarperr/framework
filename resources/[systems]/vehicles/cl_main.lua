@@ -83,6 +83,7 @@ function Main:Update()
 		Forward = GetEntityForwardVector(CurrentVehicle)
 		Velocity = GetEntityVelocity(CurrentVehicle)
 		
+		DriftAngle = Dot(Forward, #Velocity > 0.01 and Normalize(Velocity) or Velocity)
 		ForwardDot = Dot(Forward, SpeedVector)
 		IsIdling = EngineOn and Rpm < 0.2001 and Speed < 1.0
 
@@ -133,6 +134,31 @@ function Main:Update()
 	if IsDriver then
 		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
 		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+
+		-- Tire locking.
+		if math.abs(DriftAngle) < 0.5 and Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and 30.0 or 70.0) * 0.44704 then
+			LastLock = GetGameTimer()
+		end
+		
+		local isLocked = LastLock and GetGameTimer() - LastLock < 1200
+		if WasLocked ~= isLocked then
+			SetVehicleBrake(CurrentVehicle, isLocked)
+			SetVehicleHandbrake(CurrentVehicle, isLocked)
+
+			if isLocked then
+				StallVehicle()
+				SetVehicleEngineOn(CurrentVehicle, false, true, true)
+			end
+			
+			WasLocked = isLocked
+		end
+		
+		if isLocked then
+			for i = 1, GetVehicleNumberOfWheels(CurrentVehicle) do
+				SetVehicleWheelRotationSpeed(CurrentVehicle, i, 0.0)
+				SetVehicleWheelBrakePressure(CurrentVehicle, i, 1.0)
+			end
+		end
 
 		-- Temperature.
 		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
@@ -367,6 +393,12 @@ Citizen.CreateThread(function()
 		-- Update delta.
 		DeltaTime = GetGameTimer() - lastUpdate
 		MinutesToTicks = 1.0 / 60000.0 * DeltaTime
+
+		-- Reset modifers.
+		BrakeModifier = 1.0
+		MaxFlatModifier = 1.0
+		TractionCurveModifier = 1.0
+		TractionLossModifier = 1.0
 
 		-- Update functions.
 		for name, func in pairs(Main.update) do

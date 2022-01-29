@@ -2,32 +2,38 @@ Entities = {
 	entities = {},
 	players = {},
 	blacklist = {},
+	resources = {
+		attachments = {
+			["emotes"] = true,
+			["weapons"] = true,
+		},
+	},
 }
 
 --[[ Functions ]]--
 function Entities:Update()
-	
+	for entity, info in pairs(self.entities) do
+		if self.resources.attachments[GetEntityScript(entity)] then
+			local attached = GetEntityAttachedTo(entity)
+
+			if (
+				not attached or not DoesEntityExist(attached) or
+				#(GetEntityCoords(attached) - GetEntityCoords(entity)) > 10.0 or
+				GetEntityRoutingBucket(attached) ~= GetEntityRoutingBucket(entity) or
+				NetworkGetEntityOwner(attached) ~= NetworkGetEntityOwner(entity)
+		 	) then
+				DeleteEntity(entity)
+			end
+		end
+	end
 end
 
 function Entities:CacheObject(entity)
 	local owner = NetworkGetEntityOwner(entity)
 
-	-- Attachments.
-	local attached = GetEntityAttachedTo(entity)
-	if attached and DoesEntityExist(attached) then
-		local _cached = self.entities[attached]
-		if _cached then
-			if not _cached.attachments then
-				_cached.attachments = {}
-			end
-			_cached.attachments[entity] = true
-		end
-	end
-
 	-- Cache entity.
 	self.entities[entity] = {
 		owner = owner,
-		attached = attached,
 	}
 
 	-- Set state bag.
@@ -63,23 +69,6 @@ function Entities:UncacheObject(entity)
 
 	-- Uncache entity.
 	self.entities[entity] = nil
-
-	-- Remove attachments.
-	if cached.attachments then
-		for _entity, _ in pairs(cached.attachments) do
-			if DoesEntityExist(_entity) then
-				DeleteEntity(_entity)
-			end
-		end
-	end
-
-	-- Remove from attached to.
-	if cached.attached then
-		local _cached = self.entities[cached.attached]
-		if _cached and _cached.attachments then
-			_cached.attachments[entity] = nil
-		end
-	end
 end
 
 function Entities:RemoveAll()
@@ -101,7 +90,7 @@ end
 Citizen.CreateThread(function()
 	while true do
 		Entities:Update()
-		Citizen.Wait(1000)
+		Citizen.Wait(200)
 	end
 end)
 

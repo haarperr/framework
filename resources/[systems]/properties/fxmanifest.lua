@@ -1,10 +1,7 @@
-fx_version 'adamant'
+fx_version 'cerulean'
 game 'gta5'
 
-lua54 'yes'
-
 dependencies {
-	'GHMattiMySQL',
 	'entities',
 	'npcs',
 }
@@ -24,7 +21,7 @@ client_scripts {
 }
 
 server_scripts {
-	'@npcs/server.lua',
 	'@utils/server/database.lua',
+	'@npcs/server.lua',
 	'sv_main.lua',
 }

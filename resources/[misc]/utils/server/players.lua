@@ -3,19 +3,26 @@ PlayerUtil = {
 }
 
 --[[ Functions: PlayerUtil ]]--
-function PlayerUtil:CheckCooldown(source, duration, update)
+function PlayerUtil:CheckCooldown(source, duration, update, id)
 	local cooldown = self.cooldowns[source]
-	local isValid = not cooldown or os.clock() - cooldown > duration
+	local lastUpdate = cooldown and cooldown[id or 1]
+	local isValid = not lastUpdate or os.clock() - lastUpdate > duration
 
 	if update then
-		self:UpdateCooldown(source)
+		self:UpdateCooldown(source, id)
 	end
 	
 	return isValid
 end
 
-function PlayerUtil:UpdateCooldown(source)
-	self.cooldowns[source] = os.clock()
+function PlayerUtil:UpdateCooldown(source, id)
+	local cooldown = self.cooldowns[source]
+	if not cooldown then
+		cooldown = {}
+		self.cooldowns[source] = cooldown
+	end
+
+	cooldown[id or 1] = os.clock()
 end
 
 --[[ Functions ]]--

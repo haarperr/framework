@@ -1,75 +1,92 @@
 --[[ Functions: Main ]]--
+function Main:_Init()
+	self:LoadDatabase()
+end
+
+function Main:LoadDatabase()
+	WaitForTable("decorations")
+
+	RunQuery("sql/shops.sql")
+end
 
 --[[ Functions: Shop ]]--
 function Shop:Load()
+	-- Load from database.
+	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `shops` WHERE `id`=@id", {
+		["@id"] = self.id,
+	})[1] or {}
+
+	-- Convert prices.
+	self.prices = result.prices and json.decode(result.prices) or {}
+
+	-- Convert result.
+	result.containers = result.containers and json.decode(result.containers) or {}
+	result.decorations = result.decorations and json.decode(result.decorations) or {}
+
+	-- Load storage.
+	local storage = self.info.Storage
+	if storage then
+		local container = exports.inventory:LoadContainer({
+			id = result.storage,
+			type = "shop",
+			protected = true,
+			coords = storage.Coords,
+			filters = storage.Filters,
+		}, true)
+
+		if not container then
+			error(("failed loading shop storage (%s)"):format(self.id))
+		end
+
+		self.storage = container.id
+	end
+
 	-- Load decorations.
-	if self.info.Decorations then
+	local decorations = self.info.Decorations
+	if decorations then
 		self.decorations = {}
 
-		for k, info in ipairs(self.info.Decorations) do
-			info.temporary = true
+		for id, data in pairs(decorations) do
+			data.id = result.decorations[id]
+			data.persistent = true
 
-			local decoration = exports.decorations:Register(info)
+			local decoration = exports.decorations:LoadDecoration(data, true)
 			if decoration then
-				self.decorations[k] = decoration.id
+				self.decorations[id] = decoration.id
 			end
 		end
 	end
 
 	-- Load containers.
-	if self.info.Containers then
+	local containers = self.info.Containers
+	if containers then
 		self.containers = {}
 
-		for k, info in ipairs(self.info.Containers) do
-			info.temporary = true
-			info.type = "drop"
-			info.name = info.text
-			info.width = info.width or 3
-			info.height = info.height or 2
-			info.persistent = true
+		for id, data in pairs(containers) do
+			data.id = result.containers[id]
+			data.persistent = true
+			data.type = "drop"
+			data.name = data.text
+			data.width = data.width or 3
+			data.height = data.height or 2
 
-			local container = exports.inventory:RegisterContainer(info)
+			local container = exports.inventory:LoadContainer(data, true)
 			if container then
-				self.containers[k] = container.id
+				self.containers[id] = container.id
 			end
 		end
 	end
-end
 
-function Shop:GetContainer()
-	-- Get cached container.
-	local containerId = self.storage
-
-	-- Return cached container.
-	if containerId then
-		return containerId
-	end
-
-	-- Get storage settings.
-	local settings = self.info.Storage
-	if not settings then return end
-
-	-- Create or load the container.
-	local container = exports.inventory:LoadContainer({
-		sid = "s"..self.id,
-		type = "shop",
-		protected = true,
-		coords = settings.Coords,
-		filters = settings.Filters,
-	}, true)
-
-	-- Check container.
-	if not container then
-		print("failed to load container", self.id)
-		return
-	end
-
-	-- Cache container.
-	containerId = container.id
-	self.storage = containerId
-
-	-- Return container.
-	return containerId
+	-- Save shop.
+	exports.GHMattiMySQL:QueryAsync([[
+		INSERT INTO `shops` SET `id`=@id, `storage`=@storage, `containers`=@containers, `decorations`=@decorations
+		ON DUPLICATE KEY UPDATE `storage`=@storage, `containers`=@containers, `decorations`=@decorations
+	]], {
+		["@id"] = self.id,
+		["@storage"] = self.storage,
+		["@containers"] = json.encode(self.containers),
+		["@decorations"] = json.encode(self.decorations),
+	})
 end
 
 function Shop:AccessStorage(source)
@@ -80,7 +97,7 @@ function Shop:AccessStorage(source)
 	end
 
 	-- Get container id.
-	local containerId = self:GetContainer()
+	local containerId = self.storage
 	if not containerId then return end
 
 	-- Add player to container.
@@ -99,7 +116,7 @@ function Shop:StockContainer()
 	local settings = self.info.Storage
 	if not settings then return false end
 
-	local containerId = self:GetContainer()
+	local containerId = self.storage
 	if not containerId then return false end
 
 	local filters = settings.Filters
@@ -117,7 +134,7 @@ end
 
 function Shop:GetStock()
 	-- Get container id.
-	local containerId = self:GetContainer()
+	local containerId = self.storage
 	if not containerId then return end
 
 	-- Check cache.

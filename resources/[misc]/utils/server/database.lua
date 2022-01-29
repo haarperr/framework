@@ -84,11 +84,17 @@ end
 
 function RunQuery(path)
 	exports.GHMattiMySQL:Query(LoadQuery(path))
+
+	Citizen.Wait(0)
 end
 
 function WaitForTable(table)
 	local schema = GetConvar("mysql_schema", "")
 	if schema == "" then return end
+
+	while GetResourceState("GHMattiMySQL") ~= "started" do
+		Citizen.Wait(200)
+	end
 
 	while exports.GHMattiMySQL:QueryScalar([[
 		SELECT 1 FROM information_schema.tables
@@ -100,4 +106,6 @@ function WaitForTable(table)
 	}) ~= 1 do
 		Citizen.Wait(200)
 	end
+
+	Citizen.Wait(0)
 end

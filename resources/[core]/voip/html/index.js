@@ -1,9 +1,14 @@
+let DebugNode = document.querySelector("#debug");;
 let RangeNode = document.querySelector("#voice-range");;
 let ErrorNode = document.querySelector("#error");
 let ChannelsNode = document.querySelector("#channels");
 
 window.addEventListener("message", function(event) {
 	var data = event.data;
+
+	if (data.debug != undefined) {
+		DebugNode.innerHTML = data.debug
+	}
 	
 	if (data.range != undefined) {
 		RangeNode.src = `assets/${data.range.toString()}.png`;

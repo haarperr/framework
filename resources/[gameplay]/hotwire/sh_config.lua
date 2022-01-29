@@ -26,7 +26,7 @@ Config = {
 			EventDelay = { 4000, 8000 },
 			QuickTime = {
 				goalSize = 0.3,
-				speed = 1.3,
+				speed = 0.6,
 				stages = 6,
 			},
 		},
@@ -34,8 +34,8 @@ Config = {
 			Duration = 60.0,
 			EventDelay = { 4000, 8000 },
 			QuickTime = {
-				goalSize = 0.25,
-				speed = 1.3,
+				goalSize = 0.1,
+				speed = 0.4,
 				stages = 6,
 			},
 		},
@@ -43,8 +43,9 @@ Config = {
 			Duration = 120.0,
 			EventDelay = { 6000, 10000 },
 			QuickTime = {
-				goalSize = 0.2,
-				speed = 1.3,
+				goalSize = 0.03,
+				cursorSize = 0.015,
+				speed = 0.2,
 				stages = 6,
 			},
 		},
@@ -52,8 +53,9 @@ Config = {
 			Duration = 300.0,
 			EventDelay = { 8000, 12000 },
 			QuickTime = {
-				goalSize = 0.15,
-				speed = 1.3,
+				goalSize = 0.02,
+				cursorSize = 0.01,
+				speed = 0.1,
 				stages = 6,
 			},
 		},

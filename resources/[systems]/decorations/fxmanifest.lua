@@ -4,7 +4,7 @@ game 'gta5'
 data_file 'DLC_ITYP_REQUEST' 'stream/decorations.ytyp'
 
 dependencies {
-	'GHMattiMySQL',
+	'inventory',
 }
 
 shared_scripts {

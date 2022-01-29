@@ -206,7 +206,7 @@ end
 
 function State:UpdateAmmo()
 	local weapon = self.equipped
-	if not weapon then return end
+	if not weapon or not self.group then return end
 
 	local ped = PlayerPedId()
 	local hasAmmo = self.ammo and self.ammo > 0

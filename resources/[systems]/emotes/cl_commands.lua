@@ -1,12 +1,25 @@
 --[[ Debug ]]--
-exports.chat:RegisterCommand("a:animations", function(source, args, command)
+exports.chat:RegisterCommand("a:animations", function(source, args, command, cb)
 	Animations:ToggleMenu()
 end, {
 	description = "Open an animation menu for testing purposes.",
 }, "Mod")
 
-exports.chat:RegisterCommand("a:playanim", function(source, args, command)
-	
+exports.chat:RegisterCommand("a:playanim", function(source, args, command, cb)
+	local dict, name, flag = table.unpack(args)
+
+	flag = tonumber(flag)
+
+	if not DoesAnimDictExist(dict) then
+		cb("error", "Invalid animation dictionary!")
+		return
+	end
+
+	Main:Play({
+		Dict = dict,
+		Name = name,
+		Flag = flag,
+	})
 end, {
 	description = "Play any animation.",
 	parameters = {

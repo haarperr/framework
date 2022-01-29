@@ -16,6 +16,8 @@ shared_scripts {
 }
 
 client_scripts {
+	'@utils/client/entities.lua',
+	'@utils/client/vehicles.lua',
 	'cl_voip.lua',
 	'cl_clients.lua',
 	'cl_commands.lua',
