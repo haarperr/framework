@@ -114,6 +114,9 @@ function Main:JoinFaction(source, name, group, level)
 			["@level"] = level or 0,
 		})
 
+		TriggerEvent(Main.event.."join", source, name, group, level)
+		TriggerClientEvent(Main.event.."join", source, name, group, level)
+
 		return true
 	else
 		return false
@@ -144,6 +147,9 @@ function Main:LeaveFaction(source, name, group)
 			["@name"] = name,
 			["@group"] = group,
 		})
+
+		TriggerEvent(Main.event.."leave", source, name, group, level)
+		TriggerClientEvent(Main.event.."leave", source, name, group, level)
 
 		return true
 	else

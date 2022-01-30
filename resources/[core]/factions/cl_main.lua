@@ -18,6 +18,27 @@ function Main:Load(factions)
 	end
 end
 
+function Main:JoinFaction(name, groupName, level)
+	local faction = self.factions[name]
+	if not faction then
+		faction = {}
+		self.factions[name] = faction
+	end
+
+	faction[groupName or ""] = level or 0
+
+	return true
+end
+
+function Main:LeaveFaction(name, groupName)
+	local faction = self.factions[name]
+	if not faction then return false end
+
+	faction[groupName or ""] = nil
+
+	return true
+end
+
 function Main:Unload()
 	self.factions = {}
 end
@@ -46,9 +67,16 @@ end
 
 --[[ Events: Net ]]--
 RegisterNetEvent(Main.event.."load", function(factions)
+	print("Loading factions...")
 	Main:Load(factions)
+end)
 
-	print(json.encode(Main.factions))
+RegisterNetEvent(Main.event.."join", function(...)
+	Main:JoinFaction(...)
+end)
+
+RegisterNetEvent(Main.event.."leave", function(...)
+	Main:LeaveFaction(...)
 end)
 
 --[[ Events ]]--
