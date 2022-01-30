@@ -2,9 +2,12 @@ fx_version 'cerulean'
 game 'gta5'
 
 client_scripts {
-	'cl_factions.lua',
+	'cl_main.lua',
 }
 
 server_scripts {
-	'sv_factions.lua',
+	'@utils/server/database.lua',
+	'@utils/server/players.lua',
+	'sv_main.lua',
+	'sv_faction.lua',
 }
