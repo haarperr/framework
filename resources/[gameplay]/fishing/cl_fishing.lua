@@ -1,5 +1,5 @@
 Main = {
-	debug = true,
+	debug = false,
 }
 
 --[[ Functions ]]--
