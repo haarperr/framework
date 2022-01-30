@@ -4,6 +4,11 @@ Ped.__index = Ped
 function Ped:Create(entity, canInteract)
 	print("create", entity)
 
+	-- Check armed.
+	if IsPedArmed(entity, 4) then
+		return false
+	end
+
 	-- Check ignore.
 	math.randomseed(entity)
 	if math.random() < Config.IngoreChance then
