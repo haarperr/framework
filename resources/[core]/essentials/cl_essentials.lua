@@ -4,6 +4,15 @@ Main = {
 }
 
 --[[ Functions: Main ]]--
+function Main:Init()
+	SetPoliceRadarBlips(false)
+	DistantCopCarSirens(false)
+
+	for _, model in ipairs(Config.SuppressedModels) do SetVehicleModelIsSuppressed(model, true) end
+	for _, scenario in ipairs(Config.DisabledGroups) do SetScenarioGroupEnabled(scenario, false) end
+	for _, scenario in ipairs(Config.DisabledTypes) do SetScenarioTypeEnabled(scenario, false) end
+end
+
 function Main:UpdateFrame()
 	Ped = PlayerPedId()
 	Player = PlayerId()
@@ -138,6 +147,10 @@ end
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
+	Main:Init()
+end)
+
+Citizen.CreateThread(function()
 	while true do
 		Main:UpdateFrame()
 
@@ -153,12 +166,12 @@ Citizen.CreateThread(function()
 	end
 end)
 
-Citizen.CreateThread(function()
-	while true do
-		for _, model in ipairs(Config.SuppressedModels) do SetVehicleModelIsSuppressed(model, true) end
-		for _, scenario in ipairs(Config.DisabledGroups) do SetScenarioGroupEnabled(scenario, false) end
-		for _, scenario in ipairs(Config.DisabledTypes) do SetScenarioTypeEnabled(scenario, false) end
+-- Citizen.CreateThread(function()
+-- 	while true do
+-- 		for _, model in ipairs(Config.SuppressedModels) do SetVehicleModelIsSuppressed(model, true) end
+-- 		for _, scenario in ipairs(Config.DisabledGroups) do SetScenarioGroupEnabled(scenario, false) end
+-- 		for _, scenario in ipairs(Config.DisabledTypes) do SetScenarioTypeEnabled(scenario, false) end
 
-		Citizen.Wait(1000)
-	end
-end)
+-- 		Citizen.Wait(1000)
+-- 	end
+-- end)
