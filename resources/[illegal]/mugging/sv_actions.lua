@@ -52,20 +52,25 @@ function Main:Rob(source, ped)
 	self:Destroy(ped)
 
 	-- Get money.
-	math.randomseed(math.floor(os.clock() * 1000))
-	local amount = math.random(Config.Cash.Min, Config.Cash.Max)
+	local amount = math.floor(GetRandomFloatInRange(Config.Cash.Min, Config.Cash.Max) * 100.0) / 100.0
 
 	-- Log event.
 	exports.log:Add({
 		source = source,
 		verb = "mugged",
-		extra = ("amount: %s"):format(amount),
+		extra = ("$%.2f"):format(amount),
 	})
 
-	exports.log:AddEarnings(source, "Mugging", amount)
-
 	-- Give money.
-	exports.inventory:GiveItem(source, "bills", amount)
+	exports.inventory:GiveMoney(source, amount)
+
+	-- Give items.
+	for _, item in ipairs(Config.Items) do
+		if GetRandomFloatInRange(0.0, 1.0) < item.chance then
+			exports.inventory:GiveItem(source, item.name)
+			break
+		end
+	end
 end
 
 --[[ Functions: Dance ]]--

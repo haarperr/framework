@@ -8,7 +8,7 @@ function Ped:Create(entity, canInteract)
 	math.randomseed(entity)
 	if math.random() < Config.IngoreChance then
 		if not IsPedFleeing(entity) then
-			exports.oldutils:RequestAccess(entity)
+			WaitForAccess(entity)
 			TaskReactAndFleePed(entity, PlayerPedId())
 		end
 		return false
@@ -37,8 +37,9 @@ function Ped:Create(entity, canInteract)
 
 	-- Update entity.
 	if canInteract then
-		exports.oldutils:RequestAccess(entity)
+		WaitForAccess(entity)
 		TaskSetBlockingOfNonTemporaryEvents(entity, true)
+		SetPedFleeAttributes(entity, 15, false)
 	end
 
 	return ped
@@ -116,7 +117,7 @@ function Ped:Update(canInteract)
 	local coords = GetEntityCoords(ped)
 	local dir = coords - GetEntityCoords(playerPed)
 	local dist = #dir
-	local dot = exports.misc:Dot(forward, dir / dist)
+	local dot = Dot(forward, dir / dist)
 	
 	-- Check cone.
 	if dot < Config.MinDot then return end
@@ -125,7 +126,7 @@ function Ped:Update(canInteract)
 	self.confidence = math.max(self.confidence - Config.ConfidenceRate, 0.0)
 
 	-- Request access.
-	exports.oldutils:RequestAccess(ped)
+	WaitForAccess(ped)
 
 	-- Check hostility.
 	if self.isHostile then
@@ -148,7 +149,7 @@ function Ped:Update(canInteract)
 	Citizen.CreateThread(function()
 		local startTime = GetGameTimer()
 		while GetGameTimer() - startTime < 1000 do
-			exports.peds:AddEvent("robbing", GetEntityCoords(PlayerPedId()), ped)
+			-- exports.peds:AddEvent("robbing", GetEntityCoords(PlayerPedId()), ped)
 			Citizen.Wait(200)
 		end
 	end)
@@ -164,7 +165,7 @@ function Ped:Update(canInteract)
 		local isDriver = GetPedInVehicleSeat(vehicle, -1) == ped
 
 		if isDriver then
-			exports.oldutils:RequestAccess(vehicle)
+			WaitForAccess(vehicle)
 			SetVehicleEngineOn(vehicle, false, true, true)
 			SetVehicleDoorsLocked(vehicle, 2)
 		end
@@ -238,7 +239,7 @@ function Ped:PlayAnim(emote)
 	end
 
 	-- Request access.
-	exports.oldutils:RequestAccess(ped)
+	WaitForAccess(ped)
 
 	-- Play anim.
 	ClearPedTasks(ped)
@@ -265,10 +266,11 @@ function Ped:Challenge()
 	local ped = self.entity
 	print(self.confidence)
 	if GetRandomFloatInRange(0.0, 1.0) < Config.FleeMult * self.confidence then
-		exports.oldutils:RequestAccess(ped)
+		WaitForAccess(ped)
 
 		ClearPedTasks(ped)
 		TaskSetBlockingOfNonTemporaryEvents(ped, false)
+		SetPedFleeAttributes(ped, 15, true)
 		TaskReactAndFleePed(ped, PlayerPedId())
 
 		print("challenge accepted")
