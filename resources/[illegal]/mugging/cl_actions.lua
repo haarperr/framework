@@ -102,3 +102,12 @@ function Actions:Follow(ped, action)
 
 	ped:CancelAction(action)
 end
+
+function Actions:Flee(ped, action)
+	local entity = ped.entity
+
+	WaitForAccess(entity)
+
+	ped:CancelAction(action)
+	ped:Destroy(true)
+end

@@ -75,8 +75,9 @@ end
 
 --[[ Functions: Dance ]]--
 function Actions:Dance(ped) end
-function Actions:Knees(ped) end
-function Actions:Keys(ped) end
-function Actions:Stay(ped) end
+function Actions:Flee(ped) end
 function Actions:Follow(ped) end
+function Actions:Keys(ped) end
+function Actions:Knees(ped) end
 function Actions:Rob(ped) end
+function Actions:Stay(ped) end

@@ -60,6 +60,7 @@ function Ped:Destroy(isHard)
 	-- Remove forever.
 	if isHard then
 		ClearPedTasks(ped)
+		SetPedFleeAttributes(ped, 15, true)
 		TaskSetBlockingOfNonTemporaryEvents(ped, false)
 		TaskReactAndFleePed(ped, PlayerPedId())
 		TriggerServerEvent("mugging:destroy", self.netId)

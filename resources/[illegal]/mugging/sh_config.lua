@@ -72,6 +72,10 @@ Config = {
 			text = "\"Empty your pockets.\"",
 		},
 		{
+			action = "Flee",
+			text = "\"Get out of here!\"",
+		},
+		{
 			action = "Follow",
 			text = "\"Follow me.\"",
 		},
@@ -87,12 +91,5 @@ Config = {
 			action = "Dance",
 			text = "\"Dance.\"",
 		},
-		-- {
-		-- 	action = "Restrain",
-		-- 	text = "Restrain.",
-		-- 	items = {
-		-- 		{ name = "Ziptie", amount = 1 },
-		-- 	},
-		-- },
 	},
 }
