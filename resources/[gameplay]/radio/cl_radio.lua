@@ -59,6 +59,8 @@ function Radio:CanUse()
 		not state.restrained and
 		not IsEntityAttached(ped) and
 		not IsPedRagdoll(ped) and
+		not IsPedSwimming(ped) and
+		not IsPedFalling(ped) and
 		(GetResourceState("inventory") ~= "started" or exports.inventory:HasItem("radio"))
 end
 
