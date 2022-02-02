@@ -25,26 +25,41 @@ function GetRandomFish(habitat)
 end
 
 --[[ Events ]]--
-RegisterNetEvent("fishing:catch")
-AddEventHandler("fishing:catch", function(slotId, habitat, peers)
+RegisterNetEvent("fishing:catch", function(slotId, habitat)
 	local source = source
-	-- local habitatSettings = Config.Habitats[habitat]
-	-- if not habitatSettings then return end
 
+	if type(slotId) ~= "number" or type(habitat) ~= "string" then return end
+
+	-- Get fish.
 	local fish = GetRandomFish(habitat)
 	if not fish then return end
 
-	local slot = exports.inventory:GetSlot(source, slotId, true)
-	if not slot or slot[1] ~= exports.inventory:GetItem("Fishing Rod").id then return end
+	-- Get player container id.
+	local containerId = exports.inventory:GetPlayerContainer(source, true)
+	if not containerId then return end
 
-	exports.log:Add({
-		source = source,
-		verb = "caught",
-		noun = fish,
-		extra = ("habitat: %s"):format(habitat),
-		channel = "misc",
-	})
+	-- Get item in slot.
+	local item = exports.inventory:ContainerInvokeSlot(containerId, slotId, "GetItem")
+	if not item or item.name ~= Config.Item then return end
+
+	-- Decay item.
+	if not exports.inventory:ContainerInvokeSlot(containerId, slotId, "Decay", GetRandomFloatInRange(table.unpack(Config.Decay))) then
+		return
+	end
 	
-	exports.inventory:DecayItem(source, slotId, math.random() * (Config.Durability[2] - Config.Durability[1]) + Config.Durability[1], true)
-	exports.inventory:GiveItem(source, fish)
+	-- Give fish.
+	local gaveItem, reason = table.unpack(exports.inventory:GiveItem(source, fish))
+	if gaveItem then
+		-- Log it.
+		exports.log:Add({
+			source = source,
+			verb = "caught",
+			noun = fish,
+			extra = habitat,
+			channel = "misc",
+		})
+	else
+		-- Notify player.
+		TriggerClientEvent("chat:notify", source, "You couldn't hold the fish, so it went back into the water!", "error")
+	end
 end)

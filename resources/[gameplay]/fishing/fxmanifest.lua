@@ -11,5 +11,6 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/random.lua',
 	'sv_fishing.lua',
 }

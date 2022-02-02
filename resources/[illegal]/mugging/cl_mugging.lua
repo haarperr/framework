@@ -14,11 +14,10 @@ function Main:Update()
 	self.coords = GetEntityCoords(PlayerPedId())
 
 	local canInteract = self:CanInteract()
-	local peds = exports.oldutils:GetPeds()
 	local added = {}
 
 	-- Create targets.
-	for _, entity in ipairs(peds) do
+	for entity in EnumeratePeds() do
 		if self.peds[entity] == nil and self:IsValidTarget(entity) then
 			local _entity = Entity(entity)
 			if not _entity.state.mugged and (canInteract or _entity.state.mugging) then

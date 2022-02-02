@@ -1,27 +1,50 @@
 Config = {
-	BaseCatchChance = 0.7,
+	Item = "Fishing Rod",
+	Chance = 0.6,
 	Delay = { 10, 15 },
-	Durability = { 0.01, 0.02 },
-	Anim = {
-		Dict = "amb@world_human_stand_fishing@idle_a",
-		Name = "idle_a",
-		Flag = 17,
-		BlendSpeed = 12.0,
-		Props = {
-			{ Model = "prop_fishing_rod_01", Bone = 60309, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }},
-			-- { Model = "ba_prop_battle_glowstick_01", Bone = 60309, Offset = { 0.0700, 0.0900, 0.0, -120.0, -20.0 }},
-			-- prop_fishing_rod_01
+	Decay = { 0.01, 0.02 },
+	Anims = {
+		Idle = {
+			Dict = "amb@world_human_stand_fishing@idle_a",
+			Name = "idle_a",
+			Flag = 17,
+			BlendSpeed = 12.0,
+			Props = {
+				{ Model = "prop_fishing_rod_01", Bone = 60309, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }},
+			},
+		},
+		Catch = {
+			Dict = "anim@am_hold_up@male",
+			Name = "shoplift_mid",
+			Flag = 48,
 		},
 	},
-	CatchAnim = {
-		Dict = "anim@am_hold_up@male",
-		Name = "shoplift_mid",
-		Flag = 48,
+	QuickTime = {
+		goalSize = 0.15,
+		speed = 0.4,
+		stages = 1,
 	},
 	PeerBonus = {
 		Count = 3,
-		Chance = 0.5,
-		Range = 25.0,
+		Chance = 0.3,
+		Range = 15.0,
+	},
+	WeatherModifiers = {
+		[`EXTRASUNNY`] = 0.0,
+		[`CLEAR`] = 0.0,
+		[`NEUTRAL`] = 0.0,
+		[`SMOG`] = 0.0,
+		[`FOGGY`] = 0.1,
+		[`OVERCAST`] = 0.0,
+		[`CLOUDS`] = 0.0,
+		[`CLEARING`] = 0.1,
+		[`RAIN`] = 0.1,
+		[`THUNDER`] = -0.1,
+		[`SNOW`] = 0.0,
+		[`BLIZZARD`] = 0.0,
+		[`SNOWLIGHT`] = 0.0,
+		[`XMAS`] = 0.0,
+		[`HALLOWEEN`] = -100.0,
 	},
 	Habitats = {
 		["Shallow Sandy"] = {
@@ -128,15 +151,7 @@ Config = {
 				vector2(60.02974319458008, 7216.6953125),
 				vector2(-12.20090389251709, 6998.794921875),
 				-- Villa to Airport on Cayo Perrico.
-				vector2(5448.64111328125, -5967.03662109375),
-				vector2(5594.9814453125, -5799.54150390625),
-				vector2(5621.25439453125, -5651.39990234375),
-				vector2(5636.408203125, -5457.92431640625),
-				vector2(5624.54150390625, -5276.31640625),
-				vector2(5395.75830078125, -5089.73046875),
-				vector2(5383.30810546875, -4864.4267578125),
-				vector2(5246.1044921875, -4598.849609375),
-				vector2(4867.16650390625, -4314.1962890625),
+				vector2(4777.623, -5181.037),
 			},
 		},
 		Bay = {

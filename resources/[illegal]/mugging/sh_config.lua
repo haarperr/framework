@@ -1,7 +1,7 @@
 Config = {
-	StopDistance = 20.0, -- How close to put hands up and face player.
+	StopDistance = 15.0, -- How close to put hands up and face player.
 	RobDistance = 3.0, -- How close to rob, they will also stop looking at the player.
-	MinDot = -0.5, -- The dot product (from 0-1, where 1 is facing, and 0 is perpendicular) required to be facing.
+	MinDot = -0.1, -- The dot product (from 0-1, where 1 is facing, and 0 is perpendicular) required to be facing.
 	IngoreChance = 0.05,--0.05, -- Chance (per ped) that they will completely ignore the player.
 	HostileChance = 0.1,--0.2, -- Chance (per ped) that they will attack the player.
 	FleeMult = 0.2,--0.25, -- Chance (per second) multiplied by confidence that they will flee while no gun is pointed.
@@ -10,8 +10,12 @@ Config = {
 	DeleteChance = 0.02,
 	Weapon = GetHashKey("WEAPON_PISTOL"), -- Which weapon they get when hostile.
 	Cash = {
-		Min = 20,
-		Max = 100
+		Min = 1,
+		Max = 20
+	},
+	Items = {
+		{ name = "Wallet", chance = 0.05 },
+		{ name = "Tenga", chance = 0.1 },
 	},
 	Anims = {
 		HandsUp = {
@@ -68,8 +72,8 @@ Config = {
 			text = "\"Empty your pockets.\"",
 		},
 		{
-			action = "Keys",
-			text = "\"Give me your keys.\"",
+			action = "Flee",
+			text = "\"Get out of here!\"",
 		},
 		{
 			action = "Follow",
@@ -87,12 +91,5 @@ Config = {
 			action = "Dance",
 			text = "\"Dance.\"",
 		},
-		-- {
-		-- 	action = "Restrain",
-		-- 	text = "Restrain.",
-		-- 	items = {
-		-- 		{ name = "Ziptie", amount = 1 },
-		-- 	},
-		-- },
 	},
 }

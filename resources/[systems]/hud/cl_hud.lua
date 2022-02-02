@@ -246,7 +246,7 @@ function Thread:Frames()
 	EndScaleformMovieMethod()
 	
 	-- Minimap.
-	SetMinimapClipType(1)
+	SetMinimapClipType(IsPauseMenuActive() and 0 or 1)
 	SetMinimapComponent(2, false)
 	-- DontTiltMinimapThisFrame()
 

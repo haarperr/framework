@@ -6,7 +6,7 @@ Config = {
 	DisabledControls = { 0, 1, 2, 24, 25, 38, 68, 69, 70, 92, 114, 121, 140, 141, 142, 199, 200, 257, 263, 264, 331 },
 	Clicks = {
 		Key = "nsrp_radioClick",
-		Variations = 2,
+		Variations = 3,
 	},
 	Controls = {
 		Modifier = 21, -- Sprint (Shift).

@@ -78,14 +78,16 @@ function Shop:Load()
 	end
 
 	-- Save shop.
-	exports.GHMattiMySQL:QueryAsync([[
-		INSERT INTO `shops` SET `id`=@id, `storage`=@storage, `containers`=@containers, `decorations`=@decorations
-		ON DUPLICATE KEY UPDATE `storage`=@storage, `containers`=@containers, `decorations`=@decorations
-	]], {
+	local setters = "`containers`=@containers, `decorations`=@decorations"
+	if self.storage then
+		setters = setters..", `storage`=@storage"
+	end
+
+	exports.GHMattiMySQL:QueryAsync("INSERT INTO `shops` SET `id`=@id, "..setters.." ON DUPLICATE KEY UPDATE "..setters, {
 		["@id"] = self.id,
 		["@storage"] = self.storage,
-		["@containers"] = json.encode(self.containers),
-		["@decorations"] = json.encode(self.decorations),
+		["@containers"] = json.encode(self.containers or {}),
+		["@decorations"] = json.encode(self.decorations or {}),
 	})
 end
 

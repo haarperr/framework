@@ -32,7 +32,7 @@ function Exiting:Activate()
 	end
 
 	-- Enter vehicle.
-	TaskLeaveVehicle(ped, vehicle, state.restrained and 256 or 4160)
+	TaskLeaveVehicle(ped, vehicle, (((Class == 15 or Class == 16) and Speed < 0.1) and 0) or state.restrained and 256 or 4160)
 end
 
 --[[ Listeners ]]--

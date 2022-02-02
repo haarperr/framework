@@ -65,7 +65,16 @@ function Entering:Activate(goToDriver)
 	end
 
 	-- Find seat.
-	local seatIndex, doorDist = (goToDriver and not hasDriver and -1) or GetClosestSeat(coords, vehicle, true) or (not hasDriver and -1)
+	local nearestDoor, nearestDoorDist, nearestDoorCoords = GetClosestDoor(coords, vehicle, true, true)
+	local seatIndex, doorDist
+
+	if not goToDriver and nearestDoor and nearestDoorDist < 1.0 then
+		seatIndex = (Doors[nearestDoor] or 0) - 1
+		doorDist = nearestDoorDist
+	else
+		seatIndex, doorDist = (goToDriver and not hasDriver and -1) or GetClosestSeat(coords, vehicle, true) or (not hasDriver and -1)
+	end
+
 	if not seatIndex then return end
 
 	-- Check door.

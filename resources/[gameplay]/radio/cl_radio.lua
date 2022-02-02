@@ -17,15 +17,27 @@ end)
 function Radio:Update()
 	if self.isTalking ~= self.wasTalking then
 		if self.isTalking then
-			exports.emotes:Play(Config.Anims.Talking)
-		else
-			exports.emotes:Stop()
+			self.emote = exports.emotes:Play(Config.Anims.Talking)
+		elseif self.emote then
+			exports.emotes:Stop(self.emote)
+			self.emote = nil
 		end
-		if IsOpen then
-			if GetResourceState("interaction") == "started" and not exports.interaction:CanDo() then
-				ToggleRadio(false)
-			else
-				exports.oldutils:DisableControls(true)
+
+		self.wasTalking = self.isTalking
+	end
+
+	if not self.isOpen then return end
+
+	for _, control in ipairs(Config.DisabledControls) do
+		DisableControlAction(0, control)
+	end
+
+	if IsDisabledControlJustPressed(0, 200) then
+		self:Toggle(false)
+		Citizen.CreateThread(function()
+			for i = 1, 60 do
+				DisableControlAction(0, 200)
+				Citizen.Wait(0)
 			end
 		end)
 		return
@@ -39,8 +51,16 @@ function Radio:Update()
 end
 
 function Radio:CanUse()
+	local state = LocalPlayer.state or {}
+	local ped = PlayerPedId()
+
 	return
-		(GetResourceState("interaction") ~= "started" or exports.interaction:CanDo()) and
+		not state.immobile and
+		not state.restrained and
+		not IsEntityAttachedToAnyPed(ped) and
+		not IsPedRagdoll(ped) and
+		not IsPedSwimming(ped) and
+		not IsPedFalling(ped) and
 		(GetResourceState("inventory") ~= "started" or exports.inventory:HasItem("radio"))
 end
 
@@ -52,12 +72,13 @@ function Radio:Toggle(value)
 	SetNuiFocus(value, value)
 	SetNuiFocusKeepInput(value)
 
-	self:Commit("setVisible", value, not exports.jobs:IsInGroup("Emergency"))
+	self:Commit("setVisible", value, false) -- TODO: add faction check
 
 	self.isOpen = value
 
 	exports.emotes:Play(value and Config.Anims.Open or Config.Anims.Close)
 	
+	TriggerEvent("inventory:cancel")
 	TriggerEvent("disarmed")
 end
 
