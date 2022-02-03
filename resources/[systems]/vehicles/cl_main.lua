@@ -137,9 +137,9 @@ function Main:Update()
 
 		-- Tire locking.
 		if (
-			math.abs(DriftAngle) < 0.5 and -- Drift angle (dot product).
-			LastDamageEntity and GetEntityType(LastDamageEntity) == 2 and -- Confirm other entity is vehicle.
-			Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and 30.0 or 70.0) * 0.44704 -- Damage is recent.
+			math.abs(DriftAngle) < Config.Spinning.DotProduct and
+			LastDamageEntity and GetEntityType(LastDamageEntity) == 2 and
+			Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and Config.Spinning.LowSpeed or Config.Spinning.HighSpeed) * 0.44704
 		) then
 			LastLock = GetGameTimer()
 		end
@@ -151,7 +151,10 @@ function Main:Update()
 
 			if isLocked then
 				StallVehicle()
-				SetVehicleEngineOn(CurrentVehicle, false, true, true)
+
+				if GetRandomFloatInRange(0.0, 1.0) < Config.Spinning.CutChance then
+					SetVehicleEngineOn(CurrentVehicle, false, true, true)
+				end
 			end
 			
 			WasLocked = isLocked

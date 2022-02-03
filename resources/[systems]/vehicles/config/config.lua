@@ -37,6 +37,12 @@ Config = {
 		MinDamage = 20.0,
 		StallTime = { 1000, 3000 },
 	},
+	Spinning = {
+		CutChance = 0.5, -- Chance the engine will cut out while spinning out and stalling.
+		LowSpeed = 30.0, -- How fast (MPH) the vehicle must be going to stall out in a vehicle collision.
+		HighSpeed = 70.0, -- How fast (MPH) the vehicle must be going to stall out normally, when spinning out.
+		DotProduct = 0.5, -- The minimum dot product before stalling, compared with the forward vector and velocity of the vehicle.
+	},
 	Parts = {
 		{
 			-- Sends power to wheels and turn car?
