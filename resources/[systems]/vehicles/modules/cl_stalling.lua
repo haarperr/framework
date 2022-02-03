@@ -22,4 +22,5 @@ function Damage.process:Stalling(data, deltas, direction)
 	end
 
 	LastDamageTime = GetGameTimer()
+	LastDamageEntity = data.attacker and IsEntityAPed(data.attacker) and IsPedInAnyVehicle(data.attacker) and GetVehiclePedIsIn(data.attacker) or data.attacker
 end

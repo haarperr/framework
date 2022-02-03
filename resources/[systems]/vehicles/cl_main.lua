@@ -136,7 +136,11 @@ function Main:Update()
 		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
 
 		-- Tire locking.
-		if math.abs(DriftAngle) < 0.5 and Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and 30.0 or 70.0) * 0.44704 then
+		if (
+			math.abs(DriftAngle) < 0.5 and -- Drift angle (dot product).
+			LastDamageEntity and GetEntityType(LastDamageEntity) == 2 and -- Confirm other entity is vehicle.
+			Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and 30.0 or 70.0) * 0.44704 -- Damage is recent.
+		) then
 			LastLock = GetGameTimer()
 		end
 		
