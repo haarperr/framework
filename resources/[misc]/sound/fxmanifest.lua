@@ -13,5 +13,6 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/players.lua',
 	'sv_sound.lua',
 }
