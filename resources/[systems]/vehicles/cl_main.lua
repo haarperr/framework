@@ -43,6 +43,7 @@ end
 
 function Main:Update()
 	-- Update globals.
+	Player = PlayerId()
 	Ped = PlayerPedId()
 	CurrentVehicle = GetVehiclePedIsIn(Ped)
 	EnteringVehicle = GetVehiclePedIsEntering(Ped)
@@ -134,6 +135,8 @@ function Main:Update()
 	if IsDriver then
 		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
 		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
+
+		-- Fuel.
 
 		-- Tire locking.
 		if (
@@ -251,7 +254,7 @@ function Main.update:Proximity()
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 
-		NearestVehicle = GetFacingVehicle(ped, 1.0, true) or GetNearestVehicle(coords, 10.0)
+		NearestVehicle = GetFacingVehicle(ped, 1.0, true) or GetNearestVehicle(coords, 3.0)
 
 		if NearestVehicle and DoesEntityExist(NearestVehicle) then
 			NearestDoor = GetClosestDoor(coords, NearestVehicle)
