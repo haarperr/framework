@@ -116,6 +116,7 @@ function Main:Update()
 			ClassSettings = Classes[Class] or {}
 			Model = GetEntityModel(CurrentVehicle)
 			Materials = {}
+			Compressions = {}
 
 			-- Events.
 			print("entered", CurrentVehicle)
@@ -170,14 +171,31 @@ function Main:Update()
 			end
 		end
 
+		-- Prevent curb boosting.
+		if LastCurbBoost and GetGameTimer() - LastCurbBoost < 200 and Speed * 0.621371 > 20.0 then
+			SetVehicleCurrentRpm(CurrentVehicle, 0.0)
+			-- SetVehicleClutch(CurrentVehicle, 0.0)
+		end
+
 		-- Temperature.
 		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
 		TemperatureRatio = Temperature / 104.444
 
 		-- Update wheels.
 		for i = 0, GetVehicleNumberOfWheels(CurrentVehicle) - 1 do
+			local compression = GetVehicleWheelSuspensionCompression(CurrentVehicle, i)
+			local lastCompression = Compressions[i]
+
+			if lastCompression and compression then
+				local compressionDelta = math.abs(lastCompression - compression)
+				if compressionDelta > 0.1 then
+					LastCurbBoost = GetGameTimer()
+				end
+			end
+			
 			local material = GetVehicleWheelSurfaceMaterial(CurrentVehicle, i)
 			Materials[i] = material
+			Compressions[i] = compression
 		end
 
 		-- Idling.
