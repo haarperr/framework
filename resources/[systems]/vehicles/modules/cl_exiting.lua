@@ -25,18 +25,18 @@ function Exiting:Activate()
 	local ped = PlayerPedId()
 	local state = LocalPlayer.state
 
+	-- Check door.
+	local doorIndex = (FindSeatPedIsIn(ped) or 0) + 1
+	if state.restrained and not IsVehicleDoorOpen(vehicle, doorIndex) then
+		return
+	end
+	
 	-- Check locks.
 	local class = GetVehicleClass(vehicle)
 	local locked = GetVehicleDoorsLockedForPlayer(vehicle, Player) == 1
 	
 	if locked and not Config.Locking.Blacklist[class] then
 		TriggerServerEvent("playSound3D", "carlocked")
-		return
-	end
-
-	-- Check door.
-	local doorIndex = (FindSeatPedIsIn(ped) or 0) + 1
-	if state.restrained and not IsVehicleDoorOpen(vehicle, doorIndex) then
 		return
 	end
 

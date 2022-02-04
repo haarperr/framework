@@ -42,7 +42,7 @@ function Main:ToggleEngine()
 	TriggerServerEvent("vehicles:toggleEnigne", netId)
 end
 
-function Main:ToggleLock()
+function Main:ToggleLock(override)
 	local vehicle = IsInVehicle and CurrentVehicle or NearestVehicle
 	if not vehicle or not DoesEntityExist(vehicle) then return end
 
@@ -50,25 +50,23 @@ function Main:ToggleLock()
 	if not self:CanLock(vehicle) then return end
 	
 	-- Check key.
-	if not IsInVehicle and not self:HasKey(vehicle) then return end
-	
-	-- Request access.
-	if not WaitForAccess(vehicle) then return end
-	
-	-- Play emote.
-	ClearPedTasks(Ped)
-	
-	exports.emotes:Play(Config.Locking.Anim)
-	
-	-- Lock vehicle.
+	if not override and not IsInVehicle and not self:HasKey(vehicle) then return end
+
+	-- Get status.
 	local status = GetVehicleDoorsLockedForPlayer(vehicle, Player) ~= 1
 
-	TriggerEvent("chat:notify", status and "Locked vehicle!" or "Unlocked vehicle!", "inform")
+	-- Tell server to unlock.
+	TriggerServerEvent("vehicles:toggleLock", GetNetworkId(vehicle), status)
 
-	SetVehicleDoorsLockedForAllPlayers(vehicle, status)
-
-	-- Play sound.
-	TriggerServerEvent("playSound3D", IsInVehicle and "lock" or "carlock")
+	-- Play emote.
+	if not override and not IsInVehicle then
+		ClearPedTasks(Ped)
+		
+		exports.emotes:Play(Config.Locking.Anim)
+	end
+	
+	-- Success!
+	return true, status
 end
 
 --[[ Events ]]--
@@ -77,6 +75,13 @@ RegisterNetEvent("vehicles:toggleEngine", function(netId, state)
 	if not _netId or _netId ~= netId then return end
 
 	SetVehicleEngineOn(CurrentVehicle, state, false, true)
+end)
+
+RegisterNetEvent("vehicles:toggleLock", function(netId, status)
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	if not vehicle or not WaitForAccess(vehicle) then return end
+
+	SetVehicleDoorsLockedForAllPlayers(vehicle, status)
 end)
 
 --[[ Commands ]]--
