@@ -1,18 +1,17 @@
-function PlaySound3D(source, name, volume, distance)
-	local source = source
+function PlaySound3D(coords, name, volume, distance)
+	exports.players:Broadcast(coords, "playSound3D", name, coords, volume or 1.0, distance or 0.3)
+end
 
-	-- Get ped.
+function PlaySoundEntity(entity, ...)
+	if not DoesEntityExist(entity) then return end
+
+	PlaySound3D(GetEntityCoords(entity), ...)
+end
+
+function PlaySoundPlayer(source, ...)
 	local ped = GetPlayerPed(source)
-	if not ped or not DoesEntityExist(ped) then return end
-
-	-- Check coords.
-	local coords = GetEntityCoords(ped)
-	if not coords then return end
-
-	-- Play sound.
-	print(("[%s] is playing sound: %s"):format(source, name))
 	
-	exports.players:Broadcast(source, "playSound3D", name, coords, volume or 1.0, distance or 0.3)
+	PlaySoundEntity(ped, ...)
 end
 
 --[[ Events ]]--
@@ -31,11 +30,22 @@ RegisterNetEvent("playSound3D", function(name)
 	-- Check input.
 	if type(name) ~= "string" or name:len() > 64 then return end
 
+	-- Print.
+	print(("[%s] is playing sound: %s"):format(source, name))
+
 	-- Play sound.
-	PlaySound3D(source, name)
+	PlaySoundPlayer(source, name)
 end)
 
 --[[ Exports ]]--
+exports("PlaySoundEntity", function(...)
+	PlaySoundEntity(...)
+end)
+
 exports("PlaySound3D", function(...)
 	PlaySound3D(...)
+end)
+
+exports("PlaySoundPlayer", function(source, ...)
+	PlaySoundPlayer(source, ...)
 end)
