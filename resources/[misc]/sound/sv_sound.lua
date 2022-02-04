@@ -2,10 +2,16 @@ function PlaySound3D(coords, name, volume, distance)
 	exports.players:Broadcast(coords, "playSound3D", name, coords, volume or 1.0, distance or 0.3)
 end
 
-function PlaySoundEntity(entity, ...)
+function PlaySoundEntity(entity, name, volume, distance)
 	if not DoesEntityExist(entity) then return end
 
-	PlaySound3D(GetEntityCoords(entity), ...)
+	local netId = NetworkGetNetworkIdFromEntity(entity)
+	if not netId then return end
+
+	local coords = GetEntityCoords(entity)
+	if not coords then return end
+
+	exports.players:Broadcast(coords, "playSound3D", name, netId, volume or 1.0, distance or 0.3)
 end
 
 function PlaySoundPlayer(source, ...)
