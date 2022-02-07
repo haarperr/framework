@@ -157,11 +157,10 @@ function setupPlayer(source) {
 		// Cache client's token.
 		players[source] = {
 			token: token,
-			viewing: true,
 		}
 
 		// Send info to client
-		emitNet("admin:auth", source, port, token)
+		emitNet(EVENT_NAME + "auth", source, port, token)
 
 		// Debug.
 		console.log(`Set up player: ${source}, ${token}`)
@@ -199,13 +198,37 @@ function removeFromGrid(source, gridId) {
 	}
 }
 
+function spectate(source, target) {
+	// Get player.
+	var player = players[source]
+	if (!player) return
+
+	// if (player.watch) {
+	// 	var lastPlayer = players[player.watch]
+	// 	if (lastPlayer) {
+			
+	// 	}
+	// }
+
+	// Get target.
+	var _player = target && players[target]
+	if (_player && player.watch != target) {
+		player.watch = target
+	} else {
+		target = undefined
+		delete player.watch
+	}
+
+	emitNet(EVENT_NAME + "spectate", source, target)
+}
+
 // Start the server.
 setTimeout(() => {
 	startServer()
 }, 0)
 
 // Net events.
-onNet("admin:ready", () => {
+onNet(EVENT_NAME + "ready", () => {
 	ready.add(source)
 	setupPlayer(source)
 })
@@ -241,32 +264,61 @@ on("playerDropped", (_) => {
 	}
 })
 
+// Commands.
+RegisterCommand("a:s", (source, args, _) => {
+	// Check user group.
+	if (!exports.user.IsAdmin(source)) return
+
+	// Parase target.
+	var target = parseInt(args[0] ?? "")
+	if (!target || isNaN(target)) {
+		target = undefined
+	}
+
+	// Spectate.
+	spectate(source, target)
+})
+
 // Threads.
 setInterval(() => {
 	for (var serverId in players) {
 		var player = players[serverId]
 		var socket = player.socket
+		var payload = undefined
 
 		if (socket?.readyState != ws.OPEN || !player.grid) continue
 
 		if (player.viewing) {
+			payload = {}
+			
 			var nearbyGrids = Grids.GetNearbyGrids(player.grid, GRID_SIZE)
-			var payload = {}
-
 			nearbyGrids.forEach(gridId => {
 				var grid = grids[gridId]
 				if (!grid) return
 
 				for (var _serverId of grid) {
-					if (serverId == _serverId) continue
+					if (serverId == _serverId || player.watch == _serverId) continue
 
 					var _player = players[_serverId]
 					if (!_player) continue
 
-					payload[_serverId] = _player.camera
+					payload[_serverId.toString()] = _player.camera
 				}
 			})
+		}
 
+		if (player.watch) {
+			if (!payload) {
+				payload = {}
+			}
+
+			var _player = players[player.watch]
+			if (_player) {
+				payload[player.watch.toString()] = _player.camera
+			}
+		}
+		
+		if (payload) {
 			socket.send(Buffer.from(JSON.stringify(payload)))
 		}
 	}

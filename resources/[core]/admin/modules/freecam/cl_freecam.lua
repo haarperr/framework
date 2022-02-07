@@ -104,6 +104,11 @@ end
 function Freecam:Activate()
 	if self.active then return end
 
+	-- Stop spectating.
+	if Spectate.active then
+		Spectate:Deactivate()
+	end
+
 	-- Update cache.
 	self.active = true
 	self.coords = GetFinalRenderedCamCoord()
