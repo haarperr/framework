@@ -1,4 +1,4 @@
-fx_version 'cerulean'
+fx_version 'bodacious'
 game 'gta5'
 
 ui_page 'html/index.html'
@@ -10,9 +10,11 @@ files {
 
 dependencies {
 	'trackers',
+	'yarn',
 }
 
 shared_scripts {
+	'@grids/shared/grids.lua',
 	'sh_config.lua',
 	'sh_admin.lua',
 	'modules/**/sh_*.lua',
@@ -24,6 +26,7 @@ server_scripts {
 	'sv_admin.lua',
 	'sv_commands.lua',
 	'modules/**/sv_*.lua',
+	'node/index.js',
 }
 
 client_scripts {
