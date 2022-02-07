@@ -10,6 +10,10 @@ RegisterNetEvent("admin:sendNui", function(...)
 end)
 
 RegisterNetEvent("admin:auth", function(port, token)
+	while not Nui.ready do
+		Citizen.Wait(0)
+	end
+	
 	SendNUIMessage({
 		connect = {
 			serverId = GetPlayerServerId(PlayerId()),

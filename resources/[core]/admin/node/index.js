@@ -8,7 +8,7 @@ const players = new Object()
 const ready = new Set()
 const grids = new Object()
 
-const GRID_SIZE = 2
+const GRID_SIZE = 3
 const EVENT_NAME = GetCurrentResourceName() + ":"
 
 let server = undefined
@@ -21,6 +21,7 @@ function startServer(_port) {
 	wss = new ws.WebSocketServer({ noServer: true })
 	
 	port = _port ?? 40000 + Math.floor(Math.random() * 2000)
+	port = 30125 // TODO: remove & fix firewall
 
 	// Server callbacks.
 	server.on("error", (e) => {
@@ -96,12 +97,12 @@ function startServer(_port) {
 	server.listen(port, () => {
 		console.log(`Server is listening on port ${port}!`)
 
-		for (let i = 0; i < GetNumPlayerIndices(); i++) {
-			const player = parseInt(GetPlayerFromIndex(i))
-			if (!player) continue
+		// for (let i = 0; i < GetNumPlayerIndices(); i++) {
+		// 	const player = parseInt(GetPlayerFromIndex(i))
+		// 	if (!player) continue
 
-			setupPlayer(player)
-		}
+		// 	setupPlayer(player)
+		// }
 	})
 }
 
@@ -118,16 +119,16 @@ function authenticateConnection(req, socket, head) {
 	if (!serverId || isNaN(serverId)) return false
 
 	// Get host.
-	var host = (req.headers?.host ?? "").match(/[\.\d]+/)[0]
-	if (!host) return false
+	// var _endpoint = get ip but idk how lol
+	// if (!_endpoint) return false
 
-	// Validate host.
-	var endpoint = GetPlayerEndpoint(parseInt(serverId))
+	// Validate _endpoint.
+	// var endpoint = GetPlayerEndpoint(parseInt(serverId))
 	
-	if (host != endpoint) {
-		console.log("Endpoints not matching", host, endpoint)
-		return false
-	}
+	// if (_endpoint != endpoint) {
+	// 	console.log("Endpoints not matching", _endpoint, endpoint)
+	// 	return false
+	// }
 
 	// Validate token.
 	var client = ready.has(serverId) && players[serverId]
@@ -156,6 +157,7 @@ function setupPlayer(source) {
 		// Cache client's token.
 		players[source] = {
 			token: token,
+			viewing: true,
 		}
 
 		// Send info to client
@@ -268,4 +270,4 @@ setInterval(() => {
 			socket.send(Buffer.from(JSON.stringify(payload)))
 		}
 	}
-}, 50)
+}, 100)

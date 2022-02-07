@@ -31,7 +31,6 @@ function connect(data) {
 	let uri = `ws://${endpoint}:${data.port}/serverId=${data.serverId}&token=${data.token}`
 
 	socket = new WebSocket(uri)
-	// socket.binaryType = "arraybuffer"
 
 	socket.onopen = () => {
 		console.log("WebSocket connected!")
@@ -60,10 +59,6 @@ function connect(data) {
 	}
 
 	console.log("Creating WebSocket...")
-
-	// setTimeout(() => {
-	// 	socket.close()
-	// }, 2000)
 }
 
 function updateCam(data) {

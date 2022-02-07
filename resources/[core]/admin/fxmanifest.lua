@@ -11,6 +11,7 @@ files {
 dependencies {
 	'trackers',
 	'yarn',
+	'chat',
 }
 
 shared_scripts {
