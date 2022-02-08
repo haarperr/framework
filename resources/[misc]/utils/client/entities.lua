@@ -45,3 +45,19 @@ end
 function EnumeratePickups()
 	return EnumerateEntities(FindFirstPickup, FindNextPickup, EndFindPickup)
 end
+
+function GetNearestPed(coords)
+	local nearest, nearestDist = nil, 0.0
+
+	for ped in EnumeratePeds() do
+		if ped ~= PlayerPedId() and not NetworkIsEntityConcealed(ped) then
+			local dist = #(coords - GetEntityCoords(ped))
+			if not nearest or dist < nearestDist then
+				nearestDist = dist
+				nearest = ped
+			end
+		end
+	end
+
+	return nearest, nearestDist
+end
