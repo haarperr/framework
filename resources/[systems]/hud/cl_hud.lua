@@ -153,7 +153,7 @@ function Thread:Visibility()
 		HUD:Commit("setUnderwater", HUD.isUnderwater)
 	end
 	-- Overall visibility.
-	local isVisible = HUD.inVehicle and not IsCinematicCamRendering() and not IsPauseMenuActive()
+	local isVisible = (GlobalState.hudForced or HUD.inVehicle) and not IsCinematicCamRendering() and not IsPauseMenuActive()
 	if not isVisible and GetResourceState("emotes") == "started" then
 		local emote = nil-- exports.emotes:GetCurrentEmote()
 		if emote ~= nil then
@@ -226,8 +226,8 @@ function Thread:Frames()
 
 	-- Minimap.
 	if HUD.entity then
-		LockMinimapAngle(math.floor(GetEntityHeading(HUD.entity)))
-		SetRadarZoomPrecise(94.5)
+		LockMinimapAngle(math.floor(GlobalState.hudAngle or GetEntityHeading(HUD.entity)))
+		SetRadarZoomPrecise(GlobalState.hudZoom or 94.5)
 	end
 
 	-- Set bigmap inactive.
@@ -267,7 +267,7 @@ function Thread:Fuel()
 end
 
 function Thread:Compass()
-	local heading = GetEntityHeading(HUD.entity)
+	local heading = GlobalState.hudAngle or GetEntityHeading(HUD.entity)
 
 	HUD:Commit("setBearing", {
 		heading = heading,
