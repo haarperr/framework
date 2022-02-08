@@ -155,14 +155,24 @@ function Restraints:UseItem(item, slot)
 	local info = Restraints.items[name]
 	if not info then return false end
 	
-	-- Get player.
+	-- Check ped.
 	local ped = PlayerPedId()
+	if IsPedInAnyVehicle(ped) then
+		return false
+	end
+
+	-- Get player.
 	local player, playerPed, playerDist = GetNearestPlayer()
 	if not player or playerDist > Config.MaxDist then return false end
 	-- local player = PlayerId()
 
 	local serverId = GetPlayerServerId(player)
 	local playerState = (Player(serverId) or {}).state
+
+	-- Check vehicle.
+	if IsPedInAnyVehicle(playerPed) then
+		return false
+	end
 
 	if not playerState.immobile then
 		-- Check direciton.
