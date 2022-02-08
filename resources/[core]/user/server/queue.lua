@@ -252,3 +252,12 @@ Citizen.CreateThread(function()
 		Citizen.Wait(2000)
 	end
 end)
+
+--[[ Commands ]]--
+RegisterCommand("togglequeue", function(source, args, rawcommand)
+	if source ~= 0 then return end
+
+	Server.EnableWhitelist = not Server.EnableWhitelist
+
+	print("Queue "..(Server.EnableWhitelist and "enabled" or "disabled").."!")
+end, true)
