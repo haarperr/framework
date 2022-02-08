@@ -13,7 +13,7 @@ function Outfits:LoadDatabase()
 	for _, path in ipairs({
 		"sql/outfits.sql",
 	}) do
-		exports.GHMattiMySQL:Query(LoadQuery(path))
+		RunQuery(path)
 	end
 end
 
