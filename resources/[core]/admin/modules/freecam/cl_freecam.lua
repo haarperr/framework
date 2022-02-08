@@ -106,6 +106,16 @@ function Freecam:Activate()
 
 	-- Stop spectating.
 	if Spectate.active then
+		-- Set target.
+		local target = Spectate.target
+		local player = GetPlayerFromServerId(target)
+		local ped = GetPlayerPed(player)
+		
+		if ped ~= PlayerPedId() then
+			self.follow = ped
+		end
+
+		-- Deactivate after target.
 		Spectate:Deactivate()
 	end
 
