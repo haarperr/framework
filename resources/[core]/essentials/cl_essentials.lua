@@ -38,7 +38,7 @@ function Main:UpdateFrame()
 	end
 
 	-- Tripping.
-	if not self.nextTripCheck or GetGameTimer() > self.nextTripCheck then
+	if (not self.nextTripCheck or GetGameTimer() > self.nextTripCheck) and not IsPedOpeningADoor(ped) then
 		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.2
 		self.nextTripCheck = GetGameTimer() + 1000
 	end
