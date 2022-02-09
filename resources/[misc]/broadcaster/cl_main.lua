@@ -2,6 +2,7 @@ Main = {
 	listeningStation = 1,
 	listenerVolume = 3,
 	maxVolume = 3,
+	volumeModifier = 0.4,
 }
 
 --[[ Functions ]]--
@@ -53,7 +54,7 @@ function Main:Update()
 	self.nearestStation = nearestStation
 end
 
-function Main:Draw()
+function Main:UpdateFrame()
 	local stationId = self.nearestStation
 
 	local station = Config.Stations[stationId or false]
@@ -64,6 +65,21 @@ function Main:Draw()
 
 	if light then
 		DrawLightWithRangeAndShadow(light.x, light.y, light.z, active and 0 or 255, active and 255 or 0, 0, 4.0, 4.0, 5.0)
+	end
+
+	if self.activeStation and self.channel then
+		local set = nil
+
+		if IsControlJustPressed(0, Config.Control) then
+			set = true
+		elseif IsControlJustReleased(0, Config.Control) then
+			set = false
+		end
+		
+		if set ~= nil then
+			self.isTalking = set
+			exports.voip:SetTalking(set, self.channel)
+		end
 	end
 end
 
@@ -77,13 +93,20 @@ function Main:UpdateStation(stationId)
 
 	if not stationId then
 		local station = Config.Stations[lastStationId]
-		self:DetachListener(station.Channel)
+		self.channel = nil
+		exports.voip:LeaveChannel(station.Channel)
 		return
+	end
+
+	if self.listening then
+		self:ToggleListener(false)
 	end
 	
 	local station = Config.Stations[stationId]
-	print("updating station", stationId, station.Name)
-	exports.voip:JoinChannel(station.Channel, 1)
+
+	exports.voip:JoinChannel(station.Channel, station.Type or "Automatic", false, self.volumeModifier)
+
+	self.channel = station.Channel
 end
 
 function Main:Commit(type, ...)
@@ -121,7 +144,7 @@ function Main:ToggleListener(value)
 	if value then
 		self:AttachListener(station.Channel)
 	else
-		self:DetachListener(station.Channel)
+		exports.voip:LeaveChannel(station.Channel)
 	end
 end
 
@@ -139,7 +162,7 @@ function Main:SetChannel(index)
 	-- Remove from last channel.
 	local lastStation = self.listeningStation and Config.Stations[self.listeningStation]
 	if lastStation then
-		self:DetachListener(lastStation.Channel)
+		exports.voip:LeaveChannel(lastStation.Channel)
 	end
 
 	-- Cache channel.
@@ -168,7 +191,7 @@ function Main:SetVolume(volume)
 	Main:Commit("setVolume", volume, maxVolme)
 
 	-- Set channel volume.
-	exports.voip:SetVolume(volume / maxVolme, station.Channel)
+	exports.voip:SetVolume(volume / maxVolme * self.volumeModifier, station.Channel)
 end
 
 function Main:UpdateListenerVolume(direction)
@@ -180,13 +203,8 @@ function Main:UpdateListenerStation(direction)
 end
 
 function Main:AttachListener(channel)
-	print("attach, join station", channel)
-	exports.voip:JoinChannel(channel, 3, "radio", self.listenerVolume / self.maxVolume)
-end
-
-function Main:DetachListener(channel)
-	print("detach, leave station", channel)
-	exports.voip:LeaveChannel(channel)
+	local volume = self.listenerVolume / self.maxVolume * self.volumeModifier
+	exports.voip:JoinChannel(channel, "Receiver", "radio", volume)
 end
 
 --[[ NUI Callbacks ]]--
@@ -224,6 +242,8 @@ AddEventHandler("interact:on_broadcaster", function(interactable)
 end)
 
 AddEventHandler("inventory:use", function(item, slot, cb)
+	if not Config.Items[item.name] then return end
+	
 	cb(true)
 	Main:ToggleMenu(true)
 end)
@@ -239,7 +259,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		if Main.nearestStation then
-			Main:Draw()
+			Main:UpdateFrame()
 		end
 		Citizen.Wait(0)
 	end
