@@ -113,6 +113,10 @@ function Main:UpdateSlow()
 	if IsPedUsingActionMode(Ped) then
 		SetPedUsingActionMode(Ped, false, -1, 0)
 	end
+	
+	for _, ped in ipairs(GetGamePool("CPed")) do
+		SetPedDropsWeaponsWhenDead(ped, false)
+	end
 end
 
 function Main:UpdateSlower()
