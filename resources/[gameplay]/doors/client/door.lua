@@ -336,9 +336,7 @@ function Door:ToggleLock()
 	end
 
 	-- Play sound.
-	Citizen.SetTimeout(200, function()
-		TriggerServerEvent("playSound3D", "lock", 0.4, 0.1)
-	end)
+	TriggerServerEvent("playSound3D", "doorlock", 0.4, 0.1)
 
 	-- Disable movement.
 	local startTime = GetGameTimer()
