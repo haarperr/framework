@@ -30,6 +30,15 @@ function Exiting:Activate()
 	if state.restrained and not IsVehicleDoorOpen(vehicle, doorIndex) then
 		return
 	end
+	
+	-- Check locks.
+	local class = GetVehicleClass(vehicle)
+	local locked = GetVehicleDoorsLockedForPlayer(vehicle, Player) == 1
+	
+	if locked and not Config.Locking.Blacklist[class] then
+		TriggerServerEvent("playSound3D", "carlocked")
+		return
+	end
 
 	-- Enter vehicle.
 	TaskLeaveVehicle(ped, vehicle, (((Class == 15 or Class == 16) and Speed < 0.1) and 0) or state.restrained and 256 or 4160)

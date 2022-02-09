@@ -38,6 +38,8 @@ Config = {
 			caption = "Testing and miscallenous",
 			icon = "build",
 			options = {
+				-- { label = "Log Viewer", hook = "logViewer", caption = "Enable log playback mode", checkbox = false },
+				{ label = "View Cameras", hook = "viewCams", caption = "See where other players are looking", checkbox = false },
 				{ label = "Streamer Mode", hook = "streamerMode", caption = "Disable admin messages in chat", checkbox = false },
 				{ label = "Player Blips", hook = "playerBlips", caption = "View blips on the map of other players", checkbox = false },
 				{ label = "Entity Debugger", hook = "debuggerEntity", caption = "View entity info", checkbox = false },

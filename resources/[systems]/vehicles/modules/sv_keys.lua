@@ -26,7 +26,7 @@ function Main:ToggleEngine(source, netId)
 		if slot and exports.inventory:TakeItem(source, "Vehicle Key", 1, slot.slot_id) then
 			success = true
 
-			TriggerClientEvent("playSound", source, "keys", 0.5)
+			exports.sound:PlaySoundPlayer(source, "keys", 0.5)
 	
 			vehicle:Set("key", true)
 
@@ -39,7 +39,7 @@ function Main:ToggleEngine(source, netId)
 		}))
 
 		if gaveItem then
-			TriggerClientEvent("playSound", source, "keys", 0.5)
+			exports.sound:PlaySoundPlayer(source, "keys", 0.5)
 
 			vehicle:Set("key", false)
 
@@ -91,6 +91,7 @@ function Main:GiveKey(source, netId)
 	}))
 end
 
+--[[ Events: Net ]]--
 RegisterNetEvent("vehicles:toggleEnigne", function(netId)
 	local source = source
 
@@ -98,4 +99,38 @@ RegisterNetEvent("vehicles:toggleEnigne", function(netId)
 		PlayerUtil:UpdateCooldown(source)
 		Main:ToggleEngine(source, netId)
 	end
+end)
+
+RegisterNetEvent("vehicles:toggleLock", function(netId, status)
+	local source = source
+
+	-- Check input.
+	if type(netId) ~= "number" or type(status) ~= "boolean" then return end
+	
+	-- Check cooldown.
+	if not PlayerUtil:CheckCooldown(source, 1.0) then return end
+	PlayerUtil:UpdateCooldown(source)
+
+	-- Check vehicle.
+	local entity = NetworkGetEntityFromNetworkId(netId)
+	if not entity or not DoesEntityExist(entity) then return end
+
+	local target = NetworkGetEntityOwner(entity)
+	if not target then return end
+
+	-- Log it.
+	exports.log:Add({
+		source = source,
+		verb = status and "locked" or "unlocked",
+		noun = "vehicle",
+	})
+
+	-- Tell owner to toggle lock.
+	TriggerClientEvent("vehicles:toggleLock", target, netId, status)
+
+	-- Notify source.
+	TriggerClientEvent("chat:notify", source, status and "Locked vehicle!" or "Unlocked vehicle!", "inform")
+
+	-- Play lock sound.
+	exports.sound:PlaySoundPlayer(source, "carlock")
 end)

@@ -169,7 +169,17 @@ function Inspector:UpdateMenu()
 	self:AddOption("Rotation", tostring(camRot), true)
 
 	-- Other information where the camera is.
-	self:AddOption("Interior", GetInteriorAtCoords(camCoords))
+	local interiorId = GetInteriorAtCoords(camCoords)
+	if interiorId and IsValidInterior(interiorId) then
+		self:AddOption("Interior", interiorId)
+
+		local roomHash = GetRoomKeyForGameViewport()
+		local roomId = GetInteriorRoomIndexByHash(interiorId, roomHash)
+		local roomName = GetInteriorRoomName(interiorId, roomId)
+
+		self:AddOption("Room", ("%s (%s)"):format(roomName or "?", roomId))
+	end
+
 	self:AddOption("Zone (ID)", GetZoneAtCoords(camCoords))
 	self:AddOption("Zone (Name)", GetNameOfZone(camCoords))
 

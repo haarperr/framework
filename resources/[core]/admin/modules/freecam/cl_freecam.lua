@@ -91,8 +91,15 @@ function Freecam:Update()
 	-- Update blip.
 	local blip = self.blip
 	if blip and DoesBlipExist(blip) then
+		local height = GetFinalRenderedCamCoord().z
+
 		SetBlipCoords(blip, coords.x, coords.y, coords.z)
 		SetBlipRotation(blip, math.floor(rotation.z))
+		LockMinimapPosition(coords.x, coords.y)
+
+		GlobalState.hudAngle = rotation.z % 360.0
+		GlobalState.hudForced = true
+		GlobalState.hudZoom = 94.5 + math.min(math.max(height / 500.0, 0.0), 1.0) * 5.0
 	end
 
 	-- Disable controls.
@@ -103,6 +110,21 @@ end
 
 function Freecam:Activate()
 	if self.active then return end
+
+	-- Stop spectating.
+	if Spectate.active then
+		-- Set target.
+		local target = Spectate.target
+		local player = GetPlayerFromServerId(target)
+		local ped = GetPlayerPed(player)
+		
+		if ped ~= PlayerPedId() then
+			self.follow = ped
+		end
+
+		-- Deactivate after target.
+		Spectate:Deactivate()
+	end
 
 	-- Update cache.
 	self.active = true
@@ -151,6 +173,13 @@ function Freecam:Deactivate()
 
 	-- Clear focus.
 	ClearFocus()
+
+	-- Unlock minimap.
+	UnlockMinimapPosition()
+	
+	GlobalState.hudAngle = nil
+	GlobalState.hudForced = nil
+	GlobalState.hudZoom = nil
 
 	-- Temporary disable controls.
 	Citizen.CreateThread(function()

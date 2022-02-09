@@ -22,6 +22,7 @@ client_scripts {
 	'@utils/client/vectors.lua',
 	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
+	'cl_commands.lua',
 	'modules/**/cl_*.lua',
 	'modding/cl_modding.lua',
 	'modding/cl_mods.lua',

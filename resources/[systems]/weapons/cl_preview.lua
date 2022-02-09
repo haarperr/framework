@@ -265,19 +265,19 @@ function Preview:CheckObjects()
 end
 
 --[[ Threads ]]--
-Citizen.CreateThread(function()
-	while true do
-		Preview:CheckObjects()
-		Citizen.Wait(2000)
-	end
-end)
+-- Citizen.CreateThread(function()
+-- 	while true do
+-- 		Preview:CheckObjects()
+-- 		Citizen.Wait(2000)
+-- 	end
+-- end)
 
-Citizen.CreateThread(function()
-	while true do
-		Preview:UpdatePed()
-		Citizen.Wait(200)
-	end
-end)
+-- Citizen.CreateThread(function()
+-- 	while true do
+-- 		Preview:UpdatePed()
+-- 		Citizen.Wait(200)
+-- 	end
+-- end)
 
 --[[ Events ]]--
 AddEventHandler("inventory:", function()

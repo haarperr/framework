@@ -26,9 +26,7 @@ end)
 RegisterKeyMapping("+nsrp_voipRange", "Voip - Change Range", "keyboard", "z")
 
 --[[ Debug ]]--
-RegisterCommand("voip:debug", function(source, args, command)
-	if (exports.user:GetUser(source).power_level or 0) < 25 then return end
-
+exports.chat:RegisterCommand("voip:debug", function(source, args, command, cb)
 	Voip.debug = not Voip.debug
 
 	if not Voip.debug then
@@ -37,45 +35,48 @@ RegisterCommand("voip:debug", function(source, args, command)
 
 	Voip:UpdateDebugText()
 	
-	print("Voip debug set: "..tostring(Voip.debug))
-end)
+	cb("inform", "Voip debug set: "..tostring(Voip.debug))
+end, {
+	description = "Enable debug mode to see current channels."
+}, "Dev")
 
-RegisterCommand("voip:joinchannel", function(source, args, command)
-	if not Voip.debug then
-		print("Debug must be active!")
-		return
-	end
-
+exports.chat:RegisterCommand("voip:joinchannel", function(source, args, command, cb)
 	local channel = args[1]
 	if not channel then
-		print("Invalid channel!")
+		cb("error", "Invalid channel!")
 		return
 	end
 
 	local _type = args[2]
 	if not _type then
-		print("Invalid type!", json.encode(Config.Types))
+		cb("error", "Invalid type!", json.encode(Config.Types))
 		return
 	end
 
 	Voip:JoinChannel(channel, _type)
 
-	print("Attempting to join channel: "..channel.." (".._type..")")
-end)
+	cb("inform", "Attempting to join channel: "..channel.." (".._type..")")
+end, {
+	description = "Join a channel.",
+	parameters = {
+		{ name = "Channel", description = "Channel to join. If it's a radio, make sure to include decimals." },
+		{ name = "Type", description = "What type to join? 1 = listens and sends whenever talking; 2 = same as radio, 3 = only listens." },
+	}
+}, "Dev")
 
-RegisterCommand("voip:leavechannel", function(source, args, command)
-	if not Voip.debug then
-		print("Debug must be active!")
-		return
-	end
-
+exports.chat:RegisterCommand("voip:leavechannel", function(source, args, command, cb)
 	local channel = args[1]
 	if not channel then
-		print("Invalid channel!")
+		cb("error", "Invalid channel!")
 		return
 	end
 
 	Voip:LeaveChannel(channel)
 
-	print("Attempting to leave channel: "..channel)
-end)
+	cb("inform", "Attempting to leave channel: "..channel)
+end, {
+	description = "Leave a channel.",
+	parameters = {
+		{ name = "Channel", description = "Channel to leave." },
+	}
+}, "Dev")

@@ -61,7 +61,21 @@ end, {
 }, "Mod")
 
 exports.chat:RegisterCommand("a:fix", function(source, args, command, cb)
-	TriggerClientEvent("vehicles:fix", source)
+	-- Get ped.
+	local ped = GetPlayerPed(source)
+	if not DoesEntityExist(ped or 0) then return end
+
+	-- Get vehicle.
+	local vehicle = GetVehiclePedIsIn(ped)
+	if not vehicle then
+		cb("error", "Must be in a vehicle!")
+		return
+	end
+
+	-- Tell owner to fix.
+	local owner = NetworkGetEntityOwner(vehicle)
+
+	TriggerClientEvent("vehicles:fix", owner)
 
 	-- Log it.
 	exports.log:Add({

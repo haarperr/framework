@@ -110,6 +110,9 @@ function Main:Add(data)
 	-- Insert into the table.
 	exports.GHMattiMySQL:Insert("logs", { data })
 
+	-- Trigger event.
+	TriggerEvent("log", data)
+
 	-- Format text.
 	if channel ~= "none" then
 		local text = ""

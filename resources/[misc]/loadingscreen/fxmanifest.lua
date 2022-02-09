@@ -11,3 +11,4 @@ files {
 }
 
 loadscreen 'html/index.html'
+loadscreen_manual_shutdown 'yes'

@@ -2,29 +2,12 @@ Entities = {
 	entities = {},
 	players = {},
 	blacklist = {},
-	resources = {
-		attachments = {
-			["emotes"] = true,
-			["weapons"] = true,
-		},
-	},
 }
 
 --[[ Functions ]]--
 function Entities:Update()
 	for entity, info in pairs(self.entities) do
-		if self.resources.attachments[GetEntityScript(entity)] then
-			local attached = GetEntityAttachedTo(entity)
-
-			if (
-				not attached or not DoesEntityExist(attached) or
-				#(GetEntityCoords(attached) - GetEntityCoords(entity)) > 10.0 or
-				GetEntityRoutingBucket(attached) ~= GetEntityRoutingBucket(entity) or
-				NetworkGetEntityOwner(attached) ~= NetworkGetEntityOwner(entity)
-		 	) then
-				DeleteEntity(entity)
-			end
-		end
+		
 	end
 end
 

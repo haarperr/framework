@@ -14,9 +14,18 @@ function Sanitize(str)
 end
 
 --[[ Functions: Main ]]--
-function Main:Broadcast(source, event, ...)
-	local ped = GetPlayerPed(source)
-	local coords = ped and DoesEntityExist(ped) and GetEntityCoords(ped)
+function Main:Broadcast(p1, event, ...)
+	local coords
+
+	if type(p1) == "number" then
+		local ped = GetPlayerPed(p1)
+		coords = ped and DoesEntityExist(ped) and GetEntityCoords(ped)
+	elseif type(p1) ~= "vector4" then
+		coords = vector3(p1.x, p1.y, p1.z)
+	elseif type(p1) ~= "vector3" then
+		coords = nil
+	end
+
 	if not coords then return end
 
 	local nearbyGrids = Grids:GetImmediateGrids(coords, Config.GridSize)

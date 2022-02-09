@@ -43,6 +43,7 @@ end
 
 function Main:Update()
 	-- Update globals.
+	Player = PlayerId()
 	Ped = PlayerPedId()
 	CurrentVehicle = GetVehiclePedIsIn(Ped)
 	EnteringVehicle = GetVehiclePedIsEntering(Ped)
@@ -115,6 +116,7 @@ function Main:Update()
 			ClassSettings = Classes[Class] or {}
 			Model = GetEntityModel(CurrentVehicle)
 			Materials = {}
+			Compressions = {}
 
 			-- Events.
 			print("entered", CurrentVehicle)
@@ -135,8 +137,14 @@ function Main:Update()
 		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
 		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
 
+		-- Fuel.
+
 		-- Tire locking.
-		if math.abs(DriftAngle) < 0.5 and Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and 30.0 or 70.0) * 0.44704 then
+		if (
+			math.abs(DriftAngle) < Config.Spinning.DotProduct and
+			LastDamageEntity and GetEntityType(LastDamageEntity) == 2 and
+			Speed > (LastDamageTime and GetGameTimer() - LastDamageTime < 3000 and Config.Spinning.LowSpeed or Config.Spinning.HighSpeed) * 0.44704
+		) then
 			LastLock = GetGameTimer()
 		end
 		
@@ -147,7 +155,10 @@ function Main:Update()
 
 			if isLocked then
 				StallVehicle()
-				SetVehicleEngineOn(CurrentVehicle, false, true, true)
+
+				if GetRandomFloatInRange(0.0, 1.0) < Config.Spinning.CutChance then
+					SetVehicleEngineOn(CurrentVehicle, false, true, true)
+				end
 			end
 			
 			WasLocked = isLocked
@@ -160,14 +171,31 @@ function Main:Update()
 			end
 		end
 
+		-- Prevent curb boosting.
+		if LastCurbBoost and GetGameTimer() - LastCurbBoost < 200 and Speed * 0.621371 > 20.0 then
+			SetVehicleCurrentRpm(CurrentVehicle, 0.0)
+			-- SetVehicleClutch(CurrentVehicle, 0.0)
+		end
+
 		-- Temperature.
 		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
 		TemperatureRatio = Temperature / 104.444
 
 		-- Update wheels.
 		for i = 0, GetVehicleNumberOfWheels(CurrentVehicle) - 1 do
+			local compression = GetVehicleWheelSuspensionCompression(CurrentVehicle, i)
+			local lastCompression = Compressions[i]
+
+			if lastCompression and compression then
+				local compressionDelta = math.abs(lastCompression - compression)
+				if compressionDelta > 0.1 then
+					LastCurbBoost = GetGameTimer()
+				end
+			end
+			
 			local material = GetVehicleWheelSurfaceMaterial(CurrentVehicle, i)
 			Materials[i] = material
+			Compressions[i] = compression
 		end
 
 		-- Idling.
@@ -244,7 +272,7 @@ function Main.update:Proximity()
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 
-		NearestVehicle = GetFacingVehicle(ped, 1.0, true) or GetNearestVehicle(coords, 10.0)
+		NearestVehicle = GetFacingVehicle(ped, 1.0, true) or GetNearestVehicle(coords, 3.0)
 
 		if NearestVehicle and DoesEntityExist(NearestVehicle) then
 			NearestDoor = GetClosestDoor(coords, NearestVehicle)

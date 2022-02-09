@@ -18,6 +18,7 @@ function Main:Init()
 
 	-- Shutdown loading screen.
 	ShutdownLoadingScreen()
+	ShutdownLoadingScreenNui()
 
 	-- Set states.
 	self.hasLoaded = true

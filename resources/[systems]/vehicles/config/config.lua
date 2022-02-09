@@ -37,6 +37,27 @@ Config = {
 		MinDamage = 20.0,
 		StallTime = { 1000, 3000 },
 	},
+	Spinning = {
+		CutChance = 0.5, -- Chance the engine will cut out while spinning out and stalling.
+		LowSpeed = 30.0, -- How fast (MPH) the vehicle must be going to stall out in a vehicle collision.
+		HighSpeed = 70.0, -- How fast (MPH) the vehicle must be going to stall out normally, when spinning out.
+		DotProduct = 0.5, -- The minimum dot product before stalling, compared with the forward vector and velocity of the vehicle.
+	},
+	Locking = {
+		Delay = 2000,
+		Anim = {
+			Flag = 48,
+			Dict = "anim@mp_player_intmenu@key_fob@",
+			Name = "fob_click",
+			Duration = 1000,
+		},
+		-- Vehicle classes that cannot be locked.
+		Blacklist = {
+			[8] = true, -- Motorcycles
+			[13] = true, -- Cycles
+			[14] = true, -- Boats
+		},
+	},
 	Parts = {
 		{
 			-- Sends power to wheels and turn car?
@@ -67,7 +88,7 @@ Config = {
 				local health = (part.health or 1.0) * 1000.0
 
 				health = health > 1.0 and health or -4000.0
-				
+
 				if not Damage.healths.engine or math.abs(Damage.healths.engine - health) > 1.0 then
 					Damage.healths.engine = health
 					Damage:UpdateVehicle()

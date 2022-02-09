@@ -148,8 +148,8 @@ function Injury:Update()
 
 		Menu:Invoke(false, "setHtml", "#respawn",
 			respawnTimer > 0.001 and
-			("%s seconds until respawn"):format(math.ceil(respawnTimer)) or
-			"You may now respawn (/respawn)"
+			("<span class='negative'>%s seconds until respawn...</span>"):format(math.ceil(respawnTimer)) or
+			"<span class='positive'>Respawn is available!</span> (/respawn)"
 		)
 	end
 end

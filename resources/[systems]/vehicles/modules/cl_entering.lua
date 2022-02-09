@@ -53,6 +53,14 @@ function Entering:Activate(goToDriver)
 		return
 	end
 
+	-- Check locks.
+	local class = GetVehicleClass(vehicle)
+	local locked = GetVehicleDoorsLockedForPlayer(vehicle, Player) == 1
+	
+	if locked and not Config.Locking.Blacklist[class] then
+		return
+	end
+
 	-- Check driver.
 	local driver = GetPedInVehicleSeat(vehicle, -1)
 	local hasDriver = driver and DoesEntityExist(driver) and not IsPedDeadOrDying(driver)

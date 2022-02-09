@@ -161,7 +161,7 @@ funcs["setTreatment"] = function(x, y, options) {
 funcs["setHtml"] = function(selector, html) {
 	var element = document.querySelector(selector);
 	if (element) {
-		element.textContent = html;
+		element.innerHTML = html;
 	}
 }
 
