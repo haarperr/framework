@@ -60,7 +60,7 @@ end, {
 	description = "Join a channel.",
 	parameters = {
 		{ name = "Channel", description = "Channel to join. If it's a radio, make sure to include decimals." },
-		{ name = "Type", description = "What type to join? 1 = listens and sends whenever talking; 2 = same as radio, 3 = only listens." },
+		{ name = "Type", description = "What type to join? The types are: 'Automatic', 'Manual', and 'Receiver'." },
 	}
 }, "Dev")
 

@@ -68,11 +68,11 @@ RegisterNetEvent("voip:joinChannel", function(id, _type)
 
 	-- Check type.
 	local __type = Config.Types[_type or false]
-	if not __type then return end
+	if not __type then print(source, "invalid type", _type) return end
 
 	-- Get client.
 	local client = Voip.clients[source]
-	if not client then return end
+	if not client then print(source, "invalid client") return end
 
 	-- Join channel.
 	if client:JoinChannel(id, __type) then
@@ -82,6 +82,8 @@ RegisterNetEvent("voip:joinChannel", function(id, _type)
 			noun = "channel",
 			extra = ("id: %s, type as: %s"):format(id, _type),
 		})
+	else
+		print(source, "failed to channel", id)
 	end
 end)
 
