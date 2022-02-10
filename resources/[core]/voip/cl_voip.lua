@@ -473,3 +473,15 @@ end)
 RegisterNetEvent("voip:setTalking", function(channelId, serverId, value)
 	Voip:SetPlayerTalking(channelId, serverId, value)
 end)
+
+RegisterNetEvent("voip:joinChannel", function(...)
+	Voip:JoinChannel(...)
+end)
+
+RegisterNetEvent("voip:leaveChannel", function(...)
+	Voip:LeaveChannel(...)
+end)
+
+RegisterNetEvent("voip:setVolume", function(...)
+	Voip:SetVolume(...)
+end)

@@ -27,7 +27,8 @@ function Channel:AddPlayer(source, _type)
 	-- Inform other clients.
 	self:SendPayload("voip:addToChannel", self.id, source)
 
-	-- Inform client.
+	-- Trigger events.
+	TriggerEvent("voip:addToChannel", source, self.id, _type)
 	TriggerClientEvent("voip:addToChannel", source, self.id, self.clients, self.talking)
 	
 	-- Cache client.
@@ -49,7 +50,8 @@ function Channel:RemovePlayer(source)
 	-- Inform other clients.
 	self:SendPayload("voip:removeFromChannel", self.id, source)
 
-	-- Inform client.
+	-- Trigger events.
+	TriggerEvent("voip:removeFromChannel", source, self.id)
 	TriggerClientEvent("voip:removeFromChannel", source, self.id)
 	
 	-- Cleanup channel.
