@@ -1,5 +1,6 @@
 Config = {
 	Control = 45, -- Control for broadcasting on station.
+	BaseVolume = 0.4,
 	Items = {
 		["Satellite Radio"] = true,
 	},
@@ -14,15 +15,15 @@ Config = {
 			Radius = 10.0,
 			Room = "studiobooth",
 		},
-		{
-			Channel = "137.00",
-			Name = "Dispatch",
-			Type = "Manual",
-			Center = vector3(444.4111, -997.6417, 34.97013),
-			Light = vector3(442.4712, -997.6697, 35.80561),
-			Control = vector3(440.7523, -995.8439, 35.14596),
-			Radius = 10.0,
-			Room = "Room17",
-		},
+		-- {
+		-- 	Channel = "137.00",
+		-- 	Name = "Dispatch",
+		-- 	Type = "Manual",
+		-- 	Center = vector3(444.4111, -997.6417, 34.97013),
+		-- 	Light = vector3(442.4712, -997.6697, 35.80561),
+		-- 	Control = vector3(440.7523, -995.8439, 35.14596),
+		-- 	Radius = 10.0,
+		-- 	Room = "Room17",
+		-- },
 	},
 }

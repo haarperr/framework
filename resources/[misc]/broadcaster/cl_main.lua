@@ -1,8 +1,8 @@
 Main = {
+	event = GetCurrentResourceName()..":",
 	listeningStation = 1,
 	listenerVolume = 3,
 	maxVolume = 3,
-	volumeModifier = 0.4,
 }
 
 --[[ Functions ]]--
@@ -104,7 +104,7 @@ function Main:UpdateStation(stationId)
 	
 	local station = Config.Stations[stationId]
 
-	exports.voip:JoinChannel(station.Channel, station.Type or "Automatic", false, self.volumeModifier)
+	exports.voip:JoinChannel(station.Channel, station.Type or "Automatic", false, Config.BaseVolume)
 
 	self.channel = station.Channel
 end
@@ -133,13 +133,23 @@ function Main:ToggleMenu(value)
 end
 
 function Main:ToggleListener(value)
+	-- Toggle value.
 	if value == nil then
 		value = not self.listening
 	end
 
+	-- Prevent turning on while in station.
+	if value and self.activeStation then
+		return
+	end
+
+	-- Cache value.
 	self.listening = value
+
+	-- Update ui.
 	self:Commit("setPower", self.listening)
 
+	-- Update channels.
 	local station = Config.Stations[self.listeningStation]
 	if value then
 		self:AttachListener(station.Channel)
@@ -191,7 +201,7 @@ function Main:SetVolume(volume)
 	Main:Commit("setVolume", volume, maxVolme)
 
 	-- Set channel volume.
-	exports.voip:SetVolume(volume / maxVolme * self.volumeModifier, station.Channel)
+	exports.voip:SetVolume(volume / maxVolme * Config.BaseVolume, station.Channel)
 end
 
 function Main:UpdateListenerVolume(direction)
@@ -203,7 +213,7 @@ function Main:UpdateListenerStation(direction)
 end
 
 function Main:AttachListener(channel)
-	local volume = self.listenerVolume / self.maxVolume * self.volumeModifier
+	local volume = self.listenerVolume / self.maxVolume * Config.BaseVolume
 	exports.voip:JoinChannel(channel, "Receiver", "radio", volume)
 end
 
@@ -233,12 +243,17 @@ RegisterNUICallback("updateChannel", function(direction, cb)
 	Main:UpdateListenerStation(direction)
 end)
 
+--[[ Events: Net ]]--
+RegisterNetEvent(Main.event.."toggleListener", function(value)
+	Main:ToggleListener(value)
+end)
+
 --[[ Events ]]--
 AddEventHandler("interact:on_broadcaster", function(interactable)
 	local stationId = interactable.stationId
 	if not stationId then return end
 
-	TriggerServerEvent("broadcaster:toggle", stationId)
+	TriggerServerEvent(Main.event.."toggle", stationId)
 end)
 
 AddEventHandler("inventory:use", function(item, slot, cb)
