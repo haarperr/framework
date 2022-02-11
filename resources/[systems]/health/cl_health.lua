@@ -40,7 +40,7 @@ function Main:Init()
 		icon = "front_hand",
 	}, function(player, playerPed, dist)
 		local serverId = GetPlayerServerId(player)
-		local state = _Player(serverId)
+		local state = _Player(serverId).state
 
 		return state.immobile
 	end, function(player, playerPed)
