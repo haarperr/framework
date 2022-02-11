@@ -5,7 +5,31 @@ Main:AddOption({
 	id = "playerEscort",
 	text = "Escort",
 	icon = "follow_the_signs",
-})
+}, function(player, playerPed, dist, serverId)
+	if not serverId then return false end
+
+	local state = Player(serverId).state
+	if not state then return false end
+
+	return state.restrained and not state.immobile
+end, function(player, playerPed, serverId)
+	if not serverId then return end
+
+	-- Check door.
+	local seatIndex = FindSeatPedIsIn(playerPed)
+	if seatIndex and not IsVehicleDoorOpen(GetVehiclePedIsIn(playerPed), seatIndex + 1) then
+		return
+	end
+
+	-- Get state.
+	local state = (Player(serverId) or {}).state
+	if not state or state.immobile or not state.restrained then
+		return
+	end
+
+	-- Begin escort.
+	TriggerServerEvent("players:escort", serverId)
+end)
 
 --[[ Functions: Escort ]]--
 function Escort:Start(serverId)
@@ -80,7 +104,7 @@ function Escort:Update()
 				ClearPedTasks(ped)
 				ClearPedSecondaryTask(ped)
 
-				TriggerServerEvent("players:escort", Main.serverId)
+				TriggerServerEvent("players:escort", self.serverId)
 				
 				local startTime = GetGameTimer()
 				while not GetIsTaskActive(ped, 160) and DoesEntityExist(vehicle) and GetGameTimer() - startTime < 6000 do
@@ -109,27 +133,6 @@ RegisterNetEvent("players:escort", function(serverId)
 	else
 		Escort:Stop()
 	end
-end)
-
---[[ Events ]]--
-AddEventHandler("interact:onNavigate_playerEscort", function()
-	if not Main.player or not Main.serverId then return end
-	local playerPed = GetPlayerPed(Main.player)
-
-	-- Check door.
-	local seatIndex = FindSeatPedIsIn(playerPed)
-	if seatIndex and not IsVehicleDoorOpen(GetVehiclePedIsIn(playerPed), seatIndex + 1) then
-		return
-	end
-
-	-- Get state.
-	local state = (Player(Main.serverId) or {}).state
-	if not state or state.immobile or not state.restrained then
-		return
-	end
-
-	-- Begin escort.
-	TriggerServerEvent("players:escort", Main.serverId)
 end)
 
 --[[ Threads ]]--

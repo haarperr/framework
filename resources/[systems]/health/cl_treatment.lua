@@ -762,22 +762,21 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("interact:onNavigate_healthExamine", function(option)
-	local ped = PlayerPedId()
-	if Treatment.ped == ped then
+	if Treatment.ped then
 		Treatment:End()
 	else
-		Treatment:Begin(ped, Main.bones, nil, Status)
+		Treatment:Begin(PlayerPedId(), Main.bones, nil, Status)
 	end
 end)
 
-AddEventHandler("players:on_healthExaminePlayer", function(player, ped)
+AddEventHandler("health:examine", function(player)
 	if not player then return end
 
 	TriggerServerEvent("health:subscribe", GetPlayerServerId(player), true)
 end)
 
-AddEventHandler("players:on_healthHelp", function(player, ped)
-	if not player then return end
+AddEventHandler("health:help", function(player)
+	if not player or not NetworkIsPlayerActive(player) then return end
 
 	exports.emotes:Play(Config.Examining.Anims.Action)
 

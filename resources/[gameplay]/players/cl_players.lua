@@ -4,6 +4,11 @@ Main = {
 
 --[[ Functions: Main ]]--
 function Main:GetPlayer()
+	-- Test.
+	if true then
+		return PlayerId(), PlayerPedId(), 0.0
+	end
+
 	local ped = PlayerPedId()
 	local player, playerPed, playerDist
 
@@ -19,7 +24,7 @@ function Main:Update()
 
 	local player, playerPed, playerDist = self:GetPlayer()
 	if not player or playerDist > Config.MaxDist then
-		Main:ClearNavigation()
+		self:ClearNavigation()
 	elseif player ~= self.player then
 		self:BuildNavigation()
 	end
@@ -31,7 +36,7 @@ function Main:ClearNavigation()
 	end
 
 	exports.interact:RemoveOption("players")
-
+	
 	self.open = nil
 	self.player = nil
 	self.ped = nil
@@ -39,28 +44,56 @@ function Main:ClearNavigation()
 end
 
 function Main:BuildNavigation()
+	Ped = PlayerPedId()
+
 	self:ClearNavigation()
 
-	local player, playerPed, playerDist = self:GetPlayer()
-	if not player or playerDist > Config.MaxDist then return end
+	-- Get player.
+	local player, playerPed, playerDist
+	if Carry.player and NetworkIsPlayerActive(Carry.player) then
+		player, ped, playerDist = Carry.player, Carry.ped, #(GetEntityCoords(Ped) - GetEntityCoords(Carry.ped))
+	else
+		player, playerPed, playerDist = self:GetPlayer()
+	end
 
+	-- Check player.
+	if not player or not NetworkIsPlayerActive(player) or playerDist > Config.MaxDist then return end
+
+	-- Get server id.
+	local serverId = GetPlayerServerId(player)
+	if not serverId then return end
+
+	-- Build sub options.
+	local sub = {}
+	for id, option in pairs(self.options) do
+		if not option.condition or option.condition(player, playerPed, playerDist, serverId) then
+			sub[#sub + 1] = option.data
+		end
+	end
+	
+	-- Add options.
 	exports.interact:AddOption({
 		id = "players",
-		text = ("Player [%s]"):format(GetPlayerServerId(player) or "?"),
+		text = ("Player [%s]"):format(serverId or "?"),
 		icon = "group",
-		sub = self.options,
+		sub = sub,
 	})
 
-	self.open = true
+	-- Cache player.
 	self.player = player
 	self.ped = playerPed
-	self.serverId = GetPlayerServerId(player)
+	self.serverId = serverId
+	self.open = true
 end
 
-function Main:AddOption(data)
+function Main:AddOption(data, condition, cb)
 	data.players = true
 	
-	table.insert(self.options, data)
+	self.options[data.id] = {
+		data = data,
+		condition = condition,
+		cb = cb,
+	}
 
 	if self.open then
 		self:BuildNavigation()
@@ -68,26 +101,23 @@ function Main:AddOption(data)
 end
 
 function Main:RemoveOption(id)
-	for k, v in ipairs(self.options) do
-		if v.id == id then
-			-- Remove option.
-			table.remove(self.options, k)
-			
-			-- Update menu.
-			self:BuildNavigation()
-	
-			return true
-		end
-	end
+	local option = self.options[id]
+	if not option then return false end
 
-	return false
+	-- Remove option.
+	self.options[id] = nil
+
+	-- Update menu.
+	self:BuildNavigation()
+
+	return true
 end
 
 --[[ Exports ]]--
-exports("AddOption", function(data)
+exports("AddOption", function(data, condition, cb)
 	data.resource = GetInvokingResource()
 
-	Main:AddOption(data)
+	Main:AddOption(data, condition, cb)
 end)
 
 --[[ Threads ]]--
@@ -122,9 +152,21 @@ AddEventHandler("interact:navigate", function(value)
 	end
 end)
 
-AddEventHandler("interact:onNavigate", function(id, option)
-	if option.players then
+AddEventHandler("interact:onNavigate", function(id, data)
+	if data.players then
+		-- Check player.
+		if not Main.player then
+			return
+		end
+
+		-- Trigger events.
 		TriggerEvent("players:on_"..id, Main.player, Main.ped)
 		TriggerServerEvent("players:on_"..id, Main.player, Main.ped)
+		
+		-- Trigger callbacks.
+		local option = Main.options[id]
+		if option and option.cb then
+			option.cb(Main.player, Main.ped, Main.serverId)
+		end
 	end
 end)

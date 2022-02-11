@@ -1,35 +1,58 @@
 Carry = Carry or {}
 
---[[ Functions ]]--
-function Carry:Init()
-	Main:RemoveOption("player-carry")
-
-	local sub = {}
-	for k, v in pairs(Carry.modes) do
-		local event = "player-"..k
-		if k ~= "carry" then
-			sub[#sub + 1] = {
-				id = "player-"..k,
-				text = v.Name,
-				icon = "luggage",
-			}
-		end
-
-		AddEventHandler("interact:onNavigate_"..event, function(option)
-			Carry:Send(k)
-
-			TriggerServerEvent("players:carryEnd")
-		end)
+--[[ Options ]]--
+Main:AddOption({
+	id = "forcePlayer",
+	text = "Force",
+	icon = "airline_seat_recline_normal",
+}, function(player, playerPed, dist, serverId)
+	-- Get state.
+	if not Carry.player then
+		return false
 	end
+	
+	-- Check force target.
+	if not Carry:GetForceTarget() then
+		return false
+	end
+	
+	return true
+end, function(player, playerPed)
+	if not Carry.player then return end
+	
+	local vehicle, seatIndex = Carry:GetForceTarget()
+	if not vehicle or not seatIndex then return end
+	
+	TriggerServerEvent("players:force", GetNetworkId(vehicle), seatIndex)
+end)
+
+for k, v in pairs(Carry.modes) do
+	local event = "player-"..k
 
 	Main:AddOption({
-		id = "player-carry",
-		text = "Carry",
-		icon = "luggage",
+		id = event,
+		text = v.Name,
+		icon = v.Icon,
 		sub = sub,
-	})
+	}, function(player, playerPed, dist, serverId)
+		if Carry.player then
+			return false
+		end
+
+		local playerState = Player(serverId).state or {}
+		if not v.Immobile and playerState.immobile then
+			return false
+		end
+
+		return true
+	end, function(player, playerPed, serverId)
+		Carry:Send(k)
+
+		TriggerServerEvent("players:carryEnd")
+	end)
 end
 
+--[[ Functions ]]--
 function Carry:Send(id)
 	if not Main.serverId or not self:CanCarry() then return end
 
@@ -85,7 +108,7 @@ function Carry:Activate(direction, target, id)
 	end
 
 	-- Add option.
-	Main:AddOption({
+	exports.interact:AddOption({
 		id = "carryEnd",
 		text = direction == "Target" and "Break-out" or "Drop",
 		icon = "pan_tool",
@@ -126,7 +149,7 @@ function Carry:Deactivate()
 	end
 
 	-- Remove navigation option.
-	Main:RemoveOption("carryEnd")
+	exports.interact:RemoveOption("carryEnd")
 end
 
 function Carry:Update()
@@ -228,50 +251,8 @@ RegisterNetEvent("players:carry", function(direction, target, id, netId, seatInd
 end)
 
 --[[ Events ]]--
-AddEventHandler("players:clientStart", function()
-	Carry:Init()
-end)
-
 AddEventHandler("interact:onNavigate_carryEnd", function()
 	TriggerServerEvent("players:carryEnd")
-end)
-
-AddEventHandler("interact:onNavigate_forcePlayer", function()
-	if not Carry.player then return end
-	
-	local vehicle, seatIndex = Carry:GetForceTarget()
-	if not vehicle or not seatIndex then return end
-	
-	TriggerServerEvent("players:force", GetNetworkId(vehicle), seatIndex)
-end)
-
-AddEventHandler("interact:navigate", function(value)
-	-- Remove option.
-	if not value then
-		if Carry.force then
-			Main:RemoveOption("forcePlayer")
-			Carry.force = nil
-		end
-
-		return
-	end
-
-	-- Get state.
-	local state = (LocalPlayer or {}).state
-	if not state or not state.carrying then return end
-	
-	-- Check force target.
-	if not Carry:GetForceTarget() then return end
-	
-	-- Add option.
-	Main:AddOption({
-		id = "forcePlayer",
-		text = "Force",
-		icon = "airline_seat_recline_normal",
-	})
-
-	-- Cache carry.
-	Carry.force = true
 end)
 
 --[[ Threads ]]--

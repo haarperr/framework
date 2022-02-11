@@ -8,6 +8,8 @@ Main = {
 	snowflakeSynced = 0,
 }
 
+_Player = Player
+
 --[[ Functions ]]--
 function Main:Init()
 	-- Cache bones.
@@ -28,13 +30,22 @@ function Main:Init()
 		id = "healthExaminePlayer",
 		text = "Examine",
 		icon = "visibility",
-	})
+	}, false, function(player, playerPed)
+		TriggerEvent("health:examine", player)
+	end)
 
 	exports.players:AddOption({
 		id = "healthHelp",
 		text = "Help Up",
 		icon = "front_hand",
-	})
+	}, function(player, playerPed, dist)
+		local serverId = GetPlayerServerId(player)
+		local state = _Player(serverId)
+
+		return state.immobile
+	end, function(player, playerPed)
+		TriggerEvent("health:help", player)
+	end)
 end
 
 function Main:Update()
