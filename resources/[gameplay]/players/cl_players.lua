@@ -5,9 +5,9 @@ Main = {
 --[[ Functions: Main ]]--
 function Main:GetPlayer()
 	-- Test.
-	if true then
-		return PlayerId(), PlayerPedId(), 0.0
-	end
+	-- if true then
+	-- 	return PlayerId(), PlayerPedId(), 0.0
+	-- end
 
 	local ped = PlayerPedId()
 	local player, playerPed, playerDist
