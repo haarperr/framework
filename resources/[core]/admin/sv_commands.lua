@@ -203,3 +203,45 @@ exports.chat:RegisterCommand("a:nrun", function(source, args, rawCommand, cb)
 end, {
 	rawText = true,
 }, "Owner")
+
+exports.chat:RegisterCommand("a:search", function(source, args, rawCommand, cb)
+	-- Get target.
+	local target = tonumber(args[1])
+	if not target or not GetPlayerEndpoint(target) then
+		cb("error", "Invalid target!")
+		return
+	end
+
+	-- Check self.
+	if source == target then
+		cb("error", "You can't search yourself!")
+		return
+	end
+
+	-- Get container id.
+	local containerId = exports.inventory:GetPlayerContainer(target, true)
+	if not containerId then
+		cb("error", "Player doesn't have a container!")
+	end
+
+	-- Subscribe player.
+	local isFrisk = args[2] == "1"
+
+	if exports.inventory:Subscribe(source, containerId, true, isFrisk) then
+		-- Open inventory.
+		TriggerClientEvent("inventory:toggle", source, true)
+		
+		-- Log it.
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = isFrisk and "frisked" or "searched",
+		})
+	end
+end, {
+	description = "Search or frisk somebody, from anywhere!",
+	parameters = {
+		{ name = "Target", description = "Who to search or frisk?" },
+		{ name = "Frisk", description = "Enter '1' to frisk instead." },
+	}
+}, "Mod")
