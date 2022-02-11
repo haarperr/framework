@@ -146,6 +146,13 @@ function Emote:Play(settings)
 		)
 	end
 
+	-- Hands up.
+	if settings.HandsUp then
+		local state = LocalPlayer.state
+		state:set("handsup", true, true)
+		self.handsup = true
+	end
+
 	-- Create props.
 	if settings.Props then
 		if not self.props then
@@ -195,6 +202,12 @@ function Emote:Remove()
 	-- Unfreeze.
 	if self.frozen then
 		FreezeEntityPosition(ped, false)
+	end
+
+	-- Hands up.
+	if self.handsup then
+		local state = LocalPlayer.state
+		state:set("handsup", false, true)
 	end
 	
 	-- Clear props.
