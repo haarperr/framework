@@ -1,7 +1,7 @@
 Search = {
 	anims = {
-		normal = { Dict = "missexile3", Name = "ex03_dingy_search_case_a_michael", Flag = 48, Disarm = true, Duration = 7000 },
-		frisk = { Dict = "anim@gangops@facility@servers@bodysearch@", Name = "player_search", Flag = 48, Disarm = true, Duration = 2000 },
+		normal = { Dict = "missexile3", Name = "ex03_dingy_search_case_a_michael", Flag = 48, Disarm = true, Duration = 8000 },
+		frisk = { Dict = "anim@gangops@facility@servers@bodysearch@", Name = "player_search", Flag = 48, Disarm = true, Duration = 1000 },
 	},
 }
 
@@ -44,17 +44,20 @@ function Search:Begin(player, frisk)
 
 	local startTime = GetGameTimer()
 	while GetGameTimer() - startTime < anim.Duration do
-		if not NetworkIsPlayerActive(player) or not Search:CanSearch(player) then return end
+		Citizen.Wait(50)
+		
+		if not NetworkIsPlayerActive(player) or not Search:CanSearch(player) or not exports.emotes:IsPlaying(emote) then print("no search") return end
 
 		local playerPed = GetPlayerPed(player)
 		local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(PlayerPedId()))
 		if dist > Config.MaxDist then
 			exports.emotes:Stop(emote)
+			print("too far")
 			return
 		end
-
-		Citizen.Wait(50)
 	end
+
+	print("search")
 
 	TriggerServerEvent("players:search", GetPlayerServerId(player), frisk)
 end

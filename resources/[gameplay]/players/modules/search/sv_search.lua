@@ -27,9 +27,10 @@ function Search:CheckPair(source, target)
 	-- Check coords.
 	local sourceCoords = GetEntityCoords(sourcePed)
 	local targetCoords = GetEntityCoords(targetPed)
+	local dist = #(targetCoords - sourceCoords)
 
-	if #(targetCoords - sourceCoords) > Config.MaxDist then
-		return false
+	if dist > Config.MaxDist then
+		return false, dist
 	end
 
 	-- Success.
@@ -42,11 +43,25 @@ RegisterNetEvent("players:search", function(target, isFrisk)
 	
 	isFrisk = isFrisk == true
 
+	-- Check input.
 	if (
 		type(target) ~= "number" or
 		not Main.players[target] or
-		not PlayerUtil:CheckCooldown(source, 5000, true, "search")
+		not PlayerUtil:CheckCooldown(source, 5.0, true, "search")
 	) then
+		return
+	end
+
+	-- Check distance.
+	local retval, dist = Search:CheckPair(source, target)
+	if not retval then
+		if dist and dist > 50.0 then
+			local targetPed = GetPlayerPed(target)
+			local coords = GetEntityCoords(targetPed)
+
+			exports.user:TriggerTrap(source, true, ("tried searching [%s] from %.2f meters at %.2f, %.2f, %.2f"):format(target, dist, coords.x, coords.y, coords.z))
+		end
+
 		return
 	end
 
