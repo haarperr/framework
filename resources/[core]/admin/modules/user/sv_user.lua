@@ -28,6 +28,8 @@ RegisterNetEvent(Admin.event.."lookupUser", function(data)
 		}
 	else
 		local key, value = data:match("([^:]+):([^:]+)")
+		if not value then return end
+		
 		query = ("`%s`=@value"):format(key)
 		values = {
 			["@value"] = value
