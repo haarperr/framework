@@ -1,4 +1,4 @@
-fx_version 'adamant'
+fx_version 'cerulean'
 game 'gta5'
 
 shared_script {
@@ -6,6 +6,7 @@ shared_script {
 }
 
 client_scripts {
+	'@utils/client/entities.lua',
 	'cl_peds.lua',
 }
 
