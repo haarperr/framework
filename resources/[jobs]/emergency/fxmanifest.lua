@@ -11,9 +11,8 @@ shared_script {
 }
 
 client_scripts {
-	'cl_police.lua',
 }
 
 server_scripts {
-	'sv_police.lua',
+	'sv_trackers.lua',
 }
