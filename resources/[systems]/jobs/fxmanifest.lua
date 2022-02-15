@@ -1,14 +1,14 @@
-fx_version 'adamant'
+fx_version 'cerulean'
 game 'gta5'
 
 dependencies {
-	'user',
-	'markers',
+	'entities',
 }
 
 shared_script {
 	'sh_config.lua',
 	'sh_jobs.lua',
+	'jobs/*.lua',
 }
 
 client_scripts {
@@ -16,5 +16,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/players.lua',
+	'@utils/server/database.lua',
 	'sv_jobs.lua',
 }
