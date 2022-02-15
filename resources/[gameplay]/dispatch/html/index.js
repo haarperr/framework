@@ -287,7 +287,7 @@ function addNotification(data) {
 	instance.units = {
 		tags: {},
 		add: callsign => {
-			var tag = createTag(locationSpan, callsign, "blue");
+			var tag = createTag(locationSpan, callsign, "black");
 			tag.style.marginTop = "4px";
 			instance.units.tags[callsign] = tag;
 		},

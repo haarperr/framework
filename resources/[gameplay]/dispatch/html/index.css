@@ -199,6 +199,10 @@ button:focus, button:active {
 	background: rgb(235, 169, 48);
 }
 
+.tag.black {
+	background: rgb(20, 20, 20);
+}
+
 /* Animations */
 @-webkit-keyframes slide-in {
 	100% {
