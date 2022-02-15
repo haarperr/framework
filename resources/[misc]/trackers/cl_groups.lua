@@ -150,6 +150,10 @@ function Group:UpdateBlip(blip, data)
 	SetBlipCategory(blip, isPed and 7 or 1)
 	SetBlipHiddenOnLegend(blip, not isPed)
 	ShowHeadingIndicatorOnBlip(blip, isPed)
+
+	if isPed then
+		SetBlipPriority(blip, 255)
+	end
 	
 	-- Blip labels.
 	if data.text then
