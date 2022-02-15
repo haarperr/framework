@@ -131,6 +131,12 @@ function Object:Update(pedCoords)
 end
 
 function Object:OnEnter()
+	if self.condition and not self:condition() then
+		return
+	end
+
+	self.entered = true
+	
 	if self.navigation then
 		self.navigation.id = self.id
 
@@ -139,6 +145,10 @@ function Object:OnEnter()
 end
 
 function Object:OnExit()
+	if not self.entered then return end
+	
+	self.entered = false
+
 	if self.navigation and self.navigation.id then
 		exports.interact:RemoveOption(self.navigation.id)
 	end
