@@ -67,16 +67,11 @@ end
 -- end
 
 function Job:Hire(source)
-	local jobs = exports.character:Get(source, "jobs")
-	if not jobs then
-		jobs = {}
-	elseif jobs[self.id] then
+	if exports.factions:Has(source, self.Faction, self.Group) then
 		return false, "already hired"
 	end
 
-	jobs[self.id] = 1
-
-	exports.character:Set(source, "jobs", jobs)
+	exports.factions:JoinFaction(source, self.Faction, self.Group or false, 1)
 
 	return true
 end
@@ -164,8 +159,7 @@ function Job:Clock(source, value, wasCached)
 end
 
 function Job:IsHired(source)
-	local jobs = exports.character:Get(source, "jobs")
-	return jobs and jobs[self.id] ~= nil
+	return exports.factions:Has(source, self.Faction, self.Group)
 end
 
 --[[ Events: Net ]]--
@@ -210,7 +204,6 @@ end)
 
 AddEventHandler("character:selected", function(source, character, wasActive)
 	if not character then
-		print("character switch", source)
 		Main:CachePlayer(source)
 		return
 	end

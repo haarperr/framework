@@ -24,7 +24,6 @@ function Job:RegisterClocks(clocks)
 				clock = k,
 			},
 			condition = function(self)
-				print("checking job", job.id)
 				return job:IsHired()
 			end,
 		})
@@ -32,8 +31,7 @@ function Job:RegisterClocks(clocks)
 end
 
 function Job:IsHired()
-	local jobs = exports.character:Get("jobs")
-	return jobs and jobs[self.id] ~= nil
+	return exports.factions:Has(self.Faction, self.Group)
 end
 
 --[[ Events ]]--
