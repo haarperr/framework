@@ -66,6 +66,7 @@ function Main:LoadPlayer(source, characterId)
 		faction:AddPlayer(source, characterId, info.group, info.level)
 	end
 
+	TriggerEvent(self.event.."loaded", source, characterId, factions)
 	TriggerClientEvent(self.event.."load", source, factions)
 end
 
