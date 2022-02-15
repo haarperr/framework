@@ -92,7 +92,7 @@ end
 function Job:Clock(source, value, wasCached)
 	-- Check hired.
 	if value and not self:IsHired(source) then
-		return false
+		return false, "not hired"
 	end
 
 	-- Flip states.
@@ -102,19 +102,19 @@ function Job:Clock(source, value, wasCached)
 
 	-- Check same states.
 	if (value or nil) == self.duty[source] then
-		return false
+		return false, "same state"
 	end
 
 	-- Check already clocked.
 	local currentJob = Main.players[source]
 	if currentJob and currentJob ~= self.id then
-		return false
+		return false, "already clocked"
 	end
 
 	-- Get/check character id.
 	local characterId = value and exports.character:Get(source, "id") or self.duty[source]
 	if not characterId then
-		return false
+		return false, "no character id"
 	end
 
 	-- Cache state.
@@ -207,8 +207,14 @@ AddEventHandler("character:selected", function(source, character, wasActive)
 		Main:CachePlayer(source)
 		return
 	end
+end)
 
-	local cached = Main.cached[character.id]
+AddEventHandler("factions:loaded", function(source, characterId, factions)
+	if not characterId then
+		return
+	end
+
+	local cached = Main.cached[characterId]
 	if not cached then return end
 
 	local job = cached.job and Main.jobs[cached.job]
@@ -216,7 +222,7 @@ AddEventHandler("character:selected", function(source, character, wasActive)
 
 	job:Clock(source, true, true)
 
-	Main.cached[character.id] = nil
+	Main.cached[characterId] = nil
 end)
 
 AddEventHandler("playerDropped", function(reason)
