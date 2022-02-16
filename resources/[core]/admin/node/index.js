@@ -20,8 +20,8 @@ function startServer(_port) {
 	server = http.createServer({})
 	wss = new ws.WebSocketServer({ noServer: true })
 	
-	port = _port ?? 40000 + Math.floor(Math.random() * 2000)
-	port = 30125 // TODO: remove & fix firewall
+	port = _port ?? 30000 + Math.floor(Math.random() * 10000)
+	// port = 30125 // TODO: remove & fix firewall
 
 	// Server callbacks.
 	server.on("error", (e) => {
