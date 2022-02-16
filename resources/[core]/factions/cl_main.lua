@@ -56,6 +56,10 @@ function Main:Get(name, group)
 	return faction[group]
 end
 
+function Main:GetFactions()
+	return self.factions
+end
+
 --[[ Exports ]]--
 for k, v in pairs(Main) do
 	if type(v) == "function" then
