@@ -21,6 +21,17 @@ function Main:GetActiveJobs(getJob)
 	return jobs
 end
 
+function Main:GetCurrentJob(getJob)
+	local id = LocalPlayer.state.job
+	if not id then return end
+
+	if getJob then
+		return self.jobs[id]
+	end
+
+	return id
+end
+
 function Main:GetRank(id)
 	local job = self.jobs[id]
 	if not job then return end
@@ -74,4 +85,8 @@ end)
 
 exports("GetRank", function(...)
 	return Main:GetRank(...)
+end)
+
+exports("GetCurrentJob", function(...)
+	return Main:GetCurrentJob(...)
 end)

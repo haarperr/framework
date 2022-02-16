@@ -156,6 +156,12 @@ function Job:Clock(source, value, wasCached)
 		self.count = self.count - 1
 	end
 
+	-- Set player state.
+	local state = Player(source).state
+	if state then
+		state.job = value and self.id or nil
+	end
+
 	-- Trigger events.
 	TriggerEvent("jobs:clocked", self.id, source, value)
 
