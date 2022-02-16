@@ -66,27 +66,20 @@ end
 	
 -- end
 
-function Job:Hire(source)
-	if exports.factions:Has(source, self.Faction, self.Group) then
+function Job:Hire(source, rank)
+	if self:IsHired(source) then
 		return false, "already hired"
 	end
 
-	exports.factions:JoinFaction(source, self.Faction, self.Group or false, 1)
-
-	return true
+	return exports.factions:JoinFaction(source, self.Faction, self.Group or false, type(rank) == "string" and GetHashKey(rank) or tonumber(rank) or 0)
 end
 
 function Job:Fire(source)
-	local jobs = exports.character:Get(source, "jobs")
-	if not jobs or not jobs[self.id] then
+	if not self:IsHired(source) then
 		return false, "not hired"
 	end
 
-	jobs[self.id] = nil
-
-	exports.character:Set(source, "jobs", jobs)
-
-	return true
+	return exports.factions:LeaveFaction(source, self.Faction, self.Group or false)
 end
 
 function Job:Clock(source, value, wasCached)
