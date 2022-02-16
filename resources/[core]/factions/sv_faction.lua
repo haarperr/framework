@@ -36,7 +36,7 @@ function Faction:AddPlayer(source, characterId, groupName, level)
 	end
 
 	-- Check already in group.
-	if group[source] then return false end
+	if (group[source] or nil) == (level or nil) then return false end
 
 	-- Cache player.
 	local playerFaction = player[self.name]

@@ -149,8 +149,45 @@ function Main:LeaveFaction(source, name, group)
 			["@group"] = group,
 		})
 
-		TriggerEvent(Main.event.."leave", source, name, group, level)
-		TriggerClientEvent(Main.event.."leave", source, name, group, level)
+		TriggerEvent(Main.event.."leave", source, name, group)
+		TriggerClientEvent(Main.event.."leave", source, name, group)
+
+		return true
+	else
+		return false
+	end
+end
+
+function Main:UpdateFaction(source, name, group, level)
+	if type(name) ~= "string" or (group ~= nil and type(group) ~= "string") then return false end
+
+	local characterId = exports.character:Get(source, "id")
+	if not characterId then return false end
+
+	local faction = self.factions[name]
+	if not faction then return false end
+
+	if faction:AddPlayer(source, characterId, group, level) then
+		exports.GHMattiMySQL:QueryAsync(([[
+			UPDATE %s
+			SET
+				level=@level
+			WHERE
+				`character_id`=@characterId AND
+				`name`=@name AND
+				%s
+		]]):format(
+			self.table,
+			group and group ~= "" and "`group`=@group" or "`group` IS NULL"
+		), {
+			["@characterId"] = characterId,
+			["@name"] = name,
+			["@group"] = group,
+			["@level"] = level,
+		})
+
+		TriggerEvent(Main.event.."update", source, name, group, level)
+		TriggerClientEvent(Main.event.."join", source, name, group, level)
 
 		return true
 	else
