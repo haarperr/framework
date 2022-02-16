@@ -27,7 +27,7 @@ end
 --[[ Functions: Main ]]--
 function Main:RegisterJob(id, data)
 	id = id:lower()
-	
+
 	local job = Job:Create(id, data)
 	
 	self.jobs[id] = job
@@ -35,6 +35,20 @@ function Main:RegisterJob(id, data)
 	if self.OnRegister then
 		self:OnRegister(job)
 	end
+end
+
+function Main:GetAllJobs()
+	local ids = {}
+
+	for id, job in pairs(self.jobs) do
+		ids[#ids + 1] = id
+	end
+
+	return ids
+end
+
+function Main:GetJob(id)
+	return self.jobs[id]
 end
 
 --[[ Functions: Job ]]--
@@ -49,4 +63,12 @@ exports("Register", function(id, data)
 	data.resource = GetInvokingResource()
 
 	RegisterJob(id, data)
+end)
+
+exports("GetAllJobs", function()
+	return Main:GetAllJobs()
+end)
+
+exports("GetJob", function(id)
+	return Main:GetJob(id)
 end)
