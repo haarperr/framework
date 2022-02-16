@@ -21,6 +21,16 @@ function Main:GetActiveJobs(getJob)
 	return jobs
 end
 
+function Main:GetRank(id)
+	local job = self.jobs[id]
+	if not job then return end
+
+	local faction = exports.factions:Get(job.Faction, job.Group)
+	if not faction then return end
+
+	return job:GetRankByHash(faction, true)
+end
+
 --[[ Functions: Job ]]--
 function Job:RegisterClocks(clocks)
 	local job = self
@@ -60,4 +70,8 @@ end)
 --[[ Exports ]]--
 exports("GetActiveJobs", function(...)
 	return Main:GetActiveJobs(...)
+end)
+
+exports("GetRank", function(...)
+	return Main:GetRank(...)
 end)

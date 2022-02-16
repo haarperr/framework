@@ -58,6 +58,20 @@ function Job:Create(id, data)
 	return setmetatable(data, Job)
 end
 
+function Job:GetRankByHash(hash, useDefault)
+	if not self.Ranks then return end
+
+	for _, rank in ipairs(self.Ranks) do
+		if GetHashKey(rank:lower()) == hash then
+			return rank
+		end
+	end
+
+	if useDefault then
+		return self.Ranks[1]
+	end
+end
+
 --[[ Exports ]]--
 exports("Register", function(id, data)
 	data.resource = GetInvokingResource()

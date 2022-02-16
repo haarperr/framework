@@ -10,6 +10,10 @@ exports.jobs:Register("lspd", {
 		Group = "emergency",
 		State = "police",
 	},
+	Ranks = {
+		"Recruit",
+		"Chief",
+	},
 })
 
 exports.jobs:Register("bcso", {
@@ -22,6 +26,10 @@ exports.jobs:Register("bcso", {
 	Tracker = {
 		Group = "emergency",
 		State = "police",
+	},
+	Ranks ={
+		"Recruit",
+		"Sheriff",
 	},
 })
 

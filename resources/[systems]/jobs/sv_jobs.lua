@@ -61,10 +61,45 @@ function Main:CachePlayer(source)
 	job:Clock(source, false)
 end
 
+function Main:GetRank(source, id)
+	local job = self.jobs[id]
+	if not job then return end
+
+	local faction = exports.factions:Get(source, job.Faction, job.Group)
+	if not faction then return end
+
+	return job:GetRankByHash(faction, true)
+end
+
+function Main:SetRank(source, id, rank)
+	local job = self.jobs[id]
+	if not job then return false, "no job" end
+
+	return job:SetRank(source, rank)
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	
 -- end
+
+function Job:SetRank(source, rank)
+	local faction = exports.factions:Get(source, self.Faction, self.Group)
+
+	if not faction then
+		return false, "not hired"
+	end
+
+	if type(rank) == "string" then
+		rank = GetHashKey(rank)
+	end
+
+	if faction == rank then
+		return false, "already set"
+	end
+
+	return exports.factions:UpdateFaction(source, self.Faction, self.Group, rank)
+end
 
 function Job:Hire(source, rank)
 	if self:IsHired(source) then
@@ -79,7 +114,7 @@ function Job:Fire(source)
 		return false, "not hired"
 	end
 
-	return exports.factions:LeaveFaction(source, self.Faction, self.Group or false)
+	return exports.factions:LeaveFaction(source, self.Faction, self.Group)
 end
 
 function Job:Clock(source, value, wasCached)
@@ -232,6 +267,11 @@ Citizen.CreateThread(function()
 	end
 end)
 
+--[[ Exports ]]--
+exports("GetRank", function(...)
+	return Main:GetRank(...)
+end)
+
 --[[ Commands ]]--
 local function HireOrFire(source, args, cb, isHire)
 	-- Get/check job.
@@ -249,10 +289,20 @@ local function HireOrFire(source, args, cb, isHire)
 		return
 	end
 
+	-- Get/check rank.
+	local rank
+	if isHire and args[3] then
+		rank = job:GetRankByHash(GetHashKey(args[3]))
+		if not rank then
+			cb("error", "Invalid rank! "..json.encode(job.Ranks))
+			return
+		end
+	end
+
 	-- Hire or fire.
 	local success, reason
 	if isHire then
-		success, reason = job:Hire(target)
+		success, reason = job:Hire(target, rank)
 	else
 		success, reason = job:Fire(target)
 	end
@@ -265,13 +315,53 @@ local function HireOrFire(source, args, cb, isHire)
 	end
 end
 
+exports.chat:RegisterCommand("a:jobrank", function(source, args, command, cb)
+	-- Get/check job.
+	local jobId = (args[1] or ""):lower()
+	local job = Main.jobs[jobId]
+	if not job then
+		cb("error", "Invalid job!")
+		return
+	end
+
+	-- Get/check rank.
+	local rank = args[2] and job:GetRankByHash(GetHashKey(args[2]:lower()))
+	if not rank then
+		cb("error", "Invalid rank! "..json.encode(job.Ranks))
+		return
+	end
+	
+	-- Get/check target.
+	local target = tonumber(args[3]) or source
+	if not target or target == 0 or target < -1 or not exports.character:IsSelected(target) then
+		cb("error", "Invalid target!")
+		return
+	end
+
+	-- Set rank.
+	local retval, result = Main:SetRank(target, jobId, rank)
+	if retval then
+		cb("success", ("Set [%s]'s rank in '%s' to '%s'!"):format(target, jobId, rank))
+	else
+		cb("error", ("Couldn't set [%s]'s rank (%s)!"):format(target, result or "?"))
+	end
+end, {
+	description = "Set's the rank of somebody's job.",
+	parameters = {
+		{ name = "Job", description = "Use the job's id." },
+		{ name = "Rank", description = "What rank to hire them as? Default is the lowest rank." },
+		{ name = "Target", description = "Who you are setting the rank for. Default = you." },
+	}
+}, "Admin")
+
 exports.chat:RegisterCommand("a:jobhire", function(source, args, command, cb)
 	HireOrFire(source, args, cb, true)
 end, {
 	description = "Hire any person to any job.",
 	parameters = {
 		{ name = "Job", description = "Use the job's id." },
-		{ name = "Target", description = "Who you are hiring. Leave blank for yourself." },
+		{ name = "Target", description = "Who you are hiring. Default = you." },
+		{ name = "Rank", description = "What rank to hire them as? Default is the lowest rank." },
 	}
 }, "Admin")
 
@@ -281,7 +371,7 @@ end, {
 	description = "Fire any person from any job.",
 	parameters = {
 		{ name = "Job", description = "Use the job's id." },
-		{ name = "Target", description = "Who you are firing. Leave blank for yourself." },
+		{ name = "Target", description = "Who you are firing. Default = you." },
 	}
 }, "Admin")
 
