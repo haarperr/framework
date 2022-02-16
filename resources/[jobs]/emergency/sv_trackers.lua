@@ -61,7 +61,7 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 			["ems"] = {
 				Colour = 8,
 			},
-			["police"] = {
+			["pd"] = {
 				Colour = 3,
 			},
 		},
