@@ -135,6 +135,8 @@ function Object:OnEnter()
 		return
 	end
 
+	TriggerEvent("entities:onEnter", self.id, self.event)
+
 	self.entered = true
 	
 	if self.navigation then
@@ -146,7 +148,9 @@ end
 
 function Object:OnExit()
 	if not self.entered then return end
-	
+
+	TriggerEvent("entities:onExit", self.id, self.event)
+
 	self.entered = false
 
 	if self.navigation and self.navigation.id then
