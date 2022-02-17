@@ -68,7 +68,7 @@ function Main:GetRank(source, id)
 	local faction = exports.factions:Get(source, job.Faction, job.Group)
 	if not faction then return end
 
-	return job:GetRankByHash(faction, true)
+	return job:GetRankByHash(faction.level, true)
 end
 
 function Main:SetRank(source, id, rank)
@@ -94,11 +94,11 @@ function Job:SetRank(source, rank)
 		rank = GetHashKey(rank)
 	end
 
-	if faction == rank then
+	if faction.level == rank then
 		return false, "already set"
 	end
 
-	return exports.factions:UpdateFaction(source, self.Faction, self.Group, rank)
+	return exports.factions:UpdateFaction(source, self.Faction, self.Group, "level", rank)
 end
 
 function Job:Hire(source, rank)
