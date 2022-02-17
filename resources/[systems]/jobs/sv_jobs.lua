@@ -380,18 +380,3 @@ end, {
 		{ name = "Target", description = "Who you are firing. Default = you." },
 	}
 }, "Admin")
-
-exports.chat:RegisterCommand("a:jobs", function(source, args, command, cb)
-	local output = ""
-
-	for id, job in pairs(Config.Jobs) do
-		if output ~= "" then
-			output = output..", "
-		end
-		output = output..id
-	end
-
-	TriggerClientEvent("chat:addMessage", output)
-end, {
-	description = "Look at all the jobs.",
-}, "Admin")

@@ -90,3 +90,19 @@ end)
 exports("GetCurrentJob", function(...)
 	return Main:GetCurrentJob(...)
 end)
+
+--[[ Commands ]]--
+exports.chat:RegisterCommand("a:jobs", function(source, args, command, cb)
+	local output = ""
+
+	for id, job in pairs(Main.jobs) do
+		if output ~= "" then
+			output = output..", "
+		end
+		output = output.."'"..id.."'"
+	end
+
+	TriggerEvent("chat:addMessage", "Jobs: "..output)
+end, {
+	description = "Look at all the jobs.",
+}, "Admin")
