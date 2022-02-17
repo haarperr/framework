@@ -43,6 +43,7 @@ function Main:UpdateEntities()
 			rotation = GetEntityRotation(entity),
 			forward = GetEntityForwardVector(entity),
 			heading = GetEntityHeading(entity),
+			settings = Config.Doors[model]
 		}
 
 		::skipObject::
@@ -93,6 +94,34 @@ function Main:UpdateGroup(coords)
 	-- Subscribe to group.
 	TriggerServerEvent("doors:subscribe", group and group.id)
 end
+
+--[[ Exports ]]--
+exports("SetDoorState", function(coords, state)
+	if state == nil then
+		local group = Main.group
+		if not group then return end
+
+		local door = group:FindDoor(coords)
+		if not door then return end
+
+		state = not door.state
+	end
+	TriggerServerEvent("doors:toggle", Main.group.id, coords, state)
+end)
+
+exports("GetDoorState", function(coords)
+	local group = Main.group
+	if not group then return end
+
+	local door = group:FindDoor(coords)
+	if not door then return end
+
+	return door.state
+end)
+
+exports("GetDoors", function()
+	return Main.doors
+end)
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
