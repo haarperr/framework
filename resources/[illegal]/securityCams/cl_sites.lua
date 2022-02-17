@@ -80,9 +80,7 @@ function Site:RegisterGroups(groups)
 end
 
 function Site:Discover()
-	local objects = exports.oldutils:GetObjects()
-
-	for k, entity in ipairs(objects) do
+	for entity in EnumerateObjects() do
 		-- Check for camera.
 		if not Main:IsObjectACamera(entity) then goto skip end
 		

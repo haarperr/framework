@@ -18,6 +18,7 @@ shared_scripts {
 }
 
 client_scripts {
+	'@utils/client/entities.lua',
 	'cl_menu.lua',
 	'cl_main.lua',
 	'cl_sites.lua',

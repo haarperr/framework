@@ -19,10 +19,11 @@ function Site:UpdateDoors()
 	local activeDoor = nil
 
 	-- Check doors.
-	for hash, door in pairs(self.doors) do
-		if not door.settings.Electronic then goto skip end
+	for entity, door in pairs(self.doors) do
+		if not door or not door.settings or not door.settings.Electronic then goto skip end
 
-		local entity = door.object
+		door.state = exports.doors:GetDoorState(door.coords)
+
 		local coords = door.coords
 		local retval, screenX, screenY = GetScreenCoordFromWorldCoord(coords.x, coords.y, coords.z)
 		local label = self.labels[entity]
@@ -33,14 +34,15 @@ function Site:UpdateDoors()
 
 			local screenDist = ((screenX - mouseX)^2 + (screenY - mouseY)^2)^0.5
 			local isActive = Menu.hasFocus and screenDist < 100.0
+			local currentDoor = self.doors[activeDoor]
 
-			if isActive and (activeDoor == nil or #(activeDoor.coords - camCoords) > #(coords - camCoords)) then
-				activeDoor = door
+			if isActive and (currentDoor == nil or #(currentDoor.coords - camCoords) > #(coords - camCoords)) then
+				activeDoor = entity
 			end
 
-			self:UpdateDoor(door)
+			self:UpdateDoor(entity, door)
 		else
-			self:RemoveDoor(door.object)
+			self:RemoveDoor(entity)
 		end
 
 		::skip::
@@ -49,11 +51,11 @@ function Site:UpdateDoors()
 	-- Select door.
 	if activeDoor ~= self.activeDoor then
 		if self.activeDoor ~= nil then
-			ResetEntityAlpha(self.activeDoor.object)
+			ResetEntityAlpha(self.activeDoor)
 		end
 
 		if activeDoor ~= nil then
-			SetEntityAlpha(activeDoor.object, 192)
+			SetEntityAlpha(activeDoor, 192)
 		end
 
 		self.activeDoor = activeDoor
@@ -61,12 +63,12 @@ function Site:UpdateDoors()
 
 	-- Toggle door.
 	if activeDoor ~= nil and IsDisabledControlJustPressed(0, 24) then
-		exports.doors:SetDoorState(activeDoor.coords, not activeDoor.state)
+		local currentDoor = self.doors[activeDoor]
+		if currentDoor then exports.doors:SetDoorState(currentDoor.coords) end
 	end
 end
 
-function Site:UpdateDoor(door)
-	local entity = door.object
+function Site:UpdateDoor(entity, door)
 	local label = self.labels[entity]
 	if label ~= nil and label.state == door.state then return end
 
