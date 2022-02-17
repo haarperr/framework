@@ -45,7 +45,8 @@ function Main:LoadPlayer(source, characterId)
 		SELECT
 			`name`,
 			`group`,
-			`level`
+			`level`,
+			`fields`
 		FROM %s
 		WHERE `character_id`=@characterId
 	]]):format(self.table), {
@@ -63,7 +64,7 @@ function Main:LoadPlayer(source, characterId)
 			faction = Faction:Create(name)
 		end
 
-		faction:AddPlayer(source, characterId, info.group, info.level)
+		faction:AddPlayer(source, info.group, info.level, info.fields and json.decode(info.fields))
 	end
 
 	TriggerEvent(self.event.."loaded", source, characterId, factions)
@@ -84,8 +85,8 @@ function Main:UnloadPlayer(source)
 	self.players[source] = nil
 end
 
-function Main:JoinFaction(source, name, group, level)
-	if type(name) ~= "string" or (group ~= nil and type(group) ~= "string") then return false end
+function Main:JoinFaction(source, name, group, level, fields)
+	if type(name) ~= "string" or (group ~= nil and type(group) ~= "string") or (fields ~= nil and type(fields) ~= "table") then return false end
 
 	local characterId = exports.character:Get(source, "id")
 	if not characterId then return false end
@@ -97,26 +98,29 @@ function Main:JoinFaction(source, name, group, level)
 
 	level = tonumber(level) or 0
 
-	if faction:AddPlayer(source, characterId, group, level) then
+	if faction:AddPlayer(source, group, level, fields) then
 		exports.GHMattiMySQL:QueryAsync(([[
 			INSERT INTO %s
 			SET
 				`character_id`=@characterId,
 				`name`=@name,
 				`level`=@level,
-				`group`=%s
+				`group`=%s,
+				`fields`=%s
 		]]):format(
 			self.table,
-			group and group ~= "" and "@group" or "NULL"
+			group and group ~= "" and "@group" or "NULL",
+			fields and "@fields" or "NULL"
 		), {
 			["@characterId"] = characterId,
 			["@name"] = name,
 			["@group"] = group,
-			["@level"] = level or 0,
+			["@fields"] = fields and json.encode(fields),
+			["@level"] = level,
 		})
 
-		TriggerEvent(Main.event.."join", source, name, group, level)
-		TriggerClientEvent(Main.event.."join", source, name, group, level)
+		TriggerEvent(Main.event.."join", source, name, group, level, fields)
+		TriggerClientEvent(Main.event.."join", source, name, group, level, fields)
 
 		return true
 	else
@@ -158,7 +162,7 @@ function Main:LeaveFaction(source, name, group)
 	end
 end
 
-function Main:UpdateFaction(source, name, group, level)
+function Main:UpdateFaction(source, name, group, key, value)
 	if type(name) ~= "string" or (group ~= nil and type(group) ~= "string") then return false end
 
 	local characterId = exports.character:Get(source, "id")
@@ -167,27 +171,32 @@ function Main:UpdateFaction(source, name, group, level)
 	local faction = self.factions[name]
 	if not faction then return false end
 
-	if faction:AddPlayer(source, characterId, group, level) then
+	if faction:UpdatePlayer(source, group, key, value) then
+		local isLevel = key == "level"
+		local info = not isLevel and faction:GetPlayer(source, group)
+
 		exports.GHMattiMySQL:QueryAsync(([[
 			UPDATE %s
 			SET
-				level=@level
+				%s
 			WHERE
 				`character_id`=@characterId AND
 				`name`=@name AND
 				%s
 		]]):format(
 			self.table,
+			isLevel and "level=@level" or "fields=@fields",
 			group and group ~= "" and "`group`=@group" or "`group` IS NULL"
 		), {
 			["@characterId"] = characterId,
 			["@name"] = name,
 			["@group"] = group,
-			["@level"] = level,
+			["@level"] = isLevel and value,
+			["@fields"] = info and json.encode(info.fields or {}),
 		})
 
-		TriggerEvent(Main.event.."update", source, name, group, level)
-		TriggerClientEvent(Main.event.."join", source, name, group, level)
+		TriggerEvent(Main.event.."update", source, name, group, key, value)
+		TriggerClientEvent(Main.event.."update", source, name, group, key, value)
 
 		return true
 	else
