@@ -61,8 +61,18 @@ end
 function Job:GetRankByHash(hash, useDefault)
 	if not self.Ranks then return end
 
-	for _, rank in ipairs(self.Ranks) do
-		if GetHashKey(rank:lower()) == hash then
+	for k, rank in ipairs(self.Ranks) do
+		if type(rank) == "string" then
+			rank = { Name = rank }
+			self.Ranks[k] = rank
+		end
+
+		if not rank.Hash and rank.Name then
+			rank.Hash = GetHashKey(rank.Name:lower())
+		end
+
+		if rank.Hash == hash then
+			rank.Level = k
 			return rank
 		end
 	end

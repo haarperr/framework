@@ -300,7 +300,7 @@ local function HireOrFire(source, args, cb, isHire)
 	if isHire and args[3] then
 		rank = job:GetRankByHash(GetHashKey(args[3]))
 		if not rank then
-			cb("error", "Invalid rank! "..json.encode(job.Ranks))
+			cb("error", "Invalid rank!")
 			return
 		end
 	end
@@ -308,7 +308,7 @@ local function HireOrFire(source, args, cb, isHire)
 	-- Hire or fire.
 	local success, reason
 	if isHire then
-		success, reason = job:Hire(target, rank)
+		success, reason = job:Hire(target, rank and rank.Hash)
 	else
 		success, reason = job:Fire(target)
 	end
@@ -316,6 +316,13 @@ local function HireOrFire(source, args, cb, isHire)
 	-- Client callbacks.
 	if success then
 		cb("success", ("%s [%s] %s '%s'!"):format(isHire and "Hired" or "Fired", target, isHire and "to" or "from", jobId))
+
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = isHire and "hired" or "fired",
+			extra = jobId..(rank and " - "..rank.Name or ""),
+		})
 	else
 		cb("error", ("Failed to %s [%s] %s '%s' (%s)!"):format(isHire and "hire" or "fire", target, isHire and "to" or "from", jobId, reason or "?"))
 	end
@@ -345,9 +352,17 @@ exports.chat:RegisterCommand("a:jobrank", function(source, args, command, cb)
 	end
 
 	-- Set rank.
-	local retval, result = Main:SetRank(target, jobId, rank)
+	local retval, result = Main:SetRank(target, jobId, rank.Hash)
 	if retval then
-		cb("success", ("Set [%s]'s rank in '%s' to '%s'!"):format(target, jobId, rank))
+		cb("success", ("Set [%s]'s rank in '%s' to '%s'!"):format(target, jobId, rank.Name))
+
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = "set",
+			noun = "rank",
+			extra = ("%s - %s"):format(jobId, rank.Name),
+		})
 	else
 		cb("error", ("Couldn't set [%s]'s rank (%s)!"):format(target, result or "?"))
 	end

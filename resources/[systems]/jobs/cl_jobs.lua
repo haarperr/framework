@@ -42,6 +42,15 @@ function Main:GetRank(id)
 	return job:GetRankByHash(faction, true)
 end
 
+function Main:GetRankByHash(id, hash, getName)
+	local job = self.jobs[id]
+	if not job then return end
+
+	local rank = job:GetRankByHash(hash, true)
+
+	return rank and getName and rank.Name or rank
+end
+
 --[[ Functions: Job ]]--
 function Job:RegisterClocks(clocks)
 	local job = self
@@ -89,6 +98,10 @@ end)
 
 exports("GetCurrentJob", function(...)
 	return Main:GetCurrentJob(...)
+end)
+
+exports("GetRankByHash", function(...)
+	return Main:GetRankByHash(...)
 end)
 
 --[[ Commands ]]--
