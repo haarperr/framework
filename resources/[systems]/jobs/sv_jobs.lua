@@ -78,6 +78,13 @@ function Main:SetRank(source, id, rank)
 	return job:SetRank(source, rank)
 end
 
+function Main:IsHired(source, id)
+	local job = self.jobs[id]
+	if not job then return false end
+
+	return job:IsHired(source)
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	
@@ -276,6 +283,10 @@ end)
 --[[ Exports ]]--
 exports("GetRank", function(...)
 	return Main:GetRank(...)
+end)
+
+exports("IsHired", function(...)
+	return Main:IsHired(...)
 end)
 
 --[[ Commands ]]--
