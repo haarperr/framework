@@ -7,6 +7,7 @@ dependencies {
 }
 
 shared_script {
+	'@jobs/flags.lua',
 	'sh_job.lua',
 }
 

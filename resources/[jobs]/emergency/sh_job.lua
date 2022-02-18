@@ -12,8 +12,46 @@ exports.jobs:Register("lspd", {
 		State = "pd",
 	},
 	Ranks = {
-		"Recruit",
-		"Chief",
+		{ Name = "Janitor" },
+		{ Name = "Receptionist" },
+		{ Name = "Cadet" },
+		{ Name = "Officer" },
+		{ Name = "Senior Officer" },
+		{
+			Name = "Sergeant",
+			Flags = (
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Lieutenant",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Captain",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
+			)
+		},
+		{
+			Name = "Deputy Chief",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Chief of Police",
+			Flags = Jobs.Permissions.ALL()
+		},
 	},
 })
 
