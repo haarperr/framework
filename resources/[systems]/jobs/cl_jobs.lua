@@ -39,7 +39,7 @@ function Main:GetRank(id)
 	local faction = exports.factions:Get(job.Faction, job.Group)
 	if not faction then return end
 
-	return job:GetRankByHash(faction, true)
+	return job:GetRankByHash(faction.level, true)
 end
 
 function Main:GetRankByHash(id, hash, getName)

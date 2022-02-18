@@ -28,8 +28,10 @@ function Jobs:GenerateUserPermissions(flags)
 		return permissions
 	end
 
-	for k, flag in pairs(self[table]) do
-		permissions[k] = flags & flag ~= 0
+	for k, flag in pairs(self.Permissions) do
+		if type(flag) == "number" then
+			permissions[k] = flags & flag ~= 0
+		end
 	end
 
 	return permissions
