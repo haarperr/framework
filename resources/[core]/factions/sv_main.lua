@@ -137,7 +137,7 @@ function Main:LeaveFaction(source, name, group)
 	local faction = self.factions[name]
 	if not faction then return false end
 
-	if faction:RemovePlayer(source, name, group) then
+	if faction:RemovePlayer(source, group) then
 		exports.GHMattiMySQL:QueryAsync(([[
 			DELETE FROM %s
 			WHERE
