@@ -23,6 +23,10 @@ Jobs = {
 
 function Jobs:GenerateUserPermissions(flags)
 	local permissions = {}
+	
+	if not flags then
+		return permissions
+	end
 
 	for k, flag in pairs(self[table]) do
 		permissions[k] = flags & flag ~= 0
