@@ -146,6 +146,9 @@ function Job:Clock(source, value, wasCached)
 		return false, "already clocked"
 	end
 
+	-- Get faction.
+	local faction = exports.factions:Get(source, self.Faction, self.Group) or {}
+
 	-- Get/check character id.
 	local characterId = value and exports.character:Get(source, "id") or self.duty[source]
 	if not characterId then
@@ -184,8 +187,17 @@ function Job:Clock(source, value, wasCached)
 
 	-- Query stuff.
 	if value then
-		exports.GHMattiMySQL:QueryAsync(("INSERT INTO `jobs_sessions` SET character_id=@characterId, job_id=@jobId, start_time=current_timestamp(), was_cached=@wasCached"), {
+		exports.GHMattiMySQL:QueryAsync([[
+			INSERT INTO `jobs_sessions`
+			SET
+				character_id=@characterId,
+				job_id=@jobId,
+				level=@level,
+				start_time=current_timestamp(),
+				was_cached=@wasCached
+		]], {
 			["@jobId"] = self.id,
+			["@level"] = faction.level or 0,
 			["@characterId"] = characterId,
 			["@wasCached"] = wasCached == true,
 		})
