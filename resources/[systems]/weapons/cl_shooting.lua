@@ -13,28 +13,6 @@ function Shooting:UpdateShooting(weapon)
 
 	if not weapon or weapon == `WEAPON_UNARMED` then return false end
 	
-	-- Vector maths.
-	local coords = GetFinalRenderedCamCoord()
-	local rotation = GetFinalRenderedCamRot()
-	local direction = FromRotation(rotation + vector3(0, 0, 90))
-	local target = coords + direction
-
-	-- Raycast
-	local target = coords + direction * (GetMaxRangeOfCurrentPedWeapon(ped) or 1000.0)
-	local handle = StartShapeTestRay(coords.x, coords.y, coords.z, target.x, target.y, target.z, -1, ped, 4)
-	local retval, didHit, hitCoords, surfaceNormal, entity = GetShapeTestResult(handle)
-
-	didHit = didHit == 1
-
-	-- if didHit then
-	-- 	Citizen.CreateThread(function()
-	-- 		for i = 1, 1000 do
-	-- 			DrawLine(coords.x, coords.y, coords.z, hitCoords.x, hitCoords.y, hitCoords.z, 255, 0, 0, 200)
-	-- 			Citizen.Wait(0)
-	-- 		end
-	-- 	end)
-	-- end
-
 	-- Update recoil.
 	self:UpdateRecoil()
 
@@ -42,19 +20,45 @@ function Shooting:UpdateShooting(weapon)
 	self.lastShot = GetGameTimer()
 	self.shotTime = (self.shotTime or 0) + 200
 
-	-- Trigger events.
-	local slot = State.currentSlot
-
-	TriggerEvent("shoot", didHit, coords, hitCoords, entity, hasWeapon and weapon)
-	TriggerServerEvent("shoot", didHit, coords, hitCoords, entity ~= 0 and NetworkGetEntityIsNetworked(entity) and NetworkGetNetworkIdFromEntity(entity), hasWeapon and weapon, slot and slot.slot_id)
-
 	-- Update ammo.
 	State.ammo = State.debug and 100 or math.max((State.ammo or 0) - 1, 0)
 	State:UpdateAmmo()
 
-	-- didHit, coords, hitCoords, entity, weapon, slotId
-
 	return true
+end
+
+function Shooting:UpdateHit(weapon)
+	local ped = PlayerPedId()
+
+	-- Check last shot.
+	if not self.lastShot or self.lastShot == self.lastSync then return false end
+
+	-- Update weapon.
+	if not weapon then
+		local hasWeapon, _weapon = GetCurrentPedWeapon(ped)
+		weapon = _weapon
+	end
+
+	if not weapon or weapon == `WEAPON_UNARMED` then return false end
+
+	-- Get shooting/coords.
+	local coords = GetFinalRenderedCamCoord()
+	local didHit, hitCoords = GetPedLastWeaponImpactCoord(ped)
+	didHit = didHit == 1
+
+	-- Wait for hits.
+	if not didHit and GetGameTimer() - self.lastShot < 400 then
+		return false
+	end
+	
+	-- Trigger events.
+	local slot = State.currentSlot
+	
+	TriggerEvent("shoot", didHit, coords, hitCoords, entity, hasWeapon and weapon)
+	TriggerServerEvent("shoot", didHit, coords, hitCoords, entity ~= 0 and NetworkGetEntityIsNetworked(entity) and NetworkGetNetworkIdFromEntity(entity), hasWeapon and weapon, slot and slot.slot_id)
+
+	-- Cache time.
+	self.lastSync = self.lastShot
 end
 
 function Shooting:UpdateRecoil()
@@ -92,6 +96,8 @@ function Shooting:Update()
 			self.shotTime = self.shotTime and math.max(self.shotTime - delta * 2.0, 0) or 0
 		end
 	end
+
+	self:UpdateHit(force)
 
 	self.lastUpdate = GetGameTimer()
 end
