@@ -63,7 +63,9 @@ end
 
 function Shooting:UpdateRecoil()
 	local ped = PlayerPedId()
-	local ratio = self.shotTime / 1000
+	local coords = GetEntityCoords(ped)
+	local inVehicle = IsPedInAnyVehicle(ped)
+	local ratio = math.min(self.shotTime / 1000, 1.0)
 	local offset = 0.0
 	
 	if IsPedSprinting(ped) or IsPedRunning(ped) then
@@ -72,7 +74,21 @@ function Shooting:UpdateRecoil()
 		offset = 0.5
 	end
 
-	ShakeGameplayCam("SMALL_EXPLOSION_SHAKE", GetRandomFloatInRange(0.018, 0.021) + ratio * 0.05 + offset * 0.05)
+	local hasWeapon, weapon = GetCurrentPedWeapon(ped)
+	local strength = (GetRandomFloatInRange(1.0, 2.0) + ratio * 1.5 + offset * 1.5) * (Config.Recoil[weapon] or 1.0)
+	local horizontal = 0.2
+	local recoil = GetRandomFloatInRange(0.0, 1.0)
+	local cameraDistance = #(GetGameplayCamCoord() - coords)
+
+	cameraDistance = cameraDistance < 5.3 and 1.5 or cameraDistance < 8.0 and 4.0 or 7.0
+	recoil = (inVehicle and recoil * cameraDistance or recoil * 0.8) * strength
+
+	local pitch = GetGameplayCamRelativePitch()
+	local heading = GetGameplayCamRelativeHeading()
+	local direction = GetRandomIntInRange(0, 2) * 2.0 - 1.0
+
+	SetGameplayCamRelativeHeading(heading + recoil * direction * horizontal)
+	SetGameplayCamRelativePitch(pitch + recoil, 0.8)
 end
 
 function Shooting:Update()
