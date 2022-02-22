@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `jobs_sessions` (
 	`job_id` VARCHAR(50) NOT NULL COLLATE 'latin1_swedish_ci',
 	`character_id` INT(10) UNSIGNED NOT NULL,
+	`level` INT(11) NOT NULL DEFAULT '0',
 	`start_time` TIMESTAMP NULL DEFAULT NULL,
 	`end_time` TIMESTAMP NULL DEFAULT NULL,
 	`was_cached` BIT(1) NOT NULL DEFAULT b'0',

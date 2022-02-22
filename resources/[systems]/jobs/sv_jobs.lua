@@ -61,38 +61,73 @@ function Main:CachePlayer(source)
 	job:Clock(source, false)
 end
 
+function Main:GetRank(source, id)
+	local job = self.jobs[id]
+	if not job then return end
+
+	local faction = exports.factions:Get(source, job.Faction, job.Group)
+	if not faction then return end
+
+	return job:GetRankByHash(faction.level, true)
+end
+
+function Main:SetRank(source, id, rank)
+	local job = self.jobs[id]
+	if not job then return false, "no job" end
+
+	return job:SetRank(source, rank)
+end
+
+function Main:IsHired(source, id)
+	local job = self.jobs[id]
+	if not job then return false end
+
+	return job:IsHired(source)
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	
 -- end
 
-function Job:Hire(source)
-	if exports.factions:Has(source, self.Faction, self.Group) then
-		return false, "already hired"
-	end
+function Job:SetRank(source, rank)
+	local faction = exports.factions:Get(source, self.Faction, self.Group)
 
-	exports.factions:JoinFaction(source, self.Faction, self.Group or false, 1)
-
-	return true
-end
-
-function Job:Fire(source)
-	local jobs = exports.character:Get(source, "jobs")
-	if not jobs or not jobs[self.id] then
+	if not faction then
 		return false, "not hired"
 	end
 
-	jobs[self.id] = nil
+	if type(rank) == "string" then
+		rank = GetHashKey(rank)
+	end
 
-	exports.character:Set(source, "jobs", jobs)
+	if faction.level == rank then
+		return false, "already set"
+	end
 
-	return true
+	return exports.factions:UpdateFaction(source, self.Faction, self.Group, "level", rank)
+end
+
+function Job:Hire(source, rank)
+	if self:IsHired(source) then
+		return false, "already hired"
+	end
+
+	return exports.factions:JoinFaction(source, self.Faction, self.Group or false, type(rank) == "string" and GetHashKey(rank) or tonumber(rank) or 0)
+end
+
+function Job:Fire(source)
+	if not self:IsHired(source) then
+		return false, "not hired"
+	end
+
+	return exports.factions:LeaveFaction(source, self.Faction, self.Group)
 end
 
 function Job:Clock(source, value, wasCached)
 	-- Check hired.
 	if value and not self:IsHired(source) then
-		return false
+		return false, "not hired"
 	end
 
 	-- Flip states.
@@ -102,19 +137,22 @@ function Job:Clock(source, value, wasCached)
 
 	-- Check same states.
 	if (value or nil) == self.duty[source] then
-		return false
+		return false, "same state"
 	end
 
 	-- Check already clocked.
 	local currentJob = Main.players[source]
 	if currentJob and currentJob ~= self.id then
-		return false
+		return false, "already clocked"
 	end
+
+	-- Get faction.
+	local faction = exports.factions:Get(source, self.Faction, self.Group) or {}
 
 	-- Get/check character id.
 	local characterId = value and exports.character:Get(source, "id") or self.duty[source]
 	if not characterId then
-		return false
+		return false, "no character id"
 	end
 
 	-- Cache state.
@@ -126,6 +164,12 @@ function Job:Clock(source, value, wasCached)
 		self.count = self.count + 1
 	else
 		self.count = self.count - 1
+	end
+
+	-- Set player state.
+	local state = Player(source).state
+	if state then
+		state.job = value and self.id or nil
 	end
 
 	-- Trigger events.
@@ -143,8 +187,17 @@ function Job:Clock(source, value, wasCached)
 
 	-- Query stuff.
 	if value then
-		exports.GHMattiMySQL:QueryAsync(("INSERT INTO `jobs_sessions` SET character_id=@characterId, job_id=@jobId, start_time=current_timestamp(), was_cached=@wasCached"), {
+		exports.GHMattiMySQL:QueryAsync([[
+			INSERT INTO `jobs_sessions`
+			SET
+				character_id=@characterId,
+				job_id=@jobId,
+				level=@level,
+				start_time=current_timestamp(),
+				was_cached=@wasCached
+		]], {
 			["@jobId"] = self.id,
+			["@level"] = faction.level or 0,
 			["@characterId"] = characterId,
 			["@wasCached"] = wasCached == true,
 		})
@@ -207,8 +260,14 @@ AddEventHandler("character:selected", function(source, character, wasActive)
 		Main:CachePlayer(source)
 		return
 	end
+end)
 
-	local cached = Main.cached[character.id]
+AddEventHandler("factions:loaded", function(source, characterId, factions)
+	if not characterId then
+		return
+	end
+
+	local cached = Main.cached[characterId]
 	if not cached then return end
 
 	local job = cached.job and Main.jobs[cached.job]
@@ -216,7 +275,7 @@ AddEventHandler("character:selected", function(source, character, wasActive)
 
 	job:Clock(source, true, true)
 
-	Main.cached[character.id] = nil
+	Main.cached[characterId] = nil
 end)
 
 AddEventHandler("playerDropped", function(reason)
@@ -231,6 +290,15 @@ Citizen.CreateThread(function()
 		Main:Update()
 		Citizen.Wait(5000)
 	end
+end)
+
+--[[ Exports ]]--
+exports("GetRank", function(...)
+	return Main:GetRank(...)
+end)
+
+exports("IsHired", function(...)
+	return Main:IsHired(...)
 end)
 
 --[[ Commands ]]--
@@ -250,10 +318,20 @@ local function HireOrFire(source, args, cb, isHire)
 		return
 	end
 
+	-- Get/check rank.
+	local rank
+	if isHire and args[3] then
+		rank = job:GetRankByHash(GetHashKey(args[3]))
+		if not rank then
+			cb("error", "Invalid rank!")
+			return
+		end
+	end
+
 	-- Hire or fire.
 	local success, reason
 	if isHire then
-		success, reason = job:Hire(target)
+		success, reason = job:Hire(target, rank and rank.Hash)
 	else
 		success, reason = job:Fire(target)
 	end
@@ -261,10 +339,64 @@ local function HireOrFire(source, args, cb, isHire)
 	-- Client callbacks.
 	if success then
 		cb("success", ("%s [%s] %s '%s'!"):format(isHire and "Hired" or "Fired", target, isHire and "to" or "from", jobId))
+
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = isHire and "hired" or "fired",
+			extra = jobId..(rank and " - "..rank.Name or ""),
+		})
 	else
 		cb("error", ("Failed to %s [%s] %s '%s' (%s)!"):format(isHire and "hire" or "fire", target, isHire and "to" or "from", jobId, reason or "?"))
 	end
 end
+
+exports.chat:RegisterCommand("a:jobrank", function(source, args, command, cb)
+	-- Get/check job.
+	local jobId = (args[1] or ""):lower()
+	local job = Main.jobs[jobId]
+	if not job then
+		cb("error", "Invalid job!")
+		return
+	end
+
+	-- Get/check rank.
+	local rank = args[2] and job:GetRankByHash(GetHashKey(args[2]:lower()))
+	if not rank then
+		cb("error", "Invalid rank! "..json.encode(job.Ranks))
+		return
+	end
+	
+	-- Get/check target.
+	local target = tonumber(args[3]) or source
+	if not target or target == 0 or target < -1 or not exports.character:IsSelected(target) then
+		cb("error", "Invalid target!")
+		return
+	end
+
+	-- Set rank.
+	local retval, result = Main:SetRank(target, jobId, rank.Hash)
+	if retval then
+		cb("success", ("Set [%s]'s rank in '%s' to '%s'!"):format(target, jobId, rank.Name))
+
+		exports.log:Add({
+			source = source,
+			target = target,
+			verb = "set",
+			noun = "rank",
+			extra = ("%s - %s"):format(jobId, rank.Name),
+		})
+	else
+		cb("error", ("Couldn't set [%s]'s rank (%s)!"):format(target, result or "?"))
+	end
+end, {
+	description = "Set's the rank of somebody's job.",
+	parameters = {
+		{ name = "Job", description = "Use the job's id." },
+		{ name = "Rank", description = "What rank to hire them as? Default is the lowest rank." },
+		{ name = "Target", description = "Who you are setting the rank for. Default = you." },
+	}
+}, "Admin")
 
 exports.chat:RegisterCommand("a:jobhire", function(source, args, command, cb)
 	HireOrFire(source, args, cb, true)
@@ -272,7 +404,8 @@ end, {
 	description = "Hire any person to any job.",
 	parameters = {
 		{ name = "Job", description = "Use the job's id." },
-		{ name = "Target", description = "Who you are hiring. Leave blank for yourself." },
+		{ name = "Target", description = "Who you are hiring. Default = you." },
+		{ name = "Rank", description = "What rank to hire them as? Default is the lowest rank." },
 	}
 }, "Admin")
 
@@ -282,21 +415,6 @@ end, {
 	description = "Fire any person from any job.",
 	parameters = {
 		{ name = "Job", description = "Use the job's id." },
-		{ name = "Target", description = "Who you are firing. Leave blank for yourself." },
+		{ name = "Target", description = "Who you are firing. Default = you." },
 	}
-}, "Admin")
-
-exports.chat:RegisterCommand("a:jobs", function(source, args, command, cb)
-	local output = ""
-
-	for id, job in pairs(Config.Jobs) do
-		if output ~= "" then
-			output = output..", "
-		end
-		output = output..id
-	end
-
-	TriggerClientEvent("chat:addMessage", output)
-end, {
-	description = "Look at all the jobs.",
 }, "Admin")

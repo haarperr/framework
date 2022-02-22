@@ -208,6 +208,9 @@ Config = {
 		[`WEAPON_MACHETE`] = true,
 		[`WEAPON_SWITCHBLADE`] = true,
 	},
+	Recoil = {
+		[`WEAPON_MINIGUN`] = 0.02,
+	},
 }
 
 exports("GetWeaponGroup", function(group)

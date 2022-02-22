@@ -27,7 +27,7 @@ end
 --[[ Functions: Main ]]--
 function Main:RegisterJob(id, data)
 	id = id:lower()
-	
+
 	local job = Job:Create(id, data)
 	
 	self.jobs[id] = job
@@ -37,6 +37,20 @@ function Main:RegisterJob(id, data)
 	end
 end
 
+function Main:GetAllJobs()
+	local ids = {}
+
+	for id, job in pairs(self.jobs) do
+		ids[#ids + 1] = id
+	end
+
+	return ids
+end
+
+function Main:GetJob(id)
+	return self.jobs[id]
+end
+
 --[[ Functions: Job ]]--
 function Job:Create(id, data)
 	data.id = id
@@ -44,9 +58,41 @@ function Job:Create(id, data)
 	return setmetatable(data, Job)
 end
 
+function Job:GetRankByHash(hash, useDefault)
+	if not self.Ranks then return end
+
+	for k, rank in ipairs(self.Ranks) do
+		if type(rank) == "string" then
+			rank = { Name = rank }
+			self.Ranks[k] = rank
+		end
+
+		if not rank.Hash and rank.Name then
+			rank.Hash = GetHashKey(rank.Name:lower())
+		end
+
+		if rank.Hash == hash then
+			rank.Level = k
+			return rank
+		end
+	end
+
+	if useDefault then
+		return self.Ranks[1]
+	end
+end
+
 --[[ Exports ]]--
 exports("Register", function(id, data)
 	data.resource = GetInvokingResource()
 
 	RegisterJob(id, data)
+end)
+
+exports("GetAllJobs", function()
+	return Main:GetAllJobs()
+end)
+
+exports("GetJob", function(id)
+	return Main:GetJob(id)
 end)
