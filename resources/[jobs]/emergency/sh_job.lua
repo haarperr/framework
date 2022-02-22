@@ -1,11 +1,11 @@
 PD_FLAGS = {
-	[1 << 1] = { Name = "FTO" },
+	[1 << 1] = { name = "FTO" },
 
-	[1 << 10] = { Name = "Helicopter" },
-	[1 << 11] = { Name = "Motorcycle" },
-	[1 << 12] = { Name = "Interceptor" },
-	[1 << 13] = { Name = "Marine" },
-	[1 << 14] = { Name = "Medical" },
+	[1 << 10] = { name = "Helicopter" },
+	[1 << 11] = { name = "Motorcycle" },
+	[1 << 12] = { name = "Interceptor" },
+	[1 << 13] = { name = "Marine" },
+	[1 << 14] = { name = "Medical" },
 }
 
 EMS_FLAGS = {
