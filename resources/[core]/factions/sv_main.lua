@@ -185,7 +185,7 @@ function Main:UpdateFaction(source, name, group, key, value)
 				%s
 		]]):format(
 			self.table,
-			isLevel and "level=@level" or "fields=@fields",
+			(isLevel and "level=@level" or "fields=@fields")..(isLevel and ", update_time=current_timestamp()" or ""),
 			group and group ~= "" and "`group`=@group" or "`group` IS NULL"
 		), {
 			["@characterId"] = characterId,
