@@ -1,11 +1,5 @@
 NearestAtm = nil
 IsUsingAtm = false
-Bank = {
-	Accounts = {
-
-	},
-
-}
 
 --[[ Functions ]]--
 function ToggleMenu(toggle, info)
@@ -129,20 +123,32 @@ AddEventHandler("banking:clientStart", function()
 	end
 end)
 
+RegisterNetEvent("banking:sync")
+AddEventHandler("banking:sync", function(data)
+	SendNUIMessage({ commit = data })		
+end)
+
 --[[ NUI Callbacks ]]--
 RegisterNUICallback("toggle", function(data)
 	ToggleMenu(false)
 end)
 
+RegisterNUICallback("withdraw", function(data)
+	TriggerServerEvent("banking:withdraw", data)		
+end
+	
+RegisterNUICallback("deposit", function(data)
+	TriggerServerEvent("banking:deposit", data)			
+end
+
 RegisterNUICallback("transfer", function(data)
-	ToggleMenu(false)
-	TriggerServerEvent("banking:transfer", data.type, data.amount, data.target)
+	TriggerServerEvent("banking:transfer", data)
 end)
 
 RegisterNUICallback("createAccount", function(data)
-
+	TriggerServerEvent("banking:createAccount", data)
 end)
 
 RegisterNUICallback("deleteAccount", function(data)
-
+	TriggerServerEvent("banking:deleteAccount", data)
 end)
