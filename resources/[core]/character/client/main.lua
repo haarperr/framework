@@ -90,6 +90,14 @@ function Main:Set(key, value)
 end
 Export(Main, "Set")
 
+function Main:GetName(source)
+	local character = self:GetCharacter(source)
+	if character == nil then return end
+
+	return character:GetName()
+end
+Export(Main, "GetName")
+
 function Main:IsSelected()
 	return self.activeCharacter ~= nil
 end
