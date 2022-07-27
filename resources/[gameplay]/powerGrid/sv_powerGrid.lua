@@ -2,6 +2,7 @@ Main = {
 	cooldowns = {},
 	bombs = {},
 	entities = {},
+	hasBeenHit = false,
 }
 
 --[[ Functions ]]--
@@ -10,9 +11,9 @@ function Main:Init()
 end
 
 function Main:Update()
-	if self.lastUpdate == nil then return end
+	if self.resetTime == nil then return end
 
-	if os.clock() - self.lastUpdate > 60.0 * Config.Bombs.ResetTime then
+	if os.clock() > self.resetTime then
 		Main:Clear()
 	end
 end
@@ -23,17 +24,30 @@ function Main:Plant(id)
 
 	if self.bombs[id] ~= nil then return false end
 	self.bombs[id] = true
-	self.lastUpdate = os.clock()
+	self:UpdateTime()
 
 	return true
 end
 
+function Main:UpdateTime()
+	math.randomseed(os.time())
+	self.resetTime = os.clock() + 60.0 * math.random(table.unpack(Config.Bombs.ResetTime))
+
+	print(self.resetTime)
+end
+
 function Main:Detonate()
 	-- Check placements.
+	local count = 0
 	for id, placement in ipairs(Config.Bombs.Placements) do
-		if self.bombs[id] == nil then
-			return false
+		if self.bombs[id] then
+			count = count + 1
 		end
+	end
+
+	-- Check count.
+	if count < Config.Bombs.MinPlacement then
+		return false
 	end
 	
 	-- Detonate.
@@ -56,11 +70,13 @@ function Main:Detonate()
 		})
 
 		-- States and events.
-		self.lastUpdate = os.clock()
-	
 		GlobalState.powerDisabled = true
+
+		Main:UpdateTime()
 	
 		TriggerClientEvent("powerDeactivated", -1)
+
+		self.hasBeenHit = true
 	end)
 
 	-- Return result.
@@ -116,6 +132,12 @@ AddEventHandler(EventPrefix.."plant", function(id)
 	if os.clock() - (Main.cooldowns[source] or 0.0) < 3.0 then return end
 	Main.cooldowns[source] = os.clock()
 
+	-- Check if has been hit.
+	if Main.hasBeenHit then
+		TriggerClientEvent("notify:sendAlert", source, "error", "Security is too high...", 7000)
+		return
+	end
+
 	-- Check item.
 	if not exports.inventory:HasItem(exports.inventory:GetPlayerContainer(source) or 0, Config.Bombs.Item) then return end
 	
@@ -141,6 +163,12 @@ AddEventHandler(EventPrefix.."detonate", function(id)
 	-- Check cooldown.
 	if os.clock() - (Main.cooldowns[source] or 0.0) < 3.0 then return end
 	Main.cooldowns[source] = os.clock()
+
+	-- Check if has been hit.
+	if Main.hasBeenHit then
+		TriggerClientEvent("notify:sendAlert", source, "error", "Security is too high...", 7000)
+		return
+	end
 
 	-- Check range.
 	local ped = GetPlayerPed(source)
