@@ -22,3 +22,12 @@
 [submodule "resources/[modules]/[systems]/devices"]
 	path = resources/[modules]/[systems]/devices
 	url = https://github.com/NonstopRP/devices
+[submodule "resources/[modules]/[interiors_escrow]"]
+	path = resources/[modules]/[interiors_escrow]
+	url = https://github.com/NonstopRP/interiors_escrow
+[submodule "resources/[modules]/[vehicles_private]"]
+	path = resources/[modules]/[vehicles_private]
+	url = https://github.com/NonstopRP/vehicles_private
+[submodule "resources/[modules]/mdt"]
+	path = resources/[modules]/mdt
+	url = https://github.com/NonstopRP/mdt
