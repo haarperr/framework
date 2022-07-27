@@ -46,7 +46,7 @@ function Main:BeginPlacing(id)
 	local target = placement.Target
 
 	-- Move to target.
-	if target and not exports.emotes:MoveTo(target, coords) then
+	if target and not MoveToCoords(target) then
 		return
 	end
 
@@ -57,7 +57,8 @@ function Main:BeginPlacing(id)
 	
 	TriggerEvent("disarmed")
 
-	TriggerEvent("quickTime:begin", "linear", qte, function(success, _stage)
+	local success = exports.quickTime:Begin(Config.QuickTime)
+
 		if success then
 			exports.emotes:Play(Config.Bombs.Anims.Success)
 		else
@@ -81,10 +82,9 @@ function Main:BeginPlacing(id)
 			end
 		end
 
-		if _stage >= #qte and success then
+		if success then
 			self:FinishPlacing(id)
 		end
-	end)
 
 	-- self:FinishPlacing(id)
 end
@@ -207,7 +207,7 @@ AddEventHandler(EventPrefix.."planted", function(id)
 	local placement = Config.Bombs.Placements[id]
 	if placement == nil then return end
 
-	Main:CreateBomb(placement.Coords, exports.misc:ToRotation(placement.Normal))
+	Main:CreateBomb(placement.Coords, ToRotation(placement.Normal))
 end)
 
 RegisterNetEvent(EventPrefix.."detonate")

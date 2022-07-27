@@ -1,6 +1,10 @@
 Config = {
 	Center = vector3(2791.705810546875, 1532.52197265625, 44.43146896362305),
 	Radius = 500.0,
+	QuickTime = {
+		goalSize = 0.3,
+		speed = 0.6,
+	},
 	Bombs = {
 		Item = "Plastic Explosive",
 		Model = "ch_prop_ch_explosive_01a",

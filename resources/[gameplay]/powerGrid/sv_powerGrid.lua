@@ -139,7 +139,7 @@ AddEventHandler(EventPrefix.."plant", function(id)
 	end
 
 	-- Check item.
-	if not exports.inventory:HasItem(exports.inventory:GetPlayerContainer(source) or 0, Config.Bombs.Item) then return end
+	if not exports.inventory:HasItem(source, Config.Bombs.Item) then return end
 	
 	-- Plant bomb.
 	if Main:Plant(id) then

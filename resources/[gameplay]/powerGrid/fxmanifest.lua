@@ -7,6 +7,8 @@ shared_scripts {
 }
 
 client_scripts {
+	'@utils/client/misc.lua',
+	'@utils/client/vectors.lua',
 	'cl_powerGrid.lua',
 }
 
