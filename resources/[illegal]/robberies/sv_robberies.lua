@@ -224,7 +224,11 @@ AddEventHandler("robberies:finish", function(robbableType, robbableId, coords)
 				if type(amount) == "table" then
 					amount = math.random(amount[1], amount[2])
 				end
-				exports.inventory:GiveItem(source, output.Name, amount)
+				if output.Name == "Bills" then
+					exports.inventory:GiveMoney(source, amount)
+				else
+					exports.inventory:GiveItem(source, output.Name, amount)
+				end
 			end
 		end
 	end

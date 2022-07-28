@@ -189,7 +189,7 @@ function BeginRobbing(robbable)
 			end)
 		else
 			if stage.Hack then
-				exports.inventory:ToggleMenu(false)
+				--exports.inventory:ToggleMenu(false)
 				TriggerEvent("mhacking:seqstart", stage.Hack.Length, stage.Hack.Duration, function(success, timeLeft, isFinished)
 					wasCancelled = not success
 					if not success then
