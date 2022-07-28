@@ -1,42 +1,37 @@
-NearestAtm = nil
-IsUsingAtm = false
+Banking = {
+    toggleMenu = false,
+    isUsingAtm = false,
+    nearestAtm = nil
+}
 
---[[ Functions ]]--
-function ToggleMenu(toggle, info)
-	SetNuiFocus(toggle, toggle)
-	SetNuiFocusKeepInput(false)
 
-	if not toggle then
-		SendNUIMessage({
-			open = false
-		})
+function Banking:ToggleMenu(toggle, info)
+    self.toggleMenu = toggle
 
-		return
-	end
+    SetNuiFocus(self.toggleMenu, self.toggleMenu)
+    SetNuiFocusKeepInput(false)
 
-	if not info then
-		info = {}
-	end
+    SendNUIMessage({ open = self.toggleMenu })
 
-	local bills, counterfeit, marked = exports.inventory:CountMoney() or 0.0
+    if not info then
+        info = {}
+    end
 
-	info.name = exports.character:GetName(PlayerId())
-	info.balance = exports.character:Get("bank")
-	info.bank = (Config.BankTypes[info.bank or ""] or {}).Name
-	info.available = bills
-	-- info.unavailable = counterfeit + marked
+    local bills = exports.inventory:CountMoney()
 
-	SendNUIMessage({
-		open = toggle,
-		info = info
-	})
+    info.name = exports.character:GetName(PlayerId())
+    info.bank = (Config.BankTypes[info.bank or ""] or {}).name
+    info.available = bills
 
-	IsUsingAtm = toggle
+    SendNUIMessage({
+        info = info
+    })
+
+    this.isUsingAtm = self.toggleMenu
 end
-exports("ToggleMenu", ToggleMenu)
 
-function RegisterAtms()
-	for k, atm in ipairs(Config.Atms) do
+function Banking:RegisterAtms()
+    for k, atm in ipairs(Config.Atms) do
 		local id = ("atm-%s"):format(k)
 		
 		exports.interact:Register({
@@ -46,14 +41,14 @@ function RegisterAtms()
 		})
 
 		AddEventHandler("interact:on_"..id, function()
-			ToggleMenu(true, {
+			Banking:ToggleMenu(true, {
 				bank = atm.Type,
 			})
 		end)
 	end
 end
 
-function RegisterDesks()
+function Banking:RegisterDesks()
 	for k, desk in ipairs(Config.Desks) do
 		local id = ("bankDesk-%s"):format(k)
 		
@@ -84,6 +79,23 @@ Citizen.CreateThread(function()
 	RegisterDesks()
 end)
 
+-- [[ NUI ]] --
+RegisterNUICallback("withdraw", function(data)
+    TriggerServerEvent("banking:withdraw", data)
+end)
+
+RegisterNUICallback("deposit", function(data)
+    TriggerServerEvent("banking:deposit", data)
+end)
+
+RegisterNUICallback("transfer", function(data)
+    TriggerServerEvent("banking:transfer", data)
+end)
+
+RegisterNUICallback("closeMenu", function(data)
+    Banking:ToggleMenu()
+end)
+-- [[ Events ]] --
 --[[ Resource Events ]]--
 AddEventHandler("banking:clientStart", function()
 	for k, bank in ipairs(Config.Banks) do
@@ -123,32 +135,6 @@ AddEventHandler("banking:clientStart", function()
 	end
 end)
 
-RegisterNetEvent("banking:sync")
-AddEventHandler("banking:sync", function(data)
-	SendNUIMessage({ commit = data })		
-end)
-
---[[ NUI Callbacks ]]--
-RegisterNUICallback("toggle", function(data)
-	ToggleMenu(false)
-end)
-
-RegisterNUICallback("withdraw", function(data)
-	TriggerServerEvent("banking:withdraw", data)		
-end
-	
-RegisterNUICallback("deposit", function(data)
-	TriggerServerEvent("banking:deposit", data)			
-end
-
-RegisterNUICallback("transfer", function(data)
-	TriggerServerEvent("banking:transfer", data)
-end)
-
-RegisterNUICallback("createAccount", function(data)
-	TriggerServerEvent("banking:createAccount", data)
-end)
-
-RegisterNUICallback("deleteAccount", function(data)
-	TriggerServerEvent("banking:deleteAccount", data)
+RegisterNetEvent("banking:load", function(data)
+    SendNUIMessage({ commit = data })
 end)

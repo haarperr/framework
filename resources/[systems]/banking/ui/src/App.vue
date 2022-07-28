@@ -10,7 +10,7 @@
         </q-toolbar>
       </q-header>
 
-      <q-drawer class="scroll hide-scrollbar bg-dark" :width="350" v-model="leftDrawerOpen" side="left" style="max-width:800px; height: 900px;">
+      <q-drawer class="scroll hide-scrollbar bg-dark" :width="350" v-model="leftDrawerOpen" side="left" style="max-width:350px; height: 900px;">
         <q-toolbar elevated class="bg-primary text-white">
           <q-toolbar-title>
             Accounts
@@ -20,16 +20,15 @@
           <q-list>
             <div v-for="account in accounts" :key="account.id">
               <q-item clickable v-ripple :active="selectedAccount === account.id" @click="selectedAccount = account.id" active-class="active-account">
-                <q-item-section top lines="1">
+                <q-item-section no-wrap top lines="1">
                   <q-item-label class="text-weight-bold text-white" overline>{{ account.name }}</q-item-label>
                   <q-item-label class="text-white" caption>{{ account.type + " - " + account.accountnumber}}</q-item-label>
                   <q-item-label caption class="text-weight-bolder text-white">{{ "$" + formatPrice(account.balance) }}</q-item-label>
                 </q-item-section>
-                <q-item-section top side>
+                <q-item-section side style="padding-top: 20px">
                   <div class="text-grey-8 q-gutter-xs">
-                    <q-btn class="gt-xs" size="12px" flat dense round icon="add" @click="depositprompt = true" />
-                    <q-btn class="gt-xs" size="12px" flat dense round icon="remove" @click="withdrawprompt = true" />
-                    <q-btn class="gt-xs" size="12px" flat dense round icon="east" @click="transferprompt = true" />
+                    <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="delete" @click="depositprompt = true" />
+                    <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="share" @click="withdrawprompt = true" />
                   </div>
                 </q-item-section>
               </q-item>
@@ -60,23 +59,20 @@
           </q-card>
         </div>
 
-        <q-dialog v-model="depositprompt" persistent>
+        <q-dialog v-model="transactionPrompt" persistent>
           <q-card class="text-white bg-dark" style="min-width: 350px">
             <q-card-section>
-              <div class="text-h6">Deposit</div>
+              <div class="text-h6">{{ transactions[selectedTransaction].name }}</div>
             </q-card-section>
-            <q-form @submit="onDeposit">
+            <q-form @submit="submitTransaction">
               <q-card-section class="q-pt-none">
-                <q-input dark stack-label label-color="white" v-model="deposit" autofocus prefix="$" mask="#############" label="Amount">
-                  <template v-slot:append>
-                    <q-icon name="attach_money" color="white" />
-                  </template>
-                </q-input>
-                <q-input dark stack-label label-color="white" v-model="note" autofocus label="Note">
-                  <template v-slot:append>
-                    <q-icon name="note" color="white" />
-                  </template>
-                </q-input>
+                <div v-for="input in transactions[selectedTransaction].form" :key="input">
+                  <q-input dark stack-label label-color="white" autofocus v-model="input.value" :prefix="input.prefix" :mask="input.mask" :label="input.label">
+                    <template v-slot:append>
+                      <q-icon :name="input.icon" color="white" />
+                    </template>
+                  </q-input>
+                </div>
               </q-card-section>
 
               <q-card-actions align="right" class="text-primary">
@@ -86,75 +82,21 @@
             </q-form>
           </q-card>
         </q-dialog>
-        <q-dialog v-model="withdrawprompt" persistent>
-          <q-card class="text-white bg-dark" style="min-width: 350px">
-            <q-card-section>
-              <div class="text-h6">Withdraw</div>
-            </q-card-section>
-            <q-form @submit="onWithdraw">
-              <q-card-section class="q-pt-none">
-                <q-input dark stack-label label-color="white" v-model="withdraw" autofocus prefix="$" mask="#############" label="Amount">
-                  <template v-slot:append>
-                    <q-icon name="attach_money" color="white" />
-                  </template>
-                </q-input>
-                <q-input dark stack-label label-color="white" v-model="note" autofocus label="Note">
-                  <template v-slot:append>
-                    <q-icon name="note" color="white" />
-                  </template>
-                </q-input>
-              </q-card-section>
 
-              <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Cancel" v-close-popup />
-                <q-btn flat label="Withdraw" type="submit" v-close-popup />
-              </q-card-actions>
-            </q-form>
-          </q-card>
-        </q-dialog>
-        <q-dialog v-model="transferprompt" persistent>
-          <q-card class="text-white bg-dark" style="min-width: 350px">
-            <q-card-section>
-              <div class="text-h6">Account Transfer</div>
-            </q-card-section>
-            <q-form @submit="onTransfer">
-              <q-card-section class="q-pt-none">
-                <q-input dark stack-label label-color="white" v-model="transferaccount" autofocus mask="########" label="Account Number">
-                  <template v-slot:append>
-                    <q-icon name="wallet" color="white" />
-                  </template>
-                </q-input>
-                <q-input dark stack-label label-color="white" v-model="transferamount" autofocus prefix="$" mask="#############" label="Transfer Amount">
-                  <template v-slot:append>
-                    <q-icon name="attach_money" color="white" />
-                  </template>
-                </q-input>
-                <q-input dark stack-label label-color="white" v-model="note" autofocus label="Note">
-                  <template v-slot:append>
-                    <q-icon name="note" color="white" />
-                  </template>
-                </q-input>
-              </q-card-section>
-
-              <q-card-actions align="right" class="text-primary">
-                <q-btn flat label="Cancel" v-close-popup />
-                <q-btn flat type="submit" label="Transfer" v-close-popup />
-              </q-card-actions>
-            </q-form>
-          </q-card>
-        </q-dialog>
-        <q-dialog v-model="createaccountprompt" persistent>
+        <q-dialog v-model="createPrompt" persistent>
           <q-card class="text-white bg-dark" style="min-width: 350px">
             <q-card-section>
               <div class="text-h6">Create Account</div>
             </q-card-section>
             <q-form @submit="onCreateAccount">
               <q-card-section class="q-pt-none">
-                <q-input dark stack-label label-color="white" v-model="createAccountName" autofocus label="Account Name">
-                  <template v-slot:append>
-                    <q-icon name="drive_file_rename_outline" color="white" />
-                  </template>
-                </q-input>
+                <div v-for="input in accountTypes[selectedCreateType].form" :key="input">
+                  <q-input dark stack-label label-color="white" v-model="input.value" autofocus :label="input.label">
+                    <template v-slot:append>
+                      <q-icon :name="input.icon" color="white" />
+                    </template>
+                  </q-input>
+                </div>
               </q-card-section>
               <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Cancel" v-close-popup />
@@ -169,8 +111,11 @@
             direction="left"
             color="primary"
           >
-            <div v-for="accounttype in accounttypes" :key="accounttype.id">
-              <q-fab-action label-position="right" color="primary" @click="createaccountprompt = true" :icon="accounttype.icon" :label="accounttype.name" />
+            <div v-for="transaction in transactions" :key="transaction.id">
+              <q-fab-action label-position="right" :color="transaction.color" @click="openTransactionPrompt(); selectedTransaction = transaction.id - 1" :icon="transaction.icon" :label="transaction.name" />
+            </div>
+            <div v-for="accountType in accountTypes" :key="accountType.id">
+              <q-fab-action label-position="right" :color="accountType.color" @click="openCreatePrompt(); selectedCreateType = accountType.id - 1" :icon="accountType.icon" :label="accountType.name" />
             </div>
           </q-fab>
         </q-page-sticky>
@@ -190,24 +135,19 @@ export default {
   // </q-item-section>
   setup () {
     const leftDrawerOpen = ref(true)
+    const transactionPrompt = ref(false)
+    const createPrompt = ref(false)
     const store = useStore()
     const accounts = computed(() => store.state.data.accounts)
     const show = computed(() => store.state.show)
     const title = computed(() => store.state.title)
     const characterName = computed(() => store.state.characterName)
-    const accounttypes = computed(() => store.state.accounttypes)
+    const accountTypes = computed(() => store.state.accountTypes)
+    const transactions = computed(() => store.state.transactionTypes)
     return {
-      depositprompt: ref(false),
-      deposit: ref(''),
-      withdrawprompt: ref(false),
-      withdraw: ref(''),
-      transferprompt: ref(false),
-      transferamount: ref(''),
-      transferaccount: ref(''),
-      createaccountprompt: ref(false),
-      createAccountName: ref(''),
       selectedAccount: ref(1),
-      note: ref(''),
+      selectedTransaction: ref(1),
+      selectedCreateType: ref(1),
       moneyFormatForComponent: {
         decimal: '.',
         thousands: ',',
@@ -216,11 +156,17 @@ export default {
         precision: 0,
         masked: true
       },
-      accounts, show, title, accounttypes, characterName,
-      leftDrawerOpen,
+      accounts, show, title, accountTypes, characterName, transactions,
+      leftDrawerOpen, transactionPrompt, createPrompt,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
+      openTransactionPrompt () {
+        transactionPrompt.value = true
+      },
+      openCreatePrompt() {
+        createPrompt.value = true
+      }
     }
   },
   mounted() {
@@ -236,87 +182,46 @@ export default {
         this.$store.state.title = data.info.bank
         this.$store.state.characterName = data.info.name
       }
+
+      if ( data.commit ) {
+        this.$store.state[data.type].push(data.commit)
+      }
     });
   },
   computed: {
     
   },
   methods: {
-    onCreateAccount (evt) {
-      const formData = new FormData(evt.target)
-      const data = []
-
-      for (const [ name, value ] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
+    onCreateAccount () {
+      let data = {}
+      
+      for(let input of this.accountTypes[this.selectedCreateType].form) {
+        data[input.name] = input.value
       }
 
       fetch(`https://banking//createAccount`, {
-        body: JSON.stringify(data),
+        body: JSON.stringify({ data: data, type: this.selectedCreateType }),
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         }
       })
     },
-    onTransfer (evt) {
-      const formData = new FormData(evt.target)
-      const data = []
+    submitTransaction() {
+      let data = {}
 
-      for (const [ name, value ] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
+      for(let input of this.transactions[this.selectedTransaction].form) {
+        data[input.name] = input.value
       }
-
-      fetch(`https://banking//transfer`, {
-        body: JSON.stringify(data),
+    
+      fetch(`https://banking//submitTransaction`, {
+        body: JSON.stringify({ data: data, type: this.selectedTransaction }),
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         }
       })
-    },
-    onDeposit (evt) {
-      const formData = new FormData(evt.target)
-      const data = []
 
-      for (const [ name, value ] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
-      }
-
-      fetch(`https://banking//deposit`, {
-        body: JSON.stringify(data),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        }
-      })
-    },
-    onWithdraw (evt) {
-      const formData = new FormData(evt.target)
-      const data = []
-
-      for (const [ name, value ] of formData.entries()) {
-        data.push({
-          name,
-          value
-        })
-      }
-
-      fetch(`https://banking//withdraw`, {
-        body: JSON.stringify(data),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8",
-        }
-      })
     },
     formatPrice(value) {
         let val = (value/1).toFixed(2).replace(',', '.')

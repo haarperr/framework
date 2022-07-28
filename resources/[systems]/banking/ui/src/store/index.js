@@ -6,30 +6,57 @@ export default createStore({
         show: false,
         title: "Fleeca Bank",
         characterName: "Kole Huey",
-        accounttypes: [
+        accountTypes: [
           {
             id: 1,
             name: "Checking Account",
             icon: "credit_card",
+            color: "purple",
+            form: [
+              { value: "", label: "Account Name", icon: "drive_file_rename_outline"}
+            ]
           },
           {
             id: 2,
             name: "Savings Account",
             icon: "savings",
+            color: "teal",
+            form: [
+              { value: "", label: "Account Name", icon: "drive_file_rename_outline"}
+            ]
           },
         ],
-        transactiontypes: [
+        transactionTypes: [
           {
             id: 1,
-            name: "Withdrawl",
+            name: "Deposit",
+            icon: "remove",
+            color: "red",
+            form: [
+              { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
+              { value: "", mask:"", prefix: "", label: "Note", icon: "note", name: "note" },
+            ]
           },
           {
             id: 2,
-            name: "Deposit",
+            name: "Withdraw",
+            icon: "add",
+            color: "orange",
+            form: [
+              { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
+              { value: "", mask:"", prefix: "", label: "Note", icon: "note", name: "note" },
+            ]
           },
           {
             id: 3,
             name: "Transfer",
+            icon: "arrow_forward",
+            color: "blue",
+            form: [
+              { value: "", mask:"########", prefix: "", label: "Account Number", icon: "wallet", name: "account_id" },
+              { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
+              { value: "", mask:"", prefix: "", label: "Note", icon: "note", name: "note" },
+            ]
           },
         ],
         data: {
