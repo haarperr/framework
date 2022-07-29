@@ -1,7 +1,8 @@
 Banking = {
     toggleMenu = false,
     isUsingAtm = false,
-    nearestAtm = nil
+    nearestAtm = nil,
+	accounts = {},
 }
 
 
@@ -21,13 +22,15 @@ function Banking:ToggleMenu(toggle, info)
 
     info.name = exports.character:GetName(PlayerId())
     info.bank = (Config.BankTypes[info.bank or ""] or {}).name
-    info.available = bills
+    info.cash = bills
+
+	TriggerServerEvent("banking:requestData")
 
     SendNUIMessage({
         info = info
     })
 
-    this.isUsingAtm = self.toggleMenu
+    self.isUsingAtm = self.toggleMenu
 end
 
 function Banking:RegisterAtms()
@@ -75,8 +78,8 @@ end
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
-	RegisterAtms()
-	RegisterDesks()
+	Banking:RegisterAtms()
+	Banking:RegisterDesks()
 end)
 
 -- [[ NUI ]] --
@@ -92,9 +95,10 @@ RegisterNUICallback("transfer", function(data)
     TriggerServerEvent("banking:transfer", data)
 end)
 
-RegisterNUICallback("closeMenu", function(data)
-    Banking:ToggleMenu()
+RegisterNUICallback("closeMenu", function()
+    Banking:ToggleMenu(false)
 end)
+
 -- [[ Events ]] --
 --[[ Resource Events ]]--
 AddEventHandler("banking:clientStart", function()
@@ -135,6 +139,7 @@ AddEventHandler("banking:clientStart", function()
 	end
 end)
 
-RegisterNetEvent("banking:load", function(data)
-    SendNUIMessage({ commit = data })
+RegisterNetEvent("banking:initAccounts", function(data)
+	Banking.accounts = data
+    SendNUIMessage({ commit = data, type="accounts" })
 end)

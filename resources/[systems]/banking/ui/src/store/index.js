@@ -6,6 +6,7 @@ export default createStore({
         show: false,
         title: "Fleeca Bank",
         characterName: "Kole Huey",
+        cash: 0,
         accountTypes: [
           {
             id: 1,

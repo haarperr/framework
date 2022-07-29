@@ -4,7 +4,7 @@
       <q-header elevated class="bg-primary text-white">
         <q-toolbar>
           <q-toolbar-title>
-            <span class="on-right">{{"Welcome back " + characterName }}</span>
+            <span class="on-right">{{"Welcome Back " + characterName }}</span>
             <span class="float-right">{{ title }}</span>
           </q-toolbar-title>
         </q-toolbar>
@@ -15,11 +15,12 @@
           <q-toolbar-title>
             Accounts
           </q-toolbar-title>
+          <span class="text-white text-bold text-subtitle1">{{"Cash: $" + cash }}</span>
         </q-toolbar>
 
           <q-list>
-            <div v-for="account in accounts" :key="account.id">
-              <q-item clickable v-ripple :active="selectedAccount === account.id" @click="selectedAccount = account.id" active-class="active-account">
+            <div v-for="(account, index) in accounts" :key="account.id">
+              <q-item clickable v-ripple :active="selectedAccount === index" @click="selectedAccount = index" active-class="active-account">
                 <q-item-section no-wrap top lines="1">
                   <q-item-label class="text-weight-bold text-white" overline>{{ account.name }}</q-item-label>
                   <q-item-label class="text-white" caption>{{ account.type + " - " + account.accountnumber}}</q-item-label>
@@ -38,7 +39,7 @@
       </q-drawer>
       
       <q-page-container class="scroll hide-scrollbar" style="height: 800px; background-color: #121212">
-        <div class="q-pa-sm" v-for="transaction in accounts[selectedAccount - 1].transactions" :key="transaction.id">
+        <div class="q-pa-sm" v-for="transaction in accounts[selectedAccount].transactions" :key="transaction.id">
           <q-card class="text-white bg-dark" bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
@@ -144,8 +145,9 @@ export default {
     const characterName = computed(() => store.state.characterName)
     const accountTypes = computed(() => store.state.accountTypes)
     const transactions = computed(() => store.state.transactionTypes)
+    const cash = computed(() => store.state.cash)
     return {
-      selectedAccount: ref(1),
+      selectedAccount: ref(0),
       selectedTransaction: ref(1),
       selectedCreateType: ref(1),
       moneyFormatForComponent: {
@@ -157,7 +159,7 @@ export default {
         masked: true
       },
       accounts, show, title, accountTypes, characterName, transactions,
-      leftDrawerOpen, transactionPrompt, createPrompt,
+      leftDrawerOpen, transactionPrompt, createPrompt, cash,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
@@ -175,16 +177,16 @@ export default {
 
       if ( data.open != null ) {
         this.$store.state.show = data.open
-        console.log(`Opening ${data.open}!`)
       }
 
       if ( data.info ) {
         this.$store.state.title = data.info.bank
         this.$store.state.characterName = data.info.name
+        this.$store.state.cash = data.info.cash
       }
 
       if ( data.commit ) {
-        this.$store.state[data.type].push(data.commit)
+        this.$store.state.data[data.type]=data.commit
       }
     });
   },
@@ -215,7 +217,7 @@ export default {
       }
     
       fetch(`https://banking//submitTransaction`, {
-        body: JSON.stringify({ data: data, type: this.selectedTransaction }),
+        body: JSON.stringify({ data: data, account: this.accounts[this.selectedAccount].id, type: this.selectedTransaction }),
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
@@ -231,7 +233,7 @@ export default {
       return new Date(ts * 1000).toLocaleString('en-US', { timeZone: 'UTC', timeZoneName: 'short'});
     },
     closeMenu() {
-      fetch(`http://banking/toggle`, {
+      fetch(`http://banking/closeMenu`, {
 				method: 'post',
 				body: JSON.stringify({}),
 			})

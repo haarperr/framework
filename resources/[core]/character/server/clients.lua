@@ -126,6 +126,7 @@ function Client:SelectCharacter(id)
 	-- Events.
 	TriggerEvent(Main.event.."selected", self.source, character, wasActive)
 	TriggerClientEvent(Main.event.."select", self.source, id, wasActive)
+	TriggerEvent("banking:initAccounts", self.source, character.id)
 
 	-- Logging.
 	exports.log:Add({
