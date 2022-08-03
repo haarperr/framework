@@ -134,8 +134,8 @@ RegisterShop("PALETO_247", {
 	},
 })
 
-RegisterShop("PALETO_247", {
-	Name = "Paleto 24/7",
+RegisterShop("SANDY_247", {
+	Name = "Sandy 24/7",
 	Clerks = {
 		{
 			coords = vector4(1959.326, 3741.4, 32.34373, 300.6078),
