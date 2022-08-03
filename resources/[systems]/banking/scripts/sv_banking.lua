@@ -40,26 +40,26 @@ exports("AddBank", AddBank)
 -- [[ Events: Net ]] --
 RegisterNetEvent("banking:initAccounts")
 AddEventHandler("banking:initAccounts", function(source, character_id)
-    local ownedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.balance, bank_accounts.character_id from bank_accounts WHERE character_id = @character_id", {
+    local ownedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.account_name, bank_accounts.account_type, bank_accounts.account_balance, bank_accounts.character_id from bank_accounts WHERE character_id = @character_id", {
         ["@character_id"] = character_id,
     })
 
-    local sharedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.balance, bank_accounts.character_id FROM bank_accounts_shared INNER JOIN bank_accounts WHERE bank_accounts.id = bank_accounts_shared.account_id AND bank_accounts_shared.character_id = @character_id", {
+    local sharedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.account_name, bank_accounts.account_type, bank_accounts.account_balance, bank_accounts.character_id FROM bank_accounts_shared INNER JOIN bank_accounts WHERE bank_accounts.id = bank_accounts_shared.account_id AND bank_accounts_shared.character_id = @character_id", {
         ["@character_id"] = character_id,
     })
     
     local clientAccounts = {}
 
     for k, v in pairs(ownedAccounts) do
-        if not BankAccounts[v.account_id] then
-            BankAccounts[v.account_id] = v
+        if not BankAccounts[v.id] then
+            BankAccounts[v.id] = v
             table.insert(clientAccounts, v)
         end
     end
 
     for k, v in pairs(sharedAccounts) do
-        if not BankAccounts[v.account_id] then
-            BankAccounts[v.account_id] = v
+        if not BankAccounts[v.id] then
+            BankAccounts[v.id] = v
             table.insert(clientAccounts, v)
         end
     end
@@ -68,8 +68,13 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
 end)
 
 RegisterNetEvent("banking:createAccount")
-AddEventHandler("banking:createAccount", function(source, character_id)
-    local account = exports.GHMattiMySQL:QueryScalar("INSERT ")
+AddEventHandler("banking:createAccount", function(source, character_id, accountname, accountType, isPrimary)
+    local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountname })[1]
+    if isPrimary then
+        exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.id, ["@character_id"] = character_id})
+    end
+    BankAccounts[account.id] = account
+    TriggerClientEvent("banking:initAccounts", source, account, true)
 end)
 
 RegisterNetEvent("banking:getAccountTransactions")

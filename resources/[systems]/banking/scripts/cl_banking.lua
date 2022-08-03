@@ -139,7 +139,11 @@ AddEventHandler("banking:clientStart", function()
 	end
 end)
 
-RegisterNetEvent("banking:initAccounts", function(data)
-	Banking.accounts = data
+RegisterNetEvent("banking:initAccounts", function(data, insert)
+	if insert then
+		table.insert(Banking.accounts, data)
+	else
+		Banking.accounts = data
+	end
     SendNUIMessage({ commit = data, type="accounts" })
 end)

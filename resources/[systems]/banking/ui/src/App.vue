@@ -22,9 +22,9 @@
             <div v-for="(account, index) in accounts" :key="account.id">
               <q-item clickable v-ripple :active="selectedAccount === index" @click="selectedAccount = index" active-class="active-account">
                 <q-item-section no-wrap top lines="1">
-                  <q-item-label class="text-weight-bold text-white" overline>{{ account.name }}</q-item-label>
-                  <q-item-label class="text-white" caption>{{ account.type + " - " + account.accountnumber}}</q-item-label>
-                  <q-item-label caption class="text-weight-bolder text-white">{{ "$" + formatPrice(account.balance) }}</q-item-label>
+                  <q-item-label class="text-weight-bold text-white" overline>{{ account.account_name }}</q-item-label>
+                  <q-item-label class="text-white" caption>{{ accountTypes[account.account_type - 1].name + " - " + account.account_id}}</q-item-label>
+                  <q-item-label caption class="text-weight-bolder text-white">{{ "$" + formatPrice(account.account_balance) }}</q-item-label>
                 </q-item-section>
                 <q-item-section side style="padding-top: 20px">
                   <div class="text-grey-8 q-gutter-xs">
@@ -202,7 +202,7 @@ export default {
       }
 
       fetch(`https://banking//createAccount`, {
-        body: JSON.stringify({ data: data, type: this.selectedCreateType }),
+        body: JSON.stringify({ data: data, type: this.accountTypes[this.selectedCreateType].id }),
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
