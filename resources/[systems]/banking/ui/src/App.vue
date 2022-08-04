@@ -201,9 +201,10 @@ export default {
         data[input.name] = input.value
       }
 
-      fetch(`https://banking//createAccount`, {
-        body: JSON.stringify({ data: data, type: this.accountTypes[this.selectedCreateType].id }),
-        method: "POST",
+      data["type"] = this.accountTypes[this.selectedCreateType].id
+      fetch(`http://banking/createAccount`, {
+        body: JSON.stringify({ data: data }),
+        method: "post",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         }
@@ -216,9 +217,9 @@ export default {
         data[input.name] = input.value
       }
     
-      fetch(`https://banking//submitTransaction`, {
+      fetch(`http://banking/submitTransaction`, {
         body: JSON.stringify({ data: data, account: this.accounts[this.selectedAccount].id, type: this.selectedTransaction }),
-        method: "POST",
+        method: "post",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
         }

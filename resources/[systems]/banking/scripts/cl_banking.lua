@@ -99,6 +99,10 @@ RegisterNUICallback("closeMenu", function()
     Banking:ToggleMenu(false)
 end)
 
+RegisterNUICallback("createAccount", function(payload)
+	TriggerServerEvent("banking:createAccount", GetPlayerServerId(PlayerId()), exports.character:Get("id"), payload.data.account_name, payload.data.type)
+end)
+
 -- [[ Events ]] --
 --[[ Resource Events ]]--
 AddEventHandler("banking:clientStart", function()
@@ -139,11 +143,12 @@ AddEventHandler("banking:clientStart", function()
 	end
 end)
 
-RegisterNetEvent("banking:initAccounts", function(data, insert)
+RegisterNetEvent("banking:initAccounts")
+AddEventHandler("banking:initAccounts", function(data, insert)
 	if insert then
 		table.insert(Banking.accounts, data)
 	else
 		Banking.accounts = data
 	end
-    SendNUIMessage({ commit = data, type="accounts" })
+    SendNUIMessage({ commit = Banking.accounts, type="accounts" })
 end)

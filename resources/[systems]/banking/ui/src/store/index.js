@@ -14,7 +14,7 @@ export default createStore({
             icon: "credit_card",
             color: "purple",
             form: [
-              { value: "", label: "Account Name", icon: "drive_file_rename_outline"}
+              { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}
             ]
           },
           {
@@ -23,7 +23,7 @@ export default createStore({
             icon: "savings",
             color: "teal",
             form: [
-              { value: "", label: "Account Name", icon: "drive_file_rename_outline"}
+              { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}
             ]
           },
         ],

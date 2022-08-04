@@ -68,8 +68,8 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
 end)
 
 RegisterNetEvent("banking:createAccount")
-AddEventHandler("banking:createAccount", function(source, character_id, accountname, accountType, isPrimary)
-    local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountname })[1]
+AddEventHandler("banking:createAccount", function(source, character_id, accountName, accountType, isPrimary)
+    local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
     if isPrimary then
         exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.id, ["@character_id"] = character_id})
     end
