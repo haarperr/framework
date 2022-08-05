@@ -38,6 +38,30 @@ end
 exports("AddBank", AddBank)
 
 -- [[ Events: Net ]] --
+RegisterNetEvent("banking:transaction")
+AddEventHandler("banking:transactions", function(data)
+    if data.type == 1 then -- Deposit
+        if exports.inventory:CountCash() >= data.amount then
+            -- Task Cash
+            AddBank(data.amount)
+        else
+            -- Anti Cheat BAn
+        end
+    elseif data.type == 2 then -- Withdraw
+        if BankAccounts[data.id].account_balance >= data.amount then
+            AddBank(source, data.amount * -1)
+            -- Add Cash
+        else
+            -- Anti Cheat Ban
+        end
+    elseif data.type == 3 then -- Transfer
+        if BankAccounts[data.id].account_balance >= data.amount then
+            AddBank(source, data.id, data.amount * -1)
+            AddBank(source, data.target, data.amount)
+        end
+    else return end
+end)
+
 RegisterNetEvent("banking:initAccounts")
 AddEventHandler("banking:initAccounts", function(source, character_id)
     local ownedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.account_name, bank_accounts.account_type, bank_accounts.account_balance, bank_accounts.character_id from bank_accounts WHERE character_id = @character_id", {
