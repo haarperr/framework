@@ -10,9 +10,7 @@ Citizen.CreateThread(function()
 			embedded[_k] = {
 				id = ("vendor-%s-%s"):format(k, _k),
 				text = item.Name,
-				items = {
-					{ name = "Bills", amount = item.Price }
-				},
+				cash = exports.inventory:CountMoney() or 0.0,
 				event = "vendor",
 			}
 		end
@@ -31,5 +29,13 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("interact:on_vendor", function(interactable)
-	exports.mythic_notify:SendAlert("error", "Empty...", 7000)
+	TriggerServerEvent("vendor:purchase", source)
 end)
+
+--[[Animation]]--
+function playAnim(animDict, animName)
+	RequestAnimDict(animDict)
+	while not HasAnimDictLoaded(animDict) do Citizen.Wait(0) end
+	TaskPlayAnim(ped, animDictionary, animationName, blendInSpeed, blendOutSpeed, duration, flag, playbackRate, lockX, lockY, lockZ)
+	RemoveAnimDict(animDict)
+end
