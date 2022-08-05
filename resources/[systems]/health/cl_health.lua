@@ -104,7 +104,7 @@ function Main:Sync()
 	TriggerServerEvent("health:sync", payload)
 	
 	-- Debug.
-	print("Updating snowflake", self.snowflake, json.encode(payload))
+	--print("Updating snowflake", self.snowflake, json.encode(payload))
 end
 
 function Main:Restore(data)
@@ -174,7 +174,7 @@ function Main:SetEffect(name, value)
 
 	self.effectsCached[name] = value
 
-	print("updating", name, value)
+	--print("updating", name, value)
 
 	Main:UpdateSnowflake()
 end

@@ -1,11 +1,15 @@
 Config = {
 	Center = vector3(2791.705810546875, 1532.52197265625, 44.43146896362305),
 	Radius = 500.0,
+	QuickTime = {
+		goalSize = 0.3,
+		speed = 0.6,
+	},
 	Bombs = {
 		Item = "Plastic Explosive",
 		Model = "ch_prop_ch_explosive_01a",
 		MaxDistance = 700.0,
-		ResetTime = 30.0, -- In minutes.
+		ResetTime = { 45.0, 90.0 }, -- In minutes.
 		Anims = {
 			Place = {
 				Dict = "anim_heist@hs3f@ig7_plant_bomb@male@",
@@ -33,8 +37,9 @@ Config = {
 		},
 		Fail = {
 			EvidenceChance = 0.8,
-			DispatchChance = 0.9,
+			DispatchChance = 0.8,
 		},
+		MinPlacement = 6,
 		Placements = {
 			-- North Transformers.
 			{
@@ -240,6 +245,11 @@ Config = {
 					{ Coords = vector3(2707.97216796875, 1484.171630859375, 51.18455123901367) },
 					{ Coords = vector3(2704.30224609375, 1484.079833984375, 59.85997772216797) },
 				},
+			},
+			{
+				Coords = vector3(2875.71630859375, 1518.654296875, 24.84471130371093),
+				Normal = vector3(0.2588617503643, 0.96591430902481, 0),
+				Target = vector3(2875.9751703441143, 1519.6202111840248, 24.84471130371093),
 			},
 		},
 	},

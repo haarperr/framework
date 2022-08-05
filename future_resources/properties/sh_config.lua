@@ -1,7 +1,7 @@
 Config = {
 	GridSize = 2,
 	DoorRadius = 2.0,
-	GarageRadisu = 3.0,
+	GarageRadius = 3.0,
 	Types = {
 		["motel"] = {
 		},

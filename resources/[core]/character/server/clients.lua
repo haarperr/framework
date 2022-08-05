@@ -90,6 +90,8 @@ function Client:AddCharacter(data)
 		return false, "Database error"
 	end
 
+	TriggerEvent("banking:createAccount", self.source, character.id, "Primary Account", 1, true)
+
 	character = Character:Create(self.source, character)
 	
 	self.characters[tostring(character.id)] = character
@@ -126,6 +128,7 @@ function Client:SelectCharacter(id)
 	-- Events.
 	TriggerEvent(Main.event.."selected", self.source, character, wasActive)
 	TriggerClientEvent(Main.event.."select", self.source, id, wasActive)
+	TriggerEvent("banking:initAccounts", self.source, character.id)
 
 	-- Logging.
 	exports.log:Add({

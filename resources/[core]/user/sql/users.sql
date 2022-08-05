@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 	`steam` CHAR(15) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`license` CHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`license2` CHAR(40) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	`discord` CHAR(18) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`discord` CHAR(20) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`endpoint` CHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`xbl` CHAR(16) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`live` CHAR(15) NULL DEFAULT NULL COLLATE 'utf8_general_ci',

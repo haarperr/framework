@@ -22,7 +22,9 @@ Config = {
 		["prop_cctv_pole_03"] = { Offset = vector3(0.0, 0.0, 6.8), Rotation = vector3(0.0, 0.0, 0.0), Min = vector3(-45.0, 0.0, -180.0), Max = vector3(45.0, 0.0, 180.0) },
 		["prop_cctv_pole_04"] = { Offset = vector3(-0.75, -0.175, 4.4), Rotation = vector3(-22.5, 0.0, 120.0), Min = vector3(-45.0, 0.0, -80.0), Max = vector3(45.0, 0.0, 80.0) },
 		["prop_cs_cctv"] = { Offset = vector3(0.0, -0.3, -0.175), Rotation = vector3(0.0, 0.0, 180.0), Min = vector3(-60.0, 0.0, -90.0), Max = vector3(22.5, 0.0, 90.0) },
-		["xm_prop_x17_server_farm_cctv_01"] = { Offset = vector3(0.0, -0.3, -0.275), Rotation = vector3(0.0, 0.0, 180.0), Min = vector3(-60.0, 0.0, -90.0), Max = vector3(22.5, 0.0, 90.0) },
+		["v_serv_ct_monitor07"] = { Offset = vector3(0.0, -0.3, -0.175), Rotation = vector3(0.0, 0.0, 180.0), Min = vector3(-60.0, 0.0, -90.0), Max = vector3(22.5, 0.0, 90.0) },
+		["prop_laptop_01a"] = { Offset = vector3(0.0, -0.3, -0.175), Rotation = vector3(0.0, 0.0, 180.0), Min = vector3(-60.0, 0.0, -90.0), Max = vector3(22.5, 0.0, 90.0) },
+		["p_cs_cam_phone"] = { Offset = vector3(0.0, -0.3, -0.175), Rotation = vector3(0.0, 0.0, 180.0), Min = vector3(-60.0, 0.0, -90.0), Max = vector3(22.5, 0.0, 90.0) },
 		["prop_snow_cam_03a"] = { Offset = vector3(-0.55, -0.55, 0.3), Rotation = vector3(0.0, 0.0, 135.0), Min = vector3(-50.0, 0.0, -60.0), Max = vector3(15.0, 0.0, 60.0) },
 	},
 	Sites = {
@@ -31,11 +33,15 @@ Config = {
 			UseDoors = true,
 			Access = {
 				{
-					Coords = vector3(1839.8541259765625, 2574.6357421875, 46.01433563232422),
+					Coords = vector3(1777.219482421875, 2593.00439453125, 50.48888397216797),
 					Radius = 0.3,
 				},
 				{
-					Coords = vector3(1769.430908203125, 2573.554931640625, 45.72985458374023),
+					Coords = vector3(1789.9127197265625, 2548.346923828125, 46.2978630065918),
+					Radius = 0.3,
+				},
+				{
+					Coords = vector3(1762.024169921875, 2606.799560546875, 51.84943771362305),
 					Radius = 0.3,
 				},
 			},
@@ -57,13 +63,29 @@ Config = {
 				},
 				{
 					Name = "Kitchen",
-					Center = vector3(1783.4837646484375, 2553.828125, 45.67308807373047),
-					Radius = 30.0,
+					Center = vector3(1775.9420166015625, 2591.3916015625, 47.93299865722656),
+					Radius = 2.0,
+				},
+				{
+					Name = "Hallway",
+					Center = vector3(1777.567626953125, 2583.526611328125, 46.14609146118164),
+					Radius = 200.0,
+					Room = "room1",
+				},
+				{
+					Name = "Armory/Office",
+					Center = vector3(1784.5167236328125, 2546.09521484375, 46.31559371948242),
+					Radius = 20.0,
+				},
+				{
+					Name = "Solitary",
+					Center = vector3(1764.4554443359375, 2604.081298828125, 50.90965270996094),
+					Radius = 10.0,
 				},
 				{
 					Name = "Cell Block",
-					Center = vector3(1761.9132080078125, 2485.852783203125, 45.74065780639648),
-					Radius = 40.0,
+					Center = vector3(1779.677978515625, 2581.119140625, 45.79959106445312),
+					Radius = 30.0,
 				},
 				{
 					Name = "Tower A",
@@ -128,7 +150,7 @@ Config = {
 				{
 					Name = "South Yard",
 					Center = vector3(1690.7725830078125, 2510.462646484375, 45.56485366821289),
-					Radius = 60.0,
+					Radius = 100.0,
 				},
 				{
 					Name = "North Yard",
@@ -207,11 +229,6 @@ Config = {
 					Radius = 50.0,
 				},
 				{
-					Name = "Grapeseed",
-					Center = vector3(1698.1225585938, 4924.4375, 42.063674926758),
-					Radius = 50.0,
-				},
-				{
 					Name = "Richman Glen",
 					Center = vector3(-1820.5167236328, 792.74011230469, 138.11070251465),
 					Radius = 50.0,
@@ -275,11 +292,6 @@ Config = {
 				{
 					Name = "Hawick Burton Fleeca",
 					Center = vector3(-354.10775756836, -55.036827087402, 49.036552429199),
-					Radius = 30.0,
-				},
-				{
-					Name = "Grapeseed Fleeca",
-					Center = vector3(1653.41748046875, 4846.994140625, 43.35746383666992),
 					Radius = 30.0,
 				},
 			},
@@ -482,7 +494,7 @@ Config = {
 				{
 					Name = "Exterior",
 					Center = vector3(114.54676055908205, -1290.01904296875, 29.0904598236084),
-					Radius = 50.0,
+					Radius = 40.0,
 				},
 			},
 		},
@@ -505,6 +517,29 @@ Config = {
 					Name = "Exterior",
 					Center = vector3(-197.372802734375, -1172.9251708984375, 25.93619537353515),
 					Radius = 80.0,
+				},
+			},
+		},
+		{
+			Name = "Burger Shot",
+			Access = {
+				{
+					Coords = vector3(-1179.0528564453125, -894.0139770507812, 15.50798606872558),
+					Radius = 0.3,
+				}
+			},
+			Groups = {
+				{
+					Name = "Restaurant",
+					Center = vector3(-1190.8753662109375, -895.7732543945312, 15.43704319000244),
+					Radius = 60.0,
+					Room = "Room_eat",
+				},
+				{
+					Name = "Staff Corridor",
+					Center = vector3(-1193.575927734375, -904.4705200195312, 15.19690132141113),
+					Radius = 20.0,
+					Room = "Room_corridorback",
 				},
 			},
 		},
