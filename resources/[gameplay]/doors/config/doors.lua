@@ -91,6 +91,10 @@ Config.Doors = {
 	[9467943] = { Item = "Lockpick", Locked = true },
 	[1335309163] = { Item = "Lockpick", Locked = true },
 
+	--[[ PSB ]]--
+	[-222270721] = { Electronic = true, Locked = true },
+	[746855201] = { Electronic = true, Locked = true },
+
 	--[[ Vaults ]]--
 	[`v_ilev_bk_vaultdoor`] = { Vault = -160.0 },
 	[`v_ilev_gb_vauldr`] = { Vault = -90.0, Distance = 1.0 },

@@ -99,4 +99,10 @@ Config.Groups = {
 			{ coords = vector3(834.4094848632812, -1305.7039794921875, 23.3207893371582), ignore = true },
 		},
 	},
+	{
+		name = "PSB",
+		coords = vector3(258.8643, 222.8925, 106.2859),
+		radius = 50,
+		locked = true,
+	},
 }
