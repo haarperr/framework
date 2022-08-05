@@ -14,9 +14,17 @@ function Set(source, account, key, value)
     exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..value.." WHERE account_id = @account_id", {
         ["@account_id"] = account
     })
-    -- TriggerClientEvent("banking:updateBank", source, account, key, value)
+    TriggerClientEvent("banking:updateBank", source, account, key, value)
 end
 exports("Set", Set)
+
+function AddTransaction(source, data)
+    -- local result = {}
+    -- result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction.note", {
+    --     [""] = ,
+    -- })[1]
+    -- TriggerClientEvent("banking:addTransaction", source, account, result)
+end
 
 function AddBank(source, account, amount, notify)
     if type(amount) ~= number then return end
@@ -60,6 +68,8 @@ AddEventHandler("banking:transactions", function(data)
             AddBank(source, data.target, data.amount)
         end
     else return end
+
+    AddTransaction(source, data)
 end)
 
 RegisterNetEvent("banking:initAccounts")
