@@ -139,6 +139,16 @@ span {
 	position: relative !important;
 }
 
+.seatbelt {
+    display: absolute;
+    flex-direction: column;
+    align-items: right;
+    justify-content: right;
+    bottom: 27.5%;
+    right: 45%;
+    z-index: 4;
+}
+
 /* Compass */
 #minimap {
 	display: block;
