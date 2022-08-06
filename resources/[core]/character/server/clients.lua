@@ -90,7 +90,7 @@ function Client:AddCharacter(data)
 		return false, "Database error"
 	end
 
-	TriggerEvent("banking:createAccount", self.source, character.id, "Primary Account", 1, true)
+	TriggerEvent("banking:createAccount", character.id, "Primary Account", 1, true, self.source)
 
 	character = Character:Create(self.source, character)
 	
