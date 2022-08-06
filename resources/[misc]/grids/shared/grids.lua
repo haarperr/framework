@@ -42,8 +42,6 @@ function Grids:GetGrid(coords, size, keepSize)
 	local width = self:GetWidth(size)
 	return math.floor(coords.x / size) + math.floor(coords.y / size) * width
 end
-exports("GetGrid", GetGrid)
-Grids:Export("GetGrid")
 
 function Grids:GetCoords(grid, size, keepSize)
 	if not keepSize then
@@ -52,7 +50,6 @@ function Grids:GetCoords(grid, size, keepSize)
 	local width = self:GetWidth(size)
 	return vector3(math.floor(grid % width) * size - self.Offset.x + size / 2.0, math.floor(grid / width) * size - self.Offset.y + size / 2.0, 0)
 end
-Grids:Export("GetPos")
 
 function Grids:GetNearbyGrids(coords, size, keepSize)
 	if not size then return {} end
@@ -79,7 +76,6 @@ function Grids:GetNearbyGrids(coords, size, keepSize)
 		grid + width + 1
 	}
 end
-Grids:Export("GetNearbyGrid")
 
 function Grids:GetImmediateGrids(coords, size, keepSize)
 	if not size then return {} end
@@ -106,4 +102,3 @@ function Grids:GetImmediateGrids(coords, size, keepSize)
 
 	return grids
 end
-Grids:Export("GetImmediateGrid")
