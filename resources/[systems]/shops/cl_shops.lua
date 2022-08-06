@@ -62,7 +62,7 @@ function Shop:Interact(npc)
 		totalPrice = "0.00",
 		paymentType = "Cash",
 		loading = true,
-		cash = exports.inventory:CountMoney() or 0.0,
+		cash = exports.inventory:CountMoney(true) or 0.0,
 	}
 	
 	-- Create window.
