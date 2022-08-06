@@ -124,7 +124,10 @@ function Menu:Open()
 
 			local ped = PlayerPedId()
 
-			if not Dealer or exports.health:IsPedDead(ped) then
+			local state = LocalPlayer.state or {}
+			local isDead = state.immobile
+
+			if not Dealer or isDead then
 				self.isOpen = false
 				break
 			end

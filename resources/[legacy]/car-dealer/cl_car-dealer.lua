@@ -73,10 +73,10 @@ AddEventHandler("car-dealer:clientStart", function()
 				return
 			end
 
-			if dealer.License and not exports.character:HasLicense(dealer.License) then
-				exports.mythic_notify:SendAlert("error", "You are unlicensed for these vehicles!", 7000)
-				return
-			end
+			--if dealer.License and not exports.character:HasLicense(dealer.License) then
+				--exports.mythic_notify:SendAlert("error", "You are unlicensed for these vehicles!", 7000)
+				--return
+			--end
 
 			SpawnCoords = dealer.VehicleSpawn
 			Dealer = dealer

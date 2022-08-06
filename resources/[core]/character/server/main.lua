@@ -5,7 +5,7 @@ Main.responses = {}
 function Main:Init()
 	self:LoadDatabase()
 
-	-- Modules:LoadDatabase()
+	Modules:LoadDatabase()
 
 	Citizen.Wait(0)
 

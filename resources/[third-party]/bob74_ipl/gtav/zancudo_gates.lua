@@ -15,6 +15,6 @@ ZancudoGates = {
     },
 
     LoadDefault = function()
-        ZancudoGates.Gates.Close()
+        ZancudoGates.Gates.Open()
     end
 }
