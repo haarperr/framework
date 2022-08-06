@@ -68,8 +68,8 @@ AddEventHandler("car-dealer:clientStart", function()
 		Markers[#Markers + 1] = exports.markers:CreateUsable(GetCurrentResourceName(), dealer.Kiosk, callbackId, "Kiosk", Config.Markers.DrawRadius, Config.Markers.Radius, dealer.Blip)
 
 		AddEventHandler("markers:use_"..callbackId, function()
-			if dealer.Faction and not exports.character:HasFaction(dealer.Faction) then
-				exports.mythic_notify:SendAlert("error", "Missing faction!", 7000)
+			if dealer.Faction and not exports.factions:Has(dealer.Faction, dealer.Group) then
+				TriggerEvent("chat:notify", "You don't work here!", "error")
 				return
 			end
 
