@@ -2,12 +2,11 @@ fx_version 'cerulean'
 game 'gta5'
 
 shared_scripts {
-	'grids.lua',
+	'shared/*.lua',
 }
 
 client_scripts {
-	'main.lua',
-	'debug.lua',
+	'client/*.lua',
 }
 
 server_scripts {
