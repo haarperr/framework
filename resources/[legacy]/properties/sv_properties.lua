@@ -591,7 +591,7 @@ end, {
 	params = {
 		{ name = "Type", help = "The type of apartment to add." },
 	}
-}, 1, 50)
+}, "Admin")
 
 exports.chat:RegisterCommand("a:propertyremove", function(source, args, rawCommand)
 	local source = source
@@ -621,7 +621,7 @@ end, {
 	params = {
 		{ name = "ID", help = "The ID of the apartment to remove." },
 	}
-}, 1, 50)
+}, "Admin")
 
 exports.chat:RegisterCommand("a:garageadd", function(source, args, rawCommand)
 	local source = source
@@ -660,7 +660,7 @@ end, {
 	params = {
 		{ name = "Property ID", help = "The property ID the garage will be attached to." },
 	}
-}, 1, 50)
+}, "Admin")
 
 exports.chat:RegisterCommand("property:givekey", function(source, args, rawCommand)
 	if Cooldowns[source] and os.clock() - Cooldowns[source] < 5.0 then return end
@@ -1029,26 +1029,28 @@ end, {
 	}
 }, 1, 0)
 
-exports.chat:RegisterCommand("a:givekey", function(source, args, rawCommand)
+exports.chat:RegisterCommand("a:givekey", function(source, args, rawCommand, cb)
 	local propertyId, target = tonumber(args[1]), tonumber(args[2])
 	if not target then
 		target = source
 	end
-
+	print("A")
 	-- Check property.
 	local property = GetProperty(propertyId)
+	print("B")
 	if not property then
-		TriggerEvent("chat:addMessage", source, "Property doesn't exist!")
+		cb("error", "Property doesn't exist!")
 		return
 	elseif property.type == "bunker" then
-		TriggerEvent("chat:addMessage", source, "Too many tunnels to navigate...")
+		cb("error", "Too many tunnels to navigate...")
 		return
 	end
 
 	-- Get keys.
+	print(target)
 	local keys = exports.character:Get(target, "keys")
 	if not keys then
-		TriggerEvent("chat:addMessage", source, "Invalid target!")
+		cb("error", "Invalid target!")
 		return
 	end
 
@@ -1077,7 +1079,7 @@ end, {
 		{ name = "Property", help = "The property to give keys for." },
 		{ name = "Target", help = "The player to give keys to." },
 	}
-}, -1, 50)
+}, "Admin")
 
 -- exports.chat:RegisterCommand("property:release", function(source, args, rawCommand)
 -- 	local source = source

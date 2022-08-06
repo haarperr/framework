@@ -146,7 +146,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "pdm",
+			Group = "pdm",
+			Faction = "dealer",
 			Name = "PDM Employee Kiosk",
 			Kiosk = vector3(-26.16110038757324, -1102.976318359375, 27.27428245544433),
 			VehicleDisplay = vector4(-41.75972366333008, -1096.797607421875, 27.27436637878418, 24.90196228027343),
@@ -477,7 +478,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "lux",
+			Group = "lux",
+			Faction = "dealer",
 			Name = "Malone and Sons",
 			Blip = {
 				name = "Malone and Sons",
@@ -741,7 +743,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "lspd",
+			Group = "lspd",
+			Faction = "pd",
 			Name = "LSPD Shop MRPD",
 			License = "drivers",
 			Kiosk = vector4(446.646484375, -1011.4799194335938, 28.52850914001465, 181.9075469970703),
@@ -786,7 +789,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "bcso",
+			Group = "bcso",
+			Faction = "pd",
 			Name = "BCSO Shop Sandy",
 			License = "drivers",
 			Kiosk = vector4(1853.2083740234375, 3700.188720703125, 34.26432800292969, 203.99832153320312),
@@ -834,7 +838,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "paramedic",
+			Group = "paramedic",
+			Faction = "ems",
 			Name = "Paramedic Shop",
 			License = "drivers",
 			Kiosk = vector4(323.7291564941406, -560.9889526367188, 28.79684829711914, 338.0251770019531),
@@ -855,7 +860,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "lsms",
+			Group = "lsms",
+			Faction = "ems",
 			Name = "LSMS Shop",
 			License = "drivers",
 			Kiosk = vector4(342.5022277832031, -567.1812133789062, 28.79683494567871, 339.8534851074219),
@@ -869,7 +875,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "firefighter",
+			Group = "firefighter",
+			Faction = "ems",
 			Name = "Firefighter Shop",
 			License = "drivers",
 			Kiosk = vector4(185.8712615966797, -1654.75146484375, 29.92617797851562, 322.927001953125),
@@ -893,7 +900,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "sasp",
+			Group = "sasp",
+			Faction = "pd",
 			Name = "SASP Shop Highway PD",
 			License = "drivers",
 			Kiosk = vector4(1542.5361328125, 785.0300903320312, 77.41544342041016, 76.82685089111328),
@@ -947,7 +955,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "sams",
+			Group = "sams",
+			Faction = "doj",
 			Name = "SAMS Shop",
 			License = "drivers",
 			Kiosk = vector4(14.7060489654541, -893.2334594726562, 30.02250862121582, 159.78997802734375),
@@ -982,7 +991,8 @@ Config = {
 			},
 		},--]]
 		{
-			Faction = "doc",
+			Group = "doc",
+			Faction = "corrections",
 			Name = "DOC Shop",
 			License = "drivers",
 			Kiosk = vector4(1840.1448974609375, 2545.832275390625, 45.67203521728515, 90.86287689208984),
@@ -997,7 +1007,8 @@ Config = {
 			},
 		},
 		{
-			Faction = "parole",
+			Group = "parole",
+			Faction = "corrections",
 			Name = "Parole Shop",
 			License = "drivers",
 			Kiosk = vector4(1840.5943603515625, 2537.712646484375, 45.67203521728515, 89.67439270019531),
@@ -1023,7 +1034,7 @@ Config = {
 				"vetir",
 			},
 		},--]]
-		{
+		--[[{
 			Faction = "rat",
 			Name = "RAT Shop",
 			License = "drivers",
@@ -1051,7 +1062,7 @@ Config = {
 				"pddemon",
 				"pdhellcat",
 			},
-		},
+		},]]
 	},
 	Buyer = {
 		Delimiter = 0.50,

@@ -115,8 +115,11 @@ function IsInStrikeZone()
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
 
+	local state = LocalPlayer.state or {}
+	local isDead = state.immobile
+
 	-- Check alive.
-	if GetResourceState("health") == "started" and exports.health:IsPedDead(ped) then
+	if isDead then
 		return false
 	end
 

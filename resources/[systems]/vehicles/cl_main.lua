@@ -17,6 +17,7 @@ function Main:Init()
 
 		-- Get class.
 		settings.Class = GetVehicleClassFromName(model)
+		settings.Category = GetLabelText("VEH_CLASS_"..settings.Class)
 
 		-- Cache settings.
 		self.settings[model] = settings

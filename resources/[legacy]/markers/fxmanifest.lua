@@ -4,7 +4,7 @@ game 'gta5'
 dependencies {
 	'utils',
 	'cache',
-	'grids',
+	'oldgrids',
 }
 
 client_script 'cl_markers.lua'

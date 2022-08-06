@@ -35,7 +35,8 @@ function Menu:Build()
 	-- Get the user's rank.
 	local factionRank = 0
 	if Dealer.Faction then
-		factionRank = exports.jobs:GetPower(0, Dealer.Faction)
+		--factionRank = exports.jobs:GetPower(0, Dealer.Faction)
+		factionRank = 0
 	end
 
 	-- Build the list.
@@ -45,7 +46,7 @@ function Menu:Build()
 		if vehicleData.rank and factionRank < vehicleData.rank then goto endOfLoop end
 
 		local vehicleSettings = exports.vehicles:GetSettings(vehicle)
-		if vehicleSettings then
+		if vehicleSettings and vehicleSettings.Category then
 			local subMenu = self.subMenus[vehicleSettings.Category]
 			if not subMenu then
 				subMenu = menuPool:AddSubMenu(menu, vehicleSettings.Category, "", true, true)
@@ -124,7 +125,10 @@ function Menu:Open()
 
 			local ped = PlayerPedId()
 
-			if not Dealer or exports.health:IsPedDead(ped) then
+			local state = LocalPlayer.state or {}
+			local isDead = state.immobile
+
+			if not Dealer or isDead then
 				self.isOpen = false
 				break
 			end

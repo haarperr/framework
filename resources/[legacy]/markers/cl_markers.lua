@@ -13,7 +13,7 @@ Citizen.CreateThread(function()
 
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
-		local nearbyGrids = exports.grids:GetNearbyGrids(coords, GridSize)
+		local nearbyGrids = exports.oldgrids:GetNearbyGrids(coords, GridSize)
 
 		NearbyMarkers = {}
 
@@ -171,7 +171,7 @@ function Create(resource, data)
 	Markers[handle] = data
 
 	-- Cache the grid.
-	local grid = exports.grids:GetGrid(data.pos, GridSize)
+	local grid = exports.oldgrids:GetGrid(data.pos, GridSize)
 
 	if not Grids[grid] then
 		Grids[grid] = { handle }
