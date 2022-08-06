@@ -5,12 +5,24 @@ BankAccounts = {}
 -- [[ Functions ]] --
 
 function Get(account, key)
-    return BankAccounts[account][key]
+    if BankAccounts[account] then
+        return BankAccounts[account][key]
+    else
+        local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts WHERE account_id = @account_id", { ["@account_id"] = tonumber(account) })
+        if #result > 0 then
+            BankAccounts[account] = result[1]
+            return BankAccounts[account][key]
+        end
+    end
+
+    return false
 end
 exports("Get", Get)
 
 function Set(source, account, key, value)
-    BankAccounts[account][key] = value
+    if BankAccounts[account] then 
+        BankAccounts[account][key] = value
+    end
     exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..value.." WHERE account_id = @account_id", {
         ["@account_id"] = account
     })
@@ -27,12 +39,12 @@ function AddTransaction(source, data)
 end
 
 function AddBank(source, account, amount, notify)
-    if type(amount) ~= number then return end
+    if type(amount) ~= "number" then return end
 
-    local balance = Get(account, "balance")
-    if not balance then return end
+    local balance = Get(account, "account_balance")
+    if not balance then print("Nothing") return end
         
-    Set(source, account, "balance", balance + amount)
+    Set(source, account, "account_balance", balance + amount)
    
     if notify then
 		if amount > 0 then
@@ -45,27 +57,49 @@ function AddBank(source, account, amount, notify)
 end
 exports("AddBank", AddBank)
 
+function Transfer(source, account, amount, notify)
+    if type(amount) ~= "number" then return end
+
+    local balance = Get(account, "account_balance")
+    if not balance then return end
+        
+    Set(source, account, "account_balance", balance + amount)
+   
+    return true
+    -- if notify then
+	-- 	if amount > 0 then
+	-- 		notify = "$"..tostring(exports.misc:FormatNumber(amount)).." has been added to your account!"
+	-- 	else
+	-- 		notify = "$"..tostring(exports.misc:FormatNumber(math.abs(amount))).." has been deducted from your account!"
+	-- 	end
+	-- 	TriggerClientEvent("notify:sendAlert", source, "inform", notify, 7000)
+	-- end
+end
+exports("Transfer", Transfer)
+
 -- [[ Events: Net ]] --
 RegisterNetEvent("banking:transaction")
-AddEventHandler("banking:transactions", function(data)
+AddEventHandler("banking:transaction", function(data)
+    local amount = tonumber(data.amount)
     if data.type == 1 then -- Deposit
-        if exports.inventory:CountCash() >= data.amount then
-            -- Task Cash
-            AddBank(data.amount)
+        if exports.inventory:CanAfford(source, amount) then
+            exports.inventory:TakeMoney(source, amount)
+            AddBank(source, data.account_id, amount)
         else
             -- Anti Cheat BAn
         end
     elseif data.type == 2 then -- Withdraw
-        if BankAccounts[data.id].account_balance >= data.amount then
-            AddBank(source, data.amount * -1)
-            -- Add Cash
+        if BankAccounts[data.account_id].account_balance >= amount then
+            AddBank(source, data.account_id, amount * -1)
+            exports.inventory:GiveMoney(source, amount)
         else
             -- Anti Cheat Ban
         end
     elseif data.type == 3 then -- Transfer
-        if BankAccounts[data.id].account_balance >= data.amount then
-            AddBank(source, data.id, data.amount * -1)
-            AddBank(source, data.target, data.amount)
+        if BankAccounts[data.account_id].account_balance >= amount then
+            if Transfer(source, data.target_account, amount) then
+                AddBank(source, data.account_id, amount * -1)
+            end
         end
     else return end
 
@@ -85,16 +119,16 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
     local clientAccounts = {}
 
     for k, v in pairs(ownedAccounts) do
-        if not BankAccounts[v.id] then
-            BankAccounts[v.id] = v
-            table.insert(clientAccounts, v)
+        if not BankAccounts[v.account_id] then
+            BankAccounts[v.account_id] = v
+            clientAccounts[v.account_id] = v
         end
     end
 
     for k, v in pairs(sharedAccounts) do
-        if not BankAccounts[v.id] then
-            BankAccounts[v.id] = v
-            table.insert(clientAccounts, v)
+        if not BankAccounts[v.account_id] then
+            BankAccounts[v.account_id] = v
+            clientAccounts[v.account_id] = v
         end
     end
 

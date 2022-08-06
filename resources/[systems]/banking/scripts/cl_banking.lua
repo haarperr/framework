@@ -83,24 +83,16 @@ Citizen.CreateThread(function()
 end)
 
 -- [[ NUI ]] --
-RegisterNUICallback("withdraw", function(data)
-    TriggerServerEvent("banking:withdraw", data)
-end)
-
-RegisterNUICallback("deposit", function(data)
-    TriggerServerEvent("banking:deposit", data)
-end)
-
-RegisterNUICallback("transfer", function(data)
-    TriggerServerEvent("banking:transfer", data)
-end)
-
-RegisterNUICallback("closeMenu", function()
-    Banking:ToggleMenu(false)
+RegisterNUICallback("transaction", function(payload)
+    TriggerServerEvent("banking:transaction", payload.data)
 end)
 
 RegisterNUICallback("createAccount", function(payload)
 	TriggerServerEvent("banking:createAccount", GetPlayerServerId(PlayerId()), exports.character:Get("id"), payload.data.account_name, payload.data.type)
+end)
+
+RegisterNUICallback("closeMenu", function()
+    Banking:ToggleMenu(false)
 end)
 
 -- [[ Events ]] --
@@ -146,9 +138,15 @@ end)
 RegisterNetEvent("banking:initAccounts")
 AddEventHandler("banking:initAccounts", function(data, insert)
 	if insert then
-		table.insert(Banking.accounts, data)
+		Banking.accounts[data.account_id] = data
 	else
 		Banking.accounts = data
 	end
     SendNUIMessage({ commit = Banking.accounts, type="accounts" })
+end)
+
+RegisterNetEvent("banking:updateBank")
+AddEventHandler("banking:updateBank", function(account, key, value)
+	Banking.accounts[tonumber(account)][key] = value
+	SendNUIMessage({ commit = Banking.accounts, type="accounts" })
 end)

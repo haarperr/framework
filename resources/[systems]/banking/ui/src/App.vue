@@ -217,8 +217,10 @@ export default {
         data[input.name] = input.value
       }
     
-      fetch(`http://banking/submitTransaction`, {
-        body: JSON.stringify({ data: data, account: this.accounts[this.selectedAccount].id, type: this.selectedTransaction }),
+      data["account_id"] = this.accounts[this.selectedAccount].account_id
+      data["type"] = this.transactions[this.selectedTransaction].id
+      fetch(`http://banking/transaction`, {
+        body: JSON.stringify({ data: data }),
         method: "post",
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
