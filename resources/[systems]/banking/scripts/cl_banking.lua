@@ -147,6 +147,8 @@ end)
 
 RegisterNetEvent("banking:updateBank")
 AddEventHandler("banking:updateBank", function(account, key, value)
-	Banking.accounts[tonumber(account)][key] = value
-	SendNUIMessage({ commit = Banking.accounts, type="accounts" })
+	if Banking.accounts[tonumber(account)] then
+		Banking.accounts[tonumber(account)][key] = value
+		SendNUIMessage({ commit = Banking.accounts, type="accounts" })
+	end
 end)

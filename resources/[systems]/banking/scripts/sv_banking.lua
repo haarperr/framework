@@ -1,6 +1,7 @@
 Cooldowns = {}
 Attempts = {}
 BankAccounts = {}
+SourceBankAccounts = {}
 
 -- [[ Functions ]] --
 
@@ -31,18 +32,31 @@ end
 exports("Set", Set)
 
 function AddTransaction(source, data)
-    -- local result = {}
-    -- result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction.note", {
-    --     [""] = ,
-    -- })[1]
-    -- TriggerClientEvent("banking:addTransaction", source, account, result)
+    local result = {}
+    if data.transaction_type == 3 then
+        result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1", {
+            ["@account_id"] = data.account_id,
+            ["@transaction_type"] = data.transaction_type,
+            ["@transaction_person"] = data.transaction_person,
+            ["@transaction_note"] = data.transaction_note,
+        })[1]
+    else
+        result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_from = @transaction_from, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1", {
+            ["@account_id"] = data.account_id,
+            ["@transaction_type"] = data.transaction_type,
+            ["@transaction_person"] = data.transaction_person,
+            ["@transaction_note"] = data.transaction_note,
+            ["@transaction_from"] = data.transaction_from,
+        })[1]
+    end
+    TriggerClientEvent("banking:addTransaction", source, account, result)
 end
 
 function AddBank(source, account, amount, notify)
     if type(amount) ~= "number" then return end
 
     local balance = Get(account, "account_balance")
-    if not balance then print("Nothing") return end
+    if not balance then return end
         
     Set(source, account, "account_balance", balance + amount)
    
@@ -60,10 +74,10 @@ exports("AddBank", AddBank)
 function Transfer(source, account, amount, notify)
     if type(amount) ~= "number" then return end
 
-    local balance = Get(account, "account_balance")
+    local balance = Get(tonumber(account), "account_balance")
     if not balance then return end
         
-    Set(source, account, "account_balance", balance + amount)
+    Set(source, tonumber(account), "account_balance", balance + amount)
    
     return true
     -- if notify then
@@ -108,6 +122,8 @@ end)
 
 RegisterNetEvent("banking:initAccounts")
 AddEventHandler("banking:initAccounts", function(source, character_id)
+    local source = source
+    SourceBankAccounts[source] = {}
     local ownedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.account_name, bank_accounts.account_type, bank_accounts.account_balance, bank_accounts.character_id from bank_accounts WHERE character_id = @character_id", {
         ["@character_id"] = character_id,
     })
@@ -115,24 +131,20 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
     local sharedAccounts = exports.GHMattiMySQL:QueryResult("SELECT bank_accounts.id, bank_accounts.account_id, bank_accounts.account_name, bank_accounts.account_type, bank_accounts.account_balance, bank_accounts.character_id FROM bank_accounts_shared INNER JOIN bank_accounts WHERE bank_accounts.id = bank_accounts_shared.account_id AND bank_accounts_shared.character_id = @character_id", {
         ["@character_id"] = character_id,
     })
-    
-    local clientAccounts = {}
 
     for k, v in pairs(ownedAccounts) do
         if not BankAccounts[v.account_id] then
             BankAccounts[v.account_id] = v
-            clientAccounts[v.account_id] = v
+            SourceBankAccounts[source][v.account_id] = v
         end
     end
 
     for k, v in pairs(sharedAccounts) do
         if not BankAccounts[v.account_id] then
             BankAccounts[v.account_id] = v
-            clientAccounts[v.account_id] = v
+            SourceBankAccounts[source][v.account_id] = v
         end
     end
-
-    TriggerClientEvent("banking:initAccounts", source, clientAccounts)
 end)
 
 RegisterNetEvent("banking:createAccount")
@@ -152,6 +164,18 @@ AddEventHandler("banking:getAccountTransactions", function(account)
     local transactions = exports.GHMattiMySQL:QueryResult("SELECT * from bank_accounts_transactions WHERE account_id = @account_id", {
         ["@account_id"] = account
     })
+end)
+
+RegisterNetEvent("banking:requestData")
+AddEventHandler("banking:requestData", function()
+    local source = source
+    local accounts = {}
+    for k, v in pairs(SourceBankAccounts[source]) do
+        if BankAccounts[v.account_id] then
+            accounts[v.account_id] = BankAccounts[v.account_id]
+        end
+    end
+    TriggerClientEvent("banking:initAccounts", source, accounts)
 end)
 
 RegisterNetEvent("interact:on_bank-card")
