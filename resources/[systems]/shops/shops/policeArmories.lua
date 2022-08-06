@@ -101,3 +101,17 @@ RegisterShop("PALETO_ARMORY", {
 		Filters = Config.Filters.Armory,
 	},
 })
+
+RegisterShop("PRISON_ARMORY", {
+	Name = "Prison Armory",
+	Clerks = {
+		{
+			coords = vector4(1782.193, 2543.499, 45.79791, 272.444),
+		},
+	},
+	Storage = {
+		Coords = vector3(1778.812, 2542.241, 45.79791),
+		Radius = 2.0,
+		Filters = Config.Filters.Armory,
+	},
+})
