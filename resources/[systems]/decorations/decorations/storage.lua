@@ -44,3 +44,36 @@ Register("Fridge", {
 	},
 	Model = "v_res_fridgemodsml",
 })
+
+Register("Restaurant Fridge", {
+	Placement = "Floor",
+	Container = {
+		Type = "fridge2",
+	},
+	Model = "v_res_fridgemodsml",
+			"",
+})
+
+Register("Small Storage Container", {
+	Placement = "Floor",
+	Container = {
+		Type = "stash2",
+	},
+	Model = "prop_champ_box_01",
+})
+
+Register("Medium Storage Container", {
+	Placement = "Floor",
+	Container = {
+		Type = "stash3",
+	},
+	Model = "prop_box_wood05a",
+})
+
+Register("Large Storage Container", {
+	Placement = "Floor",
+	Container = {
+		Type = "stash4",
+	},
+	Model = "prop_box_wood07a",
+})

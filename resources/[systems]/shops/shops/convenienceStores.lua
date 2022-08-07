@@ -1,5 +1,5 @@
 Config.Filters.Convenience = {
-	item = {
+	Item = {
 		-- Food.
 		["Choco Rings"] = true,
 		["Corn Dog"] = true,
@@ -26,9 +26,6 @@ Config.Filters.Convenience = {
 		-- Ingredients.
 		["Baking Soda"] = true,
 		["Eggs"] = true,
-
-		-- Other.
-		["Tenga"] = true,
 	},
 }
 

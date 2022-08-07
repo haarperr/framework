@@ -235,7 +235,7 @@ Register("Stove", {
 })
 
 Register("Processor", {
-	Placement = "Floor",
+	Placement = "Table",
 	NoCenter = true,
 	Station = {
 		Type = "Processor",
@@ -438,4 +438,179 @@ Register("Cutting Board", {
 		},
 	},
 	Model = "v_res_fa_chopbrd",
+})
+
+Register("Keycard Printer", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Keycard Printer",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "prop_printer_01",
+})
+
+Register("Resource Sales", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Resource Sales",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "hei_prop_heist_wooden_box",
+})
+
+Register("Fish Sales", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Fish Sales",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "v_res_fa_chopbrd",
+})
+
+Register("Meat Sales", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Meat Sales",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "v_res_fa_chopbrd",
+})
+
+Register("Saw Mill", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Saw Mill",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "prop_bonesaw",
+})
+
+Register("Cnc", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Cnc",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "gr_prop_gr_cnc_01b",
+			"gr_prop_gr_cnc_01c",
 })
