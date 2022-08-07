@@ -95,3 +95,17 @@ CREATE TABLE IF NOT EXISTS `mdt_police_reports` (
   CONSTRAINT `mdt_police_report_character_id` FOREIGN KEY (`character_id`) REFERENCES `characters` (`id`),
   CONSTRAINT `mdt_police_report_vehicle_id` FOREIGN KEY (`vehicle_id`) REFERENCES `vehicles` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19973 DEFAULT CHARSET=utf8mb4;
+
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `mdt_police_reports_formatted` AS SELECT t1.id, title, details, charges, `status`, plead, served, date_start, date_end, t2.first_name, t2.last_name, t2.license_text, t1.character_id, t1.author_id, CONCAT(t3.first_name, " ", t3.last_name) AS 'author_name'
+	FROM
+		mdt_police_reports AS t1,
+		characters AS t2,
+		characters AS t3
+	WHERE
+		t1.deleted != 1 AND
+		t1.vehicle_id IS NULL AND
+		t2.id=t1.character_id AND
+		t3.id=t1.author_id
+	ORDER BY `date_start` DESC  ;
+
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `mdt_police_reports_formatted_vehicles` AS select `t1`.`id` AS `id`,`t1`.`title` AS `title`,`t1`.`details` AS `details`,`t1`.`charges` AS `charges`,`t1`.`status` AS `status`,`t1`.`plead` AS `plead`,`t1`.`served` AS `served`,`t1`.`date_start` AS `date_start`,`t1`.`date_end` AS `date_end`,`t2`.`first_name` AS `first_name`,`t2`.`last_name` AS `last_name`, `t1`.`character_id` AS `character_id`,`t1`.`author_id` AS `author_id`,concat(`t3`.`first_name`,' ',`t3`.`last_name`) AS `author_name`,`t4`.`plate` AS `plate` from (((`mdt_police_reports` `t1` join `characters` `t2`) join `characters` `t3`) join `vehicles` `t4`) where `t1`.`deleted` <> 1 and `t2`.`id` = `t1`.`character_id` and `t3`.`id` = `t1`.`author_id` and `t4`.`id` = `t1`.`vehicle_id` order by `t1`.`date_start` desc  ;
