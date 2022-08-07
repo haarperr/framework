@@ -23,6 +23,7 @@ client_scripts {
 	'@ui/scripts/cl_main.lua',
 	'cl_main.lua',
 	'cl_commands.lua',
+	'cl_seatbelt.lua',
 	'modules/**/cl_*.lua',
 	'modding/cl_modding.lua',
 	'modding/cl_mods.lua',
