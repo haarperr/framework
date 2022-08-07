@@ -1,6 +1,5 @@
-Config.Filters.Convenience = {
-	item = {
-		-- Food.
+Config.Filters.Fish = {
+	Item = {
 		["Dogfish"] = true,
 		["Flounder"] = true,
 		["Halibut"] = true,
@@ -25,7 +24,7 @@ RegisterShop("FISH_SALES", {
 	Storage = {
 		Coords = vector3(-1037.249, -1390.696, 5.558081),
 		Radius = 2.0,
-		Filters = Config.Filters.Convenience,
+		Filters = Config.Filters.Fish,
 	},
     Decorations = {
 		["fish1"] = {

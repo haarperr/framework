@@ -1,5 +1,5 @@
-Config.Filters.Convenience = {
-	item = {
+Config.Filters.Resource = {
+	Item = {
 		-- Food.
 		["Iron Ingot"] = true,
 		["Gold Ingot"] = true,
@@ -25,7 +25,7 @@ RegisterShop("RESOURCE_247", {
 	Storage = {
 		Coords = vector3(45.68102, -2673.021, 6.009615),
 		Radius = 2.0,
-		Filters = Config.Filters.Convenience,
+		Filters = Config.Filters.Resource,
 	},
     Decorations = {
 		["sales1"] = {

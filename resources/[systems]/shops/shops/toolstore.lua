@@ -1,6 +1,5 @@
-Config.Filters.Tool = {
-	item = {
-		-- Food.
+Config.Filters.Toolstore = {
+	Item = {
 		["Body Repair Kit"] = true,
 		["Wood Axe"] = true,
 		["Pickaxe"] = true,
@@ -23,9 +22,9 @@ RegisterShop("TOOL_STORE", {
 		},
 	},
 	Storage = {
-		Coords = vector3(44.62896, -1751.712, 29.30393),
+		Coords = vector3(45.00289, -1751.625, 29.62973),
 		Radius = 2.0,
-		Filters = Config.Filters.Tool,
+		Filters = Config.Filters.Toolstore,
 	},
 	}
 )
