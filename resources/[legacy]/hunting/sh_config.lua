@@ -34,7 +34,7 @@ Config = {
 			Name = "Boar",
 			DamageType = "Firearm",
 			Items = {
-				{ "Raw Pork", {3,5}, 1.0 },
+				{ "Raw Pork", {1,5}, 1.0 },
 				{ "Large Bones", {1,2}, 0.2 },
 				{ "Animal Fat", {1,2}, 1.0 },
 			},
@@ -43,7 +43,7 @@ Config = {
 			Name = "Pig",
 			DamageType = "Firearm",
 			Items = {
-				{ "Raw Pork", {2,4}, 1.0 },
+				{ "Raw Pork", {1,4}, 1.0 },
 				{ "Large Bones", {1,3}, 0.6 },
 				{ "Animal Fat", {1,2}, 1.0 },
 			},
@@ -52,7 +52,7 @@ Config = {
 			Name = "Cow",
 			DamageType = "Firearm",
 			Items = {
-				{ "Raw Beef", {3,4}, 1.0 },
+				{ "Raw Beef", {1,4}, 1.0 },
 				{ "Large Bones", {2,3}, 0.8 },
 				{ "Cow Hide", {1,1}, 1.0 },
 			},
@@ -61,8 +61,8 @@ Config = {
 			Name = "Cock",
 			DamageType = "Knife",
 			Items = {
-				{ "Raw Chicken", {1,3}, 1.0 },
-				{ "Small Bones", {2,3}, 0.8 },
+				{ "Raw Chicken", {1,2}, 1.0 },
+				{ "Small Bones", {1,3}, 0.8 },
 				{ "Chicken Feather", {2,5}, 1.0 },
 			},
 		},
@@ -77,8 +77,8 @@ Config = {
 			Name = "Deer",
 			DamageType = "Firearm",
 			Items = {
-				{ "Raw Venison", {2,5}, 1.0 },
-				{ "Large Bones", {2,4}, 1.0 },
+				{ "Raw Venison", {1,5}, 1.0 },
+				{ "Large Bones", {1,4}, 1.0 },
 				{ "Deer Skin", {1,1}, 1.0 },
 			},
 		},
@@ -89,7 +89,7 @@ Config = {
 				{ "Lion Hide", 1, 1.0 },
 				{ "Large Bones", {1,3}, 1.0 },
 				{ "Lion Meat", {1,3}, 1.0 },
-				{ "Diamond Ring", {1,1}, 0.05 },
+				{ "Diamond Ring", {0,1}, 0.02 },
 			},
 		},
 	},
