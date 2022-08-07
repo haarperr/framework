@@ -250,6 +250,11 @@ function HasAnyWeapon()
 end
 exports("HasAnyWeapon", HasAnyWeapon)
 
+function GetAmmo(item_id)
+	return exports.inventory:GetItem(item_id).ammo
+end
+exports("GetAmmo", GetAmmo)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

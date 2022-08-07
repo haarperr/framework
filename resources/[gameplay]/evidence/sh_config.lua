@@ -35,7 +35,7 @@ Config = {
 				Scale = 0.1,
 				Type = 2,
 				Text = function(item)
-					local caliber = exports.weapons:GetAmmo(item.extra[1])
+					local caliber = exports.weapons:GetAmmo(item.extra[1]["item_id"])
 					if type(caliber) == "table" then
 						return caliber[2]
 					else
@@ -55,7 +55,7 @@ Config = {
 				Scale = 0.1,
 				Type = 23,
 				Text = function(item)
-					local caliber = exports.weapons:GetAmmo(item.extra[1])
+					local caliber = exports.weapons:GetAmmo(item.extra[1]["item_id"])
 					if type(caliber) == "table" then
 						return caliber[1]
 					else
@@ -77,7 +77,7 @@ Config = {
 
 				-- Serials.
 				if extra.slot then
-					local slot = exports.inventory:GetSlot(source, extra.slot, true)
+					local slot = exports.inventory:ContainerGetSlot(containerId, tonumber(extra.slot))
 					if slot then
 						local slotExtra = slot[4]
 						if slotExtra then
@@ -88,7 +88,7 @@ Config = {
 				return true, _extra
 			end,
 			Pickup = function(self, item)
-				local ammo = exports.weapons:GetAmmo(item.extra[1]) or "Unknown"
+				local ammo = exports.weapons:GetAmmo(item.extra[1]["item_id"]) or "Unknown"
 				local seed = item.extra[2]
 				local id = ""
 
