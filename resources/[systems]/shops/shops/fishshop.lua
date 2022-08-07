@@ -37,3 +37,26 @@ RegisterShop("FISH_SALES", {
 	}
 )
 
+RegisterShop("FISH_SALES2", {
+	Name = "Highway Fish Shop",
+	Clerks = {
+		{
+			coords = vector4(-2191.833, 4284.876, 49.18159, 99.87895),
+		},
+	},
+	Storage = {
+		Coords = vector3(-2194.729, 4287.366, 49.17432),
+		Radius = 2.0,
+		Filters = Config.Filters.Fish,
+	},
+    Decorations = {
+		["fish2"] = {
+			item = "Fish Sales",
+			invisible = true,
+			coords = vector3(-2192.006, 4282.477, 49.17653),
+			rotation = vector3(-8.729517, -0, -106.6504),
+		},
+		},
+	}
+)
+
