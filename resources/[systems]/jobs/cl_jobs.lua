@@ -32,6 +32,42 @@ function Main:GetCurrentJob(getJob)
 	return id
 end
 
+function Main:IsInEmergency(attribute)
+	local id = LocalPlayer.state.job
+	if not id then return end
+
+	local job = self.jobs[id]
+	if not job then return end
+
+	if job.Emergency then
+		return not attribute or job.Emergency[attribute]
+	elseif attribute then
+		return false
+	end
+
+	for id, job in pairs(self.jobs) do
+		if job and job.Emergency and exports.factions:Has(job.Faction, job.Group) then
+			return true
+		end
+	end
+
+	return false
+end
+
+function Main:IsInGroup(group)
+	local id = LocalPlayer.state.job
+	if not id then return end
+
+	local job = self.jobs[id]
+	if not job then return end
+
+	if job.Tracker then
+		return job.Tracker.Group == group
+	end
+
+	return false
+end
+
 function Main:GetRank(id)
 	local job = self.jobs[id]
 	if not job then return end
@@ -104,6 +140,14 @@ exports("GetRankByHash", function(...)
 	return Main:GetRankByHash(...)
 end)
 
+exports("IsInEmergency", function(...)
+	return Main:IsInEmergency(...)
+end)
+
+exports("IsInGroup", function(...)
+	return Main:IsInGroup(...)
+end)
+
 --[[ Commands ]]--
 exports.chat:RegisterCommand("a:jobs", function(source, args, command, cb)
 	local output = ""
@@ -114,6 +158,8 @@ exports.chat:RegisterCommand("a:jobs", function(source, args, command, cb)
 		end
 		output = output.."'"..id.."'"
 	end
+
+	print(json.encode(Main.jobs))
 
 	TriggerEvent("chat:addMessage", "Jobs: "..output)
 end, {
