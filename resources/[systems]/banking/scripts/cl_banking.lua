@@ -91,6 +91,14 @@ RegisterNUICallback("createAccount", function(payload)
 	TriggerServerEvent("banking:createAccount", GetPlayerServerId(PlayerId()), exports.character:Get("id"), payload.data.account_name, payload.data.type)
 end)
 
+RegisterNUICallback("deleteAccount", function(payload)
+	TriggerServerEvent("banking:deleteAccount", payload.data.account_id )
+end)
+
+RegisterNUICallback("shareAccount", function(payload)
+	TriggerServerEvent("banking:shareAccount", payload.data.account_id, payload.data.stateID)
+end)
+
 RegisterNUICallback("closeMenu", function()
     Banking:ToggleMenu(false)
 end)
