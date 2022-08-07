@@ -3,9 +3,9 @@ Config = {
 		Item = "Pickaxe",
 		Decay = 0.02,
 		QuickTime = {
-			goalSize = 0.15,
+			goalSize = 0.11,
 			speed = 0.4,
-			stages = 1,
+			stages = 2,
 		},
 		Messages = {
 			Action = "mine",
@@ -48,9 +48,9 @@ Config = {
 		Item = "Wood Axe",
 		Decay = 0.02,
 		QuickTime = {
-			goalSize = 0.15,
+			goalSize = 0.11,
 			speed = 0.4,
-			stages = 1,
+			stages = 2,
 		},
 		Messages = {
 			Action = "chop",
