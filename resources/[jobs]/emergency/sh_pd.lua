@@ -24,6 +24,18 @@ exports.jobs:Register("lspd", {
 		Group = "emergency",
 		State = "pd",
 	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanFine = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = 2,
+		ChopShop = true,
+		DrugBonus = true,
+		JailBreak = true,
+		Robberies = true,
+	},
 	Ranks = {
 		{ Name = "Janitor" },
 		{ Name = "Receptionist" },
@@ -85,6 +97,18 @@ exports.jobs:Register("bcso", {
 		"Recruit",
 		"Sheriff",
 	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanFine = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = 2,
+		ChopShop = true,
+		DrugBonus = true,
+		JailBreak = true,
+		Robberies = true,
+	},
 })
 
 exports.jobs:Register("sasp", {
@@ -100,5 +124,17 @@ exports.jobs:Register("sasp", {
 	Tracker = {
 		Group = "emergency",
 		State = "pd",
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanFine = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = 2,
+		ChopShop = true,
+		DrugBonus = true,
+		JailBreak = true,
+		Robberies = true,
 	},
 })
