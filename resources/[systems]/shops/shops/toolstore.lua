@@ -1,5 +1,5 @@
 Config.Filters.Toolstore = {
-	Item = {
+	item = {
 		["Body Repair Kit"] = true,
 		["Wood Axe"] = true,
 		["Pickaxe"] = true,

@@ -1,5 +1,5 @@
 Config.Filters.Fish = {
-	Item = {
+	item = {
 		["Dogfish"] = true,
 		["Flounder"] = true,
 		["Halibut"] = true,

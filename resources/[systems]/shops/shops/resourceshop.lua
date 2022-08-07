@@ -1,5 +1,5 @@
 Config.Filters.Resource = {
-	Item = {
+	item = {
 		-- Food.
 		["Iron Ingot"] = true,
 		["Gold Ingot"] = true,
