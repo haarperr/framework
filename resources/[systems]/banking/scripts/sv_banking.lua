@@ -235,11 +235,11 @@ AddEventHandler("interact:on_bank-card", function()
 	end
 end)
 
-RegisterCommand("createBusinessAccount", function(source, args, rawCommand)
-    local stateID = tonumber(args[1])
-    local accountName = args[2]
-    local character_id = exports.character:Get(stateID, "id")
+-- RegisterCommand("createBusinessAccount", function(source, args, rawCommand)
+--     local stateID = tonumber(args[1])
+--     local accountName = args[2]
+--     local character_id = exports.character:Get(stateID, "id")
 
 
-    TriggerEvent("banking:createAccount", stateID, character_id, accountName, 4, false)
-end)
+--     TriggerEvent("banking:createAccount", stateID, character_id, accountName, 4, false)
+-- end)
