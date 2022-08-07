@@ -37,7 +37,7 @@ end
 exports("CanJail", CanJail)
 
 function Jail(source, target, minutes, _type)
-	if not exports.character:IsInitialized(target) then return end
+	if not exports.character:GetCharacter(target) then return end
 
 	if minutes < 0 then
 		minutes = 2147483646
@@ -111,7 +111,7 @@ end
 exports("AddTime", AddTime)
 
 --[[ Events ]]--
-AddEventHandler("character:loaded", function(source, character)
+AddEventHandler("character:selected", function(source, character)
 	local jail = exports.GHMattiMySQL:QueryResult("SELECT * FROM jail_active WHERE character_id=@character_id LIMIT 1", {
 		["@character_id"] = character.id
 	})[1]
