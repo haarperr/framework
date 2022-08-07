@@ -172,8 +172,38 @@ function Shop:Interact(npc, source)
 	TriggerClientEvent("shops:loadShop", source, self.id, self:GetStock())
 end
 
-function Shop:Purchase(source, cart)
+function Shop:Purchase(source, cart, paymentType)
+	local totalPrice = 0
+	local boughtPrice = 0
+
+	for itemName, quantity in pairs(cart) do
+		local item = exports.inventory:GetItem(itemName)
+		if item and item.value then
+			totalPrice = totalPrice + quantity * item.value
+		end
+	end
+	
+	local bank = exports.character:Get(source, "bank")
+
+	if totalPrice < bank then
+		for item, quantity in pairs(cart) do
+			local itemInfo = exports.inventory:GetItem(item)
+			if not itemInfo then return false end
+
+			if exports.inventory:GiveItem(source, item, quantity) then
+				boughtPrice = boughtPrice - quantity * itemInfo.value
+			end
+		end
+	end
+
+	exports.character:Set(source, "bank", round(bank - boughtPrice, 2))
+
 	return true
+end
+
+function round(num, numDecimalPlaces)
+	local mult = 10^(numDecimalPlaces or 0)
+	return math.floor(num * mult + 0.5) / mult
 end
 
 --[[ Events: Net ]]--
@@ -198,7 +228,7 @@ RegisterNetEvent("shops:openStorage", function(id)
 	end
 end)
 
-RegisterNetEvent("shops:purchase", function(id, cart)
+RegisterNetEvent("shops:purchase", function(id, cart, paymentType, window)
 	local source = source
 
 	-- Check cooldown.
@@ -212,7 +242,7 @@ RegisterNetEvent("shops:purchase", function(id, cart)
 	if not shop then return end
 
 	-- Make purchase.
-	if shop:Purchase(source, cart) then
+	if shop:Purchase(source, cart, paymentType) then
 		exports.log:Add({
 			source = source,
 			verb = "made",
@@ -220,6 +250,8 @@ RegisterNetEvent("shops:purchase", function(id, cart)
 			extra = id,
 		})
 	end
+
+	exports.inventory:SubscribeStation(source, id, false)
 end)
 
 --[[ Events ]]--

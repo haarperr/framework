@@ -63,6 +63,7 @@ function Shop:Interact(npc)
 		paymentType = "Cash",
 		loading = true,
 		cash = exports.inventory:CountMoney(true) or 0.0,
+		bank = exports.character:Get("bank") or 0.0,
 	}
 	
 	-- Create window.
@@ -99,6 +100,16 @@ function Shop:Interact(npc)
 			cartAmount = math.floor(cartAmount),
 			totalPrice = ("%.2f"):format(totalPrice),
 		})
+	end)
+	
+	window:AddListener("purchase", function(window, name)
+		local cart = self.cart
+
+		TriggerServerEvent("shops:purchase", self.id, cart)
+		
+		window:Destroy()
+
+		UI:Focus(false)
 	end)
 	
 	-- Cache window.
