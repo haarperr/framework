@@ -146,8 +146,6 @@ exports("SetSeatbeltHUD", function(value)
 		element = "seatbelt-icon",
 		fill = color
 	})
-	
-	print(color)
 end)
 
 --[[ Functions: Thread ]]--
