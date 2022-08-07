@@ -20,9 +20,9 @@ Config = {
 		},
 	},
 	QuickTime = {
-		goalSize = 0.15,
+		goalSize = 0.08,
 		speed = 0.4,
-		stages = 1,
+		stages = 2,
 	},
 	PeerBonus = {
 		Count = 3,
