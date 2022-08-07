@@ -46,6 +46,12 @@ RegisterShop("RESOURCE_247", {
 			coords = vector3(-554.6359, 5328.727, 73.59967),
 			heading = 123.7745,
 		},
+        ["smelter1"] = {
+			item = "Smeltry",
+			invisible = true,
+			coords = vector3(1111.95, -2008.832, 31.0676),
+			heading = 236.7808,
+		},
 		},
 	}
 )
