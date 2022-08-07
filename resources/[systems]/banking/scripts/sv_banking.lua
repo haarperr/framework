@@ -238,6 +238,7 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
             BankAccounts[account.account_id].transactions = {}
             SourceBankAccounts[source][account.account_id] = account
             TriggerClientEvent("banking:initAccounts", source, account, true)
+            exports.inventory:TakeMoney(source, Config.NewAccountPrice)
             StateTax(Config.NewAccountPrice)
         end
     end
