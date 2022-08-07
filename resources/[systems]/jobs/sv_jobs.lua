@@ -85,6 +85,10 @@ function Main:IsHired(source, id)
 	return job:IsHired(source)
 end
 
+function Main:GetCurrentJob(id)
+	return self.jobs[self.players[id]]
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	
@@ -293,6 +297,10 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Exports ]]--
+exports("GetCurrentJob", function(...)
+	return Main:GetCurrentJob(...)
+end)
+
 exports("GetRank", function(...)
 	return Main:GetRank(...)
 end)
