@@ -14,6 +14,8 @@ export default createStore({
             name: "Checking Account",
             icon: "credit_card",
             color: "purple",
+            show: true,
+            shareable: false,
             form: [
               { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}
             ]
@@ -23,6 +25,30 @@ export default createStore({
             name: "Savings Account",
             icon: "savings",
             color: "teal",
+            show: true,
+            shareable: false,
+            form: [
+              { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}
+            ]
+          },
+          {
+            id: 3,
+            name: "Joint Account",
+            icon: "savings",
+            color: "teal",
+            show: false,
+            shareable: true,
+            form: [
+              { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}
+            ]
+          },
+          {
+            id: 4,
+            name: "Business Account",
+            icon: "savings",
+            color: "teal",
+            show: false,
+            shareable: true,
             form: [
               { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}
             ]

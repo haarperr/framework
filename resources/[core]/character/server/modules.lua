@@ -42,9 +42,105 @@ function Modules:LoadModules(source, character)
 					result = output
 				end
 			end
-			character[data.table] = result
+			character:Set(data.table, result)
 		end)
 	end
 
 	while loadedModules < #self.references do Wait(20) end
 end
+
+function AddModule(character, table, data, callback)
+	if type(character) == "number" then
+		character = GetCharacter(character)
+	end
+
+	if not character or not character.id then return end
+	if not table then return end
+	if not data then return end
+
+	if not data.character_id then
+		data.character_id = character.id
+	end
+
+	local insertData = {}
+
+	for k, v in pairs(data) do
+		if type(v) == "table" then
+			insertData[k] = json.encode(v)
+		else
+			insertData[k] = v
+		end
+	end
+
+	exports.GHMattiMySQL:Insert(table, {
+		insertData
+	}, function()
+		if callback then
+			pcall(callback)
+		end
+	end)
+end
+exports("AddModule", AddModule)
+
+function RemoveModule(character, table, conditions, callback)
+	if type(character) == "number" then
+		character = GetCharacter(character)
+	end
+
+	if not character or not character.id then return end
+	if not table then return end
+	if not conditions then return end
+
+	local conditionQuery = "WHERE character_id=@character_id"
+	local data = {
+		["@character_id"] = character.id
+	}
+
+	for k, v in pairs(conditions) do
+		conditionQuery = ("%s AND %s=@%s"):format(conditionQuery, k, k)
+		data["@"..k] = v
+	end
+
+	exports.GHMattiMySQL:QueryAsync("DELETE FROM `"..table.."` "..conditionQuery, data, function()
+		if callback then
+			pcall(callback)
+		end
+	end)
+end
+exports("RemoveModule", RemoveModule)
+
+function UpdateModule(character, table, values, conditions, callback)
+	if type(character) == "number" then
+		character = GetCharacter(character)
+	end
+
+	if not character or not character.id then return end
+	if not table then return end
+	if not conditions then return end
+
+	local conditionQuery = "WHERE character_id=@character_id"
+	local data = {
+		["@character_id"] = character.id
+	}
+
+	for k, v in pairs(conditions) do
+		conditionQuery = ("%s AND %s=@%s"):format(conditionQuery, k, k)
+		data["@"..k] = v
+	end
+
+	local setQuery = "SET"
+	for k, v in pairs(values) do
+		if setQuery ~= "SET" then
+			setQuery = setQuery.." AND "
+		end
+		setQuery = ("%s %s=@%s"):format(setQuery, k, k)
+		data["@"..k] = v
+	end
+
+	exports.GHMattiMySQL:QueryAsync(("UPDATE `%s` %s %s"):format(table, setQuery, conditionQuery), data, function()
+		if callback then
+			pcall(callback)
+		end
+	end)
+end
+exports("UpdateModule", UpdateModule)

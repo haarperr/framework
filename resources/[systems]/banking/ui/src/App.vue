@@ -56,6 +56,8 @@
             <q-card-section>
               <q-chip color="orange-10" text-color="white" glossy icon="event">{{ formatTimestamp(transaction.transaction_date) }}</q-chip>
               <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.transaction_person }}</q-chip>
+              <q-chip color="green" v-if="transaction.transaction_to != null" text-color="white" glossy icon="savings">{{ "To " + transaction.transaction_to }}</q-chip>
+              <q-chip color="green" v-if="transaction.transaction_from != null" text-color="white" glossy icon="savings">{{ "From " + transaction.transaction_from }}</q-chip>
             </q-card-section>
           </q-card>
         </div>
@@ -116,7 +118,7 @@
               <q-fab-action v-if="( transaction.isBankRequired === true && isBank === true ) || transaction.isBankRequired === false" label-position="right" :color="transaction.color" @click="openTransactionPrompt(); selectedTransaction = transaction.id - 1" :icon="transaction.icon" :label="transaction.name" />
             </div>
             <div v-for="accountType in accountTypes" :key="accountType.id">
-              <q-fab-action label-position="right" :color="accountType.color" @click="openCreatePrompt(); selectedCreateType = accountType.id - 1" :icon="accountType.icon" :label="accountType.name" />
+              <q-fab-action v-if="accountType.show === true" label-position="right" :color="accountType.color" @click="openCreatePrompt(); selectedCreateType = accountType.id - 1" :icon="accountType.icon" :label="accountType.name" />
             </div>
           </q-fab>
         </q-page-sticky>
