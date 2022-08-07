@@ -45,7 +45,7 @@ Citizen.CreateThread(function()
 				end)
 			end
 
-			local caliber = exports.weapons:GetAmmo(selectedWeapon)
+			local caliber = exports.inventory:GetItem(exports.weapons:GetCurrentSlot().item_id).ammo
 			if caliber == nil then goto continue end
 			
 			local headingRad = heading / 180 * math.pi
@@ -65,11 +65,11 @@ Citizen.CreateThread(function()
 			local aimingAtType = GetEntityType(aimingAt)
 			
 			if aimingAtType ~= 1 and aimingAtType ~= 2 then
-				Register(0, impactCoord, { weapon = selectedWeapon })
+				Register(0, impactCoord, { weapon = exports.weapons:GetCurrentSlot() })
 			end
 			
 			-- Register casing.
-			Register(1, casingPos, { weapon = selectedWeapon, slot = exports.weapons:GetCurrentSlot() })
+			Register(1, casingPos, { weapon = exports.weapons:GetCurrentSlot() })
 			
 			::continue::
 		end
