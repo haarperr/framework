@@ -1,16 +1,27 @@
 * {
-	--primary-color: rgb(100, 100, 100);
+  /*  Original Colors:
+  --primary-color: rgb(100, 100, 100);
 	--secondary-color: rgb(52, 77, 46);
 	--tertiary-color: rgb(24, 40, 87);
-	--quaternary-color: rgb(125, 125, 125);
+	--quaternary-color: rgb(125, 125, 125);*/
+
+	--primary-color: rgb(62 62 62);
+	--secondary-color: rgb(18 0 84);
+	--tertiary-color: rgb(0 1 177);
+	--quaternary-color: rgb(237, 237, 237);
 	/* --primary-color: rgb(0, 31, 78);
 	--secondary-color: rgb(0, 16, 41);
 	--tertiary-color: rgb(238, 192, 54); */
-	--aspect-ratio: calc(1450 / 977);
+
+  /* Tablet Image Aspect Ratio 
+  Original: --aspect-ratio: calc(1450 / 977);
+  */
+	--aspect-ratio: calc(863 / 589);
 	
 	color: white;
 	--primary-text-color: white;
-	--secondary-text-color: rgb(235, 180, 108);
+	--secondary-text-color: rgb(255, 255, 255);
+  --black-text-color: black;
 }
 
 body {
@@ -30,22 +41,19 @@ select {
 	border-radius: 0px !important;
 	font-weight: 600;
 	color: var(--secondary-text-color) !important;
-	background-color: var(--tertiary-color) !important;
+	background-color: var(--secondary-color) !important;
 	border: solid 1px var(--tertiary-color) !important;
 }
 
 option {
-	background-color: var(--tertiary-color) !important;
-	border: 0px;
-	outline: 0px;
-	color: var(--secondary-text-color) !important;
 	border: none;
 	outline: none;
+	color: var(--secondary-text-color) !important;
 	font-weight: 600;
 }
 
 textarea {
-	color: black !important;
+	color: var(--black-text-color) !important;
 	border: none !important;
 	outline:  none !important;
 }
@@ -56,6 +64,13 @@ textarea.description {
 	resize: none;
 }
 
+/* Reports */
+#report-details {
+  height: 20vh;
+  border: 1.5px solid var(--tertiary-color) !important;
+  background-color: var(--quaternary-color);
+}
+
 /* Personal Notes */
 #notes {
 	height: calc(100% - 30px);
@@ -63,11 +78,12 @@ textarea.description {
 
 #notes-text {
 	bottom: 0px !important;
-	background-color: var(--secondary-color);
-	color: white !important;
+	background-color: var(--quaternary-color);
+	color: var(--black-text-color) !important;
 	resize: none;
 	box-sizing: border-box;
 	height: 100%;
+  border: 1.5px solid var(--tertiary-color) !important;
 }
 
 #desc-notes-edit {
@@ -126,11 +142,35 @@ textarea.description {
 .overlay {
 	background: rgba(0, 0, 0, 0.5);
 }
-
+/*
+Original
 .tablet {
 	--height: 95vh;
 	--width: calc(var(--height) * var(--aspect-ratio));
 	--offset-x: -2px;
+	--offset-y: 0px;
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+	top: 50vh;
+	left: 50vw;
+	width: var(--width);
+	height: var(--height);
+	overflow-y: hidden;
+	background: transparent;
+	background-image: url("tablet2.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	z-index: 100;
+	pointer-events: none;
+	transform: translate(calc(-0.5 * var(--width) + var(--offset-x)), calc(-0.5 * var(--height) + var(--offset-y)));
+}
+*/
+.tablet {
+	--height: 95vh;
+	--width: calc(var(--height) * var(--aspect-ratio));
+	--offset-x: 2px;
 	--offset-y: 0px;
 	position: absolute;
 	margin: 0px;
@@ -167,7 +207,7 @@ textarea.description {
 }
 
 .nav-link {
-	color: white;
+	color: var(--primary-text-color);
 	font-weight: 700;
 	background: transparent;
 	outline: none;
@@ -208,7 +248,7 @@ textarea.description {
 
 .btn-primary {
 	background-color: var(--secondary-text-color) !important;
-	border: none;
+	border: 1px solid var(--tertiary-color);
 	outline: none;
 	color: black !important;
 	border-radius: 6px;
