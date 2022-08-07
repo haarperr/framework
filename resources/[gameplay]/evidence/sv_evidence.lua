@@ -80,7 +80,7 @@ end
 function Inform(gridId)
 	local nearbyGrids = {}
 	if type(gridId) == "number" then
-		for _, nearbyGrid in ipairs(exports.grids:GetNearbyGrids(gridId, Config.GridSize)) do
+		for _, nearbyGrid in ipairs(exports.oldgrids:GetNearbyGrids(gridId, Config.GridSize)) do
 			nearbyGrids[nearbyGrid] = true
 		end
 	else
@@ -98,7 +98,7 @@ function SendEvidence(source, gridId)
 	local payload = {}
 	
 	if type(gridId) == "number" then
-		local nearbyGrids = exports.grids:GetNearbyGrids(gridId, Config.GridSize)
+		local nearbyGrids = exports.oldgrids:GetNearbyGrids(gridId, Config.GridSize)
 		for _, gridId in ipairs(nearbyGrids) do
 			local grid = Info.Grids[gridId]
 			if grid then
@@ -123,7 +123,7 @@ function Register(source, itype, coords, extra)
 	end
 	
 	-- Scene.
-	local gridId = instance or exports.grids:GetGrid(coords, Config.GridSize)
+	local gridId = instance or exports.oldgrids:GetGrid(coords, Config.GridSize)
 	local grid = Info.Grids[gridId]
 	
 	if not grid then
@@ -182,7 +182,7 @@ RegisterNetEvent("evidence:requestEvidence")
 AddEventHandler("evidence:requestEvidence", function(toggle, coords)
 	local source = source
 	if toggle and type(coords) == "vector3" then
-		local gridId = exports.grids:GetGrid(coords, Config.GridSize)
+		local gridId = exports.oldgrids:GetGrid(coords, Config.GridSize)
 		if gridId ~= Info.Players[source] then
 			CachePlayer(source, gridId)
 			SendEvidence(source, gridId)
@@ -204,7 +204,7 @@ AddEventHandler("evidence:pickup", function(coords, itype)
 	if not exports.inventory:TakeItem(source, "Evidence Bag") then return end
 
 	local extra = {}
-	local gridId = exports.grids:GetGrid(coords, Config.GridSize)--GetGridAtCoords(table.unpack(coords))
+	local gridId = exports.oldgrids:GetGrid(coords, Config.GridSize)--GetGridAtCoords(table.unpack(coords))
 
 	local grid = Info.Grids[gridId]
 	if not grid then return end
@@ -242,7 +242,10 @@ AddEventHandler("evidence:clearArea", function(slotId, coords)
 	local source = source
 	if type(coords) ~= "vector3" then return end
 
-	local slot = exports.inventory:GetSlot(source, slotId, true)
+	local containerId = exports.inventory:GetPlayerContainer(source, true)
+	if not containerId then return false end
+
+	local slot = exports.inventory:ContainerGetSlot(containerId, tonumber(slotId))
 	if not slot then return end
 
 	local item = exports.inventory:GetItem(slot[1])
@@ -261,7 +264,7 @@ AddEventHandler("evidence:clearArea", function(slotId, coords)
 	if instance then
 		gridIds = { tostring(instance) }
 	else
-		gridIds = exports.grids:GetNearbyGrids(coords, Config.GridSize)
+		gridIds = exports.oldgrids:GetNearbyGrids(coords, Config.GridSize)
 	end
 
 	for _, gridId in ipairs(gridIds) do
@@ -294,7 +297,7 @@ AddEventHandler("inventory:clearItem", function(sourceContainer, targetContainer
 
 	if not source then return end
 
-	local slot = exports.inventory:GetSlot(targetContainer.id, targetId)
+	local slot = exports.inventory:ContainerGetSlot(containerId, tonumber(slotId))
 	if not slot then return end
 
 	local extra = slot[4]
