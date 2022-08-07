@@ -113,7 +113,7 @@
             color="primary"
           >
             <div v-for="transaction in transactions" :key="transaction.id">
-              <q-fab-action label-position="right" :color="transaction.color" @click="openTransactionPrompt(); selectedTransaction = transaction.id - 1" :icon="transaction.icon" :label="transaction.name" />
+              <q-fab-action v-if="( transaction.isBankRequired === true && isBank === true ) || transaction.isBankRequired === false" label-position="right" :color="transaction.color" @click="openTransactionPrompt(); selectedTransaction = transaction.id - 1" :icon="transaction.icon" :label="transaction.name" />
             </div>
             <div v-for="accountType in accountTypes" :key="accountType.id">
               <q-fab-action label-position="right" :color="accountType.color" @click="openCreatePrompt(); selectedCreateType = accountType.id - 1" :icon="accountType.icon" :label="accountType.name" />
@@ -142,6 +142,7 @@ export default {
     const accounts = computed(() => store.state.data.accounts)
     const show = computed(() => store.state.show)
     const title = computed(() => store.state.title)
+    const isBank = computed(() => store.state.isBank)
     const characterName = computed(() => store.state.characterName)
     const accountTypes = computed(() => store.state.accountTypes)
     const transactions = computed(() => store.state.transactionTypes)
@@ -158,7 +159,7 @@ export default {
         precision: 0,
         masked: true
       },
-      accounts, show, title, accountTypes, characterName, transactions,
+      accounts, show, title, accountTypes, characterName, transactions, isBank,
       leftDrawerOpen, transactionPrompt, createPrompt, cash,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
@@ -183,6 +184,7 @@ export default {
         this.$store.state.title = data.info.bank
         this.$store.state.characterName = data.info.name
         this.$store.state.cash = data.info.cash
+        this.$store.state.isBank = data.info.isBank
       }
 
       if ( data.commit ) {
