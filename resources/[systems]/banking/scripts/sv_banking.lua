@@ -301,7 +301,7 @@ AddEventHandler("interact:on_bank-card", function()
 	end
 end)
 
-exports.chat:RegisterCommand("a:givemoney", function(source, args, command, cb)
+exports.chat:RegisterCommand("a:createbaccount", function(source, args, command, cb)
     local stateID = tonumber(args[1])
     local accountName = args[2]
     local character_id = exports.character:Get(stateID, "id")
