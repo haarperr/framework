@@ -35,6 +35,6 @@ Config = {
 				Distance = 5.0,
 			}
 		},
-		Reward = 500,
+		Reward = 50,
 	},
 }

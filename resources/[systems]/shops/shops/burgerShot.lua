@@ -8,19 +8,19 @@ RegisterShop("BURGER_SHOT", {
 		["frier_1"] = {
 			item = "Fryer",
 			invisible = true,
-			coords = vector3(-1201.197, -899.7913, 12.99524),
+			coords = vector3(-1201.144, -897.4285, 14.36571),
 			heading = 123.7745,
 		},
 		["frier_2"] = {
 			item = "Fryer",
 			invisible = true,
-			coords = vector3(-1201.669, -899.0747, 12.99524),
+			coords = vector3(-1201.085, -896.8964, 14.08903),
 			heading = 123.7745,
 		},
 		["frier_3"] = {
 			item = "Fryer",
 			invisible = true,
-			coords = vector3(-1202.146, -898.379, 12.99524),
+			coords = vector3(-1200.38, -896.4059, 13.99455),
 			heading = 123.7745,
 		},
 	},
@@ -38,19 +38,13 @@ RegisterShop("BURGER_SHOT", {
 		{
 			text = "Pass-through",
 			radius = 0.5,
-			coords = vector3(-1196.916, -895.6237, 14.34702),
+			coords = vector3(-1195.649, -896.6133, 14.27252),
 			discrete = true,
 		},
 		{
 			text = "Pass-through",
 			radius = 0.5,
-			coords = vector3(-1197.684, -894.2891, 14.28494),
-			discrete = true,
-		},
-		{
-			text = "Pass-through",
-			radius = 0.5,
-			coords = vector3(-1198.569, -893.0552, 14.32487),
+			coords = vector3(-1194.71, -897.9369, 14.22776),
 			discrete = true,
 		},
 		{
@@ -75,7 +69,7 @@ RegisterShop("BURGER_SHOT", {
 		{
 			text = "Drinks",
 			radius = 0.5,
-			coords = vector3(-1199.055, -895.9397, 13.92456),
+			coords = vector3(-1196.916, -895.6237, 14.34702),
 			discrete = true,
 			width = 4,
 			height = 3,
@@ -88,7 +82,7 @@ RegisterShop("BURGER_SHOT", {
 		{
 			text = "Drinks",
 			radius = 0.5,
-			coords = vector3(-1199.729, -895.0001, 13.92456),
+			coords = vector3(-1197.684, -894.2891, 14.28494),
 			discrete = true,
 			width = 4,
 			height = 3,

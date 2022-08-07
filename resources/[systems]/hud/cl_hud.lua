@@ -135,6 +135,19 @@ function HUD:Commit(_type, data)
 	})
 end
 
+exports("SetSeatbeltHUD", function(value)
+	local color = "red"
+
+	if value == true then
+		color = "green"
+	end
+
+	HUD:Commit("setFill", {
+		element = "seatbelt-icon",
+		fill = color
+	})
+end)
+
 --[[ Functions: Thread ]]--
 function Thread:Visibility()
 	-- Vehicle visiblity.
