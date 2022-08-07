@@ -69,7 +69,7 @@ AddEventHandler("character:selected", function(source, character, wasActive)
 end)
 
 AddEventHandler("user:set", function(source, key, value)
-	print(source, key, value)
+	--print(source, key, value)
 	if key == "flags" then
 		JoinTrackerGroup(source)
 	end

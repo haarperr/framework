@@ -71,7 +71,7 @@ Citizen.CreateThread(function()
 			if IsPedFalling(ped) and not GetIsPedGadgetEquipped(ped, `GADGET_PARACHUTE`) then
 				GiveWeaponToPed(ped, `GADGET_PARACHUTE`, 0, true, true)
 				SetPedGadget(ped, `GADGET_PARACHUTE`, true)
-				print("GIVE GADGET")
+				--print("GIVE GADGET")
 			end
 
 			SetPedComponentVariation(ped, 5, 0)

@@ -8,15 +8,12 @@ PD_FLAGS = {
 	[1 << 14] = { name = "Medical" },
 }
 
-EMS_FLAGS = {
-
-}
-
 exports.jobs:Register("lspd", {
 	Title = "Police",
 	Name = "LSPD",
 	Faction = "pd",
 	Group = "lspd",
+	Pay = 80,
 	-- Description = "Known for winning situations.",
 	Flags = PD_FLAGS,
 	Clocks = {
@@ -103,71 +100,5 @@ exports.jobs:Register("sasp", {
 	Tracker = {
 		Group = "emergency",
 		State = "pd",
-	},
-})
-
-exports.jobs:Register("paramedic", {
-	Title = "EMS",
-	Name = "Paramedic",
-	Faction = "ems",
-	Group = "paramedic",
-	Flags = EMS_FLAGS,
-	Clocks = {
-		{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
-	},
-	Tracker = {
-		Group = "emergency",
-		State = "ems",
-	},
-	Ranks = {
-		{
-			Name = "EMT",
-		},
-		{
-			Name = "Paramedic",
-		},
-		{
-			Name = "Senior Paramedic",
-		},
-		{
-			Name = "Advanced Paramedic",
-		},
-		{
-			Name = "Lieutenant",
-			Flags = (
-				Jobs.Permissions.CAN_HIRE_OR_FIRE |
-				Jobs.Permissions.CAN_SET_USER_FLAGS |
-				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
-			)
-		},
-		{
-			Name = "Captain",
-			Flags = (
-				Jobs.Permissions.CAN_HIRE_OR_FIRE |
-				Jobs.Permissions.CAN_SET_USER_FLAGS |
-				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER |
-				Jobs.Permissions.CAN_SET_USER_RANK
-			)
-		},
-		{
-			Name = "Dead of Medicine",
-			Flags = (
-				Jobs.Permissions.CAN_HIRE_OR_FIRE |
-				Jobs.Permissions.CAN_SET_USER_FLAGS |
-				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER |
-				Jobs.Permissions.CAN_SET_USER_RANK
-			)
-		},
-		{
-			Name = "Assistant Chief",
-			Flags = Jobs.Permissions.ALL()
-		},
-		{
-			Name = "Chief",
-			Flags = Jobs.Permissions.ALL()
-		},
 	},
 })

@@ -124,12 +124,12 @@ function Client:SelectCharacter(id)
 	local character = (id and self:GetCharacter(id)) or nil
 	local wasActive = id and Main.responses[id] ~= nil or nil
 	self.activeCharacter = tonumber(id)
-	Modules:LoadModules(source, character)
 
 	-- Events.
 	TriggerEvent(Main.event.."selected", self.source, character, wasActive)
 	TriggerClientEvent(Main.event.."select", self.source, id, wasActive)
 	TriggerEvent("banking:initAccounts", self.source, character.id)
+	if character then Modules:LoadModules(source, character) end
 
 	-- Logging.
 	exports.log:Add({
