@@ -109,6 +109,11 @@ function setText(data) {
 	}
 }
 
+function setFill(data) {
+	var element = document.getElementById(data.element)
+	element.style.fill = data.fill
+}
+
 function setFuel(value) {
 	value = Math.min(Math.max(value, 0.0), 1.0)
 
