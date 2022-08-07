@@ -31,25 +31,53 @@ function Set(source, account, key, value)
 end
 exports("Set", Set)
 
-function AddTransaction(source, data)
+function GetTransactions(account)
+    if not account then return end
+    local transactions = {}
+
+    transactions = exports.GHMattiMySQL:QueryResult("SELECT * from bank_accounts_transactions WHERE account_id = @account_id ORDER BY transaction_date DESC LIMIT 100", {
+        ["@account_id"] = account
+    })
+
+    return transactions
+end
+
+function AddTransaction(source, data, amount)
     local result = {}
-    if data.transaction_type == 3 then
-        result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1", {
-            ["@account_id"] = data.account_id,
-            ["@transaction_type"] = data.transaction_type,
-            ["@transaction_person"] = data.transaction_person,
-            ["@transaction_note"] = data.transaction_note,
-        })[1]
+    if data.type == 3 then
+        if Get(data.target_account, "account_balance") then
+            result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_amount = @transaction_amount, transaction_from = @transaction_from, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM SELECT * FROM `bank_accounts_transactions` WHERE id=LAST_INSERT_ID() LIMIT 1", {
+                ["@account_id"] = data.target_account,
+                ["@transaction_type"] = data.type,
+                ["@transaction_person"] = exports.character:GetName(source),
+                ["@transaction_note"] = data.transaction_note,
+                ["@transaction_amount"] = amount * -1,
+                ["@transaction_from"] = data.account_id
+            })[1]
+            if BankAccounts[data.target_account] then
+                table.insert(BankAccounts[data.target_account].transactions, result)
+            end
+            result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_amount = @transaction_amount, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts_transactions` WHERE id=LAST_INSERT_ID() LIMIT 1", {
+                ["@account_id"] = data.account_id,
+                ["@transaction_type"] = data.type,
+                ["@transaction_person"] = exports.character:GetName(source),
+                ["@transaction_note"] = data.transaction_note,
+                ["@transaction_amount"] = amount,
+                ["@transaction_to"] = data.target_account
+            })[1]
+            table.insert(BankAccounts[data.account_id].transactions, result)
+        end
     else
-        result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_from = @transaction_from, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1", {
+        result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_amount = @transaction_amount, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts_transactions` WHERE id=LAST_INSERT_ID() LIMIT 1", {
             ["@account_id"] = data.account_id,
-            ["@transaction_type"] = data.transaction_type,
-            ["@transaction_person"] = data.transaction_person,
-            ["@transaction_note"] = data.transaction_note,
-            ["@transaction_from"] = data.transaction_from,
+            ["@transaction_type"] = data.type,
+            ["@transaction_person"] = exports.character:GetName(source),
+            ["@transaction_note"] = data.note,
+            ["@transaction_amount"] = amount,
         })[1]
+        table.insert(BankAccounts[data.account_id].transactions, result)
     end
-    TriggerClientEvent("banking:addTransaction", source, account, result)
+    TriggerClientEvent("banking:addTransaction", source, data.account_id, result)
 end
 
 function AddBank(source, account, amount, notify)
@@ -94,17 +122,20 @@ exports("Transfer", Transfer)
 -- [[ Events: Net ]] --
 RegisterNetEvent("banking:transaction")
 AddEventHandler("banking:transaction", function(data)
+    local source = source
     local amount = tonumber(data.amount)
     if data.type == 1 then -- Deposit
         if exports.inventory:CanAfford(source, amount) then
             exports.inventory:TakeMoney(source, amount)
             AddBank(source, data.account_id, amount)
+            AddTransaction(source, data, amount)
         else
-            -- Anti Cheat BAn
+            -- Anti Cheat Ban
         end
     elseif data.type == 2 then -- Withdraw
         if BankAccounts[data.account_id].account_balance >= amount then
             AddBank(source, data.account_id, amount * -1)
+            AddTransaction(source, data, amount * -1)
             exports.inventory:GiveMoney(source, amount)
         else
             -- Anti Cheat Ban
@@ -113,11 +144,10 @@ AddEventHandler("banking:transaction", function(data)
         if BankAccounts[data.account_id].account_balance >= amount then
             if Transfer(source, data.target_account, amount) then
                 AddBank(source, data.account_id, amount * -1)
+                AddTransaction(source, data, amount)
             end
         end
     else return end
-
-    AddTransaction(source, data)
 end)
 
 RegisterNetEvent("banking:initAccounts")
@@ -135,6 +165,7 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
     for k, v in pairs(ownedAccounts) do
         if not BankAccounts[v.account_id] then
             BankAccounts[v.account_id] = v
+            BankAccounts[v.account_id].transactions = GetTransactions(v.account_id)
             SourceBankAccounts[source][v.account_id] = v
         end
     end
@@ -142,6 +173,7 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
     for k, v in pairs(sharedAccounts) do
         if not BankAccounts[v.account_id] then
             BankAccounts[v.account_id] = v
+            BankAccounts[v.account_id].transactions = GetTransactions(v.account_id)
             SourceBankAccounts[source][v.account_id] = v
         end
     end
@@ -151,19 +183,11 @@ RegisterNetEvent("banking:createAccount")
 AddEventHandler("banking:createAccount", function(source, character_id, accountName, accountType, isPrimary)
     local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
     if isPrimary then
-        exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.id, ["@character_id"] = character_id})
+        exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.account_id, ["@character_id"] = character_id})
     end
     BankAccounts[account.id] = account
+    BankAccounts[account.id].transactions = {}
     TriggerClientEvent("banking:initAccounts", source, account, true)
-end)
-
-RegisterNetEvent("banking:getAccountTransactions")
-AddEventHandler("banking:getAccountTransactions", function(account)
-    if not account then return end
-
-    local transactions = exports.GHMattiMySQL:QueryResult("SELECT * from bank_accounts_transactions WHERE account_id = @account_id", {
-        ["@account_id"] = account
-    })
 end)
 
 RegisterNetEvent("banking:requestData")

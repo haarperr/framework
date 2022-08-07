@@ -26,12 +26,12 @@
                   <q-item-label class="text-white" caption>{{ accountTypes[account.account_type - 1].name + " - " + account.account_id}}</q-item-label>
                   <q-item-label caption class="text-weight-bolder text-white">{{ "$" + formatPrice(account.account_balance) }}</q-item-label>
                 </q-item-section>
-                <q-item-section side style="padding-top: 20px">
+                <!-- <q-item-section side style="padding-top: 20px">
                   <div class="text-grey-8 q-gutter-xs">
                     <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="delete" @click="depositprompt = true" />
                     <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="share" @click="withdrawprompt = true" />
                   </div>
-                </q-item-section>
+                </q-item-section>-->
               </q-item>
               <q-separator />
             </div>
@@ -43,10 +43,10 @@
           <q-card class="text-white bg-dark" bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
-                <div class="text-overline text-bold">{{ transaction.type }}</div>
-                <div class="text-h5 q-mt-sm q-mb-xs">{{ formatPrice(transaction.amount) }}</div>
+                <div class="text-overline text-bold">{{ transactions[transaction.transaction_type - 1].name }}</div>
+                <div class="text-h5 q-mt-sm q-mb-xs">{{ formatPrice(transaction.transaction_amount) }}</div>
                 <div class="text-caption text-grey">
-                  {{ transaction.note }}
+                  {{ transaction.transaction_note }}
                 </div>
               </q-card-section>
             </q-card-section>
@@ -54,8 +54,8 @@
             <q-separator class="bg-grey"/>
 
             <q-card-section>
-              <q-chip color="orange-10" text-color="white" glossy icon="event">{{ transaction.date }}</q-chip>
-              <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.person }}</q-chip>
+              <q-chip color="orange-10" text-color="white" glossy icon="event">{{ formatTimestamp(transaction.transaction_date) }}</q-chip>
+              <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.transaction_person }}</q-chip>
             </q-card-section>
           </q-card>
         </div>
@@ -113,7 +113,7 @@
             color="primary"
           >
             <div v-for="transaction in transactions" :key="transaction.id">
-              <q-fab-action label-position="right" :color="transaction.color" @click="openTransactionPrompt(); selectedTransaction = transaction.id - 1" :icon="transaction.icon" :label="transaction.name" />
+              <q-fab-action v-if="( transaction.isBankRequired === true && isBank === true ) || transaction.isBankRequired === false" label-position="right" :color="transaction.color" @click="openTransactionPrompt(); selectedTransaction = transaction.id - 1" :icon="transaction.icon" :label="transaction.name" />
             </div>
             <div v-for="accountType in accountTypes" :key="accountType.id">
               <q-fab-action label-position="right" :color="accountType.color" @click="openCreatePrompt(); selectedCreateType = accountType.id - 1" :icon="accountType.icon" :label="accountType.name" />
@@ -142,6 +142,7 @@ export default {
     const accounts = computed(() => store.state.data.accounts)
     const show = computed(() => store.state.show)
     const title = computed(() => store.state.title)
+    const isBank = computed(() => store.state.isBank)
     const characterName = computed(() => store.state.characterName)
     const accountTypes = computed(() => store.state.accountTypes)
     const transactions = computed(() => store.state.transactionTypes)
@@ -158,7 +159,7 @@ export default {
         precision: 0,
         masked: true
       },
-      accounts, show, title, accountTypes, characterName, transactions,
+      accounts, show, title, accountTypes, characterName, transactions, isBank,
       leftDrawerOpen, transactionPrompt, createPrompt, cash,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
@@ -183,6 +184,7 @@ export default {
         this.$store.state.title = data.info.bank
         this.$store.state.characterName = data.info.name
         this.$store.state.cash = data.info.cash
+        this.$store.state.isBank = data.info.isBank
       }
 
       if ( data.commit ) {
@@ -194,6 +196,10 @@ export default {
     
   },
   methods: {
+    formatTimestamp(number)
+    {
+      return new Date(number).toLocaleString("en-US");
+    },
     onCreateAccount () {
       let data = {}
       

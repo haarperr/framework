@@ -7,6 +7,7 @@ export default createStore({
         title: "Fleeca Bank",
         characterName: "Kole Huey",
         cash: 0,
+        isBank: false,
         accountTypes: [
           {
             id: 1,
@@ -33,6 +34,7 @@ export default createStore({
             name: "Deposit",
             icon: "remove",
             color: "red",
+            isBankRequired: true,
             form: [
               { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
               { value: "", mask:"", prefix: "", label: "Note", icon: "note", name: "note" },
@@ -43,6 +45,7 @@ export default createStore({
             name: "Withdraw",
             icon: "add",
             color: "orange",
+            isBankRequired: false,
             form: [
               { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
               { value: "", mask:"", prefix: "", label: "Note", icon: "note", name: "note" },
@@ -53,6 +56,7 @@ export default createStore({
             name: "Transfer",
             icon: "arrow_forward",
             color: "blue",
+            isBankRequired: true,
             form: [
               { value: "", mask:"########", prefix: "", label: "Account Number", icon: "wallet", name: "target_account" },
               { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
