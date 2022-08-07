@@ -37,7 +37,7 @@ end
 exports("CanJail", CanJail)
 
 function Jail(source, target, minutes, _type)
-	if not exports.character:IsInitialized(target) then return end
+	if not exports.character:GetCharacter(target) then return end
 
 	if minutes < 0 then
 		minutes = 2147483646
@@ -111,7 +111,7 @@ end
 exports("AddTime", AddTime)
 
 --[[ Events ]]--
-AddEventHandler("character:loaded", function(source, character)
+AddEventHandler("character:selected", function(source, character)
 	local jail = exports.GHMattiMySQL:QueryResult("SELECT * FROM jail_active WHERE character_id=@character_id LIMIT 1", {
 		["@character_id"] = character.id
 	})[1]
@@ -196,7 +196,7 @@ AddEventHandler("jail:breakout", function()
 
 	if presence >= Config.Breakout.MinPresence then
 		local name = exports.character:GetName(source)
-		local license = exports.character:Get(source, "license_text")
+		local id = exports.character:Get(source, "id"")
 		
 		if not name or not license then return end
 		local coords = GetEntityCoords(ped)
@@ -213,7 +213,7 @@ AddEventHandler("jail:breakout", function()
 			hasBlip = true,
 			message = "10-98",
 			messageType = 0,
-			extra = ("%s - %s"):format(name, license),
+			extra = ("%s - %s"):format(name, id),
 		})
 	end
 
