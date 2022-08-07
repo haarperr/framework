@@ -76,9 +76,10 @@ function Main:CacheItems()
 		local item = exports.inventory:GetItem(name)
 		if not item then
 			Print("Decoration '%s' is missing an item!", name)
+		else
+			self.names[name] = item.id
+			self.ids[item.id] = name
 		end
-		self.names[name] = item.id
-		self.ids[item.id] = name
 	end
 end
 
