@@ -57,22 +57,22 @@ RegisterNetEvent("trackers:update", function(id, data)
 end)
 
 RegisterNetEvent("trackers:join", function(group)
-	print("join group", group.id)
+	--print("join group", group.id)
 	Main:JoinGroup(group)
 end)
 
 RegisterNetEvent("trackers:leave", function(id)
-	print("leave group", id)
+	--print("leave group", id)
 	Main:LeaveGroup(id)
 end)
 
 RegisterNetEvent("trackers:addEntity", function(groupId, data)
-	print("add entity", groupId, json.encode(data))
+	--print("add entity", groupId, json.encode(data))
 	Main:AddEntity(groupId, data)
 end)
 
 RegisterNetEvent("trackers:removeEntity", function(groupId, ...)
-	print("remove entity", groupId, ...)
+	--print("remove entity", groupId, ...)
 	Main:RemoveEntity(groupId, ...)
 end)
 

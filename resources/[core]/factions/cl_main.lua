@@ -91,7 +91,7 @@ end
 
 --[[ Events: Net ]]--
 RegisterNetEvent(Main.event.."load", function(factions)
-	print("Loading factions...")
+	--print("Loading factions...")
 	Main:Load(factions)
 end)
 
@@ -104,7 +104,7 @@ RegisterNetEvent(Main.event.."leave", function(...)
 end)
 
 RegisterNetEvent(Main.event.."update", function(...)
-	print("update", Main:UpdateFaction(...))
+	--print("update", Main:UpdateFaction(...))
 end)
 
 --[[ Events ]]--

@@ -141,7 +141,7 @@ RegisterNetEvent(Admin.event.."setFlag", function(flag, value)
 		flags = flags & (~mask)
 	end
 
-	print(flags)
+	--print(flags)
 
 	-- Log event.
 	exports.log:Add({
