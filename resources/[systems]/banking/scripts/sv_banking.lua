@@ -301,13 +301,20 @@ AddEventHandler("interact:on_bank-card", function()
 	end
 end)
 
--- RegisterCommand("createBusinessAccount", function(source, args, rawCommand)
---     local stateID = tonumber(args[1])
---     local accountName = args[2]
---     local character_id = exports.character:Get(stateID, "id")
+exports.chat:RegisterCommand("a:givemoney", function(source, args, command, cb)
+    local stateID = tonumber(args[1])
+    local accountName = args[2]
+    local character_id = exports.character:Get(stateID, "id")
 
---     TriggerEvent("banking:createAccount", stateID, character_id, accountName, 4, false)
--- end)
+    if character_id and accountName then
+        TriggerEvent("banking:createAccount", stateID, character_id, accountName, 4, false)
+    end
+end, {
+	description = "Create Business Account!",
+	parameters = {
+		{ name = "Source", help = "Who to give it to" },
+	}
+}, "Admin")
 
 AddEventHandler("onResourceStart", function(resourceName)
     if GetCurrentResourceName() ~= resourceName then
