@@ -250,8 +250,6 @@ RegisterNetEvent("shops:purchase", function(id, cart, paymentType, window)
 			extra = id,
 		})
 	end
-
-	exports.inventory:SubscribeStation(source, id, false)
 end)
 
 --[[ Events ]]--
