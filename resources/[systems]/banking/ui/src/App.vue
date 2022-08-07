@@ -26,12 +26,12 @@
                   <q-item-label class="text-white" caption>{{ accountTypes[account.account_type - 1].name + " - " + account.account_id}}</q-item-label>
                   <q-item-label caption class="text-weight-bolder text-white">{{ "$" + formatPrice(account.account_balance) }}</q-item-label>
                 </q-item-section>
-                <q-item-section side style="padding-top: 20px">
+                <!-- <q-item-section side style="padding-top: 20px">
                   <div class="text-grey-8 q-gutter-xs">
                     <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="delete" @click="depositprompt = true" />
                     <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="share" @click="withdrawprompt = true" />
                   </div>
-                </q-item-section>
+                </q-item-section>-->
               </q-item>
               <q-separator />
             </div>
@@ -43,10 +43,10 @@
           <q-card class="text-white bg-dark" bordered>
             <q-card-section horizontal>
               <q-card-section class="q-pt-xs">
-                <div class="text-overline text-bold">{{ transaction.type }}</div>
-                <div class="text-h5 q-mt-sm q-mb-xs">{{ formatPrice(transaction.amount) }}</div>
+                <div class="text-overline text-bold">{{ transactions[transaction.transaction_type - 1].name }}</div>
+                <div class="text-h5 q-mt-sm q-mb-xs">{{ formatPrice(transaction.transaction_amount) }}</div>
                 <div class="text-caption text-grey">
-                  {{ transaction.note }}
+                  {{ transaction.transaction_note }}
                 </div>
               </q-card-section>
             </q-card-section>
@@ -54,8 +54,8 @@
             <q-separator class="bg-grey"/>
 
             <q-card-section>
-              <q-chip color="orange-10" text-color="white" glossy icon="event">{{ transaction.date }}</q-chip>
-              <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.person }}</q-chip>
+              <q-chip color="orange-10" text-color="white" glossy icon="event">{{ formatTimestamp(transaction.transaction_date) }}</q-chip>
+              <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.transaction_person }}</q-chip>
             </q-card-section>
           </q-card>
         </div>
@@ -194,6 +194,10 @@ export default {
     
   },
   methods: {
+    formatTimestamp(number)
+    {
+      return new Date(number).toLocaleString("en-US");
+    },
     onCreateAccount () {
       let data = {}
       
