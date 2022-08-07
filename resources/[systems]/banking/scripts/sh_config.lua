@@ -1,4 +1,5 @@
 Config = {
+	NewAccountPrice = 500,
 	Interact = {
 		Radius = 1.0,
 		Text = "Access Account",
@@ -14,9 +15,10 @@ Config = {
 		[5] = { Name = "Union Depository" },
 	},
 	AccountTypes = {
-		[1] = { Name = "Checkings Account" },
-		[2] = { Name = "Savings Account" },
-		[3] = { Name = "Buisness Account" },
+		[1] = { Name = "Checkings Account", Shareable = false },
+		[2] = { Name = "Savings Account", Shareable = false },
+		[3] = { Name = "Joint Account", Shareable = true, MaxShares = 1 },
+		[4] = { Name = "Buisness Account", Shareable = true, MaxShares = 5},
 	},
 	TransactionTypes = {
 		[1] = { Name = "Withdrawl" },

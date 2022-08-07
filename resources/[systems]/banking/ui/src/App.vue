@@ -26,12 +26,12 @@
                   <q-item-label class="text-white" caption>{{ accountTypes[account.account_type - 1].name + " - " + account.account_id}}</q-item-label>
                   <q-item-label caption class="text-weight-bolder text-white">{{ "$" + formatPrice(account.account_balance) }}</q-item-label>
                 </q-item-section>
-                <!-- <q-item-section side style="padding-top: 20px">
+               <q-item-section side style="padding-top: 20px">
                   <div class="text-grey-8 q-gutter-xs">
-                    <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="delete" @click="depositprompt = true" />
-                    <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="share" @click="withdrawprompt = true" />
+                    <q-btn class="gt-xs" color="white" size="10px" flat dense round icon="delete" @click="openDeletePrompt()" />
+                    <q-btn v-if="accountTypes[account.account_type - 1].shareable === true" class="gt-xs" color="white" size="10px" flat dense round icon="share" @click="openSharePrompt()" />
                   </div>
-                </q-item-section>-->
+                </q-item-section>
               </q-item>
               <q-separator />
             </div>
@@ -108,6 +108,40 @@
             </q-form>
           </q-card>
         </q-dialog>
+
+        <q-dialog v-model="deletePrompt" persistent>
+          <q-card class="text-white bg-dark" style="min-width: 350px">
+            <q-card-section>
+              <div class="text-h6">Delete Account</div>
+            </q-card-section>
+            <q-card-actions align="right" class="text-primary">
+              <q-btn flat label="Cancel" v-close-popup />
+              <q-btn flat @click="submitDelete" label="Delete" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="sharePrompt" persistent>
+          <q-card class="text-white bg-dark" style="min-width: 350px">
+            <q-card-section>
+              <div class="text-h6">Share Account</div>
+            </q-card-section>
+            <q-form @submit="submitShare">
+              <q-card-section class="q-pt-none">
+                <q-input dark stack-label label-color="white" v-model="shareID" autofocus label="StateID">
+                  <template v-slot:append>
+                    <q-icon name="person" color="white" />
+                  </template>
+                </q-input>
+              </q-card-section>
+              <q-card-actions align="right" class="text-primary">
+                <q-btn flat label="Cancel" v-close-popup />
+                <q-btn flat type="submit" label="Share" v-close-popup />
+              </q-card-actions>
+            </q-form>
+          </q-card>
+        </q-dialog>
+
         <q-page-sticky position="bottom-right" :offset="[18, 18]">
           <q-fab
             icon="add"
@@ -140,6 +174,8 @@ export default {
     const leftDrawerOpen = ref(true)
     const transactionPrompt = ref(false)
     const createPrompt = ref(false)
+    const deletePrompt = ref(false)
+    const sharePrompt = ref(false)
     const store = useStore()
     const accounts = computed(() => store.state.data.accounts)
     const show = computed(() => store.state.show)
@@ -153,6 +189,7 @@ export default {
       selectedAccount: ref(0),
       selectedTransaction: ref(1),
       selectedCreateType: ref(1),
+      shareID: "",
       moneyFormatForComponent: {
         decimal: '.',
         thousands: ',',
@@ -162,7 +199,7 @@ export default {
         masked: true
       },
       accounts, show, title, accountTypes, characterName, transactions, isBank,
-      leftDrawerOpen, transactionPrompt, createPrompt, cash,
+      leftDrawerOpen, transactionPrompt, createPrompt, cash, deletePrompt, sharePrompt,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
@@ -171,6 +208,12 @@ export default {
       },
       openCreatePrompt() {
         createPrompt.value = true
+      },
+      openDeletePrompt() {
+        deletePrompt.value = true
+      },
+      openSharePrompt() {
+        sharePrompt.value = true
       }
     }
   },
@@ -210,6 +253,7 @@ export default {
       }
 
       data["type"] = this.accountTypes[this.selectedCreateType].id
+
       fetch(`http://banking/createAccount`, {
         body: JSON.stringify({ data: data }),
         method: "post",
@@ -227,6 +271,7 @@ export default {
     
       data["account_id"] = this.accounts[this.selectedAccount].account_id
       data["type"] = this.transactions[this.selectedTransaction].id
+
       fetch(`http://banking/transaction`, {
         body: JSON.stringify({ data: data }),
         method: "post",
@@ -235,6 +280,33 @@ export default {
         }
       })
 
+    },
+    submitDelete() {
+      let data = {}
+
+      data["account_id"] = this.accounts[this.selectedAccount].account_id
+
+      fetch(`http://banking/deleteAccount`, {
+        body: JSON.stringify({ data: data }),
+        method: "post",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        }
+      })
+    },
+    submitShare() {
+      let data = {}
+
+      data["account_id"] = this.accounts[this.selectedAccount].account_id
+      data["stateID"] = this.shareID
+
+      fetch(`http://banking/shareAccount`, {
+        body: JSON.stringify({ data: data }),
+        method: "post",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        }
+      })
     },
     formatPrice(value) {
         let val = (value/1).toFixed(2).replace(',', '.')
