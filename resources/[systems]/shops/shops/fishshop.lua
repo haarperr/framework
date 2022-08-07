@@ -28,11 +28,11 @@ RegisterShop("FISH_SALES", {
 		Filters = Config.Filters.Convenience,
 	},
     Decorations = {
-		["sales1"] = {
+		["fish1"] = {
 			item = "Fish Sales",
 			invisible = true,
-			coords = vector3(-1037.064, -1397.899, 5.553192),
-			heading = 123.7745,
+			coords = vector3(-1037.424, -1397.887, 5.557446),
+			rotation = vector3(-10.06761, -2.134434e-07, -104.5066),
 		},
 		},
 	}

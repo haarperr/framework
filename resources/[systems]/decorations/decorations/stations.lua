@@ -524,7 +524,7 @@ Register("Fish Sales", {
 			Fov = 60.0,
 		},
 	},
-	Model = "hei_prop_heist_wooden_box",
+	Model = "v_res_fa_chopbrd",
 })
 
 Register("Saw Mill", {
