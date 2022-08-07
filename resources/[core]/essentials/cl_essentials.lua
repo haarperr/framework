@@ -38,7 +38,7 @@ function Main:UpdateFrame()
 	end
 
 	-- Tripping.
-	if (not self.nextTripCheck or GetGameTimer() > self.nextTripCheck) and not IsPedOpeningADoor(ped) then
+	--[[if (not self.nextTripCheck or GetGameTimer() > self.nextTripCheck) and not IsPedOpeningADoor(ped) then
 		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.2
 		self.nextTripCheck = GetGameTimer() + 1000
 	end
@@ -52,10 +52,12 @@ function Main:UpdateFrame()
 		not IsPedGettingUp(Ped) and
 		not GetPedConfigFlag(Ped, 147) and
 		not GetPedConfigFlag(Ped, 148)
-	)
+	)]]
 
 	-- Disable reticle.
-	HideHudComponentThisFrame(14)
+	if not IsPlayerFreeAiming() then
+		HideHudComponentThisFrame(14)
+	end
 
 	-- Camera stuff.
 	SetFollowPedCamThisUpdate("FOLLOW_PED_ON_EXILE1_LADDER_CAMERA", 0)
