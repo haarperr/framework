@@ -180,3 +180,13 @@ Citizen.CreateThread(function()
 		Citizen.Wait(2000)
 	end
 end)
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		
+		SetParkedVehicleDensityMultiplierThisFrame(0.9)
+		SetRandomVehicleDensityMultiplierThisFrame(0.7)
+		SetVehicleDensityMultiplierThisFrame(0.7)
+	end
+end)
