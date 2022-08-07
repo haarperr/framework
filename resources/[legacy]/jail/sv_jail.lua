@@ -196,7 +196,7 @@ AddEventHandler("jail:breakout", function()
 
 	if presence >= Config.Breakout.MinPresence then
 		local name = exports.character:GetName(source)
-		local id = exports.character:Get(source, "id"")
+		local license = exports.character:Get(source, "license_text")
 		
 		if not name or not license then return end
 		local coords = GetEntityCoords(ped)
@@ -213,7 +213,7 @@ AddEventHandler("jail:breakout", function()
 			hasBlip = true,
 			message = "10-98",
 			messageType = 0,
-			extra = ("%s - %s"):format(name, id),
+			extra = ("%s - %s"):format(name, license),
 		})
 	end
 
