@@ -5,6 +5,17 @@ SourceBankAccounts = {}
 
 -- [[ Functions ]] --
 
+function RequestAccounts(source)
+    local accounts = {}
+    for k, v in pairs(SourceBankAccounts[source]) do
+        if BankAccounts[v.account_id] then
+            accounts[v.account_id] = BankAccounts[v.account_id]
+        end
+    end
+
+    return accounts
+end
+
 function Get(account, key)
     if BankAccounts[account] then
         return BankAccounts[account][key]
@@ -27,7 +38,9 @@ function Set(source, account, key, value)
     exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..value.." WHERE account_id = @account_id", {
         ["@account_id"] = account
     })
-    TriggerClientEvent("banking:updateBank", source, account, key, value)
+    if source ~= nil then
+        TriggerClientEvent("banking:updateBank", source, account, key, value)
+    end
 end
 exports("Set", Set)
 
@@ -136,15 +149,19 @@ AddEventHandler("banking:transaction", function(data)
             AddBank(source, data.account_id, amount)
             AddTransaction(source, data, amount)
         else
-            -- Anti Cheat Ban
+            TriggerClientEvent("chat:notify", source, "You cannot afford that!")
         end
     elseif data.type == 2 then -- Withdraw
         if BankAccounts[data.account_id].account_balance >= amount then
-            AddBank(source, data.account_id, amount * -1)
-            AddTransaction(source, data, amount * -1)
-            exports.inventory:GiveMoney(source, amount)
+            local retval = exports.inventory:GiveMoney(source, amount)
+	        if type(retval) == "number" and retval > 0.001 then
+                AddBank(source, data.account_id, amount * -1)
+                AddTransaction(source, data, amount * -1)
+            else
+                TriggerClientEvent("chat:notify", source, "You cannot hold that much money!")
+            end
         else
-            -- Anti Cheat Ban
+            TriggerClientEvent("chat:notify", source, "Your bank account doesn't have that much money!")
         end
     elseif data.type == 3 then -- Transfer
         if BankAccounts[data.account_id].account_balance >= amount then
@@ -196,25 +213,62 @@ end)
 
 RegisterNetEvent("banking:createAccount")
 AddEventHandler("banking:createAccount", function(source, character_id, accountName, accountType, isPrimary)
-    local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
-    if isPrimary then
-        exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.account_id, ["@character_id"] = character_id})
+    if exports.inventory:CanAfford(source, Config.NewAccountPrice) then
+        local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
+        if isPrimary then
+            exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.account_id, ["@character_id"] = character_id})
+        end
+        BankAccounts[account.account_id] = account
+        BankAccounts[account.account_id].transactions = {}
+        SourceBankAccounts[source][account.account_id] = account
+        TriggerClientEvent("banking:initAccounts", source, account, true)
+        StateTax(Config.NewAccountPrice)
     end
-    BankAccounts[account.account_id] = account
-    BankAccounts[account.account_id].transactions = {}
-    SourceBankAccounts[source][account.account_id] = account
-    TriggerClientEvent("banking:initAccounts", source, account, true)
+end)
+
+RegisterNetEvent("banking:deleteAccount")
+AddEventHandler("banking:deleteAccount", function(account)
+    local source = source
+    if account ~= 1 then
+        if BankAccounts[account] then
+            if account ~= exports.character:Get(source, "bank") then
+                BankAccounts[account] = nil
+                exports.GHMattiMySQL:QueryResult("DELETE FROM bank_accounts WHERE account_id = "..account, {})
+            else
+                TriggerClientEvent("chat:notify", source, "You cannot delete your Primary Account")
+            end
+        end
+
+        local accounts = RequestAccounts(source)
+        TriggerClientEvent("banking:initAccounts", source, accounts)
+    end
+end)
+
+RegisterNetEvent("banking:shareAccount")
+AddEventHandler("banking:shareAccount", function(account, stateID)
+    local source = source
+    local character_id = exports.character:Get(stateID, "id") 
+    if character_id then
+        local sharedAccount = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts_shared WHERE account_id = account")
+        local account = Get(account, "account_type")
+        if account then
+            if #sharedAccount < Config.AccountTypes[account.account_type].MaxShares then
+                SourceBankAccounts[stateID][account] = BankAccounts[account]
+                exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_shared SET account_id = @account_id, character_id = @character_id", {
+                    ["@account_id"] = account,
+                    ["@character_id"] = character_id
+                })
+            else
+                TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[account.account_type].MaxShares.."!")
+            end
+        end
+    end
 end)
 
 RegisterNetEvent("banking:requestData")
 AddEventHandler("banking:requestData", function()
     local source = source
-    local accounts = {}
-    for k, v in pairs(SourceBankAccounts[source]) do
-        if BankAccounts[v.account_id] then
-            accounts[v.account_id] = BankAccounts[v.account_id]
-        end
-    end
+    local accounts = RequestAccounts(source)
     TriggerClientEvent("banking:initAccounts", source, accounts)
 end)
 
@@ -240,6 +294,22 @@ end)
 --     local accountName = args[2]
 --     local character_id = exports.character:Get(stateID, "id")
 
-
 --     TriggerEvent("banking:createAccount", stateID, character_id, accountName, 4, false)
 -- end)
+
+AddEventHandler("onResourceStart", function(resourceName)
+    if GetCurrentResourceName() ~= resourceName then
+        return
+    end
+
+    local stateAccount = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts WHERE account_id = 1", {})
+    if #stateAccount > 0 then
+        BankAccounts[stateAccount[1].account_id] = stateAccount[1]
+        BankAccounts[stateAccount[1].account_id].transactions = GetTransactions(stateAccount[1].accound_id)
+    end
+end)
+
+function StateTax(amount)
+    Set(nil, 1, "account_balance", amount)
+end
+exports(StateTax, "StateTax")

@@ -89,6 +89,25 @@ function Main:GetCurrentJob(id)
 	return self.jobs[self.players[id]]
 end
 
+function Main:IsInEmergency(id, attribute)
+	local job = self.jobs[self.players[id]]
+	if not job then return end
+
+	if job.Emergency then
+		return not attribute or job.Emergency[attribute]
+	elseif attribute then
+		return false
+	end
+
+	for id, job in pairs(self.jobs) do
+		if job and job.Emergency and exports.factions:Has(job.Faction, job.Group) then
+			return true
+		end
+	end
+
+	return false
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	
@@ -307,6 +326,10 @@ end)
 
 exports("IsHired", function(...)
 	return Main:IsHired(...)
+end)
+
+exports("IsInEmergency", function(...)
+	return Main:IsInEmergency(...)
 end)
 
 --[[ Commands ]]--
