@@ -7,6 +7,9 @@ SourceBankAccounts = {}
 
 function RequestAccounts(source)
     local accounts = {}
+    if ( SourceBankAccounts[source] == nil ) then
+        SourceBankAccounts[source] = {}
+    end
     for k, v in pairs(SourceBankAccounts[source]) do
         if BankAccounts[v.account_id] then
             accounts[v.account_id] = BankAccounts[v.account_id]
