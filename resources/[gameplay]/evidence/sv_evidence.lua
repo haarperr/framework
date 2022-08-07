@@ -117,7 +117,7 @@ function Register(source, itype, coords, extra)
 	local sceneIndex = -1
 
 	-- Instances.
-	local instance = exports.instances:GetPlayerInstance(source)
+	local instance = exports.oldinstances:GetPlayerInstance(source)
 	if instance ~= nil then
 		instance = tostring(instance)
 	end
@@ -257,7 +257,7 @@ AddEventHandler("evidence:clearArea", function(slotId, coords)
 	exports.inventory:TakeItem(source, item, 1, slotId)
 	
 	local gridIds = {}
-	local instance = exports.instances:GetPlayerInstance(source)
+	local instance = exports.oldinstances:GetPlayerInstance(source)
 	if instance then
 		gridIds = { tostring(instance) }
 	else

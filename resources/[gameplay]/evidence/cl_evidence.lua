@@ -94,7 +94,7 @@ Citizen.CreateThread(function()
 
 		if
 			not Config.Debug and
-			not (exports.emotes:GetCurrentEmote() or {}).ShowEvidence and
+			not (exports.emotes:IsPlaying() or {}).ShowEvidence and
 			not (selectedWeapon == Flashlight and IsPlayerFreeAiming(player))
 		then
 			IsViewing = false
