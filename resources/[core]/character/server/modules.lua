@@ -23,7 +23,6 @@ function Modules:LoadDatabase()
 	
 	for k, reference in pairs(references) do
 		if not self.SkipReferences[reference.table] then
-			print(reference.table)
 			self.references[reference.table] = reference
 		end
 	end
