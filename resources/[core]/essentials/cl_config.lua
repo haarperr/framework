@@ -17,6 +17,7 @@ Config = {
 		[12] = false, -- SwatHelicopter
 		[13] = false, -- PoliceBoat
 		[14] = false, -- ArmyVehicle
+		[15] = false, -- ??
 	},
 	Flags = {
 		[2] = true, -- CPED_CONFIG_FLAG_NoCriticalHits
