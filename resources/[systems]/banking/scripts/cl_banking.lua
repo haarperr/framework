@@ -130,7 +130,7 @@ AddEventHandler("banking:clientStart", function()
 		bank.isBank = true
 
 		AddEventHandler("interact:on_"..id, function()
-			ToggleMenu(true, bank)
+			Banking:ToggleMenu(true, bank)
 		end)
 	end
 end)
@@ -151,4 +151,10 @@ AddEventHandler("banking:updateBank", function(account, key, value)
 		Banking.accounts[tonumber(account)][key] = value
 		SendNUIMessage({ commit = Banking.accounts, type="accounts" })
 	end
+end)
+
+RegisterNetEvent("banking:addTransaction")
+AddEventHandler("banking:addTransaction", function(account, transaction)
+	table.insert(Banking.accounts[account].transactions, 1, transaction)
+	SendNUIMessage({ commit = Banking.accounts, type="accounts" })
 end)
