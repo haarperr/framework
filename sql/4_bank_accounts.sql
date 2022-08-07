@@ -5,6 +5,7 @@ CREATE TABLE `bank_accounts` (
 	`account_name` TEXT NOT NULL COLLATE 'utf8_general_ci',
 	`account_type` INT(10) NOT NULL DEFAULT '0',
 	`account_balance` BIGINT(10) NOT NULL DEFAULT '0',
+	`account_primary` INT(11) NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`) USING BTREE,
 	UNIQUE INDEX `id` (`id`) USING BTREE,
 	UNIQUE INDEX `account_id` (`account_id`) USING BTREE,

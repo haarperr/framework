@@ -128,9 +128,9 @@ function Client:SelectCharacter(id)
 	-- Events.
 	TriggerEvent(Main.event.."selected", self.source, character, wasActive)
 	TriggerClientEvent(Main.event.."select", self.source, id, wasActive)
-	if character then
-		TriggerEvent("banking:initAccounts", self.source, character.id)
+	if character ~= nil then
 		Modules:LoadModules(source, character)
+		TriggerEvent("banking:initAccounts", self.source, character.id)
 	end
 
 	-- Logging.
