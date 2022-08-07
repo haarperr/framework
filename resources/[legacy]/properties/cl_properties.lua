@@ -335,7 +335,7 @@ end)
 
 RegisterNetEvent("properties:locked")
 AddEventHandler("properties:locked", function(opened)
-	exports.emotes:PerformEmote(Config.Locking.Anim)
+	exports.emotes:Play(Config.Locking.Anim)
 
 	local message = ""
 	if opened then
