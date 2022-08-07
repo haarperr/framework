@@ -7,6 +7,9 @@ SourceBankAccounts = {}
 
 function RequestAccounts(source)
     local accounts = {}
+    if ( SourceBankAccounts[source] == nil ) then
+        SourceBankAccounts[source] = {}
+    end
     for k, v in pairs(SourceBankAccounts[source]) do
         if BankAccounts[v.account_id] then
             accounts[v.account_id] = BankAccounts[v.account_id]
@@ -213,7 +216,7 @@ end)
 
 RegisterNetEvent("banking:createAccount")
 AddEventHandler("banking:createAccount", function(source, character_id, accountName, accountType, isPrimary)
-    if exports.inventory:CanAfford(source, Config.NewAccountPrice) then
+    if isPrimary then
         local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
         if isPrimary then
             exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.account_id, ["@character_id"] = character_id})
@@ -223,6 +226,15 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
         SourceBankAccounts[source][account.account_id] = account
         TriggerClientEvent("banking:initAccounts", source, account, true)
         StateTax(Config.NewAccountPrice)
+    else
+        if exports.inventory:CanAfford(source, Config.NewAccountPrice) then
+            local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
+            BankAccounts[account.account_id] = account
+            BankAccounts[account.account_id].transactions = {}
+            SourceBankAccounts[source][account.account_id] = account
+            TriggerClientEvent("banking:initAccounts", source, account, true)
+            StateTax(Config.NewAccountPrice)
+        end
     end
 end)
 
