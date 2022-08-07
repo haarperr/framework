@@ -235,7 +235,7 @@ Register("Stove", {
 })
 
 Register("Processor", {
-	Placement = "Floor",
+	Placement = "Table",
 	NoCenter = true,
 	Station = {
 		Type = "Processor",
