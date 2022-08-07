@@ -334,7 +334,7 @@ AddEventHandler("garages:retrievedVehicle", function(netId, id, class)
 	end
 end)
 
-AddEventHandler("character:loaded", function(source, character)
+AddEventHandler("character:selected", function(source, character)
 	local vehicles = {}
 	local result = exports.GHMattiMySQL:QueryResult("SELECT id, garage_id, model FROM vehicles WHERE character_id=@character_id AND deleted=0", {
 		["@character_id"] = character.id,

@@ -210,7 +210,7 @@ AddEventHandler("quests:finish", function(id)
 	quest:Finish(source)
 end)
 
-AddEventHandler("character:loaded", function(source, character)
+AddEventHandler("character:selected", function(source, character)
 	if not character or not character.id then return end
 	
 	Debug("Syncing", character.id)
