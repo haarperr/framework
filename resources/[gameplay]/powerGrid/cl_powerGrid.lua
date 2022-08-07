@@ -78,7 +78,7 @@ function Main:BeginPlacing(id)
 
 			-- Send dispatch.
 			if GetRandomFloatInRange(0.0, 1.0) < Config.Bombs.Fail.DispatchChance then
-				exports.dispatch:Report("Emergency", { "10-31", "Terror" }, 0, coords, false, { coords = coords })
+				exports.dispatch:Report("emergency", { "10-31", "Terror" }, 0, coords, false, { coords = coords })
 			end
 		end
 

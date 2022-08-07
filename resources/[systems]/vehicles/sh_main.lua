@@ -32,3 +32,8 @@ function Main:GetEntityFromNetworkId(netId)
 
 	return entity
 end
+
+function GetColor(id)
+	return Colors[id].Name or "Unknown"
+end
+exports("GetColor", GetColor)

@@ -50,7 +50,7 @@ function Vehicle:GetEntity()
 end
 
 function Vehicle:Set(key, value)
-	print("set", self.netId, key, value)
+	--print("set", self.netId, key, value)
 	self.info[key] = value
 	
 	for source, _ in pairs(self.viewers) do

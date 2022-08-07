@@ -33,7 +33,7 @@ function Main:TakeDamage(name, amount)
 	-- 	Damage:UpdateVehicle()
 	-- end
 
-	print("Set damage", name, value)
+	--print("Set damage", name, value)
 end
 
 --[[ Functions: Damage ]]--
@@ -43,7 +43,7 @@ function Damage:Init(info)
 	self.healths = self:GetHealths(vehicle)
 	self.cache = self.healths
 
-	print("init?")
+	--print("init?")
 end
 
 function Main.update:Damage()
@@ -88,7 +88,7 @@ function Damage:UpdateVehicle()
 	SetVehicleEngineHealth(CurrentVehicle, self.healths.engine or 1000.0)
 	SetVehiclePetrolTankHealth(CurrentVehicle, self.healths.petrol or 1000.0)
 
-	print("Updating", json.encode(self.healths))
+	--print("Updating", json.encode(self.healths))
 end
 
 --[[ Events ]]--
@@ -132,7 +132,7 @@ AddEventHandler("onEntityDamaged", function(data)
 
 	-- Process damage functions.
 	for name, func in pairs(Damage.process) do
-		print("processing", name, func)
+		--print("processing", name, func)
 		func(Damage, data, deltas, direction)
 	end
 

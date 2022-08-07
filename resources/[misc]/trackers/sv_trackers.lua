@@ -35,6 +35,14 @@ function Main:JoinGroup(id, source, state, mask)
 	return false
 end
 
+function Main:GetGroup(id, source, state, mask)
+	local group = self.groups[id]
+	if group then
+		return group.players
+	end
+	return false
+end
+
 function Main:LeaveGroup(id, source)
 	local group = self.groups[id]
 	if group then

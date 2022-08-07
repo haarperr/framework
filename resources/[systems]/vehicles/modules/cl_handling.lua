@@ -58,8 +58,8 @@ function Handling:Init(vehicle)
 		-- print(name, self.defaults[name])
 	end
 
-	print("Handling initialized")
-	print("Mass", self.defaults["fMass"])
+	--print("Handling initialized")
+	--print("Mass", self.defaults["fMass"])
 end
 
 function Handling:Restore()

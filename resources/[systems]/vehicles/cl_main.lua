@@ -58,11 +58,11 @@ function Main:Update()
 	-- Update vehicle being entered.
 	if EnteringVehicle ~= (self.entering or 0) then
 		if DoesEntityExist(EnteringVehicle) then
-			print("begin enter", EnteringVehicle)
+			--print("begin enter", EnteringVehicle)
 			self:InvokeListener("BeginEnter", EnteringVehicle)
 			TriggerEvent("vehicles:beginEnter", EnteringVehicle)
 		elseif DoesEntityExist(self.entering) then
-			print("finish enter", self.entering)
+			--print("finish enter", self.entering)
 			self:InvokeListener("FinishEnter", self.entering)
 			TriggerEvent("vehicles:finishEnter", self.entering)
 		end
@@ -100,7 +100,7 @@ function Main:Update()
 		-- The last vehicle has been exited.
 		if self.vehicle and DoesEntityExist(self.vehicle) then
 			-- Events.
-			print("exited", self.vehicle)
+			--print("exited", self.vehicle)
 			self:InvokeListener("Exit", self.vehicle)
 			TriggerEvent("vehicles:exit", self.vehicle)
 
@@ -120,7 +120,7 @@ function Main:Update()
 			Compressions = {}
 
 			-- Events.
-			print("entered", CurrentVehicle)
+			--print("entered", CurrentVehicle)
 			self:InvokeListener("Enter", CurrentVehicle)
 			TriggerEvent("vehicles:enter", CurrentVehicle)
 			
@@ -214,13 +214,13 @@ function Main:Update()
 			self.gearSwitchTime = GetGameTimer()
 			self.gear = Gear
 
-			print("Switch gear", Gear)
+			--print("Switch gear", Gear)
 		end
 
 		-- Controls.
 		Braking = (IsControlPressed(0, 72) or IsControlPressed(0, 76)) and Gear > 0
 		if Braking ~= self.braking then
-			print("Braking", Braking, Gear)
+			--print("Braking", Braking, Gear)
 			self.braking = Braking
 			if Braking then
 				self.brakeGear = Speed > 1.0 and ForwardDot > 0.0 and Gear
@@ -229,7 +229,7 @@ function Main:Update()
 		
 		Accelerating = IsControlPressed(0, 71)
 		if Accelerating ~= self.accelerating then
-			print("Accelerating", Accelerating)
+			--print("Accelerating", Accelerating)
 			self.accelerating = Accelerating
 		end
 
@@ -374,6 +374,42 @@ AddEventHandler("vehicles:clientStart", function()
 	Main:Init()
 end)
 
+AddEventHandler("gameEventTriggered", function(name, args)
+	if name ~= "CEventNetworkEntityDamage" then return end
+	
+	local ped = PlayerPedId()
+	local vehicle, sourceEntity, fatalDamage, weaponUsed = args[1], args[2], args[4], args[5]
+
+	if sourceEntity == -1 or not IsEntityAVehicle(vehicle) or not NetworkGetEntityIsNetworked(vehicle) or not NetworkHasControlOfEntity(vehicle) then return end
+
+	-- Traffic lights.
+	if sourceEntity and Config.TrafficLights[GetEntityModel(sourceEntity)] and GetEntityHealth(sourceEntity) < 1000 and GetRandomFloatInRange(0.0, 1.0) < 0.2 then
+		local coords = GetEntityCoords(vehicle)
+		exports.dispatch:Report("emergency", "10-49", 0, coords, vehicle, { coords = coords })
+	end
+
+	-- Damage types.
+	local damageType = GetWeaponDamageType(weaponUsed)
+	local isBullet = damageType == 3
+	local isMelee = damageType == 2
+
+	-- Get health stuff.
+	local bodyHealth = GetVehicleBodyHealth(vehicle)
+	local lastBodyHealth = 1000.0
+	
+	-- Damage.
+	local bodyDamage = lastBodyHealth - bodyHealth
+
+	-- Hit and runs.
+	if IsEntityAPed(sourceEntity) and sourceEntity ~= PlayerPedId() then
+		-- Hit and runs.
+		exports.peds:AddEvent("hitandrun")
+	elseif bodyDamage > 10.0 then
+		-- Reckless driving.
+		exports.peds:AddEvent("reckless")
+	end
+end)
+
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
@@ -386,7 +422,7 @@ RegisterNetEvent("vehicles:sync", function(netId, key, value)
 		Main.info[key] = value
 	end
 
-	print("Sync", netId, json.encode(key), json.encode(value))
+	--print("Sync", netId, json.encode(key), json.encode(value))
 
 	Main:InvokeListener("Sync", key, value)
 end)

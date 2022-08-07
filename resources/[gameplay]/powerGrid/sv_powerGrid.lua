@@ -62,7 +62,7 @@ function Main:Detonate()
 		
 		exports.dispatch:Add({
 			coords = Config.Center,
-			group = "Emergency",
+			group = "emergency",
 			hasBlip = true,
 			message = "10-31",
 			subMessage = "Terror",

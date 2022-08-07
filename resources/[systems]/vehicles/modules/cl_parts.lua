@@ -23,7 +23,7 @@ function Damage.process:Parts(data, deltas, direction)
 	
 	local damage = ((deltas.engine or 0.0) + (deltas.body or 0.0) + (deltas.petrol or 0.0)) / 1000.0 * mult
 	
-	print("TAKING DAMAGE", damage, mult, json.encode(data))
+	--print("TAKING DAMAGE", damage, mult, json.encode(data))
 	
 	for partId, part in pairs(Parts.parts) do
 		local partDirection = part:GetDirection()
@@ -245,7 +245,7 @@ function Parts:Create(info, boneName, parent)
 	end
 
 	-- Debug.
-	print("Create", info.Name, boneName, id)
+	--print("Create", info.Name, boneName, id)
 end
 
 function Parts:GetPayload()

@@ -208,7 +208,7 @@ AddEventHandler("jail:breakout", function()
 
 		exports.dispatch:Add({
 			coords = coords,
-			group = "Emergency",
+			group = "emergency",
 			blip = { coords = coords },
 			hasBlip = true,
 			message = "10-98",
