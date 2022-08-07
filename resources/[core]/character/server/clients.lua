@@ -128,8 +128,10 @@ function Client:SelectCharacter(id)
 	-- Events.
 	TriggerEvent(Main.event.."selected", self.source, character, wasActive)
 	TriggerClientEvent(Main.event.."select", self.source, id, wasActive)
-	TriggerEvent("banking:initAccounts", self.source, character.id)
-	if character then Modules:LoadModules(source, character) end
+	if character then
+		TriggerEvent("banking:initAccounts", self.source, character.id)
+		Modules:LoadModules(source, character)
+	end
 
 	-- Logging.
 	exports.log:Add({
