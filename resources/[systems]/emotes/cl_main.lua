@@ -224,7 +224,12 @@ function Main:StopOnPed(ped)
 	self:RemoveProps(ped)
 	ClearPedTasks(ped)
 end
-Export(Main, "PlayOnPed")
+Export(Main, "StopOnPed")
+
+function Main:GetCurrentEmote()
+	return self.playing
+end
+Export(Main, "GetCurrentEmote")
 
 function Main:IsPlaying(id, checkQueue)
 	if not id then
