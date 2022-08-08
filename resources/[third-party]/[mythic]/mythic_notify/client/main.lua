@@ -1,5 +1,5 @@
-RegisterNetEvent("notify:sendAlert")
-AddEventHandler("notify:sendAlert", function(type, text, length, style)
+RegisterNetEvent("chat:notify")
+AddEventHandler("chat:notify", function(type, text, length, style)
 	SendAlert(type, text, length, style)
 end)
 
