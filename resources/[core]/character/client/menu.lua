@@ -76,13 +76,11 @@ function Menu:ToggleSelection(value)
 		local details = ([[
 			DOB: %s (%s years)<br>
 			Gender: %s<br>
-			Bank: $%s<br>
 			Time Played: %.2f hours<br>
 		]]):format(
 			character.dob,
 			character.age,
 			character.gender,
-			character.bank,
 			hours
 		)
 		

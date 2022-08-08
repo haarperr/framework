@@ -80,7 +80,7 @@
 
               <q-card-actions align="right" class="text-primary">
                 <q-btn flat label="Cancel" v-close-popup />
-                <q-btn flat label="Deposit" type="submit" v-close-popup />
+                <q-btn flat label="Submit" type="submit" v-close-popup />
               </q-card-actions>
             </q-form>
           </q-card>
