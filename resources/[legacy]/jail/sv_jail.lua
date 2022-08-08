@@ -112,28 +112,30 @@ exports("AddTime", AddTime)
 
 --[[ Events ]]--
 AddEventHandler("character:selected", function(source, character)
-	local jail = exports.GHMattiMySQL:QueryResult("SELECT * FROM jail_active WHERE character_id=@character_id LIMIT 1", {
-		["@character_id"] = character.id
-	})[1]
+	if character then
+		local jail = exports.GHMattiMySQL:QueryResult("SELECT * FROM jail_active WHERE character_id=@character_id LIMIT 1", {
+			["@character_id"] = character.id
+		})[1]
 
-	local timeServed = 0
+		local timeServed = 0
 
-	if jail then
-		--timeServed = os.time() * 1000 - jail.start_time
-		if jail.time_left and jail.time_left > 0 then
-			jail.end_time = (os.time() + jail.time_left) * 1000
-			jail.start_time = os.time() * 1000
+		if jail then
+			--timeServed = os.time() * 1000 - jail.start_time
+			if jail.time_left and jail.time_left > 0 then
+				jail.end_time = (os.time() + jail.time_left) * 1000
+				jail.start_time = os.time() * 1000
 
-			exports.GHMattiMySQL:QueryAsync("UPDATE jail_active SET end_time=NOW() + INTERVAL @seconds SECOND WHERE character_id=@character_id", {
-				["@character_id"] = character.id,
-				["@seconds"] = jail.time_left,
-			})
+				exports.GHMattiMySQL:QueryAsync("UPDATE jail_active SET end_time=NOW() + INTERVAL @seconds SECOND WHERE character_id=@character_id", {
+					["@character_id"] = character.id,
+					["@seconds"] = jail.time_left,
+				})
+			end
 		end
-	end
 
-	Jailed[source] = jail
-	TriggerClientEvent("jail:jailed", source, jail, timeServed)
-	TriggerClientEvent("jail:setalarm", source, AlarmTriggered)
+		Jailed[source] = jail
+		TriggerClientEvent("jail:jailed", source, jail, timeServed)
+		TriggerClientEvent("jail:setalarm", source, AlarmTriggered)
+	end
 end)
 
 RegisterNetEvent("character:switch")
