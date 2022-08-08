@@ -37,11 +37,11 @@ exports.jobs:Register("lspd", {
 		Robberies = true,
 	},
 	Ranks = {
-		{ Name = "Janitor" },
-		{ Name = "Receptionist" },
 		{ Name = "Cadet" },
+		{ Name = "Probationary Officer" },
 		{ Name = "Officer" },
 		{ Name = "Senior Officer" },
+		{ Name = "Corporal" },
 		{
 			Name = "Sergeant",
 			Flags = (
@@ -106,8 +106,46 @@ exports.jobs:Register("bcso", {
 		State = "pd",
 	},
 	Ranks ={
-		"Recruit",
-		"Sheriff",
+		{ Name = "Cadet" },
+		{ Name = "Probationary Deputy" },
+		{ Name = "Deputy" },
+		{ Name = "Senior Deputy" },
+		{ Name = "Corporal" },
+		{
+			Name = "Sergeant",
+			Flags = (
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Lieutenant",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Captain",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
+			)
+		},
+		{
+			Name = "Undersheriff",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Sheriff",
+			Flags = Jobs.Permissions.ALL()
+		},
 	},
 	Emergency = {
 		AccessMdt = "police",
@@ -136,6 +174,48 @@ exports.jobs:Register("sasp", {
 	Tracker = {
 		Group = "emergency",
 		State = "pd",
+	},
+	Ranks ={
+		{ Name = "Cadet" },
+		{ Name = "Probationary Trooper" },
+		{ Name = "Trooper" },
+		{ Name = "Senior Trooper" },
+		{ Name = "Trooper First Class" },
+		{
+			Name = "Sergeant",
+			Flags = (
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Lieutenant",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Captain",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
+			)
+		},
+		{
+			Name = "Lieutenant Colonel",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Colonel",
+			Flags = Jobs.Permissions.ALL()
+		},
 	},
 	Emergency = {
 		AccessMdt = "police",

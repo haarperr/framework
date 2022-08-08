@@ -94,7 +94,7 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 		["@price"] = price,
 	})
 	
-	exports.inventory:TakeBills(source, downPayment or price, settings.PaymentFlag or 0, true)
+	exports.inventory:TakeMoney(source, downPayment or price, settings.PaymentFlag or 0, true)
 
 	return true
 end

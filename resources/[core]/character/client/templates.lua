@@ -32,7 +32,7 @@ Templates.Characters = {
 						<q-item-section>
 							<q-item-label lines="1">{{character.first_name}} {{character.last_name}}<q-item-label>
 						</q-item-section>
-						<q-item-section side top>
+						<q-item-section side>
 							{{Math.floor(character.time_played / 3600.0)}} hours {{Math.floor(character.time_played % 3600.0 / 3600.0 * 60.0)}} minutes
 						</q-item-section>
 					</q-item>

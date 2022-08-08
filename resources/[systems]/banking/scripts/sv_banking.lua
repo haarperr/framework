@@ -303,7 +303,7 @@ AddEventHandler("interact:on_bank-card", function()
 			noun = Config.Cards.Item,
 		})
 
-		exports.inventory:TakeBills(source, Config.Cards.Price)
+		exports.inventory:TakeMoney(source, Config.Cards.Price)
 	end
 end)
 

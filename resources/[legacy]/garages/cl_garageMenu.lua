@@ -19,8 +19,7 @@ function Menu:Build()
 
 	-- Build the vehicle options.
 	local vehicles = exports.character:GetCharacter().vehicles or {}
-	table.sort(vehicles)
-
+	--table.sort(vehicles)
 	for id, vehicle in pairs(vehicles) do
 		if not vehicle.garage_id or Garages[CurrentGarage].id ~= vehicle.garage_id then
 			goto continue
@@ -44,7 +43,7 @@ function Menu:Build()
 
 		local item = NativeUI.CreateItem(name, "")
 		item.Activated = function(_menu, _item)
-			Retrieve(id)
+			Retrieve(id, Garages[CurrentGarage].outCoords)
 			self:Close()
 		end
 

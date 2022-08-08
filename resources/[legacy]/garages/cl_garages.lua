@@ -179,9 +179,9 @@ function GetVehicleInfo(vehicle)
 	colors[12] = table.pack(GetVehicleNeonLightsColour(vehicle))
 	colors[13] = GetVehicleLivery(vehicle)
 	colors[14] = GetVehicleRoofLivery(vehicle)
-	
+
 	-- Return info.
-	local otherHealth = exports.vehicles:GetDecorInfo(vehicle)
+	local otherHealth = {}
 	for k, v in ipairs(otherHealth) do
 		otherHealth[k] = math.floor(v * 1000.0)
 	end
@@ -265,7 +265,7 @@ function SetVehicleInfo(vehicle, info)
 		for k, v in ipairs(info.other_health) do
 			info.other_health[k] = v / 1000.0
 		end
-		exports.vehicles:InitializeVehicle(vehicle, info.other_health)
+		--exports.vehicles:InitializeVehicle(vehicle, info.other_health)
 	end
 
 	-- Doors.
@@ -338,7 +338,7 @@ end
 
 function Retrieve(id, pos)
 	RetrieveAt = pos
-	TriggerServerEvent("garages:retrieveVehicle", id)
+	TriggerServerEvent("garages:retrieveVehicle", id, pos)
 end
 exports("Retrieve", Retrieve)
 
@@ -381,7 +381,7 @@ end
 
 --[[ Vehicle Events ]]--
 RegisterNetEvent("garages:retrieveVehicle")
-AddEventHandler("garages:retrieveVehicle", function(vehicleInfo)
+AddEventHandler("garages:retrieveVehicle", function(vehicleInfo, netId)
 	if not CurrentGarage and not RetrieveAt then return end
 	if not vehicleInfo then return end
 
@@ -389,13 +389,16 @@ AddEventHandler("garages:retrieveVehicle", function(vehicleInfo)
 	local garage = Garages[CurrentGarage]
 	local pos = RetrieveAt or garage.outCoords
 
-	local vehicle = exports.oldutils:CreateVehicle(GetHashKey(vehicleInfo.model), pos.x, pos.y, pos.z, pos.w, true, true)
+	--local vehicle = exports.oldutils:CreateVehicle(GetHashKey(vehicleInfo.model), pos.x, pos.y, pos.z, pos.w, true, true)
+
+	local vehicle = NetworkGetEntityFromNetworkId(netId)
 	local class = GetVehicleClass(vehicle)
 
 	SetVehicleInfo(vehicle, vehicleInfo)
 	SetVehicleNumberPlateText(vehicle, vehicleInfo.plate or exports.misc:GetRandomText(vehicleInfo.id, 8))
 
 	local netId = NetworkGetNetworkIdFromEntity(vehicle)
+
 	LastSpawned = netId
 	Vehicles[netId] = { id = vehicleInfo.id }
 
