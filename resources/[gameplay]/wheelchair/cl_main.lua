@@ -58,7 +58,7 @@ end)
 AddEventHandler("interact:on_storeWheelchair", function(interactable)
 	-- Check faction. TODO: update for 2.0.
 	-- if not exports.jobs:IsInEmergency() then
-	-- 	exports.mythic_notify:SendAlert("error", "Missing faction!", 7000)
+	--  TriggerEvent("chat:notify", "Missing faction!", "error")
 	-- 	return
 	-- end
 	
@@ -79,6 +79,6 @@ AddEventHandler("interact:on_storeWheelchair", function(interactable)
 	if vehicle and NetworkGetEntityIsNetworked(vehicle) then
 		TriggerServerEvent(Main.event.."store", NetworkGetNetworkIdFromEntity(vehicle))
 	else
-		-- exports.mythic_notify:SendAlert("error", "No wheelchair...", 7000)
+		-- TriggerEvent("chat:notify", "No wheelchair...", "error")
 	end
 end)
