@@ -47,6 +47,14 @@ function Set(source, account, key, value)
 end
 exports("Set", Set)
 
+function CanAfford(account, amount)
+    if Get(account, "account_balance") >= amount then
+        return true
+    end
+    return false
+end
+exports("CanAfford", CanAfford)
+
 function GetTransactions(account)
     if not account then return end
     local transactions = {}
