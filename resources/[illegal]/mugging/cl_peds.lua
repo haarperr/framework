@@ -2,7 +2,7 @@ Ped = {}
 Ped.__index = Ped
 
 function Ped:Create(entity, canInteract)
-	print("create", entity)
+	--print("create", entity)
 
 	-- Check armed.
 	if IsPedArmed(entity, 4) then
@@ -52,7 +52,7 @@ end
 
 function Ped:Destroy(isHard)
 	local ped = self.entity
-	print("destroy")
+	--print("destroy")
 
 	-- Unregister state.
 	self:SetState(false)
@@ -262,15 +262,15 @@ function Ped:SetState(state)
 	if self.state == (state or nil) then return end
 	self.state = state or nil
 
-	print("set state", self.state)
+	--print("set state", self.state)
 	
 	TriggerServerEvent("mugging:interact", self.netId, state)
 end
 
 function Ped:Challenge()
-	print("challenge")
+	--print("challenge")
 	local ped = self.entity
-	print(self.confidence)
+	--print(self.confidence)
 	if GetRandomFloatInRange(0.0, 1.0) < Config.FleeMult * self.confidence then
 		WaitForAccess(ped)
 
@@ -279,7 +279,7 @@ function Ped:Challenge()
 		SetPedFleeAttributes(ped, 15, true)
 		TaskReactAndFleePed(ped, PlayerPedId())
 
-		print("challenge accepted")
+		--print("challenge accepted")
 
 		self:Destroy()
 	else

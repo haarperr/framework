@@ -11,7 +11,7 @@ function Impound:Finish(source, entity)
 
 	-- Get marked.
 	local marked = Marking.objects[entity]
-	print("marked?", marked)
+	--print("marked?", marked)
 	if marked == nil then return false end
 
 	-- Cooldowns.
@@ -35,14 +35,14 @@ RegisterNetEvent("impound:finish")
 AddEventHandler("impound:finish", function(netId, siteId)
 	local source = source
 
-	print(netId, siteId)
+	--print(netId, siteId)
 
 	-- Check input.
 	if type(netId) ~= "number" then return end
 
 	-- Check entity.
 	local entity = NetworkGetEntityFromNetworkId(netId)
-	print(netId, siteId)
+	--print(netId, siteId)
 	if not DoesEntityExist(entity) then return end
 
 	-- Impound.

@@ -33,7 +33,7 @@ function Main:UpdateTime()
 	math.randomseed(os.time())
 	self.resetTime = os.clock() + 60.0 * math.random(table.unpack(Config.Bombs.ResetTime))
 
-	print(self.resetTime)
+	--print(self.resetTime)
 end
 
 function Main:Detonate()

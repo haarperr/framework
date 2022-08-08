@@ -156,7 +156,7 @@ RegisterNetEvent("doors:inform", function(groupId, payload)
 		return
 	end
 
-	print("update doors", groupId, payload)
+	--print("update doors", groupId, payload)
 
 	local cached = {}
 
@@ -181,11 +181,11 @@ RegisterNetEvent("doors:toggle", function(groupId, coords, state)
 	local door = group:FindDoor(coords)
 
 	if door then
-		print("toggle door", coords, state)
+		--print("toggle door", coords, state)
 	
 		door:SetState(state)
 	else
-		print("toggling door that doesn't exist, so it will cache", coords, state)
+		--print("toggling door that doesn't exist, so it will cache", coords, state)
 
 		group:Cache(coords, state)
 	end

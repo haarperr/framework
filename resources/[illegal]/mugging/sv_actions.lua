@@ -29,7 +29,7 @@ function Main:CancelAction(ped, action)
 
 	-- Clear action.
 	entity.state.action = nil
-	print("cancel action")
+	--print("cancel action")
 end
 
 function Main:Rob(source, ped)

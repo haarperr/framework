@@ -44,7 +44,7 @@ function Tackle:Update()
 
 	-- Speed.
 	local speed = GetEntitySpeed(ped)
-	print("your speed was", speed)
+	--print("your speed was", speed)
 	if speed < self.speed then return end
 
 	-- Find nearest ped.
@@ -55,7 +55,7 @@ function Tackle:Update()
 		nearestPed, nearestDist = GetNearestPed(coords)
 	end
 
-	print("dist is", nearestDist)
+	--print("dist is", nearestDist)
 	if not nearestPed or not DoesEntityExist(nearestPed) or nearestDist > self.radius then
 		return
 	end
@@ -66,7 +66,7 @@ function Tackle:Update()
 	local dir = Normalize(GetEntityCoords(nearestPed) - coords)
 	local dot = Dot(dir, forward)
 
-	print("dot product", dot)
+	--print("dot product", dot)
 	if dot < self.dot then
 		return
 	end

@@ -106,9 +106,7 @@ function FormatDispatch(data)
 	-- Setup vehicle.
 	local vehicle = ""
 	if data.vehicle ~= nil then
-		print(json.encode(data.vehicle))
 		details.vehicle.color = exports.vehicles:GetColor(data.vehicle.color)
-		print(details.vehicle.color)
 		details.vehicle.model = GetLabelText(GetDisplayNameFromVehicleModel(data.vehicle.model))
 		details.vehicle.plate = data.vehicle.plate
 

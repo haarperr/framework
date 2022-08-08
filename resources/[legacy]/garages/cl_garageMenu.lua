@@ -20,7 +20,6 @@ function Menu:Build()
 	-- Build the vehicle options.
 	local vehicles = exports.character:GetCharacter().vehicles or {}
 	table.sort(vehicles)
-	print(CurrentGarage)
 
 	for id, vehicle in pairs(vehicles) do
 		if not vehicle.garage_id or Garages[CurrentGarage].id ~= vehicle.garage_id then

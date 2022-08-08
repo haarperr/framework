@@ -178,7 +178,7 @@ AddEventHandler("playerDropped", function(reason)
 	if player ~= nil then
 		for ped, _ in pairs(player) do
 			Main:SetState(source, ped, false)
-			print("set state", source, ped, false)
+			--print("set state", source, ped, false)
 		end
 	end
 

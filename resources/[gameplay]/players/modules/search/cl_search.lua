@@ -52,12 +52,12 @@ function Search:Begin(player, frisk)
 		local dist = #(GetEntityCoords(playerPed) - GetEntityCoords(PlayerPedId()))
 		if dist > Config.MaxDist then
 			exports.emotes:Stop(emote)
-			print("too far")
+			--print("too far")
 			return
 		end
 	end
 
-	print("search")
+	--print("search")
 
 	TriggerServerEvent("players:search", GetPlayerServerId(player), frisk)
 end

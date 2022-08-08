@@ -99,7 +99,7 @@ function Escort:Update()
 			local seatIndex, dist = GetClosestSeat(coords, vehicle, true)
 			local doorIndex = seatIndex and seatIndex + 1
 
-			print("open?", doorIndex, IsVehicleDoorOpen(vehicle, doorIndex))
+			--print("open?", doorIndex, IsVehicleDoorOpen(vehicle, doorIndex))
 			if doorIndex and IsVehicleDoorOpen(vehicle, doorIndex) then
 				ClearPedTasks(ped)
 				ClearPedSecondaryTask(ped)
@@ -121,7 +121,7 @@ function Escort:Update()
 	local isEntering = not isInVehicle and IsPedInAnyVehicle(ped, true)
 
 	if dist > 2.0 and not isInVehicle then
-		print("refollow")
+		--print("refollow")
 		TaskFollowToOffsetOfEntity(ped, self.target, 0.0, 0.0, 0.0, 1.0, -1, 1.5, false)
 	end
 end

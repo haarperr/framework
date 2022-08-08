@@ -94,7 +94,6 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 
 		-- Get item in slot.
 		local item = exports.inventory:ContainerInvokeSlot(containerId, slotId.slot_id, "GetItem")
-		print(json.encode(item))
 		if not item then return end
 
 		local isItemValid = false
@@ -109,8 +108,6 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 		if not isItemValid then return false end
 		exports.inventory:TakeItem(source, item.name, 1)
 	end
-	
-	print("A")
 
 	-- Finalize the robbery.
 	if not site.beingRobbed then

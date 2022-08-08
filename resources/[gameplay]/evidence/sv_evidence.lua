@@ -363,7 +363,7 @@ end)
 RegisterCommand("evidence:clearCache", function(source, args, command)
 	if source ~= 0 then return end
 	
-	print("Clearing evidence")
+	--print("Clearing evidence")
 
 	for k, v in pairs(Info) do
 		if type(v) == "table" then
