@@ -49,7 +49,7 @@ function Initialize()
 							end
 						end
 						if not hasFaction then
-							exports.mythic_notify:SendAlert("error", "Missing faction!", 7000)
+							TriggerEvent("chat:notify", "Missing faction!", "error")
 							return
 						end
 					end
