@@ -8,8 +8,6 @@ AddEventHandler("character:selected", function(source, character)
 		for k, v in pairs(result) do
 			licenses[v.name] = v
 		end
-		print("LOAD")
-		print(json.encode(licenses))
 
 		exports.character:Set(source, "licenses", licenses)
 		TriggerClientEvent("licenses:load", source, licenses)
