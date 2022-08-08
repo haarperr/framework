@@ -35,7 +35,7 @@ end)
 AddEventHandler("interact:on_spawnWheelchair", function(interactable)
 	-- Check faction. TODO: update for 2.0.
 	-- if not exports.jobs:IsInEmergency() then
-	-- 	exports.mythic_notify:SendAlert("error", "Missing faction!", 7000)
+	--  TriggerEvent("chat:notify", "Missing faction!", "error")
 	-- 	return
 	-- end
 	
@@ -46,7 +46,7 @@ AddEventHandler("interact:on_spawnWheelchair", function(interactable)
 	-- Check vehicles. TODO: update for 2.0.
 	for _, vehicle in ipairs(exports.utils:GetVehicles()) do
 		if #(GetEntityCoords(vehicle) - vector3(site.Spawn.x, site.Spawn.y, site.Spawn.z)) < 1.0 then
-			-- exports.mythic_notify:SendAlert("error", "The spawn is blocked!", 7000)
+			-- TriggerEvent("chat:notify", "The spawn is blocked!", "error")
 			return
 		end
 	end
