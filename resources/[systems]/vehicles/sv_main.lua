@@ -81,6 +81,15 @@ function Main:GetUniqueVin()
 	return vin
 end
 
+--[[ Exports ]]--
+for k, v in pairs(Main) do
+	if type(v) == "function" then
+		exports(k, function(...)
+			return Main[k](Main, ...)
+		end)
+	end
+end
+
 --[[ Events ]]--
 AddEventHandler("vehicles:start", function()
 	Main:Init()

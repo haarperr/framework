@@ -28,8 +28,8 @@ AddEventHandler("car-dealer:purchase", function(dealer, name, class)
 	-- Take money.
 	if not exports.inventory:CanAfford(source, price, Config.MoneyFlag, Config.UseDebit) then return end
 
-	exports.inventory:TakeBills(source, price, Config.MoneyFlag, Config.UseDebit)
-	exports.log:AddEarnings(source, "Vehicles", -price)
+	exports.inventory:TakeMoney(source, price, Config.MoneyFlag, Config.UseDebit)
+	--exports.log:AddEarnings(source, "Vehicles", -price)
 
 	exports.garages:AddVehicle(source, name, dealerSettings.Garage or Config.Garages[class] or 1, function(vehicle)
 		TriggerClientEvent("car-dealer:confirmPurchase", source, vehicle)
@@ -138,7 +138,7 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 			return
 		end
 
-		exports.inventory:TakeBills(target, fee, 0, true)
+		exports.inventory:TakeMoney(target, fee, 0, true)
 
 		-- Log.
 		exports.log:Add({

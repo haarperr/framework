@@ -242,7 +242,7 @@ AddEventHandler("garages:storeVehicle", function(id, netId, info)
 end)
 
 RegisterNetEvent("garages:retrieveVehicle")
-AddEventHandler("garages:retrieveVehicle", function(id)
+AddEventHandler("garages:retrieveVehicle", function(id, coords, heading)
 	local source = source
 
 	local oldVehicle = (VehicleCache[id] or {}).entity or 0
@@ -256,12 +256,16 @@ AddEventHandler("garages:retrieveVehicle", function(id)
 	local vehicle = GetVehicle(source, id)
 	if not vehicle then return end
 
+	local spawnedVehicle = exports.vehicles:Spawn(GetHashKey(vehicle.model), coords, heading, {
+		key = true,
+	})
+
 	local garage = Garages[vehicle.garage_id or false]
 	local value = (garage.property_id ~= nil and 0) or GetStorageValue(vehicle.model)
 
 	if value > 0 then
 		if not exports.inventory:CanAfford(source, value, 0, true) then return end
-		exports.inventory:TakeBills(source, value, 0, true)
+		exports.inventory:TakeMoney(source, value, 0, true)
 	end
 	
 	local oldPlate = vehicle.plate
@@ -281,7 +285,7 @@ AddEventHandler("garages:retrieveVehicle", function(id)
 		extra = ("model: %s - id: %s"):format(vehicle.model or "?", vehicle.id or "?"),
 	})
 
-	TriggerClientEvent("garages:retrieveVehicle", source, vehicle)
+	TriggerClientEvent("garages:retrieveVehicle", source, vehicle, NetworkGetNetworkIdFromEntity(spawnedVehicle))
 
 	VehicleCache[id] = { vehicle = vehicle, entity = nil }
 end)
@@ -318,7 +322,7 @@ AddEventHandler("garages:retrievedVehicle", function(netId, id, class)
 	
 	TriggerEvent("vehicle:loaded", source, vehicle, entity, class)
 	
-	exports.vehicles:GiveKey(source, entity)
+	--exports.vehicles:GiveKey(source, entity)
 
 	Vehicles[entity] = {
 		source = source,
@@ -335,17 +339,19 @@ AddEventHandler("garages:retrievedVehicle", function(netId, id, class)
 end)
 
 AddEventHandler("character:selected", function(source, character)
-	local vehicles = {}
-	local result = exports.GHMattiMySQL:QueryResult("SELECT id, garage_id, model FROM vehicles WHERE character_id=@character_id AND deleted=0", {
-		["@character_id"] = character.id,
-	})
+	if character then
+		local vehicles = {}
+		local result = exports.GHMattiMySQL:QueryResult("SELECT id, garage_id, model FROM vehicles WHERE character_id=@character_id AND deleted=0", {
+			["@character_id"] = character.id,
+		})
 
-	for k, v in ipairs(result) do
-		vehicles[v.id] = v
+		for k, v in ipairs(result) do
+			vehicles[v.id] = v
+		end
+
+		exports.character:Set(source, "vehicles", vehicles)
+		TriggerClientEvent("garages:receiveGarages", source, Garages)
 	end
-
-	exports.character:Set(source, "vehicles", vehicles)
-	TriggerClientEvent("garages:receiveGarages", source, Garages)
 end)
 
 AddEventHandler("entityRemoved", function(entity)

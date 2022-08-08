@@ -327,10 +327,6 @@ exports("GetClasses", function()
 end)
 
 --[[ Events ]]--
-AddEventHandler("vehicles:clientStart", function()
-	Main:Init()
-end)
-
 AddEventHandler("gameEventTriggered", function(name, args)
 	if name ~= "CEventNetworkEntityDamage" then return end
 	

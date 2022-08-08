@@ -16,25 +16,18 @@ exports.jobs:Register("paramedic", {
 		State = "ems",
 	},
 	Ranks = {
-		{
-			Name = "EMT Recruit",
-		},
-		{
-			Name = "EMT Basic",
-		},
-		{
-			Name = "EMT Paramedic",
-		},
-		{
-			Name = "EMT Advanced Paramedic",
-		},
+		{ Name = "EMT Recruit", },
+		{ Name = "EMT Basic", },
+		{ Name = "EMT Paramedic", },
+		{ Name = "EMT Advanced Paramedic", },
 		{
 			Name = "Field Supervisor",
 			Flags = (
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
 			)
 		},
 		{
@@ -72,25 +65,18 @@ exports.jobs:Register("firefighter", {
 		State = "ems",
 	},
 	Ranks = {
-		{
-			Name = "Probie",
-		},
-		{
-			Name = "Firefighter",
-		},
-		{
-			Name = "Advanced Firefighter",
-		},
-		{
-			Name = "Engineer",
-		},
+		{ Name = "Probie", },
+		{ Name = "Firefighter", },
+		{ Name = "Advanced Firefighter", },
+		{ Name = "Engineer", },
 		{
 			Name = "Field Supervisor",
 			Flags = (
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
 			)
 		},
 		{

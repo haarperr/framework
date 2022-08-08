@@ -20,18 +20,18 @@ function Main:LoadSettings()
 			settings.Category = GetLabelText("VEH_CLASS_"..settings.Class)
 
 			-- Cache settings.
-			Main.settings[model] = settings
-			Main.hashes[GetHashKey(model)] = model
+			self.settings[model] = settings
+			self.hashes[GetHashKey(model)] = model
 
 			-- Cache class.
 			local classList = Main.classes[settings.Class]
 			if not classList then
 				classList = {}
-				Main.classes[settings.Class] = classList
+				self.classes[settings.Class] = classList
 			end
 			classList[model] = settings
 		else
-			Main.hashes[GetHashKey(model)] = model
+			self.hashes[GetHashKey(model)] = model
 		end
 	end
 end
@@ -80,12 +80,17 @@ function GetColor(id)
 end
 exports("GetColor", GetColor)
 
+function GetName(key)
+	return (Main:GetSettings(key) or {}).Name or "Unknown"
+end
+exports("GetName", GetName)
+
 --[[ Exports ]]--
 exports("GetSettings", function(...)
 	return Main:GetSettings(...)
 end)
 
 --[[ Events ]]--
-AddEventHandler("vehicles:start", function()
+Citizen.CreateThread(function()
 	Main:LoadSettings()
 end)
