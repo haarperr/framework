@@ -152,13 +152,13 @@ function BeginScrapping(vehicle, zone)
 	
 	-- Finish checks.
 	if error then
-		exports.mythic_notify:SendAlert("error", error, 10000)
+		TriggerEvent("chat:notify", "Error!", "error")
 		return
 	end
 
 	Chopping = vehicle
 
-	exports.mythic_notify:SendAlert("inform", "Begin scrapping...", 6000)
+	TriggerEvent("chat:notify", "Begin scrapping...", "inform")
 
 	-- Eject people from seats.
 	for seat = -1, GetVehicleMaxNumberOfPassengers(vehicle) - 1 do
@@ -355,14 +355,14 @@ AddEventHandler("chopShop:chopResult", function(response)
 		message = "You can't seem to hold the goods..."
 	end
 	if message then
-		exports.mythic_notify:SendAlert("error", message, 7000)
+		TriggerEvent("chat:notify", message, "error")
 	end
 	Chopping = false
 end)
 
 RegisterNetEvent("chopShop:receiveTime")
 AddEventHandler("chopShop:receiveTime", function(time)
-	exports.mythic_notify:SendAlert("inform", "I wrote the list down for you. You have "..math.ceil(time / 60).." minutes before the list changes.", 10000)
+	TriggerEvent("chat:notify", "I wrote the list down for you. You have "..math.ceil(time / 60).." minutes before the list changes.", "inform")
 end)
 
 --[[ Resource Events ]]--
