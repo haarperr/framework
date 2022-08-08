@@ -43,7 +43,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 	local vehicle = (exports.garages:GetVehicle(exports.garages:GetId(entity)) or {}).vehicle
 	local characterId = exports.character:Get(source, "id")
 	if vehicle == nil or vehicle.character_id ~= characterId then
-		TriggerClientEvent("notify:sendAlert", source, "error", "This doesn't belong to you!", 8000)
+		TriggerClientEvent("chat:notify", source, "This doesn't belong to you!", "error")
 		return
 	end
 
@@ -63,7 +63,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 				noun = "vehicle",
 				extra = ("id: %s - money: $%s"):format(vehicle.id, value),
 			})
-			TriggerClientEvent("notify:sendAlert", source, "inform", "Your vehicle was sold for $"..exports.misc:FormatNumber(value).." and the money was transferred to your account.", 7000)
+			TriggerClientEvent("chat:notify", source, "Your vehicle was sold for $"..exports.misc:FormatNumber(value).." and the money was transferred to your account.", "inform")
 			exports.character:Set(source, "bank", character.bank + value)
 			exports.character:Save(source, "bank")
 			exports.log:AddEarnings(source, "Vehicles", value)
@@ -102,12 +102,12 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 	end
 
 	-- Chat message.
-	TriggerClientEvent("notify:sendAlert", source, "inform", "Showing paperwork...", 7000)
+	TriggerClientEvent("chat:notify", source, "Showing paperwork...", "inform")
 
 	-- Send confirmation.
 	exports.interaction:SendConfirm(source, target, "A vehicle transfer requires your signature. There will be a $"..fee.." fee", function(didAccept)
 		if not didAccept then
-			TriggerClientEvent("notify:sendAlert", source, "error", "They didn't sign...", 7000)
+			TriggerClientEvent("chat:notify", source, "They didn't sign...", "error")
 			return
 		end
 
@@ -132,7 +132,7 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 		-- Check money.
 		if not exports.inventory:CanAfford(target, fee, 0, true) then
 			for _, player in ipairs({ source, target }) do
-				TriggerClientEvent("notify:sendAlert", player, "error", "Transaction failed...", 7000)
+				TriggerClientEvent("chat:notify", source, "Transaction failed...", "error")
 			end
 
 			return
