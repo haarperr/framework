@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
 				local ped = PlayerPedId()
 				local playerVehicle = GetVehiclePedIsIn(ped)
 				if not DoesEntityExist(playerVehicle) or GetVehicleClass(playerVehicle) ~= 18 then
-					exports.mythic_notify:SendAlert("error", "You must be in an emergency vehicle!", 7000)
+					TriggerEvent("chat:notify", "You must be in an emergency vehicle!", "error")
 				else
 					local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = table.unpack(exports.oldutils:Raycast(playerVehicle))
 					local coords = GetEntityCoords(ped, false)
@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
 						local data = {Plate = GetVehicleNumberPlateText(entity), Model = GetEntityModel(entity)}
 						TriggerServerEvent("dispatch:runPlate", data)
 					else
-						exports.mythic_notify:SendAlert("error", "You must be looking at a vehicle!", 7000)
+						TriggerEvent("chat:notify", "You must be looking at a vehicle!", "error")
 					end
 				end
 			end
@@ -439,12 +439,12 @@ RegisterCommand("runplate", function(source, args, command)
 	local state = (LocalPlayer or {}).state
 
     if state.immobile or state.restrained then
-		exports.mythic_notify:SendAlert("error", "Can't seem to do that...")
+		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
 		return
 	end
 
     if not exports.jobs:IsInGroup("emergency") then
-		exports.mythic_notify:SendAlert("error", "You must be on duty!")
+		TriggerEvent("chat:notify", "You must be on duty!", "error")
 		return
 	end
 
@@ -460,7 +460,7 @@ RegisterCommand("311", function(source, args, command)
 	local message = command:sub(5)
 	local lPed = PlayerPedId()
 	if state.restrained then
-		exports.mythic_notify:SendAlert("error", "Can't seem to do that...")
+		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
 	else
 		TaskPlayAnim(lPed, "cellphone@", "cellphone_call_listen_base", 2.0, 2.0, 3000, 49, 0, 0, 0, 0)
 		TriggerEvent("chat:addMessage", "(311) "..message, "nonemergency")
@@ -473,7 +473,7 @@ RegisterCommand("911", function(source, args, command)
 	local message = command:sub(5)
 	local lPed = PlayerPedId()
 	if state.restrained then
-		exports.mythic_notify:SendAlert("error", "Can't seem to do that...")
+		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
 	else
 		TaskPlayAnim(lPed, "cellphone@", "cellphone_call_listen_base", 2.0, 2.0, 3000, 49, 0, 0, 0, 0)
 		TriggerEvent("chat:addMessage", "(911) "..message, "emergency")
@@ -487,12 +487,12 @@ RegisterCommand("call", function(source, args, command)
 	local state = (LocalPlayer or {}).state
 
 	if state.immobile or state.restrained then
-		exports.mythic_notify:SendAlert("error", "Can't seem to do that...")
+		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
 		return
 	end
 
 	if not exports.jobs:IsInGroup("emergency") then
-		exports.mythic_notify:SendAlert("error", "You must be on duty!")
+		TriggerEvent("chat:notify", "You must be on duty!", "error")
 		return
 	end
 
@@ -508,7 +508,7 @@ RegisterCommand("call", function(source, args, command)
 		local playerVehicle = GetVehiclePedIsIn(ped)
 
 		if not DoesEntityExist(playerVehicle) or GetVehicleClass(playerVehicle) ~= 18 then
-			exports.mythic_notify:SendAlert("error", "You must be in an emergency vehicle!", 7000)
+			TriggerEvent("chat:notify", "You must be in an emergency vehicle!", "error")
 			return
 		end
 
@@ -516,7 +516,7 @@ RegisterCommand("call", function(source, args, command)
 		if IsEntityAVehicle(entity) and #(coords - hitCoords) < 30.0 then
 			vehicle = entity
 		else
-			exports.mythic_notify:SendAlert("error", "You must be looking at a vehicle!", 7000)
+			TriggerEvent("chat:notify", "You must be looking at a vehicle!", "error")
 			return
 		end
 	end
