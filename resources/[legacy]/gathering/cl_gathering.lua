@@ -11,7 +11,6 @@ function Main:Start(slot, gatheringType)
 	if self.gathering then return end
 
 	self.slot = slot.slot_id
-	self.gathering = true
 	self.type = gatheringType
 
 	local ped = PlayerPedId()
@@ -34,6 +33,8 @@ function Main:Start(slot, gatheringType)
 		TriggerEvent("chat:notify", "You can't "..Config[self.type].Messages.Action.." that!", "error")
 		return
 	end
+
+	self.gathering = true
 
 	TriggerEvent("chat:notify", Config[self.type].Messages.Progress, "inform")
 
