@@ -26,6 +26,7 @@ function Get(account, key)
         local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts WHERE account_id = @account_id", { ["@account_id"] = tonumber(account) })
         if #result > 0 then
             BankAccounts[account] = result[1]
+            BankAccounts[account].transactions = GetTransactions(account)
             return BankAccounts[account][key]
         end
     end
@@ -68,9 +69,6 @@ end
 
 function AddTransaction(source, data, amount)
     local result = {}
-    if BankAccounts[data.account_id].transactions == nil then
-        BankAccounts[data.account_id].transactions = {}
-    end
     if data.type == 3 then
         if Get(data.target_account, "account_balance") then
             result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_amount = @transaction_amount, transaction_from = @transaction_from, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts_transactions` WHERE id=LAST_INSERT_ID() LIMIT 1", {
@@ -81,12 +79,7 @@ function AddTransaction(source, data, amount)
                 ["@transaction_amount"] = amount,
                 ["@transaction_from"] = data.account_id
             })[1]
-            if BankAccounts[data.target_account] then
-                if BankAccounts[data.target_account].transactions == nil then
-                    BankAccounts[data.target_account].transactions = {}
-                end
-                table.insert(BankAccounts[data.target_account].transactions, 1, result)
-            end
+            table.insert(BankAccounts[tonumber(data.target_account)].transactions, 1, result)
             result = exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_transactions SET transaction_to = @transaction_to, transaction_amount = @transaction_amount, transaction_person = @transaction_person, transaction_type = @transaction_type, transaction_date = CURRENT_TIMESTAMP(), transaction_note = @transaction_note, account_id = @account_id; SELECT * FROM `bank_accounts_transactions` WHERE id=LAST_INSERT_ID() LIMIT 1", {
                 ["@account_id"] = data.account_id,
                 ["@transaction_type"] = data.type,
