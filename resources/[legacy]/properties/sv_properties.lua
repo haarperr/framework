@@ -381,7 +381,7 @@ AddEventHandler("properties:pay", function(id)
 
 	local bank = exports.character:Get(source, "bank")
 	if bank < amount then
-		TriggerClientEvent("notify:sendAlert", source, "error", "The bank declined the payment!", 10000)
+		TriggerClientEvent("chat:notify", source, "The bank declined the payment!", "error")
 		return
 	end
 
