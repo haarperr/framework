@@ -38,7 +38,7 @@ function Set(source, account, key, value)
     if BankAccounts[account] then 
         BankAccounts[account][key] = value
     end
-    exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..value.." WHERE account_id = @account_id", {
+    exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..key.." + "..value.." WHERE account_id = @account_id", {
         ["@account_id"] = account
     })
     if source ~= nil then
@@ -141,6 +141,11 @@ function Transfer(source, account, amount, notify)
 end
 exports("Transfer", Transfer)
 
+function StateTax(amount)
+    AddBank(nil, 1, amount, nil)
+end
+exports(StateTax, "StateTax")
+
 -- [[ Events: Net ]] --
 RegisterNetEvent("banking:transaction")
 AddEventHandler("banking:transaction", function(data)
@@ -230,7 +235,6 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
         BankAccounts[account.account_id].transactions = {}
         SourceBankAccounts[source][account.account_id] = account
         TriggerClientEvent("banking:initAccounts", source, account, true)
-        StateTax(Config.NewAccountPrice)
     else
         if exports.inventory:CanAfford(source, Config.NewAccountPrice) then
             local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
@@ -240,6 +244,8 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
             TriggerClientEvent("banking:initAccounts", source, account, true)
             exports.inventory:TakeMoney(source, Config.NewAccountPrice)
             StateTax(Config.NewAccountPrice)
+        else
+            TriggerClientEvent("chat:notify", source, "You cannot afford a new bank account! $500")
         end
     end
 end)
@@ -334,8 +340,3 @@ AddEventHandler("onResourceStart", function(resourceName)
         BankAccounts[stateAccount[1].account_id].transactions = GetTransactions(stateAccount[1].accound_id)
     end
 end)
-
-function StateTax(amount)
-    Set(nil, 1, "account_balance", amount)
-end
-exports(StateTax, "StateTax")
