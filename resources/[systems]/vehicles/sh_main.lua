@@ -1,8 +1,50 @@
 Main = {
 	listeners = {},
+	classes = {},
+	hashes = {},
+	settings = {},
 }
 
 --[[ Functions: Main ]]--
+function Main:LoadSettings()
+	for model, settings in pairs(Vehicles) do
+		if GetLabelText then
+			-- Get name.
+			settings.Name = GetLabelText(model)
+			if settings.Name == "NULL" then
+				settings.Name = model:gsub("^%l", string.upper)
+			end
+
+			-- Get class.
+			settings.Class = GetVehicleClassFromName(model)
+			settings.Category = GetLabelText("VEH_CLASS_"..settings.Class)
+
+			-- Cache settings.
+			Main.settings[model] = settings
+			Main.hashes[GetHashKey(model)] = model
+
+			-- Cache class.
+			local classList = Main.classes[settings.Class]
+			if not classList then
+				classList = {}
+				Main.classes[settings.Class] = classList
+			end
+			classList[model] = settings
+		else
+			Main.hashes[GetHashKey(model)] = model
+		end
+	end
+end
+
+function Main:GetSettings(model)
+	if not model then return {} end
+	if type(model) == "number" then
+		model = self.hashes[model]
+		if not model then return {} end
+	end
+	return Vehicles[model] or {}
+end
+
 function Main:AddListener(_type, cb)
 	local listeners = self.listeners[_type]
 	if not listeners then
@@ -37,3 +79,13 @@ function GetColor(id)
 	return Colors[id].Name or "Unknown"
 end
 exports("GetColor", GetColor)
+
+--[[ Exports ]]--
+exports("GetSettings", function(...)
+	return Main:GetSettings(...)
+end)
+
+--[[ Events ]]--
+AddEventHandler("vehicles:start", function()
+	Main:LoadSettings()
+end)

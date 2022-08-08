@@ -1,44 +1,9 @@
-Main.classes = {}
-Main.hashes = {}
-Main.settings = {}
 Main.vehicles = {}
 Main.vinCache = {}
 
 --[[ Functions: Main ]]--
 function Main:Init()
 	self:CacheParts(Config.Parts)
-	for model, settings in pairs(Vehicles) do
-		-- Get name.
-		settings.Name = GetLabelText(model)
-		if settings.Name == "NULL" then
-			settings.Name = model:gsub("^%l", string.upper)
-		end
-
-		-- Get class.
-		settings.Class = GetVehicleClassFromName(model)
-		settings.Category = GetLabelText("VEH_CLASS_"..settings.Class)
-
-		-- Cache settings.
-		self.settings[model] = settings
-		self.hashes[GetHashKey(model)] = model
-
-		-- Cache class.
-		local classList = self.classes[settings.Class]
-		if not classList then
-			classList = {}
-			self.classes[settings.Class] = classList
-		end
-		classList[model] = settings
-	end
-end
-
-function Main:GetSettings(model)
-	if not model then return {} end
-	if type(model) == "number" then
-		model = self.hashes[model]
-		if not model then return {} end
-	end
-	return Vehicles[model] or {}
 end
 
 function Main:CacheParts(parts)
@@ -115,11 +80,6 @@ function Main:GetUniqueVin()
 
 	return vin
 end
-
---[[ Exports ]]--
-exports("GetSettings", function(...)
-	return Main:GetSettings(...)
-end)
 
 --[[ Events ]]--
 AddEventHandler("vehicles:start", function()
