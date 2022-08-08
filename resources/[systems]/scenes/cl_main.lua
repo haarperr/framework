@@ -252,7 +252,7 @@ end)
 
 RegisterNetEvent(Main.event.."failed")
 AddEventHandler(Main.event.."failed", function(reason)
-	exports.mythic_notify:SendAlert("error", "Couldn't place scene: "..(tostring(reason) or "no reason specified"), 7000)
+	TriggerEvent("chat:notify", "Couldn't place scene: "..(tostring(reason) or "no reason specified"), "error")
 end)
 
 --[[ Threads ]]--
