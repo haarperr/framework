@@ -229,9 +229,9 @@ Citizen.CreateThread(function()
 		-- Picking up evidence.
 		if IsControlJustPressed(0, 46) and not IsPickingUp then
 			if not exports.inventory:HasItem("Evidence Bag") then
-				exports.mythic_notify:SendAlert("error", "You have nothing to put that in!", 7000)
+				TriggerEvent("chat:notify", "You have nothing to put that in!", "error")
 			elseif not NearestEvidence or not (Config.Types[NearestEvidence[2]] or {}).Pickup then
-				exports.mythic_notify:SendAlert("error", "Cannot find evidence to pick up!", 7000)
+				TriggerEvent("chat:notify", "Cannot find evidence to pick up!", "error")
 			else
 				local pickingUp = NearestEvidence
 				IsPickingUp = true
@@ -281,7 +281,7 @@ function BeginForensics()
 
 	-- Job check.
 	if not exports.jobs:IsOnDuty("paramedic") and not exports.jobs:IsOnDuty("detective") then
-		exports.mythic_notify:SendAlert("error", "You must be on duty!", 7000)
+		TriggerEvent("chat:notify", "You must be on duty!", "error")
 		return
 	end
 
@@ -289,7 +289,7 @@ function BeginForensics()
 	InForensics = true
 	
 	-- Notify.
-	exports.mythic_notify:SendAlert("inform", "Starting forensics... Select the first piece of evidence.", 8000)
+	TriggerEvent("chat:notify", "Starting forensics... Select the first piece of evidence.", "inform")
 
 	-- Emote.
 	exports.emotes:Play("clipboard")
@@ -317,12 +317,12 @@ function BeginForensics()
 
 			-- Check that the item is evidence.
 			if lastId == selection.slotId then
-				exports.mythic_notify:SendAlert("error", "That's the same thing!", 8000)
+				TriggerEvent("chat:notify", "That's the same thing!", "error")
 				exports.inventory:ClearSelection()
 				
 				goto restart
 			elseif not item or item.name ~= "Sealed Evidence Bag" then
-				exports.mythic_notify:SendAlert("error", "That's not evidence...", 8000)
+				TriggerEvent("chat:notify", "That's not evidence...", "error")
 				exports.inventory:ClearSelection()
 				
 				goto restart
@@ -337,7 +337,7 @@ function BeginForensics()
 			-- Assign the first evidence.
 			sourceSlot = slot
 			exports.inventory:ClearSelection()
-			exports.mythic_notify:SendAlert("inform", "Now select the second piece of evidence...", 8000)
+			TriggerEvent("chat:notify", "Now select the second piece of evidence...", "inform")
 		elseif not targetSlot then
 			-- Assign the second evidence.
 			targetSlot = slot
@@ -348,10 +348,10 @@ function BeginForensics()
 
 	-- Process evidence.
 	if sourceSlot and targetSlot then
-		exports.mythic_notify:SendAlert("inform", "Processing...", 8000)
+		TriggerEvent("chat:notify", "Processing...", "inform")
 		Citizen.Wait(2500)
 
-		exports.mythic_notify:SendAlert("inform", "Done!", 8000)
+		TriggerEvent("chat:notify", "Done!", "inform")
 		Citizen.Wait(1000)
 		
 		local sourceExtra = sourceSlot[4] or {}
@@ -366,15 +366,15 @@ function BeginForensics()
 		end
 		
 		if result then
-			exports.mythic_notify:SendAlert("success", "Match!", 8000)
+			TriggerEvent("chat:notify", "Match!", "success")
 		else
-			exports.mythic_notify:SendAlert("error", "No match...", 8000)
+			TriggerEvent("chat:notify", "No match...", "error")
 		end
 
 		Citizen.Wait(2000)
 	else
 		-- Notify.
-		exports.mythic_notify:SendAlert("inform", "Stopping forensics...", 8000)
+		TriggerEvent("chat:notify", "Stopping forensics...", "inform")
 	end
 
 	-- Stop emoting.
