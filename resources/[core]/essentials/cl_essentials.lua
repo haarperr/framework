@@ -38,13 +38,13 @@ function Main:UpdateFrame()
 	end
 
 	-- Tripping.
-	--[[if (not self.nextTripCheck or GetGameTimer() > self.nextTripCheck) and not IsPedOpeningADoor(ped) then
-		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.2
-		self.nextTripCheck = GetGameTimer() + 1000
+	if (not self.nextTripCheck or GetGameTimer() > self.nextTripCheck) and not IsPedOpeningADoor(ped) then
+		self.shouldTrip = GetRandomFloatInRange(0.0, 0.3) < 0.2
+		self.nextTripCheck = GetGameTimer() + 36000
 	end
 
 	SetPedRagdollOnCollision(Ped,
-		GetGameTimer() - self.lastRagdoll > 4000 and
+		GetGameTimer() - self.lastRagdoll > 36000 and
 		self.shouldTrip and
 		(IsPedRunning(Ped) or IsPedSprinting(Ped)) and
 		GetFollowPedCamViewMode() ~= 4 and
@@ -52,7 +52,7 @@ function Main:UpdateFrame()
 		not IsPedGettingUp(Ped) and
 		not GetPedConfigFlag(Ped, 147) and
 		not GetPedConfigFlag(Ped, 148)
-	)]]
+	)
 
 	-- Disable reticle.
 	if not IsPlayerFreeAiming() then
