@@ -38,7 +38,7 @@ function Set(source, account, key, value)
     if BankAccounts[account] then 
         BankAccounts[account][key] = value
     end
-    exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..key.." + "..value.." WHERE account_id = @account_id", {
+    exports.GHMattiMySQL:QueryAsync("UPDATE bank_accounts SET "..key.." = "..value.." WHERE account_id = @account_id", {
         ["@account_id"] = account
     })
     if source ~= nil then
@@ -51,7 +51,7 @@ function GetTransactions(account)
     if not account then return end
     local transactions = {}
 
-    transactions = exports.GHMattiMySQL:QueryResult("SELECT * from bank_accounts_transactions WHERE account_id = @account_id ORDER BY transaction_date DESC LIMIT 100", {
+    transactions = exports.GHMattiMySQL:QueryResult("SELECT * from bank_accounts_transactions WHERE account_id = @account_id ORDER BY transaction_date DESC LIMIT 50", {
         ["@account_id"] = account
     })
 
