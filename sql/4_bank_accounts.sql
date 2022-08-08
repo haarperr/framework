@@ -1,6 +1,6 @@
 CREATE TABLE `bank_accounts` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`account_id` INT(10) UNSIGNED NOT NULL DEFAULT (floor(rand() * (58745642 - 18735642 + 1)) + 18735642),
+	`account_id` INT(10) UNSIGNED NOT NULL DEFAULT (floor(rand() * (587456432 - 187356432 + 1)) + 187356432),
 	`character_id` INT(10) UNSIGNED NOT NULL,
 	`account_name` TEXT NOT NULL COLLATE 'utf8_general_ci',
 	`account_type` INT(10) NOT NULL DEFAULT '0',
