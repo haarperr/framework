@@ -79,7 +79,7 @@ function Mods:Enable(vehicle)
 	for modType, mod in pairs(self.types) do
 		local numMods = not mod.Hidden and GetNumVehicleMods(vehicle, modType)
 		if mod.Name == "Livery" then
-			print(numMods)
+			--print(numMods)
 		end
 		if numMods and numMods > 0 then
 			local options = {}

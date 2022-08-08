@@ -7,7 +7,7 @@ end
 function Npc:Load()
 	self.loaded = true
 
-	print("load", self.id)
+	--print("load", self.id)
 
 	local coords = self.coords
 	local ped = exports.customization:CreatePed({
@@ -56,7 +56,7 @@ function Npc:Unload()
 		self.interactId = nil
 	end
 
-	print("unload", self.id)
+	--print("unload", self.id)
 end
 
 function Npc:UncacheGrid()
@@ -69,7 +69,7 @@ function Npc:UncacheGrid()
 	-- Remove instance from grid.
 	grid[self.id] = nil
 	
-	print(self.id, "uncached in", gridId)
+	--print(self.id, "uncached in", gridId)
 
 	-- Remove empty grid.
 	local next = next
@@ -102,7 +102,7 @@ function Npc:CacheGrid()
 
 	grid[self.id] = true
 
-	print(self.id, "cached in", gridId)
+	--print(self.id, "cached in", gridId)
 
 	-- Check if grid is loaded.
 	if Npcs.cached[gridId] then

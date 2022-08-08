@@ -35,10 +35,10 @@ function Main:Update()
 			((emote.ped and emote.ped ~= ped) or
 			(not isPlaying and settings.Flag and settings.Flag % 2 ~= 0))
 		then
-			print("replay anim", id)
+			--print("replay anim", id)
 			emote:Play()
 		elseif not isPlaying then
-			print("anim over", id)
+			--print("anim over", id)
 			
 			emote:Remove()
 
@@ -56,7 +56,7 @@ function Main:UpdateQueue()
 
 	table.remove(self.queue, 1)
 	
-	print("playing", duration, json.encode(data))
+	--print("playing", duration, json.encode(data))
 
 	Citizen.Wait(0)
 
@@ -131,7 +131,7 @@ function Main:Play(data, force)
 	self.lastId = id
 
 	-- Debug.
-	print("play", json.encode(data), force, id)
+	--print("play", json.encode(data), force, id)
 
 	-- Determine to queue or play the emote.
 	if data.Sequence then
@@ -149,7 +149,7 @@ function Main:Play(data, force)
 
 	-- Stop current animation.
 	if not IsUpperBody(data.Flag) and isPlaying then
-		print("stop by", id, force)
+		--print("stop by", id, force)
 		self:Stop(force)
 	end
 
@@ -158,7 +158,7 @@ end
 Export(Main, "Play")
 
 function Main:Stop(p1, p2)
-	print("cancel emote")
+	--print("cancel emote")
 
 	local cancelEmote = nil
 	local isLocked = false
@@ -179,14 +179,14 @@ function Main:Stop(p1, p2)
 
 	-- Clear normal animations.
 	if cancelEmote then
-		print("clearing anim", p1)
+		--print("clearing anim", p1)
 
 		cancelEmote.stopping = true
 		cancelEmote:Remove()
 
 		self.isForcing = nil
 	else
-		print("clearing anims")
+		--print("clearing anims")
 		
 		for k, emote in pairs(self.playing) do
 			if emote.settings and emote.settings.Locked and not p1 then
@@ -262,7 +262,7 @@ function Main:ClearQueue(forced)
 	for i = #self.queue, 0, -1 do
 		local queued = self.queue[i]
 		if queued and not queued.Locked then
-			print("remove from queue", queued.id)
+			--print("remove from queue", queued.id)
 			table.remove(self.queue, i)
 		end
 	end

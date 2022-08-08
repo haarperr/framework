@@ -327,7 +327,7 @@ AddEventHandler("onEntityDamaged", function(data)
 	-- local damageRatio = (weaponDamage or rawDamage or 0) / Config.MaxHealth
 	local bone = data.pedBone or 11816
 
-	print("entity damage", data.weapon, bone)
+	--print("entity damage", data.weapon, bone)
 	
 	Main:InvokeListener("TakeDamage", data.weapon, bone, data)
 end)

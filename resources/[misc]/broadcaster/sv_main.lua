@@ -58,7 +58,7 @@ end)
 
 AddEventHandler("voip:addToChannel", function(source, id, _type)
 	local station = _type ~= 3 and Main.channels[id]
-	print(station)
+	--print(station)
 	if station then
 		Main.players[source] = station
 	end

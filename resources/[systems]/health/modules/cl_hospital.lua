@@ -132,7 +132,7 @@ function Main:GetTreatmentRatio()
 		end
 	end
 
-	print(ratio)
+	--print(ratio)
 
 	return math.min(math.max(ratio, 0.0), 1.0)
 end

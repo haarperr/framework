@@ -187,7 +187,7 @@ function Emote:Play(settings)
 end
 
 function Emote:Remove()
-	print("removing", self.id)
+	--print("removing", self.id)
 	
 	local ped = PlayerPedId()
 

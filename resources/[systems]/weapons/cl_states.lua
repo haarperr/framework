@@ -54,7 +54,7 @@ function State:Equip(item, slot)
 	local group = Config.Groups[_group] or {}
 	self.group = group
 	
-	print("group", _group, json.encode(group))
+	--print("group", _group, json.encode(group))
 
 	-- Check equip.
 	local isEquipped = self.equipped == weapon
@@ -227,7 +227,7 @@ function State:UpdateAmmo()
 		self.hadAmmo = hasAmmo
 	end
 
-	print("ammo", self.ammo)
+	--print("ammo", self.ammo)
 end
 
 --[[ Exports ]]--
@@ -294,7 +294,7 @@ end)
 
 AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.usable == "Magazine" then
-		print("wow loaded")
+		--print("wow loaded")
 		exports.emotes:Stop()
 	end
 end)

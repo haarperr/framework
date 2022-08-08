@@ -187,7 +187,7 @@ AddEventHandler("shoot", function(didHit, coords, hitCoords, entity)
 	local decoration = Main.entities[entity]
 	if not decoration then return end
 
-	print("shooting decoration")
+	--print("shooting decoration")
 end)
 
 --[[ Events: Net ]]--

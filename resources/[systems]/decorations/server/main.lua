@@ -137,13 +137,13 @@ function Main:Place(source, item, variant, coords, rotation, slotId, instance, d
 	-- Get settings.
 	local settings = Decorations[item or false]
 	if not settings then
-		print("no settings")
+		--print("no settings")
 		return false
 	end
 
 	-- Check input.
 	if type(coords) ~= "vector3" or type(rotation) ~= "vector3" or (variant and type(variant) ~= "number") then
-		print("invalid input type")
+		--print("invalid input type")
 		return false
 	end
 

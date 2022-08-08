@@ -192,7 +192,7 @@ function Injury:SetAnim(anim, revive)
 		anim.Locked = true
 	end
 
-	print("set", json.encode(anim))
+	--print("set", json.encode(anim))
 
 	self.anim = anim
 	self.emote = anim and exports.emotes:Play(anim) or nil

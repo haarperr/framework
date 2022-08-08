@@ -34,7 +34,7 @@ function Main:Init()
 	]])
 
 	-- Cache scenes.
-	print("Pre-caching scene grids...")
+	--print("Pre-caching scene grids...")
 	
 	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `scenes`")
 	local gridCache = {}
@@ -50,8 +50,8 @@ function Main:Init()
 		grid[#grid + 1] = data
 	end
 
-	print("Pre-cache done!")
-	print("Caching scene grids...")
+	--print("Pre-cache done!")
+	--print("Caching scene grids...")
 
 	for id, data in pairs(gridCache) do
 		local grid = self.grids[id] or Grid:Create(id)
@@ -61,7 +61,7 @@ function Main:Init()
 		gridCount = gridCount + 1
 	end
 
-	print(("Done loading %s scenes in %s grids!"):format(sceneCount, gridCount))
+	--print(("Done loading %s scenes in %s grids!"):format(sceneCount, gridCount))
 
 	-- Load players.
 	for i = 1, GetNumPlayerIndices() do
@@ -296,7 +296,7 @@ AddEventHandler(Main.event.."place", function(scene)
 	elseif shouldBan then
 		exports.sv_test:Report(source, ("impossible scene placement: %s"):format(result), true)
 	else
-		print(("[%s] Failed to place scene: %s"):format(source, result))
+		--print(("[%s] Failed to place scene: %s"):format(source, result))
 
 		TriggerClientEvent(Main.event.."failed", source, result)
 	end

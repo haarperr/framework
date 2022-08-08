@@ -115,7 +115,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	if not bone then
 		error(("no bone id (%s)"):format(boneId))
 	elseif bone.lastWeaponDamaged == weapon and GetGameTimer() - (bone.lastDamage or 0) < 50 then
-		print("damage too soon, ignoring")
+		--print("damage too soon, ignoring")
 		return
 	end
 	
@@ -123,7 +123,7 @@ Main:AddListener("TakeDamage", function(weapon, boneId, data)
 	local damageType = GetWeaponDamageType(weapon) or 0
 	local func = funcs[damageType]
 
-	print("damage type", damageType, "bone", bone and bone.Name)
+	--print("damage type", damageType, "bone", bone and bone.Name)
 
 	bone.lastWeaponDamaged = weapon
 

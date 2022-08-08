@@ -9,7 +9,7 @@ function Decoration:EnterStation(source)
 	
 	-- Cache player.
 	self:Set("player", source)
-	print("entered", source)
+	--print("entered", source)
 	
 	return true
 end
@@ -24,7 +24,7 @@ function Decoration:ExitStation(source)
 
 	-- Uncache player.
 	self:Set("player", nil)
-	print("exited", source)
+	--print("exited", source)
 
 	return true
 end

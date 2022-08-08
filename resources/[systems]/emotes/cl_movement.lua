@@ -19,7 +19,7 @@ function Main:UpdateCrouching()
 end
 
 function Main:OverrideWalkstyle(name)
-	print("overriding walkstyle", name)
+	--print("overriding walkstyle", name)
 	self.overrideWalkstyle = name
 	self:SetWalkstyle(name or self.walkstyle)
 end
@@ -43,7 +43,7 @@ function Main:SetWalkstyle(name)
 	local walkstyle = Config.Walkstyles[name]
 	if not walkstyle then return end
 	
-	print(json.encode(walkstyle))
+	--print(json.encode(walkstyle))
 
 	if self.overrideWalkstyle == nil then
 		self.walkstyle = name

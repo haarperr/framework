@@ -56,7 +56,7 @@ function Room:RemovePlayer(source)
 end
 
 function Room:Destroy()
-	print("Destroying instance", self.id)
+	--print("Destroying instance", self.id)
 
 	for source, _ in pairs(self.players) do
 		self:RemovePlayer(source)

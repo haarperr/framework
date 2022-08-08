@@ -5,7 +5,7 @@ Main = {
 
 --[[ Functions: Main ]]--
 function Main:CreateGroup(id, info)
-	print("create group", id, info)
+	--print("create group", id, info)
 	local group = Group:Create(id, info)
 	group.resource = GetInvokingResource()
 
@@ -29,7 +29,7 @@ end
 function Main:JoinGroup(id, source, state, mask)
 	local group = self.groups[id]
 	if group then
-		print("join group", source, id, state, mask)
+		--print("join group", source, id, state, mask)
 		return group:AddPlayer(source, state, mask)
 	end
 	return false
@@ -46,7 +46,7 @@ end
 function Main:LeaveGroup(id, source)
 	local group = self.groups[id]
 	if group then
-		print("leave group", source, id)
+		--print("leave group", source, id)
 		return group:RemovePlayer(source)
 	end
 	return false

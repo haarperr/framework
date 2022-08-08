@@ -159,8 +159,6 @@ exports.chat:RegisterCommand("a:jobs", function(source, args, command, cb)
 		output = output.."'"..id.."'"
 	end
 
-	print(json.encode(Main.jobs))
-
 	TriggerEvent("chat:addMessage", "Jobs: "..output)
 end, {
 	description = "Look at all the jobs.",

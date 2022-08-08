@@ -330,8 +330,6 @@ AddEventHandler("properties:buy", function(id)
 
 	local character = exports.character:GetCharacter(source)
 	if not character then return end
-
-	print(json.encode(character))
 	
 	if not CheckCount(source, character.properties, property.type) then return end
 
@@ -1034,10 +1032,9 @@ exports.chat:RegisterCommand("a:givekey", function(source, args, rawCommand, cb)
 	if not target then
 		target = source
 	end
-	print("A")
+
 	-- Check property.
 	local property = GetProperty(propertyId)
-	print("B")
 	if not property then
 		cb("error", "Property doesn't exist!")
 		return
@@ -1047,7 +1044,6 @@ exports.chat:RegisterCommand("a:givekey", function(source, args, rawCommand, cb)
 	end
 
 	-- Get keys.
-	print(target)
 	local keys = exports.character:Get(target, "keys")
 	if not keys then
 		cb("error", "Invalid target!")

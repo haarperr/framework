@@ -41,7 +41,7 @@ end
 function Spawner:CreatePed(...)
 	local ped = CreatePed(...)
 
-	print(ped)
+	--print(ped)
 	
 	self.peds[ped] = true
 	self.pedCount = self.pedCount + 1
