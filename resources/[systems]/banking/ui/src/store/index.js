@@ -91,59 +91,7 @@ export default createStore({
           },
         ],
         data: {
-          accounts: [
-            {
-              id: 1,
-              account_name: "San Andreas State Police",
-              account_type: 1,
-              account_id: 561341817,
-              account_balance: 3000000,
-              transactions: [
-                {
-                  id: 1,
-                  transaction_type: 1,
-                  transaction_amount: "34520",
-                  transaction_note: "Funds for a new cvpi.",
-                  transaction_date: "2022-07-13 20:31:46",
-                  transaction_person: "Kole Huey",
-                },
-              ],
-            },
-            {
-              id: 2,
-              account_name: "San Andreas State Police",
-              account_type: 1,
-              account_id: 561341817,
-              account_balance: 3000000,
-              transactions: [
-                {
-                  id: 1,
-                  transaction_type: 1,
-                  transaction_amount: "34520",
-                  transaction_note: "Funds for a new cvpi.",
-                  transaction_date: "2022-07-13 20:31:46",
-                  transaction_person: "Kole Huey",
-                },
-              ],
-            },
-            {
-              id: 3,
-              account_name: "San Andreas State Police",
-              account_type: 1,
-              account_id: 561341817,
-              account_balance: 3000000,
-              transactions: [
-                {
-                  id: 1,
-                  transaction_type: 1,
-                  transaction_amount: "34520",
-                  transaction_note: "Funds for a new cvpi.",
-                  transaction_date: "2022-07-13 20:31:46",
-                  transaction_person: "Kole Huey",
-                },
-              ],
-            },
-          ],
+          accounts: [],
         },
     }
   },
