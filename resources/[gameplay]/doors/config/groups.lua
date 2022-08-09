@@ -81,6 +81,11 @@ Config.Groups = {
 			{ coords = vector3(434.7444, -983.0781, 30.8153), ignore = true },
 			{ coords = vector3(434.7444, -980.7556, 30.8153), ignore = true },
 		},
+		factions = {
+			["lspd"] = "pd",
+			["bcso"] = "pd",
+			["sasp"] = "pd",
+		}
 	},
 	{
 		name = "Paleto PD",
@@ -98,5 +103,10 @@ Config.Groups = {
 			{ coords = vector3(837.276611328125, -1305.7039794921875, 23.3207893371582), ignore = true },
 			{ coords = vector3(834.4094848632812, -1305.7039794921875, 23.3207893371582), ignore = true },
 		},
+		factions = {
+			["lspd"] = "pd",
+			["bcso"] = "pd",
+			["sasp"] = "pd",
+		}
 	},
 }

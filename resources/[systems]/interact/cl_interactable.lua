@@ -10,13 +10,14 @@ end
 function Interactable:UpdateConditions()
 	local isVisible, canUse = true, true
 	local extraText = ""
+	print("factions1")
 
 	-- Faction check.
 	if self.factions then
 		local hasFaction = false
 		
-		for _, faction in ipairs(self.factions) do
-			if exports.character:HasFaction(faction) then
+		for group, faction in pairs(self.factions) do
+			if exports.factions:Has(faction, group) then
 				hasFaction = true
 				break
 			end

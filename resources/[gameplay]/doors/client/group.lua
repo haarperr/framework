@@ -24,7 +24,7 @@ function Group:Activate()
 		self.debugText = exports.interact:AddText({
 			id = "doorGroup-"..self.id,
 			coords = self.coords,
-			text = "Group: "..(self.name or self).."<br>Radius: "..(self.radius or 0).."<br>Factions: "..json.encode(self.factions).."<br>Locked: "..tostring(self.locked),
+			text = "ID: "..self.id.."<br>Group: "..(self.name or self).."<br>Radius: "..(self.radius or 0).."<br>Factions: "..json.encode(self.factions).."<br>Locked: "..tostring(self.locked),
 		})
 	end
 end
@@ -44,6 +44,7 @@ function Group:Update()
 	-- Register doors from cache.
 	for entity, info in pairs(Main.doors) do
 		if info and not self.doors[entity] then
+
 			if self:ShouldIgnore(info.coords) then
 				Main.doors[entity] = false
 			elseif #(info.coords - self.coords) < self.radius then
@@ -119,4 +120,13 @@ function Group:ShouldIgnore(coords)
 		end
 	end
 	return false
+end
+
+--[[ Exports ]]--
+for k, v in pairs(Group) do
+	if type(v) == "function" then
+		exports(k, function(...)
+			return Group[k](Group, ...)
+		end)
+	end
 end
