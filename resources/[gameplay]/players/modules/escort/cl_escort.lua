@@ -27,6 +27,20 @@ end, function(player, playerPed, serverId)
 		return
 	end
 
+	if state.restrained then 
+	DisableControlAction(0, 73, true)
+	DisableControlAction(1, 105, true)
+	DisableControlAction(2, 120, true)
+	DisableControlAction(3, 154, true)
+	DisableControlAction(4, 186, true)
+	DisableControlAction(5, 252, true)
+	DisableControlAction(6, 323, true)
+	DisableControlAction(7, 337, true)
+	DisableControlAction(8, 345, true)
+	DisableControlAction(6, 354, true)
+	DisableControlAction(6, 357, true)
+	end
+
 	-- Begin escort.
 	TriggerServerEvent("players:escort", serverId)
 end)
