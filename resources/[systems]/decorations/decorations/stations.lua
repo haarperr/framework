@@ -734,101 +734,11 @@ Register("Grill", {
 			"prop_bbq_5",
 })
 
-Register("Sugar and Spice Grill", {
+Register("Sugar and Spice Station", {
 	Placement = "Floor",
 	NoCenter = true,
 	Station = {
-		Type = "Sugar and Spice Grill",
-		Auto = true,
-		Magnet = {
-			Offset = vector3(0, -1, 0),
-			Heading = 0.0,
-		},
-		Anim = {
-			In = {
-				Locked = true,
-				Sequence = {
-					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
-					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
-				},
-			},
-			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
-		},
-		Camera = {
-			Offset = vector3(-1.0, -1.0, 2.0),
-			Target = vector3(0.0, 0.0, 1.0),
-			Fov = 60.0,
-		},
-	},
-	Model = "prop_bbq_1",
-			"prop_bbq_2",
-			"prop_bbq_3",
-			"prop_bbq_5",
-})
-
-Register("Sugar and Spice Cutting Board", {
-	Placement = "Floor",
-	NoCenter = true,
-	Station = {
-		Type = "Sugar and Spice Cutting Board",
-		Auto = true,
-		Magnet = {
-			Offset = vector3(0, -1, 0),
-			Heading = 0.0,
-		},
-		Anim = {
-			In = {
-				Locked = true,
-				Sequence = {
-					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
-					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
-				},
-			},
-			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
-		},
-		Camera = {
-			Offset = vector3(-1.0, -1.0, 2.0),
-			Target = vector3(0.0, 0.0, 1.0),
-			Fov = 60.0,
-		},
-	},
-	Model = "v_res_fa_chopbrd",
-})
-
-Register("Sugar and Spice Stove", {
-	Placement = "Floor",
-	NoCenter = true,
-	Station = {
-		Type = "Sugar and Spice Stove",
-		Auto = true,
-		Magnet = {
-			Offset = vector3(0, -1, 0),
-			Heading = 0.0,
-		},
-		Anim = {
-			In = {
-				Locked = true,
-				Sequence = {
-					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
-					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
-				},
-			},
-			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
-		},
-		Camera = {
-			Offset = vector3(-1.0, -1.0, 2.0),
-			Target = vector3(0.0, 0.0, 1.0),
-			Fov = 60.0,
-		},
-	},
-	Model = "prop_cooker_03",
-})
-
-Register("Sugar and Spice Processor", {
-	Placement = "Floor",
-	NoCenter = true,
-	Station = {
-		Type = "Sugar and Spice Processor",
+		Type = "Sugar and Spice Station",
 		Auto = true,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
