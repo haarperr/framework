@@ -194,7 +194,7 @@ Config = {
 						},
 					},
 					Hack = {
-						Length = {7},
+						Length = {7, 6, 5, 4, 3, 2, 1},
 						Duration = 600,
 					},
 				},
