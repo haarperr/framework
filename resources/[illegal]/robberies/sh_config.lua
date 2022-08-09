@@ -130,7 +130,7 @@ Config = {
 				"Safe Cracking Tool",
 			},
 			Output = {
-				{ Name = "Marked Bills", Amount = {628, 813}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {528, 913}, Chance = 1.0 },
 				{ Name = "Red Keycard", Amount = 1, Chance = 0.20 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
