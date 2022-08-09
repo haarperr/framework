@@ -53,10 +53,10 @@ Citizen.CreateThread(function()
 					if IsControlJustPressed(1, 29) then
 						Seatbelt.Active = not Seatbelt.Active
 						if Seatbelt.Active then
-							exports.mythic_notify:SendAlert("success", "Seatbelt Enabled", 4000)
+							TriggerEvent("chat:notify", "Seatbelt On!", "success")
 							TriggerEvent("sound:play", "seatbelt-buckle", 0.1)
 						else
-							exports.mythic_notify:SendAlert("error", "Seatbelt Removed", 4000)
+							TriggerEvent("chat:notify", "Seatbelt Off!", "error")
 							TriggerEvent("sound:play", "seatbelt-unbuckle", 0.1)
 						end
 						exports.hud:SetSeatbeltHUD(Seatbelt.Active)
@@ -78,10 +78,10 @@ exports("SetSeatbelt", function(status)
 	Seatbelt.Active = status
 	exports.hud:SetSeatbeltHUD(Seatbelt.Active)
 	if Seatbelt.Active then
-		exports.mythic_notify:SendAlert("success", "Seatbelt enabled.", 4000)
+		TriggerEvent("chat:notify", "Seatbelt On!", "error")
 		TriggerEvent("sound:play", "seatbelt-buckle", 0.1)
 	else
-		exports.mythic_notify:SendAlert("error", "Seatbelt removed.", 4000)
+		TriggerEvent("chat:notify", "Seatbelt off!", "error")
 		TriggerEvent("sound:play", "seatbelt-unbuckle", 0.1)
 	end
 end)

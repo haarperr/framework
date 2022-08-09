@@ -116,7 +116,7 @@ RegisterNetEvent("hunting:harvested")
 AddEventHandler("hunting:harvested", function(netId, damagedMeat)
 	local ped = NetToPed(netId)
 	if damagedMeat then
-		exports.mythic_notify:SendAlert("error", "The meat was damaged..", 5000)
+		TriggerEvent("chat:notify", "The meat was damaged..", "error")
 	end
 
 	if DoesEntityExist(ped) and exports.oldutils:RequestAccess(ped) then

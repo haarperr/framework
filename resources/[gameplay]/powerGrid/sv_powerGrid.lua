@@ -134,7 +134,7 @@ AddEventHandler(EventPrefix.."plant", function(id)
 
 	-- Check if has been hit.
 	if Main.hasBeenHit then
-		TriggerClientEvent("notify:sendAlert", source, "error", "Security is too high...", 7000)
+		TriggerClientEvent("chat:notify", source, "Security is too high...", "error")
 		return
 	end
 
@@ -166,7 +166,7 @@ AddEventHandler(EventPrefix.."detonate", function(id)
 
 	-- Check if has been hit.
 	if Main.hasBeenHit then
-		TriggerClientEvent("notify:sendAlert", source, "error", "Security is too high...", 7000)
+		TriggerClientEvent("chat:notify", source, "Security is too high...", "error")
 		return
 	end
 
@@ -185,7 +185,7 @@ AddEventHandler(EventPrefix.."detonate", function(id)
 			noun = "bombs",
 		})
 	else
-		TriggerClientEvent("notify:sendAlert", source, "error", "Nothing...", 7000)
+		TriggerClientEvent("chat:notify", source, "Nothing...", "error")
 	end
 end)
 

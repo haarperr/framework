@@ -196,7 +196,7 @@ end)
 RegisterNetEvent(EventPrefix.."plant")
 AddEventHandler(EventPrefix.."plant", function(id, isPlanted)
 	if isPlanted then
-		exports.mythic_notify:SendAlert("error", "Already occupied!", 7000)
+		TriggerEvent("chat:notify", "Already occupied!", "error")
 	else
 		Main:BeginPlacing(id)
 	end
@@ -229,7 +229,7 @@ AddEventHandler("inventory:use_Detonater", function(item, slot)
 	-- Check distance.
 	local coords = GetEntityCoords(PlayerPedId())
 	if #(coords - Config.Center) > Config.Bombs.MaxDistance then
-		exports.mythic_notify:SendAlert("error", "No signal!", 7000)
+		TriggerEvent("chat:notify", "No signal!", "error")
 		return
 	end
 

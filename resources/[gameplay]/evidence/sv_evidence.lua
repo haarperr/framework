@@ -233,7 +233,7 @@ AddEventHandler("evidence:pickup", function(coords, itype)
 
 	exports.inventory:GiveItem(source, "Sealed Evidence Bag", 1, extra)
 
-	TriggerClientEvent("notify:sendAlert", source, "inform", "Sealed a bag of evidence!", 7000)
+	TriggerClientEvent("chat:notify", source, "Sealed a bag of evidence!", "inform")
 	-- exports.inventory:SetSlot(source, slotId, slot, true)
 end)
 

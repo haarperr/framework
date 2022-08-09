@@ -117,7 +117,7 @@ function AddBank(source, account, amount, notify)
 		else
 			notify = "$"..tostring(exports.misc:FormatNumber(math.abs(amount))).." has been deducted from your account!"
 		end
-		TriggerClientEvent("notify:sendAlert", source, "inform", notify, 7000)
+        TriggerClientEvent("chat:notify", source, notify, "inform")
 	end
 end
 exports("AddBank", AddBank)
@@ -137,7 +137,7 @@ function Transfer(source, account, amount, notify)
 	-- 	else
 	-- 		notify = "$"..tostring(exports.misc:FormatNumber(math.abs(amount))).." has been deducted from your account!"
 	-- 	end
-	-- 	TriggerClientEvent("notify:sendAlert", source, "inform", notify, 7000)
+    --  TriggerClientEvent("chat:notify", source, notify, "inform")
 	-- end
 end
 exports("Transfer", Transfer)

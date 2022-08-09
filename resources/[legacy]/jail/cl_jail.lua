@@ -27,7 +27,7 @@ Citizen.CreateThread(function()
 					TriggerServerEvent("jail:leave")
 					TriggerEvent("jail:leave", true)
 				elseif shouldBreakout then
-					exports.mythic_notify:SendAlert("success", Config.Breakout.Success, 10000)
+					TriggerEvent("chat:notify", Config.Breakout.Success, "success")
 					TriggerServerEvent("jail:leave", true)
 					TriggerEvent("jail:leave", true, true)
 				elseif not _Cache.BreakOut then
@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
 					_Cache.Reported = true
 				end
 			elseif shouldBreakout then
-				exports.mythic_notify:SendAlert("error", Config.Breakout.Failed, 10000)
+				TriggerEvent("chat:notify", Config.Breakout.Failed, "error")
 				_Cache.BreakOut = false
 			else
 				_Cache.CanBreakOut = true
@@ -122,7 +122,7 @@ RegisterNetEvent("jail:breakout")
 AddEventHandler("jail:breakout", function(presence)
 	local success = presence >= Config.Breakout.MinPresence
 	if not success then
-		exports.mythic_notify:SendAlert("inform", Config.Breakout.Cannot:format(presence, Config.Breakout.MinPresence), 20000)
+		TriggerEvent("chat:notify", Config.Breakout.Cannot:format(presence, Config.Breakout.MinPresence), "inform")
 		Spawn()
 		
 		Citizen.Wait(1000)
@@ -134,7 +134,7 @@ AddEventHandler("jail:breakout", function(presence)
 		return
 	end
 
-	exports.mythic_notify:SendAlert("inform", Config.Breakout.Message:format(Config.Breakout.Time), 20000)
+	TriggerEvent("chat:notify", Config.Breakout.Message:format(Config.Breakout.Time), "inform")
 end)
 
 RegisterNetEvent("jail:jailed")
@@ -154,7 +154,7 @@ AddEventHandler("jail:jailed", function(info, timeServed, skipSpawn)
 
 	if not skipSpawn then
 		Spawn()
-		exports.mythic_notify:SendAlert("inform", Config.Spawn.Message:format(math.ceil((_Cache.EndTime - _Cache.StartTime) / 60000)), 10000)
+		TriggerEvent("chat:notify", Config.Spawn.Message:format(math.ceil((_Cache.EndTime - _Cache.StartTime) / 60000)), "inform")
 	end
 end)
 
@@ -169,7 +169,7 @@ AddEventHandler("jail:leave", function(keepPosition, skipAlert)
 	end
 
 	if not skipAlert then
-		exports.mythic_notify:SendAlert("inform", Config.Exit.Message, 10000)
+		TriggerEvent("chat:notify", Config.Exit.Message, "inform")
 	end
 
 	_Cache.Jailed = nil
@@ -193,7 +193,7 @@ AddEventHandler("jail:clientStart", function()
 			local timeLeft = GetTimeLeft()
 
 			if timeLeft > 0 then
-				exports.mythic_notify:SendAlert("inform", Config.TimeLeft.Message:format(timeLeft), duration)
+				TriggerEvent("chat:notify", Config.TimeLeft.Message:format(timeLeft), duration, "inform")
 			else
 				TriggerEvent("jail:leave")
 				TriggerServerEvent("jail:leave")
