@@ -76,6 +76,7 @@ AddEventHandler("character:selected", function(character)
 		})
 	else
 		Editor:Toggle(true)
+		TriggerClientEvent("health:revive", true)
 	end
 end)
 

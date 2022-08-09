@@ -118,11 +118,22 @@ function Controller:old_ConvertData(source, target)
 		faceFeatures[k] = v / 11.0 * 2.0 - 1.0
 	end
 
+	for a,b in ipairs(source[7]) do
+		print(a)
+		print(json.encode(b))
+		print(b[1])
+	end
+	target.appearance.components = {1,source[8][2][1]+1,source[8][8][1]+1,source[8][11][1]+1,source[8][6][1]+1,source[8][10][1]+1,source[8][12][1]+2,source[8][9][1]+2,source[8][4][1]+2,source[8][5][1]+2,source[8][7][1]+2,1,source[8][2][2]+1,source[8][8][2]+1,source[8][11][2]+1,source[8][6][2]+1,source[8][10][2]+1,source[8][12][2]+1,source[8][9][2]+1,source[8][4][2]+1,source[8][5][2]+1,source[8][7][2]+1}
+	print(json.encode(source[7]))
+	target.appearance.props = {source[10][1][1]+1,source[10][2][1]+1,source[10][3][1]+1,source[10][7][1]+1,source[10][8][1]+1,source[10][1][2]+1,source[10][2][2]+1,source[10][3][2]+1,source[10][7][2]+1,source[10][8][2]+1}
+	print(json.encode(target.appearance.components))
+	target.appearance.hair = {source[8][3][1],source[8][3][2],source[8][3][3]}
+
 	target.features.blendData = blendData
 	target.features.eyeColor = source[9] or 1
 	target.features.faceFeatures = faceFeatures
 	target.features.overlays = {}
-	target.features.hairOverlays = {}
+	target.features.hairOverlays = {source[7][2][1]+2,1,1,source[7][2][2],1,1,source[7][3][1],1,1}
 
 	return self:ConvertData(target)
 end
