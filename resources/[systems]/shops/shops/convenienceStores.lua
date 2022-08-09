@@ -1,5 +1,5 @@
 Config.Filters.Convenience = {
-	Item = {
+	item = {
 		-- Food.
 		["Choco Rings"] = true,
 		["Corn Dog"] = true,
@@ -149,6 +149,23 @@ RegisterShop("PALETO_247", {
 	},
 })
 
+RegisterShop("PALETO2_247", {
+	Name = "Paleto 2 24/7",
+	Clerks = {
+		{
+			coords = vector4(161.4018, 6641.906, 31.70326, 222.9873),
+		},
+	},
+	Storage = {
+		Coords = vector3(168.703, 6645.234, 31.6928),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(161.4018, 6641.906, 31.70326) },
+	},
+})
+
 RegisterShop("SANDY_247", {
 	Name = "Sandy 24/7",
 	Clerks = {
@@ -163,5 +180,39 @@ RegisterShop("SANDY_247", {
 	},
 	Containers = {
 		{ text = "Counter", radius = 0.2, coords = vector3(1960.369, 3743.369, 34.07462) },
+	},
+})
+
+RegisterShop("GOCEAN_247", {
+	Name = "Great Ocean 24/7",
+	Clerks = {
+		{
+			coords = vector4(-3039.928, 584.6912, 7.904603, 13.52404),
+		},
+	},
+	Storage = {
+		Coords = vector3(-3048.018, 585.5446, 7.903237),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(-3040.298, 585.3093, 8.089398) },
+	},
+})
+
+RegisterShop("GROVE_247", {
+	Name = "Grove 24/7",
+	Clerks = {
+		{
+			coords = vector4(-47.32117, -1758.597, 29.421, 44.8899),
+		},
+	},
+	Storage = {
+		Coords = vector3(-42.10491, -1748.598, 29.42175),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(-47.92688, -1758.33, 29.5949) },
 	},
 })
