@@ -15,6 +15,7 @@ Config.Filters.Armory = {
         ["9mm Parabellum Box"] = true,
         ["9mm Parabellum"] = true,
         ["9mm Magazine"] = true,
+		["Evidence Bag"] = true,
 	},
 }
 
