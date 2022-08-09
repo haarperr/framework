@@ -1248,7 +1248,7 @@ Config = {
 							end
 						end,
 						Output = {
-							{ Name = "Marked Bills", Amount = {6969, 11111}, Chance = 0.6 },
+							{ Name = "Bills", Amount = {3969, 8111}, Chance = 0.6 },
 							{ Name = "Plastic Explosive", Amount = {6, 8}, Chance = 0.6 },
 							{ Name = "Detonater", Amount = 1, Chance = 0.4 },
 							{ Name = "Ketamine", Amount = {2, 4}, Chance = 0.02 },
