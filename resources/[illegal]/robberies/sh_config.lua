@@ -1,3 +1,5 @@
+DoorGroups = {}
+
 Config = {
 	EnableDebug = false,
 	ResetTime = 30,
@@ -192,7 +194,7 @@ Config = {
 						},
 					},
 					Hack = {
-						Length = {7, 6, 5, 4, 3, 2, 1},
+						Length = {7},
 						Duration = 600,
 					},
 				},
@@ -1108,14 +1110,14 @@ Config = {
 							if site.electricalBoxes < 4 then return end
 
 							-- Find door group.
-							local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
+							--local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
 
 			 				-- Unlock doors.
 							for _, _coords in ipairs({
 								vector3(3620.8427734375, 3751.527099609375, 27.69008636474609),
 								vector3(3627.713134765625, 3746.71630859375, 27.69008636474609)
 							}) do
-								exports.doors:SetState(group, _coords, false)
+								TriggerEvent("doors:toggle", DoorGroups[site.name], _coords, false)
 							end
 						end,
 					},
@@ -1127,7 +1129,7 @@ Config = {
 						},
 						OnFinish = function(robbable, site, robbableSettings, siteSettings, coords)
 							-- Find door group.
-							local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
+							--local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
 
 							-- Unlock doors.
 							for _, _coords in ipairs({
@@ -1140,7 +1142,7 @@ Config = {
 								vector3(3568.70947265625, 3693.308837890625, 28.27154922485351),
 								vector3(3569.1611328125, 3695.870361328125, 28.27154922485351),
 							}) do
-								exports.doors:SetState(group, _coords, false)
+								TriggerEvent("doors:toggle", DoorGroups[site.name], _coords, false)
 							end
 						end,
 					},
@@ -1223,10 +1225,10 @@ Config = {
 							if site.computers < 1 then return end
 
 							-- Find door group.
-							local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
+							--local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
 
 							-- Unlock doors.
-							exports.doors:SetState(group, vector3(3557.55322265625, 3669.194091796875, 27.12158203125), false)
+							TriggerEvent("doors:toggle", DoorGroups[site.name], vector3(3557.55322265625, 3669.194091796875, 27.12158203125), false)
 						end,
 					},
 					{
@@ -1324,20 +1326,27 @@ for robbableId, robbable in pairs(Config.Robbables) do
 	end
 end
 
---[[for k, site in ipairs(Config.Robberies.Sites) do
+for k, site in ipairs(Config.Robberies.Sites) do
 	if site.RegisterDoors then
 		local overrides = nil
 		if type(site.RegisterDoors) == "table" then
 			overrides = site.RegisterDoors
 		end
-		exports.doors:RegisterGroup({
+		DoorGroups[site.Name] = "robbery-"..tostring(k)
+		exports.doors:Create({
 			id = "robbery-"..tostring(k),
 			name = site.Name,
 			coords = site.Center,
 			radius = site.Radius or 15.0,
 			overrides = overrides,
 			locked = true,
-			factions = { "lspd", "dps", "paramedic", "sasp", "bcso" },
+			factions = {
+				["lspd"] = "pd",
+				["bcso"] = "pd",
+				["sasp"] = "pd",
+				["firefighter"] = "ems",
+				["paramedic"] = "ems",
+			},
 		})
 	end
-end]]
+end
