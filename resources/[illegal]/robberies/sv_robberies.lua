@@ -62,8 +62,8 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 	if not site.beingRobbed then
 		-- Cop check.
 		if typeSettings.MinPresence and not Config.EnableDebug then
-			--local presence = exports.jobs:CountActiveEmergency("Robberies")
-			local presence = 10
+			local presence = exports.jobs:CountActiveDuty("Robberies")
+			print(presence)
 			if presence < typeSettings.MinPresence then
 				return false, Config.Messages.InsufficientPresence:format(presence, typeSettings.MinPresence)
 			end
@@ -232,9 +232,9 @@ AddEventHandler("robberies:finish", function(robbableType, robbableId, coords)
 
 	-- Unlock doors.
 	if robbable.Unlocks then
-		local group = exports.doors:GetGroupFromCoords(siteSettings.Center)
 		for _, door in ipairs(robbable.Unlocks) do
-			exports.doors:SetState(group, door, false)
+			TriggerEvent("doors:subscribe", DoorGroups[siteSettings.Name])
+			TriggerEvent("doors:toggle", DoorGroups[siteSettings.Name], door, false)
 		end
 	end
 

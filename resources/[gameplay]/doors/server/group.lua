@@ -63,3 +63,12 @@ function Group:FindDoor(coords, tolerance)
 		end
 	end
 end
+
+--[[ Exports ]]--
+for k, v in pairs(Group) do
+	if type(v) == "function" then
+		exports(k, function(...)
+			return Group[k](Group, ...)
+		end)
+	end
+end

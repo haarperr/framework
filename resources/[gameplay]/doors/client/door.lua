@@ -83,6 +83,8 @@ function Door:RegisterSystem()
 end
 
 function Door:RegisterInteract()
+	local group = self.group.id
+
 	-- Register interacts.
 	local embedded = {
 		{
@@ -92,7 +94,7 @@ function Door:RegisterInteract()
 			group = self.group.id,
 			entity = self.entity,
 			distance = self.settings.Distance,
-			-- factions = self.settings.Factions or group.factions,
+			factions = self.settings.Factions or self.group.factions,
 		},
 	}
 

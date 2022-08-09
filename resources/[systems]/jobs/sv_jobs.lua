@@ -89,7 +89,7 @@ function Main:GetCurrentJob(id)
 	return self.jobs[self.players[id]]
 end
 
-function Main:CountActiveEmergency(attribute)
+function Main:CountActiveDuty(attribute)
     local count = 0
     for id, job in pairs(self.jobs) do
         if job.Emergency and (not attribute or job.Emergency[attribute]) then
@@ -148,18 +148,6 @@ function Job:Hire(source, rank)
 	end
 
 	return exports.factions:JoinFaction(source, self.Faction, self.Group or false, type(rank) == "string" and GetHashKey(rank) or tonumber(rank) or 0)
-end
-
-
-function Main:CountActiveDuty(attribute)
-    local count = 0
-    for id, job in pairs(self.jobs) do
-        if job.Emergency and (not attribute or job.Emergency[attribute]) then
-            count = count + job.count
-        end
-    end
-
-    return count
 end
 
 function Job:Fire(source)
