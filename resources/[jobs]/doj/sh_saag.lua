@@ -1,14 +1,14 @@
-exports.jobs:Register("lsda", {
-	Title = "State",
-	Name = "Los Santos District Attorney",
-	Faction = "state",
-	Group = "lsda",
+exports.jobs:Register("saag", {
+	Title = "Federal",
+	Name = "San Andreas Attorney General",
+	Faction = "federal",
+	Group = "saag",
 	Clocks = {
 		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
 	},
 	Tracker = {
-		Group = "state",
-		State = "lsda",
+		Group = "emergency",
+		State = "federal",
 	},
 	Ranks = {
 		{ Name = "Paralegal" },

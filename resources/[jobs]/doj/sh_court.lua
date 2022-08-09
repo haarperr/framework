@@ -1,24 +1,21 @@
 exports.jobs:Register("doj", {
 	Title = "Federal",
-	Name = "Department of Justice",
+	Name = "Courthouse",
 	Faction = "federal",
 	Group = "doj",
 	Clocks = {
 		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
 	},
-	Tracker = {
-		Group = "emergency",
-		State = "federal",
-	},
 	Ranks = {
-		{ Name = "Judge" },
-		{ Name = "Court Manager" },
+		{ Name = "Secretary" },
+		{ Name = "Head Secretary" },
+		{ Name = "Clerk" },
 		{
-			Name = "Justice",
+			Name = "Judge",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
-			Name = "Chief Justice",
+			Name = "Court Manager",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},

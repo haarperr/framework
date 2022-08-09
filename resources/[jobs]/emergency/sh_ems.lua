@@ -9,7 +9,7 @@ exports.jobs:Register("paramedic", {
 	Group = "paramedic",
 	Flags = EMS_FLAGS,
 	Clocks = {
-		{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
+		--{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
 	},
 	Tracker = {
 		Group = "emergency",
@@ -58,7 +58,7 @@ exports.jobs:Register("firefighter", {
 	Group = "firefighter",
 	Flags = EMS_FLAGS,
 	Clocks = {
-		{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
+		--{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
 	},
 	Tracker = {
 		Group = "emergency",
@@ -95,6 +95,34 @@ exports.jobs:Register("firefighter", {
 		},
 		{
 			Name = "Chief",
+			Flags = Jobs.Permissions.ALL()
+		},
+	},
+})
+
+exports.jobs:Register("lsms", {
+	Title = "EMS",
+	Name = "Los Santos Medical Services",
+	Faction = "ems",
+	Group = "lsms",
+	Flags = EMS_FLAGS,
+	Clocks = {
+		--{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
+	},
+	Tracker = {
+		Group = "emergency",
+		State = "ems",
+	},
+	Ranks = {
+		{ Name = "Nurse", },
+		{ Name = "Intern", },
+		{ Name = "Resident", },
+		{
+			Name = "Attending Physician",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Dean of Medicine",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
