@@ -14,6 +14,10 @@ Config.Filters.Armory = {
         ["Pistol Mk II"] = true,
         ["9mm Parabellum Box"] = true,
         ["9mm Magazine"] = true,
+		["Bandage"] = true,
+		["Nightstick"] = true,
+		["Tweezers"] = true,
+		["Handcuff Keys"] = true,
 	},
 }
 
@@ -30,16 +34,15 @@ RegisterShop("MRPD_ARMORY", {
 		Filters = Config.Filters.Armory,
 	},
 })
-
-RegisterShop("SADPR_ARMORY", {
-	Name = "Park Ranger Armory",
+RegisterShop("PARKR_ARMORY1", {
+	Name = "Park Rangers Armory",
 	Clerks = {
 		{
 			coords = vector4(378.8461, 797.6976, 190.4943, 181.9152),
 		},
 	},
 	Storage = {
-		Coords = vector3(383.9746, 795.9355, 187.4616),
+		Coords = vector3(379.5146, 799.4862, 190.4852),
 		Radius = 2.0,
 		Filters = Config.Filters.Armory,
 	},
