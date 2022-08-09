@@ -94,6 +94,44 @@ Config.Groups = {
 		},
 	},
 	{
+		name = "Mount Zonah",
+		coords = vector3(-473.7684, -321.2826, 58.3812),
+		radius = 65,
+		locked = false,
+		overrides = {
+			{ coords = vector3(-440.6439, -321.7954, 35.06683), locked = true }, -- Reception
+			{ coords = vector3(-442.589, -317.0564, 35.06619), locked = true }, -- Cloakroom
+			{ coords = vector3(-451.4746, -309.0658, 35.06632), locked = true }, -- Closet/Store
+			{ coords = vector3(-453.0472, -291.5856, 35.06544), locked = true }, -- MRI
+			{ coords = vector3(-449.6572, -299.8383, 35.07071), locked = true }, -- Diagnostics
+			{ coords = vector3(-447.3418, -305.4991, 35.07071), locked = true }, -- Xray
+			{ coords = vector3(-499.2977, -325.1406, 42.46983), locked = true }, -- Office Entrance
+			{ coords = vector3(-501.8895, -325.3537, 42.46983), locked = true }, -- Office Entrance
+			{ coords = vector3(-496.5722, -338.9931, 69.67925), locked = true }, -- Upstairs Reception
+			{ coords = vector3(-500.3457, -336.4971, 69.67925), locked = true }, -- Upstairs Office
+			{ coords = vector3(-500.4143, -324.591, 69.67925), locked = true }, -- Upstairs Office
+			{ coords = vector3(-501.9976, -312.5578, 69.67925), locked = true }, -- Upstairs Office
+			{ coords = vector3(-502.8185, -302.2071, 69.67925), locked = true }, -- Upstairs Office
+			{ coords = vector3(-445.4108, -320.6565, 69.67925), locked = true }, -- Upstairs Ward
+			{ coords = vector3(-443.0081, -319.6809, 69.67925), locked = true }, -- Upstairs Ward
+		},
+		factions = {
+			["lspd"] = "pd",
+			["bcso"] = "pd",
+			["sasp"] = "pd",
+			["doc"] = "pd",
+			["doj"] = "federal",
+			["lsda"] = "federal",
+			["opr"] = "federal",
+			["saag"] = "federal",
+			["sams"] = "federal",
+			["sapr"] = "federal",
+			["paramedic"] = "ems",
+			["firefighter"] = "ems",
+			["lsms"] = "ems",
+		},
+	},
+	{
 		name = "Paleto Medical",
 		coords = vector3(-254.7769, 6320.646, 32.43077),
 		radius = 25,
