@@ -99,10 +99,10 @@ function Process(action, start, tick, finish)
 				end
 			end)
 		else
-			exports.mythic_notify:SendAlert("error", "You're already doing something!", 3000)
+			TriggerEvent("chat:notify", "You're already doing something!", "error")
 		end
 	else
-		exports.mythic_notify:SendAlert("error", "You can't do that while you're down!", 3000)
+		TriggerEvent("chat:notify", "You can't do that while you're down!", "error")
 	end
 end
 

@@ -1080,8 +1080,8 @@ Config = {
 			{
 				Name = "Humane Labs",
 				Type = "Humane",
-				Center = vector3(3531.77294921875, 3687.8955078125, 29.36885452270508),
-				Radius = 500.0,
+				Center = vector3(3535.685, 3706.721, 36.64226),
+				Radius = 120.0,
 				RegisterDoors = {
 					{ coords = vector3(3594.728759765625, 3704.839599609375, 29.83962440490722), ignore = true },
 					{ coords = vector3(3555.947509765625, 3685.547607421875, 27.12180519104004), ignore = true },

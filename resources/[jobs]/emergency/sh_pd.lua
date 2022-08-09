@@ -10,7 +10,7 @@ PD_FLAGS = {
 
 exports.jobs:Register("lspd", {
 	Title = "Police",
-	Name = "LSPD",
+	Name = "Los Santos Police Department",
 	Faction = "pd",
 	Group = "lspd",
 	Pay = 80,
@@ -94,7 +94,7 @@ exports.jobs:Register("lspd", {
 
 exports.jobs:Register("bcso", {
 	Title = "Police",
-	Name = "BCSO",
+	Name = "Blaine County Sheriff's Office",
 	Faction = "pd",
 	Group = "bcso",
 	Flags = PD_FLAGS,
@@ -163,7 +163,7 @@ exports.jobs:Register("bcso", {
 
 exports.jobs:Register("sasp", {
 	Title = "Police",
-	Name = "SASP",
+	Name = "San Andreas State Police",
 	Faction = "pd",
 	Group = "sasp",
 	Flags = PD_FLAGS,
@@ -228,5 +228,69 @@ exports.jobs:Register("sasp", {
 		DrugBonus = true,
 		JailBreak = true,
 		Robberies = true,
+	},
+})
+
+exports.jobs:Register("doc", {
+	Title = "Police",
+	Name = "Department of Corrections",
+	Faction = "pd",
+	Group = "doc",
+	Flags = PD_FLAGS,
+	Clocks = {
+		{ Coords = vector3(1848.291, 3686.824, 34.27011), Radius = 2.0 },
+	},
+	Tracker = {
+		Group = "emergency",
+		State = "pd",
+	},
+	Ranks ={
+		{ Name = "Probationary Corrections Officer" },
+		{ Name = "Corrections Officer I" },
+		{ Name = "Corrections Officer II" },
+		{ Name = "Corporal" },
+		{
+			Name = "Sergeant",
+			Flags = (
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Lieutenant",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
+		{
+			Name = "Captain",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
+			)
+		},
+		{
+			Name = "Deputy Warden",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Warden",
+			Flags = Jobs.Permissions.ALL()
+		},
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanJail = true,
+		CanImpound = true,
+		CanFine = true,
+		CheckIn = 2,
+		JailBreak = true,
 	},
 })

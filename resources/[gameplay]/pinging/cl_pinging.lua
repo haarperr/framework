@@ -57,7 +57,7 @@ function Main:TryPing()
 	if self:CanPing() then
 		return true
 	else
-		exports.mythic_notify:SendAlert("error", "Can't do that right now...", 7000)
+		TriggerEvent("chat:notify", "Can't do that right now...", "error")
 		return false
 	end
 end
@@ -65,7 +65,7 @@ end
 --[[ Events ]]--
 RegisterNetEvent("ping:receive")
 AddEventHandler("ping:receive", function(coords)
-	exports.mythic_notify:SendAlert("success", "Pong!", 7000)
+	TriggerEvent("chat:notify", "Pong!", "success")
 	Main:Add(coords)
 end)
 

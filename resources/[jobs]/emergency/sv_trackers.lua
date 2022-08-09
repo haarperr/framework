@@ -64,6 +64,9 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 			["pd"] = {
 				Colour = 3,
 			},
+			["federal"] = {
+				Colour = 3,
+			},
 		},
 		[2] = { -- Vehicles.
 			["ambulance"] = {

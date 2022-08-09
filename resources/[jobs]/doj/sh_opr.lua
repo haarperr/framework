@@ -1,8 +1,8 @@
-exports.jobs:Register("doj", {
+exports.jobs:Register("opr", {
 	Title = "Federal",
-	Name = "Department of Justice",
+	Name = "Office of Professional Responsibility",
 	Faction = "federal",
-	Group = "doj",
+	Group = "opr",
 	Clocks = {
 		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
 	},
@@ -11,14 +11,14 @@ exports.jobs:Register("doj", {
 		State = "federal",
 	},
 	Ranks = {
-		{ Name = "Judge" },
-		{ Name = "Court Manager" },
+		{ Name = "Investigator" },
+		{ Name = "Senior Investigator" },
 		{
-			Name = "Justice",
+			Name = "Assistant Director",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
-			Name = "Chief Justice",
+			Name = "Director",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},

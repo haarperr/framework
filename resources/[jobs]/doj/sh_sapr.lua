@@ -1,8 +1,8 @@
-exports.jobs:Register("doj", {
+exports.jobs:Register("sapr", {
 	Title = "Federal",
-	Name = "Department of Justice",
+	Name = "San Andreas Park Rangers",
 	Faction = "federal",
-	Group = "doj",
+	Group = "sapr",
 	Clocks = {
 		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
 	},
@@ -11,14 +11,15 @@ exports.jobs:Register("doj", {
 		State = "federal",
 	},
 	Ranks = {
-		{ Name = "Judge" },
-		{ Name = "Court Manager" },
+		{ Name = "Ranger" },
+		{ Name = "Senior Ranger" },
+		{ Name = "Sergeant" },
 		{
-			Name = "Justice",
+			Name = "Superintendent",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
-			Name = "Chief Justice",
+			Name = "Game Warden",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},

@@ -368,7 +368,7 @@ Map = {
 			model = "hair",
 			watchers = { "model" },
 			component = function(controller)
-				local max = GetNumberOfPedDrawableVariations(Ped, 2) - 16
+				local max = GetNumberOfPedDrawableVariations(Ped, 2)
 				local model = "hairComponent"
 
 				local slider = {
@@ -474,7 +474,7 @@ Map = {
 				local color = hair[2] or 1
 				local highlight = hair[3] or 1
 
-				SetPedComponentVariation(Ped, 2, componentId == 1 and -1 or componentId + 14, 0, 0)
+				SetPedComponentVariation(Ped, 2, componentId == 1 and -1 or componentId, 0, 0)
 				SetPedHairColor(Ped, color, highlight)
 			end,
 		},

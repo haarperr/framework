@@ -74,7 +74,7 @@ AddEventHandler("car-dealer:clientStart", function()
 			end
 
 			if dealer.License and not exports.licenses:HasLicense(dealer.License) then
-				exports.mythic_notify:SendAlert("error", "You are unlicensed for these vehicles!", 7000)
+				TriggerEvent("chat:notify", "You are unlicensed for these vehicles!", "error")
 				return
 			end
 
@@ -93,7 +93,7 @@ AddEventHandler("car-dealer:clientStart", function()
 		AddEventHandler("markers:use_"..callbackId, function()
 			local vehicle = exports.oldutils:GetNearestVehicle() or 0
 			if not DoesEntityExist(vehicle) or #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(vehicle)) > Config.Markers.DrawRadius then
-				exports.mythic_notify:SendAlert("error", "Vehicle not found!", 8000)
+				TriggerEvent("chat:notify", "Vehicle not found!", "error")
 				return
 			end
 			local netId = VehToNet(vehicle)

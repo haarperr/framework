@@ -343,7 +343,7 @@ AddEventHandler("properties:locked", function(opened)
 	else
 		message = "You locked the door!"
 	end
-	exports.mythic_notify:SendAlert("inform", message, 7000)
+	TriggerEvent("chat:notify", message, "inform")
 end)
 
 RegisterNetEvent("property:lookup")
@@ -418,7 +418,7 @@ RegisterCommand("property:available", function()
 		return
 	end
 
-	exports.mythic_notify:SendAlert("inform", "Check your map for blips! They will disappear in 60 seconds.", 7000)
+	TriggerEvent("chat:notify", "Check your map for blips! They will disappear in 60 seconds.", "inform")
 
 	local blips = {}
 

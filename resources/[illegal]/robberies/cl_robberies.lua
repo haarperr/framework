@@ -353,7 +353,7 @@ RegisterNetEvent("robberies:failed")
 AddEventHandler("robberies:failed", function(message)
 	WaitingFor = nil
 	if message then
-		exports.mythic_notify:SendAlert("error", message, 8000)
+		TriggerEvent("chat:notify", message, "error")
 	end
 end)
 

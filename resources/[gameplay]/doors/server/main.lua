@@ -21,7 +21,6 @@ function Main:Subscribe(source, groupId)
 	-- Add player to group.
 	if group then
 		group:AddPlayer(source)
-		print("SUBSCRIBE "..source)
 	end
 end
 

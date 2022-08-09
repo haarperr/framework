@@ -103,7 +103,7 @@ Citizen.CreateThread(function()
 				if IsPedArmed(ped, 6) then
 					-- Slap em.
 					TriggerEvent("disarmed")
-					exports.mythic_notify:SendAlert("error", "Out of my sight with that thing", 4000)
+					TriggerEvent("chat:notify", "Out of my sight with that thing", "error")
 					for i = 1, 120 do
 						dir = dir * 50.0
 						if not IsPedRagdoll(ped) then
