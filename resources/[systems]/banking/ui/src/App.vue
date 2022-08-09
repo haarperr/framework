@@ -5,6 +5,7 @@
         <q-toolbar>
           <q-toolbar-title>
             <span class="on-right">{{"Welcome Back " + characterName }}</span>
+            <q-btn class="float-right" flat color="white" icon="close" @click="closeMenu"></q-btn>
             <span class="float-right">{{ title }}</span>
           </q-toolbar-title>
         </q-toolbar>

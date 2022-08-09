@@ -57,7 +57,7 @@ AddEventHandler("paychecks:request", function()
 	TriggerClientEvent("paychecks:receive", source, "Received", exports.misc:FormatNumber(character.paycheck))
 
 	--exports.log:AddEarnings(source, "Paycheck", character.paycheck)
-	exports.character:Set(source, "bank", character.bank + character.paycheck)
+	exports.banking:AddBank(source, character.bank, character.paycheck, true)
 	exports.character:Set(source, "paycheck", 0)
 	--exports.character:Save(source, "paycheck", "bank")
 end)

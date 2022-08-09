@@ -69,6 +69,10 @@ function Banking:RegisterDesks()
 					id = "bank-coin",
 					text = "Trade Coins",
 				},
+				{
+					id = "paycheck",
+					text = "Collect Paycheck",
+				}
 			},
 			coords = desk.Coords,
 			radius = desk.Radius,
@@ -130,6 +134,10 @@ AddEventHandler("banking:clientStart", function()
 					id = "bank-coin",
 					text = "Trade Coins",
 				},
+				{
+					id = "paycheck",
+					text = "Collect Paycheck",
+				}
 			},
 			coords = bank.Coords,
 			radius = Config.Interact.Radius,
@@ -140,7 +148,11 @@ AddEventHandler("banking:clientStart", function()
 		AddEventHandler("interact:on_"..id, function()
 			Banking:ToggleMenu(true, bank)
 		end)
+
 	end
+	AddEventHandler("interact:on_paycheck", function()
+		TriggerServerEvent("paychecks:request")
+	end)
 end)
 
 RegisterNetEvent("banking:initAccounts")
