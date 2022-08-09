@@ -44,7 +44,7 @@ Config = {
 				"Lockpick",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {1250, 2000}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {68, 102}, Chance = 1.0 },
 				{ Name = "Lockpick", Amount = 1, Chance = 0.06 },
 				{ Name = "Joint", Amount = 1, Chance = 0.03 },
 				{ Name = "Weed", Amount = {1,2}, Chance = 0.03 },
@@ -93,7 +93,7 @@ Config = {
 				"Diamond Keycard",
 			},
 			Output = {
-				{ Name = "Marked Bills", Amount = {10500, 14600}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {1500, 2123}, Chance = 1.0 },
 				{ Name = "Gold Bar", Amount = 1, Chance = 1.0 },
 			},
 		},
@@ -130,12 +130,12 @@ Config = {
 				"Safe Cracking Tool",
 			},
 			Output = {
-				{ Name = "Marked Bills", Amount = {3000, 5000}, Chance = 1.0 },
+				{ Name = "Marked Bills", Amount = {628, 813}, Chance = 1.0 },
 				{ Name = "Red Keycard", Amount = 1, Chance = 0.20 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
 				{ Name = "Weed", Amount = {4,12}, Chance = 0.40 },
-				{ Name = "Diamond", Amount = {3,6}, Chance = 0.70 },
+				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
 			},
 		},
 		["safe2"] = {
@@ -174,12 +174,12 @@ Config = {
 				"Hacking Tool",
 			},
 			Output = {
-				{ Name = "Marked Bills", Amount = {3000, 5000}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {713, 1003}, Chance = 1.0 },
 				{ Name = "Green Keycard", Amount = 1, Chance = 0.2 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.50 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
 				{ Name = "Weed", Amount = {4,12}, Chance = 0.40 },
-				{ Name = "Diamond", Amount = {3,6}, Chance = 0.70 },
+				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
 			},
 		},
 		["keypad"] = {
@@ -265,7 +265,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Valuable Goods", Amount = 1, Chance = 0.6 },
-				{ Name = "Marked Bills", Amount = {5000, 7500}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {501, 1303}, Chance = 1.0 },
 				{ Name = "Blue Keycard", Amount = 1, Chance = 0.10 },
 				{ Name = "Green Keycard", Amount = 1, Chance = 0.10 },
 				{ Name = "Barma Ruby", Amount = 1, Chance = 0.02 },
@@ -330,7 +330,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Gold Bar", Amount = 1, Chance = 1.9 },
-				{ Name = "Marked Bills", Amount = {1500, 3000}, Chance = 0.1 },
+				{ Name = "Bills", Amount = {605, 938}, Chance = 0.1 },
 			},
 		},
 		["cabinet"] = {

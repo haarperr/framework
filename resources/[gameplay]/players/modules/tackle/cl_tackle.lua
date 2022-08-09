@@ -49,7 +49,7 @@ function Tackle:Update()
 
 	-- Find nearest ped.
 	local coords = GetEntityCoords(ped)
-	local nearestPlayer, nearestPed, nearestDist = GetNearestPlayer(coords)
+	local nearestPlayer, nearestPed, nearestDist = exports.oldutils:GetNearestPlayer(coords)
 
 	if not nearestPed or not nearestDist or nearestDist > self.radius then
 		nearestPed, nearestDist = GetNearestPed(coords)

@@ -1,5 +1,5 @@
 Config.Filters.Armory = {
-	Item = {
+	item = {
 		["Body Armor"] = true,
         ["Flashlight"] = true,
         ["Field Kit"] = true,

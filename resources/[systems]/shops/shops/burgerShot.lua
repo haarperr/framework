@@ -8,8 +8,8 @@ RegisterShop("BURGER_SHOT", {
 		["frier_1"] = {
 			item = "Fryer",
 			invisible = true,
-			coords = vector3(-1201.144, -897.4285, 14.36571),
-			heading = 123.7745,
+			coords = vector3(-1201.265, -896.7177, 14.89701),
+			rotation = vector3(-21.67568, -0, 36.23185),
 		},
 		["frier_2"] = {
 			item = "Fryer",
