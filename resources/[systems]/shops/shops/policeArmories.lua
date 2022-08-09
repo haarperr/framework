@@ -3,6 +3,7 @@ Config.Filters.Armory = {
 		["Radio"] = true,
 		["Body Armor"] = true,
 		["Pistol 50"] = true,
+		["Stun Gun"] = true,
 		["Field Kit"] = true,
         ["Gunshot Residue Kit"] = true,
 		["Evidence Bag"] = true,
@@ -15,9 +16,11 @@ Config.Filters.Armory = {
         ["9mm Parabellum Box"] = true,
         ["9mm Magazine"] = true,
 		["Bandage"] = true,
+		["Gauze"] = true,
 		["Nightstick"] = true,
 		["Tweezers"] = true,
 		["Handcuff Keys"] = true,
+		["Binoculars"] = true,
 	},
 }
 
