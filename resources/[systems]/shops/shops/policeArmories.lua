@@ -1,21 +1,19 @@
 Config.Filters.Armory = {
 	item = {
+		["Radio"] = true,
 		["Body Armor"] = true,
-        ["Flashlight"] = true,
-        ["Field Kit"] = true,
+		["Pistol 50"] = true,
+		["Field Kit"] = true,
         ["Gunshot Residue Kit"] = true,
+		["Evidence Bag"] = true,
+		["9mm Parabellum"] = true,
+        ["Flashlight"] = true,
         ["Handcuffs"] = true,
-        ["Radio"] = true,
         ["Heavy Armor"] = true,
         ["Ballistic Helmet"] = true,
-        ["Combat Pistol"] = true,
-        ["Pistol MkII"] = true,
-        ["Pistol"] = true,
-        ["Pistol 50"] = true,
+        ["Pistol Mk II"] = true,
         ["9mm Parabellum Box"] = true,
-        ["9mm Parabellum"] = true,
         ["9mm Magazine"] = true,
-		["Evidence Bag"] = true,
 	},
 }
 
@@ -28,6 +26,20 @@ RegisterShop("MRPD_ARMORY", {
 	},
 	Storage = {
 		Coords = vector3(436.5448, -972.5101, 30.71302),
+		Radius = 2.0,
+		Filters = Config.Filters.Armory,
+	},
+})
+
+RegisterShop("SADPR_ARMORY", {
+	Name = "Park Ranger Armory",
+	Clerks = {
+		{
+			coords = vector4(378.8461, 797.6976, 190.4943, 181.9152),
+		},
+	},
+	Storage = {
+		Coords = vector3(383.9746, 795.9355, 187.4616),
 		Radius = 2.0,
 		Filters = Config.Filters.Armory,
 	},

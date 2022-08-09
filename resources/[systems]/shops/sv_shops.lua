@@ -125,9 +125,11 @@ function Shop:StockContainer()
 	if filters and filters.item then
 		for name, _ in pairs(filters.item) do
 			local item = exports.inventory:GetItem(name)
+			if not item then goto continue end
 			if not exports.inventory:ContainerAddItem(containerId, name, item.stack*4 or 1) then
 				break
 			end
+			::continue::
 		end
 	end
 
