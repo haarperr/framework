@@ -152,7 +152,7 @@ function BeginScrapping(vehicle, zone)
 	
 	-- Finish checks.
 	if error then
-		TriggerEvent("chat:notify", "Error!", "error")
+		TriggerEvent("chat:notify", error, "error")
 		return
 	end
 
