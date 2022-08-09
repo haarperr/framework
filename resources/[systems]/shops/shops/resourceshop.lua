@@ -50,7 +50,7 @@ RegisterShop("RESOURCE_247", {
 			item = "Smeltry",
 			invisible = true,
 			coords = vector3(1111.95, -2008.832, 31.0676),
-			heading = 236.7808,
+			rotation = vector3(1107.692, -2007.108, 32.19463),
 		},
 		},
 	}
