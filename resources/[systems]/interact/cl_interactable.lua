@@ -10,7 +10,6 @@ end
 function Interactable:UpdateConditions()
 	local isVisible, canUse = true, true
 	local extraText = ""
-	print("factions1")
 
 	-- Faction check.
 	if self.factions then

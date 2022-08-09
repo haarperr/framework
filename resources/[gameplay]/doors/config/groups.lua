@@ -95,8 +95,8 @@ Config.Groups = {
 	},
 	{
 		name = "Mount Zonah",
-		coords = vector3(-473.7684, -321.2826, 58.3812),
-		radius = 65,
+		coords = vector3(-473.7684, -321.2826, 55.3812),
+		radius = 70,
 		locked = false,
 		overrides = {
 			{ coords = vector3(-440.6439, -321.7954, 35.06683), locked = true }, -- Reception

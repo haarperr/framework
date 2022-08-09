@@ -17,7 +17,7 @@ Config = {
 			Duration = 4000,
 			Text = "Call Elevator",
 			Icon = "elevator",
-			MaxDistance = 1.5,
+			MaxDistance = 1.0,
 		},
 		["manhole"] = {
 			Anim = { Dict = "missexile3", Name = "ex03_dingy_search_case_a_michael", Flag = 0 },
@@ -67,6 +67,27 @@ Config = {
 			From = vector4(-625.58459472656, -1618.0679931641, 33.010540008545, 87.491889953613), -- Inside office window.
 			To = vector4(-627.53265380859, -1617.9826660156, 33.829536437988, 87.49186706543), -- Outside office window.
 			Text = "Climb Through",
+		},
+		-- Mount Zonah.
+		{ -- Left
+			From = vector4(-490.5252, -327.5952, 42.30741, 170.4753),
+			To = vector4(-490.5252, -327.5952, 69.50498, 170.4753),
+			Type = "elevator",
+		},
+		{ -- Middle
+			From = vector4(-490.4681, -327.489, 42.30741, 170.4753),
+			To = vector4(-490.4681, -327.489, 69.50498, 170.4753),
+			Type = "elevator",
+		},
+		{ -- Right
+			From = vector4(-487.3858, -328.0048, 42.30741, 170.4753),
+			To = vector4(-487.3858, -328.0048, 69.50498, 170.4753),
+			Type = "elevator",
+		},
+		{ -- Right
+			From = vector4(-436.0687, -359.6116, 34.94945, 352.1592),
+			To = vector4(-418.9723, -344.7389, 24.23141, 111.1729),
+			Type = "elevator",
 		},
 		-- Sewers.
 		{
