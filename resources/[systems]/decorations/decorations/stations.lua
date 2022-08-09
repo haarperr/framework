@@ -116,7 +116,7 @@ Register("Smeltry", {
 			Fov = 60.0,
 		},
 	},
-	Model = "v_ilev_found_cranebucket",
+	Model = "prop_foodprocess_01",
 })
 
 Register("Jewel Bench", {
