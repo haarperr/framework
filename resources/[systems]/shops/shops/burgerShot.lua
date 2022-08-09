@@ -8,20 +8,8 @@ RegisterShop("BURGER_SHOT", {
 		["frier_1"] = {
 			item = "Fryer",
 			invisible = true,
-			coords = vector3(-1201.265, -896.7177, 14.89701),
-			rotation = vector3(-21.67568, -0, 36.23185),
-		},
-		["frier_2"] = {
-			item = "Fryer",
-			invisible = true,
-			coords = vector3(-1201.085, -896.8964, 14.08903),
-			heading = 123.7745,
-		},
-		["frier_3"] = {
-			item = "Fryer",
-			invisible = true,
-			coords = vector3(-1200.38, -896.4059, 13.99455),
-			heading = 123.7745,
+			coords = vector3(-1201.338, -897.0543, 13.27606),
+			rotation = vector3(-26.485, -0, 32.47513),
 		},
 	},
 	Containers = {
