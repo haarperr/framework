@@ -173,7 +173,6 @@ end)
 
 RegisterNetEvent("doors:toggle", function(groupId, coords, state)
 	local group = Main.group
-	print("informeded")
 	if not group or group.id ~= groupId then
 		print("toggling door for wrong group", group and group.id, groupId)
 		return
@@ -182,7 +181,7 @@ RegisterNetEvent("doors:toggle", function(groupId, coords, state)
 	local door = group:FindDoor(coords)
 
 	if door then
-		print("toggle door", coords, state)
+		--print("toggle door", coords, state)
 	
 		door:SetState(state)
 	else
