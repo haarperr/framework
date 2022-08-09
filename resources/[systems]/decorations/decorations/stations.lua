@@ -884,7 +884,7 @@ Register("Burger Shot Processor", {
 	Placement = "Floor",
 	NoCenter = true,
 	Station = {
-		Type = "Beanies Processor",
+		Type = "Burger Shot Processor",
 		Auto = true,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
