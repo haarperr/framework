@@ -783,7 +783,7 @@ Config = {
 		Cost = { 20.0, 100.0 },
 		Limbs = 4.0, -- Divides the cost by each limb damaged.
 		Beds = {
-			[1631638868] = true,
+			[2117668672] = true,
 		},
 		Receptionists = {
 			{
