@@ -85,7 +85,7 @@ Config = {
 				-- Furniture.
 				{ name = "Bucket", chance = 0.02, durability = { 0.1, 0.8 } },
 				{ name = "Candle", chance = 0.02, durability = { 0.1, 0.8 } },
-				{ name = "Chair", chance = 0.02, durability = { 0.1, 0.8 } },
+				{ name = "Chair", chance = 0.01, durability = { 0.1, 0.8 } },
 				{ name = "Clutter", chance = 0.03, durability = { 0.1, 0.8 } },
 				{ name = "Cutting Board", chance = 0.03, durability = { 0.1, 0.8 } },
 				{ name = "Grater", chance = 0.03, durability = { 0.1, 0.8 } },
@@ -93,7 +93,7 @@ Config = {
 				{ name = "Rug", chance = 0.02, durability = { 0.1, 0.8 } },
 				{ name = "Speaker", chance = 0.01, durability = { 0.1, 0.8 } },
 				{ name = "Teapot", chance = 0.02, durability = { 0.1, 0.8 } },
-				{ name = "Tools", chance = 0.02, durability = { 0.1, 0.8 } },
+				{ name = "Tools", chance = 0.01, durability = { 0.1, 0.8 } },
 
 				-- Consumables.
 				{ name = "Crackles o Dawn", chance = 0.02, durability = { 0.05, 0.2 } },

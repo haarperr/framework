@@ -94,7 +94,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {1500, 2123}, Chance = 1.0 },
-				{ Name = "Gold Bar", Amount = 1, Chance = 1.0 },
+				{ Name = "Gold Ingot", Amount = 1, Chance = 1.0 },
 			},
 		},
 		["safe"] = {
@@ -131,7 +131,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {528, 913}, Chance = 1.0 },
-				{ Name = "Red Keycard", Amount = 1, Chance = 0.20 },
+				{ Name = "Red Keycard", Amount = 1, Chance = 0.10 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
 				{ Name = "Weed", Amount = {4,12}, Chance = 0.40 },
@@ -175,7 +175,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {713, 1003}, Chance = 1.0 },
-				{ Name = "Green Keycard", Amount = 1, Chance = 0.2 },
+				{ Name = "Green Keycard", Amount = 1, Chance = 0.1 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.50 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
 				{ Name = "Weed", Amount = {4,12}, Chance = 0.40 },
@@ -266,8 +266,8 @@ Config = {
 			Output = {
 				{ Name = "Valuable Goods", Amount = 1, Chance = 0.6 },
 				{ Name = "Bills", Amount = {501, 1303}, Chance = 1.0 },
-				{ Name = "Blue Keycard", Amount = 1, Chance = 0.10 },
-				{ Name = "Green Keycard", Amount = 1, Chance = 0.10 },
+				{ Name = "Blue Keycard", Amount = 1, Chance = 0.01 },
+				{ Name = "Green Keycard", Amount = 1, Chance = 0.06 },
 				{ Name = "Barma Ruby", Amount = 1, Chance = 0.02 },
 				{ Name = "Red Keycard", Amount = 1, Chance = 0.15 },
 				{ Name = "Black Keycard", Amount = 1, Chance = 0.05 },
@@ -329,7 +329,7 @@ Config = {
 				"Lockpick",
 			},
 			Output = {
-				{ Name = "Gold Bar", Amount = 1, Chance = 1.9 },
+				{ Name = "Gold Ingot", Amount = 1, Chance = 1.9 },
 				{ Name = "Bills", Amount = {605, 938}, Chance = 0.1 },
 			},
 		},
@@ -1252,7 +1252,7 @@ Config = {
 							{ Name = "Plastic Explosive", Amount = {6, 8}, Chance = 0.6 },
 							{ Name = "Detonater", Amount = 1, Chance = 0.4 },
 							{ Name = "Ketamine", Amount = {2, 4}, Chance = 0.02 },
-							{ Name = "Gold Bar", Amount = 1, Chance = 0.05 },
+							{ Name = "Gold Ingot", Amount = 1, Chance = 0.05 },
 							{ Name = "Heavy Armor", Amount = {1, 2}, Chance = 0.15 },
 							{ Name = "Ballistic Helmet", Amount = {1, 2}, Chance = 0.15 },
 							{ name = "Ammonium Ferric Citrate", Amount = {1, 7}, Chance = 0.05 },
