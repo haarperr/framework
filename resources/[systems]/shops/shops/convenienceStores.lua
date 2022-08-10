@@ -245,3 +245,75 @@ RegisterShop("SEOUL_247", {
 		{ text = "Counter", radius = 0.2, coords = vector3(-47.92688, -1758.33, 29.5949) },
 	},
 })
+
+RegisterShop("MIRROR_247", {
+	Name = "Mirror 24/7",
+	Clerks = {
+		{
+			coords = vector4(1164.857, -323.6848, 69.20506, 101.0379),
+			model = "s_f_m_sweatshop_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(1161.052, -313.4174, 69.19912),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(1164.179, -323.7475, 69.26102) },
+	},
+})
+
+RegisterShop("GRAPE_247", {
+	Name = "Grapeseed 24/7",
+	Clerks = {
+		{
+			coords = vector4(1697.284, 4923.448, 42.06362, 326.3737),
+			model = "s_f_m_sweatshop_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(1707.501, 4918.78, 42.06362),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(1697.611, 4924.043, 42.10943) },
+	},
+})
+
+RegisterShop("ROCK2_247", {
+	Name = "Rockford 24/7",
+	Clerks = {
+		{
+			coords = vector4(-1422.551, -271.0514, 46.27737, 41.38894),
+			model = "s_f_m_sweatshop_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(-1415.683, -262.3278, 46.37909),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(-1422.958, -270.6406, 46.35056) },
+	},
+})
+
+RegisterShop("ROCK2_247", {
+	Name = "Rockford 24/7",
+	Clerks = {
+		{
+			coords = vector4(-3242.781, 1000.401, 12.83064, 357.1664),
+			model = "s_f_m_sweatshop_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(-3250.227, 1003.662, 12.83065),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(-3242.707, 1001.161, 13.04108) },
+	},
+})

@@ -80,3 +80,21 @@ RegisterShop("HARMONY_LIQUOR", {
 		{ text = "Counter", radius = 0.2, vector3(1165.297, 2710.166, 38.30848) },
 	},
 })
+
+RegisterShop("CHUMASH_LIQUOR", {
+	Name = "Liquor Store Chumash",
+	Clerks = {
+		{
+			coords = vector4(-2966.385, 391.838, 15.0409, 88.24725),
+			model = "ig_djsolmike",
+		},
+	},
+	Storage = {
+		Coords = vector3(-2963.116, 387.2511, 15.03537),
+		Radius = 2.0,
+		Filters = Config.Filters.Liquor,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, vector3(-2967.089, 391.5259, 15.12364) },
+	},
+})
