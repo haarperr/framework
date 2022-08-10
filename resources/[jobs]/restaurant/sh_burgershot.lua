@@ -4,7 +4,7 @@ exports.jobs:Register("burgershot", {
 	Faction = "restaurant",
 	Group = "burgershot",
 	Clocks = {
-		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
+		{ Coords = vector3(-1187.074, -900.2129, 13.97847), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "restaurant",
