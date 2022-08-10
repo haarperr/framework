@@ -413,7 +413,7 @@ RegisterCommand("property:get", function()
 end, false)
 
 RegisterCommand("property:available", function()
-	if not exports.character:HasFaction("realtor") then
+	if not exports.factions:Has("realtor", none) then
 		TriggerEvent("chat:addMessage", "You must be a realtor!")
 		return
 	end
