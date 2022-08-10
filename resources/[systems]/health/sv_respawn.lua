@@ -16,7 +16,7 @@ RegisterNetEvent("health:respawn", function()
 	})
 
 	-- Clear inventory.
-	if exports.jobs:CountActiveDuty("ems") >= 0
+	if exports.jobs:CountActiveDuty("ems") >= 1
 	then exports.inventory:ContainerEmpty(containerId)
 	else return end
 
