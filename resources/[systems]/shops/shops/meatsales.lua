@@ -15,6 +15,7 @@ RegisterShop("MEAT_SALES", {
 	Clerks = {
 		{
 			coords = vector4(972.5864, -2120.796, 30.49639, 221.7787),
+			model = "s_m_y_factory_01",
 		},
 	},
 	Storage = {

@@ -11,14 +11,17 @@ Config.Filters.Toolstore = {
 		["Screwdriver"] = true,
 		["Pliers"] = true,
 		["Electrical Tape"] = true,
+		["Knife"] = true,
+		["Switchblade"] = true,
 	},
 }
 
-RegisterShop("TOOL_STORE", {
+RegisterShop("TOOL_STORE_1", {
 	Name = "Tool Store",
 	Clerks = {
 		{
 			coords = vector4(46.71915, -1749.729, 29.63247, 46.54608),
+			model = "mp_m_shopkeep_01",
 		},
 	},
 	Storage = {
@@ -29,11 +32,12 @@ RegisterShop("TOOL_STORE", {
 	}
 )
 
-RegisterShop("TOOL_STORE2", {
+RegisterShop("TOOL_STORE_2", {
 	Name = "You Tool",
 	Clerks = {
 		{
 			coords = vector4(2747.577, 3473.641, 55.67026, 240.63),
+			model = "mp_m_shopkeep_01",
 		},
 	},
 	Storage = {
@@ -44,11 +48,12 @@ RegisterShop("TOOL_STORE2", {
 	}
 )
 
-RegisterShop("TOOL_STORE3", {
+RegisterShop("TOOL_STORE_3", {
 	Name = "Paleto Tool Store",
 	Clerks = {
 		{
 			coords = vector4(-10.94127, 6499.157, 31.50511, 46.72627),
+			model = "mp_m_shopkeep_01",
 		},
 	},
 	Storage = {

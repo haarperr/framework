@@ -34,6 +34,7 @@ RegisterShop("HARMONY_247", {
 	Clerks = {
 		{
 			coords = vector4(549.2772, 2669.603, 42.15648, 91.24641),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -51,6 +52,7 @@ RegisterShop("INNOCENCE_247", {
 	Clerks = {
 		{
 			coords = vector4(24.49411, -1346.465, 29.49702, 265.8573),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -68,6 +70,7 @@ RegisterShop("PALOMINO_247", {
 	Clerks = {
 		{
 			coords = vector4(2555.48, 380.8026, 108.6229, 358.1403),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -86,6 +89,7 @@ RegisterShop("CLINTON_247", {
 	Clerks = {
 		{
 			coords = vector4(372.7724, 327.5338, 103.5664, 254.6205),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -103,6 +107,7 @@ RegisterShop("ROCKFORD_247", {
 	Clerks = {
 		{
 			coords = vector4(-1820.467, 794.5576, 138.0908, 129.331),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -120,6 +125,7 @@ RegisterShop("SENORA_247", {
 	Clerks = {
 		{
 			coords = vector4(2676.496, 3280.292, 55.24112, 329.0203),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -137,6 +143,7 @@ RegisterShop("PALETO_247", {
 	Clerks = {
 		{
 			coords = vector4(1728.647, 6416.733, 35.03728, 239.1772),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -154,6 +161,7 @@ RegisterShop("PALETO2_247", {
 	Clerks = {
 		{
 			coords = vector4(161.4018, 6641.906, 31.70326, 222.9873),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -171,6 +179,7 @@ RegisterShop("SANDY_247", {
 	Clerks = {
 		{
 			coords = vector4(1959.326, 3741.4, 32.34373, 300.6078),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -188,6 +197,7 @@ RegisterShop("GOCEAN_247", {
 	Clerks = {
 		{
 			coords = vector4(-3039.928, 584.6912, 7.904603, 13.52404),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {
@@ -205,6 +215,7 @@ RegisterShop("GROVE_247", {
 	Clerks = {
 		{
 			coords = vector4(-47.32117, -1758.597, 29.421, 44.8899),
+			model = "s_f_m_sweatshop_01",
 		},
 	},
 	Storage = {

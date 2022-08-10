@@ -20,6 +20,7 @@ RegisterShop("RESOURCE_247", {
 	Clerks = {
 		{
 			coords = vector4(48.68785, -2676.06, 6.004161, 270.6614),
+			model = "cs_floyd",
 		},
 	},
 	Storage = {
