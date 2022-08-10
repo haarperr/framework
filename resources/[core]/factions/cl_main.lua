@@ -104,7 +104,7 @@ RegisterNetEvent(Main.event.."leave", function(...)
 end)
 
 RegisterNetEvent(Main.event.."update", function(...)
-	--print("update", Main:UpdateFaction(...))
+	Main:UpdateFaction(...)
 end)
 
 --[[ Events ]]--

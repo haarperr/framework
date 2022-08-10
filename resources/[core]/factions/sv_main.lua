@@ -162,10 +162,10 @@ function Main:LeaveFaction(source, name, group)
 	end
 end
 
-function Main:UpdateFaction(source, name, group, key, value)
+function Main:UpdateFaction(source, name, group, key, value, isCharacter)
 	if type(name) ~= "string" or (group ~= nil and type(group) ~= "string") then return false end
 
-	local characterId = exports.character:Get(source, "id")
+	local characterId = isCharacter and source or exports.character:Get(source, "id")
 	if not characterId then return false end
 
 	local faction = self.factions[name]

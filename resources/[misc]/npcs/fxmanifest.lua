@@ -12,7 +12,7 @@ shared_scripts {
 	-- 'shared/config.lua',
 	-- 'shared/main.lua',
 	-- 'shared/npc.lua',
-	-- 'npcs/test.lua', -- test, should glob
+	'npcs/memorial.lua', -- test, should glob
 }
 
 client_scripts {

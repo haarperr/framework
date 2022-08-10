@@ -114,6 +114,8 @@ Config.Groups = {
 			{ coords = vector3(-502.8185, -302.2071, 69.67925), locked = true }, -- Upstairs Office
 			{ coords = vector3(-445.4108, -320.6565, 69.67925), locked = true }, -- Upstairs Ward
 			{ coords = vector3(-443.0081, -319.6809, 69.67925), locked = true }, -- Upstairs Ward
+			{ coords = vector3(-446.4914, -341.6063, 78.47864), locked = true }, -- Helipad Broken Doors that drop you off map
+			{ coords = vector3(-443.9187, -341.9425, 78.47864), locked = true }, -- Helipad Broken Doors that drop you off map
 		},
 		factions = {
 			["lspd"] = "pd",
