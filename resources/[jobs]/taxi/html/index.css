@@ -1,0 +1,61 @@
+@font-face {
+	font-family: font;
+	src: url("font.ttf");
+}
+
+* {
+	user-select: none;
+	font-family: font;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	--width: 400px;
+	--height: 150px;
+	color: white;
+}
+
+.content {
+	display: flex;
+	position: absolute;
+	width: var(--width);
+	height: var(--height);
+	bottom: 35vh;
+	left: -90px;
+	background-image: url("meter.png");
+	background-color: transparent;
+}
+
+.items {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	position: absolute;
+	margin: 10px;
+	height: auto;
+	top: 32px;
+	bottom: 32px;
+}
+
+.title {
+	color: yellow;
+	font-size: 15px;
+}
+
+.text {
+	color: white;
+	font-size: 30px;
+}
+
+.items.right {
+	left: auto;
+	right: 150px;
+	text-align: right;
+}
+
+.items.left {
+	left: 255px;
+	right: auto;
+	text-align: left;
+}
