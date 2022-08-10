@@ -107,7 +107,7 @@ exports.jobs:Register("lsms", {
 	Group = "lsms",
 	Flags = EMS_FLAGS,
 	Clocks = {
-		--{ Coords = vector3(305.0252, -600.062, 43.28405), Radius = 2.0 },
+		{ Coords = vector3(-430.9317, -325.2623, 34.90064), Radius = 2.0 },
 	},
 	Tracker = {
 		Group = "emergency",
