@@ -6,34 +6,28 @@ RegisterShop("BURGER_SHOT", {
 	},
 	Decorations = {
 		["frier_1"] = {
-			item = "Fryer",
+			item = "Burger Shot Fryer",
 			invisible = true,
-			coords = vector3(-1201.265, -896.7177, 14.89701),
-			rotation = vector3(-21.67568, -0, 36.23185),
+			coords = vector3(-1201.338, -897.0543, 13.27606),
+			rotation = vector3(-26.485, -0, 32.47513),
 		},
-		["frier_2"] = {
-			item = "Fryer",
+		["bsproc_1"] = {
+			item = "Burger Shot Processor",
 			invisible = true,
-			coords = vector3(-1201.085, -896.8964, 14.08903),
-			heading = 123.7745,
-		},
-		["frier_3"] = {
-			item = "Fryer",
-			invisible = true,
-			coords = vector3(-1200.38, -896.4059, 13.99455),
-			heading = 123.7745,
+			coords = vector3(-1196.124, -898.8571, 14.88577),
+			rotation = vector3(-19.92715, -0, 34.49049),
 		},
 	},
 	Containers = {
 		{
 			text = "Tray",
 			radius = 0.2,
-			coords = vector3(-1195.275, -892.303, 14.04083),
+			coords = vector3(-1194.645, -893.71, 14.35167),
 		},
 		{
 			text = "Tray",
 			radius = 0.2,
-			coords = vector3(-1194.018, -894.209, 14.04083),
+			coords = vector3(-1193.448, -895.2433, 14.31095),
 		},
 		{
 			text = "Pass-through",
@@ -59,7 +53,33 @@ RegisterShop("BURGER_SHOT", {
 			coords = vector3(-1197.675, -899.3553, 14.09628),
 			discrete = true,
 			width = 4,
-			height = 5,
+			height = 15,
+			filters = {
+				category = {
+					["Ingredient"] = true,
+				}
+			},
+		},
+		{
+			text = "Ingredients",
+			radius = 0.6,
+			coords = vector3(-1200.743, -902.5356, 14.47068),
+			discrete = true,
+			width = 4,
+			height = 15,
+			filters = {
+				category = {
+					["Ingredient"] = true,
+				}
+			},
+		},
+		{
+			text = "Ingredients",
+			radius = 0.6,
+			coords = vector3(-1201.873, -900.5848, 14.50276),
+			discrete = true,
+			width = 4,
+			height = 15,
 			filters = {
 				category = {
 					["Ingredient"] = true,

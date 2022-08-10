@@ -1,28 +1,39 @@
 Config.Filters.Armory = {
 	item = {
+		["Radio"] = true,
 		["Body Armor"] = true,
-        ["Flashlight"] = true,
-        ["Field Kit"] = true,
+		["Pistol 50"] = true,
+		["Stun Gun"] = true,
+		["Field Kit"] = true,
         ["Gunshot Residue Kit"] = true,
+        ["Taser Cartridge"] = true,
+		["Evidence Bag"] = true,
+		["9mm Parabellum"] = true,
+        ["Flashlight"] = true,
         ["Handcuffs"] = true,
-        ["Radio"] = true,
         ["Heavy Armor"] = true,
         ["Ballistic Helmet"] = true,
-        ["Combat Pistol"] = true,
-        ["Pistol MkII"] = true,
-        ["Pistol"] = true,
-        ["Pistol 50"] = true,
+        ["Pistol Mk II"] = true,
+		["SNS Pistol Mk II"] = true,
+		[".45 ACP Box"] = true,
+		[".45 ACP"] = true,
         ["9mm Parabellum Box"] = true,
-        ["9mm Parabellum"] = true,
         ["9mm Magazine"] = true,
+		["Bandage"] = true,
+		["Gauze"] = true,
+		["Nightstick"] = true,
+		["Tweezers"] = true,
+		["Handcuff Keys"] = true,
+		["Binoculars"] = true,
 	},
 }
 
-RegisterShop("MRPD_ARMORY", {
+RegisterShop("MRPD_ARMORY1", {
 	Name = "MRPD Armory",
 	Clerks = {
 		{
 			coords = vector4(480.6032409667969, -996.8204345703124, 30.68978500366211, 85.53340148925781),
+			model = "s_m_y_cop_01",
 		},
 	},
 	Storage = {
@@ -31,12 +42,27 @@ RegisterShop("MRPD_ARMORY", {
 		Filters = Config.Filters.Armory,
 	},
 })
+RegisterShop("PARKRA_ARMORY1", {
+	Name = "Park Rangers Armory",
+	Clerks = {
+		{
+			coords = vector4(378.8461, 797.6976, 190.4943, 181.9152),
+			model = "csb_cop",
+		},
+	},
+	Storage = {
+		Coords = vector3(379.5146, 799.4862, 190.4852),
+		Radius = 2.0,
+		Filters = Config.Filters.Armory,
+	},
+})
 
-RegisterShop("LAMESA_ARMORY", {
+RegisterShop("LAMESA_ARMORY1", {
 	Name = "La Mesa Armory",
 	Clerks = {
 		{
 			coords = vector4(837.1766967773438, -1288.55224609375, 28.24493980407715, 169.6649169921875),
+			model = "s_m_y_cop_01",
 		},
 	},
 	Storage = {
@@ -46,11 +72,12 @@ RegisterShop("LAMESA_ARMORY", {
 	},
 })
 
-RegisterShop("DAVIS_ARMORY", {
+RegisterShop("DAVIS_ARMORY1", {
 	Name = "Davis PD Armory",
 	Clerks = {
 		{
 			coords = vector4(364.4138488769531, -1603.8021240234375, 25.45170021057129, 35.37334442138672),
+			model = "s_m_y_cop_01",
 		},
 	},
 	Storage = {
@@ -60,11 +87,12 @@ RegisterShop("DAVIS_ARMORY", {
 	},
 })
 
-RegisterShop("HIGHWAY_ARMORY", {
+RegisterShop("HIGHWAY_ARMORY1", {
 	Name = "Highway Station Armory",
 	Clerks = {
 		{
 			coords = vector4(1549.9698486328125, 838.8912963867188, 77.651123046875, 148.10208129882812),
+			model = "s_m_y_cop_01",
 		},
 	},
 	Storage = {
@@ -74,25 +102,27 @@ RegisterShop("HIGHWAY_ARMORY", {
 	},
 })
 
-RegisterShop("SANDY_ARMORY", {
+RegisterShop("SANDY_ARMORY1", {
 	Name = "SSO Armory",
 	Clerks = {
 		{
-			coords = vector4(1859.8604736328127, 3690.26904296875, 34.26554107666015, 61.01738739013672),
+			coords = vector4(1836.843, 3687.967, 34.18922, 208.3548),
+			model = "s_f_y_sheriff_01",
 		},
 	},
 	Storage = {
-		Coords = vector3(1861.7762451171875, 3690.20361328125, 35.82775115966797),
+		Coords = vector3(1837.689, 3688.296, 34.18922),
 		Radius = 2.0,
 		Filters = Config.Filters.Armory,
 	},
 })
 
-RegisterShop("PALETO_ARMORY", {
+RegisterShop("PALETO_ARMORY1", {
 	Name = "Paleto PD Armory",
 	Clerks = {
 		{
 			coords = vector4(-445.8472595214844, 6014.7763671875, 36.99567794799805, 225.29714965820312),
+			model = "s_m_y_cop_01",
 		},
 	},
 	Storage = {
@@ -102,11 +132,12 @@ RegisterShop("PALETO_ARMORY", {
 	},
 })
 
-RegisterShop("PRISON_ARMORY", {
+RegisterShop("PRISON_ARMORY1", {
 	Name = "Prison Armory",
 	Clerks = {
 		{
 			coords = vector4(1782.193, 2543.499, 45.79791, 272.444),
+			model = "s_m_y_cop_01",
 		},
 	},
 	Storage = {

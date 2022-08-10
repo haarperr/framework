@@ -92,6 +92,18 @@ Register("Drawer", {
 	},
 })
 
+Register("Chicken Coop", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = true,
+		Block = false,
+	},
+	Model = {
+		"prop_chickencoop_a",
+	},
+})
+
 Register("Television", {
 	Placement = "Floor",
 	Stackable = {

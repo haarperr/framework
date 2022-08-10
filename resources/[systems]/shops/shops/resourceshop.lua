@@ -20,6 +20,7 @@ RegisterShop("RESOURCE_247", {
 	Clerks = {
 		{
 			coords = vector4(48.68785, -2676.06, 6.004161, 270.6614),
+			model = "cs_floyd",
 		},
 	},
 	Storage = {
@@ -49,8 +50,8 @@ RegisterShop("RESOURCE_247", {
         ["smelter1"] = {
 			item = "Smeltry",
 			invisible = true,
-			coords = vector3(1111.95, -2008.832, 31.0676),
-			rotation = vector3(1107.692, -2007.108, 32.19463),
+			coords = vector3(1110.29, -2008.308, 31.62196),
+			rotation = vector3(-41.0309, -0, -128.5155),
 		},
 		},
 	}

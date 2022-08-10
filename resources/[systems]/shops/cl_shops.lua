@@ -46,6 +46,10 @@ function Shop:CanAccessStorage()
 end
 
 function Shop:Interact(npc)
+    if self.info.License and not exports.licenses:HasLicense(self.info.License) then
+        TriggerEvent("chat:notify", "You are not licensed to shop here!", "error")
+        return 
+    end
 	-- Make npc do anim.
 	npc:PlayAnim("hand")
 	
@@ -104,7 +108,7 @@ function Shop:Interact(npc)
 	
 	window:AddListener("purchase", function(window, name)
 		local cart = self.cart
-
+	
 		TriggerServerEvent("shops:purchase", self.id, cart)
 		
 		window:Destroy()

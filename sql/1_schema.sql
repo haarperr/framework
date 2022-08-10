@@ -352,6 +352,22 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
 
 -- Data exporting was unselected.
 
+--Dumping structure for trigger gtarp_dev.characters_after_insert
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `characters_after_insert` AFTER INSERT ON `characters` FOR EACH ROW BEGIN
+
+      INSERT INTO `licenses` (
+         `character_id`,
+          `name`
+      ) VALUES (
+        NEW.id,
+        'drivers'
+      );
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
 -- Dumping structure for trigger gtarp_dev.mdt_reports_before_insert
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
