@@ -85,7 +85,7 @@ Config = {
 				-- Furniture.
 				{ name = "Bucket", chance = 0.02, durability = { 0.1, 0.8 } },
 				{ name = "Candle", chance = 0.02, durability = { 0.1, 0.8 } },
-				{ name = "Chair", chance = 0.02, durability = { 0.1, 0.8 } },
+				{ name = "Chair", chance = 0.01, durability = { 0.1, 0.8 } },
 				{ name = "Clutter", chance = 0.03, durability = { 0.1, 0.8 } },
 				{ name = "Cutting Board", chance = 0.03, durability = { 0.1, 0.8 } },
 				{ name = "Grater", chance = 0.03, durability = { 0.1, 0.8 } },
@@ -93,7 +93,7 @@ Config = {
 				{ name = "Rug", chance = 0.02, durability = { 0.1, 0.8 } },
 				{ name = "Speaker", chance = 0.01, durability = { 0.1, 0.8 } },
 				{ name = "Teapot", chance = 0.02, durability = { 0.1, 0.8 } },
-				{ name = "Tools", chance = 0.02, durability = { 0.1, 0.8 } },
+				{ name = "Tools", chance = 0.01, durability = { 0.1, 0.8 } },
 
 				-- Consumables.
 				{ name = "Crackles o Dawn", chance = 0.02, durability = { 0.05, 0.2 } },
@@ -111,6 +111,27 @@ Config = {
 				{ name = "Paper", chance = 0.03, quantity = { 1, 6 } },
 				{ name = "Radio", chance = 0.01, durability = { 0.05, 0.9 } },
 				{ name = "Tire", chance = 0.01 },
+			},
+		},
+		["chick_coop"] = {
+			Anim = { Dict = "amb@prop_human_bum_bin@idle_a", Name = "idle_a", Flag = 1 },
+			Radius = 2.7,
+			Energy = 0.01,
+			Exponential = 2.0,
+			QuickTime = {
+				goalSize = 0.2,
+				speed = 0.3,
+				stages = 4,
+			},
+			Container = {
+				name = "Egg Stash",
+				width = 2,
+				height = 4,
+				maxWeight = 20.0,
+			},
+			Loot = {
+				-- Eggs.
+				{ name = "Egg", chance = 1.0, quantity = { 8, 13 } },
 			},
 		},
 		["mail"] = {
@@ -176,5 +197,7 @@ Config = {
 		[`prop_dumpster_4b`] = "bin_large",
 
 		[`prop_postbox_01a`] = "mail",
+
+		[`prop_chickencoop_a`] = "chick_coop",
 	},
 }

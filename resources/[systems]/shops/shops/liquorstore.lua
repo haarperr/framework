@@ -1,5 +1,5 @@
 Config.Filters.Liquor = {
-	Item = {
+	item = {
 		-- Food.
 		["Beer"] = true,
 		["Vodka"] = true,
@@ -14,6 +14,7 @@ RegisterShop("MIRROR_LIQUOR", {
 	Clerks = {
 		{
 			coords = vector4(1134.31, -983.1893, 46.4158, 278.4586),
+			model = "ig_djsolmike",
 		},
 	},
 	Storage = {
@@ -31,6 +32,7 @@ RegisterShop("BAYCITY_LIQUOR", {
 	Clerks = {
 		{
 			coords = vector4(-1221.419, -907.9382, 12.32636, 33.42069),
+			model = "ig_djsolmike",
 		},
 	},
 	Storage = {
@@ -48,6 +50,7 @@ RegisterShop("ROCKFORD_LIQUOR", {
 	Clerks = {
 		{
 			coords = vector4(-1486.634, -377.6165, 40.16344, 133.5421),
+			model = "ig_djsolmike",
 		},
 	},
 	Storage = {
@@ -65,6 +68,7 @@ RegisterShop("HARMONY_LIQUOR", {
 	Clerks = {
 		{
 			coords = vector4(1165.281, 2710.862, 38.15771, 179.9999),
+			model = "ig_djsolmike",
 		},
 	},
 	Storage = {

@@ -19,6 +19,7 @@ RegisterShop("FISH_SALES", {
 	Clerks = {
 		{
 			coords = vector4(-1037.698, -1394.182, 5.553192, 107.7845),
+			model = "cs_omega",
 		},
 	},
 	Storage = {
@@ -42,6 +43,7 @@ RegisterShop("FISH_SALES2", {
 	Clerks = {
 		{
 			coords = vector4(-2191.833, 4284.876, 49.18159, 99.87895),
+			model = "cs_omega",
 		},
 	},
 	Storage = {

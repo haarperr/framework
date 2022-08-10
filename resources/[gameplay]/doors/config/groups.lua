@@ -523,4 +523,13 @@ Config.Groups = {
 			["pawnshop"] = "general",
 		},
 	},
+	{
+		name = "Chicken Factory",
+		coords = vector3(-69.75774, 6254.107, 31.09011),
+		radius = 18,
+		locked = true, 
+		factions = {
+			["odin"] = "farm",
+		},
+	},
 }
