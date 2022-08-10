@@ -56,7 +56,7 @@ Config.Groups = {
 			["lsms"] = "ems",
 		},
 	},
-	{
+	--[[{
 		name = "Pillbox",
 		coords = vector3(321.57473754883, -583.23687744141, 43.279979705811),
 		radius = 50,
@@ -92,7 +92,7 @@ Config.Groups = {
 			["firefighter"] = "ems",
 			["lsms"] = "ems",
 		},
-	},
+	},]]
 	{
 		name = "Mount Zonah",
 		coords = vector3(-473.7684, -321.2826, 55.3812),
