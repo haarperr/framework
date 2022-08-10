@@ -11,5 +11,11 @@ RegisterShop("FARM_1", {
             coords = vector3(-70.12484, 6256.312, 32.1092),
             rotation = vector3(-27.69349, -0, 19.57428),
         },
+        ["egg_1"] = {
+            item = "Chicken Coop",
+            invisible = true,
+            coords = vector3(446.0444, 6462.76, 28.81332),
+            rotation = vector3(-9.741329, -0, -91.04585),
+        },
     },
 })
