@@ -46,6 +46,7 @@ function Shop:CanAccessStorage()
 end
 
 function Shop:Interact(npc)
+
 	-- Make npc do anim.
 	npc:PlayAnim("hand")
 	
@@ -104,8 +105,11 @@ function Shop:Interact(npc)
 	
 	window:AddListener("purchase", function(window, name)
 		local cart = self.cart
-
-		TriggerServerEvent("shops:purchase", self.id, cart)
+	
+		if Config.License and not exports.character:HasLicense(Config.License) then
+			return 
+		end
+			TriggerServerEvent("shops:purchase", self.id, cart)
 		
 		window:Destroy()
 
