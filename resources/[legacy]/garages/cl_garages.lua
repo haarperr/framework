@@ -42,8 +42,8 @@ function Initialize()
 					end
 					if factions then
 						local hasFaction = false
-						for _, faction in ipairs(factions) do
-							if exports.character:HasFaction(faction) then
+						for faction, group in ipairs(factions) do
+							if exports.factions:Has(faction, group) then
 								hasFaction = true
 								break
 							end
