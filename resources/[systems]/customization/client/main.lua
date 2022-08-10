@@ -58,6 +58,10 @@ RegisterNetEvent("customization:saved", function(retval, result)
 
 	if retval then
 		Editor:Toggle(false)
+		Main:SetData({
+			appearance = exports.character:Get("appearance"),
+			features = exports.character:Get("features"),
+		})
 	else
 		UI:Notify({
 			color = "red",
