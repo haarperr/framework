@@ -227,3 +227,21 @@ RegisterShop("GROVE_247", {
 		{ text = "Counter", radius = 0.2, coords = vector3(-47.92688, -1758.33, 29.5949) },
 	},
 })
+
+RegisterShop("SEOUL_247", {
+	Name = "Little Seoul 24/7",
+	Clerks = {
+		{
+			coords = vector4(-706.1124, -914.4959, 19.21559, 93.81121),
+			model = "s_f_m_sweatshop_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(-706.1124, -914.4959, 19.21559),
+		Radius = 2.0,
+		Filters = Config.Filters.Convenience,
+	},
+	Containers = {
+		{ text = "Counter", radius = 0.2, coords = vector3(-47.92688, -1758.33, 29.5949) },
+	},
+})
