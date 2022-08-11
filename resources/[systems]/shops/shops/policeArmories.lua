@@ -30,6 +30,7 @@ Config.Filters.Armory = {
 
 RegisterShop("MRPD_ARMORY1", {
 	Name = "MRPD Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(480.6032409667969, -996.8204345703124, 30.68978500366211, 85.53340148925781),
@@ -44,6 +45,7 @@ RegisterShop("MRPD_ARMORY1", {
 })
 RegisterShop("PARKRA_ARMORY1", {
 	Name = "Park Rangers Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(378.8461, 797.6976, 190.4943, 181.9152),
@@ -59,6 +61,7 @@ RegisterShop("PARKRA_ARMORY1", {
 
 RegisterShop("LAMESA_ARMORY1", {
 	Name = "La Mesa Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(837.1766967773438, -1288.55224609375, 28.24493980407715, 169.6649169921875),
@@ -74,6 +77,7 @@ RegisterShop("LAMESA_ARMORY1", {
 
 RegisterShop("DAVIS_ARMORY1", {
 	Name = "Davis PD Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(364.4138488769531, -1603.8021240234375, 25.45170021057129, 35.37334442138672),
@@ -89,6 +93,7 @@ RegisterShop("DAVIS_ARMORY1", {
 
 RegisterShop("HIGHWAY_ARMORY1", {
 	Name = "Highway Station Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(1549.9698486328125, 838.8912963867188, 77.651123046875, 148.10208129882812),
@@ -104,6 +109,7 @@ RegisterShop("HIGHWAY_ARMORY1", {
 
 RegisterShop("SANDY_ARMORY1", {
 	Name = "SSO Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(1836.843, 3687.967, 34.18922, 208.3548),
@@ -119,6 +125,7 @@ RegisterShop("SANDY_ARMORY1", {
 
 RegisterShop("PALETO_ARMORY1", {
 	Name = "Paleto PD Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(-445.8472595214844, 6014.7763671875, 36.99567794799805, 225.29714965820312),
@@ -134,6 +141,7 @@ RegisterShop("PALETO_ARMORY1", {
 
 RegisterShop("PRISON_ARMORY1", {
 	Name = "Prison Armory",
+	License = "weapons",
 	Clerks = {
 		{
 			coords = vector4(1782.193, 2543.499, 45.79791, 272.444),
