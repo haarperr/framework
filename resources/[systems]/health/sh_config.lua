@@ -447,7 +447,27 @@ Config = {
 		["Stab"] = {
 			Clear = 1.0,
 			Healing = 0.02,
-			Lifetime = 3600.0 * 4.0,
+			Lifetime = function(bone, groupBone, treatments)
+				if (treatments["Surgical Kit"] or 0) > 0 then
+					return 600.0
+				else
+					return 14400.0 / (math.min(treatments["Gauze"] or 0, 1) + math.min(treatments["Bandage"] or 0))
+				end
+			end,
+			Treatment = {
+				{
+					Name = "IV Bag",
+					Group = "Left Arm",
+				},
+				{
+					Name = "Tranexamic Acid",
+					Group = "Left Arm",
+				},
+				"Saline",
+				"Surgical Kit",
+				"Gauze",
+				"Bandage",
+			}
 		},
 		["Bruising"] = {
 			Clear = 0.2,
@@ -480,8 +500,22 @@ Config = {
 			end,
 		},
 		["Compound Fracture"] = {
-			Lifetime = 3600.0 * 1.0,
 			Healing = 0.02,
+			Lifetime = function(bone, groupBone, treatments)
+				return (treatments["Splint"] or treatments["Cervical Collar"]) and 300.0 or 3600.0
+			end,
+			Treatment = {
+				function(bone, event, groupName)
+					if groupName == "Head" then
+						return "Cervical Collar", groupName
+					else
+						return "Splint", groupName
+					end
+				end,
+			},
+			OnRemove = function(bone, groupBone)
+				bone:SetFracture(false)
+			end,
 		},
 		["Overdose"] = {
 			Lifetime = 300.0,
@@ -499,7 +533,21 @@ Config = {
 			Lifetime = 300.0,
 		},
 		["Electrocution"] = {
-			Lifetime = 300.0,
+			Lifetime= function(bone, groupBone, treatments)
+				return (treatments["Fire Blanket"] or treatments["Ice Pack"]) and 300.0 or 3600.0
+			end,
+			Treatment = {
+				function(bone, event, groupName)
+					if groupName == "Torso" then
+						return "Ice Pack", groupName
+					else
+						return "Fire Blanket", groupName
+					end
+				end,
+			},
+			OnRemove = function(bone, groupBone)
+				bone:SetFracture(false)
+			end,
 		},
 		["1st Degree Burn"] = {
 			Lifetime = 300.0,
@@ -619,7 +667,7 @@ Config = {
 		},
 		["Surgical Kit"] = {
 			Item = "Surgical Kit",
-			Usable = false,
+			Usable = true,
 			Description = "Perform surgery.",
 			Action = "Performs surgery on the wound.",
 			Limit = 1,
