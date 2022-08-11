@@ -21,7 +21,7 @@ exports.jobs:Register("paramedic", {
 		{ Name = "EMT Paramedic", },
 		{ Name = "EMT Advanced Paramedic", },
 		{
-			Name = "Field Supervisor",
+			Name = "Lieutenant",
 			Flags = (
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
@@ -70,7 +70,7 @@ exports.jobs:Register("firefighter", {
 		{ Name = "Advanced Firefighter", },
 		{ Name = "Engineer", },
 		{
-			Name = "Field Supervisor",
+			Name = "Field Lieutenant",
 			Flags = (
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
