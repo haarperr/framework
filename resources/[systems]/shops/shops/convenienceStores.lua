@@ -33,7 +33,7 @@ RegisterShop("HARMONY_247", {
 	Name = "Harmony 24/7",
 	Clerks = {
 		{
-			coords = vector4(549.2772, 2669.603, 42.15648, 91.24641),
+			coords = vector4(548.6993, 2670.862, 42.15641, 98.72795),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
@@ -51,7 +51,7 @@ RegisterShop("INNOCENCE_247", {
 	Name = "Innocence 24/7",
 	Clerks = {
 		{
-			coords = vector4(24.49411, -1346.465, 29.49702, 265.8573),
+			coords = vector4(24.90272, -1346.925, 29.49698, 270.4617),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
@@ -88,7 +88,7 @@ RegisterShop("CLINTON_247", {
 	Name = "Clinton 24/7",
 	Clerks = {
 		{
-			coords = vector4(372.7724, 327.5338, 103.5664, 254.6205),
+			coords = vector4(373.0437, 326.558, 103.5664, 254.0845),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
