@@ -26,14 +26,21 @@ AddEventHandler("car-dealer:purchase", function(dealer, name, class)
 	local price = vehicleSettings.Value
 
 	-- Take money.
-	if not exports.inventory:CanAfford(source, price, Config.MoneyFlag, Config.UseDebit) then return end
+	local primaryAccount = exports.character:Get(source, "bank")
+	if not primaryAccount then
+		TriggerClientEvent("chat:notify", source, "You don't have a bank account?", "error")
+		return true
+	end
 
-	exports.inventory:TakeMoney(source, price, Config.MoneyFlag, Config.UseDebit)
-	--exports.log:AddEarnings(source, "Vehicles", -price)
-
-	exports.garages:AddVehicle(source, name, dealerSettings.Garage or Config.Garages[class] or 1, function(vehicle)
-		TriggerClientEvent("car-dealer:confirmPurchase", source, vehicle)
-	end)
+	if exports.banking:CanAfford(primaryAccount, price) then
+		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
+		TriggerClientEvent("chat:notify", source, "You spent $"..boughtPrice.."!", "success")
+		exports.garages:AddVehicle(source, name, dealerSettings.Garage or Config.Garages[class] or 1, function(vehicle)
+			TriggerClientEvent("car-dealer:confirmPurchase", source, vehicle)
+		end)
+	else
+		TriggerClientEvent("chat:notify", source, "You don't have enough for that!", "error")
+	end
 end)
 
 RegisterNetEvent("car-dealer:sellBack")
