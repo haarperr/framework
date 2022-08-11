@@ -44,7 +44,14 @@ function Main:Init()
 
 		return state.immobile
 	end, function(player, playerPed)
-		TriggerEvent("health:help", player)
+		local state =  (LocalPlayer or {}).state
+		if not state then return end
+
+		if not state.immobile and not state.restrained then
+			TriggerEvent("health:help", player)
+		else
+			TriggerEvent("chat:notify", "You're unable to do that!", "error")
+		end
 	end)
 end
 
