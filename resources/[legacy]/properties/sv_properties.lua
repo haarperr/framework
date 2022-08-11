@@ -954,7 +954,13 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 				extra = ("$%s"):format(comission),
 			})
 			
-			exports.character:AddBank(source, commission, true)
+			local primaryAccount = exports.character:Get("id", source)
+			if primaryAccount then
+				exports.banking:AddBank(source, primaryAccount, commission)
+			else
+				exports.inventory:GiveMoney(source, commission)
+			end
+			
 			exports.log:AddEarnings(source, "Property Commission", commission)
 		end
 	end, false)
