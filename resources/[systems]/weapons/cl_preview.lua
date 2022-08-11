@@ -265,45 +265,45 @@ function Preview:CheckObjects()
 end
 
 --[[ Threads ]]--
--- Citizen.CreateThread(function()
--- 	while true do
--- 		Preview:CheckObjects()
--- 		Citizen.Wait(2000)
--- 	end
--- end)
+Citizen.CreateThread(function()
+	while true do
+		Preview:CheckObjects()
+		Citizen.Wait(2000)
+	end
+end)
 
--- Citizen.CreateThread(function()
--- 	while true do
--- 		Preview:UpdatePed()
--- 		Citizen.Wait(200)
--- 	end
--- end)
+Citizen.CreateThread(function()
+	while true do
+		Preview:UpdatePed()
+		Citizen.Wait(200)
+	end
+end)
 
 --[[ Events ]]--
 AddEventHandler("inventory:", function()
 	
 end)
 
--- AddEventHandler("inventory:onContainerCreate", function(container)
--- 	if container.isSelf then
--- 		Preview:LoadContainer(container)
--- 	end
--- end)
+AddEventHandler("inventory:onContainerCreate", function(container)
+	if container.isSelf then
+		Preview:LoadContainer(container)
+	end
+end)
 
--- AddEventHandler("inventory:updateSlot", function(containerId, slotId, slot, item)
--- 	if containerId ~= Preview.containerId or (slot and State.currentSlot and slot.slot_id == State.currentSlot.slot_id) then return end
+AddEventHandler("inventory:updateSlot", function(containerId, slotId, slot, item)
+	if containerId ~= Preview.containerId or (slot and State.currentSlot and slot.slot_id == State.currentSlot.slot_id) then return end
 
--- 	Preview:UpdateSlot(slotId, slot and slot.id, item)
--- end)
+	Preview:UpdateSlot(slotId, slot and slot.id, item)
+end)
 
--- AddEventHandler("weapons:start", function()
--- 	-- Get container.
--- 	local container = exports.inventory:GetPlayerContainer()
--- 	if container == nil then return end
+AddEventHandler("weapons:start", function()
+	-- Get container.
+	local container = exports.inventory:GetPlayerContainer()
+	if container == nil then return end
 	
--- 	-- Update container.
--- 	Preview:LoadContainer(container)
--- end)
+	-- Update container.
+	Preview:LoadContainer(container)
+end)
 
 AddEventHandler("weapons:stop", function()
 	for id, slot in pairs(Preview.slots) do
