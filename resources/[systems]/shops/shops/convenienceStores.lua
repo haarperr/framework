@@ -69,7 +69,7 @@ RegisterShop("PALOMINO_247", {
 	Name = "Palomino 24/7",
 	Clerks = {
 		{
-			coords = vector4(2555.48, 380.8026, 108.6229, 358.1403),
+			coords = vector4(2556.835, 381.2682, 108.6228, 357.5427),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
@@ -142,7 +142,7 @@ RegisterShop("PALETO_247", {
 	Name = "Paleto 24/7",
 	Clerks = {
 		{
-			coords = vector4(1728.647, 6416.733, 35.03728, 239.1772),
+			coords = vector4(1728.386, 6415.51, 35.03712, 241.8797),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
@@ -160,7 +160,7 @@ RegisterShop("PALETO2_247", {
 	Name = "Paleto 2 24/7",
 	Clerks = {
 		{
-			coords = vector4(161.4018, 6641.906, 31.70326, 222.9873),
+			coords = vector4(1728.464, 6415.459, 35.03713, 245.5538),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
@@ -178,7 +178,7 @@ RegisterShop("SANDY_247", {
 	Name = "Sandy 24/7",
 	Clerks = {
 		{
-			coords = vector4(1959.326, 3741.4, 32.34373, 300.6078),
+			coords = vector4(1960.163, 3740.579, 32.34367, 300.1234),
 			model = "s_f_m_sweatshop_01",
 		},
 	},
