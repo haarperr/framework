@@ -670,8 +670,7 @@ Config = {
 			Usable = true,
 			Description = "Perform surgery.",
 			Action = "Performs surgery on the wound.",
-			Limit = 1,
-			Removable = true,
+			Removable = false,
 			Condition = function(bone)
 				return bone and Main:IsInjuryPresent({
 					["Gunshot"] = true,
