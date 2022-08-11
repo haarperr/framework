@@ -73,6 +73,10 @@ end)
 AddEventHandler("character:selected", function(character)
 	if not character then return end
 
+	if not character.appearance and not character.features then
+		TriggerEvent("health:revive", true)
+	end
+
 	if character.appearance or character.features then
 		Main:SetData({
 			appearance = character.appearance,
@@ -80,7 +84,6 @@ AddEventHandler("character:selected", function(character)
 		})
 	else
 		Editor:Toggle(true)
-		TriggerClientEvent("health:revive", true)
 	end
 end)
 
