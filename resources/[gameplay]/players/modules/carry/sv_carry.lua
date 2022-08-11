@@ -95,6 +95,9 @@ RegisterNetEvent("players:force", function(netId, seatIndex)
 	local vehicle = NetworkGetEntityFromNetworkId(netId)
 	if not vehicle or not DoesEntityExist(vehicle) then return end
 
+	-- Enable seatbelt.
+	TriggerClientEvent(target, "seatbelt:toggle", true)
+
 	-- Uncarry with parameters.
 	if Carry:Activate(source, target, false, netId, seatIndex) then
 		exports.log:Add({

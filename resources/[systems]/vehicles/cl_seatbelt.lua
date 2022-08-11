@@ -74,11 +74,12 @@ Citizen.CreateThread(function()
 	end
 end)
 
-exports("SetSeatbelt", function(status)
+RegisterNetEvent("seatbelt:toggle")
+AddEventHandler("seatbelt:toggle", function(status)
 	Seatbelt.Active = status
 	exports.hud:SetSeatbeltHUD(Seatbelt.Active)
 	if Seatbelt.Active then
-		TriggerEvent("chat:notify", "Seatbelt On!", "error")
+		TriggerEvent("chat:notify", "Seatbelt on!", "success")
 		TriggerEvent("sound:play", "seatbelt-buckle", 0.1)
 	else
 		TriggerEvent("chat:notify", "Seatbelt off!", "error")
