@@ -186,6 +186,10 @@ function Shop:Purchase(source, cart, paymentType)
 	end
 	
 	local primaryAccount = exports.character:Get(source, "bank")
+	if not primaryAccount then
+		TriggerClientEvent("chat:notify", source, "You don't have a bank account?", "error")
+		return true
+	end
 
 	if exports.banking:CanAfford(primaryAccount, totalPrice) then
 		for item, quantity in pairs(cart) do
@@ -196,7 +200,7 @@ function Shop:Purchase(source, cart, paymentType)
 				boughtPrice = boughtPrice - quantity * itemInfo.value
 			end
 		end
-		exports.banking:AddBank(source, primaryAccount, boughtPrice)
+		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
 	else
 		TriggerClientEvent("chat:notify", source, "You don't have enough for that!", "error")
 	end
