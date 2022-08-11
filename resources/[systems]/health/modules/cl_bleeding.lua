@@ -41,7 +41,7 @@ function Bone.process.update:Bleeding()
 
 		-- Add effects.
 		Main:AddEffect("Blood", BloodLoss)
-		Main:AddEffect("Health", -bleed * rate * 0.41)
+		Main:AddEffect("Health", -bleed * rate * 0.01)
 
 		BloodLoss = (BloodLoss or 0.0) + bloodLoss
 		
