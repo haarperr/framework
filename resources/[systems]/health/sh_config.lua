@@ -667,7 +667,7 @@ Config = {
 		},
 		["Surgical Kit"] = {
 			Item = "Surgical Kit",
-			Usable = true,
+			Usable = false,
 			Description = "Perform surgery.",
 			Action = "Performs surgery on the wound.",
 			Removable = false,
