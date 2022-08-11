@@ -8,19 +8,19 @@ Seed = 0
 --[[ Functions ]]--
 local function CheckRealtor(source, target, property)
 	if not exports.jobs:IsOnDuty(source, "realtor") then
-		TriggerClientEvent("chat:addMessage", source, "Must be on duty!")
+		TriggerClientEvent("chat:notify", source, "Must be on duty!")
 		return false
 	end
 
 	local targetCharacter = exports.character:Get(target, "id")
 	if not targetCharacter then
-		TriggerClientEvent("chat:addMessage", source, "Invalid target!")
+		TriggerClientEvent("chat:notify", source, "Invalid target!")
 		return false
 	end
 
 	property = Properties[property or -1]
 	if not property then
-		TriggerClientEvent("chat:addMessage", source, "Invalid property!")
+		TriggerClientEvent("chat:notify", source, "Invalid property!")
 		return false
 	end
 
@@ -34,7 +34,7 @@ local function CheckRealtor(source, target, property)
 	local targetCoords = GetEntityCoords(targetPed)
 
 	if #(pedCoords - targetCoords) > 10.0 or #(pedCoords - vector3(property.x, property.y, property.z)) > 10.0 then
-		TriggerClientEvent("chat:addMessage", source, "Not close enough!")
+		TriggerClientEvent("chat:notify", source, "Not close enough!")
 		return false
 	end
 
@@ -47,7 +47,7 @@ local function CheckCount(source, properties, _type)
 		local settings = Config.Types[property.type]
 		counts[property.type] = (counts[property.type] or 0) + 1
 		if property.type == _type and counts[property.type] >= (settings.Max or 1) then
-			TriggerClientEvent("chat:addMessage", source, ("You cannot buy another %s, you have too many!"):format(settings.Name))
+			TriggerClientEvent("chat:notify", source, ("You cannot buy another %s, you have too many!"):format(settings.Name))
 			return false
 		end
 	end
@@ -64,39 +64,45 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 	local character = exports.character:GetCharacter(source)
 	if not character then return false end
 
-	property.character_id = character.id
-	local properties = character.properties
-	properties[#properties + 1] = property
-	
-	exports.character:Set(source, "properties", properties)
-	TriggerClientEvent("properties:update", -1, property)
-	TriggerClientEvent("properties:bought", source, id)
+	if character.bank then
+		if exports.banking:CanAfford(character.bank, downPayment) then
 
-	local transactions = {
-		"UPDATE properties SET character_id=@character_id WHERE id=@id",
-	}
+			property.character_id = character.id
+			local properties = character.properties
+			properties[#properties + 1] = property
+			
+			exports.character:Set(source, "properties", properties)
+			TriggerClientEvent("properties:update", -1, property)
+			TriggerClientEvent("properties:bought", source, id)
 
-	if price ~= 0 then
-		transactions[#transactions + 1] = "CALL payments_add(@character_id, "..(lender or "NULL")..", @id, NULL, @days, @price, "..(mortgage or "0")..")"
+			local transactions = {
+				"UPDATE properties SET character_id=@character_id WHERE id=@id",
+			}
+
+			if price ~= 0 then
+				transactions[#transactions + 1] = "CALL payments_add(@character_id, "..(lender or "NULL")..", @id, NULL, @days, @price, "..(mortgage or "0")..")"
+			end
+			
+			exports.log:Add({
+				source = source,
+				verb = "purchased",
+				noun = "property",
+				extra = ("id: %s - price: $%s - down: $%s - mortgage: $%s"):format(id, price or 0, downPayment or 0, mortgage or 0),
+			})
+			
+			exports.GHMattiMySQL:Transaction(transactions, {
+				["@character_id"] = character.id,
+				["@id"] = id,
+				["@days"] = Config.PaymentDays,
+				["@price"] = price,
+			})
+			
+			exports.banking:AddBank(source, character.bank, downPayment * -1 or price * -1)
+
+			return true
+		end
 	end
-	
-	exports.log:Add({
-		source = source,
-		verb = "purchased",
-		noun = "property",
-		extra = ("id: %s - price: $%s - down: $%s - mortgage: $%s"):format(id, price or 0, downPayment or 0, mortgage or 0),
-	})
-	
-	exports.GHMattiMySQL:Transaction(transactions, {
-		["@character_id"] = character.id,
-		["@id"] = id,
-		["@days"] = Config.PaymentDays,
-		["@price"] = price,
-	})
-	
-	exports.inventory:TakeMoney(source, downPayment or price, settings.PaymentFlag or 0, true)
-
-	return true
+	return false
 end
 
 function HasProperty(source, id)
@@ -274,7 +280,7 @@ AddEventHandler("properties:breach", function(id)
 		local pedCoords = GetEntityCoords(ped)
 	
 		if #(pedCoords - vector3(property.x, property.y, property.z)) > 5.0 then
-			TriggerClientEvent("chat:addMessage", source, "You're too far from the door!")
+			TriggerClientEvent("chat:notify", source, "You're too far from the door!")
 			return
 		end
 
@@ -296,7 +302,7 @@ AddEventHandler("properties:breach", function(id)
 			extra = "id: "..id,
 		})
 
-		TriggerClientEvent("chat:addMessage", source, "You breach the door!", "advert")
+		TriggerClientEvent("chat:notify", source, "You breach the door!", "advert")
 		TriggerClientEvent("properties:locked", source, open)
 	end)
 end)
@@ -336,8 +342,8 @@ AddEventHandler("properties:buy", function(id)
 	local price = property.price or settings.Rent or settings.Value
 	if not price then return end
 
-	if not exports.inventory:CanAfford(source, price, settings.PaymentFlag, true) then
-		TriggerClientEvent("chat:addMessage", source, "You cannot afford this property!")
+	if not exports.banking:CanAfford(character.bank, price) then
+		TriggerClientEvent("chat:notify", source, "You cannot afford this property!")
 		return
 	end
 
@@ -549,7 +555,7 @@ exports.chat:RegisterCommand("a:propertyadd", function(source, args, rawCommand)
 	local _type = args[1]
 
 	if not Config.Types[_type] then
-		TriggerClientEvent("chat:addMessage", "Invalid type!")
+		TriggerClientEvent("chat:notify", "Invalid type!")
 		return
 	end
 
@@ -565,7 +571,7 @@ exports.chat:RegisterCommand("a:propertyadd", function(source, args, rawCommand)
 		w = heading,
 	}
 
-	TriggerClientEvent("chat:addMessage", source, "Adding...")
+	TriggerClientEvent("chat:notify", source, "Adding...")
 
 	exports.GHMattiMySQL:Insert("properties", {
 		property
@@ -575,7 +581,7 @@ exports.chat:RegisterCommand("a:propertyadd", function(source, args, rawCommand)
 		Properties[id] = property
 
 		TriggerClientEvent("properties:add", -1, property)
-		TriggerClientEvent("chat:addMessage", source, ("Added property: %s!"):format(id))
+		TriggerClientEvent("chat:notify", source, ("Added property: %s!"):format(id))
 		
 		exports.log:Add({
 			source = source,
@@ -596,7 +602,7 @@ exports.chat:RegisterCommand("a:propertyremove", function(source, args, rawComma
 	local id = tonumber(args[1])
 
 	if not id or not Properties[id] then
-		TriggerClientEvent("chat:addMessage", "Property doesn't exist!")
+		TriggerClientEvent("chat:notify", "Property doesn't exist!")
 		return
 	end
 	
@@ -606,7 +612,7 @@ exports.chat:RegisterCommand("a:propertyremove", function(source, args, rawComma
 	
 	Properties[id] = nil
 	TriggerClientEvent("properties:remove", -1, id)
-	TriggerClientEvent("chat:addMessage", source, ("Removed property: %s!"):format(id))
+	TriggerClientEvent("chat:notify", source, ("Removed property: %s!"):format(id))
 
 	exports.log:Add({
 		source = source,
@@ -626,7 +632,7 @@ exports.chat:RegisterCommand("a:garageadd", function(source, args, rawCommand)
 	local property = tonumber(args[1])
 
 	if not Properties[property] then
-		TriggerClientEvent("chat:addMessage", "Property not found!")
+		TriggerClientEvent("chat:notify", "Property not found!")
 		return
 	end
 
@@ -642,10 +648,10 @@ exports.chat:RegisterCommand("a:garageadd", function(source, args, rawCommand)
 		w = heading,
 	}
 
-	TriggerClientEvent("chat:addMessage", source, "Adding...")
+	TriggerClientEvent("chat:notify", source, "Adding...")
 
 	exports.garages:AddGarage(garage, function(id)
-		TriggerClientEvent("chat:addMessage", source, ("Added garage: %s!"):format(id))
+		TriggerClientEvent("chat:notify", source, ("Added garage: %s!"):format(id))
 		exports.log:Add({
 			source = source,
 			verb = "added",
@@ -669,26 +675,26 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 
 	-- Self check.
 	if target == source then
-		TriggerClientEvent("chat:addMessage", source, "Can't give keys to yourself!")
+		TriggerClientEvent("chat:notify", source, "Can't give keys to yourself!")
 		return
 	end
 	
 	-- Check the property.
 	if not property then
-		TriggerClientEvent("chat:addMessage", source, "Invalid property!")
+		TriggerClientEvent("chat:notify", source, "Invalid property!")
 		return
 	end
 	
 	local characterId = exports.character:Get(source, "id")
 	if not characterId or characterId ~= property.character_id then
-		TriggerClientEvent("chat:addMessage", source, "You do not own this property!")
+		TriggerClientEvent("chat:notify", source, "You do not own this property!")
 		return
 	end
 	
 	-- Check the target.
 	local targetId = exports.character:Get(target, "id")
 	if not targetId then
-		TriggerClientEvent("chat:addMessage", source, "Invalid target!")
+		TriggerClientEvent("chat:notify", source, "Invalid target!")
 		return
 	end
 
@@ -696,7 +702,7 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 	local targetPed = GetPlayerPed(target)
 
 	if not ped or not targetPed or #(GetEntityCoords(ped) - GetEntityCoords(targetPed)) > 10.0 then
-		TriggerClientEvent("chat:addMessage", source, "They're not close enough!")
+		TriggerClientEvent("chat:notify", source, "They're not close enough!")
 		return
 	end
 	
@@ -722,7 +728,7 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 
 		for _, _key in ipairs(keys) do
 			if _key.property_id == propertyId then
-				TriggerClientEvent("chat:addMessage", target, "You already have this key!")
+				TriggerClientEvent("chat:notify", target, "You already have this key!")
 				return
 			end
 		end
@@ -733,7 +739,7 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 		exports.GHMattiMySQL:Insert("`keys`", { key })
 
 		for k, v in ipairs({ source, target }) do
-			TriggerClientEvent("chat:addMessage", v, "Gave key!")
+			TriggerClientEvent("chat:notify", v, "Gave key!")
 		end
 	end)
 end, {
@@ -753,19 +759,19 @@ exports.chat:RegisterCommand("property:takekey", function(source, args, rawComma
 
 	-- Check the property.
 	if not property then
-		TriggerClientEvent("chat:addMessage", source, "Invalid property!")
+		TriggerClientEvent("chat:notify", source, "Invalid property!")
 		return
 	end
 	
 	local characterId = exports.character:Get(source, "id")
 	if not characterId or characterId ~= property.character_id then
-		TriggerClientEvent("chat:addMessage", source, "You do not own this property!")
+		TriggerClientEvent("chat:notify", source, "You do not own this property!")
 		return
 	end
 
 	-- Check the target.
 	if not targetId then
-		TriggerClientEvent("chat:addMessage", source, "Invalid target!")
+		TriggerClientEvent("chat:notify", source, "Invalid target!")
 		return
 	end
 
@@ -785,7 +791,7 @@ exports.chat:RegisterCommand("property:takekey", function(source, args, rawComma
 	})
 	
 	if result == 1 then
-		TriggerClientEvent("chat:addMessage", source, "Removed key!")
+		TriggerClientEvent("chat:notify", source, "Removed key!")
 
 		local target = exports.character:GetCharacterById(targetId)
 		if target then
@@ -801,7 +807,7 @@ exports.chat:RegisterCommand("property:takekey", function(source, args, rawComma
 			exports.character:Set(target, "keys", keys)
 		end
 	else
-		TriggerClientEvent("chat:addMessage", source, "Could not find key!")
+		TriggerClientEvent("chat:notify", source, "Could not find key!")
 	end
 end, {
 	help = "Take keys from somebody for your property.",
@@ -880,13 +886,13 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 	if not CheckRealtor(source, target, propertyId) then return end
 	
 	if source == target then
-		TriggerClientEvent("chat:addMessage", source, "You cannot sell yourself a property!")
+		TriggerClientEvent("chat:notify", source, "You cannot sell yourself a property!")
 		return
 	end
 	
 	property = Properties[propertyId]
 	if not property or property.character_id then
-		TriggerClientEvent("chat:addMessage", source, "This property is not available!")
+		TriggerClientEvent("chat:notify", source, "This property is not available!")
 		return
 	end
 
@@ -895,7 +901,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 
 	local price = settings.Value
 	if not price then
-		TriggerClientEvent("chat:addMessage", source, "This property is not under your jurisdiction!")
+		TriggerClientEvent("chat:notify", source, "This property is not under your jurisdiction!")
 		return
 	end
 
@@ -924,12 +930,12 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 	
 	exports.interaction:SendConfirm(source, target, message, function(response)
 		if not response then
-			TriggerClientEvent("chat:addMessage", target, "They refused to sign.")
+			TriggerClientEvent("chat:notify", target, "They refused to sign.")
 			return
 		end
 		local bank = exports.character:Get(target, "bank")
-		if not bank or bank < downPayment then
-			TriggerClientEvent("chat:addMessage", target, "Their bank has declined the payment.")
+		if not bank or not exports.banking:CanAfford(bank, downPayment) then
+			TriggerClientEvent("chat:notify", target, "Their bank has declined the payment.")
 			return
 		end
 		local sourceId = exports.character:Get(source, "id")
@@ -981,13 +987,13 @@ exports.chat:RegisterCommand("property:lookup", function(source, args, rawComman
 	local pedCoords = GetEntityCoords(ped)
 
 	if #(pedCoords - Config.LookupCoords) > 5.0 then
-		TriggerClientEvent("chat:addMessage", source, "You can't look that up here!", "advert")
+		TriggerClientEvent("chat:notify", source, "You can't look that up here!", "advert")
 		return
 	end
 
 	-- Cooldown.
 	if os.clock() - (Cooldowns[source] or 0.0) < 10.0 then
-		TriggerClientEvent("chat:addMessage", source, "Slow down!", "advert")
+		TriggerClientEvent("chat:notify", source, "Slow down!", "advert")
 		return
 	end
 
@@ -998,7 +1004,7 @@ exports.chat:RegisterCommand("property:lookup", function(source, args, rawComman
 
 	local property = Properties[id]
 	if not property then
-		TriggerClientEvent("chat:addMessage", source, "Property not found!", "advert")
+		TriggerClientEvent("chat:notify", source, "Property not found!", "advert")
 		return
 	end
 
@@ -1074,7 +1080,7 @@ exports.chat:RegisterCommand("a:givekey", function(source, args, rawCommand, cb)
 
 	exports.character:Set(target, "keys", keys)
 
-	TriggerEvent("chat:addMessage", source, ("Gave keys to [%s] for property %s!"):format(target, propertyId))
+	TriggerEvent("chat:notify", source, ("Gave keys to [%s] for property %s!"):format(target, propertyId))
 end, {
 	help = "Give keys to somebody.",
 	params = {
@@ -1091,7 +1097,7 @@ end, {
 
 -- 	property = Properties[propertyId]
 -- 	if not property or property.character_id then
--- 		TriggerClientEvent("chat:addMessage", source, "This property is not owned!")
+-- 		TriggerClientEvent("chat:notify", source, "This property is not owned!")
 -- 		return
 -- 	end
 
