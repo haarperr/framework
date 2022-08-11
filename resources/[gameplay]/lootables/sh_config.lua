@@ -32,7 +32,6 @@ Config = {
 				{ name = "Joint", chance = 0.01 },
 
 				-- Other.
-				{ name = "Ball", chance = 0.02 },
 				{ name = "Bandage", chance = 0.02 },
 				{ name = "Broken Bottle", chance = 0.03 },
 				{ name = "Cotton Swab", chance = 0.03 },
@@ -105,7 +104,6 @@ Config = {
 				{ name = "Crack Pipe", chance = 0.02, durability = { 0.05, 0.5 } },
 
 				-- Other.
-				{ name = "Ball", chance = 0.2 },
 				{ name = "Butter Knife", chance = 0.3, durability = { 0.05, 0.5 } },
 				{ name = "Glass", chance = 0.01, quantity = { 1, 3 } },
 				{ name = "Paper", chance = 0.03, quantity = { 1, 6 } },
