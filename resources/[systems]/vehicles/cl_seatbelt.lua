@@ -5,7 +5,8 @@ local Seatbelt = {
 }
 
 function SeatbeltActive()
-	return Seatbelt.Active
+	local state =  (LocalPlayer or {}).state
+	return state.seatbelt
 end
 
 function Seatbelt.CalculateForwardPosition(PlayerPed)
@@ -21,6 +22,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		local PlayerPed = PlayerPedId()
+		local state =  (LocalPlayer or {}).state
 
 		if IsPedSittingInAnyVehicle(PlayerPed) then
 			local Vehicle = GetVehiclePedIsIn(PlayerPed, false)
@@ -31,7 +33,7 @@ Citizen.CreateThread(function()
 					Buffer.Speed[2] = Buffer.Speed[1] or 0.0
 					Buffer.Speed[1] = GetEntitySpeed(Vehicle) * 2.23694
 
-					if Seatbelt.Active then
+					if state.seatbelt then
 						DisableControlAction(0, 75, true)
 						DisableControlAction(1, 75, true)
 						DisableControlAction(2, 75, true)
@@ -52,21 +54,22 @@ Citizen.CreateThread(function()
 
 					if IsControlJustPressed(1, 29) then
 						Seatbelt.Active = not Seatbelt.Active
-						if Seatbelt.Active then
+						state:set("seatbelt", not state.seatbelt, true)
+						if state.seatbelt then
 							TriggerEvent("chat:notify", "Seatbelt On!", "success")
 							TriggerEvent("sound:play", "seatbelt-buckle", 0.1)
 						else
 							TriggerEvent("chat:notify", "Seatbelt Off!", "error")
 							TriggerEvent("sound:play", "seatbelt-unbuckle", 0.1)
 						end
-						exports.hud:SetSeatbeltHUD(Seatbelt.Active)
+						exports.hud:SetSeatbeltHUD(state.seatbelt)
 					end
 				else
 					Buffer.Speed[1], Buffer.Speed[2] = 0.0, 0.0
 					Buffer.Velocity[1], Buffer.Velocity[2] = 0.0, 0.0
 					
-					if Seatbelt.Active then
-						Seatbelt.Active = false
+					if state.seatbelt then
+						state:set("seatbelt", false, true)
 					end
 				end
 			end
@@ -76,9 +79,10 @@ end)
 
 RegisterNetEvent("seatbelt:toggle")
 AddEventHandler("seatbelt:toggle", function(status)
-	Seatbelt.Active = status
-	exports.hud:SetSeatbeltHUD(Seatbelt.Active)
-	if Seatbelt.Active then
+	local state =  (LocalPlayer or {}).state
+	state:set("seatbelt", status, true)
+	exports.hud:SetSeatbeltHUD(state.seatbelt)
+	if state.seatbelt then
 		TriggerEvent("chat:notify", "Seatbelt on!", "success")
 		TriggerEvent("sound:play", "seatbelt-buckle", 0.1)
 	else

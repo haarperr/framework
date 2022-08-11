@@ -30,6 +30,15 @@ function Exiting:Activate()
 	if state.restrained and not IsVehicleDoorOpen(vehicle, doorIndex) then
 		return
 	end
+
+	-- Check seatbelt.
+	if state.seatbelt then
+		if GetEntitySpeed(vehicle) > 0 then
+			return
+		else
+			TriggerEvent("seatbelt:toggle", false)
+		end
+	end
 	
 	-- Check locks.
 	local class = GetVehicleClass(vehicle)
