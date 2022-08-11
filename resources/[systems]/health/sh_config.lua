@@ -539,9 +539,9 @@ Config = {
 			Treatment = {
 				function(bone, event, groupName)
 					if groupName == "Torso" then
-						return "Ice Pack", groupName
-					else
 						return "Fire Blanket", groupName
+					else
+						return "Ice Pack", groupName
 					end
 				end,
 			},
@@ -670,16 +670,18 @@ Config = {
 			Usable = false,
 			Description = "Perform surgery.",
 			Action = "Performs surgery on the wound.",
+			Limit = 1,
 			Removable = false,
-			Condition = function(bone)
-				return bone and Main:IsInjuryPresent({
-					["Gunshot"] = true,
-					["Stab"] = true,
-					["Compound Fracture"] = true,
-				}, bone:GetGroup())
-			end,
+			Injuries = {
+				["Compound Fracture"] = true,
+				["Gunshot"] = true,
+				["Stab"] = true,
+			},
 			Lifetime = function(bone, groupBone, treatments)
-				return IsPedSprinting(Ped) and 600.0 or 3600.0
+				return (IsPedRunning(Ped) or IsPedSprinting(Ped)) and 1.0 or 300.0
+			end,
+			Update = function(bone, groupBone, treatments)
+				Main:AddEffect("Blood", -1.0 / 60.0)
 			end,
 		},
 		["Tourniquet"] = {
