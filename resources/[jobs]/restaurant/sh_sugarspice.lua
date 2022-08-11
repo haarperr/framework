@@ -4,7 +4,7 @@ exports.jobs:Register("sugarspice", {
 	Faction = "restaurant",
 	Group = "sugarspice",
 	Clocks = {
-		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
+		{ Coords = vector3(1117.41, -641.4694, 56.81786), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "restaurant",
