@@ -185,9 +185,9 @@ function Shop:Purchase(source, cart, paymentType)
 		end
 	end
 	
-	local bank = exports.character:Get(source, "bank")
+	local primaryAccount = exports.character:Get(source, "bank")
 
-	if totalPrice < bank then
+	if exports.banking:CanAfford(primaryAccount, totalPrice) then
 		for item, quantity in pairs(cart) do
 			local itemInfo = exports.inventory:GetItem(item)
 			if not itemInfo then return false end
@@ -196,10 +196,16 @@ function Shop:Purchase(source, cart, paymentType)
 				boughtPrice = boughtPrice - quantity * itemInfo.value
 			end
 		end
+		exports.banking:AddBank(source, primaryAccount, boughtPrice)
+	else
+		TriggerClientEvent("chat:notify", source, "You don't have enough for that!", "error")
 	end
 
-	exports.character:Set(source, "bank", round(bank - boughtPrice, 2))
-
+	if boughtPrice > 0 then
+		TriggerClientEvent("chat:notify", source, "You spent $"..boughtPrice.."!", "success")
+	else
+		TriggerClientEvent("chat:notify", source, "You didn't have room!", "error")
+	end
 	return true
 end
 
