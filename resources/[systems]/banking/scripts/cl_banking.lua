@@ -133,10 +133,6 @@ AddEventHandler("banking:clientStart", function()
 				{
 					id = "bank-coin",
 					text = "Trade Coins",
-				},
-				{
-					id = "paycheck",
-					text = "Collect Paycheck",
 				}
 			},
 			coords = bank.Coords,
@@ -150,9 +146,6 @@ AddEventHandler("banking:clientStart", function()
 		end)
 
 	end
-	AddEventHandler("interact:on_paycheck", function()
-		TriggerServerEvent("paychecks:request")
-	end)
 end)
 
 RegisterNetEvent("banking:initAccounts")
