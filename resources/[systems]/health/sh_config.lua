@@ -518,19 +518,64 @@ Config = {
 			end,
 		},
 		["Overdose"] = {
-			Lifetime = 300.0,
+			Lifetime = 400.0,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["IV Bag"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"IV Bag",
+			},
 		},
 		["Shock"] = {
 			Lifetime = 300.0,
+			Lifetime = 300.0,
+			Healing = 0.08,
+			Lifetime = 300.0,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["Fire Blanket"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"Fire Blanket",
+			},
 		},
 		["Drown"] = {
+			Lifetime = 360.0,
+			Healing = 0.06,
 			Lifetime = 300.0,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["Fire Blanket"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"Fire Blanket",
+			},
 		},
 		["Starvation"] = {
 			Lifetime = 300.0,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["IV Bag"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"IV Bag",
+			},
 		},
 		["Dehydration"] = {
 			Lifetime = 300.0,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["IV Bag"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"IV Bag",
+			},
 		},
 		["Electrocution"] = {
 			Lifetime= function(bone, groupBone, treatments)
@@ -552,14 +597,41 @@ Config = {
 		["1st Degree Burn"] = {
 			Lifetime = 300.0,
 			Healing = 0.06,
+			Lifetime = 300.0,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["Fire Blanket"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"Fire Blanket",
+			},
 		},
 		["2nd Degree Burn"] = {
+			Lifetime = 400.0,
+			Healing = 0.06,
 			Lifetime = 300.0,
-			Healing = 0.04,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["Fire Blanket"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"Fire Blanket",
+			},
 		},
 		["3rd Degree Burn"] = {
+			Lifetime = 500.0,
+			Healing = 0.06,
 			Lifetime = 300.0,
-			Healing = 0.02,
+			Clear = 0.2,
+			Healing = 0.08,
+			Lifetime = function(bone, groupBone, treatments)
+				return treatments["Fire Blanket"] and 300.0 or 1800.0
+			end,
+			Treatment = {
+				"Fire Blanket",
+			},
 		},
 	},
 	Treatments = {
@@ -638,6 +710,7 @@ Config = {
 			end,
 			Update = function(bone, groupBone, treatments)
 				Main:AddEffect("Blood", -1.0 / 60.0)
+				Main:AddEffect("Thirst", 1.0 / 60.0)
 			end,
 		},
 		["Nasopharyngeal Airway"] = {
