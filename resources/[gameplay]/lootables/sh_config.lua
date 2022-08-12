@@ -4,7 +4,7 @@ Config = {
 	Types = {
 		["bin_small"] = {
 			Anim = { Dict = "amb@prop_human_bum_bin@idle_a", Name = "idle_a", Flag = 1 },
-			Radius = 0.7,
+			Radius = 0.3,
 			Energy = 0.01,
 			Exponential = 2.0,
 			QuickTime = {
