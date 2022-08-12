@@ -111,14 +111,14 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 
 	-- Finalize the robbery.
 	if not site.beingRobbed then
-		--[[exports.dispatch:Add({
+		exports.dispatch:Add({
 			coords = siteSettings.Center,
 			group = "Emergency",
 			hasBlip = true,
 			message = "10-90",
 			messageType = 0,
 			source = source
-		})]]
+		})
 
 		site.beingRobbed = true
 	end
