@@ -97,4 +97,5 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.thirst then Main:AddEffect("Thirst", item.thirst) end
 	if item.comfort then Main:AddEffect("Comfort", item.comfort) end
 	if item.energy then Main:AddEffect("Energy", item.energy) end
+	if item.stress then Main:AddEffect("Stress", item.stress) end
 end)
