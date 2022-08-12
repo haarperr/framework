@@ -76,7 +76,7 @@ const handlers = {
     },
 
     onLogLine(data) {
-        document.querySelector('.letni p').innerHTML = data.message + "..!";
+        //document.querySelector('.letni p').innerHTML = data.message + "..!";
     }
 };
 
