@@ -99,7 +99,7 @@ exports.jobs:Register("bcso", {
 	Group = "bcso",
 	Flags = PD_FLAGS,
 	Clocks = {
-		{ Coords = vector3(1848.291, 3686.824, 34.27011), Radius = 2.0 },
+		{ Coords = vector3(1837.863, 3680.292, 34.18918), Radius = 2.0 },
 	},
 	Tracker = {
 		Group = "emergency",
