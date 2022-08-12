@@ -632,7 +632,7 @@ exports.chat:RegisterCommand("a:garageadd", function(source, args, rawCommand)
 	local property = tonumber(args[1])
 
 	if not Properties[property] then
-		TriggerClientEvent("chat:notify", source, "Property not found!", , "error")
+		TriggerClientEvent("chat:notify", source, "Property not found!", "error")
 		return
 	end
 
