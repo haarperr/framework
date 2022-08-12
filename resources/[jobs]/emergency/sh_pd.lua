@@ -78,6 +78,11 @@ exports.jobs:Register("lspd", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Licenses = {
+		{ Name = "Drivers" },
+		{ Name = "Weapons" },
+		{ Name = "Pilots" },
+	},
 	Emergency = {
 		AccessMdt = "police",
 		CanBreach = true,
@@ -146,6 +151,14 @@ exports.jobs:Register("bcso", {
 			Name = "Sheriff",
 			Flags = Jobs.Permissions.ALL()
 		},
+	},
+	Licenses = {
+		{ Name = "Drivers" },
+		{ Name = "Boating" },
+		{ Name = "Weapons" },
+		{ Name = "Fishing" },
+		{ Name = "Hunting" },
+		{ Name = "Pilots" },
 	},
 	Emergency = {
 		AccessMdt = "police",
@@ -216,6 +229,14 @@ exports.jobs:Register("sasp", {
 			Name = "Colonel",
 			Flags = Jobs.Permissions.ALL()
 		},
+	},
+	Licenses = {
+		{ Name = "Drivers" },
+		{ Name = "Boating" },
+		{ Name = "Weapons" },
+		{ Name = "Fishing" },
+		{ Name = "Hunting" },
+		{ Name = "Pilots" },
 	},
 	Emergency = {
 		AccessMdt = "police",

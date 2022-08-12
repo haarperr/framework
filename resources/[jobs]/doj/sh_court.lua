@@ -19,4 +19,13 @@ exports.jobs:Register("doj", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Licenses = {
+		{ Name = "Drivers" },
+		{ Name = "Boating" },
+		{ Name = "Weapons" },
+		{ Name = "Fishing" },
+		{ Name = "Hunting" },
+		{ Name = "Pilots" },
+		{ Name = "Commercial-Hunting" },
+	},
 })

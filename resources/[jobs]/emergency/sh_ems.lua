@@ -49,6 +49,25 @@ exports.jobs:Register("paramedic", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Licenses = {
+		{ Name = "Medical" },
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = true,
+		Panic = "Paramedic",
+		DispatchPriority = {
+			["10-47a"] = true,
+			["10-47b"] = true,
+			["10-47c"] = true,
+			["10-47d"] = true,
+			["10-52"] = true,
+			["11-99"] = true,
+		},
+	},
 })
 
 exports.jobs:Register("firefighter", {
@@ -98,6 +117,25 @@ exports.jobs:Register("firefighter", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Licenses = {
+		{ Name = "Medical" },
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = true,
+		Panic = "Firefighter",
+		DispatchPriority = {
+			["10-47a"] = true,
+			["10-47b"] = true,
+			["10-47c"] = true,
+			["10-47d"] = true,
+			["10-52"] = true,
+			["11-99"] = true,
+		},
+	},
 })
 
 exports.jobs:Register("lsms", {
@@ -124,6 +162,25 @@ exports.jobs:Register("lsms", {
 		{
 			Name = "Dean of Medicine",
 			Flags = Jobs.Permissions.ALL()
+		},
+	},
+	Licenses = {
+		{ Name = "Medical" },
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = true,
+		Panic = "Doctor",
+		DispatchPriority = {
+			["10-47a"] = true,
+			["10-47b"] = true,
+			["10-47c"] = true,
+			["10-47d"] = true,
+			["10-52"] = true,
+			["11-99"] = true,
 		},
 	},
 })
