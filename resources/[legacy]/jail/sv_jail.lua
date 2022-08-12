@@ -266,11 +266,11 @@ exports.chat:RegisterCommand("jail", function(source, args, rawCommand)
 
 	Jail(source, target, minutes, _type)
 end, {
-	help = "Send somebody to (a) jail.",
-	params = {
-		{ name = "Target", help = "Who are you sending to jail?" },
-		{ name = "Minutes", help = "How long they will be in jail, in minutes." },
-		{ name = "Type", help = "What type of jail? Prison (default), parsons or cayo?" },
+	description = "Send somebody to (a) jail.",
+	parameters = {
+		{ name = "Target", description = "Who are you sending to jail?" },
+		{ name = "Minutes", description = "How long they will be in jail, in minutes." },
+		{ name = "Type", description = "What type of jail? Prison (default), parsons or cayo?" },
 	}
 }, -1)
 
@@ -296,10 +296,10 @@ exports.chat:RegisterCommand("jail:release", function(source, args, rawCommand)
 
 	Unjail(target, keepPosition)
 end, {
-	help = "Free somebody from (a) jail.",
-	params = {
-		{ name = "Target", help = "Who are you sending to jail?" },
-		{ name = "Teleport", help = "Teleport them to the front? [true/false]" },
+	description = "Free somebody from (a) jail.",
+	parameters = {
+		{ name = "Target", description = "Who are you sending to jail?" },
+		{ name = "Teleport", description = "Teleport them to the front? [true/false]" },
 	}
 }, -1)
 
@@ -323,9 +323,9 @@ exports.chat:RegisterCommand("jail:checktime", function(source, args, rawCommand
 
 	TriggerClientEvent("chat:addMessage", source, ("%s months left!"):format(math.ceil((jailed.end_time - os.time() * 1000) / 60000)))
 end, {
-	help = "Check somebody's time left in (a) jail.",
-	params = {
-		{ name = "Target", help = "Who's time are you checking?" },
+	description = "Check somebody's time left in (a) jail.",
+	parameters = {
+		{ name = "Target", description = "Who's time are you checking?" },
 	}
 }, -1)
 
@@ -359,9 +359,9 @@ exports.chat:RegisterCommand("jail:addtime", function(source, args, rawCommand)
 	AddTime(target, minutes)
 	TriggerClientEvent("chat:addMessage", source, ("Modified sentance %s months!"):format(minutes))
 end, {
-	help = "Add time to someone's jail sentence.",
-	params = {
-		{ name = "Target", help = "Who's time are you changing?" },
-		{ name = "Minutes", help = "How many minutes do you want to add (or subtract) to their time?" },
+	description = "Add time to someone's jail sentence.",
+	parameters = {
+		{ name = "Target", description = "Who's time are you changing?" },
+		{ name = "Minutes", description = "How many minutes do you want to add (or subtract) to their time?" },
 	}
 }, -1)
