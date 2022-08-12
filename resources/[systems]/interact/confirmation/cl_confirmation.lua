@@ -1,4 +1,5 @@
 local waitingFor = nil
+Messages = {}
 
 --[[ Functions ]]--
 Messages["confirm"] = function(source, message, value)
