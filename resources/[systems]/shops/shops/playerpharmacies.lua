@@ -26,7 +26,7 @@ RegisterShop("VESPUCCI_PPH1", {
 		},
 	},
 	Storage = {
-		Coords = vector3(325.7496, -1074.454, 29.47332),
+		Coords = vector3(-490.9868, -342.9051, 42.3208),
 		Radius = 2.0,
 		Filters = Config.Filters.Playpharm,
 	},
