@@ -40,27 +40,29 @@
       </q-drawer>
       
       <q-page-container class="scroll hide-scrollbar" style="height: 800px; background-color: #121212">
-        <div class="q-pa-sm" v-for="transaction in accounts[selectedAccount].transactions" :key="transaction.id">
-          <q-card class="text-white bg-dark" bordered>
-            <q-card-section horizontal>
-              <q-card-section class="q-pt-xs">
-                <div class="text-overline text-bold">{{ transactions[transaction.transaction_type - 1].name }}</div>
-                <div class="text-h5 q-mt-sm q-mb-xs">{{ formatPrice(transaction.transaction_amount) }}</div>
-                <div class="text-caption text-grey">
-                  {{ transaction.transaction_note }}
-                </div>
+        <div v-if="accounts.length > 0">
+          <div class="q-pa-sm" v-for="transaction in accounts[selectedAccount].transactions" :key="transaction.id">
+            <q-card class="text-white bg-dark" bordered>
+              <q-card-section horizontal>
+                <q-card-section class="q-pt-xs">
+                  <div class="text-overline text-bold">{{ transactions[transaction.transaction_type - 1].name }}</div>
+                  <div class="text-h5 q-mt-sm q-mb-xs">{{ formatPrice(transaction.transaction_amount) }}</div>
+                  <div class="text-caption text-grey">
+                    {{ transaction.transaction_note }}
+                  </div>
+                </q-card-section>
               </q-card-section>
-            </q-card-section>
 
-            <q-separator class="bg-grey"/>
+              <q-separator class="bg-grey"/>
 
-            <q-card-section>
-              <q-chip color="orange-10" text-color="white" glossy icon="event">{{ formatTimestamp(transaction.transaction_date) }}</q-chip>
-              <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.transaction_person }}</q-chip>
-              <q-chip color="green" v-if="transaction.transaction_to != null" text-color="white" glossy icon="savings">{{ "To " + transaction.transaction_to }}</q-chip>
-              <q-chip color="green" v-if="transaction.transaction_from != null" text-color="white" glossy icon="savings">{{ "From " + transaction.transaction_from }}</q-chip>
-            </q-card-section>
-          </q-card>
+              <q-card-section>
+                <q-chip color="orange-10" text-color="white" glossy icon="event">{{ formatTimestamp(transaction.transaction_date) }}</q-chip>
+                <q-chip color="red" text-color="white" glossy icon="person">{{ transaction.transaction_person }}</q-chip>
+                <q-chip color="green" v-if="transaction.transaction_to != null" text-color="white" glossy icon="savings">{{ "To " + transaction.transaction_to }}</q-chip>
+                <q-chip color="green" v-if="transaction.transaction_from != null" text-color="white" glossy icon="savings">{{ "From " + transaction.transaction_from }}</q-chip>
+              </q-card-section>
+            </q-card>
+          </div>
         </div>
 
         <q-dialog v-model="transactionPrompt" persistent>
