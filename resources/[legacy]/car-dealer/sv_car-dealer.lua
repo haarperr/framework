@@ -56,7 +56,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 
 	local value = math.floor(((exports.vehicles:GetSettings(vehicle.model) or {}).Value or 0) * Config.Buyer.Delimiter)
 
-	exports.interaction:SendConfirm(source, source, "You are about to sell this vehicle for $"..exports.misc:FormatNumber(value), function(wasAccepted)
+	exports.interact:SendConfirm(source, source, "You are about to sell this vehicle for $"..exports.misc:FormatNumber(value), function(wasAccepted)
 		if not wasAccepted then return end
 		if characterId ~= exports.character:Get(source, "id") then return end
 
@@ -112,7 +112,7 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 	TriggerClientEvent("chat:notify", source, "Showing paperwork...", "inform")
 
 	-- Send confirmation.
-	exports.interaction:SendConfirm(source, target, "A vehicle transfer requires your signature. There will be a $"..fee.." fee", function(didAccept)
+	exports.interact:SendConfirm(source, target, "A vehicle transfer requires your signature. There will be a $"..fee.." fee", function(didAccept)
 		if not didAccept then
 			TriggerClientEvent("chat:notify", source, "They didn't sign...", "error")
 			return

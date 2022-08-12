@@ -271,7 +271,7 @@ AddEventHandler("properties:breach", function(id)
 	if not property then return end
 
 	local message = ("You must have probable cause to enter a property or have justification for entry under exigent circumstances. By typing /accept you are taking full responsibility for breaching this property"):format(property.id, property.type)
-	exports.interaction:SendConfirm(source, source, message, function(response)
+	exports.interact:SendConfirm(source, source, message, function(response)
 		if not response then return end
 
 		local ped = GetPlayerPed(source)
@@ -708,7 +708,7 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 	
 	-- Request to get the key.
 	local message = ("You are receiving the key to property %s (%s)"):format(property.id, property.type)
-	exports.interaction:SendConfirm(source, target, message, function(response)
+	exports.interact:SendConfirm(source, target, message, function(response)
 		if not response then return end
 
 		exports.log:Add({
@@ -932,7 +932,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 		message = "They hand you a contract for property "..propertyId..". It states you shall make a down payment of $"..exports.misc:FormatNumber(downPayment).." and will pay $"..exports.misc:FormatNumber(mortgage).." every 30 days for "..term.." months"
 	end
 	
-	exports.interaction:SendConfirm(source, target, message, function(response)
+	exports.interact:SendConfirm(source, target, message, function(response)
 		if not response then
 			TriggerClientEvent("chat:notify", target, "They refused to sign.", "error")
 			return
