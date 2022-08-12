@@ -175,9 +175,9 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 		TriggerClientEvent("chat:addMessage", target, ("Received vehicle %s!"):format(vehicleId))
 	end, true)
 end, {
-	help = "Transfer one of your vehicles to another person.",
-	params = {
-		{ name = "Vehicle", help = "The vehicle to transfer, use the identification number found in the phone." },
-		{ name = "Target", help = "The person to transfer to, using their server ID." },
+	description = "Transfer one of your vehicles to another person.",
+	parameters = {
+		{ name = "Vehicle", description = "The vehicle to transfer, use the identification number found in the phone." },
+		{ name = "Target", description = "The person to transfer to, using their server ID." },
 	}
 }, 2)

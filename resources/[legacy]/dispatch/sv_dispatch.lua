@@ -274,10 +274,10 @@ exports.chat:RegisterCommand("dispatch", function(source, args, rawCommand)
 		::continue::
 	end
 end, {
-	help = "",
-	params = {
-		{ name = "Target", help = "ID of the target for the message." },
-		{ name = "Message", help = "The message sent through dispatch." },
+	description = "",
+	parameters = {
+		{ name = "Target", description = "ID of the target for the message." },
+		{ name = "Message", description = "The message sent through dispatch." },
 	}
 }, paramCount or -1, group)
 
@@ -301,8 +301,8 @@ exports.chat:RegisterCommand("a:dispatch", function(source, args, rawCommand)
 		})
 	end
 end, {
-	help = "",
-	params = {
-		{ name = "Message", help = "Send a message directly to dispatch at your position." },
+	description = "",
+	parameters = {
+		{ name = "Message", description = "Send a message directly to dispatch at your position." },
 	}
 }, -1, 75)
