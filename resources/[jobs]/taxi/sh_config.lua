@@ -1,6 +1,6 @@
 Config = {
 	Debug = true,
-	DefaultMeterRate = 50.0,
+	DefaultMeterRate = 10.0,
 	SecondsAfterStartingFareBeforeWarningsOccur = 30,
 	SecondsBetweenTooFarWarnings = 15,
 	MaxTooFareWarningsAllowed = 3,

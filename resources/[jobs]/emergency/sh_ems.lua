@@ -6,6 +6,7 @@ exports.jobs:Register("paramedic", {
 	Title = "EMS",
 	Name = "Paramedic",
 	Faction = "ems",
+	Pay = 80,
 	Group = "paramedic",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -49,9 +50,6 @@ exports.jobs:Register("paramedic", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
-	Licenses = {
-		{ Name = "Medical" },
-	},
 	Emergency = {
 		AccessMdt = "police",
 		CanBreach = true,
@@ -74,6 +72,7 @@ exports.jobs:Register("firefighter", {
 	Title = "EMS",
 	Name = "Firefighter",
 	Faction = "ems",
+	Pay = 90,
 	Group = "firefighter",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -117,9 +116,6 @@ exports.jobs:Register("firefighter", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
-	Licenses = {
-		{ Name = "Medical" },
-	},
 	Emergency = {
 		AccessMdt = "police",
 		CanBreach = true,
@@ -142,6 +138,7 @@ exports.jobs:Register("lsms", {
 	Title = "EMS",
 	Name = "Los Santos Medical Services",
 	Faction = "ems",
+	Pay = 80,
 	Group = "lsms",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -163,9 +160,6 @@ exports.jobs:Register("lsms", {
 			Name = "Dean of Medicine",
 			Flags = Jobs.Permissions.ALL()
 		},
-	},
-	Licenses = {
-		{ Name = "Medical" },
 	},
 	Emergency = {
 		AccessMdt = "police",

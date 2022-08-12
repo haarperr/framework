@@ -101,6 +101,7 @@ exports.jobs:Register("bcso", {
 	Title = "Police",
 	Name = "Blaine County Sheriff's Office",
 	Faction = "pd",
+	Pay = 80,
 	Group = "bcso",
 	Flags = PD_FLAGS,
 	Clocks = {
@@ -178,6 +179,7 @@ exports.jobs:Register("sasp", {
 	Title = "Police",
 	Name = "San Andreas State Police",
 	Faction = "pd",
+	Pay = 80,
 	Group = "sasp",
 	Flags = PD_FLAGS,
 	Clocks = {
@@ -256,6 +258,7 @@ exports.jobs:Register("doc", {
 	Title = "Police",
 	Name = "Department of Corrections",
 	Faction = "pd",
+	Pay = 80,
 	Group = "doc",
 	Flags = PD_FLAGS,
 	Clocks = {

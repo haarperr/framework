@@ -2,6 +2,7 @@ exports.jobs:Register("sapr", {
 	Title = "Federal",
 	Name = "San Andreas Park Rangers",
 	Faction = "federal",
+	Pay = 90,
 	Group = "sapr",
 	Clocks = {
 		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
