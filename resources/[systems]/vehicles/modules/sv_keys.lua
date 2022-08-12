@@ -129,7 +129,10 @@ RegisterNetEvent("vehicles:toggleLock", function(netId, status)
 	TriggerClientEvent("vehicles:toggleLock", target, netId, status)
 
 	-- Notify source.
-	TriggerClientEvent("chat:notify", source, status and "Locked vehicle!" or "Unlocked vehicle!")
+	TriggerClientEvent("chat:notify", source, {
+		class = "inform",
+		text = status and "Locked vehicle!" or "Unlocked vehicle!"
+	})
 
 	-- Play lock sound.
 	exports.sound:PlaySoundPlayer(source, "carlock")
