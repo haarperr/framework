@@ -19,3 +19,25 @@ RegisterNetEvent("licenses:load", function(licenseData)
 	licenses = licenseData or {}
 	exports.character:Set("licenses", licenseData)
 end)
+
+RegisterNetEvent("licenses:check")
+AddEventHandler("licenses:check", function()
+	local message = ""
+	local licenses = exports.character:GetLicenses()
+
+	if licenses then
+		for license, info in pairs(licenses) do
+			if message ~= "" then
+				message = message..", "
+			end
+			message = ("%s%s (%s)"):format(message, license, info.points)
+		end
+	end
+	if message == "" then
+		message = "You have no licenses."
+	else
+		message = ("Licenses: %s."):format(message)
+	end
+
+	TriggerEvent("chat:addMessage", message)
+end)

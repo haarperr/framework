@@ -73,10 +73,8 @@ function CanLicense(source, license)
 	
 	local job = exports.jobs:GetCurrentJob(source)
 	if not job then return false end
-	
-	local faction = exports.factions:Has(source, job.faction, job.group)
-	if not faction then return false end
-
+	print("got job")
+	print(json.encode(job))
 	if not job.Licenses then return false end
 
 	for k, v in ipairs(job.Licenses) do
@@ -135,11 +133,11 @@ exports("AddPointsToLicense", AddPointsToLicense)
 
 exports.chat:RegisterCommand("licenses", function(source, args, command)
 	if source == 0 then return end
-	TriggerClientEvent("jobs:command", source, "licenses")
+	TriggerClientEvent("licenses:check", source)
 end, {
 	help = "Check your licenses.",
 	params = {}
-}, -1, 0)
+}, -1)
 
 exports.chat:RegisterCommand("licenseadd", function(source, args, command)
 	local target = tonumber(args[1])
