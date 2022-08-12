@@ -75,8 +75,8 @@ function CanLicense(source, license)
 	if source == 0 then return true end
 	local character = exports.character:GetCharacter(source)
 	if not character then return false end
-	
-	local job = exports.jobs:GetCurrentJob(character.id)
+
+	local job = exports.jobs:GetCurrentJob(source)
 	if not job then return false end
 
 	if not job.Licenses then return false end
@@ -86,6 +86,7 @@ function CanLicense(source, license)
 			return true
 		end
 	end
+
 	return false
 end
 
