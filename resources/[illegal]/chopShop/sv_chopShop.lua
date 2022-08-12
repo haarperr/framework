@@ -46,6 +46,19 @@ AddEventHandler("chopShop:requestTime", function()
 	TriggerClientEvent("chopShop:receiveTime", source, NextListTime - os.time())
 end)
 
+RegisterNetEvent("chopShop:beginScrapping")
+AddEventHandler("chopShop:beginScrapping", function(vehicle, plate, zone)
+	local source = source
+	local owned = exports.garages:GetVehicleByPlate(plate)
+
+	if owned then
+		TriggerClientEvent("notify:sendAlert", source, "error", "That's one hot whip.. try something else.", 10000)
+		return
+	end
+
+	TriggerClientEvent("chopShop:beginScrapping", source, vehicle, zone)
+end)
+
 RegisterNetEvent("chopShop:chopVehicle")
 AddEventHandler("chopShop:chopVehicle", function(index, modifier, netId)
 	local source = source
@@ -72,15 +85,16 @@ AddEventHandler("chopShop:chopVehicle", function(index, modifier, netId)
 		return
 	end
 
+	print(index)
+
 	modifier = math.min(math.max(modifier, 0.0), 1.0)
 
 	-- Chop the car.
-	local presence = exports.jobs:CountActiveEmergency("ChopShop")
+	local presence = exports.jobs:CountActiveDuty("ChopShop")
 	local result = 1
 	if presence >= Config.Presence.Min then
 		local price = math.floor(car.BasePrice * math.min(1.0 + (presence - Config.Presence.Min + 1) / (Config.Presence.Max - Config.Presence.Min + 1), Config.Presence.MaxRate) * modifier)
-		if price == 0 or exports.inventory:GiveItem(source, "bills", price) then
-			exports.log:AddEarnings(source, "Chopping", price)
+		if price == 0 or exports.inventory:GiveMoney(source, price) then
 			exports.log:Add({
 				source = source,
 				verb = "chopped",
