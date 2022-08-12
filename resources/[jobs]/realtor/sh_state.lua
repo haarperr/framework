@@ -9,10 +9,6 @@ exports.jobs:Register("staterealtor", {
 	Ranks = {
 		{ Name = "Realtor" },
 		{
-			Name = "Manager",
-			Flags = Jobs.Permissions.ALL()
-		},
-		{
 			Name = "Owner",
 			Flags = Jobs.Permissions.ALL()
 		},
