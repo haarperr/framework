@@ -45,6 +45,9 @@ end
 exports("HasLicense", HasLicense)
 
 function AddLicense(source, license)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	local licenses = GetLicenses(source)
 	if not licenses then return false end
 
@@ -60,7 +63,7 @@ function AddLicense(source, license)
 	licenses[license] = data
 	Main.licenses[character.id] = licenses
 
-	--AddModule(source, "licenses", data)
+	exports.character:AddModule(character.id, "licenses", { name = license })
 	exports.character:Set(source, "licenses", Main.licenses[character.id])
 	TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
 
@@ -70,11 +73,12 @@ exports("AddLicense", AddLicense)
 
 function CanLicense(source, license)
 	if source == 0 then return true end
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
 	
-	local job = exports.jobs:GetCurrentJob(source)
+	local job = exports.jobs:GetCurrentJob(character.id)
 	if not job then return false end
-	print("got job")
-	print(json.encode(job))
+
 	if not job.Licenses then return false end
 
 	for k, v in ipairs(job.Licenses) do
@@ -94,6 +98,9 @@ function CheckLicense(source, license)
 end
 
 function RemoveLicense(source, license)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	local licenses = GetLicenses(source)
 	if not licenses then return false end
 
@@ -101,7 +108,7 @@ function RemoveLicense(source, license)
 		return false
 	end
 
-	exports.character:RemoveModule(source, "licenses", { name = license })
+	exports.character:RemoveModule(character.id, "licenses", { name = license })
 
 	licenses[license] = nil
 
@@ -114,6 +121,9 @@ end
 exports("RemoveLicense", RemoveLicense)
 
 function AddPointsToLicense(source, name, points)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	local licenses = GetLicenses(source)
 	if not licenses then return false end
 
@@ -124,7 +134,7 @@ function AddPointsToLicense(source, name, points)
 	license.points = math.min(math.max(currentPoints + points, 0), 255)
 
 	Main.licenses[character.id][name] = license
-	exports.character:UpdateModule(source, "licenses", { points = license.points }, { name = name })
+	exports.character:UpdateModule(character.id, "licenses", { points = license.points }, { name = name })
 	exports.character:Set(source, "licenses", Main.licenses[character.id])
 	TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
 	return true
@@ -140,6 +150,9 @@ end, {
 }, -1)
 
 exports.chat:RegisterCommand("licenseadd", function(source, args, command)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	local target = tonumber(args[1])
 	if not exports.character:Get(target, "id") then return end
 
@@ -169,6 +182,9 @@ end, {
 }, 2, 0)
 
 exports.chat:RegisterCommand("licenserevoke", function(source, args, command)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	local target = tonumber(args[1])
 	if not exports.character:Get(target, "id") then return end
 
@@ -198,6 +214,9 @@ end, {
 }, 2, 0)
 
 exports.chat:RegisterCommand("licensepoints", function(source, args, command)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	local target = tonumber(args[1])
 	if not exports.character:Get(target, "id") then return end
 
@@ -238,6 +257,9 @@ end, {
 }, 3, 0)
 
 exports.chat:RegisterCommand("licensecheck", function(source, args, rawCommand)
+	local character = exports.character:GetCharacter(player)
+	if not character return false end
+
 	if not CheckFaction(source) then return end
 	
 	local message = ""
