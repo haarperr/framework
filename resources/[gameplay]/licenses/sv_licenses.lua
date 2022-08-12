@@ -74,7 +74,7 @@ function CanLicense(source, license)
 	local job = exports.jobs:GetCurrentJob(source)
 	if not job then return false end
 	
-	local faction = exports.character:Has(source, job.faction, job.group)
+	local faction = exports.factions:Has(source, job.faction, job.group)
 	if not faction then return false end
 
 	if not job.Licenses then return false end
