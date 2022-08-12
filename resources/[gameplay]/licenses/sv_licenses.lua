@@ -45,8 +45,8 @@ end
 exports("HasLicense", HasLicense)
 
 function AddLicense(source, license)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	local licenses = GetLicenses(source)
 	if not licenses then return false end
@@ -73,8 +73,8 @@ exports("AddLicense", AddLicense)
 
 function CanLicense(source, license)
 	if source == 0 then return true end
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 	
 	local job = exports.jobs:GetCurrentJob(character.id)
 	if not job then return false end
@@ -98,8 +98,8 @@ function CheckLicense(source, license)
 end
 
 function RemoveLicense(source, license)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	local licenses = GetLicenses(source)
 	if not licenses then return false end
@@ -121,8 +121,8 @@ end
 exports("RemoveLicense", RemoveLicense)
 
 function AddPointsToLicense(source, name, points)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	local licenses = GetLicenses(source)
 	if not licenses then return false end
@@ -150,8 +150,8 @@ end, {
 }, -1)
 
 exports.chat:RegisterCommand("licenseadd", function(source, args, command)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	local target = tonumber(args[1])
 	if not exports.character:Get(target, "id") then return end
@@ -182,8 +182,8 @@ end, {
 }, 2, 0)
 
 exports.chat:RegisterCommand("licenserevoke", function(source, args, command)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	local target = tonumber(args[1])
 	if not exports.character:Get(target, "id") then return end
@@ -214,8 +214,8 @@ end, {
 }, 2, 0)
 
 exports.chat:RegisterCommand("licensepoints", function(source, args, command)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	local target = tonumber(args[1])
 	if not exports.character:Get(target, "id") then return end
@@ -257,8 +257,8 @@ end, {
 }, 3, 0)
 
 exports.chat:RegisterCommand("licensecheck", function(source, args, rawCommand)
-	local character = exports.character:GetCharacter(player)
-	if not character return false end
+	local character = exports.character:GetCharacter(source)
+	if not character then return false end
 
 	if not CheckFaction(source) then return end
 	
