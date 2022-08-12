@@ -14,8 +14,8 @@ AddEventHandler("interaction:send", function(target, message, value)
 		return
 	end
 
-	local sourceInstance = exports.instances:GetPlayerInstance(source)
-	local targetInstance = exports.instances:GetPlayerInstance(target)
+	local sourceInstance = exports.oldinstances:GetPlayerInstance(source)
+	local targetInstance = exports.oldinstances:GetPlayerInstance(target)
 
 	if sourceInstance ~= targetInstance then
 		return
