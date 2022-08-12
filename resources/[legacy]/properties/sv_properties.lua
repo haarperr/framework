@@ -591,9 +591,9 @@ exports.chat:RegisterCommand("a:propertyadd", function(source, args, rawCommand)
 		})
 	end, true)
 end, {
-	help = "Add an apartment.",
-	params = {
-		{ name = "Type", help = "The type of apartment to add." },
+	description = "Add an apartment.",
+	parameters = {
+		{ name = "Type", description = "The type of apartment to add." },
 	}
 }, "Admin")
 
@@ -621,9 +621,9 @@ exports.chat:RegisterCommand("a:propertyremove", function(source, args, rawComma
 		extra = ("id: %s"):format(id),
 	})
 end, {
-	help = "Remove an apatment.",
-	params = {
-		{ name = "ID", help = "The ID of the apartment to remove." },
+	description = "Remove an apatment.",
+	parameters = {
+		{ name = "ID", description = "The ID of the apartment to remove." },
 	}
 }, "Admin")
 
@@ -660,9 +660,9 @@ exports.chat:RegisterCommand("a:garageadd", function(source, args, rawCommand)
 		})
 	end)
 end, {
-	help = "Add a garage to existing property.",
-	params = {
-		{ name = "Property ID", help = "The property ID the garage will be attached to." },
+	description = "Add a garage to existing property.",
+	parameters = {
+		{ name = "Property ID", description = "The property ID the garage will be attached to." },
 	}
 }, "Admin")
 
@@ -743,10 +743,10 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 		end
 	end)
 end, {
-	help = "Give keys to somebody for your property.",
-	params = {
-		{ name = "Property", help = "ID of the property you're giving keys for." },
-		{ name = "Target", help = "The person you're giving keys to." },
+	description = "Give keys to somebody for your property.",
+	parameters = {
+		{ name = "Property", description = "ID of the property you're giving keys for." },
+		{ name = "Target", description = "The person you're giving keys to." },
 	}
 }, 2, 0)
 
@@ -810,10 +810,10 @@ exports.chat:RegisterCommand("property:takekey", function(source, args, rawComma
 		TriggerClientEvent("chat:notify", source, "Could not find key!")
 	end
 end, {
-	help = "Take keys from somebody for your property.",
-	params = {
-		{ name = "Property", help = "ID of the property you're taking keys from." },
-		{ name = "Character", help = "Character ID of the person you're taking keys from. NOT server ID." },
+	description = "Take keys from somebody for your property.",
+	parameters = {
+		{ name = "Property", description = "ID of the property you're taking keys from." },
+		{ name = "Character", description = "Character ID of the person you're taking keys from. NOT server ID." },
 	}
 }, 2, 0)
 
@@ -884,6 +884,10 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 	local target, propertyId = tonumber(args[1]), tonumber(args[2])
 
 	if not CheckRealtor(source, target, propertyId) then return end
+	if self.info.License and not exports.licenses:HasLicense(self.info.License) then
+        TriggerEvent("chat:notify", "You are not licensed to sell property!", "error")
+        return 
+    end
 	
 	if source == target then
 		TriggerClientEvent("chat:notify", source, "You cannot sell yourself a property!")
@@ -971,13 +975,13 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 		end
 	end, false)
 end, {
-	help = "Realtor command: sell properties to people",
-	params = {
-		{ name = "Target", help = "Who you're selling to" },
-		{ name = "Property", help = "What property you're selling (using /property:get)" },
-		{ name = "Discount", help = "How much to take off the property value, up to 10%" },
-		{ name = "Down Payment", help = "Percentage of the down payment they will pay, from 10 to 20(%)" },
-		{ name = "Term", help = "How many months the mortgage lasts, from 1 to 12 months (optional)" },
+	description = "Realtor command: sell properties to people",
+	parameters = {
+		{ name = "Target", description = "Who you're selling to" },
+		{ name = "Property", description = "What property you're selling (using /property:get)" },
+		{ name = "Discount", description = "How much to take off the property value, up to 10%" },
+		{ name = "Down Payment", description = "Percentage of the down payment they will pay, from 10 to 20(%)" },
+		{ name = "Term", description = "How many months the mortgage lasts, from 1 to 12 months (optional)" },
 	}
 }, -1, 0)
 
@@ -1033,9 +1037,9 @@ exports.chat:RegisterCommand("property:lookup", function(source, args, rawComman
 
 	TriggerClientEvent("property:lookup", source, id, owner)
 end, {
-	help = "Lookup a property.",
-	params = {
-		{ name = "Property", help = "What property you're looking up (using /property:get)" },
+	description = "Lookup a property.",
+	parameters = {
+		{ name = "Property", description = "What property you're looking up (using /property:get)" },
 	}
 }, 1, 0)
 
@@ -1082,10 +1086,10 @@ exports.chat:RegisterCommand("a:givekey", function(source, args, rawCommand, cb)
 
 	TriggerEvent("chat:notify", source, ("Gave keys to [%s] for property %s!"):format(target, propertyId))
 end, {
-	help = "Give keys to somebody.",
-	params = {
-		{ name = "Property", help = "The property to give keys for." },
-		{ name = "Target", help = "The player to give keys to." },
+	description = "Give keys to somebody.",
+	parameters = {
+		{ name = "Property", description = "The property to give keys for." },
+		{ name = "Target", description = "The player to give keys to." },
 	}
 }, "Admin")
 
