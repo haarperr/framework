@@ -143,7 +143,7 @@ end, {
 
 exports.chat:RegisterCommand("licenseadd", function(source, args, command)
 	local target = tonumber(args[1])
-	if not exports.characters:Get(target, "id") then return end
+	if not exports.character:Get(target, "id") then return end
 
 	local license = tostring(args[2]):lower()
 	if not CheckLicense(source, license) then return end
@@ -172,7 +172,7 @@ end, {
 
 exports.chat:RegisterCommand("licenserevoke", function(source, args, command)
 	local target = tonumber(args[1])
-	if not exports.characters:Get(target, "id") then return end
+	if not exports.character:Get(target, "id") then return end
 
 	local license = tostring(args[2]):lower()
 	if not CheckLicense(source, license) then return end
@@ -201,7 +201,7 @@ end, {
 
 exports.chat:RegisterCommand("licensepoints", function(source, args, command)
 	local target = tonumber(args[1])
-	if not exports.characters:Get(target, "id") then return end
+	if not exports.character:Get(target, "id") then return end
 
 	local license = tostring(args[2]):lower()
 	if not CheckLicense(source, license) then return end
