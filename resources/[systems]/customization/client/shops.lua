@@ -15,7 +15,7 @@ Shops = {
 		-- Highway PD.
 		{ Coords = vector4(1537.6331787109375, 810.9801025390625, 77.65585327148438, 264.75238037109375), Blip = false },
 		-- Sandy PD.
-		{ Coords = vector4(1842.833, 3679.205, 34.1892, 252.3695), Blip = false },
+		{ Coords = vector4(1840.331, 3679.702, 34.18925, 67.05151), Blip = false },
 		-- Sandy Hospital.
 		{ Coords = vector4(1825.5556640625, 3674.616943359375, 34.27486419677734, 298.5735473632813), Blip = false },
 		-- Paleto PD.
