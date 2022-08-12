@@ -7,7 +7,7 @@ Seed = 0
 
 --[[ Functions ]]--
 local function CheckRealtor(source, target, property)
-	if not exports.jobs:IsOnDuty(source, "realtor") then
+	if not exports.jobs:GetCurrentJob(source, "realtor") then
 		TriggerClientEvent("chat:notify", source, "Must be on duty!", "error")
 		return false
 	end
