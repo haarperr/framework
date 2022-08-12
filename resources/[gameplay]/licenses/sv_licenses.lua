@@ -146,8 +146,8 @@ exports.chat:RegisterCommand("licenses", function(source, args, command)
 	if source == 0 then return end
 	TriggerClientEvent("licenses:check", source)
 end, {
-	help = "Check your licenses.",
-	params = {}
+	description = "Check your licenses.",
+	parameters = {}
 }, -1)
 
 exports.chat:RegisterCommand("licenseadd", function(source, args, command)
@@ -175,10 +175,10 @@ exports.chat:RegisterCommand("licenseadd", function(source, args, command)
 		TriggerClientEvent("chat:addMessage", source, "They already have that license!")
 	end
 end, {
-	help = "Assign somebody a license.",
-	params = {
-		{ name = "Target", help = "Who to give the license to." },
-		{ name = "License", help = "The license to give." },
+	description = "Assign somebody a license.",
+	parameters = {
+		{ name = "Target", description = "Who to give the license to." },
+		{ name = "License", description = "The license to give." },
 	}
 }, 2, 0)
 
@@ -207,10 +207,10 @@ exports.chat:RegisterCommand("licenserevoke", function(source, args, command)
 		TriggerClientEvent("chat:addMessage", source, "They don't have that license!")
 	end
 end, {
-	help = "Revoke somebody's license.",
-	params = {
-		{ name = "Target", help = "Who to give the license to." },
-		{ name = "License", help = "The license to give." },
+	description = "Revoke somebody's license.",
+	parameters = {
+		{ name = "Target", description = "Who to give the license to." },
+		{ name = "License", description = "The license to give." },
 	}
 }, 2, 0)
 
@@ -249,11 +249,11 @@ exports.chat:RegisterCommand("licensepoints", function(source, args, command)
 		TriggerClientEvent("chat:addMessage", source, "They don't have that license!")
 	end
 end, {
-	help = "Give or take points on somebody's license.",
-	params = {
-		{ name = "Target", help = "Who's license to change." },
-		{ name = "License", help = "The license to change." },
-		{ name = "Points", help = "The points to give (positive) or take (negative)." },
+	description = "Give or take points on somebody's license.",
+	parameters = {
+		{ name = "Target", description = "Who's license to change." },
+		{ name = "License", description = "The license to change." },
+		{ name = "Points", description = "The points to give (positive) or take (negative)." },
 	}
 }, 3, 0)
 
@@ -289,8 +289,8 @@ exports.chat:RegisterCommand("licensecheck", function(source, args, rawCommand)
 
 	TriggerClientEvent("chat:addMessage", source, message, "emergency")
 end, {
-	help = "",
-	params = {
-		{ name = "Target", help = "ID of the target." },
+	description = "",
+	parameters = {
+		{ name = "Target", description = "ID of the target." },
 	}
 }, 1)
