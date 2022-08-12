@@ -21,7 +21,7 @@ RegisterShop("VESPUCCI_PPH1", {
 	Name = "Vespucci Pharmacy",
 	Clerks = {
 		{
-			coords = vector4(325.8376, -1074.447, 29.47332, 8.688439),
+			coords = vector4(-492.1134, -342.5998, 42.32042, 350.0087),
 			model = "s_m_m_doctor_01",
 		},
 	},
