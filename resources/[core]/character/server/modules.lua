@@ -51,7 +51,7 @@ end
 
 function AddModule(character, table, data, callback)
 	if type(character) == "number" then
-		character = GetCharacter(character)
+		character = Main:GetCharacter(character)
 	end
 
 	if not character or not character.id then return end
@@ -84,7 +84,7 @@ exports("AddModule", AddModule)
 
 function RemoveModule(character, table, conditions, callback)
 	if type(character) == "number" then
-		character = GetCharacter(character)
+		character = Main:GetCharacter(character)
 	end
 
 	if not character or not character.id then return end
@@ -111,7 +111,7 @@ exports("RemoveModule", RemoveModule)
 
 function UpdateModule(character, table, values, conditions, callback)
 	if type(character) == "number" then
-		character = GetCharacter(character)
+		character = Main:GetCharacter(character)
 	end
 
 	if not character or not character.id then return end
