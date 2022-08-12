@@ -518,7 +518,6 @@ Config = {
 			end,
 		},
 		["Overdose"] = {
-			Lifetime = 400.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
@@ -529,10 +528,6 @@ Config = {
 			},
 		},
 		["Shock"] = {
-			Lifetime = 300.0,
-			Lifetime = 300.0,
-			Healing = 0.08,
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
@@ -543,20 +538,16 @@ Config = {
 			},
 		},
 		["Drown"] = {
-			Lifetime = 360.0,
-			Healing = 0.06,
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
-				return treatments["Fire Blanket"] and 300.0 or 1800.0
+				return treatments["Fire Blanket"] and 360.0 or 1800.0
 			end,
 			Treatment = {
 				"Fire Blanket",
 			},
 		},
 		["Starvation"] = {
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
@@ -567,7 +558,6 @@ Config = {
 			},
 		},
 		["Dehydration"] = {
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
@@ -595,9 +585,6 @@ Config = {
 			end,
 		},
 		["1st Degree Burn"] = {
-			Lifetime = 300.0,
-			Healing = 0.06,
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
@@ -608,26 +595,20 @@ Config = {
 			},
 		},
 		["2nd Degree Burn"] = {
-			Lifetime = 400.0,
-			Healing = 0.06,
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
-				return treatments["Fire Blanket"] and 300.0 or 1800.0
+				return treatments["Fire Blanket"] and 400.0 or 1800.0
 			end,
 			Treatment = {
 				"Fire Blanket",
 			},
 		},
 		["3rd Degree Burn"] = {
-			Lifetime = 500.0,
-			Healing = 0.06,
-			Lifetime = 300.0,
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
-				return treatments["Fire Blanket"] and 300.0 or 1800.0
+				return treatments["Fire Blanket"] and 500.0 or 1800.0
 			end,
 			Treatment = {
 				"Fire Blanket",
