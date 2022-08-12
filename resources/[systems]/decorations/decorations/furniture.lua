@@ -258,6 +258,33 @@ Register("Clutter", {
 	},
 })
 
+Register("Potted Plant", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = true,
+		Block = false,
+	},
+	Model = {
+		"apa_mp_h_acc_plant_palm_01",
+			"apa_mp_h_acc_plant_tall_01",
+			"ex_mp_h_acc_plant_palm_01",
+			"ex_mp_h_acc_plant_tall_01",
+			"hei_heist_acc_plant_tall_01",
+			"prop_fbibombplant",
+			"prop_fib_plant_01",
+			"prop_pot_plant_01a",
+			"prop_pot_plant_01b",
+			"prop_pot_plant_01c",
+			"prop_pot_plant_01d",
+			"prop_pot_plant_01e",
+			"prop_pot_plant_03b_cr2",
+			"prop_pot_plant_05a",
+			"prop_pot_plant_05b",
+			"prop_pot_plant_05d",
+	},
+})
+
 Register("Book", {
 	Placement = "Floor",
 	Stackable = {
@@ -288,13 +315,309 @@ Register("Book", {
 	},
 })
 
-Register("Tools", {
+Register("Rug", {
+	Placement = "Floor",
 	Stackable = {
 		Structure = false,
 		Foundation = false,
 		Block = true,
 	},
-	Model = "sum_prop_ac_qub3d_cube_01",
+	Model = "apa_mp_h_acc_rugwooll_03",
+			"apa_mp_h_acc_rugwooll_04",
+			"apa_mp_h_acc_rugwoolm_01",
+			"apa_mp_h_acc_rugwoolm_02",
+			"apa_mp_h_acc_rugwoolm_03",
+			"apa_mp_h_acc_rugwoolm_04",
+			"apa_mp_h_acc_rugwools_01",
+			"apa_mp_h_acc_rugwools_03",
+			"ex_mp_h_acc_rugwoolm_04",
+			"hei_heist_acc_rughidel_01",
+			"hei_heist_acc_rugwooll_01",
+			"hei_heist_acc_rugwooll_02",
+			"hei_heist_acc_rugwooll_03",
+})
+
+
+Register("Teddy Bear", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_mr_rasberryclean",
+			"v_club_vu_bear",
+})
+
+Register("Shelf", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_mr_rasberryclean",
+			"v_club_vu_bear",
+})
+
+Register("Candle", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "apa_mp_h_acc_candles_01",
+			"apa_mp_h_acc_candles_02",
+			"apa_mp_h_acc_candles_04",
+			"apa_mp_h_acc_candles_06",
+			"prop_mem_candle_01",
+			"prop_mem_candle_02",
+			"prop_mem_candle_03",
+			"prop_mem_candle_04",
+			"prop_mem_candle_05",
+			"prop_mem_candle_06",
+			"v_prop_floatcandle",
+			"v_res_fa_candle01",
+			"v_res_fa_candle02",
+			"v_res_fa_candle03",
+			"v_res_fa_candle04",
+})
+
+Register("Green Screen", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_ld_greenscreen_01",
+})
+
+Register("Pool Table", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_pooltable_02",
+			"prop_pooltable_3b",
+})
+
+Register("Pool Table", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_pooltable_02",
+			"prop_pooltable_3b",
+})
+
+Register("Sideboard", {
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "apa_mp_h_str_sideboardl_06",
+			"apa_mp_h_str_sideboardl_09",
+			"apa_mp_h_str_sideboardl_11",
+			"apa_mp_h_str_sideboardl_13",
+			"apa_mp_h_str_sideboardl_14",
+			"hei_heist_str_sideboardl_03",
+			"hei_heist_str_sideboardl_05",
+			"hei_heist_str_sideboards_02",
+			"v_med_p_sideboard",
+			"v_res_mconsolemod",
+			"v_res_mdchest",
+			"v_res_tre_sideboard",
+})
+
+Register("Desk", {
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_office_desk_01",
+			"v_corp_maindesk",
+			"v_ind_dc_desk03",
+			"v_med_p_desk",
+			"v_res_mddesk",
+			"xm_prop_lab_desk_02",
+})
+
+Register("Stool", {
+	Stackable = {
+		Structure = false,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "apa_mp_h_din_stool_04",
+			"prop_bar_stool_01",
+			"v_corp_lngestool",
+			"v_ilev_fh_kitchenstool",
+			"v_res_d_highchair",
+})
+
+Register("Monitor", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_monitor_01a",
+			"prop_monitor_01b",
+			"prop_monitor_01c",
+			"prop_monitor_02",
+			"prop_monitor_li",
+			"prop_monitor_w_large",
+			"sm_prop_smug_monitor_01",
+})
+
+Register("Monitor", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_pc_01a",
+			"prop_laptop_02_closed",
+			"prop_laptop_lester",
+			"prop_laptop_jimmy",
+			"prop_laptop_lester2",
+			"prop_laptop_01a",
+			"p_amb_lap_top_02",
+			"hei_prop_hst_laptop",
+			"xm_prop_x17_laptop_lester_01",
+})
+
+Register("Peripheral", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "v_res_mousemat",
+			"prop_mouse_01b",
+			"v_res_tre_remote",
+			"v_res_tt_tvremote",
+			"prop_cs_remote_01",
+			"prop_keyboard_01a",
+			"prop_keyboard_01b",
+			"v_res_pcheadset",
+			"v_res_ipoddock",
+})
+
+Register("Speaker", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "v_ilev_fos_mic",
+			"v_club_roc_micstd",
+			"prop_table_mic_01",
+			"prop_speaker_01",
+			"prop_speaker_02",
+			"prop_speaker_03",
+			"prop_speaker_05",
+			"prop_speaker_08",
+			"v_res_mm_audio",
+			"v_res_pcspeaker",
+			"v_club_roc_mixer2",
+			"prop_dj_deck_02",
+			"prop_dj_deck_01",
+			"v_club_vu_deckcase",
+			"prop_portable_hifi_01",
+			"prop_ghettoblast_01",
+			"prop_ghettoblast_02",
+			"prop_radio_01",
+})
+
+Register("Studio Equipment", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "ex_office_swag_drugstatue",
+			"p_tv_cam_02_s",
+			"prop_direct_chair_02",
+			"prop_ing_camera_01",
+			"prop_kino_light_01",
+			"prop_kino_light_02",
+			"prop_kino_light_03",
+			"prop_pap_camera_01",
+			"prop_scrim_01",
+			"prop_scrim_02",
+			"prop_studio_light_02",
+			"prop_studio_light_03",
+			"prop_tri_pod",
+			"prop_v_cam_01",
+			"v_ret_ta_camera",
+})
+
+Register("Statue", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "v_res_m_horsefig",
+			"v_res_r_figcat",
+			"v_res_r_fighorse",
+			"prop_xmas_tree_int",
+			"hei_prop_drug_statue_01",
+})
+
+Register("Exercise Equipment", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_barbell_100kg",
+			"prop_barbell_30kg",
+			"prop_exer_bike_01",
+			"prop_muscle_bench_03",
+			"prop_punch_bag_l",
+			"prop_weight_rack_02",
+})
+
+Register("Tableware", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_cs_champ_flute",
+			"prop_mug_02",
+			"v_res_mplatelrg",
+			"v_res_mplatesml",
+			"prop_fruit_basket",
+			"prop_kettle",
+			"prop_kettle_01",
+			"prop_cocktail",
+})
+
+Register("Pallet", {
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
+	Model = "prop_air_stair_02",
+			"prop_air_woodsteps",
+			"prop_boxpile_05a",
+			"prop_boxpile_06a",
+			"prop_boxpile_07d",
+			"prop_pallet_01a",
+			"prop_pallet_02a",
+			"prop_pallet_03a",
 })
 
 Register("Generator", {
