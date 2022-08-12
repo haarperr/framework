@@ -1,5 +1,6 @@
 Config = {
-	Coords = vector3(-544.2745361328125, -197.3819122314453, 38.22690963745117),
+	Coords = vector3(-544.0047, -197.2489, 38.22694),
+	Radius = 1.5,
 	Interval = 30, -- In minutes.
 	DefaultPay = 5, -- In dollars.
 	PayMultiplier = 4,
@@ -9,9 +10,4 @@ Config = {
 		Received = "$%s has been deposited into your bank from your paycheck.",
 		Bank = "$%s on your paycheck.",
 	},
-	Markers = {
-		Text = "Collect",
-		DrawRadius = 5.0,
-		Radius = 2.5,
-	}
 }

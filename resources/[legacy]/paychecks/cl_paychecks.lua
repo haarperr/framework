@@ -1,15 +1,25 @@
 --[[ Events ]]--
 AddEventHandler("paychecks:clientStart", function()
-	local callbackId = "CollectPaycheck"
 
-	exports.markers:CreateUsable(GetCurrentResourceName(), Config.Coords, callbackId, Config.Markers.Text, Config.Markers.DrawRadius, Config.Markers.Radius, Config.Markers.Blip)
+	exports.interact:Register({
+		id = 1,
+		embedded = {
+			{
+				id = "paycheck",
+				text = "Collect Paycheck",
+			}
+		},
+		coords = Config.Coords,
+		radius = Config.Radius,
+	})
 
-	AddEventHandler("markers:use_"..callbackId, function()
+	AddEventHandler("interact:on_paycheck", function()
 		TriggerServerEvent("paychecks:request")
 	end)
+
 end)
 
 RegisterNetEvent("paychecks:receive")
 AddEventHandler("paychecks:receive", function(message, ...)
-	TriggerEvent("chat:notify", Config.Messages[message]:format(...), "inform")
+	TriggerEvent("chat:notify", { class="inform", text = Config.Messages[message]:format(...) })
 end)
