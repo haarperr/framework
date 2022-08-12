@@ -42,7 +42,7 @@ function Initialize()
 					end
 					if factions then
 						local hasFaction = false
-						for faction, group in ipairs(factions) do
+						for group, faction in ipairs(factions) do
 							if exports.factions:Has(faction, group) then
 								hasFaction = true
 								break
