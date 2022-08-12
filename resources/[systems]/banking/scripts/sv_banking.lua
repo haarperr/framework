@@ -158,7 +158,7 @@ AddEventHandler("banking:transaction", function(data)
             AddBank(source, data.account_id, amount)
             AddTransaction(source, data, amount)
         else
-            TriggerClientEvent("chat:notify", source, "You cannot afford that!")
+            TriggerClientEvent("chat:notify", source, "You cannot afford that!", "error")
         end
     elseif data.type == 2 then -- Withdraw
         if BankAccounts[data.account_id].account_balance >= amount then
@@ -167,10 +167,10 @@ AddEventHandler("banking:transaction", function(data)
                 AddBank(source, data.account_id, amount * -1)
                 AddTransaction(source, data, amount * -1)
             else
-                TriggerClientEvent("chat:notify", source, "You cannot hold that much money!")
+                TriggerClientEvent("chat:notify", source, "You cannot hold that much money!", "error")
             end
         else
-            TriggerClientEvent("chat:notify", source, "Your bank account doesn't have that much money!")
+            TriggerClientEvent("chat:notify", source, "Your bank account doesn't have that much money!", "error")
         end
     elseif data.type == 3 then -- Transfer
         if BankAccounts[data.account_id].account_balance >= amount then
@@ -246,7 +246,7 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
             exports.inventory:TakeMoney(source, Config.NewAccountPrice)
             StateTax(Config.NewAccountPrice)
         else
-            TriggerClientEvent("chat:notify", source, "You cannot afford a new bank account! $500")
+            TriggerClientEvent("chat:notify", source, "You cannot afford a new bank account! $500", "error")
         end
     end
 end)
@@ -259,7 +259,7 @@ AddEventHandler("banking:deleteAccount", function(account)
             if exports.GHMattiMySQL:Query("DELETE FROM bank_accounts WHERE account_primary = 1 AND account_id = "..account, {}) then
                 BankAccounts[account] = nil
             else
-                TriggerClientEvent("chat:notify", source, "You cannot delete your Primary Account")
+                TriggerClientEvent("chat:notify", source, "You cannot delete your primary account.", "error")
             end
         end
 
@@ -283,7 +283,7 @@ AddEventHandler("banking:shareAccount", function(account, stateID)
                     ["@character_id"] = character_id
                 })
             else
-                TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[account.account_type].MaxShares.."!")
+                TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[account.account_type].MaxShares.."!, "error"")
             end
         end
     end
