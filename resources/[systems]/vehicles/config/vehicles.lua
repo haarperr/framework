@@ -621,9 +621,6 @@ Vehicles = {
 
 	--[[ Business Vehicles ]]--
 	["taco2"] = { Value = 11409 },
-	
-	--[[ SADCR Vehicles ]]--
-	["dcrfpiu"] = { Value = 1000 },
 
 	--[[ General Police ]]--
 	["police"] = { Value = 0 },
@@ -636,31 +633,29 @@ Vehicles = {
 	["policet"] = { Value = 0 },
 	["polmav"] = { Value = 1659543 },
 	["rsheli"] = { Value = 2500 },
-	
-	--[[ SADPS Vehicles ]]--
-	["dpscvpi"] = { Value = 800 }, -- Crown Vic.
-	["dpscharger"] = { Value = 1000 }, -- Charger.
-	["dpstahoe"] = { Value = 1500 }, -- Tahoe.
-	["dpsfpis"] = { Value = 2500 }, -- Taurus.
-	["dpsfpiu"] = { Value = 1000 }, -- Explorer.
 
-	--[[ LSSD | LSPD Vehicles ]]--
-	["pdcvpi"] = { Value = 800 },
-	["sdcvpi"] = { Value = 1000 },
-	["pdcharger"] = { Value = 1000 },
-	["pdtahoe"] = { Value = 1000 },
-	["pdfpis"] = { Value = 2500 },
-	["pdfpiu"] = { Value = 1000 },
-	["pddemon"] = { Value = 190000 },
-	["harley"] = { Value = 1500, Type = "Bike" },
+	--[[ LSPD / BCSO Vehicles ]]--
+	["pdalamo"] = { Value = 800 },
+	["pdbike"] = { Value = 800, Type = "Bike" },
+	["pdbuffalo"] = { Value = 800 },
+	["pdstainer"] = { Value = 800 },
+
+	--[[ SASP Vehicles ]]--
+	["spalamo"] = { Value = 800 },
+	["spbike"] = { Value = 800, Type = "Bike" },
+	["spbuffalo"] = { Value = 800 },
+	["spstainer"] = { Value = 800 },
 
 	--[[ LSFD Vehicles ]]--
-	["emsambo"] = { Value = 800, Type = "Ambulance" },
-	["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
-	["emsexplorer"] = { Value = 800, Type = "Ambulance" },
-	["emstahoe"] = { Value = 800, Type = "Ambulance" },
-	["lguard"] = { Value = 800, Type = "Ambulance" },
-	["firetruk"] = { Value = 800, Type = "Firetruck" },
+	--["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
+	["lsfd3"] = { Value = 800, Type = "Ambulance" },
+	["bcfdbat"] = { Value = 800, Type = "Ambulance" },
+	["lsfdcmd"] = { Value = 800, Type = "Ambulance" },
+	["lsfdtruck"] = { Value = 800, Type = "Firetruck" },
+
+	--[[ LSMS Vehicles ]]--
+	--["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
+	["lsfdgresley"] = { Value = 800, Type = "Ambulance" },
 	
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },

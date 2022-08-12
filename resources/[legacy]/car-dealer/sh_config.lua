@@ -752,40 +752,10 @@ Config = {
 			VehicleDisplay = vector4(441.9618225097656, -1015.2440185546876, 28.6624641418457, 89.75072479248047),
 			VehicleSpawn = vector4(449.5983581542969, -1025.16748046875, 28.58170318603515, 9.87581920623779),
 			Vehicles = {
-				"pdcvpi",
-				["pdfpis"] = {
-					rank = 5
-				},
-				["pdcaprice"] = {
-					rank = 10
-				},
-				["pdcharger"] = {
-					rank = 10
-				},
-				["pdfpiu"] = {
-					rank = 15
-				},
-				["pdfpiu2"] = {
-					rank = 20
-				},
-				["pdtahoe"] = {
-					rank = 25
-				},
-				["harley"] = {
-					rank = 10
-				},
-				["pdbmw"] = {
-					rank = 10
-				},
-				["pdsanchez"] = {
-					rank = 10
-				},
-				["fbi"] = {
-					rank = 15
-				},
-				["fbi2"] = {
-					rank = 15
-				},
+				"pdalamo",
+				"pdbike",
+				"pdbuffalo",
+				"pdstainer",
 			},
 		},
 		{
@@ -793,48 +763,15 @@ Config = {
 			Faction = "pd",
 			Name = "BCSO Shop Sandy",
 			License = "drivers",
-			Kiosk = vector3(1853.2083740234375, 3700.188720703125, 34.26432800292969),
+			Kiosk = vector3(1839.388, 3689.262, 33.9746),
 			Garage = 23,
-			VehicleDisplay = vector4(1858.91064453125, 3713.457763671875, 33.25181198120117, 24.3763313293457),
-			VehicleSpawn = vector4(1858.91064453125, 3713.457763671875, 33.25181198120117, 24.3763313293457),
+			VehicleDisplay = vector4(1845.176, 3689.781, 33.9746, 308.4778),
+			VehicleSpawn = vector4(1845.176, 3689.781, 33.9746, 308.4778),
 			Vehicles = {
-				"pdcvpi",
-				["pdfpis"] = {
-					rank = 5
-				},
-				["pdcaprice"] = {
-					rank = 5
-				},
-				["pdcharger"] = {
-					rank = 5
-				},
-				["pdfpiu"] = {
-					rank = 5
-				},
-				["pdfpiu2"] = {
-					rank = 5
-				},
-				["pdtahoe"] = {
-					rank = 5
-				},
-				["sdf150"] = {
-					rank = 5
-				},
-				["harley"] = {
-					rank = 5
-				},
-				["pdbmw"] = {
-					rank = 5
-				},
-				["pdsanchez"] = {
-					rank = 5
-				},
-				["fbi"] = {
-					rank = 5
-				},
-				["fbi2"] = {
-					rank = 5
-				},
+				"pdalamo",
+				"pdbike",
+				"pdbuffalo",
+				"pdstainer",
 			},
 		},
 		{
@@ -847,16 +784,8 @@ Config = {
 			VehicleDisplay = vector4(326.987060546875, -570.5386352539062, 28.796846389770508, 339.99114990234375),
 			VehicleSpawn = vector4(322.82763671875, -547.510986328125, 28.74405860900879, 269.5171508789063),
 			Vehicles = {
-				["emsexplorer"] = {
-					rank = 20
-				},
-				["emstahoe"] = {
-					rank = 40
-				},
-				"lguard",
-				"blazer2",
-				"emsspeedo",
-				"emsambo",
+				"lsfd3",
+				"bcfdbat",
 			},
 		},
 		{
@@ -869,9 +798,7 @@ Config = {
 			VehicleDisplay = vector4(333.5908508300781, -574.4048461914062, 28.79683494567871, 336.2864379882813),
 			VehicleSpawn = vector4(322.82763671875, -547.510986328125, 28.74405860900879, 269.5171508789063),
 			Vehicles = {
-				["emstahoe"] = {
-					rank = 5
-				},
+				"lsfdgresley",
 			},
 		},
 		{
@@ -884,19 +811,8 @@ Config = {
 			VehicleDisplay = vector4(181.11770629882812, -1659.819580078125, 29.80327796936035, 226.3573760986328),
 			VehicleSpawn = vector4(181.11770629882812, -1659.819580078125, 29.80327796936035, 226.3573760986328),
 			Vehicles = {
-				["emsexplorer"] = {
-					rank = 20
-				},
-				["emstahoe"] = {
-					rank = 30
-				},
-				["fdf150"] = {
-					rank = 10
-				},
-				"lguard",
-				"blazer2",
-				"emsspeedo",
-				"emsambo",
+				"lsfdcmd",
+				"lsfdtruck",
 			},
 		},
 		{
@@ -908,55 +824,15 @@ Config = {
 			VehicleDisplay = vector4(1535.6851806640625, 783.162841796875, 77.44189453125, 61.44694137573242),
 			VehicleSpawn = vector4(1529.859619140625, 779.4700927734375, 77.44078063964844, 35.99444580078125),
 			Vehicles = {
-				"dpscvpi",
-				"dpscvpi2",
-				["dpsfpis"]= {
-					rank = 10
-				},
-				["dpscharger"]= {
-					rank = 20
-				},
-				["dpscharger2"]= {
-					rank = 20
-				},
-				["dpsfpiu"]= {
-					rank = 20
-				},
-				["dpsfpiu2"]= {
-					rank = 20
-				},
-				["dpsfpiu3"]= {
-					rank = 20
-				},
-				["dpstahoe"]= {
-					rank = 20
-				},
-				["dpsf150"]= {
-					rank = 20
-				},
-				["dpszr1"]= {
-					rank = 30
-				},
-				["swattahoe"]= {
-					rank = 20
-				},
-				["harley"]= {
-					rank = 20
-				},
-				["saspbmw"]= {
-					rank = 20
-				},
-				["fbi"]= {
-					rank = 20
-				},
-				["fbi2"]= {
-					rank = 20
-				},
+				"spalamo",
+				"spbike",
+				"spbuffalo",
+				"spstainer",
 			},
 		},
 		{
-			Group = "sams",
-			Faction = "doj",
+			Group = "doj",
+			Faction = "federal",
 			Name = "SAMS Shop",
 			License = "drivers",
 			Kiosk = vector3(14.7060489654541, -893.2334594726562, 30.02250862121582),
@@ -964,14 +840,9 @@ Config = {
 			VehicleDisplay = vector4(18.73518562316894, -887.3465576171875, 30.07347869873047, 245.61473083496097),
 			VehicleSpawn = vector4(18.73518562316894, -887.3465576171875, 30.07347869873047, 245.61473083496097),
 			Vehicles = {
-				"fbi",
-				"fbi2",
-				"pdfpis",
-				"pdfpiu",
-				"pdfpiu2",
-				"pdcvpi",
-				"pdtahoe",
-				"sdf150",
+				"pdalamo",
+				"pdbuffalo",
+				"pdstainer",
 			},
 		},
 		--[[{
@@ -992,31 +863,26 @@ Config = {
 		},--]]
 		{
 			Group = "doc",
-			Faction = "corrections",
+			Faction = "pd",
 			Name = "DOC Shop",
 			License = "drivers",
 			Kiosk = vector3(1840.1448974609375, 2545.832275390625, 45.67203521728515),
 			VehicleDisplay = vector4(1844.2188720703127, 2549.895751953125, 45.67203521728515, 271.35009765625),
 			VehicleSpawn = vector4(1854.9749755859375, 2537.3203125, 45.67203903198242, 216.4715118408203),
 			Vehicles = {
-				"dcrfpiu",
-				"polalamop",
-				"dcrspeedo",
-				"fbi",
-				"fbi2",
+				"pdalamo",
 			},
 		},
 		{
-			Group = "parole",
-			Faction = "corrections",
-			Name = "Parole Shop",
+			Group = "sapr",
+			Faction = "federal",
+			Name = "SAPR Shop",
 			License = "drivers",
-			Kiosk = vector3(1840.5943603515625, 2537.712646484375, 45.67203521728515),
-			VehicleDisplay = vector4(1842.8936767578127, 2542.793701171875, 45.67203903198242, 268.5025634765625),
-			VehicleSpawn = vector4(1842.8936767578127, 2542.793701171875, 45.67203903198242, 268.5025634765625),
+			Kiosk = vector3(371.9177, 792.4434, 187.4935),
+			VehicleDisplay = vector4(372.3995, 785.141, 186.4325, 163.4088),
+			VehicleSpawn = vector4(372.3995, 785.141, 186.4325, 163.4088),
 			Vehicles = {
-				"fbi",
-				"fbi2",
+				"pdcara",
 			},
 		},
 		--[[{

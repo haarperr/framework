@@ -421,6 +421,16 @@ Config = {
 				["sasp"] = "pd",
 			},
 		},
+		["SAPR"] = {
+			Id = 23,
+			InCoords = vector4(374.8153, 787.219, 186.9251, 77.36697),
+			OutCoords = vector4(372.3995, 785.141, 186.4325, 163.4088),
+			Limit = -1,
+			Type = "Emergency",
+			Faction = {
+				["sapr"] = "federal",
+			},
+		},
 		["Bolingbroke"] = {
 			Id = 23,
 			InCoords = vector4(1833.152587890625, 2541.90283203125, 45.8806037902832, 268.6733093261719),
