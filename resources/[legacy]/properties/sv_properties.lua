@@ -884,7 +884,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 	local target, propertyId = tonumber(args[1]), tonumber(args[2])
 
 	if not CheckRealtor(source, target, propertyId) then return end
-	if properties.License and not exports.licenses:HasLicense(properties.License) then
+	if Properties.License and not exports.licenses:HasLicense(Properties.License) then
         TriggerEvent("chat:notify", "You are not licensed to sell property!", "error")
         return 
     end
