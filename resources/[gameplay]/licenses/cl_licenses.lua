@@ -23,7 +23,7 @@ end)
 RegisterNetEvent("licenses:check")
 AddEventHandler("licenses:check", function()
 	local message = ""
-	local licenses = exports.character:GetLicenses()
+	local licenses = GetLicenses()
 
 	if licenses then
 		for license, info in pairs(licenses) do
