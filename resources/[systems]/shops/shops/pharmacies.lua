@@ -20,7 +20,7 @@ Config.Filters.Pharm = {
 
 RegisterShop("MTZONAH_PHARM1", {
 	Name = "Mount Zonah Pharmacy",
-	License = "Medical",
+	License = "medical",
 	Clerks = {
 		{
 			coords = vector4(-458.6107, -312.7249, 34.89975, 14.33093),
@@ -28,7 +28,7 @@ RegisterShop("MTZONAH_PHARM1", {
 		},
 	},
 	Storage = {
-		Coords = vector3(-488.9996, -343.5237, 42.32084),
+		Coords = vector3(-458.253, -311.8409, 34.91074),
 		Radius = 2.0,
 		Filters = Config.Filters.Pharm,
 	},
