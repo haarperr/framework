@@ -27,3 +27,11 @@ RegisterCommand("deny", function()
 	
 	waitingFor = nil
 end)
+
+--[[ Events ]]--
+RegisterNetEvent("interaction:receive")
+AddEventHandler("interaction:receive", function(source, message, value)
+	if Messages[message] then
+		Messages[message](source, message, value)
+	end
+end)
