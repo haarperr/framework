@@ -30,6 +30,7 @@ exports.jobs:Register("doj", {
 		{ Name = "Fishing" },
 		{ Name = "Hunting" },
 		{ Name = "Pilots" },
+		{ Name = "Realtor" },
 		{ Name = "Commercial-Hunting" },
 	},
 })
