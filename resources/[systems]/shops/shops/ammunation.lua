@@ -17,7 +17,7 @@ Config.Filters.Ammunation = {
 	},
 }
 
-RegisterShop("AMMUN_1", {
+RegisterShop("AMMUN_01", {
     Name = "Adams Apple Ammunation",
     License = "weapons",
     Clerks = {
@@ -33,7 +33,7 @@ RegisterShop("AMMUN_1", {
     },
 })
 
-RegisterShop("AMMUN_2", {
+RegisterShop("AMMUN_02", {
     Name = "El Rancho Ammunation",
     License = "weapons",
     Clerks = {
@@ -49,7 +49,7 @@ RegisterShop("AMMUN_2", {
     },
 })
 
-RegisterShop("AMMUN_3", {
+RegisterShop("AMMUN_03", {
     Name = "Vespucci Ammunation",
     License = "weapons",
     Clerks = {
@@ -65,7 +65,7 @@ RegisterShop("AMMUN_3", {
     },
 })
 
-RegisterShop("AMMUN_4", {
+RegisterShop("AMMUN_04", {
     Name = "Spanish Ave Ammunation",
     License = "weapons",
     Clerks = {
@@ -81,7 +81,7 @@ RegisterShop("AMMUN_4", {
     },
 })
 
-RegisterShop("AMMUN_5", {
+RegisterShop("AMMUN_05", {
     Name = "Blv Del Perro Ammunation",
     License = "weapons",
     Clerks = {
@@ -97,7 +97,7 @@ RegisterShop("AMMUN_5", {
     },
 })
 
-RegisterShop("AMMUN_6", {
+RegisterShop("AMMUN_06", {
     Name = "Little Seoul Ammunation",
     License = "weapons",
     Clerks = {
@@ -113,7 +113,7 @@ RegisterShop("AMMUN_6", {
     },
 })
 
-RegisterShop("AMMUN_7", {
+RegisterShop("AMMUN_07", {
     Name = "Great Ocean Ammunation",
     License = "weapons",
     Clerks = {
@@ -129,7 +129,7 @@ RegisterShop("AMMUN_7", {
     },
 })
 
-RegisterShop("AMMUN_8", {
+RegisterShop("AMMUN_08", {
     Name = "Paleto Ammunation",
     License = "weapons",
     Clerks = {
@@ -145,7 +145,7 @@ RegisterShop("AMMUN_8", {
     },
 })
 
-RegisterShop("AMMUN_9", {
+RegisterShop("AMMUN_09", {
     Name = "Paleto Ammunation",
     License = "weapons",
     Clerks = {
@@ -161,7 +161,7 @@ RegisterShop("AMMUN_9", {
     },
 })
 
-RegisterShop("AMMUN_10", {
+RegisterShop("AMMUN_010", {
     Name = "Sandy Ammunation",
     License = "weapons",
     Clerks = {
@@ -177,7 +177,7 @@ RegisterShop("AMMUN_10", {
     },
 })
 
-RegisterShop("AMMUN_11", {
+RegisterShop("AMMUN_011", {
     Name = "Route 68 Ammunation",
     License = "weapons",
     Clerks = {
@@ -193,7 +193,7 @@ RegisterShop("AMMUN_11", {
     },
 })
 
-RegisterShop("AMMUN_12", {
+RegisterShop("AMMUN_012", {
     Name = "Route 68 Ammunation",
     License = "weapons",
     Clerks = {
