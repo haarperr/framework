@@ -4,7 +4,7 @@ exports.jobs:Register("doj", {
 	Faction = "federal",
 	Group = "doj",
 	Clocks = {
-		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
+		{ Coords = vector3(-557.5701, -192.1732, 38.22698), Radius = 3.5 },
 	},
 	Ranks = {
 		{ Name = "Secretary" },
@@ -22,6 +22,7 @@ exports.jobs:Register("doj", {
 	Licenses = {
 		{ Name = "Drivers" },
 		{ Name = "Boating" },
+		{ Name = "Medical" },
 		{ Name = "Weapons" },
 		{ Name = "Fishing" },
 		{ Name = "Hunting" },
