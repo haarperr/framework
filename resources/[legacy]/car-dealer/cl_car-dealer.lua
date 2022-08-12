@@ -65,9 +65,19 @@ AddEventHandler("car-dealer:clientStart", function()
 	for k, dealer in ipairs(Config.Dealers) do
 		local callbackId = "CarDealer-"..dealer.Name.."_"..tostring(k)
 
-		Markers[#Markers + 1] = exports.markers:CreateUsable(GetCurrentResourceName(), dealer.Kiosk, callbackId, "Kiosk", Config.Markers.DrawRadius, Config.Markers.Radius, dealer.Blip)
+		Markers[#Markers + 1] = exports.interact:Register({
+			id =  k,
+			embedded = {
+				{
+					id = callbackId,
+					text = "Kiosk",
+				}
+			},
+			coords = dealer.Kiosk,
+			radius = Config.Markers.Radius,
+		})
 
-		AddEventHandler("markers:use_"..callbackId, function()
+		AddEventHandler("interact:on_"..callbackId, function()
 			if dealer.Faction and not exports.factions:Has(dealer.Faction, dealer.Group) then
 				TriggerEvent("chat:notify", "You don't work here!", "error")
 				return

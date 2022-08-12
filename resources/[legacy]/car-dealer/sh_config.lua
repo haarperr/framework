@@ -28,7 +28,7 @@ Config = {
 	MaxRadius = 30.0,
 	Markers = {
 		DrawRadius = 6.0,
-		Radius = 2.0,
+		Radius = 1.0,
 	},
 	Menu = {
 		PositionOffset = { X = 500, Y = 50 },
