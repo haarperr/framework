@@ -632,7 +632,7 @@ exports.chat:RegisterCommand("a:garageadd", function(source, args, rawCommand)
 	local property = tonumber(args[1])
 
 	if not Properties[property] then
-		TriggerClientEvent("chat:notify", source, "Property not found!", , "error")
+		TriggerClientEvent("chat:notify", source, "Property not found!", "error")
 		return
 	end
 
@@ -884,7 +884,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 	local target, propertyId = tonumber(args[1]), tonumber(args[2])
 
 	if not CheckRealtor(source, target, propertyId) then return end
-	if self.info.License and not exports.licenses:HasLicense(self.info.License) then
+	if properties.License and not exports.licenses:HasLicense(properties.License) then
         TriggerEvent("chat:notify", "You are not licensed to sell property!", "error")
         return 
     end
