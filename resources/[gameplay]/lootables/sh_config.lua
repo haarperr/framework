@@ -28,8 +28,8 @@ Config = {
 				{ name = "Meteorite Bar", chance = 0.02, durability = { 0.05, 0.2 } },
 
 				-- Drugs.
-				{ name = "Crack Pipe", chance = 0.01 },
-				{ name = "Joint", chance = 0.01 },
+				--{ name = "Crack Pipe", chance = 0.01 },
+				--{ name = "Joint", chance = 0.01 },
 
 				-- Other.
 				{ name = "Bandage", chance = 0.02 },
@@ -53,7 +53,7 @@ Config = {
 				{ name = "Screws", chance = 0.02 },
 				{ name = "Solo Cup", chance = 0.03 },
 				{ name = "Switchblade", chance = 0.01 },
-				{ name = "Syringe", chance = 0.03 },
+				--{ name = "Syringe", chance = 0.03 },
 				{ name = "Tenga", chance = 0.02 },
 				{ name = "Tweezers", chance = 0.02, durability = { 0.05, 0.9 } },
 				
@@ -100,8 +100,8 @@ Config = {
 				{ name = "Rails", chance = 0.02, durability = { 0.05, 0.2 } },
 
 				-- Drugs.
-				{ name = "Bong", chance = 0.01, durability = { 0.05, 0.5 } },
-				{ name = "Crack Pipe", chance = 0.02, durability = { 0.05, 0.5 } },
+				--{ name = "Bong", chance = 0.01, durability = { 0.05, 0.5 } },
+				--{ name = "Crack Pipe", chance = 0.02, durability = { 0.05, 0.5 } },
 
 				-- Other.
 				{ name = "Butter Knife", chance = 0.3, durability = { 0.05, 0.5 } },
