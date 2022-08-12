@@ -283,7 +283,7 @@ AddEventHandler("banking:shareAccount", function(account, stateID)
                     ["@character_id"] = character_id
                 })
             else
-                TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[account.account_type].MaxShares.."!, "error"")
+                TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[account.account_type].MaxShares.."!", "error")
             end
         end
     end
