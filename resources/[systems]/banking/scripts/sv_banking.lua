@@ -195,7 +195,7 @@ AddEventHandler("banking:initAccounts", function(source, character_id)
     })
 
     for k, v in pairs(ownedAccounts) do
-        if v.account_primary == 0 then
+        if v.account_primary == 1 then
             exports.character:Set(source, "bank", v.account_id)
         end
         SourceBankAccounts[source][v.account_id] = v
@@ -230,7 +230,7 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
     end
 
     if isPrimary then
-        local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type, account_primary = 0; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
+        local account = exports.GHMattiMySQL:QueryResult([[INSERT INTO `bank_accounts` SET character_id = @character_id, account_name = @account_name, account_type = @account_type, account_primary = 1; SELECT * FROM `bank_accounts` WHERE id=LAST_INSERT_ID() LIMIT 1]], { ["@character_id"] = character_id, ["@account_name"] = accountName, ["@account_type"] = accountType })[1]
         exports.GHMattiMySQL:QueryResult("UPDATE `characters` SET bank = @bank WHERE id = @character_id", {["@bank"] = account.account_id, ["@character_id"] = character_id})
         BankAccounts[account.account_id] = account
         BankAccounts[account.account_id].transactions = {}
