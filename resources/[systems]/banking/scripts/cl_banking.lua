@@ -125,6 +125,7 @@ AddEventHandler("banking:clientStart", function()
 		end
 		exports.interact:Register({
 			id = kiosk,
+			name="Banking Interaction",
 			embedded = {
 				{
 					id = id,

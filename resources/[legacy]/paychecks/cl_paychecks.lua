@@ -3,6 +3,7 @@ AddEventHandler("paychecks:clientStart", function()
 
 	exports.interact:Register({
 		id = "paychecks-1",
+		name="Paycheck Collection"
 		embedded = {
 			{
 				id = "paycheck",
