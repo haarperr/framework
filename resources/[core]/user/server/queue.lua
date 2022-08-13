@@ -261,3 +261,9 @@ RegisterCommand("togglequeue", function(source, args, rawcommand)
 
 	print("Queue "..(Server.EnableWhitelist and "enabled" or "disabled").."!")
 end, true)
+
+RegisterCommand("getqueue", function(source, args, rawCommand)
+	if source ~= 0 then return end
+
+	print("Queue: "..#Queue.connecting)
+end, true)

@@ -107,7 +107,7 @@ RegisterNUICallback("deleteAccount", function(payload)
 end)
 
 RegisterNUICallback("shareAccount", function(payload)
-	TriggerServerEvent("banking:shareAccount", payload.data.account_id, payload.data.stateID)
+	TriggerServerEvent("banking:shareAccount", payload.data.account_id, tonumber(payload.data.stateID))
 end)
 
 RegisterNUICallback("closeMenu", function()
@@ -125,6 +125,7 @@ AddEventHandler("banking:clientStart", function()
 		end
 		exports.interact:Register({
 			id = kiosk,
+			name="Banking Interaction",
 			embedded = {
 				{
 					id = id,

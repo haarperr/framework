@@ -72,12 +72,12 @@ function Radio:Toggle(value)
 	SetNuiFocus(value, value)
 	SetNuiFocusKeepInput(value)
 
-	self:Commit("setVisible", value, not exports.jobs:IsInEmergency())
+	self:Commit("setVisible", value, not exports.jobs:IsInGroup("emergency")) -- TODO: add faction check
 
 	self.isOpen = value
 
 	exports.emotes:Play(value and Config.Anims.Open or Config.Anims.Close)
-	
+
 	TriggerEvent("inventory:cancel")
 	TriggerEvent("disarmed")
 end
@@ -126,7 +126,7 @@ end
 
 function Radio:SetActive(value)
 	if (self.volume or 0.0) < 0.01 then return end
-	
+
 	local channelId = self.channels[0]
 	if not channelId then return end
 
@@ -138,7 +138,7 @@ end
 
 function Radio:Reset()
 	self:Commit("reset")
-	
+
 	for index, channelId in pairs(self.channels) do
 		exports.voip:LeaveChannel(channelId)
 	end
@@ -184,7 +184,7 @@ end)
 RegisterNetEvent("jobs:clock")
 AddEventHandler("jobs:clock", function(name, message)
 	if message ~= false then return end
-	
+
 	Radio:Reset()
 end)
 

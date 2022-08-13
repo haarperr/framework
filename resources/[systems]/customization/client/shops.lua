@@ -154,10 +154,16 @@ Shops = {
 			{ Coords = vector4(323.1783752441406, 179.97286987304688, 103.58649444580078, 71.8092269897461), Blip = true }, -- Vinewood Blvd, Downtown Vinewood
 		},
 	},
-	["surgery"] = {
+	["plastic"] = {
 		Name = "Plastic Surgery",
+		Blip = {
+			Colour = 20,
+			Scale = 0.5,
+			Sprite = 362,
+			AsShortRange = true,
+		},
 		Locations = {
-
+			{ Coords = vector4(-433.0604, -330.3421, 34.91064, 90.61446), Blip = true },
 		},
 	},
 }

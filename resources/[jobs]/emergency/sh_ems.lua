@@ -88,7 +88,7 @@ exports.jobs:Register("firefighter", {
 		{ Name = "Advanced Firefighter", },
 		{ Name = "Engineer", },
 		{
-			Name = "Field Lieutenant",
+			Name = "Lieutenant",
 			Flags = (
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |

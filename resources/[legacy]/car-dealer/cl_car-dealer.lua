@@ -66,7 +66,7 @@ AddEventHandler("car-dealer:clientStart", function()
 		local callbackId = "CarDealer-"..dealer.Name.."_"..tostring(k)
 
 		Markers[#Markers + 1] = exports.interact:Register({
-			id =  k,
+			id =  "cardealer-"..k,
 			embedded = {
 				{
 					id = callbackId,
