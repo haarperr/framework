@@ -205,7 +205,7 @@ function Shop:Purchase(source, cart, paymentType)
 		TriggerClientEvent("chat:notify", source, "You don't have enough for that!", "error")
 	end
 
-	if boughtPrice < 0 then
+	if boughtPrice > 0 then
 		TriggerClientEvent("chat:notify", source, "You spent $"..boughtPrice.."!", "success")
 	else
 		TriggerClientEvent("chat:notify", source, "You didn't have room!", "error")
