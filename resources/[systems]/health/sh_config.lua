@@ -909,5 +909,6 @@ Config = {
 	Respawn = {
 		Time = 300.0,
 		Coords = vector4(-451.5222, -279.6099, 34.91393, 140.7643),
+		Presence = 2,
 	},
 }
