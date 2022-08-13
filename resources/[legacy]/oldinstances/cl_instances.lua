@@ -115,11 +115,11 @@ function LeaveInstance(teleportTo, isLeaving)
 		--exports.interaction:StopEscorting()
 		exports.teleporters:TeleportTo(vector4(coords.x, coords.y, coords.z, coords.w + 180.0))
 	end
-	
+
 	TriggerServerEvent("containers:subscribe", CurrentInstance.id, false)
 
 	if not isLeaving then
-		TriggerServerEvent("instances:exit")
+		TriggerServerEvent("oldinstances:left")
 	end
 
 	for k, player in ipairs(GetActivePlayers()) do
@@ -149,20 +149,20 @@ function AddInstance(resource, coords, id, blip, data)
 	end
 
 	table.insert(EventData[resource], AddEventHandler("markers:use_"..callbackId, function()
-		TriggerServerEvent("instances:join", id)
+		TriggerServerEvent("oldinstances:join", id)
 	end))
 end
 exports("AddInstance", AddInstance)
 
 --[[ Events ]]--
-RegisterNetEvent("instances:enter")
-AddEventHandler("instances:enter", function(instance)
+RegisterNetEvent("oldinstances:join")
+AddEventHandler("oldinstances:join", function(instance)
 	-- print("entering", instance)
 	-- Cache first.
 	CurrentInstance = instance
 
 	Entering = true
-	
+
 	-- Teleport and trigger events.
 	exports.teleporters:TeleportTo(instance.inCoords)
 
@@ -173,21 +173,21 @@ AddEventHandler("instances:enter", function(instance)
 	RemoveDecalsInRange(instance.inCoords.x, instance.inCoords.y, instance.inCoords.z, 100.0)
 end)
 
-RegisterNetEvent("instances:exit")
-AddEventHandler("instances:exit", function()
+RegisterNetEvent("oldinstances:left")
+AddEventHandler("oldinstances:left", function()
 	-- print("leaving instance")
 	LeaveInstance(false, true)
 end)
 
-RegisterNetEvent("instances:playerEntered")
-AddEventHandler("instances:playerEntered", function(player)
+RegisterNetEvent("oldinstances:playerEntered")
+AddEventHandler("oldinstances:playerEntered", function(player)
 	-- print("player entered", CurrentInstance, player)
 	if not CurrentInstance then return end
 	CurrentInstance.players[tostring(player)] = true
 end)
 
-RegisterNetEvent("instances:playerExited")
-AddEventHandler("instances:playerExited", function(player)
+RegisterNetEvent("oldinstances:playerExited")
+AddEventHandler("oldinstances:playerExited", function(player)
 	-- print("player exited", CurrentInstance, player)
 	if not CurrentInstance then return end
 	CurrentInstance.players[tostring(player)] = nil

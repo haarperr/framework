@@ -7,7 +7,7 @@ function Main:Update()
 	local ped = PlayerPedId()
 	local pedCoords = GetEntityCoords(ped)
 
-	local instance = GetResourceState("instances") == "started" and exports.instances:GetInstance()
+	local instance = GetResourceState("oldinstances") == "started" and exports.oldinstances:GetInstance()
 	local coords = GetFinalRenderedCamCoord()
 	local nearbyGrids = Grids:GetImmediateGrids(coords, Config.GridSize)
 	local nearbyCache = {}
@@ -118,10 +118,10 @@ AddEventHandler("interact:onNavigate", function(id)
 end)
 
 --[[ Events: Net ]]--
-RegisterNetEvent("instances:join", function(id)
+RegisterNetEvent("oldinstances:join", function(id)
 	Main:ClearCache()
 end)
 
-RegisterNetEvent("instances:leave", function(id)
+RegisterNetEvent("oldinstances:leave", function(id)
 	Main:ClearCache()
 end)

@@ -281,7 +281,7 @@ Citizen.CreateThread(function()
 		local ped = PlayerPedId()
 		local coords = GetEntityCoords(ped)
 		local grids = Grids:GetNearbyGrids(coords, Config.GridSize)
-		local instance = (exports.instances:GetPlayerInstance() or {}).id
+		local instance = (exports.oldinstances:GetPlayerInstance() or {}).id
 		local gridCache = {}
 
 		for _, grid in ipairs(grids) do
