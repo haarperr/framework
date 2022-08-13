@@ -465,10 +465,22 @@ Config = {
 			},
 		},
 		-- Paramedic.
-		["Pillbox"] = {
+		["Mount Zonah"] = {
 			Id = 23,
-			InCoords = vector4(337.4463806152344, -579.0696411132812, 28.796846389770508, 346.3513488769531),
-			OutCoords = vector4(334.2066650390625, -573.3519287109375, 28.79685401916504, 339.6014709472656),
+			InCoords = vector4(-488.1319, -337.229, 34.50066, 85.54407),
+			OutCoords = vector4(-492.1132, -336.2386, 34.37262, 172.2277),
+			Limit = -1,
+			Type = "Emergency",
+			Faction = {
+				["firefighter"] = "ems",
+				["paramedic"] = "ems",
+				["lsms"] = "ems",
+			},
+		},
+		["Mount Zonah Lower"] = {
+			Id = 23,
+			InCoords = vector4(-421.5337, -349.4536, 24.22939, 111.5237),
+			OutCoords = vector4(-421.1067, -359.9683, 24.23036, 17.1824),
 			Limit = -1,
 			Type = "Emergency",
 			Faction = {
