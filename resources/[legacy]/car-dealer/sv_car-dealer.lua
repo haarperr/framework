@@ -33,8 +33,8 @@ AddEventHandler("car-dealer:purchase", function(dealer, name, class)
 	end
 
 	if exports.banking:CanAfford(primaryAccount, price) then
-		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
-		TriggerClientEvent("chat:notify", source, "You spent $"..boughtPrice.."!", "success")
+		exports.banking:AddBank(source, primaryAccount, price * -1)
+		TriggerClientEvent("chat:notify", source, "You spent $"..price.."!", "success")
 		exports.garages:AddVehicle(source, name, dealerSettings.Garage or Config.Garages[class] or 1, function(vehicle)
 			TriggerClientEvent("car-dealer:confirmPurchase", source, vehicle)
 		end)
