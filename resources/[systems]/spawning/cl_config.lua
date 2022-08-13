@@ -116,7 +116,7 @@ Config = {
 		},
 	},
 	Havens = {
-		{
+		--[[{
 			Name = "Cayo Perico",
 			Static = {
 				Coords = vector4(4497.223, -4517.912, 4.412367, 85.48471),
@@ -298,7 +298,7 @@ Config = {
 					},
 				},
 			},
-		},
+		},]]--
 		{
 			Name = "Alta Street",
 			Static = {
@@ -306,7 +306,7 @@ Config = {
 			},
 			Poses = {
 				{
-					Coords = vector4(-252.9424, -971.1685, 31.22001, 158.9284),
+					Coords = vector4(-210.7068, -1023.17, 30.13941, 69.00175),
 					Anim = {
 						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
 						Name = "exit_front",
@@ -315,7 +315,7 @@ Config = {
 					},
 				},
 				{
-					Coords = vector4(-262.8365, -973.8408, 31.21963, 335.3232),
+					Coords = vector4(-208.6222, -1022.997, 30.13863, 251.8491),
 					Anim = {
 						Dict = "amb@world_human_leaning@male@wall@back@foot_up@exit",
 						Name = "exit_front",
@@ -324,7 +324,7 @@ Config = {
 					},
 				},
 				{
-					Coords = vector4(-262.0036, -981.9723, 31.21928, 240.3809),
+					Coords = vector4(-213.7018, -1030.438, 30.1405, 30.52501),
 					Anim = {
 						Dict = "switch@franklin@chopshop",
 						Name = "checkshoe",
@@ -333,7 +333,7 @@ Config = {
 					}
 				},
 				{
-					Coords = vector4(-251.5114, -976.011, 31.22001, 317.3901),
+					Coords = vector4(-209.6958, -1027.095, 30.13888, 331.4665),
 					Anim = {
 						Dict = "switch@franklin@chopshop",
 						Name = "wipehands",
@@ -342,7 +342,7 @@ Config = {
 					}
 				},
 				{
-					Coords = vector4(-260.4807, -964.358, 31.22431, 328.9011),
+					Coords = vector4(-207.902, -1019.084, 30.13835, 123.0009),
 					Anim = {
 						Dict = "amb@medic@standing@tendtodead@exit",
 						Name = "exit",
