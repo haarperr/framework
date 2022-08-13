@@ -745,7 +745,7 @@ function Treatment:Heal(delay)
 
 	-- Give some health.
 	if Main:GetHealth() < 0.1 then
-		Main:SetEffect("Health", 0.75)
+		Main:SetEffect("Health", 0.9)
 	end
 end
 
