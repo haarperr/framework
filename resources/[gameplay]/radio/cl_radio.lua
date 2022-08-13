@@ -72,7 +72,7 @@ function Radio:Toggle(value)
 	SetNuiFocus(value, value)
 	SetNuiFocusKeepInput(value)
 
-	self:Commit("setVisible", value, not exports.jobs:IsInGroup("emergency")) -- TODO: add faction check
+	self:Commit("setVisible", value, not exports.jobs:IsInGroup("emergency"))
 
 	self.isOpen = value
 

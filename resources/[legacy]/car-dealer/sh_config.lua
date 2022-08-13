@@ -832,7 +832,7 @@ Config = {
 			},
 		},
 		{
-			Group = "doj",
+			Group = "sams",
 			Faction = "federal",
 			Name = "SAMS Shop",
 			License = "drivers",
