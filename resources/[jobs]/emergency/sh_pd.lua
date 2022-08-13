@@ -183,8 +183,7 @@ exports.jobs:Register("sasp", {
 	Group = "sasp",
 	Flags = PD_FLAGS,
 	Clocks = {
-		{ Coords = vector3(1543.839, 828.1853, 77.66039), Radius = 3.0 },
-		{ Coords = vector3(1546.448, 826.5332, 77.65541), Radius = 3.0 },
+		{ Coords = vector3(-445.5677, 6019.318, 32.28866), Radius = 3.0 },
 	},
 	Tracker = {
 		Group = "emergency",
