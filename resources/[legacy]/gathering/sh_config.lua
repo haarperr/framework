@@ -71,9 +71,9 @@ Config = {
 				Coords = vector3(-676.63134765625, 5382.01904296875, 58.56132507324219), 
 				Radius = 500.0, 
 				Items = {
-					{ "Wood Log", {1,3}, 1.0 },
-					{ "Wood Branch", {1,3}, 0.5 },
-					{ "Wood Bark", {1,3}, 0.02 },
+					{ "Wood Log", {1,2}, 1.0 },
+					{ "Wood Branch", {1}, 0.5 },
+					{ "Wood Bark", {1}, 0.02 },
 				}
 			},
 		},
