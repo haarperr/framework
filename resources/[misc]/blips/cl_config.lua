@@ -65,12 +65,6 @@ Blips = {
 		scale = 0.5,
 		color = 25,
 	},
-	["sex"] = {
-		name = "The Lust Resort",
-		id = 480,
-		scale = 0.75,
-		color = 8,
-	},
 	["yellowjack"] = {
 		name = "Yellow Jack",
 		id = 628,
@@ -80,18 +74,6 @@ Blips = {
 	["bean_machine"] = {
 		name = "Bean Machine",
 		id = 628,
-		scale = 0.5,
-		color = 5,
-	},
-	["luchetti's"] = {
-		name = "Luchetti's",
-		id = 628,
-		scale = 0.5,
-		color = 5,
-	},
-	["bailbonds"] = {
-		name = "Bail Bonds",
-		id = 189,
 		scale = 0.5,
 		color = 5,
 	},
@@ -112,12 +94,6 @@ Blips = {
 		id = 137,
 		scale = 0.8,
 		color = 29,
-	},
-	["security"] = {
-		name = "Fox-Hound Solutions",
-		id = 487,
-		scale = 0.7,
-		color = 5,
 	},
 }
 
@@ -167,7 +143,6 @@ Locations = {
 	{ "motel", vector3(385.4300231933594, -1798.3321533203125, 33.014068603515625) }, -- Roy Lowenstein.
 	{ "motel", vector3(562.0661010742188, -1771.4263916015625, 29.35603141784668) }, -- Little Bighorn.
 	{ "motel", vector3(326.4934692382813, -2032.9931640625, 20.93426704406738) }, -- Jamestown.
-	{ "sex", vector3(-576.98046875, 240.09906005859375, 82.65714263916016) },
 	{ "smeltry", vector3(1082.650634765625, -1976.169189453125, 31.472496032714844) },
 	{ "weed", vector3(169.37710571289065, -222.8835601806641, 54.23778533935547) },
 	{ "cityhall", vector3(-549.957275390625, -195.83062744140625, 38.22304534912109) },
