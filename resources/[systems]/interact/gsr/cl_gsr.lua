@@ -1,4 +1,4 @@
-Config = {
+Config.GSR = {
 	Distance = 4.0,
 	Item = "Gunshot Residue Kit",
 	Anim = {
@@ -34,24 +34,24 @@ end
 
 --[[ Items ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
-	if item.name == Config.Item then
+	if item.name == Config.GSR.Item then
 		if IsPedInAnyVehicle(PlayerPedId(), false) then return end
 
-		local anim = Config.Anim
+		local anim = Config.GSR.Anim
 		if not anim then return end
 
-		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.Distance)
+		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
 		if player == 0 then 
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		end
 
-		cb(Config.Duration, Config.Anim)
+		cb(Config.GSR.Duration, Config.GSR.Anim)
 	end
 end)
 
 AddEventHandler("inventory:useFinish", function(item, slot)
-	if item.name == Config.Item then
-		player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.Distance)
+	if item.name == Config.GSR.Item then
+		player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
 		if player == 0 then
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		else
