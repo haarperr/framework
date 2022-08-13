@@ -197,7 +197,7 @@ function Shop:Purchase(source, cart, paymentType)
 			if not itemInfo then return false end
 
 			if exports.inventory:GiveItem(source, item, quantity) then
-				boughtPrice = boughtPrice - quantity * itemInfo.value
+				boughtPrice = boughtPrice + quantity * itemInfo.value
 			end
 		end
 		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)

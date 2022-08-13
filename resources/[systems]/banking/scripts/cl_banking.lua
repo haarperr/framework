@@ -11,7 +11,7 @@ function GetAccountBalance(account)
 	end
 	return "0.00"
 end
-exports("GetAcccountBalance", GetAccountBalance)
+exports("GetAccountBalance", GetAccountBalance)
 
 function Banking:ToggleMenu(toggle, info)
     self.toggleMenu = toggle
