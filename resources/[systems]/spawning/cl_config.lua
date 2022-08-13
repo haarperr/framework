@@ -302,7 +302,7 @@ Config = {
 		{
 			Name = "Alta Street",
 			Static = {
-				Coords = vector4(-258.6122, -978.226, 31.21998, 197.0466),
+				Coords = vector4(-219.741, -1050.749, 30.13979, 161.1042),
 			},
 			Poses = {
 				{
