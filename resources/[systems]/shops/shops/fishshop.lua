@@ -6,7 +6,6 @@ Config.Filters.Fish = {
 		["Queenfish"] = true,
 		["Ray"] = true,
 		["Sand Bass"] = true,
-		["Seaweed"] = true,
 		["Black Rockfish"] = true,
 		["Sheephead"] = true,
 		["Sculpin"] = true,
@@ -14,7 +13,7 @@ Config.Filters.Fish = {
 	},
 }
 
-RegisterShop("FISH_SALES", {
+RegisterShop("FISH_SALES01", {
 	Name = "Fish Shop",
 	Clerks = {
 		{
@@ -38,7 +37,7 @@ RegisterShop("FISH_SALES", {
 	}
 )
 
-RegisterShop("FISH_SALES2", {
+RegisterShop("FISH_SALES02", {
 	Name = "Highway Fish Shop",
 	Clerks = {
 		{
