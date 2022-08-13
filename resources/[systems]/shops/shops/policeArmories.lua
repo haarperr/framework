@@ -46,11 +46,28 @@ RegisterShop("MRPD_ARMORY1", {
 		},
 	},
 	Storage = {
-		Coords = vector3(436.5448, -972.5101, 30.71302),
+		Coords = vector3(480.2994, -996.1855, 30.68495),
+		Radius = 3.0,
+		Filters = Config.Filters.Armory,
+	},
+})
+
+RegisterShop("SAMS_ARMORY1", {
+	Name = "SAMS Armory",
+	License = "weapons",
+	Clerks = {
+		{
+			coords = vector4(24.35694, -939.46, 29.90331, 24.46633),
+			model = "s_m_y_cop_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(24.26934, -939.5259, 29.9025),
 		Radius = 2.0,
 		Filters = Config.Filters.Armory,
 	},
 })
+
 RegisterShop("PARKRA_ARMORY1", {
 	Name = "Park Rangers Armory",
 	License = "weapons",
