@@ -41,10 +41,10 @@ exports.chat:RegisterCommand("a:stockshopall", function(source, args, command, c
 		local storage = shop.info.Storage
 		if storage then
 			if shop:StockContainer() then
-				cb("success", "Stocked up ".id."!")
+				cb("success", "Stocked up "..id.."!")
 				stocked = id
 			else
-				cb("error", "Failed to stock ".id."!")
+				cb("error", "Failed to stock "..id.."!")
 				stocked = false
 			end
 			break
