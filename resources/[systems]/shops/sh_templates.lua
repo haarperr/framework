@@ -71,7 +71,7 @@ Templates.window = {
 										contain
 									/>
 									<q-badge
-										:color="($getModel('cash') > props.row.price || $getModel('bank') > props.row.price) ? 'green' : 'red'"
+										:color="$getModel('bank') > props.row.price ? 'green' : 'red'"
 										style="top: 0.5vmin; right: 0.5vmin"
 										floating
 									>
@@ -104,7 +104,7 @@ Templates.window = {
 				["overflow"] = "hidden",
 			},
 			template = [[
-				<q-item style="width: 100%" :class="`q-pa-none q-ma-none ${($getModel('cash') >= $getModel('totalPrice') || $getModel('bank') >= $getModel('totalPrice')) ? 'bg-green' : 'bg-red'}`">
+				<q-item style="width: 100%" :class="`q-pa-none q-ma-none ${$getModel('bank') >= $getModel('totalPrice') ? 'bg-green' : 'bg-red'}`">
 					<q-item-section class="q-ml-md">
 						<q-item-label overline>x{{$getModel('cartAmount') ?? 0}} items</q-item-label>
 						<q-item-label caption class="text-bold">${{$getModel('totalPrice') ?? 0.00}}</q-item-label>
@@ -121,7 +121,7 @@ Templates.window = {
 					</q-item-section>-->
 					<q-item-section class="q-ma-none q-mr-md" style="max-width: 5vmin">
 						<q-btn
-							:disabled="$getModel('cartAmount') == 0 || ($getModel('cash') < $getModel('totalPrice') || $getModel('bank') < $getModel('totalPrice'))"
+							:disabled="$getModel('cartAmount') == 0 ||  $getModel('bank') < $getModel('totalPrice')"
 							@click="$invoke('purchase')"
 							icon="shopping_cart"
 							flat
