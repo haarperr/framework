@@ -17,7 +17,6 @@ shared_scripts {
 }
 
 client_scripts {
-	'@utils/client/misc.lua',
 	'@grids/shared/grids.lua',
 	'confirmation/cl_confirmation.lua',
 	'gsr/cl_gsr.lua',
@@ -30,6 +29,6 @@ client_scripts {
 
 server_scripts {
 	'confirmation/sv_confirmation.lua',
-	'gsr/sv_gar.lua',
+	'gsr/sv_gsr.lua',
 	'sv_interact.lua',
 }

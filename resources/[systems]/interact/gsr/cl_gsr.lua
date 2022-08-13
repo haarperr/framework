@@ -1,5 +1,13 @@
-local Distance = 4.0
-local Text = "test"
+Config = {
+	Distance = 4.0,
+	Item = "Gunshot Residue Kit",
+	Anim = {
+		Dict = "amb@world_human_stand_mobile@female@standing@call@enter",
+		Name = "enter",
+		Flag = 49,
+	},
+	Duration = 3000
+}
 
 --[[ Functions ]]--
 
@@ -25,32 +33,29 @@ Messages["gsr-respond"] = function(source, message, value)
 end
 
 --[[ Items ]]--
-RegisterNetEvent("inventory:use_GunshotResidueKit")
-AddEventHandler("inventory:use_GunshotResidueKit", function()
-	if IsPedInAnyVehicle(PlayerPedId(), false) then return end
+AddEventHandler("inventory:use", function(item, slot, cb)
+	if item.name == Config.Item then
+		if IsPedInAnyVehicle(PlayerPedId(), false) then return end
 
-	local player, playerPed, playerDist = GetNearestPlayer(Distance)
-	if player == 0 then return end
-	
-	exports.mythic_progbar:Progress({
-		Anim = {
-			Scenario = "WORLD_HUMAN_STAND_MOBILE",
-			PlayEnterAnim = true,
-		},
-		Label = "GSR...",
-		Duration = 8000,
-		UseWhileDead = false,
-		DisableMovement = true,
-		CanCancel = true,
-		Disarm = true,
-	}, function(wasCanceled)
-		if wasCanceled then return end
-		
-		player = GetPlayer(Distance)
+		local anim = Config.Anim
+		if not anim then return end
+
+		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.Distance)
+		if player == 0 then 
+			TriggerEvent("chat:notify", "No player within range!", "error")
+		end
+
+		cb(Config.Duration, Config.Anim)
+	end
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slot)
+	if item.name == Config.Item then
+		player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.Distance)
 		if player == 0 then
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		else
 			SendMessage(player, "gsr-request")
 		end
-	end)
+	end
 end)
