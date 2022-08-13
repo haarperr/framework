@@ -100,7 +100,7 @@ function GetInstance()
 	if CurrentInstance then
 		return CurrentInstance.id
 	else
-		return 0
+		return nil
 	end
 end
 exports("GetInstance", GetInstance)
