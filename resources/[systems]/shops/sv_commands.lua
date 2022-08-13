@@ -36,31 +36,29 @@ exports.chat:RegisterCommand("a:stockshopall", function(source, args, command, c
 	local ped = GetPlayerPed(source)
 	local coords = GetEntityCoords(ped)
 	
-	local stocked
+	local stocked = 0
 	for id, shop in pairs(Main.shops) do
 		local storage = shop.info.Storage
 		if storage then
 			if shop:StockContainer() then
 				cb("success", "Stocked up "..id.."!")
-				stocked = id
+				stocked = stocked + 1
+				exports.log:Add({
+					source = source,
+					verb = "stocked",
+					noun = "storage",
+					extra = id,
+					channel = "admin",
+				})
 			else
 				cb("error", "Failed to stock "..id.."!")
 				stocked = false
 			end
-			break
 		end
 	end
 
 	if stocked == nil then
 		cb("error", "No shop to stock.")
-	elseif stocked then
-		exports.log:Add({
-			source = source,
-			verb = "stocked",
-			noun = "storage",
-			extra = stocked,
-			channel = "admin",
-		})
 	end
 end, {
 	description = "Fill all shops with compatible items.",
