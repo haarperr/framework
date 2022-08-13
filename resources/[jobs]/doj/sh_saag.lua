@@ -5,11 +5,23 @@ exports.jobs:Register("saag", {
 	Pay = 100,
 	Group = "saag",
 	Clocks = {
-		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
+		{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "emergency",
 		State = "federal",
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanFine = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = 2,
+		ChopShop = true,
+		DrugBonus = true,
+		JailBreak = true,
+		Robberies = true,
 	},
 	Ranks = {
 		{ Name = "Paralegal" },
