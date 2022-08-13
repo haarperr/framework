@@ -14,7 +14,7 @@ DELIMITER ;
 
 CREATE TABLE `bank_accounts` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`account_id` INT(10) UNSIGNED NOT NULL DEFAULT 0,
+	`account_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`character_id` INT(10) UNSIGNED NOT NULL,
 	`account_name` TEXT NOT NULL COLLATE 'utf8_general_ci',
 	`account_type` INT(10) NOT NULL DEFAULT '0',
