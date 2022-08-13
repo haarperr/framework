@@ -76,7 +76,7 @@ exports.jobs:Register("firefighter", {
 	Group = "firefighter",
 	Flags = EMS_FLAGS,
 	Clocks = {
-		{ Coords = vector3(199.5579, -1649.098, 29.79591), Radius = 2.0 },
+		{ Coords = vector3(208.1045, -1656.281, 29.80074), Radius = 2.0 },
 	},
 	Tracker = {
 		Group = "emergency",
