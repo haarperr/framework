@@ -32,7 +32,7 @@ end, {
 	description = "Fill a shop with compatible items.",
 }, "Admin")
 
-exports.chat:RegisterCommand("a:stockallshop", function(source, args, command, cb)
+exports.chat:RegisterCommand("a:stockshopall", function(source, args, command, cb)
 	local ped = GetPlayerPed(source)
 	local coords = GetEntityCoords(ped)
 	
