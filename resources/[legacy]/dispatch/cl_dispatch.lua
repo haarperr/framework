@@ -12,7 +12,7 @@ local lastNamesList = {}
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(0)
-        if IsControlJustPressed(1, 47) then -- Decide which key
+        if IsControlJustPressed(1, 121) then -- Decide which key
 			if exports.jobs:IsInGroup("emergency") then
 				local ped = PlayerPedId()
 				local playerVehicle = GetVehiclePedIsIn(ped)
