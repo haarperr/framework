@@ -40,7 +40,7 @@
       </q-drawer>
       
       <q-page-container class="scroll hide-scrollbar" style="height: 800px; background-color: #121212">
-        <div v-if="accounts.length > 0">
+        <div v-if="accounts[selectedAccount] != null">
           <div class="q-pa-sm" v-for="transaction in accounts[selectedAccount].transactions" :key="transaction.id">
             <q-card class="text-white bg-dark" bordered>
               <q-card-section horizontal>
