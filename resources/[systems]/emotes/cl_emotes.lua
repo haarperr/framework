@@ -183,7 +183,11 @@ function Emote:Play(settings)
 	end
 
 	-- Trigger event.
+	local state =  (LocalPlayer or {}).state
+		if not state then return end
+	if not state.immobile and not state.restrained then
 	TriggerEvent("emotes:play", self.id, settings)
+	end
 end
 
 function Emote:Remove()
