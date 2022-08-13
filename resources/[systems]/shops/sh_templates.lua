@@ -121,7 +121,7 @@ Templates.window = {
 					</q-item-section>-->
 					<q-item-section class="q-ma-none q-mr-md" style="max-width: 5vmin">
 						<q-btn
-							:disabled="$getModel('cartAmount') == 0 || $getModel('bank') < $getModel('totalPrice'))"
+							:disabled="$getModel('cartAmount') == 0 || $getModel('bank') < $getModel('totalPrice')"
 							@click="$invoke('purchase')"
 							icon="shopping_cart"
 							flat
