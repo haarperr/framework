@@ -5,7 +5,7 @@ exports.jobs:Register("sams", {
 	Pay = 90,
 	Group = "sams",
 	Clocks = {
-		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
+		{ Coords = vector3(22.60044, -929.5186, 29.90769), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "emergency",
