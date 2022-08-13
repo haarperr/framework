@@ -11,7 +11,7 @@ function CreateInstance(id, instance, source)
 	}
 
 	JoinInstance(id, source)
-	TriggerEvent("instances:created", id)
+	TriggerEvent("oldinstances:created", id)
 end
 exports("CreateInstance", CreateInstance)
 
@@ -34,10 +34,10 @@ function JoinInstance(id, source)
 	instance.players[tostring(source)] = true
 
 	for player, _ in pairs(instance.players) do
-		TriggerClientEvent("instances:playerEntered", tonumber(player), source)
+		TriggerClientEvent("oldinstances:playerEntered", tonumber(player), source)
 	end
-	TriggerClientEvent("instances:enter", source, instance)
-	TriggerEvent("instances:playerEntered", source, id)
+	TriggerClientEvent("oldinstances:join", source, instance)
+	TriggerEvent("oldinstances:playerEntered", source, id)
 end
 exports("JoinInstance", JoinInstance)
 
@@ -58,10 +58,10 @@ function LeaveInstance(id, source)
 	Players[source] = nil
 
 	for player, _ in pairs(instance.players) do
-		TriggerClientEvent("instances:playerExited", tonumber(player), source)
+		TriggerClientEvent("oldinstances:playerExited", tonumber(player), source)
 	end
-	TriggerClientEvent("instances:exit", source)
-	TriggerEvent("instances:playerExited", source, id)
+	TriggerClientEvent("oldinstances:left", source)
+	TriggerEvent("oldinstances:playerExited", source, id)
 end
 exports("LeaveInstance", LeaveInstance)
 
@@ -86,16 +86,16 @@ end
 exports("GetInstance", GetInstance)
 
 --[[ Events ]]--
-RegisterNetEvent("instances:exit")
-AddEventHandler("instances:exit", function()
+RegisterNetEvent("oldinstances:left")
+AddEventHandler("oldinstances:left", function()
 	local source = source
 	if not Players[source] then return end
 
 	LeaveInstance(Players[source], source)
 end)
 
-RegisterNetEvent("instances:join")
-AddEventHandler("instances:join", function(id)
+RegisterNetEvent("oldinstances:join")
+AddEventHandler("oldinstances:join", function(id)
 	local source = source
 	JoinInstance(id, source)
 end)

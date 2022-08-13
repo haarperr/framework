@@ -28,7 +28,7 @@ exports.chat:RegisterCommand("a:goto", function(source, args, rawCommand, cb)
 		channel = "admin",
 	})
 
-	TriggerClientEvent(Admin.event.."goto", source, GetEntityCoords(ped), exports.instances:Get(target) or false, target)
+	TriggerClientEvent(Admin.event.."goto", source, GetEntityCoords(ped), exports.oldinstances:GetPlayerInstance(target) or false, target)
 end, {
 	description = "Go to another player.",
 	parameters = {
@@ -66,7 +66,7 @@ exports.chat:RegisterCommand("a:bring", function(source, args, rawCommand, cb)
 		channel = "admin",
 	})
 
-	TriggerClientEvent(Admin.event.."goto", target, GetEntityCoords(ped), exports.instances:Get(source) or false, source)
+	TriggerClientEvent(Admin.event.."goto", target, GetEntityCoords(ped), exports.oldinstances:GetPlayerInstance(source) or false, source)
 end, {
 	description = "Bring another player to you.",
 	parameters = {

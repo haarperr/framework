@@ -324,10 +324,10 @@ RegisterNetEvent("emotes:playData", function(data, force, time)
 	Main:Play(data, force)
 end)
 
-RegisterNetEvent("instances:join", function(id)
+RegisterNetEvent("oldinstances:join", function(id)
 	Main:RemoveProps()
 end)
 
-RegisterNetEvent("instances:leave", function(id)
+RegisterNetEvent("oldinstances:leave", function(id)
 	Main:RemoveProps()
 end)

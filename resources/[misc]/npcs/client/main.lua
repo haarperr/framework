@@ -101,12 +101,12 @@ function Npcs:CloseWindow()
 end
 
 --[[ Events: Net ]]--
-RegisterNetEvent("instances:join", function(id)
+RegisterNetEvent("oldinstances:join", function(id)
 	Npcs.instanced = true
 	Npcs:UpdateGrid({ id })
 end)
 
-RegisterNetEvent("instances:leave", function(id)
+RegisterNetEvent("oldinstances:leave", function(id)
 	Npcs.instanced = nil
 
 	local ped = PlayerPedId()
@@ -120,7 +120,7 @@ AddEventHandler(Npcs.event.."start", function()
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
 
-	Npcs:UpdateGrid(GetResourceState("instances") == "started" and exports.instances:GetInstance() or Grids:GetNearbyGrids(coords, Npcs.Config.GridSize))
+	Npcs:UpdateGrid(GetResourceState("oldinstances") == "started" and exports.oldinstances:GetInstance() or Grids:GetNearbyGrids(coords, Npcs.Config.GridSize))
 end)
 
 AddEventHandler("grids:enter"..Npcs.Config.GridSize, function(grid, nearby)

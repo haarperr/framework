@@ -43,7 +43,7 @@ function Main:LoadPlayers()
 		local ped = GetPlayerPed(player)
 
 		if ped and DoesEntityExist(ped) then
-			local gridId = exports.instances:Get(player) or Grids:GetGrid(GetEntityCoords(ped), Config.GridSize)
+			local gridId = exports.oldinstances:GetPlayerInstance(player) or Grids:GetGrid(GetEntityCoords(ped), Config.GridSize)
 			self:SetGrid(player, gridId)
 		end
 	end
@@ -188,7 +188,7 @@ function Main:Place(source, item, variant, coords, rotation, slotId, instance, d
 		rotation = rotation,
 		variant = variant,
 		durability = durability,
-		instance = (source and exports.instances:Get(source)) or (not source and instance),
+		instance = (source and exports.oldinstances:GetPlayerInstance(source)) or (not source and instance),
 		character_id = character,
 	})
 end
@@ -328,11 +328,12 @@ AddEventHandler("inventory:loaded", function()
 	-- Main:CacheItems()
 end)
 
-AddEventHandler("instances:join", function(source, id)
+AddEventHandler("oldinstances:playerEntered", function(source, id)
+	print("Instance",id)
 	Main:SetGrid(source, id)
 end)
 
-AddEventHandler("instances:leave", function(source, id)
+AddEventHandler("oldinstances:playerExited", function(source, id)
 	local ped = GetPlayerPed(source)
 	local gridId = Grids:GetGrid(GetEntityCoords(ped), Config.GridSize)
 
@@ -343,7 +344,7 @@ end)
 RegisterNetEvent("grids:enter"..Config.GridSize, function(gridId)
 	local source = source
 
-	if type(gridId) ~= "number" or exports.instances:IsInstanced(source) then return end
+	if type(gridId) ~= "number" or exports.oldinstances:IsInstanced(source) then return end
 
 	Main:SetGrid(source, gridId)
 end)

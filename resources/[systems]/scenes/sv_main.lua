@@ -69,7 +69,7 @@ function Main:Init()
 		local ped = GetPlayerPed(player)
 		if ped and DoesEntityExist(ped) then
 			local coords = GetEntityCoords(ped)
-			Main:UpdatePlayer(player, exports.instances:GetPlayerInstance(player) or Grids:GetGrid(coords, Config.GridSize))
+			Main:UpdatePlayer(player, exports.oldinstances:GetPlayerInstance(player) or Grids:GetGrid(coords, Config.GridSize))
 		end
 	end
 end
@@ -175,7 +175,7 @@ function Main:PlaceScene(source, scene)
 	end
 
 	-- Get grid/instance.
-	local instance = exports.instances:GetPlayerInstance(source)
+	local instance = exports.oldinstances:GetPlayerInstance(source)
 	local gridId = Grids:GetGrid(scene.coords, Config.GridSize)
 
 	-- Check grid scene limit.
@@ -305,18 +305,18 @@ end)
 RegisterNetEvent("grids:enter"..Config.GridSize)
 AddEventHandler("grids:enter"..Config.GridSize, function(gridId)
 	local source = source
-	if type(gridId) ~= "number" or exports.instances:IsInstanced(source) then return end
+	if type(gridId) ~= "number" or exports.oldinstances:IsInstanced(source) then return end
 
 	Main:UpdatePlayer(source, gridId)
 end)
 
-AddEventHandler("instances:playerEntered", function(source, instance)
+AddEventHandler("oldinstances:playerEntered", function(source, instance)
 	local source = source
 
 	Main:UpdatePlayer(source, instance)
 end)
 
-AddEventHandler("instances:playerExited", function(source, instance)
+AddEventHandler("oldinstances:playerExited", function(source, instance)
 	local source = source
 	local ped = GetPlayerPed(source)
 	if ped and DoesEntityExist(ped) then

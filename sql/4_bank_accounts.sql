@@ -1,6 +1,20 @@
+DELIMITER //
+CREATE FUNCTION `bank_generateAccountNumber`() RETURNS int(10)
+    DETERMINISTIC
+BEGIN
+	SET @random_num = 0;
+
+	WHILE @random_num=0 OR EXISTS (SELECT 1 FROM bank_accounts WHERE bank_accounts.account_id=@random_num) DO
+		SET @random_num = FLOOR(RAND() * 999999999);
+	END WHILE;
+
+	RETURN @random_num;
+END//
+DELIMITER ;
+
 CREATE TABLE `bank_accounts` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`account_id` INT(10) UNSIGNED NOT NULL DEFAULT (floor(rand() * (587456432 - 187356432 + 1)) + 187356432),
+	`account_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
 	`character_id` INT(10) UNSIGNED NOT NULL,
 	`account_name` TEXT NOT NULL COLLATE 'utf8_general_ci',
 	`account_type` INT(10) NOT NULL DEFAULT '0',
@@ -14,8 +28,6 @@ CREATE TABLE `bank_accounts` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
-
-
 
 CREATE TABLE `bank_accounts_shared` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -46,3 +58,7 @@ CREATE TABLE `bank_accounts_transactions` (
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB;
+
+CREATE TRIGGER IF NOT EXISTS `banking_generateAccountNumber` BEFORE INSERT ON `bank_accounts` FOR EACH ROW BEGIN
+	SET NEW.account_number = bank_generateAccountNumber()
+END
