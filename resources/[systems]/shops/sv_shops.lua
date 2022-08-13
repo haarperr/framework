@@ -197,7 +197,7 @@ function Shop:Purchase(source, cart, paymentType)
 			if not itemInfo then return false end
 
 			if exports.inventory:GiveItem(source, item, quantity) then
-				boughtPrice = boughtPrice - quantity * itemInfo.value
+				boughtPrice = boughtPrice + quantity * itemInfo.value
 			end
 		end
 		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
@@ -205,7 +205,7 @@ function Shop:Purchase(source, cart, paymentType)
 		TriggerClientEvent("chat:notify", source, "You don't have enough for that!", "error")
 	end
 
-	if boughtPrice > 0 then
+	if boughtPrice < 0 then
 		TriggerClientEvent("chat:notify", source, "You spent $"..boughtPrice.."!", "success")
 	else
 		TriggerClientEvent("chat:notify", source, "You didn't have room!", "error")
