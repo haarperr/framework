@@ -280,6 +280,43 @@ RegisterNetEvent("jobs:clock", function(jobId)
 	end
 end)
 
+RegisterNetEvent("jobs:togglePanic")
+AddEventHandler("jobs:togglePanic", function()
+	local source = source
+	local group = GetGroup(source)
+	if not group then return end
+
+	local trackers = GetTrackers(group:lower())
+	if not trackers then return end
+
+	local tracker = trackers[source]
+	if not tracker then return end
+
+	local jobName = GetCurrentJob(source, false)
+	if tracker == true then
+		tracker = 2
+	else
+		tracker = true
+	end
+	UpdateTracker(source, jobName, tracker)
+	local message
+	if tracker == 2 then
+		message = "Panic turned ON!"
+	else
+		message = "Panic turned OFF!"
+	end
+
+	exports.log:Add({
+		source = source,
+		target = target,
+		verb = "toggled",
+		noun = "panic",
+		extra = tracker,
+	})
+
+	TriggerClientEvent("notify:sendAlert", source, "error", message, 7000)
+end)
+
 --[[ Events ]]--
 AddEventHandler("jobs:start", function(...)
 	Main:Init()
