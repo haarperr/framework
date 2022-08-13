@@ -5,6 +5,13 @@ Banking = {
 	accounts = {},
 }
 
+function GetAccountBalance(account)
+	if Banking.accounts[account] then
+		return Banking.accounts[account].account_balance
+	end
+	return "0.00"
+end
+exports("GetAcccountBalance", GetAccountBalance)
 
 function Banking:ToggleMenu(toggle, info)
     self.toggleMenu = toggle
