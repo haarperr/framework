@@ -16,7 +16,8 @@ RegisterNetEvent("health:respawn", function()
 	})
 
 	-- Clear inventory.
-	if exports.jobs:CountActiveDuty("Respawn")
+	local presence = exports.jobs:CountActiveDuty("Respawn")
+	if presence > Config.Respawn.Presence
 	then exports.inventory:ContainerEmpty(containerId)
 	return end
 
