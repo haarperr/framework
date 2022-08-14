@@ -279,22 +279,26 @@ AddEventHandler("banking:shareAccount", function(accountNumber, stateID)
     if character_id then
         local bankAccount = BankAccounts[accountNumber]
         if bankAccount ~= nil then
-            if bankAccount.character_id ~= character_id then 
-                local sharedAccount = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts_shared WHERE account_id = "..bankAccount.account_id)
-                local account = Get(tonumber(accountNumber), "account_type")
-                if account then
-                    if #sharedAccount < Config.AccountTypes[bankAccount.account_type].MaxShares then
-                        SourceBankAccounts[stateID][account] = BankAccounts[accountNumber]
-                        exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_shared SET account_id = @account_id, character_id = @character_id", {
-                            ["@account_id"] = account,
-                            ["@character_id"] = character_id
-                        })
-                    else
-                        TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[bankAccount.account_type].MaxShares.."!", "error")
+            if Config.AccountTypes[bankAccount.account_type].Shareable then
+                if bankAccount.character_id ~= character_id then 
+                    local sharedAccount = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts_shared WHERE account_id = "..bankAccount.account_id)
+                    local account = Get(tonumber(accountNumber), "account_type")
+                    if account then
+                        if #sharedAccount < Config.AccountTypes[bankAccount.account_type].MaxShares then
+                            SourceBankAccounts[stateID][account] = BankAccounts[accountNumber]
+                            exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_shared SET account_id = @account_id, character_id = @character_id", {
+                                ["@account_id"] = account,
+                                ["@character_id"] = character_id
+                            })
+                        else
+                            TriggerClientEvent("chat:notify", source, "You cannot share this account anymore! Max "..Config.AccountTypes[bankAccount.account_type].MaxShares.."!", "error")
+                        end
                     end
+                else
+                    TriggerClientEvent("chat:notify", source, "You cannot share with yourself!", "error")
                 end
             else
-                TriggerClientEvent("chat:notify", source, "You cannot share with yourself!", "error")
+                TriggerClientEvent("chat:notify", source, "You cannot share this type of account!", "error")
             end
         else
             TriggerClientEvent("chat:notify", source, "Invalid Account!", "error")
