@@ -45,5 +45,6 @@ exports.jobs:Register("doj", {
 		{ Name = "Pilots" },
 		{ Name = "Realtor" },
 		{ Name = "Commercial-Hunting" },
+		{ Name = "Business" },
 	},
 })
