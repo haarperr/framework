@@ -19,6 +19,7 @@ Config.Filters.Armory = {
 		[".45 ACP"] = true,
         ["9mm Parabellum Box"] = true,
         ["9mm Magazine"] = true,
+		[".45 Magazine"] = true,
 		["Gauze"] = true,
 		["Nightstick"] = true,
 		["Tweezers"] = true,
@@ -37,7 +38,7 @@ Config.Filters.Armory = {
 	},
 }
 
-RegisterShop("MRPD_ARMORY01", {
+RegisterShop("MRPD_ARMORY001", {
 	Name = "MRPD Armory",
 	License = "weapons",
 	Clerks = {
@@ -53,7 +54,7 @@ RegisterShop("MRPD_ARMORY01", {
 	},
 })
 
-RegisterShop("SAMS_ARMORY01", {
+RegisterShop("SAMS_ARMORY001", {
 	Name = "SAMS Armory",
 	License = "weapons",
 	Clerks = {
@@ -69,7 +70,7 @@ RegisterShop("SAMS_ARMORY01", {
 	},
 })
 
-RegisterShop("PARKRA_ARMORY01", {
+RegisterShop("PARKRA_ARMORY001", {
 	Name = "Park Rangers Armory",
 	License = "weapons",
 	Clerks = {
@@ -85,7 +86,7 @@ RegisterShop("PARKRA_ARMORY01", {
 	},
 })
 
-RegisterShop("LAMESA_ARMORY01", {
+RegisterShop("LAMESA_ARMORY001", {
 	Name = "La Mesa Armory",
 	License = "weapons",
 	Clerks = {
@@ -101,7 +102,7 @@ RegisterShop("LAMESA_ARMORY01", {
 	},
 })
 
-RegisterShop("DAVIS_ARMORY01", {
+RegisterShop("DAVIS_ARMORY001", {
 	Name = "Davis PD Armory",
 	License = "weapons",
 	Clerks = {
@@ -117,7 +118,7 @@ RegisterShop("DAVIS_ARMORY01", {
 	},
 })
 
-RegisterShop("HIGHWAY_ARMORY01", {
+RegisterShop("HIGHWAY_ARMORY001", {
 	Name = "Highway Station Armory",
 	License = "weapons",
 	Clerks = {
@@ -133,7 +134,7 @@ RegisterShop("HIGHWAY_ARMORY01", {
 	},
 })
 
-RegisterShop("SANDY_ARMORY01", {
+RegisterShop("SANDY_ARMORY001", {
 	Name = "SSO Armory",
 	License = "weapons",
 	Clerks = {
@@ -149,7 +150,7 @@ RegisterShop("SANDY_ARMORY01", {
 	},
 })
 
-RegisterShop("PALETO_ARMORY01", {
+RegisterShop("PALETO_ARMORY001", {
 	Name = "Paleto PD Armory",
 	License = "weapons",
 	Clerks = {
@@ -165,7 +166,7 @@ RegisterShop("PALETO_ARMORY01", {
 	},
 })
 
-RegisterShop("PRISON_ARMORY01", {
+RegisterShop("PRISON_ARMORY001", {
 	Name = "Prison Armory",
 	License = "weapons",
 	Clerks = {
