@@ -105,7 +105,7 @@ function Weapons:Load(source, weaponSlotId, magazineSlotId)
 	
 	-- -- Set ammo in gun.
 	exports.inventory:ContainerInvokeSlot(containerId, weaponSlot.slot_id, "SetField", 1, ammo or -1)
-	exports.inventory:ContainerInvokeSlot(containerId, weaponSlot.slot_id, "SetField", 2, durability)
+	exports.inventory:ContainerInvokeSlot(containerId, weaponSlot.slot_id, "SetField", 3, durability)
 end
 
 --[[ Threads ]]--
