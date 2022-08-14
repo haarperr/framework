@@ -81,7 +81,7 @@ function AddLicense(source, license)
 		SET
 			`character_id`=@characterId,
 			`name`=@name,
-			`points`=@points,
+			`points`=@points
 	]]
 	local values = {
 		["@characterId"] = character.id,
@@ -96,9 +96,9 @@ function AddLicense(source, license)
 		exports.character:Set(source, "licenses", Main.licenses[character.id])
 		TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
 		return true
-	else {
+	else
 		return false
-	}
+	end
 end
 exports("AddLicense", AddLicense)
 
@@ -143,14 +143,13 @@ function RemoveLicense(source, license)
 	local query = [[
 		DELETE FROM `licenses`
 		WHERE
-			`character_id`=@characterId,
-			`name`=@name,
+			`character_id`=@characterId
+			AND `name`=@name
 	]]
 	local values = {
 		["@characterId"] = character.id,
 		["@name"] = license,
 	}
-
 	if exports.GHMattiMySQL:Query(query, values) then
 		licenses[license] = nil
 		Main.licenses[character.id] = licenses
@@ -181,8 +180,8 @@ function AddPointsToLicense(source, name, points)
 		SET
 			`points`=@points
 		WHERE
-			`character_id`=@characterId,
-			`name`=@name,
+			`character_id`=@characterId
+			AND `name`=@name
 	]]
 	local values = {
 		["@characterId"] = character.id,
