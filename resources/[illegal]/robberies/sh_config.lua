@@ -130,7 +130,7 @@ Config = {
 				"Safe Cracking Tool",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {528, 913}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {328, 513}, Chance = 1.0 },
 				{ Name = "Red Keycard", Amount = 1, Chance = 0.10 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
@@ -174,7 +174,7 @@ Config = {
 				"Hacking Tool",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {713, 1003}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {413, 6003}, Chance = 1.0 },
 				{ Name = "Green Keycard", Amount = 1, Chance = 0.1 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.50 },
 				{ Name = "Joint", Amount = {2,6}, Chance = 0.40 },
@@ -264,13 +264,10 @@ Config = {
 				"Thermite",
 			},
 			Output = {
-				{ Name = "Valuable Goods", Amount = 1, Chance = 0.6 },
+				{ Name = "Valuable Goods", Amount = 1, Chance = 0.8 },
 				{ Name = "Bills", Amount = {501, 1303}, Chance = 1.0 },
-				{ Name = "Blue Keycard", Amount = 1, Chance = 0.01 },
-				{ Name = "Green Keycard", Amount = 1, Chance = 0.06 },
 				{ Name = "Barma Ruby", Amount = 1, Chance = 0.02 },
-				{ Name = "Red Keycard", Amount = 1, Chance = 0.15 },
-				{ Name = "Black Keycard", Amount = 1, Chance = 0.05 },
+				{ Name = "Diamond", Amount = 1, Chance = 0.15 },
 			},
 		},
 		["drillbox"] = {
@@ -451,10 +448,10 @@ Config = {
 				"Diamond Hammer",
 			},
 			Output = {
-				{ Name = "Diamond", Amount = {2,4}, Chance = 1.0 },
+				{ Name = "Diamond", Amount = {1,2}, Chance = 1.0 },
 				{ Name = "Ruby", Amount = {1,3}, Chance = 1.0 },
 				{ Name = "Saphire", Amount = {1,4}, Chance = 1.0 },
-				{ Name = "Emerald", Amount = {0,3}, Chance = 1.0 },
+				{ Name = "Emerald", Amount = {1,3}, Chance = 1.0 },
 				{ Name = "Barma Ruby Ring", Amount = {0,1}, Chance = 0.006 },
 			},
 		},
