@@ -17,8 +17,7 @@ exports.jobs:Register("lspd", {
 	-- Description = "Known for winning situations.",
 	Flags = PD_FLAGS,
 	Clocks = {
-		{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
-		{ Coords = vector3(453.5949, -980.6509, 30.57985), Radius = 3.5 },
+		{ Coords = vector3(451.3806, -989.2128, 30.68959), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "emergency",
@@ -45,6 +44,7 @@ exports.jobs:Register("lspd", {
 		{
 			Name = "Sergeant",
 			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
 				Jobs.Permissions.CAN_SET_USER_OTHER
@@ -56,7 +56,8 @@ exports.jobs:Register("lspd", {
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
 			)
 		},
 		{
@@ -120,6 +121,7 @@ exports.jobs:Register("bcso", {
 		{
 			Name = "Sergeant",
 			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
 				Jobs.Permissions.CAN_SET_USER_OTHER
@@ -131,7 +133,8 @@ exports.jobs:Register("bcso", {
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
 			)
 		},
 		{
@@ -198,6 +201,7 @@ exports.jobs:Register("sasp", {
 		{
 			Name = "Sergeant",
 			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
 				Jobs.Permissions.CAN_SET_USER_OTHER
@@ -209,7 +213,8 @@ exports.jobs:Register("sasp", {
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
 			)
 		},
 		{
@@ -275,6 +280,7 @@ exports.jobs:Register("doc", {
 		{
 			Name = "Sergeant",
 			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
 				Jobs.Permissions.CAN_SET_USER_OTHER
@@ -286,7 +292,8 @@ exports.jobs:Register("doc", {
 				Jobs.Permissions.CAN_HIRE_OR_FIRE |
 				Jobs.Permissions.CAN_SET_USER_FLAGS |
 				Jobs.Permissions.CAN_SET_USER_STATUS |
-				Jobs.Permissions.CAN_SET_USER_OTHER
+				Jobs.Permissions.CAN_SET_USER_OTHER |
+				Jobs.Permissions.CAN_SET_USER_RANK
 			)
 		},
 		{

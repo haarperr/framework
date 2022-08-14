@@ -9,7 +9,7 @@ exports.jobs:Register("sams", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "state",
+		State = "federal",
 	},
 	Emergency = {
 		AccessMdt = "police",
@@ -20,7 +20,7 @@ exports.jobs:Register("sams", {
 		CheckIn = 2,
 		ChopShop = false,
 		DrugBonus = false,
-		JailBreak = false,
+		JailBreak = true,
 		Robberies = false,
 	},
 	Ranks = {

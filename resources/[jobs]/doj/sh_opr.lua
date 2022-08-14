@@ -2,14 +2,26 @@ exports.jobs:Register("opr", {
 	Title = "Federal",
 	Name = "Office of Professional Responsibility",
 	Faction = "federal",
-	Pay = 100,
+	Pay = 90,
 	Group = "opr",
 	Clocks = {
-		--{ Coords = vector3(453.3004, -986.6588, 30.59658), Radius = 3.5 },
+		{ Coords = vector3(-537.8631, -192.0788, 43.36591), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "emergency",
 		State = "federal",
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = true,
+		CanFine = true,
+		CanImpound = true,
+		CanJail = true,
+		CheckIn = 2,
+		ChopShop = false,
+		DrugBonus = false,
+		JailBreak = false,
+		Robberies = false,
 	},
 	Ranks = {
 		{ Name = "Investigator" },
