@@ -7,10 +7,11 @@ Config.Filters.Sports = {
         ["Pool Cue"] = true,
         ["Parachute"] = true,
         ["Toothbrush"] = true,
+        ["Duffle Bag"] = true,
 	},
 }
 
-RegisterShop("SPORTS_1", {
+RegisterShop("SPORTS_01", {
     Name = "Palomino Sports",
     Clerks = {
         {
@@ -25,7 +26,7 @@ RegisterShop("SPORTS_1", {
     },
 })
 
-RegisterShop("SPORTS_2", {
+RegisterShop("SPORTS_02", {
     Name = "Procopio Sports",
     Clerks = {
         {

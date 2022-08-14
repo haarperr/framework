@@ -1,11 +1,11 @@
-exports.jobs:Register("saag", {
+exports.jobs:Register("lsda", {
 	Title = "Federal",
-	Name = "San Andreas Attorney General",
+	Name = "Los Santos District Attorney",
 	Faction = "federal",
-	Pay = 120,
-	Group = "saag",
+	Pay = 110,
+	Group = "lsda",
 	Clocks = {
-		{ Coords = vector3(19.60668, -928.3267, 33.90338), Radius = 3.5 },
+		{ Coords = vector3(20.6156, -924.1031, 29.90268), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "emergency",
@@ -15,7 +15,6 @@ exports.jobs:Register("saag", {
 		AccessMdt = "police",
 		CanBreach = true,
 		CanFine = true,
-		CanImpound = true,
 		CanJail = true,
 		CheckIn = 2,
 		ChopShop = false,
@@ -25,17 +24,16 @@ exports.jobs:Register("saag", {
 	},
 	Ranks = {
 		{ Name = "Paralegal" },
-		{ Name = "Secretary" },
+		{ Name = "State Attorney" },
+		{ Name = "Probationary Investigator" },
+		{ Name = "Investigator" },
+		{ Name = "Chief Investigator" },
 		{
-			Name = "Administrator",
+			Name = "Assistant District Attorney",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
-			Name = "Deputy Attorney General",
-			Flags = Jobs.Permissions.ALL()
-		},
-		{
-			Name = "Attorney General",
+			Name = "District Attorney",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},

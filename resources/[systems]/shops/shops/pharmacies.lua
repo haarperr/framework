@@ -15,10 +15,11 @@ Config.Filters.Pharm = {
         ["Stun Gun"] = true,
 		["Taser Cartridge"] = true,
         ["Body Armor"] = true,
+		["Radio"] = true,
 	},
 }
 
-RegisterShop("MTZONAH_PHARM1", {
+RegisterShop("MTZONAH_PHARM01", {
 	Name = "Mount Zonah Pharmacy",
 	License = "medical",
 	Clerks = {

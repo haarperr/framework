@@ -41,6 +41,7 @@ Config = {
 				{ name = "Gauze", chance = 0.02 },
 				{ name = "Hammer", chance = 0.02 },
 				{ name = "Jar", chance = 0.02 },
+				{ name = "Hacking Tool", chance = 0.002 },
 				{ name = "Hair Tie", chance = 0.02 },
 				{ name = "Max 2", chance = 0.02 },
 				{ name = "Nora", chance = 0.02 },
@@ -108,6 +109,7 @@ Config = {
 				{ name = "Glass", chance = 0.01, quantity = { 1, 3 } },
 				{ name = "Paper", chance = 0.03, quantity = { 1, 6 } },
 				{ name = "Radio", chance = 0.01, durability = { 0.05, 0.9 } },
+				{ name = "Safe Cracking Tool", chance = 0.001, durability = { 0.05, 0.9 } },
 				{ name = "Tire", chance = 0.01 },
 			},
 		},
@@ -149,6 +151,7 @@ Config = {
 				maxWeight = 10.0,
 			},
 			Loot = {
+				{ name = "Hacking Tool", chance = 0.001, quantity = { 1, 10 } },
 				{ name = "Paper", chance = 0.5, quantity = { 1, 10 } },
 			},
 		},

@@ -18,10 +18,10 @@ exports.jobs:Register("doj", {
 		CanImpound = true,
 		CanJail = true,
 		CheckIn = 2,
-		ChopShop = true,
-		DrugBonus = true,
-		JailBreak = true,
-		Robberies = true,
+		ChopShop = false,
+		DrugBonus = false,
+		JailBreak = false,
+		Robberies = false,
 	},
 	Ranks = {
 		{ Name = "Judge"},
@@ -45,5 +45,6 @@ exports.jobs:Register("doj", {
 		{ Name = "Pilots" },
 		{ Name = "Realtor" },
 		{ Name = "Commercial-Hunting" },
+		{ Name = "Business" },
 	},
 })
