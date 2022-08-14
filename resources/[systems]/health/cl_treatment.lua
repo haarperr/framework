@@ -747,6 +747,14 @@ function Treatment:Heal(delay)
 	if Main:GetHealth() <= 0.9 then
 		Main:SetEffect("Health", 0.9)
 	end
+
+	if Main:GetEffect("Hunger") <= 0.1 then
+		Main:SetEffect("Hunger", 0.5)
+	end
+
+	if Main:GetEffect("Thirst") <= 0.1 then
+		Main:SetEffect("Thirst", 0.5)
+	end
 end
 
 RegisterCommand("testheal", function()
