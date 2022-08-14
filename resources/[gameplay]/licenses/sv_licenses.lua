@@ -20,6 +20,11 @@ AddEventHandler("character:selected", function(source, character)
 	end
 end)
 
+RegisterNetEvent("licenses:shareLicense")
+AddEventHandler("licenses:shareLicense", function(target, data)
+	TriggerClientEvent("chat:notify", target, data)
+end)
+
 --[[ Functions ]]--
 --[[function Modules.Load.licenses(licenses)
 	local result = {}
@@ -43,6 +48,17 @@ function HasLicense(source, name)
 	return _HasLicense(source, name)
 end
 exports("HasLicense", HasLicense)
+
+function CheckFaction(source)
+	local job = exports.jobs:GetCurrentJob(source)
+	if job == nil then return false end
+	
+	if job.Faction == "pd" or job.Faction == "ems" or job.Faction == "federal" then
+		return true
+	end
+
+	return false
+end
 
 function AddLicense(source, license)
 	local character = exports.character:GetCharacter(source)
