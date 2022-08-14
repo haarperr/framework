@@ -60,14 +60,29 @@ function AddLicense(source, license)
 		points = 0,
 	}
 
-	licenses[license] = data
-	Main.licenses[character.id] = licenses
+	local query = [[
+		INSERT INTO `licenses`
+		SET
+			`character_id`=@characterId,
+			`name`=@name,
+			`points`=@points,
+	]]
+	local values = {
+		["@characterId"] = character.id,
+		["@name"] = license,
+		["@points"] = 0,
+	}
 
-	exports.character:AddModule(character.id, "licenses", { name = license })
-	exports.character:Set(source, "licenses", Main.licenses[character.id])
-	TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
+	if exports.GHMattiMySQL:Query(query, values) then
+		licenses[license] = data
+		Main.licenses[character.id] = licenses
 
-	return true
+		exports.character:Set(source, "licenses", Main.licenses[character.id])
+		TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
+		return true
+	else {
+		return false
+	}
 end
 exports("AddLicense", AddLicense)
 
@@ -109,15 +124,26 @@ function RemoveLicense(source, license)
 		return false
 	end
 
-	exports.character:RemoveModule(character.id, "licenses", { name = license })
+	local query = [[
+		DELETE FROM `licenses`
+		WHERE
+			`character_id`=@characterId,
+			`name`=@name,
+	]]
+	local values = {
+		["@characterId"] = character.id,
+		["@name"] = license,
+	}
 
-	licenses[license] = nil
-
-	Main.licenses[character.id] = licenses
-	exports.character:Set(source, "licenses", Main.licenses[character.id])
-	TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
-	
-	return true
+	if exports.GHMattiMySQL:Query(query, values) then
+		licenses[license] = nil
+		Main.licenses[character.id] = licenses
+		exports.character:Set(source, "licenses", Main.licenses[character.id])
+		TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
+		return true
+	else
+		return false
+	end
 end
 exports("RemoveLicense", RemoveLicense)
 
@@ -134,11 +160,28 @@ function AddPointsToLicense(source, name, points)
 	local currentPoints = license.points
 	license.points = math.min(math.max(currentPoints + points, 0), 255)
 
-	Main.licenses[character.id][name] = license
-	exports.character:UpdateModule(character.id, "licenses", { points = license.points }, { name = name })
-	exports.character:Set(source, "licenses", Main.licenses[character.id])
-	TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
-	return true
+	local query = [[
+		UPDATE `licenses`
+		SET
+			`points`=@points
+		WHERE
+			`character_id`=@characterId,
+			`name`=@name,
+	]]
+	local values = {
+		["@characterId"] = character.id,
+		["@name"] = name,
+		["@points"] = license.points,
+	}
+
+	if exports.GHMattiMySQL:Query(query, values) then
+		Main.licenses[character.id][name] = license
+		exports.character:Set(source, "licenses", Main.licenses[character.id])
+		TriggerClientEvent("licenses:load", source, Main.licenses[character.id])
+		return true
+	else
+		return false
+	end
 end
 exports("AddPointsToLicense", AddPointsToLicense)
 
