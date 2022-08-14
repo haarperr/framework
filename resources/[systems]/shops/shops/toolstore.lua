@@ -13,6 +13,10 @@ Config.Filters.Toolstore = {
 		["Electrical Tape"] = true,
 		["Knife"] = true,
 		["Switchblade"] = true,
+		["Black Ink"] = true,
+		["Green Ink"] = true,
+		["Red Ink"] = true,
+		["Magnetic Strip"] = true,
 	},
 }
 

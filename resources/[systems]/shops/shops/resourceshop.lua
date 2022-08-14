@@ -53,6 +53,12 @@ RegisterShop("RESOURCE_247", {
 			coords = vector3(1110.29, -2008.308, 31.62196),
 			rotation = vector3(-41.0309, -0, -128.5155),
 		},
+		["keycard1"] = {
+			item = "Keycard Printer",
+			invisible = true,
+			coords = vector3(1471.083, 6513.639, 20.86739),
+			rotation = vector3(-9.37515, 2.668042e-08, -88.12991),
+		},
 		},
 	}
 )
