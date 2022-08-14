@@ -49,9 +49,13 @@ end
 exports("Set", Set)
 
 function CanAfford(account, amount)
+    local bankAccount = Get(account, "account_balance")
+    if not bankAccount or bankAccount == nil then return false end
+
     if Get(account, "account_balance") >= amount then
         return true
     end
+    
     return false
 end
 exports("CanAfford", CanAfford)
