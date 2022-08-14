@@ -65,7 +65,7 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 	if not character then return false end
 
 	if character.bank then
-		if exports.banking:CanAfford(character.bank, downPayment) then
+		if exports.banking:CanAfford(character.bank, downPayment or price) then
 
 			property.character_id = character.id
 			local properties = character.properties
@@ -97,7 +97,13 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 				["@price"] = price,
 			})
 			
-			exports.banking:AddBank(source, character.bank, downPayment * -1 or price * -1)
+			if downPayments == nil then
+				exports.banking:AddBank(source, character.bank, ( price * -1 ))
+			else
+				exports.banking:AddBank(source, character.bank, ( downPayment * -1 ) or price * -1)
+			end
+
+			TriggerClientEvent("chat:notify", source, "Property Purchased!", "inform")
 
 			return true
 		end
