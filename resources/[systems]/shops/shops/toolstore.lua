@@ -17,10 +17,11 @@ Config.Filters.Toolstore = {
 		["Green Ink"] = true,
 		["Red Ink"] = true,
 		["Magnetic Strip"] = true,
+		["Scissors"] = true,
 	},
 }
 
-RegisterShop("TOOL_STORE_1", {
+RegisterShop("TOOL_STORE_01", {
 	Name = "Tool Store",
 	Clerks = {
 		{
@@ -36,7 +37,7 @@ RegisterShop("TOOL_STORE_1", {
 	}
 )
 
-RegisterShop("TOOL_STORE_2", {
+RegisterShop("TOOL_STORE_02", {
 	Name = "You Tool",
 	Clerks = {
 		{
@@ -52,7 +53,7 @@ RegisterShop("TOOL_STORE_2", {
 	}
 )
 
-RegisterShop("TOOL_STORE_3", {
+RegisterShop("TOOL_STORE_03", {
 	Name = "Paleto Tool Store",
 	Clerks = {
 		{

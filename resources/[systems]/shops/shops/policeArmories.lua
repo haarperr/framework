@@ -33,10 +33,11 @@ Config.Filters.Armory = {
         ["Tranexamic Acid"] = true,
         ["Torniquet"] = true,
         ["Fire Blanket"] = true,
+		["Scissors"] = true,
 	},
 }
 
-RegisterShop("MRPD_ARMORY1", {
+RegisterShop("MRPD_ARMORY01", {
 	Name = "MRPD Armory",
 	License = "weapons",
 	Clerks = {
@@ -52,7 +53,7 @@ RegisterShop("MRPD_ARMORY1", {
 	},
 })
 
-RegisterShop("SAMS_ARMORY1", {
+RegisterShop("SAMS_ARMORY01", {
 	Name = "SAMS Armory",
 	License = "weapons",
 	Clerks = {
@@ -68,7 +69,7 @@ RegisterShop("SAMS_ARMORY1", {
 	},
 })
 
-RegisterShop("PARKRA_ARMORY1", {
+RegisterShop("PARKRA_ARMORY01", {
 	Name = "Park Rangers Armory",
 	License = "weapons",
 	Clerks = {
@@ -84,7 +85,7 @@ RegisterShop("PARKRA_ARMORY1", {
 	},
 })
 
-RegisterShop("LAMESA_ARMORY1", {
+RegisterShop("LAMESA_ARMORY01", {
 	Name = "La Mesa Armory",
 	License = "weapons",
 	Clerks = {
@@ -100,7 +101,7 @@ RegisterShop("LAMESA_ARMORY1", {
 	},
 })
 
-RegisterShop("DAVIS_ARMORY1", {
+RegisterShop("DAVIS_ARMORY01", {
 	Name = "Davis PD Armory",
 	License = "weapons",
 	Clerks = {
@@ -116,7 +117,7 @@ RegisterShop("DAVIS_ARMORY1", {
 	},
 })
 
-RegisterShop("HIGHWAY_ARMORY1", {
+RegisterShop("HIGHWAY_ARMORY01", {
 	Name = "Highway Station Armory",
 	License = "weapons",
 	Clerks = {
@@ -132,7 +133,7 @@ RegisterShop("HIGHWAY_ARMORY1", {
 	},
 })
 
-RegisterShop("SANDY_ARMORY1", {
+RegisterShop("SANDY_ARMORY01", {
 	Name = "SSO Armory",
 	License = "weapons",
 	Clerks = {
@@ -148,7 +149,7 @@ RegisterShop("SANDY_ARMORY1", {
 	},
 })
 
-RegisterShop("PALETO_ARMORY1", {
+RegisterShop("PALETO_ARMORY01", {
 	Name = "Paleto PD Armory",
 	License = "weapons",
 	Clerks = {
@@ -164,7 +165,7 @@ RegisterShop("PALETO_ARMORY1", {
 	},
 })
 
-RegisterShop("PRISON_ARMORY1", {
+RegisterShop("PRISON_ARMORY01", {
 	Name = "Prison Armory",
 	License = "weapons",
 	Clerks = {

@@ -14,10 +14,11 @@ Config.Filters.Playpharm = {
         ["Hydrogen Peroxide"] = true,
         ["Sodium Carbonate"] = true,
         ["Syringe"] = true,
+		["Scissors"] = true,
 	},
 }
 
-RegisterShop("VESPUCCI_PPH1", {
+RegisterShop("VESPUCCI_PPH01", {
 	Name = "Vespucci Pharmacy",
 	Clerks = {
 		{
@@ -33,7 +34,7 @@ RegisterShop("VESPUCCI_PPH1", {
 	}
 )
 
-RegisterShop("PALETO_PPH", {
+RegisterShop("PALETO_PPH02", {
 	Name = "Vespucci Pharmacy",
 	Clerks = {
 		{
