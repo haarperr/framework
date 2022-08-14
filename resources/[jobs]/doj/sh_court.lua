@@ -3,8 +3,21 @@ exports.jobs:Register("doj", {
 	Name = "Courthouse",
 	Faction = "federal",
 	Group = "doj",
+	Pay = 120,
 	Clocks = {
 		{ Coords = vector3(-557.5701, -192.1732, 38.22698), Radius = 3.5 },
+	},
+	Emergency = {
+		AccessMdt = "police",
+		CanBreach = false,
+		CanFine = false,
+		CanImpound = false,
+		CanJail = true,
+		CheckIn = 2,
+		ChopShop = false,
+		DrugBonus = false,
+		JailBreak = false,
+		Robberies = false,
 	},
 	Ranks = {
 		{ Name = "Secretary" },
