@@ -98,7 +98,7 @@ RegisterShop("CLINTON_247", {
 		Filters = Config.Filters.Convenience,
 	},
 	Containers = {
-		{ text = "Counter", radius = 0.2, coords = vector3(25.08247, -1345.55, 29.68135) },
+		{ text = "Counter", radius = 0.2, coords = vector3(373.7822, 326.6674, 104.0503) },
 	},
 })
 

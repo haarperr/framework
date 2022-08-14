@@ -181,8 +181,8 @@ AddEventHandler("radio:clientStart", function()
 	Radio.clickVolume = clickVolume > 0.001 and clickVolume or 0.5
 end)
 
-RegisterNetEvent("jobs:clock")
-AddEventHandler("jobs:clock", function(name, message)
+RegisterNetEvent("jobs:clocked")
+AddEventHandler("jobs:clocked", function(name, message)
 	if message ~= false then return end
 
 	Radio:Reset()
