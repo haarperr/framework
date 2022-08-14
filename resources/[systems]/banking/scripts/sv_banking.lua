@@ -149,7 +149,7 @@ exports("Transfer", Transfer)
 function StateTax(amount)
     AddBank(nil, 1, amount, nil)
 end
-exports(StateTax, "StateTax")
+exports("StateTax", StateTax)
 
 -- [[ Events: Net ]] --
 RegisterNetEvent("banking:transaction")
