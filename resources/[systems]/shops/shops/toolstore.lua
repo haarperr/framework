@@ -18,6 +18,7 @@ Config.Filters.Toolstore = {
 		["Red Ink"] = true,
 		["Magnetic Strip"] = true,
 		["Scissors"] = true,
+		["Paperclip"] = true,
 	},
 }
 
