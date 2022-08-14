@@ -20,7 +20,7 @@ for k, v in pairs(Config.Licenses) do
 	AddEventHandler("interact:onNavigate_"..k, function()
 		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer()
 		if player ~= 0 then
-			TriggerServerEvent("licenses:shareLicense", GetPlayerServerId(player), {class="inform", text="[ "..v.name.." License ] "..exports.character:GetName().." | Points: "..licenses[k].points})
+			TriggerServerEvent("licenses:shareLicense", player, {class="inform", text="[ "..v.name.." License ] "..exports.character:GetName().." | Points: "..licenses[k].points})
 		end
 		TriggerEvent("chat:notify", {class="inform", text="[ "..v.name.." License ] "..exports.character:GetName().." | Points: "..licenses[k].points})
 	end)
