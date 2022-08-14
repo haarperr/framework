@@ -735,7 +735,7 @@ function Treatment:Heal(delay)
 
 						-- Wait a little.
 						if delay then
-							Citizen.Wait(GetRandomIntInRange(2000, 4000))
+							Citizen.Wait(GetRandomIntInRange(30000, 50000))
 						end
 					end
 				end
@@ -744,8 +744,16 @@ function Treatment:Heal(delay)
 	end
 
 	-- Give some health.
-	if Main:GetHealth() < 0.1 then
+	if Main:GetHealth() <= 0.9 then
 		Main:SetEffect("Health", 0.9)
+	end
+
+	if Main:GetEffect("Hunger") <= 0.1 then
+		Main:SetEffect("Hunger", 0.5)
+	end
+
+	if Main:GetEffect("Thirst") <= 0.1 then
+		Main:SetEffect("Thirst", 0.5)
 	end
 end
 
