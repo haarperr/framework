@@ -656,6 +656,9 @@ Vehicles = {
 	--[[ LSMS Vehicles ]]--
 	--["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
 	["lsfdgresley"] = { Value = 800, Type = "Ambulance" },
+
+	--[[ SAPR Vehicles ]]--
+	["pdcara"] = { Value = 800 },
 	
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },
