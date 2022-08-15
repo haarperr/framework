@@ -16,6 +16,9 @@ function Shooting:UpdateShooting(weapon)
 	-- Update recoil.
 	self:UpdateRecoil()
 
+	-- Trigger dispatch.
+	exports.peds:AddEvent("shooting")
+
 	-- Update cache.
 	self.lastShot = GetGameTimer()
 	self.shotTime = (self.shotTime or 0) + 200
