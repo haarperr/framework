@@ -89,6 +89,11 @@ Config = {
 			To = vector4(-418.9723, -344.7389, 24.23141, 111.1729),
 			Type = "elevator",
 		},
+		{ -- Surgical Floor
+			From = vector4(-493.4467, -327.2193, 42.30729, 166.3954),
+			To = vector4(-452.4521, -288.4398, -130.8406, 110.8565),
+			Type = "elevator",
+		},
 		-- Sewers.
 		{
 			From = vector4(1013.3727416992, -201.98756408691, 70.19563293457, 56.696697235107), -- Mirror Park Blvd & Glory Way.
