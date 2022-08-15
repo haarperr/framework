@@ -98,7 +98,7 @@ RegisterKeyMapping("+nsrp_ignition", "Vehicles - Ignition", "keyboard", "i")
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
-		if IsControlJustPressed(0, 182) and IsControlEnabled(0, 51) then
+		if IsControlJustPressed(0, 182) and IsControlEnabled(0, 51) and IsInputDisabled(0) then
 			Main:ToggleLock()
 			Citizen.Wait(Config.Locking.Delay)
 		else
