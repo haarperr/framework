@@ -414,7 +414,7 @@ Config.Groups = {
 		name = "Power Autos",
 		coords = vector3(-35.50202941894531, -1043.854736328125, 28.5906867980957),
 		radius = 10,
-		locked = false,
+		locked = true,
 		factions = {
 			["powerautos"] = "mechanic",
 		},
@@ -423,16 +423,25 @@ Config.Groups = {
 		name = "Route 68",
 		coords = vector3(1178.876220703125, 2639.72607421875, 37.75382614135742),
 		radius = 10,
-		locked = false,
+		locked = true,
 		factions = {
 			["route68"] = "mechanic",
+		},
+	},
+	{
+		name = "Misfits",
+		coords = vector3(941.6403, -969.2, 39.53661),
+		radius = 25,
+		locked = true,
+		factions = {
+			["misfits"] = "mechanic",
 		},
 	},
 	{
 		name = "Axles",
 		coords = vector3(539.7577514648438, -183.5513153076172, 54.4866714477539),
 		radius = 30,
-		locked = false,
+		locked = true,
 		factions = {
 			["axles"] = "mechanic",
 		},
