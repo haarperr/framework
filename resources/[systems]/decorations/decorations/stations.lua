@@ -264,11 +264,11 @@ Register("Stove", {
 	Model = "prop_cooker_03",
 })
 
-Register("Processor", {
+Register("Food Processor", {
 	Placement = "Table",
 	NoCenter = true,
 	Station = {
-		Type = "Processor",
+		Type = "Food Processor",
 		Auto = true,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
