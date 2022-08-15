@@ -338,7 +338,7 @@ end
 
 function Retrieve(id, pos)
 	RetrieveAt = pos
-	TriggerServerEvent("garages:retrieveVehicle", id, pos)
+	TriggerServerEvent("garages:retrieveVehicle", id)
 end
 exports("Retrieve", Retrieve)
 
@@ -381,7 +381,7 @@ end
 
 --[[ Vehicle Events ]]--
 RegisterNetEvent("garages:retrieveVehicle")
-AddEventHandler("garages:retrieveVehicle", function(vehicleInfo, netId)
+AddEventHandler("garages:retrieveVehicle", function(vehicleInfo)
 	if not CurrentGarage and not RetrieveAt then return end
 	if not vehicleInfo then return end
 
@@ -389,16 +389,13 @@ AddEventHandler("garages:retrieveVehicle", function(vehicleInfo, netId)
 	local garage = Garages[CurrentGarage]
 	local pos = RetrieveAt or garage.outCoords
 
-	--local vehicle = exports.oldutils:CreateVehicle(GetHashKey(vehicleInfo.model), pos.x, pos.y, pos.z, pos.w, true, true)
-
-	local vehicle = NetworkGetEntityFromNetworkId(netId)
+	local vehicle = exports.oldutils:CreateVehicle(GetHashKey(vehicleInfo.model), pos.x, pos.y, pos.z, pos.w, true, true)
 	local class = GetVehicleClass(vehicle)
 
 	SetVehicleInfo(vehicle, vehicleInfo)
 	SetVehicleNumberPlateText(vehicle, vehicleInfo.plate or exports.misc:GetRandomText(vehicleInfo.id, 8))
 
 	local netId = NetworkGetNetworkIdFromEntity(vehicle)
-
 	LastSpawned = netId
 	Vehicles[netId] = { id = vehicleInfo.id }
 

@@ -242,7 +242,7 @@ AddEventHandler("garages:storeVehicle", function(id, netId, info)
 end)
 
 RegisterNetEvent("garages:retrieveVehicle")
-AddEventHandler("garages:retrieveVehicle", function(id, coords, heading)
+AddEventHandler("garages:retrieveVehicle", function(id)
 	local source = source
 
 	local oldVehicle = (VehicleCache[id] or {}).entity or 0
@@ -255,10 +255,6 @@ AddEventHandler("garages:retrieveVehicle", function(id, coords, heading)
 
 	local vehicle = GetVehicle(source, id)
 	if not vehicle then return end
-
-	local spawnedVehicle = exports.vehicles:Spawn(GetHashKey(vehicle.model), coords, heading, {
-		key = true,
-	})
 
 	local garage = Garages[vehicle.garage_id or false]
 	local value = (garage.property_id ~= nil and 0) or GetStorageValue(vehicle.model)
@@ -285,7 +281,7 @@ AddEventHandler("garages:retrieveVehicle", function(id, coords, heading)
 		extra = ("model: %s - id: %s"):format(vehicle.model or "?", vehicle.id or "?"),
 	})
 
-	TriggerClientEvent("garages:retrieveVehicle", source, vehicle, NetworkGetNetworkIdFromEntity(spawnedVehicle))
+	TriggerClientEvent("garages:retrieveVehicle", source, vehicle)
 
 	VehicleCache[id] = { vehicle = vehicle, entity = nil }
 end)
@@ -322,7 +318,7 @@ AddEventHandler("garages:retrievedVehicle", function(netId, id, class)
 	
 	TriggerEvent("vehicle:loaded", source, vehicle, entity, class)
 	
-	--exports.vehicles:GiveKey(source, entity)
+	exports.vehicles:GiveKey(source, entity)
 
 	Vehicles[entity] = {
 		source = source,
