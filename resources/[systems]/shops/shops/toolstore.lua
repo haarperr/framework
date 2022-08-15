@@ -19,7 +19,6 @@ Config.Filters.Toolstore = {
 		["Electrical Tape"] = true,
 		["Knife"] = true,
 		["Switchblade"] = true,
-		["Black Ink"] = true,
 		["Green Ink"] = true,
 		["Red Ink"] = true,
 		["Magnetic Strip"] = true,
@@ -28,7 +27,7 @@ Config.Filters.Toolstore = {
 	},
 }
 
-RegisterShop("TOOL_STORE_01", {
+RegisterShop("TOOL_STORE_001", {
 	Name = "Tool Store",
 	Clerks = {
 		{
@@ -44,7 +43,7 @@ RegisterShop("TOOL_STORE_01", {
 	}
 )
 
-RegisterShop("TOOL_STORE_02", {
+RegisterShop("TOOL_STORE_002", {
 	Name = "You Tool",
 	Clerks = {
 		{
@@ -60,7 +59,7 @@ RegisterShop("TOOL_STORE_02", {
 	}
 )
 
-RegisterShop("TOOL_STORE_03", {
+RegisterShop("TOOL_STORE_003", {
 	Name = "Paleto Tool Store",
 	Clerks = {
 		{
