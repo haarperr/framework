@@ -47,6 +47,7 @@ Config = {
 				{ name = "Nora", chance = 0.02 },
 				{ name = "Paper Bag", chance = 0.01 },
 				{ name = "Paper", chance = 0.1, quantity = { 1, 6 } },
+				{ name = "Plastic", chance = 0.05, quantity = { 1, 1 } },
 				{ name = "Pliers", chance = 0.03, durability = { 0.05, 0.9 } },
 				{ name = "Rag", chance = 0.02, durability = { 0.05, 0.9 } },
 				{ name = "Scratch Off", chance = 0.02 },
@@ -108,6 +109,7 @@ Config = {
 				{ name = "Butter Knife", chance = 0.3, durability = { 0.05, 0.5 } },
 				{ name = "Glass", chance = 0.01, quantity = { 1, 3 } },
 				{ name = "Paper", chance = 0.03, quantity = { 1, 6 } },
+				{ name = "Plastic", chance = 0.05, quantity = { 1, 1 } },
 				{ name = "Radio", chance = 0.01, durability = { 0.05, 0.9 } },
 				{ name = "Safe Cracking Tool", chance = 0.001, durability = { 0.05, 0.9 } },
 				{ name = "Tire", chance = 0.01 },
@@ -153,6 +155,7 @@ Config = {
 			Loot = {
 				{ name = "Hacking Tool", chance = 0.001, quantity = { 1, 10 } },
 				{ name = "Paper", chance = 0.5, quantity = { 1, 10 } },
+				{ name = "Plastic", chance = 0.05, quantity = { 1, 3 } },
 			},
 		},
 	},
