@@ -74,7 +74,7 @@ RegisterNetEvent(Admin.event.."lookupUser", function(data)
 	end
 
 	-- Get warnings.
-	local warnings = exports.GHMattiMySQL:QueryResult("SELECT * FROM `warnings` WHERE `user_id`=@userId".., {
+	local warnings = exports.GHMattiMySQL:QueryResult("SELECT * FROM `warnings` WHERE `user_id`=@userId", {
 		["@userId"] = user.id
 	})
 
