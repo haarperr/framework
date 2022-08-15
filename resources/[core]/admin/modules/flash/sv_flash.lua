@@ -13,7 +13,7 @@ exports.chat:RegisterCommand("a:flash", function(source, args, rawCommand)
 		source = source,
 		target = target,
 		verb = "flashed",
-		extra = ("[%s] %s - %s"):format(target, exports.main:GetIdentifier(target, "steam"), reason),
+		extra = ("[%s] %s - %s"):format(target, exports.user:GetIdentifier(target, "steam"), reason),
 		channel = "admin",
 	})
 
