@@ -10,7 +10,7 @@ Citizen.CreateThread(function()
 			local character = exports.character:GetCharacter(player)
 			
 			if character then
-				local job = exports.jobs:GetCurrentJob(character.id)
+				local job = exports.jobs:GetCurrentJob(player)
 				local pay = Config.DefaultPay
 				local message = "Unemployed"
 
