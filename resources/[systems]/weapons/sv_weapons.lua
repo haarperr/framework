@@ -69,6 +69,7 @@ function Weapons:Load(source, weaponSlotId, magazineSlotId)
 	local loadedAmmo = weaponSlot.fields and weaponSlot.fields[1] or -1
 	local loadedDurability = (weaponSlot.fields and weaponSlot.fields[3] or 1.0) - 0.01
 	local magazineName = weaponItem.ammo.." Magazine"
+	if weaponItem.ammo == "Taser" then magazineName = "Taser Cartridge" end
 
 	-- Get magazine.
 	local magazineSlot = exports.inventory:ContainerGetSlot(containerId, magazineSlotId)
