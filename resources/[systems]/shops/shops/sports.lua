@@ -14,10 +14,11 @@ Config.Filters.Sports = {
         ["Parachute"] = true,
         ["Toothbrush"] = true,
         ["Duffle Bag"] = true,
+        ["Wallet"] = true,
 	},
 }
 
-RegisterShop("SPORTS_01", {
+RegisterShop("SPORTS_001", {
     Name = "Palomino Sports",
     Clerks = {
         {
@@ -32,7 +33,7 @@ RegisterShop("SPORTS_01", {
     },
 })
 
-RegisterShop("SPORTS_02", {
+RegisterShop("SPORTS_002", {
     Name = "Procopio Sports",
     Clerks = {
         {
