@@ -1,3 +1,5 @@
+local canFlash = true
+
 exports.chat:RegisterCommand("a:flash", function(source, args, rawCommand)
 	local target = tonumber(args[1])
 	local reason = table.concat(args, " ")
