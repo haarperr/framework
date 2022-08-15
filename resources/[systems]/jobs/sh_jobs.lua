@@ -51,6 +51,11 @@ function Main:GetJob(id)
 	return self.jobs[id]
 end
 
+function Main:GetJobData(id)
+	local job = self.jobs[id]
+	return job
+end
+
 --[[ Functions: Job ]]--
 function Job:Create(id, data)
 	data.id = id

@@ -14,10 +14,12 @@ shared_script {
 
 client_scripts {
 	'cl_jobs.lua',
+	'cl_vehicles.lua',
 }
 
 server_scripts {
 	'@utils/server/players.lua',
 	'@utils/server/database.lua',
 	'sv_jobs.lua',
+	'sv_vehicles.lua',
 }
