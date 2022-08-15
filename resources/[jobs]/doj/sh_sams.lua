@@ -9,7 +9,7 @@ exports.jobs:Register("sams", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "federal",
+		State = "sams",
 	},
 	Emergency = {
 		AccessMdt = "police",

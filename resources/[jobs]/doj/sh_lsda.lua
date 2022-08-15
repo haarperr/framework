@@ -9,7 +9,7 @@ exports.jobs:Register("lsda", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "federal",
+		State = "state",
 	},
 	Emergency = {
 		AccessMdt = "police",

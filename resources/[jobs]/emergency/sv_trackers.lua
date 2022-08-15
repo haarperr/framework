@@ -1,6 +1,8 @@
 GROUP_NAME = "emergency"
 
 Models = {
+	[`fbi`] = "cruiser",
+	[`fbi2`] = "cruiser",
 	[`pdalamo`] = "cruiser",
 	[`pdbuffalo`] = "cruiser",
 	[`pdcara`] = "cruiser",
@@ -17,8 +19,8 @@ Models = {
 	[`spbike`] = "bike",
 
 	[`bcfdbat`] = "ambulance",
-	[`lsfd2`] = "ambulance",
 	[`lsfd3`] = "ambulance",
+	[`lsfd4`] = "ambulance",
 	[`lsfdcmd`] = "ambulance",
 	[`lsfdgresley`] = "ambulance",
 	[`lsfdtruck`] = "ambulance",
@@ -33,14 +35,41 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 	delay = 2000,
 	states = {
 		[1] = { -- Peds.
-			["ems"] = {
+			["paramedic"] = {
 				Colour = 8,
 			},
-			["pd"] = {
+			["firefighter"] = {
+				Colour = 6,
+			},
+			["lsms"] = {
+				Colour = 7,
+			},
+			["lspd"] = {
 				Colour = 3,
 			},
+			["bcso"] = {
+				Colour = 10,
+			},
+			["sasp"] = {
+				Colour = 18,
+			},
+			["doc"] = {
+				Colour = 48,
+			},
+			["sams"] = {
+				Colour = 52,
+			},
+			["sapr"] = {
+				Colour = 25,
+			},
+			["opr"] = {
+				Colour = 15,
+			},
 			["federal"] = {
-				Colour = 3,
+				Colour = 46,
+			},
+			["state"] = {
+				Colour = 47,
 			},
 		},
 		[2] = { -- Vehicles.

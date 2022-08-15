@@ -10,7 +10,7 @@ exports.jobs:Register("doj", {
 	Emergency = {
 		AccessMdt = "police",
 		CanBreach = false,
-		CanFine = false,
+		CanFine = true,
 		CanImpound = false,
 		CanJail = true,
 		CheckIn = 2,

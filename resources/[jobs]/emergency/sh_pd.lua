@@ -21,7 +21,7 @@ exports.jobs:Register("lspd", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "pd",
+		State = "lspd",
 	},
 	Emergency = {
 		AccessMdt = "police",
@@ -110,7 +110,7 @@ exports.jobs:Register("bcso", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "pd",
+		State = "bcso",
 	},
 	Ranks ={
 		{ Name = "Cadet" },
@@ -190,7 +190,7 @@ exports.jobs:Register("sasp", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "pd",
+		State = "sasp",
 	},
 	Ranks ={
 		{ Name = "Cadet" },
@@ -270,7 +270,7 @@ exports.jobs:Register("doc", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "pd",
+		State = "doc",
 	},
 	Ranks ={
 		{ Name = "Probationary Corrections Officer" },
