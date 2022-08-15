@@ -14,6 +14,7 @@ Config.Filters.Pharm = {
         ["Fire Blanket"] = true,
         ["Stun Gun"] = true,
 		["Taser Cartridge"] = true,
+        ["Taser Prong"] = true,
         ["Body Armor"] = true,
 		["Radio"] = true,
 	},

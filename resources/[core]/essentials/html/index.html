@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			:root {
+				overflow: hidden;
+			}
+
+			body {
+				padding: 0px;
+				margin: 0px;
+			}
+
+			#crosshair {
+				--size: 3px;
+
+				display: none;
+				position: absolute;
+				width: var(--size);
+				height: var(--size);
+				top: 50%;
+				left: 50%;
+				background-color: white;
+				border-radius: 50%;
+				border: 1px solid black;
+				transform: translate(-50%, -50%);
+			}
+		</style>
+		<!-- <script src="nui://ui/jquery-3.5.1.min.js"></script> -->
+		<script>
+			window.addEventListener("message", function(event) {
+				var data = event.data;
+
+				if (data.toggle != undefined) {
+					document.querySelector("#crosshair").style.display = data.toggle ? "block" : "none";
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="crosshair"></div>
+	</body>
+</html>

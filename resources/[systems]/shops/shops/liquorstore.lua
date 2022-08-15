@@ -1,4 +1,10 @@
 Config.Filters.Liquor = {
+	blip = {
+		name = "Liquor Store",
+		id = 59,
+		scale = 0.5,
+		color = 21,
+	},
 	item = {
 		-- Food.
 		["Beer"] = true,

@@ -1,4 +1,10 @@
 Config.Filters.Digital = {
+	blip = {
+		name = "Tech Shop",
+		id = 459,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		["Mobile Phone"] = true,
 		["Tablet"] = true,

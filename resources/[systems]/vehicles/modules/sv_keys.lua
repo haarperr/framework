@@ -137,3 +137,8 @@ RegisterNetEvent("vehicles:toggleLock", function(netId, status)
 	-- Play lock sound.
 	exports.sound:PlaySoundPlayer(source, "carlock")
 end)
+
+--[[ Exports ]]--
+exports("GiveKey", function(...)
+	Main:GiveKey(...)
+end)

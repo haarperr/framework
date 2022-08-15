@@ -4,7 +4,7 @@ EMS_FLAGS = {
 
 exports.jobs:Register("paramedic", {
 	Title = "EMS",
-	Name = "Paramedic",
+	Name = "LSFD Paramedic",
 	Faction = "ems",
 	Pay = 80,
 	Group = "paramedic",
@@ -70,7 +70,7 @@ exports.jobs:Register("paramedic", {
 
 exports.jobs:Register("firefighter", {
 	Title = "EMS",
-	Name = "Firefighter",
+	Name = "LSFD Firefighter",
 	Faction = "ems",
 	Pay = 90,
 	Group = "firefighter",
@@ -80,7 +80,7 @@ exports.jobs:Register("firefighter", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "ems",
+		State = "firefighter",
 	},
 	Ranks = {
 		{ Name = "Probie", },
@@ -146,7 +146,7 @@ exports.jobs:Register("lsms", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "ems",
+		State = "lsms",
 	},
 	Ranks = {
 		{ Name = "Nurse", },

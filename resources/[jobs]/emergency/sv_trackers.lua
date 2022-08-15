@@ -1,52 +1,29 @@
 GROUP_NAME = "emergency"
 
 Models = {
-	[`blazer2`] = "cruiser",
-	[`dcrfpiu`] = "cruiser",
-	[`dcrspeedo`] = "cruiser",
-	[`dcrtahoe`] = "cruiser",
-	[`dcrtahoe2`] = "cruiser",
-	[`dpscharger`] = "cruiser",
-	[`dpscharger2`] = "cruiser",
-	[`dpscvpi`] = "cruiser",
-	[`dpsf150`] = "cruiser",
-	[`dpsfpis`] = "cruiser",
-	[`dpsfpiu`] = "cruiser",
-	[`dpsfpiu2`] = "cruiser",
-	[`dpstahoe`] = "cruiser",
 	[`fbi`] = "cruiser",
 	[`fbi2`] = "cruiser",
-	[`lguard`] = "cruiser",
-	[`pbus`] = "cruiser",
-	[`pdcaprice`] = "cruiser",
-	[`pdcharger`] = "cruiser",
-	[`pdcvpi`] = "cruiser",
-	[`pdfpis`] = "cruiser",
-	[`pdfpiu`] = "cruiser",
-	[`pdtahoe`] = "cruiser",
-	[`sdf150`] = "cruiser",
+	[`pdalamo`] = "cruiser",
+	[`pdbuffalo`] = "cruiser",
+	[`pdcara`] = "cruiser",
+	[`pdstainer`] = "cruiser",
+	[`spalamo`] = "cruiser",
+	[`spbuffalo`] = "cruiser",
+	[`spstainer`] = "cruiser",
 
-	[`dpscamaro`] = "intercept",
-	[`dpsdemon`] = "intercept",
-	[`pdc8`] = "intercept",
-	[`pdcomet`] = "intercept",
-	[`pddemon`] = "intercept",
-	[`pdhellcat`] = "intercept",
-	[`pdrs6`] = "intercept",
-	[`pdstang`] = "intercept",
+	--[`pdinterceptor`] = "intercept",
 
-	[`pdbearcat`] = "armored",
-	[`riot`] = "armored",
-	[`riot2`] = "armored",
-	[`swattahoe`] = "armored",
+	--[`pdbearcat`] = "armored",
 
-	[`harley`] = "bike",
-	[`pdsanchez`] = "bike",
+	[`pdbike`] = "bike",
+	[`spbike`] = "bike",
 
-	[`emsexplorer`] = "ambulance",
-	[`emsspeedo`] = "ambulance",
-	[`emstahoe`] = "ambulance",
-	[`firetruk`] = "ambulance",
+	[`bcfdbat`] = "ambulance",
+	[`lsfd3`] = "ambulance",
+	[`lsfd4`] = "ambulance",
+	[`lsfdcmd`] = "ambulance",
+	[`lsfdgresley`] = "ambulance",
+	[`lsfdtruck`] = "ambulance",
 
 	[`polmav`] = "heli",
 	[`rsheli`] = "heli",
@@ -58,15 +35,45 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 	delay = 2000,
 	states = {
 		[1] = { -- Peds.
-			["ems"] = {
+			["paramedic"] = {
 				Colour = 8,
 			},
-			["pd"] = {
+			["firefighter"] = {
+				Colour = 6,
+			},
+			["lsms"] = {
+				Colour = 7,
+			},
+			["lspd"] = {
 				Colour = 3,
+			},
+			["bcso"] = {
+				Colour = 10,
+			},
+			["sasp"] = {
+				Colour = 18,
+			},
+			["doc"] = {
+				Colour = 48,
+			},
+			["sams"] = {
+				Colour = 52,
+			},
+			["sapr"] = {
+				Colour = 25,
+			},
+			["opr"] = {
+				Colour = 15,
 			},
 			["federal"] = {
-				Colour = 3,
+				Colour = 46,
 			},
+			["state"] = {
+				Colour = 47,
+			},
+			["panic"] = {
+				Colour = 1,
+			}
 		},
 		[2] = { -- Vehicles.
 			["ambulance"] = {

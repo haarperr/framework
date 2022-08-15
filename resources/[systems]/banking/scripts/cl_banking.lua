@@ -179,3 +179,10 @@ AddEventHandler("banking:addTransaction", function(account, transaction)
 	table.insert(Banking.accounts[account].transactions, 1, transaction)
 	SendNUIMessage({ commit = Banking.accounts, type="accounts" })
 end)
+
+RegisterNetEvent("character:selected")
+AddEventHandler("character:selected", function(character)
+	if not character then
+		Banking.accounts = {}
+	end
+end)

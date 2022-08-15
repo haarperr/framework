@@ -30,6 +30,7 @@ function Emote:Create(data, id)
 end
 
 function Emote:Play(settings)
+
 	-- Get settings.
 	local settings = settings or self.settings
 	if not settings then return end
@@ -50,6 +51,9 @@ function Emote:Play(settings)
 	-- Get ped.
 	local ped = settings.ped or PlayerPedId()
 	self.ped = ped
+
+	-- Cancel if shooting/aiming.
+	if IsPedArmed(ped, 4) and (IsAimCamActive() or IsPedShooting(PlayerPedId())) then return end
 
 	-- Check weapon.
 	if settings.Unarmed or settings.Armed then
@@ -175,7 +179,7 @@ function Emote:Play(settings)
 			local offset = v.Offset or { 0, 0, 0, 0, 0, 0 }
 
 			SetEntityCollision(entity, v.Collision or false, v.Collision or false)
-			AttachEntityToEntity(entity, ped, GetPedBoneIndex(ped, v.Bone), offset[1], offset[2], offset[3], offset[4], offset[5], offset[6], false, false, true, true, 0, true)
+			AttachEntityToEntity(entity, ped, GetPedBoneIndex(ped, v.Bone), offset[1], offset[2], offset[3], offset[4], offset[5], offset[6], false, false, false, true, 0, true)
 			SetModelAsNoLongerNeeded(v.Model)
 
 			table.insert(self.props, entity)

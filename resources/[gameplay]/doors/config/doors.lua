@@ -152,8 +152,8 @@ Config.Doors = {
 	[-1258679973] = {},
 	[-190780785] = { Sliding = true, Distance = 10.0, Speed = 1.5 },
 	[`hei_prop_station_gate`] = { Sliding = true, Distance = 15.0, Speed = 1.5, Electronic = true }, -- Back Gate
-	[-1635161509] = { Sliding = true, Fob = true },
-	[-1868050792] = { Sliding = true, Fob = true },
+	--[-1635161509] = { Sliding = true, Fob = true },
+	--[-1868050792] = { Sliding = true, Fob = true },
 
 	--[[ Mount Zonah ]]--
 	[1624860328] = {},

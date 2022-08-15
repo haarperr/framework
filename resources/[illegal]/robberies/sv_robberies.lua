@@ -63,7 +63,6 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 		-- Cop check.
 		if typeSettings.MinPresence and not Config.EnableDebug then
 			local presence = exports.jobs:CountActiveDuty("Robberies")
-			print(presence)
 			if presence < typeSettings.MinPresence then
 				return false, Config.Messages.InsufficientPresence:format(presence, typeSettings.MinPresence)
 			end
@@ -113,7 +112,7 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 	if not site.beingRobbed then
 		exports.dispatch:Add({
 			coords = siteSettings.Center,
-			group = "Emergency",
+			group = "emergency",
 			hasBlip = true,
 			message = "10-90",
 			messageType = 0,

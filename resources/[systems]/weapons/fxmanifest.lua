@@ -9,6 +9,7 @@ client_scripts {
 	'cl_ammo.lua',
 	'cl_preview.lua',
 	'cl_shooting.lua',
+	'cl_weapons.lua',
 }
 
 server_scripts {

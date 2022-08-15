@@ -15,9 +15,33 @@ function HasLicense(name)
 end
 exports("HasLicense", HasLicense)
 
+-- Init License Events
+for k, v in pairs(Config.Licenses) do
+	AddEventHandler("interact:onNavigate_"..k, function()
+		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer()
+		if player ~= 0 then
+			TriggerServerEvent("licenses:shareLicense", player, {class="inform", text="[ "..v.name.." License ] "..exports.character:GetName().." | Points: "..licenses[k].points})
+		end
+		TriggerEvent("chat:notify", {class="inform", text="[ "..v.name.." License ] "..exports.character:GetName().." | Points: "..licenses[k].points})
+	end)
+end
+
 RegisterNetEvent("licenses:load", function(licenseData)
 	licenses = licenseData or {}
 	exports.character:Set("licenses", licenseData)
+	local navigation = {}
+	for k, v in pairs(licenseData) do
+		if Config.Licenses[v.name] ~= nil then
+			table.insert(navigation, { id = v.name, text = Config.Licenses[v.name].name, icon = Config.Licenses[v.name].icon})
+		end
+	end
+	exports.interact:RemoveOption("licensesRoot")
+	exports.interact:AddOption({
+		id = "licensesRoot",
+		text = "Licenses",
+		icon = "assignment",
+		sub = navigation,
+	})
 end)
 
 RegisterNetEvent("licenses:check")

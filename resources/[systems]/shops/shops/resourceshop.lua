@@ -1,4 +1,10 @@
 Config.Filters.Resource = {
+	blip = {
+		name = "Resource Shop",
+		id = 618,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		-- Food.
 		["Iron Ingot"] = true,

@@ -67,8 +67,9 @@ function Weapons:Load(source, weaponSlotId, magazineSlotId)
 
 	local weaponItem = exports.inventory:GetItem(weaponSlot.item_id)
 	local loadedAmmo = weaponSlot.fields and weaponSlot.fields[1] or -1
-	local loadedDurability = (weaponSlot.fields and weaponSlot.fields[2] or 1.0) - 0.01
+	local loadedDurability = (weaponSlot.fields and weaponSlot.fields[3] or 1.0) - 0.01
 	local magazineName = weaponItem.ammo.." Magazine"
+	if weaponItem.ammo == "Taser" then magazineName = "Taser Cartridge" end
 
 	-- Get magazine.
 	local magazineSlot = exports.inventory:ContainerGetSlot(containerId, magazineSlotId)
@@ -105,7 +106,7 @@ function Weapons:Load(source, weaponSlotId, magazineSlotId)
 	
 	-- -- Set ammo in gun.
 	exports.inventory:ContainerInvokeSlot(containerId, weaponSlot.slot_id, "SetField", 1, ammo or -1)
-	exports.inventory:ContainerInvokeSlot(containerId, weaponSlot.slot_id, "SetField", 2, durability)
+	exports.inventory:ContainerInvokeSlot(containerId, weaponSlot.slot_id, "SetField", 3, durability)
 end
 
 --[[ Threads ]]--

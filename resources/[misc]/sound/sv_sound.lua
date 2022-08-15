@@ -37,7 +37,7 @@ RegisterNetEvent("playSound3D", function(name)
 	if type(name) ~= "string" or name:len() > 64 then return end
 
 	-- Print.
-	print(("[%s] is playing sound: %s"):format(source, name))
+	--print(("[%s] is playing sound: %s"):format(source, name))
 
 	-- Play sound.
 	PlaySoundPlayer(source, name)

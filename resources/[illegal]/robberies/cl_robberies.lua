@@ -363,7 +363,7 @@ AddEventHandler("robberies:clientStart", function()
 			local eventName = "inventory:use_"..item:gsub("%s+", "")
 			RegisterNetEvent(eventName)
 			ItemEvents[item] = AddEventHandler(eventName, UseItem)
-			print("Registered item", item)
+			--print("Registered item", item)
 		end
 	end
 	for robbableId, robbable in pairs(Config.Robbables) do
@@ -390,6 +390,6 @@ end)
 AddEventHandler("robberies:stop", function()
 	for item, eventData in pairs(ItemEvents) do
 		RemoveEventHandler(eventData)
-		print("Unregistered item", item)
+		--print("Unregistered item", item)
 	end
 end)

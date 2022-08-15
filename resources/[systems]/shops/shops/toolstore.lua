@@ -1,4 +1,10 @@
 Config.Filters.Toolstore = {
+	blip = {
+		name = "Tool Shop",
+		id = 544,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		["Body Repair Kit"] = true,
 		["Wood Axe"] = true,

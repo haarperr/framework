@@ -417,8 +417,8 @@ AddEventHandler("dispatch:receive", function(report)
 	Reports[report.identifier] = report
 end)
 
-RegisterNetEvent("jobs:clock")
-AddEventHandler("jobs:clock", function(name, message)
+RegisterNetEvent("jobs:clocked")
+AddEventHandler("jobs:clocked", function(name, message)
 	if message == false then
 		if HasFocus then
 			ToggleMenu()

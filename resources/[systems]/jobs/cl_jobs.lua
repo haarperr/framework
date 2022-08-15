@@ -106,7 +106,7 @@ function Job:RegisterClocks(clocks)
 				clock = k,
 			},
 			condition = function(self)
-				return job:IsHired()
+				return job.IsPublic or job:IsHired()
 			end,
 		})
 	end

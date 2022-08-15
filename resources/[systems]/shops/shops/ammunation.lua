@@ -1,10 +1,17 @@
 Config.Filters.Ammunation = {
+    blip = {
+        name = "Ammunation",
+        id = 110,
+        scale = 0.5,
+        color = 29,
+    },
 	item = {
 		["Body Armor"] = true,
         ["Flashlight"] = true,
         ["Combat Pistol"] = true,
         ["Stun Gun"] = true,
         ["Taser Cartridge"] = true,
+        ["Taser Prong"] = true,
         ["SNS Pistol Mk II"] = true,
         ["Vintage Pistol"] = true,
         ["Pistol Mk II"] = true,

@@ -1,6 +1,7 @@
 Main = {
 	funcs = {},
 	lastRagdoll = 0,
+	wasAiming = false,
 }
 
 --[[ Functions: Main ]]--
@@ -90,6 +91,13 @@ function Main:UpdateFrame()
 	if self.ped ~= Ped then
 		self.ped = Ped
 		self:UpdatePed()
+	end
+	
+	-- Crosshair.
+	local isAiming = IsAimCamActive() and IsPedArmed(Ped, 4) and GetFollowPedCamViewMode() ~= 4
+	if WasAiming ~= isAiming then
+		ToggleCrosshair(isAiming)
+		WasAiming = isAiming
 	end
 end
 
@@ -192,3 +200,7 @@ Citizen.CreateThread(function()
 		SetVehicleDensityMultiplierThisFrame(0.7)
 	end
 end)
+
+function ToggleCrosshair(toggle)
+	SendNUIMessage({ toggle = toggle })
+end

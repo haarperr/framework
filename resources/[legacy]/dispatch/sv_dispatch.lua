@@ -267,7 +267,7 @@ exports.chat:RegisterCommand("dispatch", function(source, args, rawCommand)
 		local player = tonumber(GetPlayerFromIndex(i))
 		if not player then goto continue end
 		
-		if player == source or player == target or exports.jobs:GetGroup(player) == "Emergency" then
+		if player == source or player == target or exports.jobs:GetGroup(player) == "emergency" then
 			TriggerClientEvent("chat:addMessage", player, ("Dispatch [%s] to [%s]: %s"):format(source, target, text), "emergency")
 		end
 		

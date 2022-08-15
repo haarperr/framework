@@ -9,7 +9,7 @@ exports.jobs:Register("sapr", {
 	},
 	Tracker = {
 		Group = "emergency",
-		State = "federal",
+		State = "sapr",
 	},
 	Emergency = {
 		AccessMdt = "police",
@@ -18,10 +18,10 @@ exports.jobs:Register("sapr", {
 		CanImpound = true,
 		CanJail = true,
 		CheckIn = 2,
-		ChopShop = true,
-		DrugBonus = true,
-		JailBreak = true,
-		Robberies = true,
+		ChopShop = false,
+		DrugBonus = false,
+		JailBreak = false,
+		Robberies = false,
 	},
 	Ranks = {
 		{ Name = "Ranger" },

@@ -1,4 +1,10 @@
 Config.Filters.Convenience = {
+	blip = {
+		name = "Convenience Store",
+		id = 59,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		-- Food.
 		["Choco Rings"] = true,
