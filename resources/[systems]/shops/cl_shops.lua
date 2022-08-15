@@ -10,6 +10,12 @@ function Shop:Update()
 		local id = "shop-"..self.id
 		self.storage = id
 
+		if storage.Filters and storage.Filters.blip and self.info and self.info.Clerks then
+			for clerkId, clerk in ipairs(self.info.Clerks) do
+				exports.blips:CreateBlip(clerk.coords, storage.Filters.blip, id.."-"..clerkId)
+			end
+		end
+
 		exports.entities:Register({
 			id = id,
 			name = "Shop "..self.id,

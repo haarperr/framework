@@ -1,4 +1,10 @@
 Config.Filters.Sports = {
+	blip = {
+		name = "Sports",
+		id = 151,
+		scale = 0.5,
+		color = 31,
+	},
 	item = {
 		["Baseball Bat"] = true,
         ["Flashlight"] = true,

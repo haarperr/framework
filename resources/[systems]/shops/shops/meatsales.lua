@@ -1,4 +1,10 @@
 Config.Filters.Meat = {
+	blip = {
+		name = "Meat Shop",
+		id = 442,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		["Raw Chicken"] = true,
 		["Chicken Feather"] = true,

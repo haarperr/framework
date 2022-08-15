@@ -1,4 +1,10 @@
 Config.Filters.Playpharm = {
+	blip = {
+		name = "Pharmacy",
+		id = 51,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		["Gauze"] = true,
 		["Bandage"] = true,

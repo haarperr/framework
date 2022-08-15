@@ -1,4 +1,10 @@
 Config.Filters.Fish = {
+	blip = {
+		name = "Fish Shop",
+		id = 317,
+		scale = 0.5,
+		color = 29,
+	},
 	item = {
 		["Dogfish"] = true,
 		["Flounder"] = true,
