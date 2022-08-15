@@ -7,7 +7,7 @@ AddEventHandler("scrapping:pickUp", function(pos, index)
 	local source = source
 	if not pos then return end
 	
-	local grid = exports.grids:GetGrid(pos, Config.GridSize)
+	local grid = exports.oldgrids:GetGrid(pos, Config.GridSize)
 	if not grid then return end
 
 	if not Grids[grid] then
@@ -77,7 +77,7 @@ function InformNearby(grid, source)
 	local gridData = Grids[grid]
 	if not gridData then return end
 
-	local nearbyGrids = exports.grids:GetNearbyGrids(grid, Config.GridSize)
+	local nearbyGrids = exports.oldgrids:GetGrid(pos, Config.GridSize)
 
 	for _, nearbyGrid in ipairs(nearbyGrids) do
 		local nearbyData = Grids[nearbyGrid]
