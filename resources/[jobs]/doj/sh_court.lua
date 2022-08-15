@@ -3,7 +3,7 @@ exports.jobs:Register("doj", {
 	Name = "Courthouse",
 	Faction = "federal",
 	Group = "doj",
-	Pay = 120,
+	Pay = 130,
 	Clocks = {
 		{ Coords = vector3(-557.5701, -192.1732, 38.22698), Radius = 3.5 },
 	},

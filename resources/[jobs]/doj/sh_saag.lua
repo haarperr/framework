@@ -2,7 +2,7 @@ exports.jobs:Register("saag", {
 	Title = "Federal",
 	Name = "San Andreas Attorney General",
 	Faction = "federal",
-	Pay = 120,
+	Pay = 110,
 	Group = "saag",
 	Clocks = {
 		{ Coords = vector3(19.60668, -928.3267, 33.90338), Radius = 3.5 },

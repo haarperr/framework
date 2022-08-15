@@ -2,7 +2,7 @@ exports.jobs:Register("opr", {
 	Title = "Federal",
 	Name = "Office of Professional Responsibility",
 	Faction = "federal",
-	Pay = 90,
+	Pay = 110,
 	Group = "opr",
 	Clocks = {
 		{ Coords = vector3(-537.8631, -192.0788, 43.36591), Radius = 3.5 },
