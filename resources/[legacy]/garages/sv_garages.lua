@@ -318,10 +318,9 @@ AddEventHandler("garages:retrievedVehicle", function(netId, id, class)
 	
 	TriggerEvent("vehicle:loaded", source, vehicle, entity, class)
 
-	if class ~= 13 then
-		TriggerEvent("vehicles:subscribe", netId, true)
-		exports.vehicles:GiveKey(source, netId)
-	end
+
+	TriggerEvent("vehicles:subscribe", netId, true)
+	exports.vehicles:GiveKey(source, netId)
 
 	Vehicles[entity] = {
 		source = source,
