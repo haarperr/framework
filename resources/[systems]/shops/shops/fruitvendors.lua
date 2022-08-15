@@ -24,7 +24,7 @@ RegisterShop("FRUIT_01", {
     Name = "Groceries",
     Clerks = {
         {
-            coords = vector4(149.289, 1671.305, 228.6349, 168.821),
+            coords = vector4(148.785, 1670.633, 228.6587, 159.8428),
             model = "s_m_m_migrant_01",
         },
     },
