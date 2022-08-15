@@ -72,8 +72,8 @@ Config = {
 				Radius = 500.0, 
 				Items = {
 					{ "Wood Log", {1,2}, 1.0 },
-					{ "Wood Branch", {1}, 0.5 },
-					{ "Wood Bark", {1}, 0.02 },
+					{ "Wood Branch", 1, 0.5 },
+					{ "Wood Bark", 1, 0.02 },
 				}
 			},
 		},

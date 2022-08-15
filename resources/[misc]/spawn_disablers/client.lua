@@ -70,6 +70,7 @@ Citizen.CreateThread(function()
 		"LAZER",
 		"LUXOR",
 		"LUXOR2",
+		"POLICEB",
 		"POLMAV",
 		"SHAMAL",
 		"SWIFT",

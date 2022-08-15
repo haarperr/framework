@@ -113,7 +113,7 @@ function BeginRobbery(source, siteId, robbableId, robbable, slotId)
 	if not site.beingRobbed then
 		exports.dispatch:Add({
 			coords = siteSettings.Center,
-			group = "Emergency",
+			group = "emergency",
 			hasBlip = true,
 			message = "10-90",
 			messageType = 0,
