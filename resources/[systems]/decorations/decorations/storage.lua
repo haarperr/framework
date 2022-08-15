@@ -58,19 +58,6 @@ Register("Evidence Locker", {
 	Placement = "floor",
 	Container = {
 		Type = "evidencelocker",
-		Faction = {
-			["lspd"] = "pd",
-			["bcso"] = "pd",
-			["sasp"] = "pd",
-			["sams"] = "federal",
-			["doj"] = "federal",
-			["saag"] = "federal",
-			["opr"] = "federal",
-			["sams"] = "federal",
-			["firefighter"] = "ems",
-			["lsms"] = "ems",
-			["lsfd"] = "ems",
-		},
 	},
 	Model = "p_cs_locker_01_s",
 })
