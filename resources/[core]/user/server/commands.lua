@@ -15,6 +15,7 @@ exports.chat:RegisterCommand("a:ban", function(source, args, command, cb)
 	local retval, result = Main:Ban(target, duration, reason)
 	if retval then
 		cb("success", ("Banned %s!"):format(result))
+		TriggerClientEvent("makeThunder", -1)
 
 		exports.log:Add({
 			source = source,
@@ -71,6 +72,7 @@ exports.chat:RegisterCommand("a:kick", function(source, args, command, cb)
 	local reason = table.concat(args, " ")
 	
 	cb("success", ("Kicked [%s]!"):format(target))
+	TriggerClientEvent("makeThunder", -1)
 	
 	exports.log:Add({
 		source = source,
