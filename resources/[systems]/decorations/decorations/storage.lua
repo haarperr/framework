@@ -51,15 +51,16 @@ Register("Restaurant Fridge", {
 		Type = "fridge2",
 	},
 	Model = "v_res_fridgemodsml",
-			"",
+	NoDecay = true,
 })
 
 Register("Evidence Locker", {
-	Placement = "floor",
+	Placement = "Floor",
 	Container = {
-		Type = "evidencelocker",
+		Type = "evidencelocker1",
 	},
 	Model = "p_cs_locker_01_s",
+	NoDecay = true,
 })
 
 Register("Small Storage Container", {
