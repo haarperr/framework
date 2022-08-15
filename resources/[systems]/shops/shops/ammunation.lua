@@ -2,7 +2,7 @@ Config.Filters.Ammunation = {
     blip = {
         name = "Ammunation",
         id = 110,
-        scale = 0.8,
+        scale = 0.5,
         color = 29,
     },
 	item = {
