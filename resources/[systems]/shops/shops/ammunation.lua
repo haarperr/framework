@@ -11,6 +11,7 @@ Config.Filters.Ammunation = {
         ["Combat Pistol"] = true,
         ["Stun Gun"] = true,
         ["Taser Cartridge"] = true,
+        ["Taser Prong"] = true,
         ["SNS Pistol Mk II"] = true,
         ["Vintage Pistol"] = true,
         ["Pistol Mk II"] = true,
