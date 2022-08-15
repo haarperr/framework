@@ -470,9 +470,11 @@ AddEventHandler("properties:bought", function(id)
 end)
 
 
-RegisterNetEvent("character:select")
-AddEventHandler("character:select", function(index, data)
-	Initialize()
+RegisterNetEvent("character:selected")
+AddEventHandler("character:selected", function(character)
+	if character then
+		Initialize()
+	end
 end)
 
 RegisterNetEvent("garages:store")
