@@ -445,7 +445,18 @@ Config = {
 				Scale = 2.0,
 			},
 			SubCodes = {
-				["Medic"] = {
+				["Paramedic"] = {
+					Message = "Paramedic Needs Help",
+					Status = "urgent",
+					Blips = {
+						Rotation = 0,
+						AutoRotate = 0,
+						Id = 161,
+						Color = 1,
+						Scale = 2.0,
+					},
+				},
+				["Firefighter"] = {
 					Message = "Medic Needs Help",
 					Status = "urgent",
 					Blips = {

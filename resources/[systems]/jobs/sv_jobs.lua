@@ -1,5 +1,6 @@
 Main.players = {}
 Main.cached = {}
+Main.panic = {}
 
 --[[ Functions: Main ]]--
 function Main:Init()
@@ -57,6 +58,8 @@ function Main:CachePlayer(source)
 		time = os.clock(),
 		job = jobId,
 	}
+
+	self.panic = nil,
 	
 	job:Clock(source, false)
 end
@@ -160,7 +163,7 @@ end
 
 function Job:Clock(source, value, wasCached)
 	-- Check hired.
-	if value and not self:IsHired(source) then
+	if value and (not self:IsHired(source) and not self.IsPublic) then
 		return false, "not hired"
 	end
 
@@ -283,27 +286,38 @@ end)
 RegisterNetEvent("jobs:togglePanic")
 AddEventHandler("jobs:togglePanic", function()
 	local source = source
-	local group = GetGroup(source)
-	if not group then return end
 
-	local trackers = GetTrackers(group:lower())
-	if not trackers then return end
+	local jobId = Main.players[source]
+	if not jobId then return end
 
-	local tracker = trackers[source]
+	local job = Main.jobs[jobId]
+	if not job then return end
+
+	local tracker = job.Tracker
 	if not tracker then return end
 
-	local jobName = GetCurrentJob(source, false)
-	if tracker == true then
-		tracker = 2
-	else
-		tracker = true
-	end
-	UpdateTracker(source, jobName, tracker)
-	local message
-	if tracker == 2 then
+	local toggled = "off"
+	local message = "Panic turned OFF!"
+	if not Main.panic[source] then
+		exports.trackers:LeaveGroup(tracker.Group, source)
+		exports.trackers:JoinGroup(tracker.Group, source, "panic", tracker.Mask or 6)
+		Main.panic[source] = true
+		toggled = "on"
 		message = "Panic turned ON!"
+
+		exports.dispatch:Add({
+			coords = GetEntityCoords(GetPlayerPed(source)),
+			group = (tracker.Group):lower(),
+			hasBlip = true,
+			message = "11-99",
+			subMessage = Main:IsInEmergency(source, "Panic"),
+			messageType = 0,
+			source = source
+		})
 	else
-		message = "Panic turned OFF!"
+		exports.trackers:LeaveGroup(tracker.Group, source)
+		exports.trackers:JoinGroup(tracker.Group, source, tracker.State, tracker.Mask or 6)
+		Main.panic[source] = nil
 	end
 
 	exports.log:Add({
@@ -311,10 +325,10 @@ AddEventHandler("jobs:togglePanic", function()
 		target = target,
 		verb = "toggled",
 		noun = "panic",
-		extra = tracker,
+		extra = toggled
 	})
 
-	TriggerClientEvent("notify:sendAlert", source, "error", message, 7000)
+	TriggerClientEvent("chat:notify", source, message, 7000)
 end)
 
 --[[ Events ]]--
