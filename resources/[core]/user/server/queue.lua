@@ -149,7 +149,7 @@ function Queue:Connect(source, name, setKickReason, deferrals)
 	-- Add to queue.
 	local waitingCount = #self.connecting
 	local position = waitingCount + 1
-	local priority = self.priority or 0
+	local priority = user.priority or 0
 
 	for k, queued in ipairs(self.connecting) do
 		if priority > (queued.priority or -1) then

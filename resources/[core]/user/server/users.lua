@@ -1,4 +1,5 @@
 function User:Create(data)
+	print(json.encode(data))
 	local queryString = "tokens=@tokens"
 	local queryValues = {
 		["@tokens"] = json.encode(data.tokens or {})
