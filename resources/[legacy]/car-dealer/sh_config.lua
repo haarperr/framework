@@ -755,7 +755,7 @@ Config = {
 				"pdalamo",
 				"pdbike",
 				"pdbuffalo",
-				"pdstainer",
+				"pdstanier",
 			},
 		},
 		{
@@ -771,7 +771,7 @@ Config = {
 				"pdalamo",
 				"pdbike",
 				"pdbuffalo",
-				"pdstainer",
+				"pdstanier",
 			},
 		},
 		{
@@ -828,7 +828,7 @@ Config = {
 				"spalamo",
 				"spbike",
 				"spbuffalo",
-				"spstainer",
+				"spstanier",
 			},
 		},
 		{
@@ -843,7 +843,7 @@ Config = {
 			Vehicles = {
 				"pdalamo",
 				"pdbuffalo",
-				"pdstainer",
+				"pdstanier",
 			},
 		},
 		--[[{
