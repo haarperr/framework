@@ -62,14 +62,14 @@ RegisterShop("RESOURCE_247", {
         ["smelter1"] = {
 			item = "Smeltry",
 			invisible = true,
-			coords = vector3(1101.828, -2024.645, 44.45947),
-			rotation = vector3(-41.0309, -0, -128.5155),
+			coords = vector3(1110.29, -2008.308, 31.62196),
+			rotation = vector3(-20.1329, -8.537736e-07, 140.9155),			
 		},
 		["grinder1"] = {
 			item = "Grindstone",
 			invisible = true,
-			coords = vector3(1110.29, -2008.308, 31.62196),
-			rotation = vector3(-20.1329, -8.537736e-07, 140.9155),
+			coords = vector3(1101.828, -2024.645, 44.45947),
+			rotation = vector3(-41.0309, -0, -128.5155),			
 		},
 		["keycard1"] = {
 			item = "Keycard Printer",

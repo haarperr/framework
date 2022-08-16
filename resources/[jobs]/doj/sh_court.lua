@@ -24,11 +24,19 @@ exports.jobs:Register("districtcourt", {
 		{ Name = "Head Secretary" },
 		{ Name = "Clerk" },
 		{
-			Name = "Judge",
+			Name = "District Court Judge",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
-			Name = "Court Manager",
+			Name = "District Court Manager",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Justice",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Chief Justice",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
