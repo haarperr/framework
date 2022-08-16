@@ -109,7 +109,7 @@ Register("Television", {
 	Stackable = {
 		Structure = true,
 		Foundation = false,
-		Block = false,
+		Block = true,
 	},
 	Model = {
 		"prop_tv_test",
@@ -242,7 +242,7 @@ Register("Clutter", {
 	Stackable = {
 		Structure = true,
 		Foundation = false,
-		Block = false,
+		Block = true,
 	},
 	Model = {
 		"prop_ashtray_01",
@@ -263,7 +263,7 @@ Register("Potted Plant", {
 	Stackable = {
 		Structure = true,
 		Foundation = true,
-		Block = false,
+		Block = true,
 	},
 	Model = {
 		"apa_mp_h_acc_plant_palm_01",
@@ -405,22 +405,11 @@ Register("Pool Table", {
 			"prop_pooltable_3b",
 })
 
-Register("Pool Table", {
-	Placement = "Floor",
-	Stackable = {
-		Structure = false,
-		Foundation = false,
-		Block = true,
-	},
-	Model = "prop_pooltable_02",
-			"prop_pooltable_3b",
-})
-
 Register("Sideboard", {
 	Stackable = {
 		Structure = false,
 		Foundation = false,
-		Block = true,
+		Block = false,
 	},
 	Model = "apa_mp_h_str_sideboardl_06",
 			"apa_mp_h_str_sideboardl_09",
@@ -440,7 +429,7 @@ Register("Desk", {
 	Stackable = {
 		Structure = false,
 		Foundation = false,
-		Block = true,
+		Block = false,
 	},
 	Model = "prop_office_desk_01",
 			"v_corp_maindesk",
@@ -454,7 +443,7 @@ Register("Stool", {
 	Stackable = {
 		Structure = false,
 		Foundation = false,
-		Block = true,
+		Block = false,
 	},
 	Model = "apa_mp_h_din_stool_04",
 			"prop_bar_stool_01",
@@ -476,23 +465,6 @@ Register("Monitor", {
 			"prop_monitor_li",
 			"prop_monitor_w_large",
 			"sm_prop_smug_monitor_01",
-})
-
-Register("Monitor", {
-	Stackable = {
-		Structure = true,
-		Foundation = false,
-		Block = true,
-	},
-	Model = "prop_pc_01a",
-			"prop_laptop_02_closed",
-			"prop_laptop_lester",
-			"prop_laptop_jimmy",
-			"prop_laptop_lester2",
-			"prop_laptop_01a",
-			"p_amb_lap_top_02",
-			"hei_prop_hst_laptop",
-			"xm_prop_x17_laptop_lester_01",
 })
 
 Register("Peripheral", {

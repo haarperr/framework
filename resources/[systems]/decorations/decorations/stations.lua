@@ -265,7 +265,11 @@ Register("Stove", {
 })
 
 Register("Food Processor", {
-	Placement = "Table",
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
 	NoCenter = true,
 	Station = {
 		Type = "Food Processor",
@@ -352,7 +356,11 @@ Register("Pizza Oven", {
 })
 
 Register("Grater", {
-	Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
 	NoCenter = true,
 	Station = {
 		Type = "Grater",
@@ -381,7 +389,11 @@ Register("Grater", {
 })
 
 Register("Frying Pan", {
-	Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
 	NoCenter = true,
 	Station = {
 		Type = "Frying Pan",
@@ -410,7 +422,11 @@ Register("Frying Pan", {
 })
 
 Register("Pot", {
-	Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
 	NoCenter = true,
 	Station = {
 		Type = "Pot",
@@ -442,7 +458,11 @@ Register("Pot", {
 })
 
 Register("Cutting Board", {
-	Placement = "Floor",
+	Stackable = {
+		Structure = true,
+		Foundation = false,
+		Block = true,
+	},
 	NoCenter = true,
 	Station = {
 		Type = "Cutting Board",
