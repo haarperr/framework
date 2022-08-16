@@ -1,8 +1,8 @@
 exports.jobs:Register("districtcourt", {
-	Title = "District",
-	Name = "Courthouse",
+	Title = "District Court",
+	Name = "District Court",
 	Faction = "federal",
-	Group = "doj",
+	Group = "districtcourt",
 	Pay = 110,
 	Clocks = {
 		{ Coords = vector3(-557.5701, -192.1732, 38.22698), Radius = 3.5 },
