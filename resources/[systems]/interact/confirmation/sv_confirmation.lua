@@ -92,7 +92,6 @@ for _, command in ipairs({"bill", "fine"}) do
 				elseif command == "fine" then
 					canAfford = true
 					exports.banking:AddBank(targetPrimaryAccount, amount * -1)
-					exports.banking:AddBank(sourcePrimaryAccount, amount)
 				else
 					if not primaryAccount then
 					TriggerClientEvent("chat:notify", source, "You don't have a bank account?", "error")
