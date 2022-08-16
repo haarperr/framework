@@ -80,16 +80,19 @@ for _, command in ipairs({"bill", "fine"}) do
 			local targetMessage = ""
 			if value then
 				local canAfford = false
-				local primaryAccount = exports.character:Get(source, "bank")
+				local sourcePrimaryAccount = exports.character:Get(source, "bank")
+				local targetPrimaryAccount = exports.character:Get(target, "bank")
+				local targetBankBalance = exports.banking:GetAccountBalance(targetPrimaryAccount) or 0.0
 				if command == "bill" then
-					canAfford = exports.inventory:CanAfford(target, amount, 1, false)
+					canAfford = targetBankBalance >= amount
 					if canAfford then
-						exports.inventory:AddBank(target, primaryAccount, amount * -1)
-						exports.character:AddBank(source, amount, true)
+						exports.banking:AddBank(targetPrimaryAccount, amount * -1)
+						exports.banking:AddBank(sourcePrimaryAccount, amount)
 					end
 				elseif command == "fine" then
 					canAfford = true
-					exports.character:AddBank(target, primaryAccount, amount * -1)
+					exports.banking:AddBank(targetPrimaryAccount, amount * -1)
+					exports.banking:AddBank(sourcePrimaryAccount, amount)
 				else
 					if not primaryAccount then
 					TriggerClientEvent("chat:notify", source, "You don't have a bank account?", "error")
