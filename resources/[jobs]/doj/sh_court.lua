@@ -1,4 +1,4 @@
-exports.jobs:Register("doj", {
+exports.jobs:Register("districtcourt", {
 	Title = "Federal",
 	Name = "Courthouse",
 	Faction = "federal",
