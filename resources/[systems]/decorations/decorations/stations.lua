@@ -264,7 +264,7 @@ Register("Stove", {
 	Model = "prop_cooker_03",
 })
 
-Register("Food Processor", {
+Register("Processor", {
 	Stackable = {
 		Structure = true,
 		Foundation = false,
@@ -272,7 +272,7 @@ Register("Food Processor", {
 	},
 	NoCenter = true,
 	Station = {
-		Type = "Food Processor",
+		Type = "Processor",
 		Auto = true,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
