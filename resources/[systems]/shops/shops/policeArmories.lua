@@ -3,7 +3,6 @@ Config.Filters.Armory = {
 		["Radio"] = true,
 		["Body Armor"] = true,
 		["Stun Gun"] = true,
-		["Field Kit"] = true,
         ["Gunshot Residue Kit"] = true,
         ["Taser Cartridge"] = true,
         ["Taser Prong"] = true,
@@ -38,7 +37,7 @@ Config.Filters.Armory = {
 	},
 }
 
-RegisterShop("MRPD_ARMORY001", {
+RegisterShop("MRPD_ARMORY_001", {
 	Name = "MRPD Armory",
 	License = "weapons",
 	Clerks = {
@@ -54,7 +53,7 @@ RegisterShop("MRPD_ARMORY001", {
 	},
 })
 
-RegisterShop("SAMS_ARMORY001", {
+RegisterShop("SAMS_ARMORY_001", {
 	Name = "SAMS Armory",
 	License = "weapons",
 	Clerks = {
@@ -70,7 +69,7 @@ RegisterShop("SAMS_ARMORY001", {
 	},
 })
 
-RegisterShop("PARKRA_ARMORY001", {
+RegisterShop("PARKRA_ARMORY_001", {
 	Name = "Park Rangers Armory",
 	License = "weapons",
 	Clerks = {
@@ -86,7 +85,7 @@ RegisterShop("PARKRA_ARMORY001", {
 	},
 })
 
-RegisterShop("LAMESA_ARMORY001", {
+RegisterShop("LAMESA_ARMORY_001", {
 	Name = "La Mesa Armory",
 	License = "weapons",
 	Clerks = {
@@ -102,7 +101,7 @@ RegisterShop("LAMESA_ARMORY001", {
 	},
 })
 
-RegisterShop("DAVIS_ARMORY001", {
+RegisterShop("DAVIS_ARMORY_001", {
 	Name = "Davis PD Armory",
 	License = "weapons",
 	Clerks = {
@@ -118,7 +117,7 @@ RegisterShop("DAVIS_ARMORY001", {
 	},
 })
 
-RegisterShop("SANDY_ARMORY001", {
+RegisterShop("SANDY_ARMORY_001", {
 	Name = "SSO Armory",
 	License = "weapons",
 	Clerks = {
@@ -134,7 +133,7 @@ RegisterShop("SANDY_ARMORY001", {
 	},
 })
 
-RegisterShop("PALETO_ARMORY001", {
+RegisterShop("PALETO_ARMORY_001", {
 	Name = "Paleto PD Armory",
 	License = "weapons",
 	Clerks = {
@@ -150,7 +149,7 @@ RegisterShop("PALETO_ARMORY001", {
 	},
 })
 
-RegisterShop("PRISON_ARMORY001", {
+RegisterShop("PRISON_ARMORY_001", {
 	Name = "Prison Armory",
 	License = "weapons",
 	Clerks = {
