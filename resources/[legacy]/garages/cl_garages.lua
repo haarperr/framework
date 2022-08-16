@@ -163,10 +163,14 @@ function GetVehicleInfo(vehicle)
 		end
 	end
 
+	print(GetVehicleCustomPrimaryColour(vehicle))
+
 	-- Colors.
 	local paintType, color = GetVehicleModColor_1(vehicle)
 	local pearlescent, wheelColor = GetVehicleExtraColours(vehicle)
-	local colors = table.pack(GetVehicleColours(vehicle))
+	local colors = {}
+	colors[1] = table.pack(GetVehicleCustomPrimaryColour(vehicle))
+	colors[2] = table.pack(GetVehicleCustomSecondaryColour(vehicle))
 	colors[3] = paintType or -1
 	colors[4] = color or -1
 	colors[5] = pearlescent or -1
@@ -237,7 +241,8 @@ function SetVehicleInfo(vehicle, info)
 
 	-- Colors.
 	if info.colors then
-		SetVehicleColours(vehicle, info.colors[1] or 0, info.colors[2] or 0)
+		SetVehicleCustomPrimaryColour(vehicle, table.unpack(info.colors[1]))
+		SetVehicleCustomSecondaryColour(vehicle, table.unpack(info.colors[2]))
 		if GetNumModColors(vehicle, true) > 0 then
 			SetVehicleModColor_1(vehicle, info.colors[3] or 0, info.colors[4] or 0, 0)
 		end

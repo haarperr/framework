@@ -154,6 +154,13 @@ RegisterNUICallback("invoke", function(data, cb)
 	end
 end)
 
+RegisterNUICallback("notify", function(data, cb)
+	cb(true)
+
+	if not data then return end
+	exports.mythic_notify:SendAlert("inform", data, 7500)
+end)
+
 --[[ Events ]]--
 AddEventHandler("playerStartedTalking", function(serverId, channelId)
 	if Radio.frequencies[channelId] and (Radio.volume or 0.0) > 0.001 then
