@@ -21,6 +21,8 @@ Config.Filters.Furniture = {
         ["Workbench"] = true,
         ["Sideboard"] = true,
         ["Processor"] = true,
+        ["Stove"] = true,
+        ["Pot"] = true,
 	},
 }
 

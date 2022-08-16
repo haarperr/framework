@@ -352,7 +352,7 @@ Register("Pizza Oven", {
 			Fov = 60.0,
 		},
 	},
-	Model = "prop_pizza_oven_01",
+	Model = "prop_bbq_3",
 })
 
 Register("Grater", {

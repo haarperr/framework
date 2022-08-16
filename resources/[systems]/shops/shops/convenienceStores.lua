@@ -37,6 +37,7 @@ Config.Filters.Convenience = {
 		["Shredded Cheese"] = true,
 		["Cup"] = true,
 		["Dough"] = true,
+		["Cookie Dough"] = true,
 	},
 }
 
