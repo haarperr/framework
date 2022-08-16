@@ -32,10 +32,13 @@ Config.Filters.Convenience = {
 		-- Ingredients.
 		["Baking Soda"] = true,
 		["Eggs"] = true,
+		["Sugar"] = true,
+		["Salt"] = true,
+		["Shredded Cheese"] = true,
 	},
 }
 
-RegisterShop("HARMONY_247", {
+RegisterShop("HARMONY_2471", {
 	Name = "Harmony 24/7",
 	Clerks = {
 		{
@@ -53,7 +56,7 @@ RegisterShop("HARMONY_247", {
 	},
 })
 
-RegisterShop("INNOCENCE_247", {
+RegisterShop("INNOCENCE_2471", {
 	Name = "Innocence 24/7",
 	Clerks = {
 		{
@@ -71,7 +74,7 @@ RegisterShop("INNOCENCE_247", {
 	},
 })
 
-RegisterShop("PALOMINO_247", {
+RegisterShop("PALOMINO_2471", {
 	Name = "Palomino 24/7",
 	Clerks = {
 		{
@@ -90,7 +93,7 @@ RegisterShop("PALOMINO_247", {
 })
 
 
-RegisterShop("CLINTON_247", {
+RegisterShop("CLINTON_2471", {
 	Name = "Clinton 24/7",
 	Clerks = {
 		{
@@ -108,7 +111,7 @@ RegisterShop("CLINTON_247", {
 	},
 })
 
-RegisterShop("ROCKFORD_247", {
+RegisterShop("ROCKFORD_2471", {
 	Name = "Rockford 24/7",
 	Clerks = {
 		{
@@ -126,7 +129,7 @@ RegisterShop("ROCKFORD_247", {
 	},
 })
 
-RegisterShop("SENORA_247", {
+RegisterShop("SENORA_2471", {
 	Name = "Senora 24/7",
 	Clerks = {
 		{
@@ -144,7 +147,7 @@ RegisterShop("SENORA_247", {
 	},
 })
 
-RegisterShop("PALETO_247", {
+RegisterShop("PALETO_2471", {
 	Name = "Paleto 24/7",
 	Clerks = {
 		{
@@ -162,7 +165,7 @@ RegisterShop("PALETO_247", {
 	},
 })
 
-RegisterShop("PALETO2_247", {
+RegisterShop("PALETO2_2471", {
 	Name = "Paleto 2 24/7",
 	Clerks = {
 		{
@@ -180,7 +183,7 @@ RegisterShop("PALETO2_247", {
 	},
 })
 
-RegisterShop("SANDY_247", {
+RegisterShop("SANDY_2471", {
 	Name = "Sandy 24/7",
 	Clerks = {
 		{
@@ -198,7 +201,7 @@ RegisterShop("SANDY_247", {
 	},
 })
 
-RegisterShop("GOCEAN_247", {
+RegisterShop("GOCEAN_2471", {
 	Name = "Great Ocean 24/7",
 	Clerks = {
 		{
@@ -216,7 +219,7 @@ RegisterShop("GOCEAN_247", {
 	},
 })
 
-RegisterShop("GROVE_247", {
+RegisterShop("GROVE_2471", {
 	Name = "Grove 24/7",
 	Clerks = {
 		{
@@ -234,7 +237,7 @@ RegisterShop("GROVE_247", {
 	},
 })
 
-RegisterShop("SEOUL_247", {
+RegisterShop("SEOUL_2471", {
 	Name = "Little Seoul 24/7",
 	Clerks = {
 		{
@@ -252,7 +255,7 @@ RegisterShop("SEOUL_247", {
 	},
 })
 
-RegisterShop("MIRROR_247", {
+RegisterShop("MIRROR_2471", {
 	Name = "Mirror 24/7",
 	Clerks = {
 		{
@@ -270,7 +273,7 @@ RegisterShop("MIRROR_247", {
 	},
 })
 
-RegisterShop("GRAPE_247", {
+RegisterShop("GRAPE_2471", {
 	Name = "Grapeseed 24/7",
 	Clerks = {
 		{
@@ -288,7 +291,7 @@ RegisterShop("GRAPE_247", {
 	},
 })
 
-RegisterShop("ROCK2_247", {
+RegisterShop("ROCK2_2471", {
 	Name = "Rockford 24/7",
 	Clerks = {
 		{
@@ -306,7 +309,7 @@ RegisterShop("ROCK2_247", {
 	},
 })
 
-RegisterShop("ROCK2_247", {
+RegisterShop("ROCK2_2471", {
 	Name = "Rockford 24/7",
 	Clerks = {
 		{
