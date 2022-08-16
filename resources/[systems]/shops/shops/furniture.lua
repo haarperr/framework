@@ -26,7 +26,7 @@ Config.Filters.Furniture = {
 	},
 }
 
-RegisterShop("FURNITURE_01", {
+RegisterShop("FURNITURE_001", {
     Name = "Los Santos Furniture",
     Clerks = {
         {
@@ -41,7 +41,7 @@ RegisterShop("FURNITURE_01", {
     },
 })
 
-RegisterShop("FURNITURE_02", {
+RegisterShop("FURNITURE_002", {
     Name = "Paleto Furniture",
     Clerks = {
         {

@@ -541,4 +541,13 @@ Config.Groups = {
 			["odin"] = "farm",
 		},
 	},
+	{
+	name = "Casino",
+		coords = vector3(926.4796, 45.63679, 81.08836),
+		radius = 18,
+		locked = true, 
+		factions = {
+			["doj"] = "federal",
+		},
+	},
 }
