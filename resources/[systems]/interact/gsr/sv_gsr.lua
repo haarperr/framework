@@ -1,4 +1,5 @@
 Functions = {}
+ValidMessages = {}
 
 --[[ Events ]]--
 RegisterNetEvent("interaction:send")
