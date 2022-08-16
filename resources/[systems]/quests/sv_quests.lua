@@ -84,7 +84,7 @@ function Quest:SetStage(source, stageId)
 			
 			exports.inventory:GiveItem(source, item.name, amount)
 			if item.name == "Bills" then
-				exports.log:AddEarnings(source, "Quests", amount)
+				--exports.log:AddEarnings(source, "Quests", amount)
 			end
 		end
 		if rewards.items then
@@ -92,7 +92,7 @@ function Quest:SetStage(source, stageId)
 				local amount = item.amount
 				exports.inventory:GiveItem(source, item.name, amount)
 				if item.name == "Bills" then
-					exports.log:AddEarnings(source, "Quests", amount)
+					--exports.log:AddEarnings(source, "Quests", amount)
 				end
 			end
 		end
