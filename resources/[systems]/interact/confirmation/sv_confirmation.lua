@@ -52,7 +52,7 @@ AddEventHandler("interaction:confirm", function(id, value)
 end)
 
 --[[ Commands ]]--
---[[for _, command in ipairs({"bill", "fine"}) do
+for _, command in ipairs({"bill", "fine"}) do
 	local help = ""
 	if command == "bill" then
 		help = "Send somebody a bill and receive money if they accept."
@@ -80,16 +80,21 @@ end)
 			local targetMessage = ""
 			if value then
 				local canAfford = false
+				local primaryAccount = exports.character:Get(source, "bank")
 				if command == "bill" then
 					canAfford = exports.inventory:CanAfford(target, amount, 1, false)
 					if canAfford then
-						exports.inventory:TakeBills(target, amount, 1, false)
-						exports.inventory:GiveItem(source, "Bills", amount)
+						exports.inventory:AddBank(target, primaryAccount, amount * -1)
+						exports.character:AddBank(source, amount, true)
 					end
 				elseif command == "fine" then
 					canAfford = true
-					exports.character:AddBank(target, -amount, false)
-					exports.log:AddEarnings(target, "Fines", -amount)
+					exports.character:AddBank(target, primaryAccount, amount * -1)
+				else
+					if not primaryAccount then
+					TriggerClientEvent("chat:notify", source, "You don't have a bank account?", "error")
+						return true
+					end
 				end
 				if canAfford then
 					sourceMessage = "They have paid your "..command.." for $"..amount.."!"
@@ -121,9 +126,9 @@ end)
 		end, true)
 	end, {
 		help = help,
-		params = {
-			{ name = "Target", help = "Somebody to "..command.."." },
-			{ name = "Amount", help = "How much to "..command.." them." },
+		parameters = {
+			{ name = "Target", description = "Somebody to "..command.."." },
+			{ name = "Amount", description = "How much to "..command.." them." },
 		}
 	}, paramCount or -1, group)
-end]]
+end

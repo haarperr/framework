@@ -1,9 +1,9 @@
-exports.jobs:Register("doj", {
-	Title = "Federal",
+exports.jobs:Register("districtcourt", {
+	Title = "District",
 	Name = "Courthouse",
 	Faction = "federal",
 	Group = "doj",
-	Pay = 130,
+	Pay = 110,
 	Clocks = {
 		{ Coords = vector3(-557.5701, -192.1732, 38.22698), Radius = 3.5 },
 	},
@@ -24,11 +24,19 @@ exports.jobs:Register("doj", {
 		{ Name = "Head Secretary" },
 		{ Name = "Clerk" },
 		{
-			Name = "Judge",
+			Name = "District Court Judge",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
-			Name = "Court Manager",
+			Name = "District Court Manager",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Justice",
+			Flags = Jobs.Permissions.ALL()
+		},
+		{
+			Name = "Chief Justice",
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
