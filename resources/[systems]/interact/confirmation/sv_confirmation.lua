@@ -91,6 +91,7 @@ for _, command in ipairs({"bill", "fine"}) do
 					end
 				elseif command == "fine" then
 					canAfford = true
+					exports.banking:AddBank(targetPrimaryAccount, amount * -1)
 					exports.banking:AddBank(sourcePrimaryAccount, amount)
 				else
 					if not primaryAccount then
