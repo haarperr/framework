@@ -7,6 +7,38 @@ end)
 
 RegisterKeyMapping("+nsrp_toggleRadio", "Radio - Open", "keyboard", "g")
 
+--[[ Radio volume up. ]]--
+RegisterCommand("+nsrp_volUp", function()
+	if not IsDisabledControlPressed(0, Config.Controls.Modifier) then return end
+	Radio:Commit("switchVolume", 1.0)
+end)
+
+RegisterKeyMapping("+nsrp_volUp", "Radio - Volume Up", "keyboard", "UP")
+
+--[[ Radio volume down. ]]--
+RegisterCommand("+nsrp_volDown", function()
+	if not IsDisabledControlPressed(0, Config.Controls.Modifier) then return end
+	Radio:Commit("switchVolume", -1.0)
+end)
+
+RegisterKeyMapping("+nsrp_volDown", "Radio - Volume Down", "keyboard", "DOWN")
+
+--[[ Radio channel up. ]]--
+RegisterCommand("+nsrp_chanUp", function()
+	if not IsDisabledControlPressed(0, Config.Controls.Modifier) then return end
+	Radio:Commit("switchChannel", 1.0)
+end)
+
+RegisterKeyMapping("+nsrp_chanUp", "Radio - Channel Up", "keyboard", "RIGHT")
+
+--[[ Radio channel down. ]]--
+RegisterCommand("+nsrp_chanDown", function()
+	if not IsDisabledControlPressed(0, Config.Controls.Modifier) then return end
+	Radio:Commit("switchChannel", -1.0)
+end)
+
+RegisterKeyMapping("+nsrp_chanDown", "Radio - Channel Down", "keyboard", "LEFT")
+
 --[[ Using the radio. ]]--
 RegisterCommand("+nsrp_useRadio", function()
 	Radio:SetActive(true)

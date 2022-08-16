@@ -226,6 +226,24 @@ function setChannel(channel, noSound) {
 	}
 }
 
+function switchChannel(value) {
+	var channel = Math.min(Math.max(Channel + value, 1), 9);
+	if (Channel != channel) {
+		setChannel(channel);
+
+		post("notify", `Radio switched to channel C${channel} (${Frequency}).`);
+	}
+}
+
+function switchVolume(value) {
+	var volume = Math.min(Math.max(Volume + value, 0), Config.VolumeSteps);
+	if (Volume != volume) {
+		setVolume(value);
+
+		post("notify", `Radio volume set to ${volume}.`);
+	}
+}
+
 function setAdditional(value, direct) {
 	var additional = Additional;
 
