@@ -5,6 +5,7 @@ IsDelivering = false
 LastRouteBlip = 0
 NearestDestination = nil
 Vehicle = 0
+Emote = nil
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
@@ -82,9 +83,7 @@ Citizen.CreateThread(function()
 
 		if #(targetCoords - pedCoords) < 2.0 and exports.oldutils:DrawContext("Receive Delivery", targetCoords) then
 			IsDelivering = true
-			exports.emotes:Play(Config.Delivery.Anim, function(finished)
-				IsDelivering = false
-			end)
+			Emote = exports.emotes:Play(Config.Delivery.Anim)
 		end
 		
 		-- Delivering the goods.
@@ -103,7 +102,7 @@ Citizen.CreateThread(function()
 				
 				NearestDestination = nil
 				IsDelivering = false
-				exports.emotes:Stop()
+				exports.emotes:Stop(Emote)
 			end
 		end
 		
@@ -208,4 +207,10 @@ end)
 RegisterNetEvent("deliveries:clearCache")
 AddEventHandler("deliveries:clearCache", function(name, message)
 	ClearDelivery()
+end)
+
+AddEventHandler("emotes:cancel", function(id)
+	if Emote == id then
+		IsDelivering = false
+	end
 end)
