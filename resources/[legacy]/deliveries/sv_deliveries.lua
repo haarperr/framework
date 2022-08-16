@@ -20,9 +20,8 @@ AddEventHandler("jobs:clocked", function(name, source, onDuty)
 	print(source)
 	print(name,onDuty)
 	if not onDuty then return end
-print("A")
+
 	local job = exports.jobs:GetCurrentJob(source, true)
-	print(job)
 
 	local delivery = job.Delivery
 	if not delivery then return end
@@ -79,7 +78,7 @@ AddEventHandler("deliveries:finishDelivery", function(id, name)
 	local delivery = deliveries[source]
 	if not delivery then return end
 	
-	local job = exports.jobs:GetJob(name:lower())
+	local job = exports.jobs:GetCurrentJob(source)
 	if not job then return end
 
 	local deliverySettings = job.Delivery
@@ -100,7 +99,10 @@ AddEventHandler("deliveries:finishDelivery", function(id, name)
 		local paycheck = exports.character:Get(source, "paycheck")
 		paycheck = paycheck + deliverySettings.Pay
 		exports.character:Set(source, "paycheck", paycheck)
-		TriggerClientEvent("notify:sendAlert", source, "inform", ("$%s has gone to your paycheck. You have $%s to collect."):format(exports.misc:FormatNumber(deliverySettings.Pay), exports.misc:FormatNumber(paycheck)), 8000)
+		TriggerClientEvent("chat:notify", source, {
+			class = "inform",
+			text = ("$%s has gone to your paycheck. You have $%s to collect."):format(exports.misc:FormatNumber(deliverySettings.Pay), exports.misc:FormatNumber(paycheck)),
+		})
 	end
 end)
 
