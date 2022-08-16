@@ -73,7 +73,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 			TriggerClientEvent("chat:notify", source, "Your vehicle was sold for $"..exports.misc:FormatNumber(value).." and the money was transferred to your account.", "inform")
 			exports.character:Set(source, "bank", character.bank + value)
 			exports.character:Save(source, "bank")
-			exports.log:AddEarnings(source, "Vehicles", value)
+			--exports.log:AddEarnings(source, "Vehicles", value)
 		end
 	end)
 end)

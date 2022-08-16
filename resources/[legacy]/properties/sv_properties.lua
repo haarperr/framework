@@ -415,7 +415,7 @@ AddEventHandler("properties:pay", function(id)
 	
 	-- Take money.
 	exports.character:AddBank(source, -amount, true)
-	exports.log:AddEarnings(source, "Mortgage", -amount)
+	--exports.log:AddEarnings(source, "Mortgage", -amount)
 
 	-- Mortgages.
 	if isMortgage then
@@ -985,7 +985,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 				exports.inventory:GiveMoney(source, commission)
 			end
 			
-			exports.log:AddEarnings(source, "Property Commission", commission)
+			--exports.log:AddEarnings(source, "Property Commission", commission)
 		end
 	end, false)
 end, {
