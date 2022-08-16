@@ -25,15 +25,14 @@ Config = {
 			{
 				Coords = vector3(2946.599609375, 2793.789306640625, 40.60781478881836), Radius = 100.0, Items = {
 					{ "Iron Ore", {1,2}, 0.24 },
-					{ "Coal", {1,4}, 0.2 },
+					{ "Coal", {1,2}, 0.2 },
 					{ "Copper Ore", {1,2}, 0.16 },
 					{ "Scrap Aluminum", {1,2}, 0.14 },
 					{ "Lead", {1,4}, 0.1 },
-					{ "Raw Quartz", {1,2}, 0.09 },
-					{ "Sulfur", {1,2}, 0.08 },
-					{ "Diamond", {1,2}, 0.006 },
-					{ "Emerald", {1,2}, 0.005 },
-					{ "Gold Nugget", 1, 0.005 },
+					{ "Sulfur Ore", {1,2}, 0.08 },
+					{ "Diamond", {1,1}, 0.006 },
+					{ "Emerald", {1,1}, 0.005 },
+					{ "Gold Nugget",{1,1}, 0.005 },
 					{ "Ruby", {1,2}, 0.004 },
 					{ "Sapphire", {1,2}, 0.002 },
 					{ "Barma Ruby", 1, 0.001 },
@@ -71,9 +70,9 @@ Config = {
 				Coords = vector3(-676.63134765625, 5382.01904296875, 58.56132507324219), 
 				Radius = 500.0, 
 				Items = {
-					{ "Wood Log", {1,2}, 1.0 },
-					{ "Wood Branch", 1, 0.5 },
-					{ "Wood Bark", 1, 0.02 },
+					{ "Wood Log", {1,1}, 0.6 },
+					{ "Wood Branch", {1,1}, 0.5 },
+					{ "Wood Bark", {1,1}, 0.02 },
 				}
 			},
 		},
