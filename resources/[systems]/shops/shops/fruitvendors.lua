@@ -16,11 +16,12 @@ Config.Filters.Fruit = {
         ["Honey"] = true,
         ["Salt"] = true,
         ["Butter"] = true,
-        ["Book"] = true,
+        ["Shredded Cheese"] = true,
+        ["Tomato Sauce"] = true,
 	},
 }
 
-RegisterShop("FRUIT_01", {
+RegisterShop("FRUIT_001", {
     Name = "Groceries",
     Clerks = {
         {
@@ -35,7 +36,7 @@ RegisterShop("FRUIT_01", {
     },
 })
 
-RegisterShop("FRUIT_02", {
+RegisterShop("FRUIT_002", {
     Name = "Groceries",
     Clerks = {
         {
