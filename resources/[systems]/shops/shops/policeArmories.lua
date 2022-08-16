@@ -118,22 +118,6 @@ RegisterShop("DAVIS_ARMORY001", {
 	},
 })
 
-RegisterShop("HIGHWAY_ARMORY001", {
-	Name = "Highway Station Armory",
-	License = "weapons",
-	Clerks = {
-		{
-			coords = vector4(1549.9698486328125, 838.8912963867188, 77.651123046875, 148.10208129882812),
-			model = "s_m_y_cop_01",
-		},
-	},
-	Storage = {
-		Coords = vector3(1550.1397705078125, 840.4849853515625, 78.92387390136719),
-		Radius = 2.0,
-		Filters = Config.Filters.Armory,
-	},
-})
-
 RegisterShop("SANDY_ARMORY001", {
 	Name = "SSO Armory",
 	License = "weapons",
