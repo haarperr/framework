@@ -572,7 +572,7 @@ Config = {
 				"imorgon",
 			},
 		},
-		{
+		--[[{
 			Name = "Sanders Motorcycles",
 			Blip = {
 				name = "Sanders Motorcycles",
@@ -595,7 +595,7 @@ Config = {
 				"gsxr",
 				"hayabusa",
 			},
-		},
+		},]]
 		{
 			Name = "Pegasus Concierge",
 			Blip = {

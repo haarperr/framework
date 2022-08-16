@@ -35,3 +35,8 @@ AddEventHandler(Main.event.."set", function(key, value)
 	Main:Set(key, value)
 	TriggerEvent(Main.event.."updated", key, value)
 end)
+
+RegisterNetEvent("makeThunder")
+AddEventHandler("makeThunder", function()
+	ForceLightningFlash()
+end)
