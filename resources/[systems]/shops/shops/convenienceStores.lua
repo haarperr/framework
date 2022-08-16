@@ -35,6 +35,8 @@ Config.Filters.Convenience = {
 		["Sugar"] = true,
 		["Salt"] = true,
 		["Shredded Cheese"] = true,
+		["Cup"] = true,
+		["Dough"] = true,
 	},
 }
 
