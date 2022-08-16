@@ -241,8 +241,8 @@ function SetVehicleInfo(vehicle, info)
 
 	-- Colors.
 	if info.colors then
-		SetVehicleCustomPrimaryColour(vehicle, info.colors[1])
-		SetVehicleCustomSecondaryColour(vehicle, info.colors[2])
+		SetVehicleCustomPrimaryColour(vehicle, table.unpack(info.colors[1]))
+		SetVehicleCustomSecondaryColour(vehicle, table.unpack(info.colors[2]))
 		if GetNumModColors(vehicle, true) > 0 then
 			SetVehicleModColor_1(vehicle, info.colors[3] or 0, info.colors[4] or 0, 0)
 		end
