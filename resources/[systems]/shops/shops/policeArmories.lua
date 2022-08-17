@@ -148,19 +148,3 @@ RegisterShop("PALETO_ARMORY_001", {
 		Filters = Config.Filters.Armory,
 	},
 })
-
-RegisterShop("PRISON_ARMORY_001", {
-	Name = "Prison Armory",
-	License = "weapons",
-	Clerks = {
-		{
-			coords = vector4(1782.193, 2543.499, 45.79791, 272.444),
-			model = "s_m_y_cop_01",
-		},
-	},
-	Storage = {
-		Coords = vector3(1778.812, 2542.241, 45.79791),
-		Radius = 2.0,
-		Filters = Config.Filters.Armory,
-	},
-})
