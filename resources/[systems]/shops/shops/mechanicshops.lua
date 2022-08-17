@@ -90,5 +90,22 @@ RegisterShop("MECHANIC_SHOP", {
 				}
 			},
 		},
+		{
+			text = "Storage",
+			radius = 0.6,
+			coords = vector3(1189.684, 2636.479, 38.67702),
+			discrete = true,
+			width = 4,
+			height = 20,
+			filters = {
+				category = {
+					["Vehicle Repair"] = true,
+                    ["Vehicle"] = true,
+                    ["Resource"] = true,
+                    ["Tool"] = true,
+                    ["Heist"] = true,
+				}
+			},
+		},
 	},
 })
