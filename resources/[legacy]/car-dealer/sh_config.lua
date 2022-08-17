@@ -799,7 +799,7 @@ Config = {
 			VehicleDisplay = vector4(-429.9123, -352.6846, 24.22939, 84.30135),
 			VehicleSpawn = vector4(-421.1067, -359.9683, 24.23036, 17.1824),
 			Vehicles = {
-				"lsfdgresley",
+				"lsmsgresley",
 			},
 		},
 		{
