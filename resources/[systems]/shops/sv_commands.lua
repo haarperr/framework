@@ -55,6 +55,7 @@ exports.chat:RegisterCommand("a:stockshopall", function(source, args, command, c
 				stocked = false
 			end
 		end
+		Citizen.Wait(500)
 	end
 
 	if stocked == nil then
