@@ -11,6 +11,8 @@ Register("Spike Strips", {
 })
 
 Register("ATM", {
+	user = "Admin",
+	NoDecay = true,
 	Placement = "Floor",
 	Stackable = {
 		Structure = false,
