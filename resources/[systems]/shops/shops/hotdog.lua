@@ -19,7 +19,7 @@ Config.Filters.Hotdog = {
 	},
 }
 
-RegisterShop("HOTDOG_1", {
+RegisterShop("HOTDOG_01", {
 	Name = "Pier Hot Dogs",
 	Clerks = {
 		{
@@ -37,7 +37,7 @@ RegisterShop("HOTDOG_1", {
 	},
 })
 
-RegisterShop("HOTDOG_2", {
+RegisterShop("HOTDOG_02", {
 	Name = "Sandy Shore Hot Dogs",
 	Clerks = {
 		{
@@ -55,7 +55,7 @@ RegisterShop("HOTDOG_2", {
 	},
 })
 
-RegisterShop("HOTDOG_3", {
+RegisterShop("HOTDOG_03", {
 	Name = "Paleto Hot Dogs",
 	Clerks = {
 		{
