@@ -181,6 +181,7 @@ function State:TryReload()
 	-- Find magazine slot.
 	local magazine = item.ammo.." Magazine"
 	if item.ammo == "Taser" then magazine = "Taser Cartridge" end
+	if item.ammo == "Bean" then magazine = "Bean Bag Round" end
 	local slot = exports.inventory:ContainerFindFirst("self", magazine, "return (slot:GetField(1) or 0) > 0")
 	if not slot then return end
 
