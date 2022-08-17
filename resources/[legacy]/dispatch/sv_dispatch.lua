@@ -225,7 +225,7 @@ AddEventHandler("dispatch:addUnit", function(id)
 end)
 
 AddEventHandler("jobs:clock", function(source, name, message)
-	if not message or exports.jobs:GetGroup(source) ~= "emergency" then return end
+	if not message or exports.jobs:IsInGroup(source) ~= "emergency" then return end
 
 	local history = {}
 	for k, report in pairs(Reports) do
@@ -240,7 +240,7 @@ end)
 --[[ Commands ]]--
 exports.chat:RegisterCommand("dispatch", function(source, args, rawCommand)
 	local job = exports.jobs:GetCurrentJob(source, true)
-	if exports.jobs:GetGroup(source) ~= "emergency" or job.DispatchDelay ~= nil then
+	if exports.jobs:IsInGroup(source) ~= "emergency" or job.DispatchDelay ~= nil then
 		TriggerClientEvent("chat:addMessage", source, "You are not on-duty emergency!")
 		return
 	end
@@ -267,7 +267,7 @@ exports.chat:RegisterCommand("dispatch", function(source, args, rawCommand)
 		local player = tonumber(GetPlayerFromIndex(i))
 		if not player then goto continue end
 		
-		if player == source or player == target or exports.jobs:GetGroup(player) == "emergency" then
+		if player == source or player == target or exports.jobs:IsInGroup(player) == "emergency" then
 			TriggerClientEvent("chat:addMessage", player, ("Dispatch [%s] to [%s]: %s"):format(source, target, text), "emergency")
 		end
 		
