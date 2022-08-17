@@ -85,9 +85,14 @@ function Main:Pickup(decoration)
 		return
 	end
 
-	-- Check for user group.
-	if settings.user and not exports.user["Is"..settings.user]() then
-		return
+	-- Check user group.
+	if settings.user then
+		local funcName = "Is"..settings.user
+		local func = exports.user[funcName]
+		if func and not func(exports.user, source) then
+			print(("[%s] missing user group '%s'"):format(source, settings.user))
+			return false, "invalid user group"
+		end
 	end
 
 	-- Get emote.
