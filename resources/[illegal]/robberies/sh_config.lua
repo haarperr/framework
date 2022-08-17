@@ -45,7 +45,6 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {58, 86}, Chance = 1.0 },
-				{ Name = "Lockpick", Amount = 1, Chance = 0.06 },
 			},
 			Models = {
 				["prop_till_01"] = { Offset = vector3(0.0, -0.6, 0.0) },
@@ -92,7 +91,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {800, 1123}, Chance = 1.0 },
-				{ Name = "Platinum Ingot", Amount = 1, Chance = 1.0 },
+				{ Name = "Platinum Ingot", Amount = {1, 1}, Chance = 1.0 },
 			},
 		},
 		["safe"] = {
@@ -258,10 +257,10 @@ Config = {
 				"Thermite",
 			},
 			Output = {
-				{ Name = "Valuable Goods", Amount = 1, Chance = 0.8 },
+				{ Name = "Valuable Goods", Amount = {1, 1}, Chance = 0.7 },
 				{ Name = "Bills", Amount = {501, 843}, Chance = 1.0 },
-				{ Name = "Barma Ruby", Amount = 1, Chance = 0.02 },
-				{ Name = "Diamond", Amount = 1, Chance = 0.15 },
+				{ Name = "Barma Ruby", Amount = {1, 1}, Chance = 0.02 },
+				{ Name = "Diamond", Amount = {1, 1}, Chance = 0.15 },
 			},
 		},
 		["drillbox"] = {
@@ -320,7 +319,7 @@ Config = {
 				"Lockpick",
 			},
 			Output = {
-				{ Name = "Gold Ingot", Amount = 1, Chance = 1.9 },
+				{ Name = "Silver Ingot", Amount = {1, 1}, Chance = 1.9 },
 				{ Name = "Bills", Amount = {605, 938}, Chance = 0.1 },
 			},
 		},
@@ -1241,9 +1240,9 @@ Config = {
 						Output = {
 							{ Name = "Bills", Amount = {3969, 8111}, Chance = 0.6 },
 							{ Name = "Plastic Explosive", Amount = {6, 8}, Chance = 0.6 },
-							{ Name = "Detonater", Amount = 1, Chance = 0.4 },
+							{ Name = "Detonater", Amount = {1, 1}, Chance = 0.4 },
 							{ Name = "Ketamine", Amount = {2, 4}, Chance = 0.02 },
-							{ Name = "Gold Ingot", Amount = 1, Chance = 0.05 },
+							{ Name = "Silver Ingot", Amount = {1, 1}, Chance = 0.05 },
 							{ Name = "Heavy Armor", Amount = {1, 2}, Chance = 0.15 },
 							{ Name = "Ballistic Helmet", Amount = {1, 2}, Chance = 0.15 },
 							{ name = "Ammonium Ferric Citrate", Amount = {1, 7}, Chance = 0.05 },
