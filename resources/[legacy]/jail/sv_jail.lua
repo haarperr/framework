@@ -68,7 +68,7 @@ function Jail(source, target, minutes, _type)
 		["@time_left"] = time_left,
 	})
 
-	local skipSpawn = minutes >= 15 and exports.jobs:CountActiveDuty("doc") >= 2
+	local skipSpawn = minutes >= 15 and exports.jobs:CountActiveDuty("Jail")
 	-- skipSpawn = true -- Debug.
 
 	Jailed[target] = info
