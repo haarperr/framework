@@ -543,8 +543,8 @@ Config.Groups = {
 	},
 	{
 	name = "Casino",
-		coords = vector3(926.4796, 45.63679, 81.08836),
-		radius = 18,
+		coords = vector3(936.1548, 40.19312, 72.52461),
+		radius = 60,
 		locked = true, 
 		factions = {
 			["doj"] = "federal",
