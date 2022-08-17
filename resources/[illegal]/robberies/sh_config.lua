@@ -813,14 +813,14 @@ Config = {
 							vector3(262.19808959961, 222.51879882813, 106.42955780029),
 							vector3(256.31155395508, 220.65785217285, 106.42955780029),
 						},
-						Items = { "Brown Keycard" },
+						Items = { "Security Keycard" },
 					},
 					-- Second stage: vault door.
 					{
 						Id = "keypad",
 						Coords = { vector4(253.24989318848, 228.38319396973, 101.68328094482, 69.527816772461) },
 						Unlocks = { vector3(255.22825622559, 223.97601318359, 102.39321899414) },
-						Items = { "Black Keycard" },
+						Items = { "High Value Keycard" },
 					},
 					-- Final stage: loot.
 					{
@@ -845,7 +845,7 @@ Config = {
 					},
 				},
 			},
-			{
+			--[[{
 				Name = "Blaine County Savings",
 				Type = "Bank",
 				Center = vector3(-108.1021194458, 6471.7890625, 31.626708984375),
@@ -860,7 +860,7 @@ Config = {
 						Unlocks = {
 							vector3(-104.60489654541, 6473.4438476563, 31.795324325562),
 						},
-						Items = { "Brown Keycard" },
+						Items = { "Business Vault Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -874,7 +874,7 @@ Config = {
 						},
 					},
 				},
-			},
+			},]]--
 			--[[{
 				Name = "Legion Square Fleeca",
 				Type = "Bank",
@@ -922,7 +922,7 @@ Config = {
 						Unlocks = {
 							vector3(-2958.5385742188, 482.27056884766, 15.83594417572),
 						},
-						Items = { "Red Keycard" },
+						Items = { "Fleeca Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -954,7 +954,7 @@ Config = {
 						Unlocks = {
 							vector3(1175.5421142578, 2710.861328125, 38.226890563965),
 						},
-						Items = { "Brown Keycard" },
+						Items = { "Fleeca Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -986,7 +986,7 @@ Config = {
 						Unlocks = {
 							vector3(312.35800170898, -282.73013305664, 54.303646087646),
 						},
-						Items = { "Green Keycard" },
+						Items = { "Fleeca Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -1018,7 +1018,7 @@ Config = {
 						Unlocks = {
 							vector3(-1211.2609863281, -334.55960083008, 37.919891357422),
 						},
-						Items = { "Red Keycard" },
+						Items = { "Fleeca Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -1050,7 +1050,7 @@ Config = {
 						Unlocks = {
 							vector3(-352.7364807128906, -53.57247543334961, 49.17543411254883),
 						},
-						Items = { "Blue Keycard" },
+						Items = { "Fleeca Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -1143,7 +1143,7 @@ Config = {
 							vector4(3533.5673828125, 3671.277099609375, 28.12114143371582, 171.32508850097656),
 							vector4(3532.75, 3670.12353515625, 28.12176132202148, 284.2310180664063),
 						},
-						Items = { "Black Keycard" },
+						Items = { "Government Keycard" },
 						Unlocks = {
 							vector3(3533.093017578125, 3670.61279296875, 27.12124252319336),
 							vector3(3530.5322265625, 3671.064453125, 27.12123870849609),
@@ -1153,7 +1153,7 @@ Config = {
 					{
 						Id = "keypad_swipe",
 						Coords = { vector4(3532.06396484375, 3666.68505859375, 28.1218318939209, 258.2201843261719) },
-						Items = { "Black Keycard" },
+						Items = { "Government Keycard" },
 						Unlocks = {
 							vector3(3532.972412109375, 3665.867919921875, 27.12178039550781),
 							vector3(3532.52099609375, 3663.30712890625, 27.12177848815918),
@@ -1166,7 +1166,7 @@ Config = {
 							vector4(3538.114501953125, 3644.908935546875, 28.12186431884765, 259.32666015625),
 							vector4(3539.542236328125, 3644.681884765625, 28.12186050415039, 81.64305877685547),
 						},
-						Items = { "Black Keycard" },
+						Items = { "Government Keycard" },
 						Unlocks = {
 							vector3(3538.757568359375, 3645.062744140625, 28.27183151245117),
 							vector3(3539.209228515625, 3647.624267578125, 28.27183151245117),
@@ -1179,7 +1179,7 @@ Config = {
 							vector4(3555.53369140625, 3663.8603515625, 28.12189102172851, 350.8825378417969),
 							vector4(3555.789794921875, 3665.592529296875, 28.12189102172851, 171.24574279785156),
 						},
-						Items = { "Black Keycard" },
+						Items = { "Government Keycard" },
 						Unlocks = {
 							vector3(3555.43505859375, 3664.80224609375, 27.12139701843261),
 							vector3(3552.874267578125, 3665.253662109375, 27.12139701843261),
@@ -1192,7 +1192,7 @@ Config = {
 							vector4(3558.411376953125, 3680.230224609375, 28.12189102172851, 349.3704223632813),
 							vector4(3558.7373046875, 3681.899658203125, 28.12186622619629, 169.6219940185547),
 						},
-						Items = { "Black Keycard" },
+						Items = { "Government Keycard" },
 						Unlocks = {
 							vector3(3558.306640625, 3681.088134765625, 27.12139701843261),
 							vector3(3555.745849609375, 3681.53955078125, 27.12139701843261),
@@ -1205,7 +1205,7 @@ Config = {
 							vector4(3536.087646484375, 3659.389892578125, 28.12188720703125, 167.8724822998047),
 						},
 						Items = {
-							"Green Keycard",
+							"Government Keycard",
 						},
 						OnFinish = function(robbable, site, robbableSettings, siteSettings, coords)
 							-- Increment.
