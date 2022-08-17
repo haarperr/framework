@@ -282,13 +282,13 @@ AddEventHandler("banking:shareAccount", function(accountNumber, stateID)
             if Config.AccountTypes[bankAccount.account_type].Shareable then
                 if bankAccount.character_id ~= character_id then 
                     local sharedAccount = exports.GHMattiMySQL:QueryResult("SELECT * FROM bank_accounts_shared WHERE account_id = "..bankAccount.account_id)
-                    local account = Get(tonumber(accountNumber), "account_type")
+                    local account = Get(tonumber(accountNumber), "id")
                     print(account)
                     if account then
                         if #sharedAccount < Config.AccountTypes[bankAccount.account_type].MaxShares then
                             SourceBankAccounts[stateID][account] = BankAccounts[accountNumber]
                             exports.GHMattiMySQL:QueryResult("INSERT INTO bank_accounts_shared SET account_id = @account_id, character_id = @character_id", {
-                                ["@account_id"] = accountNumber,
+                                ["@account_id"] = account,
                                 ["@character_id"] = character_id
                             })
                         else
