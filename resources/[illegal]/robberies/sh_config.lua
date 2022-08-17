@@ -1239,9 +1239,6 @@ Config = {
 						end,
 						Output = {
 							{ Name = "Bills", Amount = {3969, 8111}, Chance = 0.6 },
-							{ Name = "Plastic Explosive", Amount = {6, 8}, Chance = 0.6 },
-							{ Name = "Detonater", Amount = {1, 1}, Chance = 0.4 },
-							{ Name = "Ketamine", Amount = {2, 4}, Chance = 0.02 },
 							{ Name = "Silver Ingot", Amount = {1, 1}, Chance = 0.05 },
 							{ Name = "Heavy Armor", Amount = {1, 2}, Chance = 0.15 },
 							{ Name = "Ballistic Helmet", Amount = {1, 2}, Chance = 0.15 },
