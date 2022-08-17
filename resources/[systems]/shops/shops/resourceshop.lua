@@ -10,8 +10,6 @@ Config.Filters.Resource = {
 		["Iron Ingot"] = true,
 		["Gold Ingot"] = true,
 		["Copper Ingot"] = true,
-		["Silver Ingot"] = true,
-		["Platinum Ingot"] = true,
 		["Steel Ingot"] = true,
 		["Wood"] = true,
 		["Wood Branch"] = true,
@@ -21,7 +19,7 @@ Config.Filters.Resource = {
 	},
 }
 
-RegisterShop("RESOURCE_247", {
+RegisterShop("RESOURCE_001", {
 	Name = "Resource Shop",
 	Clerks = {
 		{
