@@ -8,7 +8,6 @@ Config.Filters.Resource = {
 	item = {
 		-- Food.
 		["Iron Ingot"] = true,
-		["Gold Ingot"] = true,
 		["Copper Ingot"] = true,
 		["Steel Ingot"] = true,
 		["Wood"] = true,
@@ -19,7 +18,7 @@ Config.Filters.Resource = {
 	},
 }
 
-RegisterShop("RESOURCE_001", {
+RegisterShop("RESOURCE_0001", {
 	Name = "Resource Shop",
 	Clerks = {
 		{
