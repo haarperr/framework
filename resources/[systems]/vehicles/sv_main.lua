@@ -53,6 +53,8 @@ function Main:Enter(source, netId)
 		vehicle = Vehicle:Create(netId)
 	end
 
+	if not vehicle then return false end
+
 	vehicle:Subscribe(source, true)
 
 	exports.log:Add({
