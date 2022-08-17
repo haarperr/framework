@@ -19,6 +19,8 @@ Config.Filters.Fruit = {
         ["Shredded Cheese"] = true,
         ["Tomato Sauce"] = true,
         ["Vegetable Oil"] = true,
+        ["Olive Oil"] = true,
+        ["Cup"] = true,
 	},
 }
 
