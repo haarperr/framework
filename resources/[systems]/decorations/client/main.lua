@@ -85,6 +85,11 @@ function Main:Pickup(decoration)
 		return
 	end
 
+	-- Check for user group.
+	if settings.user and not exports.user["Is"..settings.user]() then
+		return
+	end
+
 	-- Get emote.
 	local anim = Config.Pickup.Anim
 	anim.Locked = true
