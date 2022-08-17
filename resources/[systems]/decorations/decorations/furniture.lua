@@ -443,7 +443,7 @@ Register("Pool Table", {
 	Model = {
 		"prop_pooltable_02",
 		"prop_pooltable_3b",
-	}.
+	},
 })
 
 Register("Sideboard", {
