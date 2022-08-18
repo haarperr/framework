@@ -288,6 +288,18 @@ Config = {
 			Disarm = true,
 		},
 	},
+	AnchorAction = {
+		Duration = 4000,
+		UseWhileDead = false,
+		CanCancel = false,
+		Disarm = true,
+		Anim = {
+			Dict = "missexile3",
+			Name = "ex03_dingy_search_case_base_michael",
+			Flag = 48,
+			Duration = 4000,
+		},
+	},
 	Sirens = {
 		Police = {
 			[1] = false,

@@ -385,6 +385,40 @@ RegisterCommand("flip", function(source, args, rawCommand)
 	end)
 end, false)
 
+RegisterCommand("anchor", function()
+	local vehicle = exports.oldutils:GetNearestVehicle()
+	local ped = PlayerPedId()
+
+	if (
+		not vehicle or
+		not DoesEntityExist(vehicle)
+		or GetVehicleClass(vehicle) ~= 14
+		or #(GetEntityCoords(vehicle) - GetEntityCoords(ped)) > 10.0
+	) then
+		TriggerEvent("chat:notify", { class = "error", text = "This isn't a boat you can anchor!" })
+		return
+	end
+
+	if IsPedSwimming(ped) or IsPedInAnyVehicle(ped) or IsPedGettingIntoAVehicle(ped) then
+		TriggerEvent("chat:notify", { class = "error", text = "You can't do that!" })
+		return
+	end
+
+	local anchored = IsBoatAnchoredAndFrozen(vehicle)
+
+	Config.AnchorAction.Label = anchored and "Lifting anchor..." or "Lowering anchor..."
+
+	exports.mythic_progbar:Progress(Config.AnchorAction, function(wasCancelled)
+		if wasCancelled then return end
+
+		exports.oldutils:RequestAccess(vehicle)
+		
+		SetForcedBoatLocationWhenAnchored(vehicle, true)
+		SetBoatFrozenWhenAnchored(vehicle, true)
+		SetBoatAnchor(vehicle, not anchored)
+	end)
+end)
+
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
