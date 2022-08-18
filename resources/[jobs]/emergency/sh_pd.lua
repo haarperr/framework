@@ -266,7 +266,7 @@ exports.jobs:Register("doc", {
 	Group = "doc",
 	Flags = PD_FLAGS,
 	Clocks = {
-		{ Coords = vector3(1848.291, 3686.824, 34.27011), Radius = 2.0 },
+		{ Coords = vector3(1789.061, 2548.169, 45.80244), Radius = 2.0 },
 	},
 	Tracker = {
 		Group = "emergency",
