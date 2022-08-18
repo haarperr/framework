@@ -29,7 +29,7 @@ Config.Doors = {
 	[452874391] = {},
 	[-739665083] = {},
 	[1240350830] = {},
-	[1286535678] = { Sliding = true, Distance = 10.0 },
+	[1286535678] = { Sliding = true, Distance = 15.0, Fob = true },
 	[282722808] = {},
 	[964838196] = { Locked = true, Item = "Lockpick" }, -- PSB & City Hall.
 

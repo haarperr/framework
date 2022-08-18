@@ -56,6 +56,7 @@ exports.jobs:Register("paramedic", {
 		CanImpound = true,
 		CanJail = true,
 		CheckIn = true,
+		Respawn = true,
 		Panic = "Paramedic",
 		DispatchPriority = {
 			["10-47a"] = true,
