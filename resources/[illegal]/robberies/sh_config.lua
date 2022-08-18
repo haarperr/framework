@@ -187,7 +187,7 @@ Config = {
 						},
 					},
 					Hack = {
-						Length = {7, 6, 5, 4, 3, 2, 1},
+						Length = {9, 1, 6, 1, 4, 1, 2, 1 },
 						Duration = 600,
 					},
 				},
@@ -258,7 +258,8 @@ Config = {
 			},
 			Output = {
 				{ Name = "Valuable Goods", Amount = {1, 1}, Chance = 0.7 },
-				{ Name = "Bills", Amount = {501, 843}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {301, 543}, Chance = 1.0 },
+				{ Name = "Savings Bond", Amount = {1, 2}, Chance = 1.0 },
 				{ Name = "Barma Ruby", Amount = {1, 1}, Chance = 0.02 },
 				{ Name = "Diamond", Amount = {1, 1}, Chance = 0.15 },
 			},
