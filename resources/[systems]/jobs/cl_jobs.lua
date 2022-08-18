@@ -169,7 +169,6 @@ RegisterCommand("panic", function(source, args, command)
 	local state = LocalPlayer.state or {}
 	if
 		not exports.jobs:GetCurrentJob(source, "pd", "federal", "ems")
-		or state.immobile 
 		or state.restrained
 	then
 		TriggerEvent("chat:notify", { class = "error", text = "You can't do that right now!" })

@@ -30,7 +30,6 @@ function Emote:Create(data, id)
 end
 
 function Emote:Play(settings)
-
 	-- Get settings.
 	local settings = settings or self.settings
 	if not settings then return end
@@ -51,9 +50,6 @@ function Emote:Play(settings)
 	-- Get ped.
 	local ped = settings.ped or PlayerPedId()
 	self.ped = ped
-
-	-- Cancel if shooting/aiming.
-	if IsPedArmed(ped, 4) and (IsAimCamActive() or IsPedShooting(PlayerPedId())) then return end
 
 	-- Check weapon.
 	if settings.Unarmed or settings.Armed then
