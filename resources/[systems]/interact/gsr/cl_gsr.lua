@@ -12,11 +12,13 @@ Config.GSR = {
 --[[ Functions ]]--
 
 function SendMessage(target, message, value)
+	print("Sending Message")
 	TriggerServerEvent("interaction:send", target, message, value)
 end
 exports("SendMessage", SendMessage)
 
 Messages["gsr-request"] = function(source, message, value)
+	print("Recieved")
 	SendMessage(source, "gsr-respond", exports.evidence:DidShoot(true))
 end
 
@@ -29,7 +31,7 @@ Messages["gsr-respond"] = function(source, message, value)
 		typeof = "error"
 		message = "negative"
 	end
-	TriggerEvent("chat:notify", ("They came back %s!"):format(message), "inform")
+	TriggerEvent("chat:notify", { class="inform", text=("They came back %s!"):format(message)})
 end
 
 --[[ Items ]]--
@@ -43,9 +45,9 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
 		if player == 0 then 
 			TriggerEvent("chat:notify", "No player within range!", "error")
+		else
+			cb(Config.GSR.Duration, Config.GSR.Anim)
 		end
-
-		cb(Config.GSR.Duration, Config.GSR.Anim)
 	end
 end)
 
@@ -55,7 +57,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 		if player == 0 then
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		else
-			SendMessage(player, "gsr-request")
+			SendMessage(GetPlayerServerId(PlayerId()), "gsr-request")
 		end
 	end
 end)
