@@ -272,6 +272,22 @@ Config = {
 			Radius = 3.0,
 		},
 	},
+	Flipping = {
+		MaxDistance = 3.0,
+		Action  = {
+			Anim = {
+				Dict = "anim@arena@prize_wheel@male",
+				Name = "idle_spinning",
+				Flag = 1,
+				DisableMovement = true,
+			},
+			Label = "Flipping...",
+			Duration = 20000,
+			UseWhileDead = false,
+			CanCancel = true,
+			Disarm = true,
+		},
+	},
 	Sirens = {
 		Police = {
 			[1] = false,

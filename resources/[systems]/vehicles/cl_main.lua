@@ -363,6 +363,28 @@ AddEventHandler("gameEventTriggered", function(name, args)
 	end
 end)
 
+RegisterCommand("flip", function(source, args, rawCommand)
+	if IsPedInAnyVehicle(PlayerPedId(), false) then return end
+
+	local vehicle = exports.oldutils:GetNearestVehicle()
+	if not DoesEntityExist(vehicle) then return end
+	if not exports.oldutils:RequestAccess(vehicle) then return end
+
+	local ped = PlayerPedId()
+	if #(GetEntityCoords(ped) - GetEntityCoords(vehicle)) > Config.Flipping.MaxDistance then return end
+
+	exports.mythic_progbar:Progress(Config.Flipping.Action, function(wasCancelled)
+		if wasCancelled then return end
+		if not DoesEntityExist(vehicle) then return end
+		if not exports.oldutils:RequestAccess(vehicle) then return end
+		if #(GetEntityCoords(ped) - GetEntityCoords(vehicle)) > Config.Flipping.MaxDistance then return end
+
+		local rot = GetEntityRotation(vehicle)
+		SetEntityRotation(vehicle, 0.0, 0.0, rot.z)
+		PlaceObjectOnGroundProperly(vehicle)
+	end)
+end, false)
+
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
