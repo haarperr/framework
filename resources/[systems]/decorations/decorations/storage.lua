@@ -27,7 +27,7 @@ Register("Antique Box", {
 Register("Safe", {
 	Placement = "Floor",
 	Container = {
-		Type = "stash4",
+		Type = "safe",
 	},
 	Stackable = {
 		Structure = false,
@@ -85,4 +85,12 @@ Register("Large Storage Container", {
 		Type = "stash4",
 	},
 	Model = "prop_box_wood07a",
+})
+
+Register("Military Storage Container", {
+	Placement = "Floor",
+	Container = {
+		Type = "gunsafe",
+	},
+	Model = "bkr_prop_crate_set_01a",
 })
