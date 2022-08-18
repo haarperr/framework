@@ -122,6 +122,17 @@ function Main:IsInEmergency(id, attribute)
 	return false
 end
 
+function Main:IsInGroup(id, group)
+	local job = self.jobs[self.players[id]]
+	if not job then return end
+
+	if job.Tracker then
+		return job.Tracker.Group == group
+	end
+
+	return false
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	
@@ -392,6 +403,10 @@ end)
 
 exports("IsInEmergency", function(...)
 	return Main:IsInEmergency(...)
+end)
+
+exports("IsInGroup", function(...)
+	return Main:IsInGroup(...)
 end)
 
 exports("CountActiveDuty", function(...)
