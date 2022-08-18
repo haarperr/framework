@@ -12,13 +12,11 @@ Config.GSR = {
 --[[ Functions ]]--
 
 function SendMessage(target, message, value)
-	print("Sending Message")
 	TriggerServerEvent("interaction:send", target, message, value)
 end
 exports("SendMessage", SendMessage)
 
 Messages["gsr-request"] = function(source, message, value)
-	print("Recieved")
 	SendMessage(source, "gsr-respond", exports.evidence:DidShoot(true))
 end
 
