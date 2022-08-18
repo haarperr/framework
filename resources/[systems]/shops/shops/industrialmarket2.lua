@@ -1,5 +1,7 @@
 Config.Filters.Supplier2 = {
 	item = {
+        ["Paper Bag"] = true,
+        ["Food Delivery Box"] = true,
 		["Mango"] = true,
         ["Pineapple"] = true,
         ["Strawberry"] = true,
