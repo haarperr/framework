@@ -40,6 +40,12 @@ Config.Filters.Armory = {
 RegisterShop("MRPD_ARMORY_001", {
 	Name = "MRPD Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+	},
 	Clerks = {
 		{
 			coords = vector4(480.6032409667969, -996.8204345703124, 30.68978500366211, 85.53340148925781),

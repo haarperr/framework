@@ -54,8 +54,14 @@ end
 function Shop:Interact(npc)
     if self.info.License and not exports.licenses:HasLicense(self.info.License) then
         TriggerEvent("chat:notify", "You are not licensed to shop here!", "error")
-        return 
+        return
     end
+
+	if self.info.Factions and not self:CanAccess() then
+		TriggerEvent("chat:notify", "You are not authorized to shop here!", "error")
+		return
+	end
+
 	-- Make npc do anim.
 	npc:PlayAnim("hand")
 	
@@ -164,6 +170,15 @@ function Shop:Load(stock)
 		loading = false,
 		items = items,
 	})
+end
+
+function Shop:CanAccess()
+	for group, faction in pairs(self.info.Factions) do
+		if exports.factions:Has(faction, group) then
+			return true
+		end
+	end
+	return false
 end
 
 --[[ Events: Net ]]--
