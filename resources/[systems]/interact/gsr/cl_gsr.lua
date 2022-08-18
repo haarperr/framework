@@ -55,7 +55,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 		if player == 0 then
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		else
-			SendMessage(GetPlayerServerId(PlayerId()), "gsr-request")
+			SendMessage(player, "gsr-request")
 		end
 	end
 end)
