@@ -51,7 +51,7 @@ end)
 
 AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.name == Config.GSR.Item then
-		player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
+		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
 		if player == 0 then
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		else
