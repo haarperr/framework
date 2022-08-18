@@ -22,6 +22,14 @@ RegisterShop("PAWN_1", {
 	},
 	Containers = {
 		{
+			text = "Counter",
+			radius = 0.8,
+			coords = vector3(174.0279, -1322.358, 29.43087),
+			discrete = true,
+			width = 5,
+			height = 5,
+		},
+		{
 			text = "Storage",
 			radius = 0.4,
 			coords = vector3(162.0863, -1312.943, 30.28711),
