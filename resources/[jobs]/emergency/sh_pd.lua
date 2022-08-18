@@ -322,5 +322,6 @@ exports.jobs:Register("doc", {
 		CanFine = true,
 		CheckIn = 2,
 		JailBreak = true,
+		Corrections = true,
 	},
 })
