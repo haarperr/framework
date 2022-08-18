@@ -79,7 +79,7 @@ function HUD:GetStreetText()
 		return streetText
 	end
 
-	return direction.." "..streetText.."<br>"..GetLabelText(zone)
+	return direction.." | "..streetText.."<br>"..GetLabelText(zone)
 end
 
 function HUD:GetAnchor()
@@ -168,7 +168,7 @@ function Thread:Visibility()
 	-- Overall visibility.
 	local isVisible = (GlobalState.hudForced or HUD.inVehicle) and not IsCinematicCamRendering() and not IsPauseMenuActive()
 	if not isVisible and GetResourceState("emotes") == "started" then
-		local emote = nil-- exports.emotes:GetCurrentEmote()
+		local emote = exports.emotes:GetCurrentEmote()
 		if emote ~= nil then
 			isVisible = emote.ShowMinimap
 		end
@@ -239,7 +239,7 @@ function Thread:Frames()
 
 	-- Minimap.
 	if HUD.entity then
-		LockMinimapAngle(math.floor(GlobalState.hudAngle or GetEntityHeading(HUD.entity)))
+		LockMinimapAngle(GetGameplayCamRelativeHeading())
 		SetRadarZoomPrecise(GlobalState.hudZoom or 94.5)
 	end
 

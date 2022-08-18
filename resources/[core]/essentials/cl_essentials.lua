@@ -136,6 +136,10 @@ function Main:UpdateSlower()
 
 	SetPoliceRadarBlips(false)
 	DistantCopCarSirens(false)
+
+	-- Persistent Weapon Flashlights.
+	SetFlashLightKeepOnWhileMoving(true)
+	SetFlashLightFadeDistance(1000)
 end
 
 function Main:UpdatePed()
