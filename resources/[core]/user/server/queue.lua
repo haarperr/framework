@@ -253,6 +253,19 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		-- Update users cache.
+		local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
+		for index, row in ipairs(users) do
+			if row.steam then
+				self.whitelist[row.steam] = true
+			end
+		end
+		Citizen.Wait(60000)
+	end
+end)
+
 --[[ Commands ]]--
 RegisterCommand("togglequeue", function(source, args, rawcommand)
 	if source ~= 0 then return end
