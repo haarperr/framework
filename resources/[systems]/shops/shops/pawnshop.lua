@@ -8,6 +8,9 @@ RegisterShop("PAWN_1", {
 		["pawnsell_1"] = {
 			item = "Pawn Sell",
             radius = 0.1,
+			factions = {
+				["pawnshop"] = "general",
+			},
 			invisible = true,
 			coords = vector3(172.5118, -1316.467, 30.29674),
 			rotation = vector3(-29.68401, -0, -119.1172),
