@@ -21,6 +21,7 @@ Config.Filters.Armory = {
 		[".45 Magazine"] = true,
 		["Gauze"] = true,
 		["Nightstick"] = true,
+		["Field Kit"] = true,
 		["Tweezers"] = true,
 		["Handcuff Keys"] = true,
 		["Binoculars"] = true,
@@ -37,7 +38,7 @@ Config.Filters.Armory = {
 	},
 }
 
-RegisterShop("MRPD_ARMORY_001", {
+RegisterShop("MRPD_ARMORY_0001", {
 	Name = "MRPD Armory",
 	License = "weapons",
 	Factions = {
@@ -62,7 +63,7 @@ RegisterShop("MRPD_ARMORY_001", {
 	},
 })
 
-RegisterShop("SAMS_ARMORY_001", {
+RegisterShop("SAMS_ARMORY_0001", {
 	Name = "SAMS Armory",
 	License = "weapons",
 	Factions = {
@@ -87,7 +88,7 @@ RegisterShop("SAMS_ARMORY_001", {
 	},
 })
 
-RegisterShop("PARKRA_ARMORY_001", {
+RegisterShop("PARKRA_ARMORY_0001", {
 	Name = "Park Rangers Armory",
 	License = "weapons",
 	Factions = {
@@ -112,7 +113,7 @@ RegisterShop("PARKRA_ARMORY_001", {
 	},
 })
 
-RegisterShop("LAMESA_ARMORY_001", {
+RegisterShop("LAMESA_ARMORY_0001", {
 	Name = "La Mesa Armory",
 	License = "weapons",
 	Factions = {
@@ -137,7 +138,7 @@ RegisterShop("LAMESA_ARMORY_001", {
 	},
 })
 
-RegisterShop("DAVIS_ARMORY_001", {
+RegisterShop("DAVIS_ARMORY_0001", {
 	Name = "Davis PD Armory",
 	License = "weapons",
 	Factions = {
@@ -162,7 +163,7 @@ RegisterShop("DAVIS_ARMORY_001", {
 	},
 })
 
-RegisterShop("SANDY_ARMORY_001", {
+RegisterShop("SANDY_ARMORY_0001", {
 	Name = "SSO Armory",
 	License = "weapons",
 	Factions = {
@@ -187,7 +188,7 @@ RegisterShop("SANDY_ARMORY_001", {
 	},
 })
 
-RegisterShop("PALETO_ARMORY_001", {
+RegisterShop("PALETO_ARMORY_0001", {
 	Name = "Paleto PD Armory",
 	License = "weapons",
 	Factions = {
