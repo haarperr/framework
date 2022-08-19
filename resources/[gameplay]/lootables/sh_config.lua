@@ -26,6 +26,7 @@ Config = {
 				-- Consumables.
 				{ name = "Ego Chaser", chance = 0.02, durability = { 0.05, 0.2 } },
 				{ name = "Meteorite Bar", chance = 0.02, durability = { 0.05, 0.2 } },
+				{ name = "Sandwich", chance = 0.2, durability = { 0.05, 0.5 } },
 
 				-- Drugs.
 				--{ name = "Crack Pipe", chance = 0.01 },
