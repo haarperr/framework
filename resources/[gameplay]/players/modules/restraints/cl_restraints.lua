@@ -34,6 +34,7 @@ Restraints.controls = {
 function Restraints:Start(name)
 	if self.active then return end
 	local ped = PlayerPedId()
+	local source = source
 	
 	-- Update cache.
 	self.active = true
@@ -49,6 +50,10 @@ function Restraints:Start(name)
 
 	-- Update state.
 	LocalPlayer.state:set("restrained", name, true)
+
+	-- Remove Handcuffs From Inv
+
+	exports.inventory:TakeItem(source, "handcuffs", 1)
 end
 
 function Restraints:Stop()
@@ -66,6 +71,9 @@ function Restraints:Stop()
 
 	-- Update state.
 	LocalPlayer.state:set("restrained", nil, true)
+
+	--Give Back Handcuffs
+	exports.inventory:GiveItem(source, "Handcuffs", 1)
 end
 
 function Restraints:UpdateEmote()
