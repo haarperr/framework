@@ -94,3 +94,11 @@ Register("Military Storage Container", {
 	},
 	Model = "bkr_prop_crate_set_01a",
 })
+
+Register("Tool Box", {
+	Placement = "Floor",
+	Container = {
+		Type = "toolbox",
+	},
+	Model = "prop_tool_box_04",
+})
