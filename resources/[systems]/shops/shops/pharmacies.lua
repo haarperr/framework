@@ -22,7 +22,11 @@ Config.Filters.Pharm = {
 
 RegisterShop("MTZONAH_PHARM01", {
 	Name = "Mount Zonah Pharmacy",
-	License = "medical",
+	Factions = {
+		["paramedic"] = "ems",
+		["firefighter"] = "ems",
+		["lsms"] = "ems",
+	},
 	Clerks = {
 		{
 			coords = vector4(-458.6107, -312.7249, 34.89975, 14.33093),

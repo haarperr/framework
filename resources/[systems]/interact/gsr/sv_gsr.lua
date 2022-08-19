@@ -1,5 +1,4 @@
 Functions = {}
-ValidMessages = {}
 
 --[[ Events ]]--
 RegisterNetEvent("interaction:send")
@@ -9,11 +8,6 @@ AddEventHandler("interaction:send", function(target, message, value)
 	if not source then return end
 	if value ~= nil and type(value) ~= "boolean" and type(value) ~= "number" then return end
 	if type(target) ~= "number" or target <= 0 or not GetPlayerPed(target) then return end
-
-	if not ValidMessages[message] then
-		print(("[%s] invalid message '%s'"):format(source, message))
-		return
-	end
 
 	local sourceInstance = exports.oldinstances:GetPlayerInstance(source)
 	local targetInstance = exports.oldinstances:GetPlayerInstance(target)

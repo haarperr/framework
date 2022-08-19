@@ -29,7 +29,7 @@ Messages["gsr-respond"] = function(source, message, value)
 		typeof = "error"
 		message = "negative"
 	end
-	TriggerEvent("chat:notify", ("They came back %s!"):format(message), "inform")
+	TriggerEvent("chat:notify", { class="inform", text=("They came back %s!"):format(message)})
 end
 
 --[[ Items ]]--
@@ -43,15 +43,15 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
 		if player == 0 then 
 			TriggerEvent("chat:notify", "No player within range!", "error")
+		else
+			cb(Config.GSR.Duration, Config.GSR.Anim)
 		end
-
-		cb(Config.GSR.Duration, Config.GSR.Anim)
 	end
 end)
 
 AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.name == Config.GSR.Item then
-		player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
+		local player, playerPed, playerDist = exports.oldutils:GetNearestPlayer(Config.GSR.Distance)
 		if player == 0 then
 			TriggerEvent("chat:notify", "No player within range!", "error")
 		else
