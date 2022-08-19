@@ -31,6 +31,9 @@ RegisterShop("BEAN_MACHINE", {
 			discrete = true,
 			width = 4,
 			height = 3,
+			factions = {
+				["beanmachine"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Drink"] = true,
