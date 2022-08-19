@@ -286,6 +286,10 @@ function Main:CheckInfo(vehicle)
 		text = text..("<br>• Screwdriver in the ignition.")
 	end
 	
+	if state.fieldKit then
+		text = text..("<br>• Wires hanging tighly wrapped with electrical tape.")
+	end
+
 	-- Hotwired.
 	if state.hotwired then
 		text = text..("<br>• Wires hanging loose wrapped with electrical tape.")

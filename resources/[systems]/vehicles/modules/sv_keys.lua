@@ -73,6 +73,31 @@ function Main:ToggleEngine(source, netId)
 		end
 	end
 
+	if not hasKey and state and state.fieldKit then
+		if value and not starter then
+			local playerContainer = exports.inventory:GetPlayerContainer(source, true)
+			if not playerContainer then return end
+
+			local slot = exports.inventory:ContainerFindFirst(playerContainer, "FieldKit")
+			if slot and exports.inventory:TakeItem(source, "FieldKit", 1, slot.slot_id) then
+				vehicle:Set("starter", slot.durability or 1.0)
+
+				success = true
+			end
+		elseif not value and starter then
+			local gaveItem, reason = table.unpack(exports.inventory:GiveItem(source, {
+				item = "FieldKit",
+				durability = starter < 0.99 and starter or nil,
+			}))
+
+			if gaveItem then
+				success = true
+
+				vehicle:Set("starter", nil)
+			end
+		end
+	end
+
 	if success then
 		TriggerClientEvent("vehicles:toggleEngine", source, netId, value)
 	end
@@ -92,6 +117,18 @@ function Main:GiveKey(source, netId)
 end
 
 --[[ Events: Net ]]--
+RegisterNetEvent("vehicles:fieldKit", function(netId)
+	if type(netId) ~= "number" then return end
+
+	local entity = NetworkGetEntityFromNetworkId(netId)
+	if not DoesEntityExist(entity) then return end
+	
+	local state = (Entity(entity) or {}).state
+	if not state then return end
+	
+	state.fieldKit = true
+end)
+
 RegisterNetEvent("vehicles:toggleEnigne", function(netId)
 	local source = source
 

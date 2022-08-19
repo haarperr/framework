@@ -1,4 +1,16 @@
 Config = {
+	FieldKit = {
+		Anim = {
+			Dict = "missmechanic",
+			Name = "work2_base",
+			Flag = 49,
+			Duration = 6000,
+			Props = {
+				{ Model = "prop_tool_screwdvr01", Bone = 60309, Offset = { 0.0, 0.0, -0.1, 0.0, 0.0, 0.0 }},
+			},
+			DisableMovement = true,
+		},
+	},
 	Navigation = {
 		Doors = {
 			Anim = { Dict = "pickup_object", Name = "putdown_low", Flag = 48, Duration = 1200 },

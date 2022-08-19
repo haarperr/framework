@@ -84,6 +84,29 @@ RegisterNetEvent("vehicles:toggleLock", function(netId, status)
 	SetVehicleDoorsLockedForAllPlayers(vehicle, status)
 end)
 
+AddEventHandler("inventory:use", function(item, slot, cb)
+	if item.name == "Field Kit" then
+		exports.emotes:Play(Config.FieldKit.Anim)
+		Citizen.Wait(2000)
+		if NearestVehicle or IsInVehicle and CurrentVehicle then
+			local success = exports.quickTime:Begin({ goalSize = 0.1, speed = 1.2	, stages = 6 })
+			if success then
+				if IsInVehicle then
+					TriggerServerEvent("vehicles:fieldKit", GetNetworkId(CurrentVehicle))
+				else
+					local status = GetVehicleDoorsLockedForPlayer(NearestVehicle, Player) == 1
+					if status then
+						Main:ToggleLock(true)
+					else
+						TriggerEvent("chat:notify", { class="inform", text="Vehicle is already unlocked!"} )
+					end
+				end
+			end
+		end
+		exports.emotes:Stop()
+	end
+end)
+
 --[[ Commands ]]--
 RegisterCommand("+nsrp_ignition", function()
 	if not IsControlEnabled(0, 51) then
