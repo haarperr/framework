@@ -1,7 +1,17 @@
 TickRate = 200
+Towing = { Whitelist = {}, Blacklist = {} }
 
 Main.info = {}
 Main.update = {}
+
+--[[ Initialization ]]--
+for k, v in pairs(Config.Towing.Whitelist) do
+	Towing.Whitelist[GetHashKey(k)] = v
+end
+
+for k, v in pairs(Config.Towing.Blacklist) do
+	Towing.Blacklist[GetHashKey(k)] = v
+end
 
 function Main:Update()
 	-- Update globals.
@@ -132,8 +142,8 @@ function Main:Update()
 				SetVehicleWheelBrakePressure(CurrentVehicle, i, 1.0)
 			end
 		end
-
-		-- Prevent curb boosting.
+		
+	-- Prevent curb boosting.
 		if LastCurbBoost and GetGameTimer() - LastCurbBoost < 200 and Speed * 0.621371 > 20.0 then
 			SetVehicleCurrentRpm(CurrentVehicle, 0.0)
 			-- SetVehicleClutch(CurrentVehicle, 0.0)
@@ -313,6 +323,80 @@ function Main:Subscribe(vehicle, value)
 	TriggerServerEvent("vehicles:subscribe", GetNetworkId(vehicle), value)
 end
 
+function Tow()
+	local ped = PlayerPedId()
+	local pedCoords = GetEntityCoords(ped)
+	local vehicles = exports.oldutils:GetVehicles()
+	local targetVehicle = nil
+	local sourceVehicle = nil
+	local nearestSource = 0.0
+	local nearestTarget = 0.0
+	local currentBed = nil
+	local attached = {}
+
+	for k, vehicle in ipairs(vehicles) do
+		local coords = GetEntityCoords(vehicle)
+		local dist = #(coords - pedCoords)
+		local attachedTo = GetEntityAttachedTo(vehicle)
+		if DoesEntityExist(attachedTo) then
+			if not sourceVehicle or dist < nearestSource then
+				sourceVehicle = vehicle
+				nearestSource = dist
+				attached[attachedTo] = true
+			end
+		else
+			local bed = Config.Towing.Beds[GetEntityModel(vehicle)]
+			if bed and (not targetVehicle or dist < nearestTarget) then
+				targetVehicle = vehicle
+				currentBed = bed
+				nearestTarget = dist
+			elseif not sourceVehicle or dist < nearestSource then
+				sourceVehicle = vehicle
+				nearestSource = dist
+			end
+		end
+	end
+
+	if DoesEntityExist(sourceVehicle) and DoesEntityExist(targetVehicle) and currentBed then
+		if not exports.oldutils:RequestAccess(sourceVehicle) then return end
+		if not exports.oldutils:RequestAccess(targetVehicle) then return end
+
+		local sourceModel = GetEntityModel(sourceVehicle)
+		if (not Config.Towing.Classes[GetVehicleClass(sourceVehicle)] and not Towing.Whitelist[sourceModel]) or Towing.Blacklist[sourceModel] then
+			exports.mythic_notify:SendAlert("error", "It won't fit!", 7000)
+			return
+		end
+
+		local entry = GetOffsetFromEntityInWorldCoords(targetVehicle, currentBed.Entry.x, currentBed.Entry.y, currentBed.Entry.z)
+		if IsEntityAttached(sourceVehicle) then
+			if #(pedCoords - GetEntityCoords(targetVehicle)) < Config.Towing.Distance then
+				DetachEntity(sourceVehicle, true, true)
+				SetEntityCoords(sourceVehicle, entry.x, entry.y, entry.z)
+				return
+			end
+		else
+			if not attached[targetVehicle] and #(GetEntityCoords(sourceVehicle) - entry) < Config.Towing.Distance then
+				AttachEntityToEntity(
+					sourceVehicle,
+					targetVehicle,
+					currentBed.Bone or 0,
+					currentBed.Offset.x, currentBed.Offset.y, currentBed.Offset.z,
+					currentBed.Rot.x, currentBed.Rot.y, currentBed.Rot.z,
+					false,
+					false,
+					true,
+					false,
+					currentBed.Bone or 0,
+					true
+				)
+				return
+			end
+		end
+
+		TriggerEvent("chat:notify", { class = "error", text = "Not Close Enough!" })
+	end
+end
+
 --[[ Exports ]]--
 exports("GetClass", function(id)
 	return Classes[id]
@@ -419,6 +503,13 @@ RegisterCommand("anchor", function()
 	end)
 end)
 
+RegisterCommand("tow", function(source, args, command)
+	exports.mythic_progbar:Progress(Config.Towing.Action, function(wasCancelled)
+		if wasCancelled then return end
+		Tow()
+	end)
+end)
+
 --[[ Events: Net ]]--
 RegisterNetEvent("vehicles:sync", function(netId, key, value)
 	-- if not CurrentVehicle or GetNetworkId(CurrentVehicle) ~= netId then return end
@@ -485,3 +576,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(TickRate)
 	end
 end)
+
+
+
+

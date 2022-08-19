@@ -70,6 +70,78 @@ Config = {
 			[14] = true, -- Boats
 		},
 	},
+	Towing = {
+		Action  = {
+			Anim = {
+				Dict = "missexile3",
+				Name = "ex03_dingy_search_case_base_michael",
+				Flag = 48,
+				DisableMovement = true,
+			},
+			Label = "Towing...",
+			Duration = 4000,
+			UseWhileDead = false,
+			CanCancel = true,
+			Disarm = true,
+		},
+		Beds = {
+			[1353720154] = {
+				Entry = vector3(0.0, -9.0, 0.0),
+				Offset = vector3(0.0, -2.5, 1.0),
+				Rot = vector3(0.0, 0.0, 0.0),
+				Bone = 0,
+			},
+			[-777275802] = {
+				Entry = vector3(0.0, -14.0, 0.0),
+				Offset = vector3(0.0, 0.0, -0.5),
+				Rot = vector3(0.0, 0.0, 0.0),
+				Bone = 0,
+			},
+			[-1352468814] = {
+				Entry = vector3(0.0, -10.0, 0.0),
+				Offset = vector3(0.0, -1.0, 1.2),
+				Rot = vector3(0.0, 0.0, 0.0),
+				Bone = 0,
+			},
+		},
+		Classes = {
+			[0] = true, -- Compacts.
+			[1] = true, -- Sedans.
+			[2] = true, -- SUVs.
+			[3] = true, -- Coupes.
+			[4] = true, -- Muscle.
+			[5] = true, -- Sports Classics.
+			[6] = true, -- Sports.
+			[7] = true, -- Super.
+			[8] = true, -- Motorcycles.
+			[9] = true, -- Off-road.
+			[10] = true, -- Industrial.
+			[11] = true, -- Utility.
+			[12] = true, -- Vans.
+			[13] = true, -- Cycles.
+			[14] = false, -- Boats.
+			[15] = false, -- Helicopters.
+			[16] = false, -- Planes.
+			[17] = false, -- Service.
+			[18] = true, -- Emergency.
+			[19] = false, -- Military.
+			[20] = false, -- Commercial.
+			[21] = false, -- Trains.
+			[22] = true, -- Open Wheels.
+		},
+		Blacklist = {
+
+		},
+		Whitelist = {
+			["buzzard"] = true,
+			["buzzard2"] = true,
+			["frogger"] = true,
+			["frogger2"] = true,
+			["maverick"] = true,
+			["polmav"] = true,
+		},
+		Distance = 5.0,
+	},
 	Parts = {
 		{
 			-- Sends power to wheels and turn car?
