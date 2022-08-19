@@ -69,6 +69,9 @@ function Shop:Load()
 			data.name = data.text
 			data.width = data.width or 3
 			data.height = data.height or 2
+			data.settings = {
+				factions = data.factions or {},
+			}
 
 			local container = exports.inventory:LoadContainer(data, true)
 			if container then
