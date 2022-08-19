@@ -44,18 +44,6 @@ RegisterShop("RESOURCE_0001", {
 			coords = vector3(11.5801, -2680.863, 6.009491),
 			rotation = vector3(-12.79698, -6.670106e-09, 89.62646),
 		},
-        ["mill1"] = {
-			item = "Saw Mill",
-			invisible = true,
-			coords = vector3(-554.6359, 5328.727, 73.59967),
-			heading = 123.7745,
-		},
-        ["mill2"] = {
-			item = "Saw Mill",
-			invisible = true,
-			coords = vector3(-554.6359, 5328.727, 73.59967),
-			heading = 123.7745,
-		},
         ["smelter1"] = {
 			item = "Smeltry",
 			invisible = true,
@@ -67,18 +55,6 @@ RegisterShop("RESOURCE_0001", {
 			invisible = true,
 			coords = vector3(1101.828, -2024.645, 44.45947),
 			rotation = vector3(-41.0309, -0, -128.5155),			
-		},
-		["keycard1"] = {
-			item = "Keycard Printer",
-			invisible = true,
-			coords = vector3(1639.907, 4870.675, 42.02964),
-			rotation = vector3(-28.3081, -0, -81.73733),
-		},
-		["keycard2"] = {
-			item = "Keycard Printer",
-			invisible = true,
-			coords = vector3(486.5722, -629.1509, 25.00399),
-			rotation = vector3(-22.06787, -0, 0.02291744),
 		},
 		},
 	}
