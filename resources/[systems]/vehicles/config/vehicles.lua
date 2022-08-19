@@ -617,7 +617,7 @@ Vehicles = {
 	["zr3802"] = { Value = 22250 },
 	["zr3803"] = { Value = 22250 },
 	["ztype"] = { Value = 51113 },
-	["flatbed"] = { Value = 7589 },
+	["flatbed"] = { Value = 5589 },
 
 	--[[ Business Vehicles ]]--
 	["taco2"] = { Value = 11409 },
