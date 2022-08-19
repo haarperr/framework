@@ -148,12 +148,12 @@ function Door:SetState(value, ignoreDouble)
 
 	-- Force it closed.
 	if value then
-		DoorSystemSetOpenRatio(self.id, 0.0, false, false)
+		DoorSystemSetOpenRatio(self.id, 0.0, true, true)
 	end
 
 	-- Sliding doors.
 	if settings.Speed then
-		DoorSystemSetAutomaticRate(self.id, settings.Speed, false, false)
+		DoorSystemSetAutomaticRate(self.id, settings.Speed, true, true)
 	end
 
 	-- Set the system state.
