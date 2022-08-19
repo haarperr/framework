@@ -34,12 +34,18 @@ RegisterShop("BURGER_SHOT", {
 			radius = 0.5,
 			coords = vector3(-1195.649, -896.6133, 14.27252),
 			discrete = true,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 		},
 		{
 			text = "Pass-through",
 			radius = 0.5,
 			coords = vector3(-1194.71, -897.9369, 14.22776),
 			discrete = true,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 		},
 		{
 			text = "Window",
@@ -60,6 +66,8 @@ RegisterShop("BURGER_SHOT", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},
@@ -76,6 +84,8 @@ RegisterShop("BURGER_SHOT", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},
@@ -92,6 +102,8 @@ RegisterShop("BURGER_SHOT", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},

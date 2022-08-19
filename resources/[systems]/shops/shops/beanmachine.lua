@@ -23,6 +23,9 @@ RegisterShop("BEAN_MACHINE", {
 			radius = 0.5,
 			coords = vector3(-635.6472, 233.2834, 81.88647),
 			discrete = true,
+			factions = {
+				["beanmachine"] = "restaurant",
+			},
 		},
 		{
 			text = "Drinks",

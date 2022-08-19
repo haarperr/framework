@@ -38,6 +38,8 @@ RegisterShop("SUGAR_AND_SPICE", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},

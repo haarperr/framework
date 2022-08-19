@@ -51,6 +51,8 @@ RegisterShop("BEANIES_1", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},
@@ -67,6 +69,8 @@ RegisterShop("BEANIES_1", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},
@@ -83,6 +87,8 @@ RegisterShop("BEANIES_1", {
 			filters = {
 				category = {
 					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
 				}
 			},
 		},
