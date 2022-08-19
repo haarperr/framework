@@ -154,7 +154,7 @@ Config = {
 				maxWeight = 10.0,
 			},
 			Loot = {
-				{ name = "Hacking Tool", chance = 0.001, quantity = { 1, 10 } },
+				{ name = "Hacking Tool", chance = 0.001, quantity = { 1, 1 } },
 				{ name = "Paper", chance = 0.5, quantity = { 1, 10 } },
 				{ name = "Plastic", chance = 0.05, quantity = { 1, 3 } },
 				{ name = "Ten Dollars", chance = 0.05, quantity = { 1, 2 } },
