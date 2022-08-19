@@ -45,6 +45,9 @@ RegisterShop("MRPD_ARMORY_001", {
 		["bcso"] = "pd",
 		["sasp"] = "pd",
 		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
 	},
 	Clerks = {
 		{
@@ -62,6 +65,15 @@ RegisterShop("MRPD_ARMORY_001", {
 RegisterShop("SAMS_ARMORY_001", {
 	Name = "SAMS Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
+	},
 	Clerks = {
 		{
 			coords = vector4(24.35694, -939.46, 29.90331, 24.46633),
@@ -78,6 +90,15 @@ RegisterShop("SAMS_ARMORY_001", {
 RegisterShop("PARKRA_ARMORY_001", {
 	Name = "Park Rangers Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
+	},
 	Clerks = {
 		{
 			coords = vector4(378.8461, 797.6976, 190.4943, 181.9152),
@@ -94,6 +115,15 @@ RegisterShop("PARKRA_ARMORY_001", {
 RegisterShop("LAMESA_ARMORY_001", {
 	Name = "La Mesa Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
+	},
 	Clerks = {
 		{
 			coords = vector4(837.1766967773438, -1288.55224609375, 28.24493980407715, 169.6649169921875),
@@ -110,6 +140,15 @@ RegisterShop("LAMESA_ARMORY_001", {
 RegisterShop("DAVIS_ARMORY_001", {
 	Name = "Davis PD Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
+	},
 	Clerks = {
 		{
 			coords = vector4(364.4138488769531, -1603.8021240234375, 25.45170021057129, 35.37334442138672),
@@ -126,6 +165,15 @@ RegisterShop("DAVIS_ARMORY_001", {
 RegisterShop("SANDY_ARMORY_001", {
 	Name = "SSO Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
+	},
 	Clerks = {
 		{
 			coords = vector4(1836.843, 3687.967, 34.18922, 208.3548),
@@ -142,6 +190,15 @@ RegisterShop("SANDY_ARMORY_001", {
 RegisterShop("PALETO_ARMORY_001", {
 	Name = "Paleto PD Armory",
 	License = "weapons",
+	Factions = {
+		["lspd"] = "pd",
+		["bcso"] = "pd",
+		["sasp"] = "pd",
+		["doc"] = "pd",
+		["sams"] = "federal",
+		["sapr"] = "federal",
+		["saag"] = "federal",
+	},
 	Clerks = {
 		{
 			coords = vector4(-445.8472595214844, 6014.7763671875, 36.99567794799805, 225.29714965820312),
