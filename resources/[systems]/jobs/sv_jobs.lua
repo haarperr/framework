@@ -307,6 +307,8 @@ AddEventHandler("jobs:togglePanic", function()
 	local tracker = job.Tracker
 	if not tracker then return end
 
+	if not Main.panic then Main.panic = {} end
+
 	local toggled = "off"
 	local message = "Panic turned OFF!"
 	if not Main.panic[source] then
