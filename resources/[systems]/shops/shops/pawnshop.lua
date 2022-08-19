@@ -36,6 +36,9 @@ RegisterShop("PAWN_1", {
 			discrete = true,
 			width = 5,
 			height = 15,
+			factions = {
+				["pawnshop"] = "general",
+			},
 		},
         {
 			text = "Storage",
@@ -44,6 +47,9 @@ RegisterShop("PAWN_1", {
 			discrete = true,
 			width = 5,
 			height = 15,
+			factions = {
+				["pawnshop"] = "general",
+			},
         {
 			text = "Storage",
 			radius = 0.3,
@@ -51,6 +57,9 @@ RegisterShop("PAWN_1", {
 			discrete = true,
 			width = 5,
 			height = 15,
+			factions = {
+				["pawnshop"] = "general",
+			},
 		},
 		{
 			text = "Counter",
