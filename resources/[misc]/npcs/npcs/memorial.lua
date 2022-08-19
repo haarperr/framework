@@ -25,6 +25,28 @@ local MemorialNpcs = {
 		animations = {
 			idle = { Dict = "amb@world_human_stand_guard@male@idle_a", Name = "idle_a", Flag = 49 },
 		}
+	},
+	{
+		id = "Jack_Mercat",
+		coords = vector4(-225.4129, -1999.671, 24.6853, 346.9368),
+		appearance = json.decode('{"props":[1,114,1,1,1,1,1,1,1,1],"makeupOverlays":[1,1,1,0.4374520778656,0.00820968122733,0.4374520778656,16,16,16,51,51,51],"components":[1,1,155,1,1,1,196,17,6,11,180,1,1,1,1,1,1,1,1,1,8,7],"hair":[157,0,1]}'),
+		features = json.decode('{"eyeColor":0,"bodyType":1,"hairOverlays":[4,15,1,0.95,1,1,61,61,1],"otherOverlays":[1,12,1,1,1,1,0.39865238818914,1,1,0.87590715342245,0.45543992519378,0.19698560237884,0.80711603164672],"overlays":[-1953737187,-2086773],"faceFeatures":[-1,0.27272727272727,1,0.45454545454545,-1,1,-0.1,-0.9,0.63636363636363,0.63636363636363,0.09090909090909,0.09090909090909,-0.09090909090909,-0.27272727272727,0.09090909090909,-0.63636363636363,0.45454545454545,0.09090909090909,1.0,1.0],"model":1,"blendData":[24,17,1,26,16,1,0.4,0.09090909090909,0.0]}'),
+		interact = "Talk",
+        options = {
+			{
+				text = "Any hints this time?.",
+				dialogue = "Behind every closed door is another closed door. The way to break a heart. A red herring is fine if you really pay attention. Now step back and work from the start.",
+				once = true,
+			},
+			{
+				text = "Tell me a joke.",
+				dialogue = "No, fuck off.",
+				once = true,
+			}
+		},
+		animations = {
+			idle = { Dict = "timetable@ron@ig_3_couch", Name = "base", Flag = 49 },
+		}
 	}
 }
 
