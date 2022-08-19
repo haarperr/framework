@@ -32,6 +32,9 @@ RegisterShop("SUGAR_AND_SPICE", {
 			discrete = true,
 			width = 4,
 			height = 5,
+			factions = {
+				["sugarspice"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -45,6 +48,9 @@ RegisterShop("SUGAR_AND_SPICE", {
 			discrete = true,
 			width = 4,
 			height = 3,
+			factions = {
+				["sugarspice"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Drink"] = true,

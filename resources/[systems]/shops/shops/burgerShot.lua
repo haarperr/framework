@@ -54,6 +54,9 @@ RegisterShop("BURGER_SHOT", {
 			discrete = true,
 			width = 4,
 			height = 15,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -67,6 +70,9 @@ RegisterShop("BURGER_SHOT", {
 			discrete = true,
 			width = 4,
 			height = 15,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -80,6 +86,9 @@ RegisterShop("BURGER_SHOT", {
 			discrete = true,
 			width = 4,
 			height = 15,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -93,6 +102,9 @@ RegisterShop("BURGER_SHOT", {
 			discrete = true,
 			width = 4,
 			height = 3,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Drink"] = true,
@@ -106,6 +118,9 @@ RegisterShop("BURGER_SHOT", {
 			discrete = true,
 			width = 4,
 			height = 3,
+			factions = {
+				["burgershot"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Drink"] = true,

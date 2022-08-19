@@ -42,6 +42,9 @@ RegisterShop("BEANIES_1", {
 			discrete = true,
 			width = 5,
 			height = 15,
+			factions = {
+				["beanies"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -55,6 +58,9 @@ RegisterShop("BEANIES_1", {
 			discrete = true,
 			width = 5,
 			height = 15,
+			factions = {
+				["beanies"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -68,6 +74,9 @@ RegisterShop("BEANIES_1", {
 			discrete = true,
 			width = 5,
 			height = 15,
+			factions = {
+				["beanies"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Ingredient"] = true,
@@ -81,6 +90,9 @@ RegisterShop("BEANIES_1", {
 			discrete = true,
 			width = 4,
 			height = 3,
+			factions = {
+				["beanies"] = "restaurant",
+			},
 			filters = {
 				category = {
 					["Drink"] = true,
