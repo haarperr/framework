@@ -34,6 +34,9 @@ RegisterShop("BEANIES_1", {
 			radius = 0.5,
 			coords = vector3(-587.3622, -1059.752, 22.83947),
 			discrete = true,
+			factions = {
+				["beanies"] = "restaurant",
+			},
 		},
 		{
 			text = "Ingredients",

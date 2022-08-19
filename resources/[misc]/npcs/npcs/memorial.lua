@@ -39,6 +39,11 @@ local MemorialNpcs = {
 				once = true,
 			},
 			{
+				text = "What can I do with these Bondy thingies?.",
+				dialogue = "Once you have 75 of them you can trade them in a secret location for a massive reward.",
+				once = true,
+			},
+			{
 				text = "Tell me a joke.",
 				dialogue = "No, fuck off.",
 				once = true,
