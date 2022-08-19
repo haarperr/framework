@@ -156,6 +156,8 @@ Config = {
 				{ name = "Hacking Tool", chance = 0.001, quantity = { 1, 10 } },
 				{ name = "Paper", chance = 0.5, quantity = { 1, 10 } },
 				{ name = "Plastic", chance = 0.05, quantity = { 1, 3 } },
+				{ name = "Ten Dollars", chance = 0.05, quantity = { 1, 2 } },
+				{ name = "One Dollar", chance = 0.3, quantity = { 1, 7 } },
 			},
 		},
 	},
