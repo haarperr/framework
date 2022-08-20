@@ -467,6 +467,15 @@ Config.Groups = {
 		},
 	},
 	{
+		name = "Bean Machine",
+		coords = vector3(-629.1656, 232.1226, 81.87658),
+		radius = 20,
+		locked = true,
+		factions = {
+			["beanmachine"] = "restaurant",
+		},
+	},
+	{
 		name = "Burger Shot",
 		coords = vector3(-1189.469482421875, -897.002685546875, 13.99527359008789),
 		radius = 60,

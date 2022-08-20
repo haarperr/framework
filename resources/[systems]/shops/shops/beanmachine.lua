@@ -46,6 +46,24 @@ RegisterShop("BEAN_MACHINE", {
 			},
 		},
 		{
+			text = "Ingredients",
+			radius = 0.6,
+			coords = vector3(-632.1803, 225.2324, 82.24331),
+			discrete = true,
+			width = 4,
+			height = 5,
+			factions = {
+				["beanmachine"] = "restaurant",
+			},
+			filters = {
+				category = {
+					["Ingredient"] = true,
+					["Food"] = true,
+					["Drink"] = true,
+				}
+			},
+		},
+		{
 			text = "Drinks",
 			radius = 0.5,
 			coords = vector3(-636.8191, 234.463, 81.59695),
