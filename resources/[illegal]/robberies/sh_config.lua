@@ -145,7 +145,7 @@ Config = {
 						},
 					},
 					Label = "Hacking...",
-					Duration = 60000,
+					Duration = 100000,
 					UseWhileDead = false,
 					DisableMovement = true,
 					CanCancel = false,
