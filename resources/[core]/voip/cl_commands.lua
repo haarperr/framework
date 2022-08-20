@@ -38,7 +38,7 @@ exports.chat:RegisterCommand("voip:debug", function(source, args, command, cb)
 	cb("inform", "Voip debug set: "..tostring(Voip.debug))
 end, {
 	description = "Enable debug mode to see current channels."
-}, "Dev")
+})
 
 exports.chat:RegisterCommand("voip:joinchannel", function(source, args, command, cb)
 	local channel = args[1]
