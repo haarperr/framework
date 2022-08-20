@@ -159,7 +159,7 @@ Config = {
 						end
 					end
 					if not didGive then
-						local amount = math.random(50, 100)
+						local amount = math.random(10, 50)
 						exports.inventory:GiveItem(source, "One Dollar", amount)
 					end
 				end
@@ -328,34 +328,22 @@ Config = {
 				if wasCancelled then return end
 				if source then
 					local items = {
-						{ "9mm Ammo", {1, 5}, 0.05 },
 						{ "Bandage", {2, 7}, 0.1 },
-						{ "Barma Ruby", {1, 3}, 0.0001 },
-						{ "Bills", {50, 100}, 0.1 },
-						{ "Coca Leaves", {8, 16}, 0.05 },
+						{ "One Dollar", {10, 50}, 0.1 },
 						-- { "Coca Seed", {5, 10}, 0.06 },
-						{ "Cracked USB", 1, 0.05 },
+						{ "Cracked USB", 1, 0.01 },
 						{ "Diamond", {1, 2}, 0.02 },
-						{ "Diamond Hammer", 1, 0.09 },
+						{ "Diamond Hammer", 1, 0.01 },
 						{ "Dime", {1,10}, 0.2 },
-						{ "Even Die", 1, 0.0001 },
-						{ "Gold Bar", 1, 0.0001 },
-						{ "Green Keycard", 1, 0.0002 },
 						{ "Hacking Tool", {1, 3}, 0.08 },
 						{ "Jar", {1, 4}, 0.12 },
 						{ "Machete", 1, 0.01 },
 						{ "Mobile Phone", 1, 0.05 },
 						{ "Nickel", {1,20}, 0.2 },
-						{ "Odd Die", 1, 0.0001 },
 						{ "Penny", {1,100}, 0.2 },
-						{ "Pistol", 1, 0.008 },
 						{ "Plastic", {4, 8}, 0.15 },
 						{ "Quarter", {1,4}, 0.2 },
 						{ "Red Keycard", 1, 0.0002 },
-						{ "Scratch Off", {1,2}, 0.04 },
-						{ "Valuable Goods", {1, 2}, 0.001 },
-						{ "Weed Seed", {5, 10}, 0.07 },
-						{ "Weed", {5, 10}, 0.08 },
 					}
 
 					exports.log:Add({
@@ -377,7 +365,7 @@ Config = {
 						end
 					end
 					if not didGive then
-						local amount = math.random(50, 100)
+						local amount = math.random(10, 50)
 						exports.inventory:GiveItem(source, "One Dollar", amount)
 					end
 				end
@@ -423,7 +411,7 @@ Config = {
 						end
 					end
 					if not didGive then
-						local amount = math.random(50, 100)
+						local amount = math.random(10, 50)
 						exports.inventory:GiveItem(source, "One Dollar", amount)
 					end
 				end
@@ -470,7 +458,7 @@ Config = {
 						end
 					end
 					if not didGive then
-						local amount = math.random(50, 100)
+						local amount = math.random(10, 50)
 						exports.inventory:GiveItem(source, "One Dollar", amount)
 					end
 				end
