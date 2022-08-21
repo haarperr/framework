@@ -259,7 +259,7 @@ Citizen.CreateThread(function()
 		local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
 		for index, row in ipairs(users) do
 			if row.steam then
-				self.whitelist[row.steam] = true
+				Queue.whitelist[row.steam] = true
 			end
 		end
 		Citizen.Wait(60000)
