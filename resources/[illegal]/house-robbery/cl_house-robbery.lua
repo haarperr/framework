@@ -85,8 +85,37 @@ end
 exports("IsInside", IsInside)
 
 --[[ Events ]]--
-RegisterNetEvent("inventory:use_Lockpick")
-AddEventHandler("inventory:use_Lockpick", function(item, slotId)
+AddEventHandler("inventory:use", function(item, slot, cb)
+	-- Check item.
+	local anim = item.name == Config.Item and Config.Lockpicking.Action.Anim
+	if not anim then return end
+
+	-- Verify property.
+	local property = exports.properties:GetNearestProperty(true)
+	if not property or property.open or not property.type then return end
+
+	local propertySettings = Config.Properties[property.type]
+	if property.character_id or not propertySettings then
+		TriggerEvent("chat:notify", { class = "error", text = "That property is shut too tight..." })
+		return
+	end
+
+	local hour = GetClockHours()
+	if hour < Config.Time[1] and hour > Config.Time[2] then
+		TriggerEvent("chat:notify", { class = "error", text = "It's too bright out..." })
+		return
+	end
+
+	anim.Duration = Config.Lockpicking.Action.Duration
+
+	cb(anim.Duration, anim)
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slotId)
+	if item.name ~= Config.Item then
+		return
+	end
+
 	local property = exports.properties:GetNearestProperty(true)
 	if not property or property.open or not property.type then return end
 

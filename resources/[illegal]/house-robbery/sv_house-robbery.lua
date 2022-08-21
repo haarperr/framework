@@ -38,11 +38,10 @@ RegisterNetEvent("house-robbery:open")
 AddEventHandler("house-robbery:open", function(slotId, propertyId)
 	local source = source
 
-	local slot = exports.inventory:HasItem(source, "Lockpick", 0.0)
-	if not slot or exports.inventory:GetItem(slot[1]).name ~= "Lockpick" then return end
+	local slot = exports.inventory:HasItem(source, Config.Item, 0.0)
+	if not slot or exports.inventory:GetItem(slot[1]).name ~= Config.Item then return end
 	
 	math.randomseed(math.floor(os.clock() * 1000))
-
 
 	-- Todo add property check.
 	local property = exports.properties:GetProperty(propertyId)
