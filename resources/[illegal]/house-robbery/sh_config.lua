@@ -1,4 +1,5 @@
 Config ={
+	Item = "Lockpick",
 	LockTime = 3.0, -- How long before a property locks itself, in minutes.
 	Time = { 22, 5 },
 	Lockpicking = {

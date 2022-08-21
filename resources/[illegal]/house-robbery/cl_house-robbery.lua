@@ -85,8 +85,12 @@ end
 exports("IsInside", IsInside)
 
 --[[ Events ]]--
-RegisterNetEvent("inventory:use_Lockpick")
-AddEventHandler("inventory:use_Lockpick", function(item, slotId)
+RegisterNetEvent("inventory:useFinish")
+AddEventHandler("inventory:useFinish", function(item, slotId)
+	if item.name ~= Config.Item then
+		return
+	end
+
 	local property = exports.properties:GetNearestProperty(true)
 	if not property or property.open or not property.type then return end
 
