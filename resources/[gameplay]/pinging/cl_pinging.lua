@@ -50,14 +50,15 @@ function Main:Update()
 end
 
 function Main:CanPing()
-	return not exports.interaction:IsHandcuffed() and not exports.health:IsPedDead(PlayerPedId())
-end
+	local localState = LocalPlayer.state
+		return not localState.restrained or localState.immobile
+	end
 
 function Main:TryPing()
 	if self:CanPing() then
 		return true
 	else
-		TriggerEvent("chat:notify", "Can't do that right now...", "error")
+		TriggerEvent("chat:notify", { class = "error", text = "You can't do that right now..." })
 		return false
 	end
 end
@@ -65,7 +66,7 @@ end
 --[[ Events ]]--
 RegisterNetEvent("ping:receive")
 AddEventHandler("ping:receive", function(coords)
-	TriggerEvent("chat:notify", "Pong!", "success")
+	TriggerEvent("chat:notify", { class = "success", text = "Pong" })
 	Main:Add(coords)
 end)
 

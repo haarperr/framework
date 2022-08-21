@@ -11,10 +11,10 @@ AddEventHandler("ping:send", function(target)
 	end
 
 	-- Chat message.
-	TriggerClientEvent("chat:notify", source, "Ping!", "inform")
+	TriggerEvent("chat:notify", { class = "inform", text = "Ping!" })
 	
 	-- Ask target to ping.
-	exports.interaction:SendConfirm(source, target, ("[%s] wants to know your location"):format(source), function(didAccept)
+	exports.interact:SendConfirm(source, target, ("[%s] wants to know your location"):format(source), function(didAccept)
 		if not didAccept then return end
 		
 		exports.log:Add({
