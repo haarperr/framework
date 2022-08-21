@@ -87,7 +87,7 @@ exports("IsInside", IsInside)
 --[[ Events ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
 	-- Check item.
-	local anim = item.name == Config.Item and Config.Lockpicking.Action
+	local anim = item.name == Config.Item and Config.Lockpicking.Action.Anim
 	if not anim then return end
 
 	-- Verify property.
@@ -105,6 +105,8 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		TriggerEvent("chat:notify", { class = "error", text = "It's too bright out..." })
 		return
 	end
+
+	anim.Duration = Config.Lockpicking.Action.Duration
 
 	cb(anim.Duration, anim)
 end)
