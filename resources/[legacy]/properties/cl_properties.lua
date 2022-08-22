@@ -172,7 +172,8 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		if IsControlJustPressed(0, 182) and IsInputDisabled(0) and CanDo() then
+		local localState = LocalPlayer.state
+		if IsControlJustPressed(0, 182) and IsInputDisabled(0) and not localState.restrained and not localState.immobile then
 			TriggerEvent("properties:toggleLock")
 		end
 	end
