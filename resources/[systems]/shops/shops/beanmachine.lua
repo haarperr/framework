@@ -42,6 +42,7 @@ RegisterShop("BEAN_MACHINE", {
 					["Ingredient"] = true,
 					["Food"] = true,
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -60,6 +61,7 @@ RegisterShop("BEAN_MACHINE", {
 					["Ingredient"] = true,
 					["Food"] = true,
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -76,6 +78,7 @@ RegisterShop("BEAN_MACHINE", {
 			filters = {
 				category = {
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},

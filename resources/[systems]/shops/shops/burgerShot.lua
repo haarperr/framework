@@ -68,6 +68,7 @@ RegisterShop("BURGER_SHOT", {
 					["Ingredient"] = true,
 					["Food"] = true,
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -86,6 +87,7 @@ RegisterShop("BURGER_SHOT", {
 					["Ingredient"] = true,
 					["Food"] = true,
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -104,6 +106,7 @@ RegisterShop("BURGER_SHOT", {
 					["Ingredient"] = true,
 					["Food"] = true,
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -120,6 +123,7 @@ RegisterShop("BURGER_SHOT", {
 			filters = {
 				category = {
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -136,6 +140,7 @@ RegisterShop("BURGER_SHOT", {
 			filters = {
 				category = {
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},

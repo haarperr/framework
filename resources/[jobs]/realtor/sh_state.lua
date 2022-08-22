@@ -4,7 +4,7 @@ exports.jobs:Register("staterealtor", {
 	Faction = "realtor",
 	Group = "realtor",
 	Clocks = {
-		{ Coords = vector3(-541.6601, -179.5692, 43.37186), Radius = 3.5 },
+		{ Coords = vector3(-555.0002, -228.0124, 38.17121), Radius = 3.5 },
 	},
 	Ranks = {
 		{ Name = "Realtor" },
