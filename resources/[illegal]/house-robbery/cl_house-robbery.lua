@@ -131,13 +131,7 @@ AddEventHandler("inventory:useFinish", function(item, slotId)
 		return
 	end
 
-	exports.mythic_progbar:ProgressWithTickEvent(Config.Lockpicking.Action, function()
-		exports.peds:AddEvent("houserob")
-	end, function(wasCancelled)
-		if wasCancelled then return end
-
-		TriggerServerEvent("house-robbery:open", slotId, property.id)
-	end)
+	TriggerServerEvent("house-robbery:open", slotId, property.id)
 end)
 
 RegisterNetEvent("house-robbery:enter")

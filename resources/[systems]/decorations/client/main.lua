@@ -73,7 +73,7 @@ function Main:ClearAll()
 	end
 end
 
-function Main:Pickup(decoration)
+function Main:Pickup(decoration, admin)
 	-- Record snowflake.
 	local snowflake = GetGameTimer()
 	self.pickingUp = snowflake
@@ -109,7 +109,7 @@ function Main:Pickup(decoration)
 	if self.pickingUp ~= snowflake then return end
 	
 	-- Trigger events.
-	TriggerServerEvent(Main.event.."pickup", decoration.id)
+	TriggerServerEvent(Main.event.."pickup", decoration.id, admin)
 end
 
 --[[ Threads ]]--

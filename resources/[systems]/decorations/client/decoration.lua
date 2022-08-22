@@ -91,6 +91,16 @@ function Decoration:OnSelect()
 		})
 	end
 
+	-- Add navigation.
+	if not self.temporary and not self.persistent and self.item_id and exports.user:IsAdmin() then
+		hasOptions = true
+		exports.interact:AddOption({
+			id = "decorationPickupAdmin",
+			text = "Admin Pickup",
+			icon = "gavel",
+		})
+	end
+
 	if settings.Station then
 		hasOptions = true
 		exports.interact:AddOption({
@@ -128,6 +138,8 @@ end
 function Decoration:OnNavigate(id)
 	if id == "decorationPickup" then
 		Main:Pickup(self)
+	elseif id == "decorationPickupAdmin" then
+		Main:Pickup(self, true)
 	elseif id == "decorationCrafting" then
 		self:EnterStation()
 	end

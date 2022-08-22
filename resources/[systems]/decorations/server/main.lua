@@ -193,14 +193,14 @@ function Main:Place(source, item, variant, coords, rotation, slotId, instance, d
 	})
 end
 
-function Main:Pickup(source, id)
+function Main:Pickup(source, id, admin)
 	if type(id) ~= "number" then return false end
 
 	local decoration = self.decorations[id]
 	if not decoration or not decoration.item_id or decoration.temporary or decoration.persistent then return false end
 
 	-- Check container.
-	if decoration.container_id and not exports.inventory:ContainerIsEmpty(decoration.container_id) then
+	if decoration.container_id and not exports.inventory:ContainerIsEmpty(decoration.container_id) and not admin then
 		return false, "must be empty"
 	end
 
@@ -363,9 +363,9 @@ RegisterNetEvent(Main.event.."place", function(...)
 	end
 end)
 
-RegisterNetEvent(Main.event.."pickup", function(id)
+RegisterNetEvent(Main.event.."pickup", function(id, admin)
 	local source = source
-	local retval, result = Main:Pickup(source, id)
+	local retval, result = Main:Pickup(source, id, admin)
 
 	if retval then
 		exports.log:Add({
