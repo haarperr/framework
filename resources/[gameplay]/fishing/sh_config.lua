@@ -1,7 +1,7 @@
 Config = {
 	Item = "Fishing Rod",
 	Chance = 0.6,
-	Delay = { 10, 15 },
+	Delay = { 18, 25 },
 	Decay = { 0.01, 0.02 },
 	Anims = {
 		Idle = {
@@ -22,7 +22,7 @@ Config = {
 	QuickTime = {
 		goalSize = 0.08,
 		speed = 0.4,
-		stages = 2,
+		stages = 3,
 	},
 	PeerBonus = {
 		Count = 3,
