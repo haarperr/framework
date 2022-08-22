@@ -2,6 +2,11 @@ Config ={
 	Item = "Lockpick",
 	LockTime = 3.0, -- How long before a property locks itself, in minutes.
 	Time = { 22, 5 },
+	QuickTime = {
+		goalSize = 0.075,
+		speed = 0.65,
+		stages = 6,
+	},
 	Lockpicking = {
 		Action = {
 			Duration = 60000,

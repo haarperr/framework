@@ -97,7 +97,8 @@ end)
 -- 	cache.peds[key] = netId
 -- end)
 
-AddEventHandler("instances:playerEntered", function(source, id)
+AddEventHandler("oldinstances:playerEntered", function(source, id)
+	print(id)
 	local cache = Instances[id]
 	if cache == nil then return end
 
@@ -108,7 +109,7 @@ AddEventHandler("instances:playerEntered", function(source, id)
 	TriggerClientEvent("house-robbery:enter", source, cache)
 end)
 
-AddEventHandler("instances:playerExited", function(source, id)
+AddEventHandler("oldinstances:playerExited", function(source, id)
 	local cache = Instances[id]
 	if cache == nil then return end
 
