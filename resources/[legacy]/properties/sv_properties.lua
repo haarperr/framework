@@ -903,10 +903,10 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
         return 
     end
 	
-	if source == target then
-		TriggerClientEvent("chat:notify", source, "You cannot sell yourself a property!", "error")
-		return
-	end
+	--if source == target then
+	--	TriggerClientEvent("chat:notify", source, "You cannot sell yourself a property!", "error")
+--		return
+--	end
 	
 	property = Properties[propertyId]
 	if not property or property.character_id then
@@ -923,16 +923,16 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 		return
 	end
 
-	local discount, downPayment, term = (tonumber(args[3]) or 0.0), (tonumber(args[4]) or 0.0), math.min(math.max(tonumber(args[5]) or 0, 0), 12)
+	local discount, downPayment, term = (tonumber(args[3]) or 0.0), (tonumber(args[4]) or 0.0), math.min(math.max(tonumber(args[5]) or 0, 0), 0)
 	if discount > 1.0 then
 		discount = discount / 100.0
 	end
 	if downPayment > 1.0 then
 		downPayment = downPayment / 100.0
 	end
-	discount = math.min(math.max(discount, 0.0), 0.1)
+	discount = math.min(math.max(discount, 0.0), 0.0)
 	price = math.ceil(price * (1.0 - discount))
-	downPayment = math.ceil(price * math.min(math.max(downPayment, 0.1), 0.2))
+	downPayment = math.ceil(price * math.min(math.max(downPayment, 0.0), 0.0))
 
 	local principal = price - downPayment
 	local mortgage
@@ -993,9 +993,9 @@ end, {
 	parameters = {
 		{ name = "Target", description = "Who you're selling to" },
 		{ name = "Property", description = "What property you're selling (using /property:get)" },
-		{ name = "Discount", description = "How much to take off the property value, up to 10%" },
-		{ name = "Down Payment", description = "Percentage of the down payment they will pay, from 10 to 20(%)" },
-		{ name = "Term", description = "How many months the mortgage lasts, from 1 to 12 months (optional)" },
+		--{ name = "Discount", description = "No Discounts Currently Available" },
+		--{ name = "Down Payment", description = "No Downpayments Currently Available)" },
+		--{ name = "Term", description = "No Mortgage Term Currently Available" },
 	}
 }, -1, 0)
 
