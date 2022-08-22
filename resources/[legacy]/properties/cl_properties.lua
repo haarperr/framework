@@ -169,6 +169,15 @@ Citizen.CreateThread(function()
 	end
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		if IsControlJustPressed(0, 182) and IsInputDisabled(0) and CanDo() then
+			TriggerEvent("properties:toggleLock")
+		end
+	end
+end)
+
 --[[ Functions ]]--
 function Cache(property)
 	local grid = Grids:GetGrid(vector3(property.x, property.y, property.z), Config.GridSize)
@@ -282,7 +291,7 @@ end
 exports("GetNearestProperty", GetNearestProperty)
 
 --[[ Events ]]--
-AddEventHandler("interaction:toggleLock", function()
+AddEventHandler("properties:toggleLock", function()
 	if not NearestProperty then return end
 	if not HasProperty(NearestProperty) then return end
 	TriggerServerEvent("properties:lock", NearestProperty)
