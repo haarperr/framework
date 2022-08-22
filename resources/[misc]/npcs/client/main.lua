@@ -106,7 +106,7 @@ RegisterNetEvent("oldinstances:join", function(id)
 	Npcs:UpdateGrid({ id })
 end)
 
-RegisterNetEvent("oldinstances:leave", function(id)
+RegisterNetEvent("oldinstances:left", function(id)
 	Npcs.instanced = nil
 
 	local ped = PlayerPedId()

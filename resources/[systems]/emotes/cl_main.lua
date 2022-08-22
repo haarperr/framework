@@ -328,6 +328,6 @@ RegisterNetEvent("oldinstances:join", function(id)
 	Main:RemoveProps()
 end)
 
-RegisterNetEvent("oldinstances:leave", function(id)
+RegisterNetEvent("oldinstances:left", function(id)
 	Main:RemoveProps()
 end)
