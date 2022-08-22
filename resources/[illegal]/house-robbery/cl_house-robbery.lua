@@ -40,7 +40,7 @@ Citizen.CreateThread(function()
 						PlayFacialAnim(ped, "mood_sleeping_1", "facials@gen_male@base")
 					end
 					if settings.Anim and not IsEntityPlayingAnim(ped, settings.Anim.Dict, settings.Anim.Name, 3) then
-						exports.emotes:Play(settings.Anim, false, ped)
+						exports.emotes:PlayOnPed(ped, settings.Anim, false)
 					end
 				elseif shouldAlert and not settings.alerted then
 					settings.alerted = true
@@ -87,8 +87,7 @@ exports("IsInside", IsInside)
 --[[ Events ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
 	-- Check item.
-	local anim = item.name == Config.Item and Config.Lockpicking.Action.Anim
-	if not anim then return end
+	if not item.name == Config.Item then return end
 
 	-- Verify property.
 	local property = exports.properties:GetNearestProperty(true)
@@ -106,15 +105,13 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		return
 	end
 
-	anim.Duration = Config.Lockpicking.Action.Duration
-
-	cb(anim.Duration, anim)
+	cb(1000)
 end)
 
 AddEventHandler("inventory:useFinish", function(item, slotId)
-	if item.name ~= Config.Item then
-		return
-	end
+	-- Check item.
+	local anim = item.name == Config.Item and Config.Lockpicking.Action.Anim
+	if not anim then return end
 
 	local property = exports.properties:GetNearestProperty(true)
 	if not property or property.open or not property.type then return end
@@ -130,6 +127,15 @@ AddEventHandler("inventory:useFinish", function(item, slotId)
 		TriggerEvent("chat:notify", { class = "error", text = "It's too bright out..." })
 		return
 	end
+
+	anim.Duration = Config.Lockpicking.Action.Duration
+
+	local emote = exports.emotes:Play(anim)
+
+	if not exports.quickTime:Begin(Config.QuickTime) then return end
+
+	if not emote then return end
+	exports.emotes:Stop(emote)
 
 	TriggerServerEvent("house-robbery:open", slotId, property.id)
 end)

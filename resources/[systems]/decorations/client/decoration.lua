@@ -132,6 +132,7 @@ function Decoration:OnDeselect()
 	
 	-- Remove navigation.
 	exports.interact:RemoveOption("decorationPickup")
+	exports.interact:RemoveOption("decorationPickupAdmin")
 	exports.interact:RemoveOption("decorationCrafting")
 end
 
