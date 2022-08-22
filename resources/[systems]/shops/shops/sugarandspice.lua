@@ -40,6 +40,7 @@ RegisterShop("SUGAR_AND_SPICE", {
 					["Ingredient"] = true,
 					["Food"] = true,
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
@@ -56,6 +57,7 @@ RegisterShop("SUGAR_AND_SPICE", {
 			filters = {
 				category = {
 					["Drink"] = true,
+					["Beverage"] = true,
 				}
 			},
 		},
