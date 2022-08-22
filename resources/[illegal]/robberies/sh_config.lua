@@ -128,7 +128,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {328, 513}, Chance = 1.0 },
-				{ Name = "Cracked USB", Amount = {1, 1}, Chance = 0.01 },
+				{ Name = "Cracked USB", Amount = {1, 1}, Chance = 0.05 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
 			},
@@ -170,7 +170,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Bills", Amount = {413, 603}, Chance = 1.0 },
-				{ Name = "USB", Amount = {1, 1}, Chance = 0.01 },
+				{ Name = "USB", Amount = {1, 1}, Chance = 0.05 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.50 },
 				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
 			},
