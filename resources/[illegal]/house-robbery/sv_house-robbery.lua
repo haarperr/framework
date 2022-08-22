@@ -109,7 +109,7 @@ AddEventHandler("instances:playerExited", function(source, id)
 
 	TriggerClientEvent("house-robbery:exit", source, cache)
 
-	local instance = exports.instances:GetInstance(id)
+	local instance = exports.oldinstances:GetInstance(id)
 	local isEmpty = true
 	for k, v in pairs(instance.players) do
 		isEmpty = false
