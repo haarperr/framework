@@ -342,6 +342,10 @@ Config = {
 			Coords = vector3(-32.56019973754883, -1065.721923828125, 28.3964900970459),
 			Radius = 5.0,
 		},
+		{
+			Coords = vector3(-28.94982, -1041.479, 28.63313),
+			Radius = 5.0,
+		},
 		-- Hayes Auto.
 		{
 			Coords = vector3(-1417.732421875, -445.36322021484375, 35.90966415405273),
@@ -354,6 +358,55 @@ Config = {
 		{
 			Coords = vector3(-1423.6483154296875, -449.8814392089844, 35.79834747314453),
 			Radius = 3.0,
+		},
+		-- Axle's Auto Exotic
+		{
+			Coords = vector3(548.4117, -198.6528, 54.4932),
+			Radius = 4.0,
+		},
+		{
+			Coords = vector3(546.6074, -169.3336, 54.4932),
+			Radius = 4.0,
+		},
+		-- Misfits
+		{
+			Coords = vector3(938.3289, -978.6039, 39.57885),
+			Radius = 3.0,
+		},
+		{
+			Coords = vector3(937.5081, -971.0195, 39.54307),
+			Radius = 5.0,
+		},
+		{
+			Coords = vector3(936.9544, -963.1901, 39.57978),
+			Radius = 3.0,
+		},
+		-- Route 68
+		{
+			Coords = vector3(1182.947, 2639.162, 37.75383),
+			Radius = 4.0,
+		},
+		{
+			Coords = vector3(1174.344, 2640.017, 37.75383),
+			Radius = 4.0,
+		},
+		-- Camel Tow
+		{
+			Coords = vector3(103.6603, 6622.68, 31.78729),
+			Radius = 4.0,
+		},
+		{
+			Coords = vector3(110.6344, 6628.121, 31.78729),
+			Radius = 4.0,
+		},
+		-- Bike Shop
+		{
+			Coords = vector3(909.7156, 3562.485, 33.83509),
+			Radius = 4.0,
+		},
+		{
+			Coords = vector3(910.5926, 3567.384, 33.83507),
+			Radius = 4.0,
 		},
 	},
 	Flipping = {

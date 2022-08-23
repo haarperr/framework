@@ -42,7 +42,7 @@ exports.jobs:Register("paramedic", {
 			)
 		},
 		{
-			Name = "Assistant Chief",
+			Name = "Deputy Chief",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{
@@ -109,7 +109,7 @@ exports.jobs:Register("firefighter", {
 			)
 		},
 		{
-			Name = "Assistant Chief",
+			Name = "Deputy Chief",
 			Flags = Jobs.Permissions.ALL()
 		},
 		{

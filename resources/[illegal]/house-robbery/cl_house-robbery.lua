@@ -60,7 +60,7 @@ Citizen.CreateThread(function()
 						-- Report and wait.
 						if not DoesEntityExist(ped) or IsPedDeadOrDying(ped) then return end
 
-						exports.dispatch:Report("Emergency", { "10-31", "House" }, 0, true, nil, { coords = true })
+						exports.dispatch:Report("emergency", { "10-31", "House" }, 0, true, nil, { coords = true })
 						Citizen.Wait(4000)
 
 						-- Cower.
