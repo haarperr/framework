@@ -22,21 +22,21 @@ Config = {
 	},
 	Tiers = {
 		[1] = {
-			Duration = 30.0,
+			Duration = 20.0,
 			EventDelay = { 4000, 8000 },
 			QuickTime = {
-				goalSize = 0.3,
-				speed = 0.6,
-				stages = 6,
+				goalSize = 0.2,
+				speed = 0.7,
+				stages = 7,
 			},
 		},
 		[2] = {
-			Duration = 60.0,
+			Duration = 40.0,
 			EventDelay = { 4000, 8000 },
 			QuickTime = {
 				goalSize = 0.1,
 				speed = 0.4,
-				stages = 6,
+				stages = 7,
 			},
 		},
 		[3] = {
@@ -45,8 +45,8 @@ Config = {
 			QuickTime = {
 				goalSize = 0.03,
 				cursorSize = 0.015,
-				speed = 0.2,
-				stages = 6,
+				speed = 0.4,
+				stages = 7,
 			},
 		},
 		[4] = {
@@ -55,8 +55,8 @@ Config = {
 			QuickTime = {
 				goalSize = 0.02,
 				cursorSize = 0.01,
-				speed = 0.1,
-				stages = 6,
+				speed = 0.4,
+				stages = 7,
 			},
 		},
 	},

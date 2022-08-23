@@ -934,7 +934,7 @@ Config = {
 						Unlocks = {
 							vector3(-2956.481, 484.4765, 15.69701),
 						},
-						Items = { "Security Keycard" },
+						Items = { "Security Vault Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -977,7 +977,7 @@ Config = {
 						Unlocks = {
 							vector3(1173.162, 2713.113, 38.08799),
 						},
-						Items = { "Security Keycard" },
+						Items = { "Security Vault Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -1052,7 +1052,7 @@ Config = {
 						Unlocks = {
 							vector3(-1208.201, -335.5886, 37.78098),
 						},
-						Items = { "Security Keycard" },
+						Items = { "Security Vault Keycard" },
 					},
 					{
 						Id = "lockbox",
@@ -1095,7 +1095,7 @@ Config = {
 						Unlocks = {
 							vector3(-351.3641, -56.30671, 49.03653),
 						},
-						Items = { "Security Keycard" },
+						Items = { "Security Vault Keycard" },
 					},
 					{
 						Id = "lockbox",
