@@ -5,7 +5,7 @@ Config ={
 	QuickTime = {
 		goalSize = 0.075,
 		speed = 0.65,
-		stages = 6,
+		stages = 8,
 	},
 	Lockpicking = {
 		Action = {
