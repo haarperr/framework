@@ -45,8 +45,6 @@ function Menu:Build()
 		if type(vehicleModel) == "number" then vehicle = vehicleData end
 		if vehicleData.rank and factionRank < vehicleData.rank then goto endOfLoop end
 
-		local bankBalance = exports.banking:GetAccountBalance(exports.character:Get("bank")) or 0.0
-
 		local vehicleSettings = exports.vehicles:GetSettings(vehicle)
 		if vehicleSettings and vehicleSettings.Category then
 			local subMenu = self.subMenus[vehicleSettings.Category]
@@ -57,7 +55,7 @@ function Menu:Build()
 				subMenu.Item.Activated = function(_menu, _item)
 					subMenu.SubMenu:Clear()
 					for vehicle, vehicleSettings in pairs(self.categories[vehicleSettings.Category]) do
-						local canAfford = bankBalance >= vehicleSettings.Value
+						local canAfford = exports.inventory:CanAfford(vehicleSettings.Value, true, true)
 						local prefix = "~r~"
 						if canAfford then
 							prefix = "~g~"

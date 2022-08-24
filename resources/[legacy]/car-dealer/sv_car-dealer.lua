@@ -32,8 +32,8 @@ AddEventHandler("car-dealer:purchase", function(dealer, name, class)
 		return true
 	end
 
-	if exports.banking:CanAfford(primaryAccount, price) then
-		exports.banking:AddBank(source, primaryAccount, price * -1)
+	if exports.inventory:CanAfford(source, price, true, true) then
+		exports.inventory:TakeMoney(source, price, true)
 		TriggerClientEvent("chat:notify", source, "You spent $"..price.."!", "success")
 		exports.garages:AddVehicle(source, name, dealerSettings.Garage or Config.Garages[class] or 1, function(vehicle)
 			TriggerClientEvent("car-dealer:confirmPurchase", source, vehicle)
@@ -137,7 +137,7 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 		end
 
 		-- Check money.
-		if not exports.inventory:CanAfford(target, fee, 0, true) then
+		if not exports.inventory:CanAfford(target, fee, true, true) then
 			for _, player in ipairs({ source, target }) do
 				TriggerClientEvent("chat:notify", source, "Transaction failed...", "error")
 			end

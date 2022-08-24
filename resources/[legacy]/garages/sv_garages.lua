@@ -260,8 +260,8 @@ AddEventHandler("garages:retrieveVehicle", function(id)
 	local value = (garage.property_id ~= nil and 0) or GetStorageValue(vehicle.model)
 
 	if value > 0 then
-		if not exports.inventory:CanAfford(source, value, 0, true) then return end
-		exports.inventory:TakeMoney(source, value, 0, true)
+		if not exports.inventory:CanAfford(source, value, true, true) then return end
+		exports.inventory:TakeMoney(source, value, true, true)
 	end
 	
 	local oldPlate = vehicle.plate
