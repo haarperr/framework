@@ -280,3 +280,10 @@ RegisterCommand("getqueue", function(source, args, rawCommand)
 
 	print("Queue: "..#Queue.connecting)
 end, true)
+
+RegisterCommand("clearattempts", function(source, args, rawCommand)
+	if source ~= 0 then return end
+
+	Queue.attempts = {}
+	print("Cleared attempts.")
+end, true)
