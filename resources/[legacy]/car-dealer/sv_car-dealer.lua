@@ -63,6 +63,15 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 		local character = exports.character:GetCharacter(source)
 		if not character then return end
 
+		local bankAccount = exports.character:Get(source, "bank")
+		if not bankAccount then
+			return
+		end
+
+		if not exports.banking:Get(bankAccount, "account_id") then
+			return
+		end
+
 		if exports.garages:DeleteVehicle(vehicle.id) then
 			exports.log:Add({
 				source = source,
@@ -71,8 +80,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 				extra = ("id: %s - money: $%s"):format(vehicle.id, value),
 			})
 			TriggerClientEvent("chat:notify", source, "Your vehicle was sold for $"..exports.misc:FormatNumber(value).." and the money was transferred to your account.", "inform")
-			exports.character:Set(source, "bank", character.bank + value)
-			exports.character:Save(source, "bank")
+			exports.banking:AddBank(source, bankAccount, value)
 			--exports.log:AddEarnings(source, "Vehicles", value)
 		end
 	end)
