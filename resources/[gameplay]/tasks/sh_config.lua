@@ -343,7 +343,6 @@ Config = {
 						{ "Penny", {1,100}, 0.2 },
 						{ "Plastic", {4, 8}, 0.15 },
 						{ "Quarter", {1,4}, 0.2 },
-						{ "Red Keycard", 1, 0.0002 },
 					}
 
 					exports.log:Add({

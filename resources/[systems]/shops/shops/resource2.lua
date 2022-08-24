@@ -18,7 +18,7 @@ RegisterShop("RESOURCE_2", {
 			heading = 123.7745,
 		},
 		["keycard1"] = {
-			item = "Keycard Printer",
+			item = "Vault Keycard Printer",
 			invisible = true,
 			coords = vector3(1639.907, 4870.675, 42.02964),
 			rotation = vector3(-28.3081, -0, -81.73733),
