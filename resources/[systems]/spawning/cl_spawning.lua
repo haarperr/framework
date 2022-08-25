@@ -31,7 +31,7 @@ function Main:Init()
 	TriggerEvent("spawning:loaded")
 end
 
-function Main:Spawn(coords, static, exact)
+function Main:Spawn(coords, static, exact, instance)
 	-- Find nearest haven.
 	if not coords then
 		coords = vector3(0.0, 0.0, 0.0)
@@ -45,7 +45,9 @@ function Main:Spawn(coords, static, exact)
 	Preview:Destroy()
 
 	-- Update coords.
-	if exact then
+	if instance then
+		exports.properties:Enter(source, string.sub(instance, 2))
+	elseif exact then
 		self:SpawnAtCoords(coords, nil)
 	else
 		self:SpawnAtHaven(coords, static)
