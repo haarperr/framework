@@ -1,44 +1,93 @@
 Config = {
 	Animations = {
-		["1h"] = {
-			Holster = {
-				Dict = "weapons@holster_1h",
-				Name = "holster",
-				Flag = 48,
-				BlendSpeed = 8.0,
-				Rate = 0.0,
-				IgnoreCancel = true,
+		Civilian = {
+			["1h"] = {
+				Holster = {
+					Dict = "reaction@intimidation@1h",
+					Name = "outro",
+					Flag = 48,
+					BlendSpeed = 8.0,
+					Rate = 0.0,
+					IgnoreCancel = true,
+					Duration = 2000,
+				},
+				Unholster = {
+					Dict = "reaction@intimidation@1h",
+					Name = "intro",
+					Flag = 48,
+					BlendSpeed = 8.0,
+					Rate = 0.0,
+					IgnoreCancel = true,
+					Duration = 2800,
+				},
 			},
-			Unholster = {
-				Dict = "weapons@holster_1h",
-				Name = "unholster",
-				Flag = 48,
-				BlendSpeed = 8.0,
-				Rate = 0.0,
-				IgnoreCancel = true,
+			["2h"] = {
+				Holster = {
+					Dict = "anim@heists@money_grab@duffel",
+					Name = "exit",
+					Flag = 48,
+					BlendIn = 8.0,
+					BlendOut = 2.0,
+					Rate = 0.3,
+					Duration = 1000,
+					IgnoreCancel = true,
+					
+				},
+				Unholster = {
+					Dict = "anim@heists@money_grab@duffel",
+					Name = "enter",
+					Flag = 48,
+					BlendIn = 8.0,
+					BlendOut = 2.0,
+					Rate = 0.0,
+					Duration = 1200,
+					IgnoreCancel = true,
+				},
 			},
 		},
-		["2h"] = {
-			Holster = {
-				Dict = "anim@heists@money_grab@duffel",
-				Name = "exit",
-				Flag = 48,
-				BlendIn = 8.0,
-				BlendOut = 2.0,
-				Rate = 0.3,
-				Duration = 500,
-				IgnoreCancel = true,
-				
+		Emergency = {
+			["1h"] = {
+				Holster = {
+					Dict = "weapons@pistol@",
+					Name = "aim_2_holster",
+					Flag = 48,
+					BlendSpeed = 8.0,
+					Rate = 0.0,
+					IgnoreCancel = true,
+					Duration = 500,
+				},
+				Unholster = {
+					Dict = "rcmjosh4",
+					Name = "josh_leadout_cop2",
+					Flag = 48,
+					BlendSpeed = 8.0,
+					Rate = 0.0,
+					IgnoreCancel = true,
+					Duration = 500,
+				},
 			},
-			Unholster = {
-				Dict = "anim@heists@money_grab@duffel",
-				Name = "enter",
-				Flag = 48,
-				BlendIn = 8.0,
-				BlendOut = 2.0,
-				Rate = 0.0,
-				Duration = 1200,
-				IgnoreCancel = true,
+			["2h"] = {
+				Holster = {
+					Dict = "anim@heists@money_grab@duffel",
+					Name = "exit",
+					Flag = 48,
+					BlendIn = 8.0,
+					BlendOut = 2.0,
+					Rate = 0.3,
+					Duration = 1000,
+					IgnoreCancel = true,
+					
+				},
+				Unholster = {
+					Dict = "anim@heists@money_grab@duffel",
+					Name = "enter",
+					Flag = 48,
+					BlendIn = 8.0,
+					BlendOut = 2.0,
+					Rate = 0.0,
+					Duration = 1200,
+					IgnoreCancel = true,
+				},
 			},
 		},
 	},
