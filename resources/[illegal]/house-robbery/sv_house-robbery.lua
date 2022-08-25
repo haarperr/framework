@@ -98,7 +98,6 @@ end)
 -- end)
 
 AddEventHandler("oldinstances:playerEntered", function(source, id)
-	print(id)
 	local cache = Instances[id]
 	if cache == nil then return end
 

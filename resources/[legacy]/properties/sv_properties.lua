@@ -544,7 +544,7 @@ AddEventHandler("properties:start", function()
 
 				if containerId == nil then
 					-- Register container.
-					print("Create property container: ["..property.id.."]")
+					--print("Create property container: ["..property.id.."]")
 					container = exports.inventory:RegisterContainer(data)
 				end
 				--Containers[property.id] = containerId
