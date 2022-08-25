@@ -41,7 +41,7 @@ function Main:SelectCharacter(id)
 end
 Export(Main, "SelectCharacter")
 
-function Main:_SelectCharacter(id, wasActive, wasInstanced)
+function Main:_SelectCharacter(id, wasActive)
 	local character = (id and self.characters[id]) or nil
 
 	self.activeCharacter = character
@@ -55,7 +55,7 @@ function Main:_SelectCharacter(id, wasActive, wasInstanced)
 		local coords = character:GetPosition()
 		local next = next
 		
-		exports.spawning:Spawn(coords, not character.appearance or next(character.appearance) == nil, wasActive, wasInstanced)
+		exports.spawning:Spawn(coords, not character.appearance or next(character.appearance) == nil, wasActive)
 	else
 		exports.spawning:Init()
 	end

@@ -1,7 +1,6 @@
 Main.tableColumns = { "appearance", "features", "health" }
 Main.players = {}
 Main.responses = {}
-Main.instances = {}
 
 function Main:Init()
 	self:LoadDatabase()
@@ -68,7 +67,6 @@ function Main:Update()
 	for characterId, lastUpdate in pairs(self.responses) do
 		if clock - lastUpdate > 60.0 * 15.0 then
 			self.responses[characterId] = nil
-			self.instances[characterId] = nil
 		end
 	end
 end
@@ -271,22 +269,6 @@ AddEventHandler("playerDropped", function(reason)
 
 	if client then
 		client:Destroy()
-	end
-end)
-
-AddEventHandler("oldinstances:join", function(id)
-	local source = source
-	local character = Main:GetCharacter(source)
-	if character then
-		Main.instances[character.id] = id
-	end
-end)
-
-AddEventHandler("oldinstances:left", function()
-	local source = source
-	local character = Main:GetCharacter(source)
-	if character then
-		Main.instances[character.id] = nil
 	end
 end)
 
