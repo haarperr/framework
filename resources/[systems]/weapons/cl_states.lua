@@ -72,7 +72,13 @@ function State:Equip(item, slot)
 	end
 	
 	-- Do animation.
-	local animation = Config.Animations[group.Anim or "1h"]
+	local faction = exports.jobs:IsInEmergency()
+	local animation = nil
+	if faction then
+		animation = Config.Animations.Emergency[group.Anim or "1h"]
+	else
+		animation = Config.Animations.Civilian[group.Anim or "1h"]
+	end
 	local duration = 0
 	
 	if animation ~= nil then
