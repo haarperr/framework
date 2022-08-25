@@ -433,7 +433,7 @@ RegisterCommand("property:available", function()
 	local blips = {}
 
 	for id, property in pairs(Properties) do
-		if property.character_id == nil and not property.Secret and not Config.Types[property.type].Custom then
+		if Config.Types[property.type] and property.character_id == nil and not property.Secret and not Config.Types[property.type].Custom then
 			local blip = AddBlipForCoord(property.x, property.y, property.z)
 			
 			SetBlipSprite(blip, Config.Types[property.type].Sprite or 40)
