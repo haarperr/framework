@@ -10,7 +10,7 @@ Config = {
 	OccupiedMessage = "It seems to be locked...",
 	UnoccupiedMessage = "The contract states henceforth after paying a payment of <font color='red'>$%s</font>, you may reside here for exactly <font color='red'>30 days</font>. You may pay <font color='red'>7 days</font> in advance before the next payment is due. Press <font color='red'>[%s]</font> again to rent for <font color='red'>$%s</font>.",
 	LookupCoords = vector3(-552.4494018554688, -202.9859313964844, 38.2392692565918),
-	TaxRate = 0.10,
+	TaxRate = 0.07,
 	Menu = {
 		PositionOffset = { X = 500, Y = 50 },
 		WidthOffset = -100,
