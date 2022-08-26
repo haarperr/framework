@@ -139,7 +139,10 @@ function Decoration:Update()
 
 	-- Get settings.
 	local settings = self:GetSettings()
-	if not settings or settings.NoDecay then return end
+	if not settings or settings.persistent then return end
+
+	-- Check persistence.
+	if self.persistent then return end
 	
 	-- Get age (in hours).
 	local age = (os.time() * 1000 - self.start_time) / 3600000
