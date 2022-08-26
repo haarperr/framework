@@ -4,6 +4,8 @@ Towing = { Whitelist = {}, Blacklist = {} }
 Main.info = {}
 Main.update = {}
 
+-- local maxFuel = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume")
+
 --[[ Initialization ]]--
 for k, v in pairs(Config.Towing.Whitelist) do
 	Towing.Whitelist[GetHashKey(k)] = v
@@ -55,6 +57,7 @@ function Main:Update()
 		SpeedVector = GetEntitySpeedVector(CurrentVehicle, false)
 		Forward = GetEntityForwardVector(CurrentVehicle)
 		Velocity = GetEntityVelocity(CurrentVehicle)
+		Fuel = GetVehicleFuelLevel(CurrentVehicle)
 		
 		DriftAngle = Dot(Forward, #Velocity > 0.01 and Normalize(Velocity) or Velocity)
 		ForwardDot = Dot(Forward, SpeedVector)
@@ -106,11 +109,10 @@ function Main:Update()
 	
 	-- Driver stuff.
 	if IsDriver then
-		local fuel = GetVehicleFuelLevel(CurrentVehicle) -- TODO: set fuel properly.
-		-- SetVehicleFuelLevel(CurrentVehicle, fuel - Speed * 0.0001)
-
-		-- Fuel.
-
+		-- Fuel
+		Fuel = Fuel - ( Speed * Config.Driving.FuelBurnRate )
+		SetVehicleFuelLevel(CurrentVehicle, Fuel)
+		
 		-- Tire locking.
 		if (
 			math.abs(DriftAngle) < Config.Spinning.DotProduct and

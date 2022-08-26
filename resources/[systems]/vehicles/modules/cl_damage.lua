@@ -151,11 +151,15 @@ end)
 -- end)
 
 --[[ Events: Net ]]--
-RegisterNetEvent("vehicles:fix", function()
+RegisterNetEvent("vehicles:fix", function(isAdmin)
 	if not CurrentVehicle then return end
+
+	local fuel = GetVehicleFuelLevel(CurrentVehicle)
 
 	SetVehicleFixed(CurrentVehicle)
 	SetVehicleDirtLevel(CurrentVehicle, 0.0)
-
+	if not isAdmin then
+		SetVehicleFuelLevel(CurrentVehicle, fuel)
+	end
 	Parts:Restore()
 end)

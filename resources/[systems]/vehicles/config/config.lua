@@ -1,4 +1,7 @@
 Config = {
+	Driving = {
+		FuelBurnRate = 0.000015,
+	},
 	FieldKit = {
 		Anim = {
 			Dict = "missmechanic",
