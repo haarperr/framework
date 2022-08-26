@@ -778,8 +778,8 @@ AddEventHandler("interact:onNavigate_healthExamine", function(option)
 end)
 
 AddEventHandler("health:examine", function(player)
-	if not player then print("No player") return end
-	print("Player ServerID: "..GetPlayerServerId(player))
+	if not player then return end
+
 	TriggerServerEvent("health:subscribe", GetPlayerServerId(player), true)
 end)
 
