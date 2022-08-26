@@ -31,7 +31,7 @@ function Main:Init()
 		text = "Examine",
 		icon = "visibility",
 	}, false, function(player, playerPed)
-		print("Examine: "..player)
+
 		TriggerEvent("health:examine", player)
 	end)
 
@@ -42,11 +42,8 @@ function Main:Init()
 	}, function(player, playerPed, dist)
 		local serverId = GetPlayerServerId(player)
 		local state = _Player(serverId).state
-		if state.immobile then
-			print("State.Immobile: "..state.immobile and "True" or "False")
-		end
-		return state.immobile
 
+		return state.immobile
 	end, function(player, playerPed)
 		local state =  (LocalPlayer or {}).state
 		if not state then print("No State") return end
