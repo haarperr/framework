@@ -44,6 +44,7 @@ Config = {
 			PaymentFlag = 1,
 			Color = 2,
 			Max = 1,
+			Rental = true,
 		},
 		["apartment"] = {
 			Name = "Apartment",
@@ -54,6 +55,7 @@ Config = {
 			PaymentFlag = 1,
 			Color = 3,
 			Max = 1,
+			Rental = true,
 			Public = true,
 		},
 		["house"] = {
