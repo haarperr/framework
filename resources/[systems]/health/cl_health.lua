@@ -30,7 +30,7 @@ function Main:Init()
 		id = "healthExaminePlayer",
 		text = "Examine",
 		icon = "visibility",
-	}, false, function(player, playerPed, dist)
+	}, function(player, playerPed, dist)
 		local state =  (LocalPlayer or {}).state
 		if not state then return end
 
