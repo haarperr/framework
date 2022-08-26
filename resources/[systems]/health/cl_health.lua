@@ -42,8 +42,11 @@ function Main:Init()
 	}, function(player, playerPed, dist)
 		local serverId = GetPlayerServerId(player)
 		local state = _Player(serverId).state
-		print("State.Immobile: "..state.immobile)
+		if state.immobile then
+			print("State.Immobile: "..state.immobile)
+		end
 		return state.immobile
+		
 	end, function(player, playerPed)
 		local state =  (LocalPlayer or {}).state
 		if not state then print("No State") return end
