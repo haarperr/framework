@@ -27,7 +27,7 @@ function Main:Init()
 
 	-- Add player navigation.
 	exports.players:AddOption({
-		id = "healthExaminePlayer",
+		id = "examinePlayer",
 		text = "Examine",
 		icon = "visibility",
 	}, false, function(player, playerPed, dist)
