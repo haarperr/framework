@@ -28,7 +28,7 @@ RegisterServerEvent("gasstation:canAfford", function(currentFuel, purchaseMethod
 			local total, amount, tax = CalculateFuelCost(currentFuel)
 			if exports.banking:CanAfford(bankAccount, total) then
 				TriggerClientEvent("gasstation:startPump", source)
-				exports.banking:AddBank(source, bankAccount, total, true)
+				exports.banking:AddBank(source, bankAccount, total * -1, true)
 				exports.banking:StateTax(tax)
 				PayBusinessAccount(amount)
 			else
