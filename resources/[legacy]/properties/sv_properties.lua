@@ -938,8 +938,8 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 			exports.log:Add({
 				source = source,
 				verb = "getting",
-				noun = "comission",
-				extra = ("$%s"):format(comission),
+				noun = "commission",
+				extra = ("$%s"):format(commission),
 			})
 			
 			local primaryAccount = exports.character:Get(source, "bank")
