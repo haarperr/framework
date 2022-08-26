@@ -915,7 +915,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 		return
 	end
 
-	local message = "They hand you a contract for property "..propertyId..". It states you shall make a single payment of $"..exports.misc:FormatNumber(price).." for ownership.
+	local message = "They hand you a contract for property "..propertyId..". It states you shall make a single payment of $"..exports.misc:FormatNumber(price).." for ownership."
 	
 	exports.interact:SendConfirm(source, target, message, function(response)
 		if not response then
