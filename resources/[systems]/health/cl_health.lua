@@ -52,7 +52,7 @@ function Main:Init()
 		return state.immobile
 	end, function(player, playerPed)
 		local state =  (LocalPlayer or {}).state
-		if not state then print("No State") return end
+		if not state then return end
 
 		if not state.immobile and not state.restrained then
 			TriggerEvent("health:help", player)
