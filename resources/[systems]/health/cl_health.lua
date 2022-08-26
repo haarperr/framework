@@ -31,8 +31,14 @@ function Main:Init()
 		text = "Examine",
 		icon = "visibility",
 	}, false, function(player, playerPed)
+		local state =  (LocalPlayer or {}).state
+		if not state then return end
 
-		TriggerEvent("health:examine", player)
+		if not state.immobile and not state.restrained then
+			TriggerEvent("health:examine", player)
+		else
+			TriggerEvent("chat:notify", "You're unable to do that!", "error")
+		end
 	end)
 
 	exports.players:AddOption({
