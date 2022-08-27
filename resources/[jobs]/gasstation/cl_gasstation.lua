@@ -149,7 +149,7 @@ AddEventHandler("inventory:useFinish", function(item, slot, cb)
 								SetVehicleFuelLevel(vehicle, currentFuel + 20)
 							end
 							TriggerServerEvent("gasstation:takeJerry")
-								return
+							return
 						end)
 					else
 						TriggerEvent("chat:notify", { class="error", text="Get out of your car!" })
