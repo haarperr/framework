@@ -26,8 +26,9 @@ AddEventHandler("playerDropped", function(reason)
 end)
 
 --[[ Events: Net ]]--
-RegisterNetEvent("health:ready", function()
+AddEventHandler("character:selected", function(source)
 	local source = source
+	
 	if not Main.players[source] then
 		Player:Create(source)
 	end
