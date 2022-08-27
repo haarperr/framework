@@ -298,7 +298,7 @@ AddEventHandler("properties:toggleLock", function()
 	TriggerServerEvent("properties:lock", NearestProperty)
 end)
 
-AddEventHandler("properties:start", function()
+AddEventHandler("character:selected", function(character)
 	TriggerServerEvent("properties:request")
 end)
 
