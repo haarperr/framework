@@ -36,7 +36,7 @@ Config = {
 		},
 	},
 	JerryAction = {
-		Duration = 1000,
+		Duration = 20000,
 		Label = "Fueling Vehicle...",
 		UseWhileDead = false,
 		CanCancel = false,

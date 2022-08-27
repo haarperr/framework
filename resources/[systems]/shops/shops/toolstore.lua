@@ -24,6 +24,7 @@ Config.Filters.Toolstore = {
 		["Magnetic Strip"] = true,
 		["Scissors"] = true,
 		["Paperclip"] = true,
+		["Jerry Can"] = true,
 	},
 }
 

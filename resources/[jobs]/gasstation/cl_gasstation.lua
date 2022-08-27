@@ -137,15 +137,17 @@ AddEventHandler("inventory:useFinish", function(item, slot, cb)
 			local currentFuel = GetVehicleFuelLevel(vehicle)
 			local maxFuel = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume")
 			if currentFuel ~= maxFuel then
-				local difference = maxFuel - currentFuel
 				local vehiclePosition = GetEntityCoords(vehicle, false)
 				if #(playerPosition - vehiclePosition) <= 2.0 then
 					if not IsPedInVehicle(player) then
 						local maxFuel = GetVehicleHandlingFloat(vehicle, "CHandlingData", "fPetrolTankVolume")
-						Config.JerryAction.Duration = math.floor(maxFuel - GetVehicleFuelLevel(vehicle)) * 1000
 						exports.mythic_progbar:Progress(Config.JerryAction, function(wasCancelled)
 							if wasCancelled then return end
-							SetVehicleFuelLevel(vehicle, maxFuel)
+							if ( currentFuel + 20 ) >= maxFuel then
+								SetVehicleFuelLevel(vehicle, maxFuel)
+							else
+								SetVehicleFuelLevel(vehicle, currentFuel + 20)
+							end
 							TriggerServerEvent("gasstation:takeJerry")
 							return
 						end)
