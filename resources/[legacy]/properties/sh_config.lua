@@ -59,7 +59,7 @@ Config = {
 			Public = true,
 		},
 		["house"] = {
-			Name = "House",
+			Name = "House (Tier 1)",
 			Coords = vector4(3.742862701416016, 184.4699249267578, -99.1962890625, 359.9014587402344),
 			Storage = vector3(9.15717601776123, 198.66526794433597, -99.19630432128906),
 			StorageType = "largestash",
@@ -71,7 +71,7 @@ Config = {
 			Public = true,
 		},
 		["house2"] = {
-			Name = "House",
+			Name = "House (Tier 2)",
 			Coords = vector4(3.742862701416016, 184.4699249267578, -99.1962890625, 359.9014587402344),
 			Storage = vector3(9.15717601776123, 198.66526794433597, -99.19630432128906),
 			StorageType = "largestash",
@@ -83,7 +83,7 @@ Config = {
 			Public = true,
 		},
 		["house3"] = {
-			Name = "House",
+			Name = "House (Tier 3)",
 			Coords = vector4(3.742862701416016, 184.4699249267578, -99.1962890625, 359.9014587402344),
 			Storage = vector3(9.15717601776123, 198.66526794433597, -99.19630432128906),
 			StorageType = "largestash",
@@ -95,7 +95,7 @@ Config = {
 			Public = true,
 		},
 		["house4"] = {
-			Name = "House",
+			Name = "House (Tier 4)",
 			Coords = vector4(3.742862701416016, 184.4699249267578, -99.1962890625, 359.9014587402344),
 			Storage = vector3(9.15717601776123, 198.66526794433597, -99.19630432128906),
 			StorageType = "largestash",
@@ -107,7 +107,7 @@ Config = {
 			Public = true,
 		},
 		["house5"] = {
-			Name = "House",
+			Name = "House (Tier 5)",
 			Coords = vector4(3.742862701416016, 184.4699249267578, -99.1962890625, 359.9014587402344),
 			Storage = vector3(9.15717601776123, 198.66526794433597, -99.19630432128906),
 			StorageType = "largestash",
@@ -119,7 +119,7 @@ Config = {
 			Public = true,
 		},
 		["mansion"] = {
-			Name = "Mansion",
+			Name = "Mansion (Tier 1)",
 			Coords = vector4(-8.574377059936523, -71.46099853515625, -99.01022338867188, 284.1888427734375),
 			Storage = vector3(5.22984504699707, -69.6736831665039, -94.4225616455078),
 			StorageType = "largestash",
@@ -131,7 +131,7 @@ Config = {
 			Public = true,
 		},
 		["mansion2"] = {
-			Name = "Mansion",
+			Name = "Mansion (Tier 2)",
 			Coords = vector4(-8.574377059936523, -71.46099853515625, -99.01022338867188, 284.1888427734375),
 			Storage = vector3(5.22984504699707, -69.6736831665039, -94.4225616455078),
 			StorageType = "largestash",
