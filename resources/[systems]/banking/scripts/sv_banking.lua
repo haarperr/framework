@@ -121,7 +121,7 @@ function AddBank(source, account, amount, notify)
 		else
 			notify = "$"..tostring(exports.misc:FormatNumber(math.abs(amount))).." has been deducted from your account!"
 		end
-        TriggerClientEvent("chat:notify", source, notify, "inform")
+        TriggerClientEvent("chat:notify", source, { class="inform", text=notify})
 	end
 end
 exports("AddBank", AddBank)

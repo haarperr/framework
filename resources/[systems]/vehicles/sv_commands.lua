@@ -75,7 +75,7 @@ exports.chat:RegisterCommand("a:fix", function(source, args, command, cb)
 	-- Tell owner to fix.
 	local owner = NetworkGetEntityOwner(vehicle)
 
-	TriggerClientEvent("vehicles:fix", owner)
+	TriggerClientEvent("vehicles:fix", owner, true)
 
 	-- Log it.
 	exports.log:Add({
