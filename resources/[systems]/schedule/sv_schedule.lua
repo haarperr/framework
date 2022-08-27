@@ -25,6 +25,14 @@ AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
 	if eventData.secondsRemaining == 300 then
 		exports.sync:SetWeather("THUNDER")
 	end
+	
+	if eventData.secondsRemaining == 240 then
+		exports.sync:SetWeather("THUNDER")
+	end
+	
+	if eventData.secondsRemaining == 180 then
+		exports.sync:SetWeather("THUNDER")
+	end
 end)
 --[[
 Citizen.CreateThread(function()
