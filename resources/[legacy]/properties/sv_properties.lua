@@ -95,8 +95,10 @@ function SetOwnership(source, id, price, lender)
 				["@days"] = Config.PaymentDays,
 				["@price"] = price,
 			})
-			
-			local tax = ( price * Config.TaxRate )
+		
+			local tax = price * Config.TaxRate
+			print(tax)
+			price = math.floor(price + tax)
 			exports.banking:AddBank(source, character.bank, -price, true)
 
 			if tax > 0 then
@@ -347,8 +349,9 @@ AddEventHandler("properties:buy", function(id)
 
 	local price = property.price or settings.Rent or settings.Value
 	if not price then return end
+	local calculatedPrice = math.floor(price + ( price * Config.TaxRate))
 
-	if not exports.banking:CanAfford(character.bank, price) then
+	if not exports.banking:CanAfford(character.bank, calculatedPrice) then
 		TriggerClientEvent("chat:notify", source, "You cannot afford this property!", "error")
 		return
 	end
@@ -914,6 +917,8 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 		TriggerClientEvent("chat:notify", source, "This property is not under your jurisdiction!", "error")
 		return
 	end
+
+	price = math.floor(price + ( price * Config.TaxRate ))
 
 	local message = "They hand you a contract for property "..propertyId..". It states you shall make a single payment of $"..exports.misc:FormatNumber(price).." for ownership."
 	

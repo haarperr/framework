@@ -23,7 +23,8 @@ AddEventHandler("car-dealer:purchase", function(dealer, name, class)
 	local vehicleSettings = exports.vehicles:GetSettings(name)
 	if not vehicleSettings then return end
 
-	local price = vehicleSettings.Value
+	local tax = vehicleSettings.Value * Config.Tax
+	local price = math.floor(vehicleSettings.Value + tax)
 
 	-- Take money.
 	local primaryAccount = exports.character:Get(source, "bank")
@@ -34,6 +35,7 @@ AddEventHandler("car-dealer:purchase", function(dealer, name, class)
 
 	if exports.inventory:CanAfford(source, price, true, true) then
 		exports.inventory:TakeMoney(source, price, true)
+		exports.banking:StateTax(tax)
 		TriggerClientEvent("chat:notify", source, "You spent $"..price.."!", "success")
 		exports.garages:AddVehicle(source, name, dealerSettings.Garage or Config.Garages[class] or 1, function(vehicle)
 			TriggerClientEvent("car-dealer:confirmPurchase", source, vehicle)

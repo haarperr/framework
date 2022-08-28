@@ -55,13 +55,14 @@ function Menu:Build()
 				subMenu.Item.Activated = function(_menu, _item)
 					subMenu.SubMenu:Clear()
 					for vehicle, vehicleSettings in pairs(self.categories[vehicleSettings.Category]) do
-						local canAfford = exports.inventory:CanAfford(vehicleSettings.Value, true, true)
+						local value = math.floor(vehicleSettings.Value + ( vehicleSettings.Value * Config.Tax ))
+						local canAfford = exports.inventory:CanAfford(value, true, true)
 						local prefix = "~r~"
 						if canAfford then
 							prefix = "~g~"
 						end
 						local item = menuPool:AddSubMenu(subMenu.SubMenu, vehicleSettings.Name, "", true, true)
-						local price = "$"..exports.misc:FormatNumber(vehicleSettings.Value)
+						local price = "$"..exports.misc:FormatNumber(value)
 						item.Item:Enabled(canAfford)
 						item.Item:RightLabel(prefix..price)
 						item.SubMenu:SetMenuWidthOffset(Config.Menu.WidthOffset)

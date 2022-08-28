@@ -7,6 +7,7 @@ dependencies {
 }
 
 shared_script {
+	'@utils/shared/math.lua',
 	'sh_config.lua',
 	'sh_job.lua',
 }

@@ -182,11 +182,15 @@ end
 function Shop:Purchase(source, cart, paymentType)
 	local totalPrice = 0
 	local boughtPrice = 0
+	local totalTax = 0
+	local tax = 0
 
 	for itemName, quantity in pairs(cart) do
 		local item = exports.inventory:GetItem(itemName)
 		if item and item.value then
-			totalPrice = totalPrice + quantity * item.value
+			tax = ( quantity * ( item.value * Config.Tax ) )
+			totalPrice = Round(totalPrice + ( quantity * ( item.value + tax ) ), 2)
+			totalTax = Round(totalTax + tax, 2)
 		end
 	end
 	
@@ -206,6 +210,7 @@ function Shop:Purchase(source, cart, paymentType)
 			end
 		end
 		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
+		exports.banking:StateTax(totalTax)
 	else
 		TriggerClientEvent("chat:notify", source, "You don't have enough for that!", "error")
 	end
@@ -216,11 +221,6 @@ function Shop:Purchase(source, cart, paymentType)
 		TriggerClientEvent("chat:notify", source, "You didn't have room!", "error")
 	end
 	return true
-end
-
-function round(num, numDecimalPlaces)
-	local mult = 10^(numDecimalPlaces or 0)
-	return math.floor(num * mult + 0.5) / mult
 end
 
 --[[ Events: Net ]]--
