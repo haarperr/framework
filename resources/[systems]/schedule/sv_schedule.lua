@@ -19,7 +19,9 @@ Announcements = {
 
 AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
 	if eventData.secondsRemaining == 600 then
+		local text, special = table.unpack(Announcements[math.random(1, #Announcements)])
 		exports.sync:SetWeather("THUNDER")
+		TriggerClientEvent("chat:addMessage", -1, text, "server")
 	end
 	
 	if eventData.secondsRemaining == 300 then
