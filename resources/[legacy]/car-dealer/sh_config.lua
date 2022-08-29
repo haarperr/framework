@@ -148,7 +148,7 @@ Config = {
 		},
 		{
 			Group = "pdm",
-			Faction = "dealer",
+			Faction = "dealership",
 			Name = "PDM Employee Kiosk",
 			Kiosk = vector3(-26.16110038757324, -1102.976318359375, 27.27428245544433),
 			VehicleDisplay = vector4(-41.75972366333008, -1096.797607421875, 27.27436637878418, 24.90196228027343),
@@ -480,7 +480,7 @@ Config = {
 		},
 		{
 			Group = "lux",
-			Faction = "dealer",
+			Faction = "dealership",
 			Name = "Malone and Sons",
 			Blip = {
 				name = "Malone and Sons",
