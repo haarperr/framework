@@ -1,4 +1,4 @@
-	Register("Bucket", {
+Register("Bucket", {
 	Placement = "Floor",
 	Model = {
 		"prop_soil_bucket",

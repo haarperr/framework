@@ -139,7 +139,7 @@ function Decoration:Update()
 
 	-- Get settings.
 	local settings = self:GetSettings()
-	if not settings or settings.persistent then return end
+	if not settings or settings.persistent or settings.NoDecay then return end
 
 	-- Check persistence.
 	if self.persistent then return end
