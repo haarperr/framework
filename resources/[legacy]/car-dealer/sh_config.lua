@@ -1,4 +1,5 @@
 Config = {
+	Tax = 0.07,
 	MoneyFlag = 0,
 	UseDebit = true,
 	Garages = {

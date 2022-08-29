@@ -130,7 +130,9 @@ Citizen.CreateThread(function()
 				LastInteractionHandle = nil
 			else
 				local typeSettings = Config.Types[property.type]
-				local priceText = exports.misc:FormatNumber(property.price or typeSettings.Rent or typeSettings.Value or 0)
+				local price = property.price or typeSettings.Rent or typeSettings.Value or 0
+				price = math.floor(price + ( price * Config.TaxRate ))
+				local priceText = exports.misc:FormatNumber(price)
 				local text = ""
 				local occupied = property.character_id ~= nil
 				

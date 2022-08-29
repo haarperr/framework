@@ -29,6 +29,7 @@ function Main:StartPump()
 	self.started = false
 	exports.emotes:Play(Config.Anim)
 	self:Fuel()
+	TriggerEvent("chat:notify", { class="inform", text="Press [E] facing vehicle to fuel!" })
 end
 
 function Main:Fuel()

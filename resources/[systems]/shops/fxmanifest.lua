@@ -8,6 +8,7 @@ dependencies {
 }
 
 shared_scripts {
+	'@utils/shared/math.lua',
 	'@grids/shared/grids.lua',
 	'sh_templates.lua',
 	'sh_config.lua',
