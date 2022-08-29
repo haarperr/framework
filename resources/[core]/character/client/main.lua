@@ -4,6 +4,10 @@ function Main:CreateCharacter(data)
 	TriggerServerEvent(Main.event.."create", data)
 end
 
+function Main:RemoveCharacter(id)
+	table.remove(self.characters, tostring(id))
+end
+
 function Main:RegisterCharacter(character)
 	character = Character:Create(character)
 	
@@ -143,4 +147,8 @@ RegisterNetEvent(Main.event.."update", function(data)
 	for k, v in pairs(data) do
 		Main:Set(k, v)
 	end
+end)
+
+RegisterNetEvent(Main.event.."RemoveCharacter", function(id)
+	Main:RemoveCharacter(id)
 end)

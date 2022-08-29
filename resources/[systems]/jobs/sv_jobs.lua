@@ -534,8 +534,8 @@ end, {
 }, "Admin")
 
 exports.chat:RegisterCommand("fingerprint", function(source, args, rawCommand)
-	if exports.jobs:IsInEmergency() then
-		TriggerClientEvent("notify:sendAlert", source, "error", "You must be on duty!")
+	if not exports.jobs:IsInEmergency(source) then
+		TriggerClientEvent("chat:addMessage", source, { class = "emergency", text = "You must be on duty!" })
 		return
 	end
 
@@ -546,10 +546,42 @@ exports.chat:RegisterCommand("fingerprint", function(source, args, rawCommand)
 	if not character then return end
 
 	local message = ("[%s] comes back to %s %s, %s."):format(target, character.first_name, character.last_name, character.license_text)
-	TriggerClientEvent("chat:addMessage", source, message, "emergency")
+	TriggerClientEvent("chat:addMessage", source, { class = "emergency", text = message })
 end, {
 	description = "",
 	parameters = {
 		{ name = "Target", help = "ID of the target." },
+	}
+})
+
+exports.chat:RegisterCommand("doa", function(source, args, rawCommand)
+	if not exports.jobs:IsInEmergency(source) then
+		TriggerClientEvent("chat:addMessage", source, { class = "emergency", text = "You must be on duty!" })
+		return
+	end
+
+	local target = tonumber(args[1])
+	local character = exports.character:GetCharacter(target or 0)
+	
+	if not character then
+		TriggerClientEvent("chat:addMessage", source, { class = "emergency", text = "Invalid target!" })
+		return
+	end
+
+	exports.interact:SendConfirm(source, target, "You are being reported dead", function(response)
+		if response then
+			exports.character:Kill(target)
+
+			TriggerClientEvent("chat:addMessage", source, "They are dead now.")
+		else
+			TriggerClientEvent("chat:addMessage", source, "They declined the DOA.")
+		end
+	end, true)
+
+	-- TriggerClientEvent("chat:addMessage", source, message, "emergency")
+end, {
+	description = "Send a confirmation to kill somebody.",
+	parameters = {
+		{ name = "Target", help = "Person to report dead." },
 	}
 })
