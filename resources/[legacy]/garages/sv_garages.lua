@@ -353,6 +353,7 @@ AddEventHandler("character:selected", function(source, character)
 
 		exports.character:Set(source, "vehicles", vehicles)
 		TriggerClientEvent("garages:receiveGarages", source, Garages)
+		TriggerClientEvent("garages:receiveVehicles", source, vehicles)
 	end
 end)
 

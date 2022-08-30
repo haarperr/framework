@@ -437,7 +437,7 @@ AddEventHandler("garages:storeVehicle", function(netId)
 end)
 
 --[[ Resource Events ]]--
-AddEventHandler("garages:clientStart", function()
+AddEventHandler("character:selected", function(character)
 	TriggerServerEvent("garages:requestGarages")
 
 	if GetResourceState("cache") == "started" then
@@ -466,6 +466,12 @@ AddEventHandler("garages:receiveGarages", function(garages)
 			}
 		end
 	end
+	Initialize()
+end)
+
+RegisterNetEvent("garages:receiveVehicles")
+AddEventHandler("garages:receiveVehicles", function(vehicles)
+	Vehicles = vehicles
 	Initialize()
 end)
 
