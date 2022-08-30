@@ -45,6 +45,17 @@ function Main:SelectCharacter(id)
 end
 Export(Main, "SelectCharacter")
 
+function Main:SelectSpawn(id, appearance)
+	Menu:Destroy("characters")
+	Menu:Destroy("selection")
+	Menu:Destroy("create")
+	Menu:Destroy("spawns")
+	Menu:Destroy("spawnselection")
+	UI:Focus(false)
+	exports.spawning:Spawn(self.spawns[id].point, appearance, true)
+end
+Export(Main, "SelectSpawn")
+
 function Main:_SelectCharacter(id, wasActive)
 	local character = (id and self.characters[id]) or nil
 
@@ -58,8 +69,17 @@ function Main:_SelectCharacter(id, wasActive)
 
 		local coords = character:GetPosition()
 		local next = next
-		
-		exports.spawning:Spawn(coords, not character.appearance or next(character.appearance) == nil, wasActive)
+
+		if not wasActive then
+			if exports.jail:IsJailed() then
+				coords = vector4(1790.10107421875, 2578.252197265625, 46.29, 90.72119140625)
+				exports.spawning:Spawn(coords, not character.appearance or next(character.appearance) == nil, true)
+			else
+				Menu:ToggleSpawner(true, not character.appearance or next(character.appearance) == nil, wasActive)
+			end
+		else
+			exports.spawning:Spawn(coords, not character.appearance or next(character.appearance) == nil, wasActive)
+		end
 	else
 		exports.spawning:Init()
 	end

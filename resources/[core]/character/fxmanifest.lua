@@ -15,6 +15,7 @@ client_scripts {
 	'client/characters.lua',
 	'client/menu.lua',
 	'client/commands.lua',
+	'client/spawns.lua',
 	'client/switcher.lua',
 }
 

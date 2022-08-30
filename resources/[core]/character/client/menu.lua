@@ -107,6 +107,76 @@ function Menu:ToggleSelection(value)
 	end)
 end
 
+function Menu:ToggleSpawner(value, appearance, wasActive)
+	-- Focus NUI.
+	UI:Focus(value)
+
+	-- Check window already exists.
+	if value and self.spawns and self.spawnselection then
+		return
+	end
+
+	-- Destroy old windows.
+	self:Destroy("spawns")
+	self:Destroy("spawnselection")
+
+	-- Check toggle.
+	if not value then
+		return
+	end
+
+	-- Create window.
+	local spawnsWindow = Window:Create(Templates.Spawns)
+	local spawnSelectionWindow = Window:Create(Templates.SpawnSelection)
+
+	-- Cache windows.
+	self.spawns = spawnsWindow
+	self.spawnselection = spawnSelectionWindow
+
+	-- Set characters.
+	function spawnsWindow:UpdateList()
+		local spawns = Main.spawns
+		local _spawns = {}
+		
+		for id, spawn in pairs(spawns) do
+			spawn.id = id
+			_spawns[id] = spawn
+		end
+
+		self:SetModel("spawns", _spawns)
+	end
+	spawnsWindow:UpdateList()
+
+	-- Window model listener.
+	spawnsWindow:OnUpdateModel("spawnSelection", function(self, value, oldValue)
+		print(value)
+		if not value then return end
+		print(Main.spawns[value].name)
+
+		if not value then
+			spawnSelectionWindow:SetModel("name", false)
+			return
+		end
+	
+		local details = ("Do you want to spawn at %s?"):format(Main.spawns[value].name)
+		
+		spawnSelectionWindow.spawnId = value
+
+		spawnSelectionWindow:SetModel({
+			name = Main.spawns[value].name,
+			details = details,
+		})
+
+		spawnSelectionWindow:OnClick("spawn", function(self)
+			local id = self.spawnId
+			if not id then return end
+
+			print(appearance)
+			Main:SelectSpawn(id, appearance)
+		end)
+	end)
+end
+
 function Menu:ToggleCreate(value)
 	self:Destroy("characters")
 	self:Destroy("selection")
