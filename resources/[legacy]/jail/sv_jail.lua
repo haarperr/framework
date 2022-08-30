@@ -193,7 +193,7 @@ AddEventHandler("jail:breakout", function()
 	local ped = GetPlayerPed(source)
 	if not DoesEntityExist(ped) then return end
 	
-	local presence = exports.jobs:CountActiveEmergency("JailBreak")
+	local presence = exports.jobs:CountActiveDuty("JailBreak")
 	presence = 6
 
 	if presence >= Config.Breakout.MinPresence then
