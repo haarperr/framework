@@ -90,7 +90,7 @@ end)
 
 --[[ Commands ]]--
 exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawCommand)
-	local fee = 2000
+	local fee = 250
 	local vehicleId, target = tonumber(args[1]), tonumber(args[2])
 
 	-- Self check.
