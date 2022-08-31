@@ -126,6 +126,8 @@ function Shop:StockContainer()
 	local containerId = self.storage
 	if not containerId then return false end
 
+	exports.inventory:ContainerEmpty(containerId)
+
 	local filters = settings.Filters
 	if filters and filters.item then
 		for name, _ in pairs(filters.item) do
