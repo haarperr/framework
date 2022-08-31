@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
 				local ped = PlayerPedId()
 				local playerVehicle = GetVehiclePedIsIn(ped)
 				if not DoesEntityExist(playerVehicle) or GetVehicleClass(playerVehicle) ~= 18 then
-					TriggerEvent("chat:notify", "You must be in an emergency vehicle!", "error")
+					TriggerEvent("chat:notify", { class = "error", text = "You must be in an emergency vehicle!" })
 				else
 					local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = table.unpack(exports.oldutils:Raycast(playerVehicle))
 					local coords = GetEntityCoords(ped, false)
@@ -25,7 +25,7 @@ Citizen.CreateThread(function()
 						local data = {Plate = GetVehicleNumberPlateText(entity), Model = GetEntityModel(entity)}
 						TriggerServerEvent("dispatch:runPlate", data)
 					else
-						TriggerEvent("chat:notify", "You must be looking at a vehicle!", "error")
+						TriggerEvent("chat:notify", { class = "error", text = "You must be looking at a vehicle!" })
 					end
 				end
 			end
@@ -434,17 +434,17 @@ AddEventHandler("jobs:clocked", function(name, message)
 end)
 
 --[[ Commands ]]--
-RegisterCommand("runplate", function(source, args, command)
+exports.chat:RegisterCommand("runplate", function(source, args, command, cb)
     local ped = PlayerPedId()
 	local state = (LocalPlayer or {}).state
 
     if state.immobile or state.restrained then
-		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
+		TriggerEvent("chat:notify", {class = "error", text = "Can't seem to do that..." })
 		return
 	end
 
     if not exports.jobs:IsInGroup("emergency") then
-		TriggerEvent("chat:notify", "You must be on duty!", "error")
+		TriggerEvent("chat:notify", { class = "error", text = "You must be on duty!" })
 		return
 	end
 
@@ -453,46 +453,62 @@ RegisterCommand("runplate", function(source, args, command)
     local plate = args[1]
 
     TriggerServerEvent("dispatch:runPlate", {Plate = plate, Model = nil})
-end)
+end, {
+	description = "Run a license plate.",
+	parameters = {
+		{ name = "Plate", description = "Plate to run." },
+	},
+})
 
-RegisterCommand("311", function(source, args, command)
+
+exports.chat:RegisterCommand("311", function(source, args, command, cb)
 	local state = (LocalPlayer or {}).state
 	local message = command:sub(5)
 	local lPed = PlayerPedId()
 	if state.restrained then
-		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
+		TriggerEvent("chat:notify", {class = "error", text = "Can't seem to do that..." })
 	else
 		TaskPlayAnim(lPed, "cellphone@", "cellphone_call_listen_base", 2.0, 2.0, 3000, 49, 0, 0, 0, 0)
 		TriggerEvent("chat:addMessage", "(311) "..message, "nonemergency")
 		Report("emergency", message, 1, GetEntityCoords(PlayerPedId()))
 	end
-end)
+end, {
+	description = "Send a non emergency call in.",
+	parameters = {
+		{ name = "Message", description = "Message to send to dispatchers." },
+	},
+})
 
-RegisterCommand("911", function(source, args, command)
+exports.chat:RegisterCommand("911", function(source, args, command, cb)
 	local state = (LocalPlayer or {}).state
 	local message = command:sub(5)
 	local lPed = PlayerPedId()
 	if state.restrained then
-		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
+		TriggerEvent("chat:notify", {class = "error", text = "Can't seem to do that..." })
 	else
 		TaskPlayAnim(lPed, "cellphone@", "cellphone_call_listen_base", 2.0, 2.0, 3000, 49, 0, 0, 0, 0)
 		TriggerEvent("chat:addMessage", "(911) "..message, "emergency")
 		Report("emergency", message, 2, GetEntityCoords(PlayerPedId()))
 	end
-end)
+end, {
+	description = "Send an emergency call in.",
+	parameters = {
+		{ name = "Message", description = "Message to send to dispatchers." },
+	},
+})
 
-RegisterCommand("call", function(source, args, command)
+exports.chat:RegisterCommand("call", function(source, args, command, cb)
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
 	local state = (LocalPlayer or {}).state
 
 	if state.immobile or state.restrained then
-		TriggerEvent("chat:notify", "Can't seem to do that...", "error")
+		TriggerEvent("chat:notify", {class = "error", text = "Can't seem to do that..." })
 		return
 	end
 
 	if not exports.jobs:IsInGroup("emergency") then
-		TriggerEvent("chat:notify", "You must be on duty!", "error")
+		TriggerEvent("chat:notify", { class = "error", text = "You must be on duty!" })
 		return
 	end
 
@@ -508,7 +524,7 @@ RegisterCommand("call", function(source, args, command)
 		local playerVehicle = GetVehiclePedIsIn(ped)
 
 		if not DoesEntityExist(playerVehicle) or GetVehicleClass(playerVehicle) ~= 18 then
-			TriggerEvent("chat:notify", "You must be in an emergency vehicle!", "error")
+			TriggerEvent("chat:notify", { class = "error", text = "You must be in an emergency vehicle!" })
 			return
 		end
 
@@ -516,15 +532,20 @@ RegisterCommand("call", function(source, args, command)
 		if IsEntityAVehicle(entity) and #(coords - hitCoords) < 30.0 then
 			vehicle = entity
 		else
-			TriggerEvent("chat:notify", "You must be looking at a vehicle!", "error")
+			TriggerEvent("chat:notify", { class = "error", text = "You must be looking at a vehicle!" })
 			return
 		end
 	end
 
 	Report("emergency", code, 0, coords, vehicle, { coords = coords, rotation = rotation })
-end)
+end, {
+	description = "Call in to dispatch.",
+	parameters = {
+		{ name = "Code", description = "Code to send to dispatchers." },
+	},
+})
 
-RegisterCommand("codes", function()
+exports.chat:RegisterCommand("codes", function(source, args, command, cb)
 	DisplayCodes = not DisplayCodes
 	if DisplayCodes then
 		SendNUIMessage({ codes = Config.Codes })
