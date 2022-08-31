@@ -19,6 +19,11 @@ end)
 
 --[[ Functions ]]--
 function Open(debugMode)
+	if not exports.jobs:IsInGroup("emergency") then
+		TriggerEvent("chat:notify", { class = "error", text = "You must be in an emergency vehicle!" })
+		return
+	end
+
 	local ped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(ped, false)
 	if not DoesEntityExist(vehicle) or GetPedInVehicleSeat(vehicle, -1) ~= ped then return end
