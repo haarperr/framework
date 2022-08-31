@@ -88,7 +88,11 @@ function Add(report)
 			end
 		end
 	elseif (report.messageType == 1 or report.messageType == 2) and report.source then
-		report.phone = exports.character:Get(report.source, "phone_number")
+		local characterId = exports.character:Get(report.source, "id")
+		local phoneNumber = exports.GHMattiMySQL:QueryScalar("SELECT `phone_number` FROM `phones` WHERE `character_id`=@characterId", {
+			["@characterId"] = characterId,
+		})
+		report.phone = phoneNumber
 	end
 	
 	LastReport = LastReport + 1
@@ -225,7 +229,7 @@ AddEventHandler("dispatch:addUnit", function(id)
 end)
 
 AddEventHandler("jobs:clock", function(source, name, message)
-	if not message or exports.jobs:IsInGroup(source) ~= "emergency" then return end
+	if not message or not exports.jobs:IsInGroup(source, "emergency") then return end
 
 	local history = {}
 	for k, report in pairs(Reports) do
@@ -240,7 +244,7 @@ end)
 --[[ Commands ]]--
 exports.chat:RegisterCommand("dispatch", function(source, args, rawCommand)
 	local job = exports.jobs:GetCurrentJob(source, true)
-	if exports.jobs:IsInGroup(source) ~= "emergency" or job.DispatchDelay ~= nil then
+	if not exports.jobs:IsInGroup(source, "emergency") or job.DispatchDelay ~= nil then
 		TriggerClientEvent("chat:addMessage", source, "You are not on-duty emergency!")
 		return
 	end
@@ -267,7 +271,7 @@ exports.chat:RegisterCommand("dispatch", function(source, args, rawCommand)
 		local player = tonumber(GetPlayerFromIndex(i))
 		if not player then goto continue end
 		
-		if player == source or player == target or exports.jobs:IsInGroup(player) == "emergency" then
+		if player == source or player == target or exports.jobs:IsInGroup(player, "emergency") then
 			TriggerClientEvent("chat:addMessage", player, ("Dispatch [%s] to [%s]: %s"):format(source, target, text), "emergency")
 		end
 		
@@ -279,7 +283,7 @@ end, {
 		{ name = "Target", description = "ID of the target for the message." },
 		{ name = "Message", description = "The message sent through dispatch." },
 	}
-}, paramCount or -1, group)
+})
 
 exports.chat:RegisterCommand("a:dispatch", function(source, args, rawCommand)
 	local message = rawCommand:sub(("a:dispatch "):len() + 1)
