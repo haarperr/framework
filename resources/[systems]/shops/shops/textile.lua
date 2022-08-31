@@ -4,7 +4,7 @@ Config.Filters.Textile = {
 		["Brown Ink"] = true,
 		["Green Ink"] = true,
 		["Blue Ink"] = true,
-		["Brown Ink"] = true,
+		["Red Ink"] = true,
 		["Cloth"] = true,
 	},
 }
