@@ -28,6 +28,10 @@ function Open(debugMode)
 	local vehicle = GetVehiclePedIsIn(ped, false)
 	if not DoesEntityExist(vehicle) or GetPedInVehicleSeat(vehicle, -1) ~= ped then return end
 
+	if GetVehicleClass(vehicle) ~= 18 then
+		TriggerEvent("chat:notify", { class = "error", text = "You must be in an emergency vehicle!" })
+	else
+
 	Vehicle = vehicle
 
 	SetVehicleModKit(vehicle, 0)
