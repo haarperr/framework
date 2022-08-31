@@ -615,7 +615,7 @@ function Menu:Create()
 	else]]
 	self.fixed = true
 	self:CreateCustomization()
-	-end
+	--end
 	
 	-- Add to the pool.
 	menuPool:Add(menu)
