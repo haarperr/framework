@@ -30,7 +30,7 @@ function Open(debugMode)
 
 	if GetVehicleClass(vehicle) ~= 18 then
 		TriggerEvent("chat:notify", { class = "error", text = "You must be in an emergency vehicle!" })
-	else
+	end
 
 	Vehicle = vehicle
 
