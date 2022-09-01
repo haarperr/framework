@@ -4,7 +4,7 @@ Config.Doors = {
 	[`prison_prop_door2`] = { Electronic = true },
 	[`prison_prop_jaildoor`] = { Electronic = true },
 	[`xm_cellgate`] = { Sliding = true, Locked = false, Electronic = true },
-	[`prop_gate_prison_01`] = { Sliding = true, Distance = 10.0, Electronic = true },
+	[`prop_gate_prison_01`] = { Sliding = true, Distance = 10.0, Electronic = true, Fob = true },
 	[`hei_prop_station_gate`] = { Sliding = true, Distance = 6.0, Electronic = true, Fob = true },
 	[`v_ilev_gtdoor`] = { Electronic = true },
 	[`v_ilev_gtdoor02`] = { Electronic = true },
