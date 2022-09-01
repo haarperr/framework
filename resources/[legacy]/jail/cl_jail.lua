@@ -195,6 +195,7 @@ AddEventHandler("jail:clientStart", function()
 			if timeLeft > 0 then
 				TriggerEvent("chat:notify", Config.TimeLeft.Message:format(timeLeft), duration, "inform")
 			else
+				TriggerEvent("players:escort")
 				TriggerEvent("jail:leave")
 				TriggerServerEvent("jail:leave")
 			end
