@@ -17,8 +17,6 @@ end)
 
 RegisterNetEvent("jobs:clocked")
 AddEventHandler("jobs:clocked", function(name, source, onDuty)
-	print(source)
-	print(name,onDuty)
 	if not onDuty then return end
 
 	local job = exports.jobs:GetCurrentJob(source, true)
@@ -26,10 +24,10 @@ AddEventHandler("jobs:clocked", function(name, source, onDuty)
 	local delivery = job.Delivery
 	if not delivery then return end
 
-	local actives = Deliveries[job.Name]
+	local actives = Deliveries[name]
 	if actives == nil then
 		actives = {}
-		Deliveries[job.Name] = actives
+		Deliveries[name] = actives
 	end
 
 	local active = actives[source]

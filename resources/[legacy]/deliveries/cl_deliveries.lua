@@ -52,7 +52,6 @@ Citizen.CreateThread(function()
 	while true do
 		while not Data do
 			Citizen.Wait(1000)
-			print("no data")
 		end
 
 		while not DoesEntityExist(Vehicle) do
@@ -94,8 +93,9 @@ Citizen.CreateThread(function()
 				destinationState = 2
 			end
 			if destinationCoords and #(destinationCoords - pedCoords) < 2.0 and exports.oldutils:DrawContext({ {183,"Deliver"} }, destinationCoords, destinationState) and destinationState == 1 then
-				exports.emotes:Play(Config.Deliver.Anim)
-				TriggerServerEvent("deliveries:finishDelivery", NearestDestination.id, exports.jobs:GetCurrentJob().Name)
+				exports.emotes:Stop(Emote)
+				Emote = exports.emotes:Play(Config.Deliver.Anim)
+				TriggerServerEvent("deliveries:finishDelivery", NearestDestination.id, exports.jobs:GetCurrentJob())
 				
 				NearestDestination.complete = true
 				UpdateDestination(NearestDestination)
@@ -191,14 +191,13 @@ AddEventHandler("jobs:clocked", function(name, message)
 	if message ~= false and message ~= true then return end
 
 	local job = exports.jobs:GetJob(name)
-	print(job)
 	if not job then return end
 
 	local delivery = job.Delivery
 	if not delivery then return end
 
 	if message then
-		exports.mythic_notify:SendAlert("inform", Config.Messages.Start, 15000)
+		TriggerEvent("chat:notify", { class = "inform", text = Config.Messages.Start })
 	else
 		ClearDelivery()
 	end
