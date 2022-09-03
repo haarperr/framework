@@ -222,6 +222,7 @@ function Job:Clock(source, value, wasCached)
 
 	-- Trigger events.
 	TriggerEvent("jobs:clocked", self.id, source, value)
+	TriggerClientEvent("jobs:clocked", source, self.id, value)
 
 	-- Trackers.
 	local tracker = self.Tracker
