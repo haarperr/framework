@@ -184,6 +184,7 @@ end
 function Shop:Purchase(source, cart, paymentType)
 	local totalPrice = 0
 	local boughtPrice = 0
+	local totalItems = 0
 	local totalTax = 0
 	local tax = 0
 
@@ -206,9 +207,11 @@ function Shop:Purchase(source, cart, paymentType)
 		for item, quantity in pairs(cart) do
 			local itemInfo = exports.inventory:GetItem(item)
 			if not itemInfo then return false end
+			result = exports.inventory:GiveItem(source, item, quantity)
 
-			if exports.inventory:GiveItem(source, item, quantity) then
+			if result[1] then
 				boughtPrice = boughtPrice + quantity * itemInfo.value
+				totalItems = totalItems + quantity
 			end
 		end
 		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
