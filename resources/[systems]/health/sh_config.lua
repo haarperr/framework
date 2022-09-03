@@ -919,6 +919,20 @@ Config = {
 					},
 				},
 			},
+			{
+				name = "Anthony",
+				model = "s_m_m_doctor_01",
+				coords = vector4(-251.891, 6335.38, 32.42717, 170.3228),
+				animations = {
+					idle = { Dict = "anim@amb@nightclub@peds@", Name = "rcmme_amanda1_stand_loop_cop", Flag = 49 },
+				},
+				targets = {
+					{
+						coords = vector3(-258.7545, 6326.569, 32.42721),
+						radius = 6.0,
+					},
+				},
+			},
 		},
 	},
 	Respawn = {
