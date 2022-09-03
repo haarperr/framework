@@ -8,6 +8,7 @@ LastShot = nil
 LastWeapon = 0
 NearestEvidence = nil
 Response = nil
+CurrentEmote = nil
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
@@ -94,7 +95,7 @@ Citizen.CreateThread(function()
 
 		if
 			not Config.Debug and
-			not (exports.emotes:GetCurrentEmote() or {}).ShowEvidence and
+			not (CurrentEmote and CurrentEmote.ShowEvidence) and
 			not (selectedWeapon == Flashlight and IsPlayerFreeAiming(player))
 		then
 			IsViewing = false
@@ -280,7 +281,7 @@ function BeginForensics()
 	if InForensics then return end
 
 	-- Job check.
-	if not exports.jobs:IsOnDuty("paramedic") and not exports.jobs:IsOnDuty("detective") then
+	if not exports.jobs:GetCurrentJob("paramedic") and not exports.jobs:GetCurrentJob("detective") then
 		TriggerEvent("chat:notify", "You must be on duty!", "error")
 		return
 	end
@@ -423,6 +424,16 @@ AddEventHandler("inventory:use_Bleach", function(item, slotId)
 		if wasCancelled then return end
 		TriggerServerEvent("evidence:clearArea", slotId, GetEntityCoords(PlayerPedId()))
 	end)
+end)
+
+RegisterNetEvent("emotes:play")
+AddEventHandler("emotes:play", function(id, settings)
+	CurrentEmote = settings
+end)
+
+RegisterNetEvent("emotes:cancel")
+AddEventHandler("emotes:cancel", function(id)
+	CurrentEmote = nil
 end)
 
 AddEventHandler("grids:enter"..Config.GridSize, function()

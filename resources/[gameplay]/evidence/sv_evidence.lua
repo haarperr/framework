@@ -200,7 +200,7 @@ AddEventHandler("evidence:pickup", function(coords, itype)
 	-- local slot = exports.inventory:GetSlot(source, slotId, true)
 	-- if not slot then return end
 
-	if not exports.inventory:HasItem(exports.inventory:GetPlayerContainer(source), "Evidence Bag") then return end
+	if not exports.inventory:HasItem(source, "Evidence Bag") then return end
 	if not exports.inventory:TakeItem(source, "Evidence Bag") then return end
 
 	local extra = {}
