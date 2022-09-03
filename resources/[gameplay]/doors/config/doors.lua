@@ -206,7 +206,7 @@ Config.Doors = {
 	[1695461688] = {},
 
 	--[[ New Prison / Bolingbroke ]]--
-	[741314661] = { Sliding = true, Speed = 5.0, Distance = 15.0, Electronic = true },
+	[741314661] = { Sliding = true, Speed = 5.0, Distance = 15.0, Electronic = true, Fob = true },
 	[-1156020871] = { Item = "Thermite" },
 	[1373390714] = { Item = "Thermite" },
 	[871712474] = { Item = "Thermite" },
@@ -218,6 +218,7 @@ Config.Doors = {
 	[2024969025] = { Electronic = true },
 	[241550507] = { Electronic = true },
 	[913760512] = { Locked = false, Electronic = true },
+	[580361003] = {},
 
 	--[[ Tequi-la-la ]]--
 	[757543979] = {},
