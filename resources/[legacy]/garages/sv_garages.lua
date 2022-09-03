@@ -164,12 +164,13 @@ function DeleteVehicle(id)
 			local source = exports.character:GetCharacterById(id)
 			if source then
 				local vehicles = exports.character:Get(source, "vehicles")
-				vehicles[id] = nil
-				exports.character:Set(source, "vehicles", vehicles)
+				if vehicles then
+					vehicles[id] = nil
+					exports.character:Set(source, "vehicles", vehicles)
+				end
 			end
 		end
 	end
-
 	return true
 end
 exports("DeleteVehicle", DeleteVehicle)

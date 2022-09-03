@@ -57,6 +57,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 	end
 
 	local value = math.floor(((exports.vehicles:GetSettings(vehicle.model) or {}).Value or 0) * Config.Buyer.Delimiter)
+	print(value)
 
 	exports.interact:SendConfirm(source, source, "You are about to sell this vehicle for $"..exports.misc:FormatNumber(value), function(wasAccepted)
 		if not wasAccepted then return end
@@ -81,7 +82,7 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 				noun = "vehicle",
 				extra = ("id: %s - money: $%s"):format(vehicle.id, value),
 			})
-			TriggerClientEvent("chat:notify", source, "Your vehicle was sold for $"..exports.misc:FormatNumber(value).." and the money was transferred to your account.", "inform")
+			TriggerClientEvent("chat:notify", source, { text = "Your vehicle was sold for $"..exports.misc:FormatNumber(value).." and the money was transferred to your account.", class = "inform" })
 			exports.banking:AddBank(source, bankAccount, value)
 			--exports.log:AddEarnings(source, "Vehicles", value)
 		end
