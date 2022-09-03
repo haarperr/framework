@@ -210,7 +210,7 @@ function Shop:Purchase(source, cart, paymentType)
 			result = exports.inventory:GiveItem(source, item, quantity)
 
 			if result[1] then
-				boughtPrice = boughtPrice + quantity * itemInfo.value
+				boughtPrice = boughtPrice + quantity * (itemInfo.value * Config.Tax)
 				totalItems = totalItems + quantity
 			end
 		end
