@@ -1,7 +1,7 @@
 Config = {
 	Debug = false,
 	InterestRate = 0.035,
-	Commission = 0.005,
+	Commission = 0.01,
 	PaymentDays = 30,
 	GracePeriod = 7,
 	GridSize = 1,
