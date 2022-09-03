@@ -638,13 +638,17 @@ Vehicles = {
 	["pdalamo"] = { Value = 800 },
 	["pdbike"] = { Value = 800, Type = "Bike" },
 	["pdbuffalo"] = { Value = 800 },
+	["pdscout"] = { Value = 800 },
 	["pdstanier"] = { Value = 800 },
+	["pdtorence"] = { Value = 800 },
 
 	--[[ SASP Vehicles ]]--
 	["spalamo"] = { Value = 800 },
 	["spbike"] = { Value = 800, Type = "Bike" },
 	["spbuffalo"] = { Value = 800 },
+	["spscout"] = { Value = 800 },
 	["spstanier"] = { Value = 800 },
+	["sptorence"] = { Value = 800 },
 
 	--[[ LSFD Vehicles ]]--
 	--["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
