@@ -57,7 +57,6 @@ AddEventHandler("car-dealer:sellBack", function(netId)
 	end
 
 	local value = math.floor(((exports.vehicles:GetSettings(vehicle.model) or {}).Value or 0) * Config.Buyer.Delimiter)
-	print(value)
 
 	exports.interact:SendConfirm(source, source, "You are about to sell this vehicle for $"..exports.misc:FormatNumber(value), function(wasAccepted)
 		if not wasAccepted then return end
