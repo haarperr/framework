@@ -119,7 +119,7 @@ Config.Doors = {
 	[`v_ilev_bk_vaultdoor`] = { Vault = -160.0 },
 	[`v_ilev_gb_vauldr`] = { Vault = -90.0, Distance = 1.0 },
 	[`v_ilev_fin_vaultdoor`] = { Vault = 170.0, Distance = 4.0 },
-	[`v_ilev_cbankvauldoor01`] = { Default = -100.0, Vault = 0.0, Distance = 1.0 },
+	[`v_ilev_cbankvauldoor01`] = { Default = -105.0, Vault = 105.0, Distance = 1.0 },
 	[`hei_prop_heist_sec_door`] = { Vault = -90.0 },
 
 	[`ch_prop_arcade_fortune_door_01a`] = { Locked = true, Vault = 90.0 },
