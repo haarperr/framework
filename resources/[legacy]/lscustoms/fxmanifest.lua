@@ -2,22 +2,20 @@ fx_version 'adamant'
 game 'gta5'
 
 dependencies {
-	'vehicles-handling',
-	'jobs',
+	'markers',
 }
 
-shared_script {
-	'@utils/shared/math.lua',
+shared_scripts {
 	'sh_config.lua',
-	'sh_job.lua',
 }
 
 client_scripts {
 	'@NativeUILua_Reloaded/src/NativeUIReloaded.lua',
-	'cl_car-dealer.lua',
+	'cl_config.lua',
 	'cl_menu.lua',
+	'cl_customs.lua',
 }
 
 server_scripts {
-	'sv_car-dealer.lua',
+	'sv_customs.lua',
 }

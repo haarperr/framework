@@ -39,9 +39,13 @@ function Main:UpdateFrame()
 	end
 
 	-- Tripping.
+	if not self.nextTripCheck then
+		self.nextTripCheck = GetGameTimer() + GetRandomIntInRange(900000, 1800000)
+	end
+
 	if (not self.nextTripCheck or GetGameTimer() > self.nextTripCheck) and not IsPedOpeningADoor(ped) then
-		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.2
-		self.nextTripCheck = GetGameTimer() + 36000
+		self.shouldTrip = GetRandomFloatInRange(0.0, 1.0) < 0.1
+		self.nextTripCheck = GetGameTimer() + 1800000
 	end
 
 	SetPedRagdollOnCollision(Ped,

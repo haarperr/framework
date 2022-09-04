@@ -7,6 +7,9 @@ RegisterNetEvent("health:respawn", function()
 	Main:SetEffect("Hunger", GetRandomFloatInRange(0.6, 0.8))
 	Main:SetEffect("Thirst", GetRandomFloatInRange(0.6, 0.8))
 	Main:SetEffect("Stress", GetRandomFloatInRange(0.2, 0.3))
+	
+	TriggerEvent("players:carry")
+	TriggerServerEvent("players:carryEnd")
 
 	exports.teleporters:TeleportTo(Config.Respawn.Coords)
 end)

@@ -4,7 +4,7 @@ Client.__index = Client
 function Client:Create(source, id)
 	-- Load characters.
 	local result = exports.GHMattiMySQL:QueryResult([[
-		SELECT * FROM `characters` WHERE user_id=@userId
+		SELECT * FROM `characters` WHERE dead=0 AND user_id=@userId
 	]], {
 		["@userId"] = id,
 	})
@@ -97,6 +97,10 @@ function Client:AddCharacter(data)
 	self.characters[tostring(character.id)] = character
 
 	return true, character
+end
+
+function Client:RemoveCharacter(id)
+	table.remove(self.characters, tostring(id))
 end
 
 function Client:GetTimeSinceLastAction()

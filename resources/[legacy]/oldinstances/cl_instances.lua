@@ -164,7 +164,7 @@ AddEventHandler("oldinstances:join", function(instance)
 	Entering = true
 
 	-- Teleport and trigger events.
-	exports.teleporters:TeleportTo(instance.inCoords)
+	exports.teleporters:TeleportTo(instance.inCoords, instance)
 
 	Entering = false
 

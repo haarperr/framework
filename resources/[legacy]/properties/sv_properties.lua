@@ -54,7 +54,7 @@ local function CheckCount(source, properties, _type)
 	return true
 end
 
-function SetOwnership(source, id, price, lender, downPayment, mortgage)
+function SetOwnership(source, id, price, lender)
 	local property = Properties[id]
 	if not property then return false end
 
@@ -65,8 +65,7 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 	if not character then return false end
 
 	if character.bank then
-		if exports.banking:CanAfford(character.bank, downPayment or price) then
-
+		if exports.banking:CanAfford(character.bank, price) then
 			property.character_id = character.id
 			local properties = character.properties
 			properties[#properties + 1] = property
@@ -79,15 +78,15 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 				"UPDATE properties SET character_id=@character_id WHERE id=@id",
 			}
 
-			if price ~= 0 then
-				transactions[#transactions + 1] = "CALL payments_add(@character_id, "..(lender or "NULL")..", @id, NULL, @days, @price, "..(mortgage or "0")..")"
+			if settings.Rental then
+				transactions[#transactions + 1] = "CALL payments_add(@character_id, "..(lender or "NULL")..", @id, NULL, @days, @price, 0)"
 			end
 			
 			exports.log:Add({
 				source = source,
 				verb = "purchased",
 				noun = "property",
-				extra = ("id: %s - price: $%s - down: $%s - mortgage: $%s"):format(id, price or 0, downPayment or 0, mortgage or 0),
+				extra = ("id: %s - price: $%s"):format(id, price),
 			})
 			
 			exports.GHMattiMySQL:Transaction(transactions, {
@@ -96,16 +95,11 @@ function SetOwnership(source, id, price, lender, downPayment, mortgage)
 				["@days"] = Config.PaymentDays,
 				["@price"] = price,
 			})
-			
-			local tax = 0.0
-
-			if downPayments == nil then
-				tax = ( price * Config.TaxRate )
-				exports.banking:AddBank(source, character.bank, ( price * -1 ))
-			else
-				tax = ( downPayment * Config.TaxRate )
-				exports.banking:AddBank(source, character.bank, ( downPayment * -1 ) or price * -1)
-			end
+		
+			local tax = price * Config.TaxRate
+			print(tax)
+			price = math.floor(price + tax)
+			exports.banking:AddBank(source, character.bank, -price, true)
 
 			if tax > 0 then
 				exports.banking:StateTax(tax)
@@ -355,8 +349,9 @@ AddEventHandler("properties:buy", function(id)
 
 	local price = property.price or settings.Rent or settings.Value
 	if not price then return end
+	local calculatedPrice = math.floor(price + ( price * Config.TaxRate))
 
-	if not exports.banking:CanAfford(character.bank, price) then
+	if not exports.banking:CanAfford(character.bank, calculatedPrice) then
 		TriggerClientEvent("chat:notify", source, "You cannot afford this property!", "error")
 		return
 	end
@@ -544,7 +539,7 @@ AddEventHandler("properties:start", function()
 
 				if containerId == nil then
 					-- Register container.
-					print("Create property container: ["..property.id.."]")
+					--print("Create property container: ["..property.id.."]")
 					container = exports.inventory:RegisterContainer(data)
 				end
 				--Containers[property.id] = containerId
@@ -903,10 +898,10 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
         return 
     end
 	
-	--if source == target then
-	--	TriggerClientEvent("chat:notify", source, "You cannot sell yourself a property!", "error")
---		return
---	end
+	if source == target then
+		TriggerClientEvent("chat:notify", source, "You cannot sell yourself a property!", "error")
+		return
+	end
 	
 	property = Properties[propertyId]
 	if not property or property.character_id then
@@ -923,28 +918,9 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 		return
 	end
 
-	local discount, downPayment, term = (tonumber(args[3]) or 0.0), (tonumber(args[4]) or 0.0), math.min(math.max(tonumber(args[5]) or 0, 0), 0)
-	if discount > 1.0 then
-		discount = discount / 100.0
-	end
-	if downPayment > 1.0 then
-		downPayment = downPayment / 100.0
-	end
-	discount = math.min(math.max(discount, 0.0), 0.0)
-	price = math.ceil(price * (1.0 - discount))
-	downPayment = math.ceil(price * math.min(math.max(downPayment, 0.0), 0.0))
+	price = math.floor(price + ( price * Config.TaxRate ))
 
-	local principal = price - downPayment
-	local mortgage
-
-	local message
-	if term == 0 then
-		message = "They hand you a contract for property "..propertyId..". It states you shall make a single payment of $"..exports.misc:FormatNumber(price).." for ownership"
-		downPayment = price
-	else
-		mortgage = math.ceil((principal + (principal * Config.InterestRate * term)) / term)
-		message = "They hand you a contract for property "..propertyId..". It states you shall make a down payment of $"..exports.misc:FormatNumber(downPayment).." and will pay $"..exports.misc:FormatNumber(mortgage).." every 30 days for "..term.." months"
-	end
+	local message = "They hand you a contract for property "..propertyId..". It states you shall make a single payment of $"..exports.misc:FormatNumber(price).." for ownership."
 	
 	exports.interact:SendConfirm(source, target, message, function(response)
 		if not response then
@@ -952,33 +928,26 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 			return
 		end
 		local bank = exports.character:Get(target, "bank")
-		if not bank or not exports.banking:CanAfford(bank, downPayment) then
+		if not bank or not exports.banking:CanAfford(bank, price) then
 			TriggerClientEvent("chat:notify", target, "Their bank has declined the payment.", "error")
 			return
 		end
 		local sourceId = exports.character:Get(source, "id")
 		if not sourceId then return end
 
-		local amount
-		if term == 0 then
-			amount = 0
-		else
-			amount = mortgage * term
-		end
-
 		if not CheckCount(source, exports.character:Get(target, "properties"), property.type) then return end
 
-		if SetOwnership(target, propertyId, amount, sourceId, downPayment, mortgage) then
-			local commission = math.min(downPayment, math.floor(price * Config.Commission))
+		if SetOwnership(target, propertyId, price, sourceId) then
+			local commission = math.floor(price * Config.Commission)
 
 			exports.log:Add({
 				source = source,
 				verb = "getting",
-				noun = "comission",
-				extra = ("$%s"):format(comission),
+				noun = "commission",
+				extra = ("$%s"):format(commission),
 			})
 			
-			local primaryAccount = exports.character:Get("id", source)
+			local primaryAccount = exports.character:Get(source, "bank")
 			if primaryAccount then
 				exports.banking:AddBank(source, primaryAccount, commission)
 			else

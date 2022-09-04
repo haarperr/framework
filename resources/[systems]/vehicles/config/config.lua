@@ -1,4 +1,7 @@
 Config = {
+	Driving = {
+		FuelBurnRate = 0.000015,
+	},
 	FieldKit = {
 		Anim = {
 			Dict = "missmechanic",
@@ -139,6 +142,7 @@ Config = {
 			["frogger2"] = true,
 			["maverick"] = true,
 			["polmav"] = true,
+			["taxi"] = true,
 		},
 		Distance = 5.0,
 	},

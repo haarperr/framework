@@ -164,12 +164,13 @@ function DeleteVehicle(id)
 			local source = exports.character:GetCharacterById(id)
 			if source then
 				local vehicles = exports.character:Get(source, "vehicles")
-				vehicles[id] = nil
-				exports.character:Set(source, "vehicles", vehicles)
+				if vehicles then
+					vehicles[id] = nil
+					exports.character:Set(source, "vehicles", vehicles)
+				end
 			end
 		end
 	end
-
 	return true
 end
 exports("DeleteVehicle", DeleteVehicle)
@@ -260,8 +261,8 @@ AddEventHandler("garages:retrieveVehicle", function(id)
 	local value = (garage.property_id ~= nil and 0) or GetStorageValue(vehicle.model)
 
 	if value > 0 then
-		if not exports.inventory:CanAfford(source, value, 0, true) then return end
-		exports.inventory:TakeMoney(source, value, 0, true)
+		if not exports.inventory:CanAfford(source, value, true, true) then return end
+		exports.inventory:TakeMoney(source, value, true, true)
 	end
 	
 	local oldPlate = vehicle.plate
@@ -353,6 +354,7 @@ AddEventHandler("character:selected", function(source, character)
 
 		exports.character:Set(source, "vehicles", vehicles)
 		TriggerClientEvent("garages:receiveGarages", source, Garages)
+		TriggerClientEvent("garages:receiveVehicles", source, vehicles)
 	end
 end)
 

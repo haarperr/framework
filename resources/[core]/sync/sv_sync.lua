@@ -51,6 +51,11 @@ function Main:SetWeather(weather)
 	return true
 end
 
+--[[ Exports ]]--
+exports("SetWeather", function(...)
+	Main:SetWeather(...)
+end)
+
 --[[ Functions: Time ]]--
 function Main:GetTimeWithOffset()
 	return os.time() + (self.timeOffset or 0)

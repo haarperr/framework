@@ -49,11 +49,11 @@ function Main:TeleportTo(coords, instance)
 	local ped = PlayerPedId()
 	local wasVisible = IsEntityVisible(ped)
 
-	local currentInstance = GetResourceState("instances") == "started" and exports.instances:GetInstance()
+	local currentInstance = GetResourceState("oldinstances") == "started" and exports.oldinstances:GetPlayerInstance()
 	if instance and currentInstance ~= instance then
-		TriggerServerEvent("instances:join", instance)
+		TriggerServerEvent("oldinstances:join", instance)
 	elseif not instance and currentInstance then
-		TriggerServerEvent("instances:leave")
+		TriggerServerEvent("oldinstances:left")
 	end
 
 	FreezeEntityPosition(ped, true)

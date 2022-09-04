@@ -19,16 +19,33 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Events ]]--
-for name, settings in pairs(Config.Types) do
-	RegisterNetEvent("inventory:use_"..name)
-	AddEventHandler("inventory:use_"..name, function(item, slotId)
-		if Camera then
-			ExitView()
-		elseif not IsPedInAnyVehicle(PlayerPedId()) then
-			EnterView(settings)
+AddEventHandler("inventory:use", function(item, slot, cb)
+	local valid = false
+	for name, settings in pairs(Config.Types) do
+		if item.name == name then
+			valid = true
+			break
 		end
-	end)
-end
+	end
+
+	if not valid then return end
+
+	cb(1000)
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slot)
+	local valid = false
+	for name, settings in pairs(Config.Types) do
+		if item.name == name then
+			if Camera then
+				ExitView()
+			elseif not IsPedInAnyVehicle(PlayerPedId()) then
+				EnterView(settings)
+			end
+			break
+		end
+	end
+end)
 
 --[[ Functions ]]--
 function EnterView(settings)

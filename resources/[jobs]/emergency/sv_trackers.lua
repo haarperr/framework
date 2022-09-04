@@ -6,10 +6,14 @@ Models = {
 	[`pdalamo`] = "cruiser",
 	[`pdbuffalo`] = "cruiser",
 	[`pdcara`] = "cruiser",
+	[`pdscout`] = "cruiser",
 	[`pdstanier`] = "cruiser",
+	[`pdtorence`] = "cruiser",
 	[`spalamo`] = "cruiser",
 	[`spbuffalo`] = "cruiser",
+	[`spscout`] = "cruiser",
 	[`spstanier`] = "cruiser",
+	[`sptorence`] = "cruiser",
 
 	--[`pdinterceptor`] = "intercept",
 

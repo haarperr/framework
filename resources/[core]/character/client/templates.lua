@@ -184,6 +184,92 @@ Templates.Selection = {
 	},
 }
 
+Templates.Spawns = {
+	type = "window",
+	title = "Select Spawn",
+	class = "compact",
+	style = {
+		["width"] = "45vmin",
+		["height"] = "auto",
+		["bottom"] = "2vmin",
+		["left"] = "2vmin",
+	},
+	defaults = {
+		spawns = {},
+	},
+	components = {
+		{
+			type = "q-list",
+			template = [[
+				<div>
+					<q-item
+						v-for="spawn in $getModel('spawns')"
+						:key="spawn.id"
+						@click="$setModel('spawnSelection', $getModel('spawnSelection') == spawn.id ? 0 : spawn.id)"
+						clickable
+						:active="$getModel('spawnSelection') == spawn.id"
+						active-class="text-white bg-grey-8"
+					>
+						<q-item-section>
+							<q-item-label lines="1">{{spawn.name}}<q-item-label>
+						</q-item-section>
+					</q-item>
+				</div>
+			]]
+		},
+	},
+}
+
+Templates.SpawnSelection = {
+	type = "window",
+	class = { "compact", "transparent" },
+	style = {
+		["width"] = "40vmin",
+		["height"] = "auto",
+		["top"] = "5vmin",
+		["left"] = "50%",
+		["transform"] = "translate(-50%, 0%)",
+	},
+	components = {
+		{
+			type = "q-card",
+			condition = "this.$getModel('name')",
+			style = {
+				["overflow"] = "hidden",
+			},
+			components = {
+				{
+					type = "q-card-section",
+					template = [[
+						<div>
+							<div class="text-h6">Spawn Selection</div>
+							<div class="text-subtitle2" v-html='$getModel("details")'></div>
+						</div>
+					]],
+				},
+				{
+					type = "q-separator",
+				},
+				{
+					type = "q-card-actions",
+					components = {
+						{
+							type = "q-btn",
+							text = "Spawn",
+							binds = {
+								color = "blue",
+							},
+							click = {
+								event = "spawn",
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+}
+
 Templates.Create = {
 	type = "window",
 	title = "Create Character",

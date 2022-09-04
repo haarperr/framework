@@ -138,7 +138,7 @@ function Shop:Load(stock)
 
 	self.stock = {}
 	local items = {}
-	
+
 	-- Convert stock.
 	for itemId, quantity in pairs(stock) do
 		local item = exports.inventory:GetItem(itemId)
@@ -152,7 +152,7 @@ function Shop:Load(stock)
 			name = item.name,
 			icon = item.name:gsub("%s+", ""),
 			stock = quantity,
-			price = item.value,
+			price = Round((item.value ) + ( item.value * Config.Tax ), 2),
 		}
 
 		-- Cache stock.

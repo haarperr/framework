@@ -121,7 +121,7 @@ function AddBank(source, account, amount, notify)
 		else
 			notify = "$"..tostring(exports.misc:FormatNumber(math.abs(amount))).." has been deducted from your account!"
 		end
-        TriggerClientEvent("chat:notify", source, notify, "inform")
+        TriggerClientEvent("chat:notify", source, { class="inform", text=notify})
 	end
 end
 exports("AddBank", AddBank)
@@ -260,7 +260,7 @@ AddEventHandler("banking:deleteAccount", function(account)
     local source = source
     if account ~= 1 then
         if BankAccounts[account] then
-            if exports.GHMattiMySQL:Query("DELETE FROM bank_accounts WHERE account_primary = 1 AND account_id = "..account, {}) then
+            if exports.GHMattiMySQL:Query("DELETE FROM bank_accounts WHERE account_primary = 0 AND account_id = "..account, {}) then
                 BankAccounts[account] = nil
             else
                 TriggerClientEvent("chat:notify", source, "You cannot delete your primary account.", "error")

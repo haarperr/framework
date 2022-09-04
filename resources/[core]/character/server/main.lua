@@ -224,6 +224,19 @@ function Main:GetActiveCharacters()
 end
 Export(Main, "GetActiveCharacters")
 
+function Main:Kill(source)
+	local character = self:GetCharacter(source)
+	if character == nil then return end
+
+	local client = self.players[source]
+
+	self:Set(source, "dead", 1)
+	client:RemoveCharacter(character.id)
+	TriggerClientEvent(Main.event.."RemoveCharacter", source, character.id)
+	TriggerClientEvent("markers:use_CharacterSwitch", source)
+end
+Export(Main, "Kill")
+
 function Main:Cache()
 	if GetResourceState("cache") ~= "started" then return end
 

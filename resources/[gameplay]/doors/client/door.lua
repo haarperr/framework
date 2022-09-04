@@ -13,6 +13,12 @@ function Door:Create(group, entity, state, info)
 	local id = (Main.lastId or 0) + 1
 	Main.lastId = id
 
+	-- Update default heading.
+	if settings.Default then
+		info.heading = info.heading + settings.Default
+		SetEntityHeading(entity, info.heading)
+	end
+
 	-- Create instance.
 	self = setmetatable({
 		id = id,

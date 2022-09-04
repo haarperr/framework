@@ -832,8 +832,8 @@ Config = {
 			HealthLoss = 0.15,
 		},
 		Land = {
-			Run = 5.0,
-			Sprint = 2.0,
+			Run = 2.25,
+			Sprint = 0.65,
 		},
 	},
 	Stress = {
@@ -916,6 +916,20 @@ Config = {
 					{
 						coords = vector3(1779.765, 2560.804, 45.79791),
 						radius = 10.0,
+					},
+				},
+			},
+			{
+				name = "Anthony",
+				model = "s_m_m_doctor_01",
+				coords = vector4(-251.891, 6335.38, 32.42717, 170.3228),
+				animations = {
+					idle = { Dict = "anim@amb@nightclub@peds@", Name = "rcmme_amanda1_stand_loop_cop", Flag = 49 },
+				},
+				targets = {
+					{
+						coords = vector3(-258.7545, 6326.569, 32.42721),
+						radius = 6.0,
 					},
 				},
 			},

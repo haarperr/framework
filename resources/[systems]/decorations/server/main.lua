@@ -329,7 +329,6 @@ AddEventHandler("inventory:loaded", function()
 end)
 
 AddEventHandler("oldinstances:playerEntered", function(source, id)
-	print("Instance",id)
 	Main:SetGrid(source, id)
 end)
 

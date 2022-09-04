@@ -38,6 +38,7 @@ end
 exports("AddSwitcher", AddSwitcher)
 
 --[[ Events ]]--
+RegisterNetEvent("markers:use_CharacterSwitch")
 AddEventHandler("markers:use_CharacterSwitch", function()
 	Main:SelectCharacter()
 end)

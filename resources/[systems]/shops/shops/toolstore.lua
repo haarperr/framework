@@ -19,11 +19,10 @@ Config.Filters.Toolstore = {
 		["Electrical Tape"] = true,
 		["Knife"] = true,
 		["Switchblade"] = true,
-		["Green Ink"] = true,
-		["Red Ink"] = true,
 		["Magnetic Strip"] = true,
 		["Scissors"] = true,
 		["Paperclip"] = true,
+		["Jerry Can"] = true,
 	},
 }
 

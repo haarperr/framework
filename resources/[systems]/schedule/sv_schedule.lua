@@ -10,7 +10,6 @@ Announcements = {
 	{ "“It's the end of the world every day, for someone.” ― Margaret Atwood, The Blind Assassin" },
 	{ "“Just in case the world ends tomorrow, we might as well enjoy today.” ― Susan Beth Pfeffer, Life As We Knew It" },
 	{ "“But if there must be an end, let it be loud. Let it be bloody. Better to burn than to wither away in the dark.” ― Mike Mignola, Hellboy, Vol. 6: Strange Places", "fight" },
-	{ "“I couldn't think of anything cool to say.” ― James Roll, Visual Studio Code", "james" },
 	{ "“I fell asleep to the sounds of the end of the world.” ― Michael Douglas" },
 	{ "“Pandora's box had been opened and monsters had come out. But there had been something hidden at the bottom of Pandora's box. Something wonderful. Hope.” ― Lisa Marie Rice, Breaking Danger" },
 	{ "“Life isn't about waiting for the storm to pass... It's about learning to dance in the rain.” ― Vivian Greene" },
@@ -18,6 +17,26 @@ Announcements = {
 	{ "“I do not know with what weapons World War III will be fought, but World War IV will be fought with sticks and stones.” – Albert Einstein." },
 }
 
+AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
+	if eventData.secondsRemaining == 600 then
+		local text, special = table.unpack(Announcements[math.random(1, #Announcements)])
+		exports.sync:SetWeather("THUNDER")
+		TriggerClientEvent("chat:addMessage", -1, text, "server")
+	end
+	
+	if eventData.secondsRemaining == 300 then
+		exports.sync:SetWeather("THUNDER")
+	end
+	
+	if eventData.secondsRemaining == 240 then
+		exports.sync:SetWeather("THUNDER")
+	end
+	
+	if eventData.secondsRemaining == 180 then
+		exports.sync:SetWeather("THUNDER")
+	end
+end)
+--[[
 Citizen.CreateThread(function()
 	while true do
 		if os.clock() > GracePeriod then
@@ -72,4 +91,4 @@ end
 function Restart()
 	os.exit()
 end
-exports("Restart", Restart)
+exports("Restart", Restart)]]

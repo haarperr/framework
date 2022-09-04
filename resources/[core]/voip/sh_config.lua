@@ -40,9 +40,9 @@ Config = {
 			{ Coords = vector3(-550.9138793945312, 286.9436950683594, 82.97657012939453), Radius = 1.5 }, -- Tequi-la-la R.
 			{ Coords = vector3(-1831.1636962890625, -1190.7034912109375, 19.87976264953613), Radius = 1.5 }, -- Pearls.
 			{ Coords = vector3(-576.8135986328125, -210.30194091796875, 38.98944854736328), Radius = 1.5 }, -- Courthouse Judge seat.
-			{ Coords = vector3(-572.6636962890625, -207.92184448242188, 38.7354736328125), Radius = 0.5 }, -- Courthouse Speaking Stand.
-			{ Coords = vector3(-575.6636352539062, -212.1642608642578, 39.02237701416015), Radius = 0.8 }, -- Courthouse Witness Stand Right.
-			{ Coords = vector3(-577.8472900390625, -208.38658142089844, 38.66215896606445), Radius = 0.8 }, -- Courthouse Witness Stand Left.
+			{ Coords = vector3(-572.6636962890625, -207.92184448242188, 38.7354736328125), Radius = 1.0 }, -- Courthouse Speaking Stand.
+			{ Coords = vector3(-576.1199, -212.3873, 38.07262), Radius = 0.8 }, -- Courthouse Witness Stand Right.
+			{ Coords = vector3(-578.2142, -208.6503, 38.07262), Radius = 0.8 }, -- Courthouse Witness Stand Left.
 			{ Coords = vector3(-1378.4508056640625, -629.0260620117188, 30.62794494628906), Radius = 1.5 }, -- Bahama Mamas.
 			{ Coords = vector3(4893.516, -4905.183, 3.486646), Radius = 2.0 }, -- Cayo Perico, Pleasure Cove.
 		},

@@ -4,7 +4,7 @@ Config.Doors = {
 	[`prison_prop_door2`] = { Electronic = true },
 	[`prison_prop_jaildoor`] = { Electronic = true },
 	[`xm_cellgate`] = { Sliding = true, Locked = false, Electronic = true },
-	[`prop_gate_prison_01`] = { Sliding = true, Distance = 10.0, Electronic = true },
+	[`prop_gate_prison_01`] = { Sliding = true, Distance = 10.0, Electronic = true, Fob = true },
 	[`hei_prop_station_gate`] = { Sliding = true, Distance = 6.0, Electronic = true, Fob = true },
 	[`v_ilev_gtdoor`] = { Electronic = true },
 	[`v_ilev_gtdoor02`] = { Electronic = true },
@@ -119,7 +119,7 @@ Config.Doors = {
 	[`v_ilev_bk_vaultdoor`] = { Vault = -160.0 },
 	[`v_ilev_gb_vauldr`] = { Vault = -90.0, Distance = 1.0 },
 	[`v_ilev_fin_vaultdoor`] = { Vault = 170.0, Distance = 4.0 },
-	[`v_ilev_cbankvauldoor01`] = { Default = -100.0, Vault = 0.0, Distance = 1.0 },
+	[`v_ilev_cbankvauldoor01`] = { Default = -105.0, Vault = 105.0, Distance = 1.0 },
 	[`hei_prop_heist_sec_door`] = { Vault = -90.0 },
 
 	[`ch_prop_arcade_fortune_door_01a`] = { Locked = true, Vault = 90.0 },
@@ -206,7 +206,7 @@ Config.Doors = {
 	[1695461688] = {},
 
 	--[[ New Prison / Bolingbroke ]]--
-	[741314661] = { Sliding = true, Speed = 5.0, Distance = 15.0, Electronic = true },
+	[741314661] = { Sliding = true, Speed = 5.0, Distance = 15.0, Electronic = true, Fob = true },
 	[-1156020871] = { Item = "Thermite" },
 	[1373390714] = { Item = "Thermite" },
 	[871712474] = { Item = "Thermite" },
@@ -218,6 +218,7 @@ Config.Doors = {
 	[2024969025] = { Electronic = true },
 	[241550507] = { Electronic = true },
 	[913760512] = { Locked = false, Electronic = true },
+	[580361003] = {},
 
 	--[[ Tequi-la-la ]]--
 	[757543979] = {},

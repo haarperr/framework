@@ -41,6 +41,9 @@ function Interactable:UpdateConditions()
 		for _, item in ipairs(self.items) do
 			local amount = item.amount or 1
 			local hasItem = (exports.inventory:CountItem(item.name) or 0) >= amount
+			if item.name == "Bills" then
+				hasItem = (exports.inventory:CanAfford(amount, true, true))
+			end
 
 			if not item.hidden then
 				if extraText ~= "" then

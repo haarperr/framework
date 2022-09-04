@@ -130,7 +130,9 @@ Citizen.CreateThread(function()
 				LastInteractionHandle = nil
 			else
 				local typeSettings = Config.Types[property.type]
-				local priceText = exports.misc:FormatNumber(property.price or typeSettings.Rent or typeSettings.Value or 0)
+				local price = property.price or typeSettings.Rent or typeSettings.Value or 0
+				price = math.floor(price + ( price * Config.TaxRate ))
+				local priceText = exports.misc:FormatNumber(price)
 				local text = ""
 				local occupied = property.character_id ~= nil
 				
@@ -298,7 +300,7 @@ AddEventHandler("properties:toggleLock", function()
 	TriggerServerEvent("properties:lock", NearestProperty)
 end)
 
-AddEventHandler("properties:clientStart", function()
+AddEventHandler("character:selected", function(character)
 	TriggerServerEvent("properties:request")
 end)
 
@@ -433,7 +435,7 @@ RegisterCommand("property:available", function()
 	local blips = {}
 
 	for id, property in pairs(Properties) do
-		if property.character_id == nil and not property.Secret and not Config.Types[property.type].Custom then
+		if Config.Types[property.type] and property.character_id == nil and not property.Secret and not Config.Types[property.type].Custom then
 			local blip = AddBlipForCoord(property.x, property.y, property.z)
 			
 			SetBlipSprite(blip, Config.Types[property.type].Sprite or 40)
