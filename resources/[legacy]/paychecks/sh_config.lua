@@ -4,6 +4,7 @@ Config = {
 	Interval = 30, -- In minutes.
 	DefaultPay = 2, -- In dollars.
 	PayMultiplier = 1,
+	LicenseCost = 100, -- License cost in dollars.
 	Messages = {
 		Employed = "Your paycheck is in!",
 		Unemployed = "Your welfare check is in!",

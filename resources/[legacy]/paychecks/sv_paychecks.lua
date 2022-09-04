@@ -62,6 +62,37 @@ AddEventHandler("paychecks:request", function()
 	--exports.character:Save(source, "paycheck", "bank")
 end)
 
+RegisterNetEvent("paychecks:purchaseLicense")
+AddEventHandler("paychecks:purchaseLicense", function()
+	local source = source
+	local character = exports.character:GetCharacter(source)
+	if not character then return end
+
+	if exports.inventory:CanAfford(source, Config.LicenseCost, true, true) then
+		extras = {
+			["Character"] = exports.character:Get(source, "id"),
+			["Name"] = exports.character:GetName(source),
+			["ID"] = exports.character:Get(source, "license_text"),
+			["DOB"] = exports.character:Get(source, "dob"),
+		}
+		result = exports.inventory:GiveItem(source, "License", 1, extras)
+		if result[1] then
+			exports.inventory:TakeMoney(source, Config.LicenseCost, true, true)
+	
+			TriggerClientEvent("chat:notify", source, { class = "success", text = "You purchased a new license." })
+
+			exports.log:Add({
+				source = source,
+				verb = "purchased",
+				noun = "license",
+				extra = ("%s - $%s"):format(character.id or "?", Config.LicenseCost),
+			})
+		end
+	else
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "You can't afford a new license." })
+	end
+end)
+
 exports.chat:RegisterCommand("paycheck", function(source, args, command)
 	local source = source
 	local character = exports.character:GetCharacter(source)
