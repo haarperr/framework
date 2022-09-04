@@ -8,6 +8,13 @@ AddEventHandler("paychecks:clientStart", function()
 			{
 				id = "paycheck",
 				text = "Collect Paycheck",
+			},
+			{
+				id = "licensePurchase",
+				text = "Buy License",
+				items = {
+					{ name = "Bills", amount = 100 },
+				}
 			}
 		},
 		coords = Config.Coords,
@@ -16,6 +23,10 @@ AddEventHandler("paychecks:clientStart", function()
 
 	AddEventHandler("interact:on_paycheck", function()
 		TriggerServerEvent("paychecks:request")
+	end)
+
+	AddEventHandler("interact:on_licensePurchase", function()
+		TriggerServerEvent("paychecks:purchaseLicense")
 	end)
 
 end)
