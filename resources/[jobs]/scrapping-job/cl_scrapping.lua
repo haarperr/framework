@@ -5,6 +5,7 @@ ModelCache = {}
 NearestDist = nil
 NearestEntity = nil
 ObjectCache = {}
+CurrentEmote = nil
 
 --[[ Initialization ]]--
 for k, v in ipairs(Config.Scrapping.Props) do
@@ -89,7 +90,7 @@ function CheckEntity(entity, notify)
 	end
 
 	if notify and message then
-		exports.mythic_notify:SendAlert("error", message, 7000)
+		TriggerEvent("chat:addMessage", {message = message, class = "error"})
 	end
 
 	return message == nil
@@ -129,7 +130,7 @@ function PickUp(entity)
 
 	Carrying = prop
 
-	exports.emotes:Play(emote, function()
+	CurrentEmote = exports.emotes:Play(emote, function()
 		Carrying = nil
 	end)
 	
@@ -158,6 +159,12 @@ AddEventHandler("grids:exit"..Config.GridSize, function(grid, nearbyGrids)
 end)
 
 --[[ Events ]]--
+RegisterNetEvent("emotes:cancel")
+AddEventHandler("emotes:cancel", function(id)
+	CurrentEmote = nil
+	Carrying = nil
+end)
+
 RegisterNetEvent("scrapping:receiveGrids")
 AddEventHandler("scrapping:receiveGrids", function(grid, data)
 	Grids[grid] = data

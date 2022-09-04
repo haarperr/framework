@@ -15,7 +15,7 @@ AddEventHandler("onClientResourceStart", function(resourceName)
 			Config.Scrapper.Action.Snap = coords
 			local carrying = Carrying
 			
-			exports.emotes:Stop(true)
+			exports.emotes:Stop(CurrentEmote)
 			exports.mythic_progbar:Progress(Config.Scrapper.Action, function(wasCancelled)
 				if wasCancelled then return end
 				TriggerServerEvent("scrapping:scrap", carrying.index)

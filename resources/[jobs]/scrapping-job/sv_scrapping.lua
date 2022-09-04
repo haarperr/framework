@@ -77,7 +77,7 @@ function InformNearby(grid, source)
 	local gridData = Grids[grid]
 	if not gridData then return end
 
-	local nearbyGrids = exports.oldgrids:GetGrid(pos, Config.GridSize)
+	local nearbyGrids = exports.oldgrids:GetNearbyGrids(grid, Config.GridSize)
 
 	for _, nearbyGrid in ipairs(nearbyGrids) do
 		local nearbyData = Grids[nearbyGrid]
