@@ -832,8 +832,8 @@ Config = {
 			HealthLoss = 0.15,
 		},
 		Land = {
-			Run = 5.0,
-			Sprint = 2.0,
+			Run = 2.25,
+			Sprint = 0.65,
 		},
 	},
 	Stress = {
