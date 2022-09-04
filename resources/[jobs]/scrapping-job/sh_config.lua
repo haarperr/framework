@@ -75,26 +75,26 @@ Config = {
 		MaxDistance = 2.0,
 		Props = {
 			-- Oil & plastic.
-			{ Model = "prop_oiltub_01", Items = { {"Scrap Plastic", 1, 2}, {"Dirty Oil", 2, 6} }, Offset = { -0.19, -0.12, -0.04, 0.0, 90.0, 0.0 } },
-			{ Model = "prop_oiltub_02", Items = { {"Scrap Plastic", 1, 2}, {"Dirty Oil", 2, 6} }, Offset = { -0.19, -0.12, -0.04, 0.0, 90.0, 0.0 } },
-			{ Model = "prop_oiltub_03", Items = { {"Scrap Plastic", 1, 2}, {"Dirty Oil", 4, 8} }, UseBox = true },
-			{ Model = "prop_oiltub_04", Items = { {"Scrap Plastic", 1, 1}, {"Dirty Oil", 1, 10} }, UseBox = true },
-			{ Model = "prop_oiltub_05", Items = { {"Scrap Plastic", 1, 2}, {"Dirty Oil", 2, 8} }, Offset = { -0.19, -0.12, -0.04, 0.0, 90.0, 0.0 } },
+			{ Model = "prop_oiltub_01", Items = { {"Plastic", 1, 1}, {"Dirty Oil", 1, 1} }, Offset = { -0.19, -0.12, -0.04, 0.0, 90.0, 0.0 } },
+			{ Model = "prop_oiltub_02", Items = { {"Plastic", 1, 1}, {"Dirty Oil", 1, 1} }, Offset = { -0.19, -0.12, -0.04, 0.0, 90.0, 0.0 } },
+			{ Model = "prop_oiltub_03", Items = { {"Plastic", 1, 1}, {"Dirty Oil", 1, 1} }, UseBox = true },
+			{ Model = "prop_oiltub_04", Items = { {"Plastic", 1, 1}, {"Dirty Oil", 1, 1} }, UseBox = true },
+			{ Model = "prop_oiltub_05", Items = { {"Plastic", 1, 1}, {"Dirty Oil", 1, 1} }, Offset = { -0.19, -0.12, -0.04, 0.0, 90.0, 0.0 } },
 			
 			-- Metal.
 			{ Model = "prop_barrel_float_1", Items = { {"Scrap Metal", 1, 1} }, Offset = { 0.0, -0.18, 0.28, 0.0, 90.0, 0.0 } },
 			{ Model = "prop_barrel_float_2", Items = { {"Scrap Metal", 1, 1} }, Offset = { 0.0, -0.18, 0.28, 0.0, 90.0, 0.0 } },
 			{ Model = "prop_barrel_01a", Items = { {"Scrap Metal", 1, 1} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
 			{ Model = "prop_barrel_03d", Items = { {"Scrap Metal", 1, 1} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
-			{ Model = "prop_offroad_barrel01", Items = { {"Scrap Metal", 1, 31} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
+			{ Model = "prop_offroad_barrel01", Items = { {"Scrap Metal", 1, 3} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
 			
 			-- Oil & metal.
-			{ Model = "prop_barrel_exp_01c", Items = { {"Scrap Metal", 1, 2}, {"Dirty Oil", 2, 8} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
-			{ Model = "prop_barrel_exp_01a", Items = { {"Scrap Metal", 1, 2}, {"Dirty Oil", 2, 8} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
+			{ Model = "prop_barrel_exp_01c", Items = { {"Scrap Metal", 1, 2}, {"Dirty Oil", 1, 2} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
+			{ Model = "prop_barrel_exp_01a", Items = { {"Scrap Metal", 1, 2}, {"Dirty Oil", 1, 2} }, Offset = { 0.0, -0.18, 0.28, 0.0, 0.0, 90.0 } },
 			
 			-- Plastic.
-			{ Model = "prop_barrel_02b", Items = { {"Scrap Plastic", 1, 3} }, Offset = { 0.0, -0.05, 0.24, 0.0, 0.0, 0.0 } },
-			{ Model = "prop_oiltub_06", Items = { {"Scrap Plastic", 1, 1} }, UseBox = true },
+			{ Model = "prop_barrel_02b", Items = { {"Plastic", 1, 1} }, Offset = { 0.0, -0.05, 0.24, 0.0, 0.0, 0.0 } },
+			{ Model = "prop_oiltub_06", Items = { {"Plastic", 1, 1} }, UseBox = true },
 			
 			-- Scrap electronics.
 			{ Model = "prop_rub_monitor", Items = { {"Electronics", 1, 1} }, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 90.0 } },
