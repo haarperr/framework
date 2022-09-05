@@ -1,0 +1,3 @@
+Config = {
+	Price = 20,
+}
