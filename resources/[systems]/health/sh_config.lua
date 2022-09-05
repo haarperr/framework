@@ -888,6 +888,16 @@ Config = {
 		Beds = {
 			[2117668672] = true,
 		},
+		Checkins = {
+			{
+				targets = {
+					{
+						coords = vector3(-460.6602, -282.1094, 34.90996),
+						radius = 25.0,
+					},
+				},
+			},
+		},
 		Receptionists = {
 			{
 				name = "Ivy",
@@ -902,6 +912,10 @@ Config = {
 						coords = vector3(-460.6602, -282.1094, 34.90996),
 						radius = 25.0,
 					},
+				},
+				checkin = {
+					coords = vector3(-435.945, -325.9404, 34.91075),
+					radius = 1.0,
 				},
 			},
 			{
