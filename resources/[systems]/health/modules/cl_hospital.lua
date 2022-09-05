@@ -21,6 +21,25 @@ local function Dialogue_Pay(npc, index, option)
 	npc:GoHome()
 end
 
+local function Dialogue_Checkin_Other(npc, index, option)
+	local entity = Main:FindBed(npc.targets)
+	if not entity then
+		npc:AddDialogue("Sorry, the bed is no longer available.")
+		npc:GoHome()
+
+		return
+	end
+
+	local state = (LocalPlayer or {}).state or {}
+	local carrying = state.carrying
+
+	TriggerServerEvent("health:checkInOther", carrying, npc, entity)
+	TriggerServerEvent("players:carryEnd")
+
+	npc:GoHome()
+	Npcs:CloseWindow()
+end
+
 local function Dialogue_CheckIn(npc, index, option)
 	npc.locked = true
 
@@ -28,22 +47,38 @@ local function Dialogue_CheckIn(npc, index, option)
 
 	local entity = Main:FindBed(npc.targets)
 	if entity then
+		local state = (LocalPlayer or {}).state or {}
+		local carrying = state.carrying
 		npc.locked = false
-
-		local ratio = Main:GetTreatmentRatio()
-		local min, max = table.unpack(Config.Hospital.Cost)
-		local price = math.floor(Lerp(min, max, ratio))
-
-		npc:AddDialogue(("There is a bed available. The bill will be <b>$%s</b>. Do you want to pay?"):format(price))
+		if carrying and exports.jobs:IsInEmergency("CheckIn") then
+			npc:AddDialogue("There is a bed available.  Would you like to check this person in?")
 		
-		npc:SetOptions({
-			{
-				text = "Yes, send me the bill.",
-				callback = Dialogue_Pay,
-				ratio = ratio,
-			},
-			Npcs.NEVERMIND,
-		})
+			npc:SetOptions({
+				{
+					text = "Yes, lets check them in.",
+					callback = Dialogue_Checkin_Other,
+					ratio = ratio,
+				},
+				Npcs.NEVERMIND,
+			})
+		else
+			npc.locked = false
+
+			local ratio = Main:GetTreatmentRatio()
+			local min, max = table.unpack(Config.Hospital.Cost)
+			local price = math.floor(Lerp(min, max, ratio))
+
+			npc:AddDialogue(("There is a bed available. The bill will be <b>$%s</b>. Do you want to pay?"):format(price))
+		
+			npc:SetOptions({
+				{
+					text = "Yes, send me the bill.",
+					callback = Dialogue_Pay,
+					ratio = ratio,
+				},
+				Npcs.NEVERMIND,
+			})
+		end
 	else
 		npc:AddDialogue("There aren't any beds available right now.")
 		npc.locked = false
@@ -99,7 +134,7 @@ function Main:CheckIn(npc, entity)
 	-- Heal.
 	Treatment:Heal(true)
 
-	-- Notif.y
+	-- Notify.
 	TriggerEvent("chat:notify", {
 		class = "inform",
 		text = "You feel refreshed and may get up!",
@@ -117,6 +152,7 @@ function Main:RegisterNpc(info)
 		dialogue = "I'll see if a bed is available.",
 		callback = Dialogue_CheckIn,
 	})
+	return npc
 end
 
 function Main:GetTreatmentRatio()
@@ -161,6 +197,16 @@ RegisterNetEvent("health:checkIn", function(success)
 	Main:CheckIn(npc, bed)
 end)
 
+RegisterNetEvent("health:checkInOther", function(npc)
+	local bed = Main:FindBed(npc.targets)
+
+	-- Check npc.
+	if not npc or not bed then return end
+
+	-- Success, check in!
+	Main:CheckIn(npc, bed)
+end)
+
 --[[ Events ]]--
 AddEventHandler("health:clientStart", function()
 	for k, info in ipairs(Config.Hospital.Receptionists) do
@@ -170,6 +216,6 @@ AddEventHandler("health:clientStart", function()
 
 		info.id = "HOSPITAL_RECEPTION-"..k
 
-		Main:RegisterNpc(info)
+		local npc = Main:RegisterNpc(info)
 	end
 end)
