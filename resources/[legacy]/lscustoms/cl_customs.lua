@@ -20,7 +20,7 @@ end)
 --[[ Functions ]]--
 function Open(debugMode)
 	if not exports.jobs:IsInGroup("emergency") then
-		TriggerEvent("chat:notify", { class = "error", text = "You must be in an emergency vehicle!" })
+		TriggerEvent("chat:notify", { class = "error", text = "You must be clocked on!" })
 		return
 	end
 
