@@ -20,14 +20,14 @@ RegisterShop("RESOURCE_2", {
 		["keycard1"] = {
 			item = "Vault Keycard Printer",
 			invisible = true,
-			coords = vector3(1639.907, 4870.675, 42.02964),
-			rotation = vector3(-28.3081, -0, -81.73733),
+			coords = vector3(1662.101, 35.83424, 171.7125),
+			rotation = vector3(-19.58925, -0, 93.37433),
 		},
 		["keycard2"] = {
 			item = "Keycard Printer",
 			invisible = true,
-			coords = vector3(486.5722, -629.1509, 25.00399),
-			rotation = vector3(-22.06787, -0, 0.02291744),
+			coords = vector3(-535.8373, -673.9442, 11.83947),
+			rotation = vector3(-18.89678, -0, 98.0845),
 		},
 		},
 	}

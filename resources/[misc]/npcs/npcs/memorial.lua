@@ -35,7 +35,7 @@ local MemorialNpcs = {
         options = {
 			{
 				text = "Any hints this time?.",
-				dialogue = "Behind every closed door is another closed door. The way to break a heart. A red herring is fine if you really pay attention. Now step back and work from the start.",
+				dialogue = "In the words of the Beatles..She's got a ticket to ride, but she don't care. However perhaps a rudimentary awakening with water aplenty is your thing.",
 				once = true,
 			},
 			{
