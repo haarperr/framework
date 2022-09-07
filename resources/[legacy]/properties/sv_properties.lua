@@ -409,7 +409,7 @@ AddEventHandler("properties:pay", function(id)
 	})
 	
 	-- Take money.
-	exports.character:AddBank(source, -amount, true)
+	exports.banking:AddBank(source, -amount, true)
 	--exports.log:AddEarnings(source, "Mortgage", -amount)
 
 	-- Mortgages.
