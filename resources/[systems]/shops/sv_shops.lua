@@ -214,6 +214,7 @@ function Shop:Purchase(source, cart, paymentType)
 				totalItems = totalItems + quantity
 			end
 		end
+		boughtPrice = Round(boughtPrice, 2)
 		exports.banking:AddBank(source, primaryAccount, boughtPrice * -1)
 		exports.banking:StateTax(totalTax)
 	else
