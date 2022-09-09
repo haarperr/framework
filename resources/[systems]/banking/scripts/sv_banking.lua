@@ -157,8 +157,8 @@ AddEventHandler("banking:transaction", function(data)
     local source = source
     local amount = tonumber(data.amount)
     if data.type == 1 then -- Deposit
-        if exports.inventory:CanAfford(source, amount) then
-            exports.inventory:TakeMoney(source, amount)
+        if exports.inventory:CanAfford(source, amount, true) then
+            exports.inventory:TakeMoney(source, amount, true)
             AddBank(source, data.account_id, amount)
             AddTransaction(source, data, amount)
         else
@@ -247,7 +247,7 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
             BankAccounts[account.account_id].transactions = {}
             SourceBankAccounts[source][account.account_id] = account
             TriggerClientEvent("banking:initAccounts", source, account, true)
-            exports.inventory:TakeMoney(source, Config.NewAccountPrice)
+            exports.inventory:TakeMoney(source, Config.NewAccountPrice, true)
             StateTax(Config.NewAccountPrice)
         else
             TriggerClientEvent("chat:notify", source, "You cannot afford a new bank account! $500", "error")
@@ -319,7 +319,7 @@ end)
 RegisterNetEvent("interact:on_bank-card")
 AddEventHandler("interact:on_bank-card", function()
 	local source = source
-	local canAfford = exports.inventory:CanAfford(source, Config.Cards.Price)
+	local canAfford = exports.inventory:CanAfford(source, Config.Cards.Price, true)
 	if not canAfford then return end
 	
 	if exports.inventory:GiveItem(source, Config.Cards.Item) then
@@ -329,7 +329,7 @@ AddEventHandler("interact:on_bank-card", function()
 			noun = Config.Cards.Item,
 		})
 
-		exports.inventory:TakeMoney(source, Config.Cards.Price)
+		exports.inventory:TakeMoney(source, Config.Cards.Price, true)
 	end
 end)
 
