@@ -104,7 +104,7 @@ function Shop:Interact(npc)
 		for itemName, quantity in pairs(self.cart) do
 			local item = exports.inventory:GetItem(itemName)
 			if item and item.value then
-				totalPrice = totalPrice + quantity * ( item.value * Config.Tax )
+				totalPrice = totalPrice + quantity * (item.value * ( item.value * Config.Tax ))
 			end
 			cartAmount = cartAmount + quantity
 		end
