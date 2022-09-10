@@ -1,4 +1,5 @@
 Main.doors = {}
+CurrentEmote = nil
 
 function Main:Update()
 	local ped = PlayerPedId()

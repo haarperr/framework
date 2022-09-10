@@ -42,7 +42,7 @@ RegisterNetEvent("doors:subscribe", function(groupId)
 	Main:Subscribe(source, groupId)
 end)
 
-RegisterNetEvent("doors:toggle", function(groupId, coords, state)
+RegisterNetEvent("doors:toggle", function(groupId, coords, state, item)
 	local source = source
 
 	-- Check input.
@@ -54,6 +54,11 @@ RegisterNetEvent("doors:toggle", function(groupId, coords, state)
 	-- Check active group.
 	local group = Main.players[source]
 	if not group or group.id ~= groupId then return end
+
+	-- Check item and take.
+	if type(item) == "string" and not exports.inventory:TakeItem(source, item, 1) then
+		return
+	end
 
 	-- Set state and log.
 	if Main:SetState(groupId, coords, state) then

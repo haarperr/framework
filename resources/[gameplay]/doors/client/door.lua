@@ -104,17 +104,19 @@ function Door:RegisterInteract()
 		},
 	}
 
-	-- if self.settings.Item then
-	-- 	table.insert(embedded, {
-	-- 		id = self.id.."_2",
-	-- 		text = "Tamper",
-	-- 		event = "doorItem",
-	-- 		entity = self.object,
-	-- 		items = {
-	-- 			{ name = self.settings.Item, amount = 1, hidden = true },
-	-- 		},
-	-- 	})
-	-- end
+	if self.settings.Item then
+		table.insert(embedded, {
+			id = self.id.."_2",
+			text = "Tamper",
+			event = "doorItem",
+			group = self.group.id,
+			entity = self.entity,
+			distance = self.settings.Distance,
+			items = {
+				{ name = self.settings.Item, amount = 1, hidden = true },
+			},
+		})
+	end
 
 	exports.interact:Register({
 		id = self.sid,
@@ -380,6 +382,28 @@ function Door:ToggleLock()
 	TriggerServerEvent("doors:toggle", self.group.id, coords, not self.state)
 end
 
+function Door:UseItem(item)
+	local anim = Config.Anims[item]
+	if not anim then return end
+
+	CurrentEmote = exports.emotes:Play(anim)
+	
+	if Config.Debug then
+		Citizen.Wait(500)
+	else
+		Citizen.Wait(anim.Duration)
+	end
+
+	if not CurrentEmote then return end
+
+	exports.emotes:Stop(CurrentEmote)
+
+	-- Play sound.
+	TriggerServerEvent("playSound3D", "doorlock", 0.4, 0.1)
+	
+	TriggerServerEvent("doors:toggle", self.group.id, self.coords, false, item)
+end
+
 --[[ Events ]]--
 AddEventHandler("interact:on_doorLock", function(interactable)
 	local group = Main.groups[interactable.group or false]
@@ -389,4 +413,27 @@ AddEventHandler("interact:on_doorLock", function(interactable)
 	if not door then print("no door in group") return end
 
 	door:ToggleLock()
+end)
+
+AddEventHandler("interact:on_doorItem", function(interactable)
+	local group = Main.groups[interactable.group or false]
+	if not group then print("no group for door") return end
+
+	local door = group.doors[interactable.entity or false]
+	if not door then print("no door in group") return end
+
+	if not door.state then
+		TriggerEvent("chat:notify", { text = "It's already unlocked!", class = "error" } )
+		return
+	end
+
+	local item = interactable.items[1]
+	if not item then return end
+
+	door:UseItem(item.name)
+end)
+
+RegisterNetEvent("emotes:cancel")
+AddEventHandler("emotes:cancel", function(id)
+	CurrentEmote = nil
 end)
