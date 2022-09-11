@@ -51,9 +51,10 @@ Citizen.CreateThread(function()
 								Npcs.NEVERMIND,
 							})
 						else
+							Npcs:CloseWindow()
+
 							Citizen.Wait(1500)
 
-							Npcs:CloseWindow()
 							TriggerServerEvent("oldinstances:join", "territory_1")
 
 							Citizen.Wait(4000)
