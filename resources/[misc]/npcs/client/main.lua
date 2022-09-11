@@ -101,12 +101,12 @@ function Npcs:CloseWindow()
 end
 
 --[[ Events: Net ]]--
-RegisterNetEvent("oldinstances:join", function(id)
+RegisterNetEvent("oldinstances:join", function(instance)
 	Npcs.instanced = true
-	Npcs:UpdateGrid({ id })
+	Npcs:UpdateGrid({ instance.id })
 end)
 
-RegisterNetEvent("oldinstances:left", function(id)
+RegisterNetEvent("oldinstances:left", function()
 	Npcs.instanced = nil
 
 	local ped = PlayerPedId()
