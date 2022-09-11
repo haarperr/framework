@@ -9,15 +9,16 @@ dependencies {
 
 shared_scripts {
 	'sh_config.lua',
+	'sh_npcs.lua',
 	'sh_territories.lua',
 	'sh_quests.lua',
-	'quests/*.lua',
+	--'quests/*.lua',
 }
 
 client_scripts {
 	'cl_territories.lua',
 	'cl_revives.lua',
-	'npcs/**/*.lua',
+	--'npcs/**/*.lua',
 }
 
 server_scripts {
