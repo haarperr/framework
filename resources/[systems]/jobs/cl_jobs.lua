@@ -54,6 +54,17 @@ function Main:IsInEmergency(attribute)
 	return false
 end
 
+function Main:HasEmergency()
+	local jobs = self:GetActiveJobs()
+	for id, job in pairs(jobs) do
+		local jobInfo = self.jobs[id]
+		if jobInfo and jobInfo.Emergency then
+			return true
+		end
+	end
+	return false
+end
+
 function Main:IsInGroup(group)
 	local id = LocalPlayer.state.job
 	if not id then return end
@@ -142,6 +153,10 @@ end)
 
 exports("IsInEmergency", function(...)
 	return Main:IsInEmergency(...)
+end)
+
+exports("HasEmergency", function(...)
+	return Main:HasEmergency(...)
 end)
 
 exports("IsInGroup", function(...)
