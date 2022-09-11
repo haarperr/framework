@@ -25,7 +25,7 @@ function Banking:ToggleMenu(toggle, info)
         info = {}
     end
 
-    local bills = exports.inventory:CountMoney(true)
+    local bills = exports.inventory:CountMoney()
 
     info.name = exports.character:GetName(PlayerId())
     info.bank = (Config.BankTypes[info.bank or ""] or {}).name
