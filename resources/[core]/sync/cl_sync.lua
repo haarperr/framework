@@ -33,8 +33,6 @@ end
 function Main:SetWeather(weather)
 	self.weather = weather
 	self.lastChange = GetGameTimer()
-	
-	print("set weather", weather)
 
 	SetWeatherTypeOvertimePersist(weather, Config.TransitionTime)
 end
