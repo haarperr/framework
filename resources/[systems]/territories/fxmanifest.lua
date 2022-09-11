@@ -10,7 +10,6 @@ dependencies {
 shared_scripts {
 	'@grids/shared/grids.lua',
 	'sh_config.lua',
-	'sh_npcs.lua',
 	'sh_territories.lua',
 	'sh_quests.lua',
 	--'quests/*.lua',
@@ -21,7 +20,7 @@ client_scripts {
 	'@ui/scripts/cl_main.lua',
 	'cl_territories.lua',
 	'cl_revives.lua',
-	--'npcs/**/*.lua',
+	'npcs/**/*.lua',
 }
 
 server_scripts {
