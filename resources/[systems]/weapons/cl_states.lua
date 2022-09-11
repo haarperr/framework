@@ -258,6 +258,20 @@ function HasAnyWeapon()
 end
 exports("HasAnyWeapon", HasAnyWeapon)
 
+function CarryingAnyWeapon()
+	local container = exports.inventory:GetPlayerContainer()
+	if not container then return false end
+
+	for slotId, slot in pairs(container.slots) do
+		local item = exports.inventory:GetItem(slot.item_id)
+		if item and item.usable == "Weapon" then
+			return true
+		end
+	end
+	return false
+end
+exports("CarryingAnyWeapon", CarryingAnyWeapon)
+
 function GetAmmo(item_id)
 	return exports.inventory:GetItem(item_id).ammo
 end
