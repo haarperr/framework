@@ -1,7 +1,7 @@
 Preview = {}
 
 function Preview:Update()
-	local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = table.unpack(Raycast())
+	local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = Raycast()
 
 	if not retval or not didHit then return end
 

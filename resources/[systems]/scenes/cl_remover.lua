@@ -32,7 +32,7 @@ end
 
 function Remover:Update()
 	-- Display.
-	local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = table.unpack(Raycast())
+	local retval, didHit, hitCoords, surfaceNormal, materialHash, entity = Raycast()
 	local ped = PlayerPedId()
 	local coords = GetEntityCoords(ped)
 
