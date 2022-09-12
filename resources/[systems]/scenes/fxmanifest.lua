@@ -10,7 +10,7 @@ shared_scripts {
 client_scripts {
 	'@misc/misc.lua',
 	'@ui/scripts/cl_main.lua',
-	'@utils/cl_utils.lua',
+	'@utils/client/misc.lua',
 	'cl_main.lua',
 	'cl_scenes.lua',
 	'cl_preview.lua',

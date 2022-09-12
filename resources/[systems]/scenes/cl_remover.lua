@@ -71,9 +71,11 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 end)
 
 AddEventHandler("inventory:useFinish", function(item, slot)
-	if Remover.removing then
-		Remover:End()
-	else
-		Remover:Begin(slotId)
+	if item.name == Config.Remover.Item then
+		if Remover.removing then
+			Remover:End()
+		else
+			Remover:Begin(slotId)
+		end
 	end
 end)
