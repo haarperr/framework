@@ -255,6 +255,29 @@ AddEventHandler(Main.event.."failed", function(reason)
 	TriggerEvent("chat:notify", "Couldn't place scene: "..(tostring(reason) or "no reason specified"), "error")
 end)
 
+AddEventHandler("inventory:use", function(item, slot, cb)
+	for name, _type in pairs(Config.Items) do
+		if item.name == name then
+			cb(1000)
+		end
+	end
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slot)
+	for name, _type in pairs(Config.Items) do
+		if item.name == name then
+			if Main.placing then
+				Main:StopPlacing()
+			else
+				self.item = name
+				self.slotId = tonumber(slotId)
+
+				Main:BeginPlacing(_type)
+			end
+		end
+	end
+end)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do

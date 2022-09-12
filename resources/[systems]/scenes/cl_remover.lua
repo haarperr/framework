@@ -64,8 +64,13 @@ Citizen.CreateThread(function()
 end)
 
 --[[ Events ]]--
-RegisterNetEvent("inventory:use_"..Config.Remover.Item)
-AddEventHandler("inventory:use_"..Config.Remover.Item, function(item, slotId)
+AddEventHandler("inventory:use", function(item, slot, cb)
+	if item.name == Config.Remover.Item then
+		cb(1000)
+	end
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slot)
 	if Remover.removing then
 		Remover:End()
 	else
