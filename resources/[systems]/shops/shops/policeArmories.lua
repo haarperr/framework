@@ -27,6 +27,7 @@ Config.Filters.Armory = {
 		["Binoculars"] = true,
 		["Bandage"] = true,
         ["Saline"] = true,
+        ["Cervical Collar"] = true,
         ["Ice Pack"] = true,
 		["Nasopharyngeal Airway"] = true,
         ["Splint"] = true,
