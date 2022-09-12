@@ -49,7 +49,7 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 				Colour = 7,
 			},
 			["lspd"] = {
-				Colour = 3,
+				Colour = 18,
 			},
 			["bcso"] = {
 				Colour = 10,
