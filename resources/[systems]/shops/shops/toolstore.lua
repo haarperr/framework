@@ -23,6 +23,10 @@ Config.Filters.Toolstore = {
 		["Scissors"] = true,
 		["Paperclip"] = true,
 		["Jerry Can"] = true,
+		["Pencil"] = true,
+		["Pen"] = true,
+		["Eraser"] = true,
+		["Spray Can"] = true,
 	},
 }
 
