@@ -5,7 +5,7 @@ exports.jobs:Register("opa", {
 	Pay = 100,
 	Group = "opa",
 	Clocks = {
-		{ Coords = vector3(-528.0028, -186.3415, 38.22709), Radius = 3.5 },
+		{ Coords = vector3(23.35812, -933.2761, 33.90338), Radius = 3.5 },
 	},
 	Tracker = {
 		Group = "emergency",
