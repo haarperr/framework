@@ -55,7 +55,7 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 				Colour = 10,
 			},
 			["sasp"] = {
-				Colour = 18,
+				Colour = 29,
 			},
 			["doc"] = {
 				Colour = 48,
