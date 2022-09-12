@@ -3,24 +3,6 @@ Main.grids = {}
 Main.queue = {}
 Main.queueCache = {}
 
-function Main:Init()
-	for name, _type in pairs(Config.Items) do
-		local event = "inventory:use_"..name:gsub(" ", "")
-
-		RegisterNetEvent(event)
-		AddEventHandler(event, function(item, slotId)
-			if Main.placing then
-				Main:StopPlacing()
-			else
-				self.item = name
-				self.slotId = tonumber(slotId)
-
-				Main:BeginPlacing(_type)
-			end
-		end)
-	end
-end
-
 function Main:Update()
 	-- Disable controls.
 	for k, control in pairs(Config.Controls) do
@@ -215,10 +197,6 @@ function Main:UpdateGrids(grids, instance)
 end
 
 --[[ Events ]]--
-AddEventHandler(Main.event.."clientStart", function()
-	Main:Init()
-end)
-
 AddEventHandler(Main.event.."stop", function()
 	Main:ClearAll()
 	Main:StopPlacing()
@@ -269,8 +247,8 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 			if Main.placing then
 				Main:StopPlacing()
 			else
-				self.item = name
-				self.slotId = tonumber(slotId)
+				Main.item = name
+				Main.slotId = tonumber(slotId)
 
 				Main:BeginPlacing(_type)
 			end
