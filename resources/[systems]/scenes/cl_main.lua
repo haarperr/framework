@@ -77,7 +77,7 @@ function Main:BeginPlacing(_type)
 	local hintText = ([[
 		<div class="column">
 			<div class="row justify-center">
-				<img src="nui://inventory/html/icons/%s.png" width=32 height=32 />
+				<img src="nui://inventory/icons/%s.png" width=32 height=32 />
 			</div>
 			<q-separator spaced />
 	]]):format(self.item:gsub(" ", ""))
