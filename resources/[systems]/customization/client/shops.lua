@@ -33,9 +33,9 @@ Shops = {
 		-- Vanilla unicorn.
 		{ Coords = vector4(107.85119628906, -1304.6000976563, 28.768798828125, 355.58267211914), Blip = false },
 		-- Zonah - Men's.
-		{ Coords = vector4(-437.6976, -309.1513, 34.91051, 195.685), Blip = false },
+		{ Coords = vector4(-438.0497, -307.6458, 34.91056, 199.0077), Blip = false },
 		-- Zonah - Women's.
-		{ Coords = vector4(-443.0099, -311.7628, 34.91055, 198.6793), Blip = false },
+		{ Coords = vector4(-443.7468, -309.9526, 34.91053, 202.9044), Blip = false },
 		-- Davis Firestation.
 		{ Coords = vector4(213.36460876464844, -1657.7415771484375, 29.80076026916504, 138.70603942871097), Blip = false },
 		-- Capital Blvd Firestation.
