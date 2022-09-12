@@ -52,9 +52,6 @@ Citizen.CreateThread(function()
 							})
 						else
 							Npcs:CloseWindow()
-
-							Citizen.Wait(1500)
-
 							TriggerServerEvent("oldinstances:join", "territory_1")
 
 							Citizen.Wait(4000)
