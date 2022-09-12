@@ -248,7 +248,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 				Main:StopPlacing()
 			else
 				Main.item = name
-				Main.slotId = tonumber(slotId)
+				Main.slotId = tonumber(slot)
 
 				Main:BeginPlacing(_type)
 			end
