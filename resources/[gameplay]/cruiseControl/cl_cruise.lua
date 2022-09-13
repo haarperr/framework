@@ -37,10 +37,6 @@ AddEventHandler("set:cruiseSpeed", function()
                         cruisecontrol = 0
                         TriggerEvent('set:cruiseSpeed')
                     end
-                    if cruisecontrol > 85 then
-                        cruisecontrol = 0 
-                        TriggerEvent("chat:notify", "You are going too fast. Cruise Control Cancelled!", "error")
-                    end
                     Wait(200)
                 end
                 cruisecontrol = 0
