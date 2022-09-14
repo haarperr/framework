@@ -6,6 +6,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		
 		if DoesEntityExist(CruiseVehicle) then
+            local ped = PlayerPedId()
 			local isDriver = GetPedInVehicleSeat(CruiseVehicle, -1) == ped
 			if isDriver then
 				if CruiseControl then
@@ -15,7 +16,7 @@ Citizen.CreateThread(function()
 					end
 				end
 				SetVehicleMaxSpeed(CruiseVehicle, CruiseControl)
-            end
+			end
 		end
 	end
 end)
@@ -31,11 +32,11 @@ end)
 RegisterCommand("+cruisecontrol", function()
 	if CruiseControl then
 		CruiseControl = nil
-		exports.mythic_notify:SendAlert("inform", "Cruise control disabled!")
+		TriggerEvent("chat:notify", { text = "Cruise control disabled!", class = "inform" })
 	elseif DoesEntityExist(CruiseVehicle) then
 		CruiseControl = GetEntitySpeed(CruiseVehicle)
 		SetVehicleMaxSpeed(CruiseVehicle, CruiseControl)
-		exports.mythic_notify:SendAlert("inform", "Cruise control set to "..math.floor(CruiseControl * 2.24).."!")
+		TriggerEvent("chat:notify", { text = "Cruise control set to "..math.floor(CruiseControl * 2.24).."!", class = "inform" })
 	end
 end, true)
 
