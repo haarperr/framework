@@ -1,55 +1,42 @@
+local CruiseControl = nil
+local CruiseVehicle = 0
+
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(0)
-        if IsControlJustPressed(1, 311) then
-            TriggerEvent ("set:cruiseSpeed")
-        end
-    end
+	while true do
+		Citizen.Wait(0)
+		
+		if DoesEntityExist(CruiseVehicle) then
+			local isDriver = GetPedInVehicleSeat(CruiseVehicle, -1) == ped
+			if isDriver then
+				if CruiseControl then
+					SetControlNormal(0, 71, 1.0)
+					if IsControlPressed(0, 72) then
+						CruiseControl = nil
+					end
+				end
+				SetVehicleMaxSpeed(CruiseVehicle, CruiseControl)
+            end
+		end
+	end
 end)
 
-local cruisecontrol = 0
+Citizen.CreateThread(function()
+	while true do
+		local ped = PlayerPedId()
+		CruiseVehicle = GetVehiclePedIsIn(ped, false)
+		Citizen.Wait(1000)
+	end
+end)
 
-AddEventHandler("set:cruiseSpeed", function()
-    if cruisecontrol == 0 and IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-        if GetEntitySpeedVector(GetVehiclePedIsIn(GetPlayerPed(-1), false), true) ['y'] > 0 then
-            cruisecontrol = GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))
-            local speedKm = math.floor(cruisecontrol * 3.6 + 0.5)
-            local speedMph = math.floor(cruisecontrol * 2.23694 + 0.5)
+RegisterCommand("+cruisecontrol", function()
+	if CruiseControl then
+		CruiseControl = nil
+		exports.mythic_notify:SendAlert("inform", "Cruise control disabled!")
+	elseif DoesEntityExist(CruiseVehicle) then
+		CruiseControl = GetEntitySpeed(CruiseVehicle)
+		SetVehicleMaxSpeed(CruiseVehicle, CruiseControl)
+		exports.mythic_notify:SendAlert("inform", "Cruise control set to "..math.floor(CruiseControl * 2.24).."!")
+	end
+end, true)
 
-            TriggerEvent("chat:notify", "Cruise Control Activated!", "inform")
-
-
-            Citizen.CreateThread(function()
-                while cruisecontrol > 0 and GetPedInVehicleSeat((GetVehiclePedIsIn(GetPlayerPed(-1), false)), -1) == GetPlayerPed(-1) do 
-                    local vehCruise = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-                    if IsVehicleOnAllWheels(vehCruise) and GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false)) > (cruisecontrol - 2.0) then
-                        SetVehicleForwardSpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false), cruisecontrol)
-                    else
-                        cruisecontrol = 0
-                        TriggerEvent("chat:notify", "Cruise Not Active!", "error")
-                        break
-                    end
-                    if IsControlJustPressed(1, 311) then
-                        cruisecontrol = 0
-                        TriggerEvent("chat:notify", "Cruise Control Activated!", "inform")
-                    end
-                    if IsControlJustPressed(1, 311) then
-                        cruisecontrol = 0
-                        TriggerEvent('set:cruiseSpeed')
-                    end
-                    Wait(200)
-                end
-                cruisecontrol = 0
-    end)
-
-            AddEventHandler("set:cruiseNew", function()
-                Citizen.CreateThread(function()
-                    while IsControlPressed(1, 32) do
-                        Wait(1)
-                    end
-                    TriggerEvent('pv:setCruiseSpeed')
-                end)
-            end)
-        end
-    end
- end)
+RegisterKeyMapping("+cruisecontrol", "Toggle Cruise Control", "keyboard", "k")
