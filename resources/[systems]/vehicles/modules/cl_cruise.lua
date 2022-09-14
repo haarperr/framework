@@ -6,7 +6,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		
 		if DoesEntityExist(CruiseVehicle) then
-            local ped = PlayerPedId()
+			local ped = PlayerPedId()
 			local isDriver = GetPedInVehicleSeat(CruiseVehicle, -1) == ped
 			if isDriver then
 				if CruiseControl then
