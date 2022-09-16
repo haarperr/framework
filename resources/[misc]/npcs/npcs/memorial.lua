@@ -35,7 +35,7 @@ local MemorialNpcs = {
         options = {
 			{
 				text = "Any hints this time?.",
-				dialogue = "In the words of the Beatles..She's got a ticket to ride, but she don't care. However perhaps a rudimentary awakening with water aplenty is your thing.",
+				dialogue = "Outer space hit the gas like I'm headed for mars. Perhaps afterwards a hot coffee is needed.",
 				once = true,
 			},
 			{
@@ -45,7 +45,7 @@ local MemorialNpcs = {
 			},
 			{
 				text = "Tell me a joke.",
-				dialogue = "No, fuck off.",
+				dialogue = "Did you hear about the guy whose whole left side got amputated? He’s all right now.",
 				once = true,
 			}
 		},
