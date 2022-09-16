@@ -35,7 +35,7 @@ local MemorialNpcs = {
         options = {
 			{
 				text = "Any hints this time?.",
-				dialogue = "Outer space hit the gas like I'm headed for mars. Perhaps afterwards a hot coffee is needed.",
+				dialogue = "Outer space hit the gas like I'm headed for Mars. Perhaps afterwards a hot coffee is needed.",
 				once = true,
 			},
 			{
