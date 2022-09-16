@@ -106,7 +106,7 @@ function Door:RegisterInteract()
 
 	if self.settings.Item then
 		table.insert(embedded, {
-			id = self.id.."_2",
+			id = self.sid.."_2",
 			text = "Tamper",
 			event = "doorItem",
 			group = self.group.id,
