@@ -451,9 +451,6 @@ AddEventHandler("properties:pay", function(id)
 	end
 	
 	exports.character:Set(source, "payments", character.payments)
-
-	-- Load app.
-	exports.phone:SendPayload(source, "properties", false, true)
 end)
 
 AddEventHandler("properties:start", function()
