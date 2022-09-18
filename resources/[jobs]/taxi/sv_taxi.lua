@@ -81,7 +81,7 @@ AddEventHandler("taxi-job:completeFare", function(netId, name)
 		local paycheck = exports.character:Get(source, "paycheck")
 		paycheck = paycheck + pay
 		exports.character:Set(source, "paycheck", paycheck)
-		TriggerClientEvent("notify:sendAlert", source, "inform", ("$%s has gone to your paycheck. You have $%s to collect."):format(exports.misc:FormatNumber(pay), exports.misc:FormatNumber(paycheck)), 8000)
+		TriggerClientEvent("chat:addMessage", source, ("$%s has gone to your paycheck. You have $%s to collect."):format(exports.misc:FormatNumber(pay), exports.misc:FormatNumber(paycheck)))
 	end
 end)
 
