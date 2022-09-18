@@ -1,4 +1,9 @@
 Main.entities = {}
+Main.LastServerTimeSync = nil
+Main.ServerTime = nil
+Main.Harvestable = nil
+Main.NearestDecoration = nil
+Main.NearestObject = nil
 
 --[[ Functions ]]--
 function Main:Init()
@@ -112,11 +117,119 @@ function Main:Pickup(decoration, admin)
 	TriggerServerEvent(Main.event.."pickup", decoration.id, admin)
 end
 
+function Main:GetServerTime()
+	if not self.ServerTime then return 0 end
+	return GetGameTimer() - self.LastServerTimeSync + self.ServerTime
+end
+
+function Main:GetAge(time)
+	if not time then return 0 end
+	return (self:GetServerTime() - (time or 0)) / 60000
+end
+
+function Main:GetCurrentId(coords)
+	local instance = exports.oldinstances:GetPlayerInstance()
+	if instance then
+		return instance.id
+	end
+	return Grids:GetGrid(coords, Config.GridSize)
+end
+
+function Main:GetStage(decoration, info)
+	if not decoration or not decoration.Stages then return end
+	if not info then
+		return decoration.Stages[#decoration.Stages], #decoration.Stages
+	end
+	local age = self:GetAge(info.start_time) or 0
+	for k, stage in ipairs(decoration.Stages) do
+		if not stage.Age or age >= stage.Age then
+			return stage, k
+		end
+	end
+end
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
 		Main:Update()
 		Citizen.Wait(50)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		Main.NearestObject = nil
+		
+		local pedCoords = GetEntityCoords(PlayerPedId())
+		local nearestDist = 0.0
+		for object, info in pairs(Main.entities) do
+			local coords = vector3(info.coords.x or 0.0, info.coords.y or 0.0, info.coords.z or 0.0)
+			local dist = #(coords - pedCoords)
+			if not Main.NearestObject or dist < nearestDist then
+				Main.NearestObject = object
+				nearestDist = dist
+			end
+			::continue::
+		end
+		Citizen.Wait(400)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		while IsPedInAnyVehicle(PlayerPedId(), false) do
+			Citizen.Wait(500)
+		end
+		if
+			Main.NearestObject and Main.NearestObject > 0 and DoesEntityExist(Main.NearestObject) and
+			GetResourceState("inventory") == "started" and
+			not IsPedInAnyVehicle(PlayerPedId(), false)
+		then
+			local object = Main.NearestObject
+			local coords = GetEntityCoords(object) + vector3(0.0, 0.0, 0.8)
+			local info = Main.entities[object]
+			local item = exports.inventory:GetItem(info.item_id)
+			local stage, stageNumber = Main:GetStage(info.settings, info)
+
+			if stage and stage.Harvestable and #(coords - GetEntityCoords(PlayerPedId())) < Config.HarvestDistance then
+				Main.Harvestable = object
+			end
+
+			Citizen.Wait(500)
+		else
+			Citizen.Wait(1000)
+		end
+		Citizen.Wait(0)
+	end
+end)
+
+Citizen.CreateThread(function()
+	while true do
+		while not Main.Harvestable do
+			Citizen.Wait(500)
+		end
+
+		local object = Main.Harvestable
+		local coords = GetEntityCoords(object) + vector3(0.0, 0.0, 0.8)
+		local info = Main.entities[object]
+		if info then
+			local settings = info:GetSettings()
+
+			if settings then
+				--print(settings)
+				local item = exports.inventory:GetItem(info.item_id)
+				local stage, stageNumber = Main:GetStage(info.settings, info)
+
+				if stage and stage.Harvestable and #(coords - GetEntityCoords(PlayerPedId())) < Config.HarvestDistance and exports.oldutils:DrawContext({ { 47, "Harvest" } }, coords, 1, 45.0) then
+					exports.mythic_progbar:Progress(Config.Harvesting, function(wasCancelled)
+						if wasCancelled then return end
+
+						TriggerServerEvent("decorations:harvest", Main:GetCurrentId(GetEntityCoords(object)), info.id, stageNumber)
+					end)
+				end
+			end
+		end
+		Citizen.Wait(0)
 	end
 end)
 
@@ -198,6 +311,12 @@ AddEventHandler("shoot", function(didHit, coords, hitCoords, entity)
 	if not decoration then return end
 
 	--print("shooting decoration")
+end)
+
+RegisterNetEvent("decorations:syncTime")
+AddEventHandler("decorations:syncTime", function(time)
+	Main.ServerTime = time * 1000
+	Main.LastServerTimeSync = GetGameTimer()
 end)
 
 --[[ Events: Net ]]--

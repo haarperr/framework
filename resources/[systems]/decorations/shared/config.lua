@@ -28,4 +28,39 @@ Config = {
 			Duration = 1500,
 		},
 	},
+	HarvestDistance = 2.0,
+	Harvesting = {
+		Anim = {
+			Sequence = {
+				{
+					Dict = "amb@world_human_gardener_plant@male@enter",
+					Name = "enter",
+					Flag = 0,
+					DisableMovement = true,
+					BlendOut = 2.0,
+					Delay = 3000,
+				},
+				{
+					Dict = "amb@world_human_gardener_plant@male@base",
+					Name = "base",
+					Flag = 0,
+					DisableMovement = true,
+					BlendSpeed = 2.0,
+					Delay = 2000,
+				},
+				{
+					Dict = "amb@world_human_gardener_plant@male@exit",
+					Name = "exit",
+					Flag = 0,
+					DisableMovement = true,
+					BlendIn = 2.0,
+				},
+			}
+		},
+		Label = "Harvesting...",
+		Duration = 9000,
+		UseWhileDead = false,
+		CanCancel = true,
+		Disarm = false,
+	},
 }

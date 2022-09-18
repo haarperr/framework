@@ -69,6 +69,15 @@ function Decoration:Destroy()
 end
 
 function Decoration:Update(dist)
+	local settings = self:GetSettings()
+	if settings then
+		if settings.Stages then
+			local currentStage = Main:GetStage(settings, self)
+			if self.stage.Model and self.stage.Model ~= currentStage.Model then
+				self:CreateModel()
+			end
+		end
+	end
 	if self.isSelected and dist > Config.Pickup.MaxDistance then
 		self:OnDeselect()
 	end
@@ -166,6 +175,13 @@ function Decoration:CreateModel()
 	local model = self.model or Main:GetModel(settings, self.variant)
 	if type(model) == "table" then
 		model = model.Name
+	end
+
+	self.age = Main:GetAge(self.start_time)
+
+	if settings.Stages then
+		self.stage = Main:GetStage(settings, self)
+		model = self.stage.Model
 	end
 
 	-- Request model.

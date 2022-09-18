@@ -67,6 +67,8 @@ function Decoration:Create(data)
 		data.start_time = os.time() * 1000
 	end
 
+	data.age = (os.time() * 1000) - data.start_time
+
 	-- Create stations.
 	if settings.Station then
 		exports.inventory:RegisterStation(data.id, settings.Station.Type, settings.Station.Auto)

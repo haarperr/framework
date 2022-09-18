@@ -232,6 +232,48 @@ function Main:Pickup(source, id, admin)
 	end
 end
 
+function Main:Harvest(source, id, decorationId, stage)
+	if type(id) ~= "number" then return false end
+
+	local decoration = self.decorations[decorationId]
+	if not decoration or not decoration.item_id then return false end
+
+	local settings = Decorations[decoration.item]
+	if not settings then return end
+
+	local stage = settings.Stages[stage]
+	if not stage then return end
+
+	local time = (os.time() * 1000) - decoration.start_time
+
+	if stage.Age and time < stage.Age * 60000 then
+		--exports.sv_test:Report(source, ("attempting to harvest %s@%s/%s"):format(item.name, math.floor(time), math.floor(stage.Age * 60000)), true)
+		return
+	end
+
+	local gaveItem = false
+	if stage.Items then
+		for k, v in ipairs(stage.Items) do
+			math.randomseed(os.clock() + k)
+			if math.random() <= v[1] then
+				local amount = v[3]
+				if type(amount) == "table" then
+					amount = math.random(amount[1], amount[2])
+				end
+				local success, reason = table.unpack(exports.inventory:GiveItem(source, v[2], amount))
+				if success then gaveItem = true end
+			end
+		end
+	end
+
+	if gaveItem and stage.Items then
+		decoration:Destroy()
+		return true
+	else
+		return false
+	end
+end
+
 function Main:RegisterDecoration(data)
 	return Decoration:Create(data)
 end
@@ -390,11 +432,26 @@ RegisterNetEvent(Main.event.."access", function(id)
 	decoration:AccessContainer(source)
 end)
 
+RegisterNetEvent("decorations:harvest")
+AddEventHandler("decorations:harvest", function(id, decorationId, stage)
+	local source = source
+	Main:Harvest(source, id, decorationId, stage)
+end)
+
 --[[ Threads ]]--
 Citizen.CreateThread(function()
 	while true do
 		Main:Update()
 		Citizen.Wait(5000)
+	end
+end)
+
+Citizen.CreateThread(function()
+	Citizen.Wait(1000)
+
+	while true do
+		TriggerClientEvent("decorations:syncTime", -1, os.time())
+		Citizen.Wait(15000)
 	end
 end)
 
