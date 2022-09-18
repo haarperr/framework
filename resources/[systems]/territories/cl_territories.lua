@@ -245,5 +245,5 @@ AddEventHandler("peds:interact", function(ped)
 		performEmote(ped, "gestures@m@standing@casual", "gesture_shrug_hard")
 	end
 
-	exports.mythic_notify:SendAlert("inform", message, 7000)
+	TriggerEvent("chat:notify", { text = message, class = "inform" })
 end)

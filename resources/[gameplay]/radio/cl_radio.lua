@@ -158,7 +158,7 @@ RegisterNUICallback("notify", function(data, cb)
 	cb(true)
 
 	if not data then return end
-	exports.mythic_notify:SendAlert("inform", data, 7500)
+	TriggerEvent("chat:notify", { text = data, class = "inform" })
 end)
 
 --[[ Events ]]--

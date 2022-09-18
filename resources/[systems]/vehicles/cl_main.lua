@@ -365,7 +365,7 @@ function Tow()
 
 		local sourceModel = GetEntityModel(sourceVehicle)
 		if (not Config.Towing.Classes[GetVehicleClass(sourceVehicle)] and not Towing.Whitelist[sourceModel]) or Towing.Blacklist[sourceModel] then
-			exports.mythic_notify:SendAlert("error", "It won't fit!", 7000)
+			TriggerEvent("chat:notify", { text = "It won't fit!", class = "error" })
 			return
 		end
 

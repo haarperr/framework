@@ -58,7 +58,7 @@ Citizen.CreateThread(function()
 
 							if exports.weapons:CarryingAnyWeapon() then
 								exports.instances:LeaveInstance(true)
-								exports.mythic_notify:SendAlert("inform", "Get out...", 7000)
+								TriggerEvent("chat:notify", { text = "Get out...", class = "inform" })
 							end
 						end
 					end
