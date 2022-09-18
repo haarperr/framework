@@ -22,6 +22,8 @@ function Main.update:Nutrition()
 	self:SetEffect("Thirst", thirst)
 
 	-- Update health.
+	local alcohol = self:GetEffect("Bac")
+	IsDrunk = alcohol > 0.3
 	IsStarving = hunger < 0.001
 	IsDehydrated = thirst < 0.001
 
@@ -33,6 +35,13 @@ function Main.update:Nutrition()
 		self:AddEffect("Health", -MinutesToTicks / Config.Nutrition.Damage.Thirst)
 	end
 
+	-- Alcohol.
+	local isInVehicle = IsPedInAnyVehicle(PlayerPedId(), false)
+	local mult = 2.0
+	if isInVehicle then
+		mult = 4.0
+	end
+
 	-- Visual queues.
 	if (IsStarving or IsDehydrated) and (not self.nextShake or GetGameTimer() > self.nextShake) then
 		ShakeGameplayCam("JOLT_SHAKE", GetRandomFloatInRange(0.2, 0.6))
@@ -42,6 +51,16 @@ function Main.update:Nutrition()
 	if (IsStarving or IsDehydrated) and (not self.nextSound or GetGameTimer() > self.nextSound) then
 		TriggerEvent("playSound", "tummy", GetRandomFloatInRange(0.3, 0.6))
 		self.nextSound = GetGameTimer() + GetRandomIntInRange(12000, 24000)
+	end
+
+	if IsDrunk then
+		if not self.drunkShake then
+			ShakeGameplayCam("DRUNK_SHAKE", alcohol * mult)
+			self.drunkShake = true
+		end
+	else
+		ShakeGameplayCam("DRUNK_SHAKE", 0)
+		self.drunkShake = nil
 	end
 
 	-- Update sprint.
@@ -62,11 +81,12 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 	if not anim then return end
 
 	-- Get values.
+	local alcohol = item.alcohol or 0.0
 	local hunger = item.hunger or 0.0
 	local thirst = item.thirst or 0.0
 
 	-- Check stats.
-	if (
+	if not alcohol and (
 		(hunger > 0.001 and Main:GetEffect("Hunger") >= 0.9) or
 		(thirst > 0.001 and Main:GetEffect("Thirst") >= 0.9)
 	) then
@@ -96,6 +116,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 	if item.hunger then Main:AddEffect("Hunger", item.hunger) end
 	if item.thirst then Main:AddEffect("Thirst", item.thirst) end
 	if item.comfort then Main:AddEffect("Comfort", item.comfort) end
+	if item.alcohol then Main:AddEffect("Bac", item.alcohol) end
 	if item.energy then Main:AddEffect("Energy", item.energy) end
 	if item.stress then Main:AddEffect("Stress", item.stress) end
 end)
