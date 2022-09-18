@@ -8,6 +8,7 @@ Register("Bucket", {
 
 Register("Weed Plant", {
 	Placement = "Floor",
+	Radius = 0.75,
 	Model = {
 		"bkr_prop_weed_01_small_01a",
 	},

@@ -297,6 +297,16 @@ function Editor:Update()
 		self.canPlace = false
 	end
 
+	for object, info in pairs(Main.decorations) do
+		local _decoration = Decorations[info.item]
+		print(json.encode(_decoration))
+		local _coords = vector3(info.coords.x, info.coords.y, info.coords.z)
+
+		if _decoration and _decoration.Radius and #(coords - _coords) < _decoration.Radius + (settings.Radius or 0.0) then
+			self.canPlace = false
+		end
+	end
+
 	-- Update alpha.
 	SetEntityAlpha(entity, self.canPlace and 255 or 128)
 
