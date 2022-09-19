@@ -260,15 +260,15 @@ function HasProperty(id)
 	local property = Properties[id]
 	if not property then return false end
 
-	local character = exports.character:GetCharacter()
-	if not character then return false end
+	local characterId = exports.character:Get("id")
+	local keys = exports.character:Get("keys")
 
-	if character.id == property.character_id then
+	if characterId and characterId == property.character_id then
 		return true
 	end
 
-	if character.keys then
-		for k, key in ipairs(character.keys) do
+	if keys then
+		for k, key in ipairs(keys) do
 			if key.property_id == id then
 				return true
 			end
@@ -311,6 +311,10 @@ AddEventHandler("properties:receive", function(properties)
 
 	if Config.Debug then
 		GenerateBlips()
+	end
+
+	if GetResourceState("garages") == "started" then
+		TriggerEvent("garages:initialize")
 	end
 end)
 

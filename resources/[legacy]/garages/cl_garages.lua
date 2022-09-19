@@ -475,6 +475,16 @@ AddEventHandler("garages:receiveVehicles", function(vehicles)
 	Initialize()
 end)
 
+RegisterNetEvent("properties:receive")
+AddEventHandler("properties:receive", function()
+	Initialize()
+end)
+
+RegisterNetEvent("garages:initialize")
+AddEventHandler("garages:initialize", function()
+	Initialize()
+end)
+
 RegisterNetEvent("properties:bought")
 AddEventHandler("properties:bought", function(id)
 	Initialize()
