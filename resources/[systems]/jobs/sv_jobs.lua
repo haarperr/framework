@@ -133,6 +133,13 @@ function Main:IsInGroup(id, group)
 	return false
 end
 
+function Main:IsInFaction(id, faction)
+	local job = self.jobs[self.players[id]]
+	if not job then return end
+
+	return job.Faction == faction
+end
+
 --[[ Functions: Job ]]--
 -- function Job:Update()
 	

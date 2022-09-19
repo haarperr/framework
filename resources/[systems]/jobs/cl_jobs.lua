@@ -79,6 +79,16 @@ function Main:IsInGroup(group)
 	return false
 end
 
+function Main:IsInFaction(faction)
+	local id = LocalPlayer.state.job
+	if not id then return end
+
+	local job = self.jobs[id]
+	if not job then return end
+
+	return job.Faction == faction
+end
+
 function Main:GetRank(id)
 	local job = self.jobs[id]
 	if not job then return end
