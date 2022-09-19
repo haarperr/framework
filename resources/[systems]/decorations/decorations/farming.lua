@@ -6,7 +6,7 @@ Register("Bucket", {
 	Anim = { Dict = "anim@mp_snowball", Name = "pickup_snowball", Flag = 0, Duration = 1200 },
 })
 
-Register("Weed Plant", {
+--[[Register("Weed Plant", {
 	Placement = "Floor",
 	Radius = 0.75,
 	Model = {
@@ -28,4 +28,4 @@ Register("Weed Plant", {
 			Model = "bkr_prop_weed_01_small_01a",
 		},
 	},
-})
+})]]
