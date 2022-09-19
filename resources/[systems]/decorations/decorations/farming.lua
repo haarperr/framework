@@ -28,4 +28,12 @@ Register("Bucket", {
 			Model = "bkr_prop_weed_01_small_01a",
 		},
 	},
+	Materials = { -- For weed seed.
+		[3594309083] = true,
+		[-1286696947] = true,
+		[-1885547121] = true,
+		[-1942898710] = true,
+		[1333033863] = true,
+		[1109728704] = true,
+	},
 })]]
