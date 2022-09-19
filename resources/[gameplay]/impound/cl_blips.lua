@@ -4,7 +4,7 @@ Blips = {
 
 function Blips:Add(netId, coords)
 	-- Check duty and entity.
-	if not exports.jobs:IsOnDuty(Config.Marking.Faction) or self.entities[netId] ~= nil then
+	if not exports.jobs:IsInFaction(Config.Marking.Faction) or self.entities[netId] ~= nil then
 		return
 	end
 

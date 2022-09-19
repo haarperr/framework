@@ -136,9 +136,23 @@ AddEventHandler("character:switch", function()
 	Blips:Clear()
 end)
 
-RegisterNetEvent("inventory:use_"..Config.Marking.Item:gsub("%s", ""))
-AddEventHandler("inventory:use_"..Config.Marking.Item:gsub("%s", ""), function(item, slotId)
+AddEventHandler("inventory:use", function(item, slot, cb)
+	if item.name ~= Config.Marking.Item then
+		return
+	end
+
 	if not Marking:CanMark() or IsPedInAnyVehicle(PlayerPedId()) then return end
+
+	cb(1000)
+end)
+
+AddEventHandler("inventory:useFinish", function(item, slot)
+	if item.name ~= Config.Marking.Item then
+		return
+	end
+
+	if not Marking:CanMark() or IsPedInAnyVehicle(PlayerPedId()) then return end
+
 	Marking:PlaceSticker()
 end)
 

@@ -24,7 +24,7 @@ end
 
 function Impound:CanImpound()
 	-- Check job.
-	if not exports.jobs:IsOnDuty(Config.Marking.Faction) then
+	if not exports.jobs:IsInFaction(Config.Marking.Faction) then
 		return false
 	end
 

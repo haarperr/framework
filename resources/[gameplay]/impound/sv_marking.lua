@@ -96,11 +96,10 @@ function Marking:Unmark(source, entity)
 end
 
 function Marking:InformAll(payload)
-	local activeDuty = exports.jobs:GetActiveDuty(Config.Marking.Faction)
-	if activeDuty == nil then return end
-	
-	for player, _ in pairs(activeDuty) do
-		TriggerClientEvent("impound:inform", player, payload)
+	for _, player in ipairs(GetActivePlayers()) do
+		if exports.jobs:IsInFaction(Config.Marking.Faction) then
+			TriggerClientEvent("impound:inform", player, payload)
+		end
 	end
 end
 
@@ -115,7 +114,10 @@ AddEventHandler("impound:stop", function()
 end)
 
 AddEventHandler("jobs:clock", function(source, name, message)
-	if name ~= Config.Marking.Faction then return end
+	local job = exports.jobs:GetCurrentJob(source, true)
+	if not job then return end
+	
+	if job.Faction ~= Config.Marking.Faction then return end
 	local payload = {}
 
 	if message then
