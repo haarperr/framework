@@ -34,6 +34,8 @@ function Main:UseItem(item, slot, cb)
 
 	-- Close inventory.
 	TriggerEvent("inventory:toggle", false)
+
+	exports.peds:AddEvent("hotwiring")
 	
 	-- Play minigame.
 	local success = exports.quickTime:Begin(tier.QuickTime)
