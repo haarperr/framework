@@ -165,6 +165,10 @@ exports("IsInEmergency", function(...)
 	return Main:IsInEmergency(...)
 end)
 
+exports("IsInFaction", function(...)
+	return Main:IsInFaction(...)
+end)
+
 exports("HasEmergency", function(...)
 	return Main:HasEmergency(...)
 end)

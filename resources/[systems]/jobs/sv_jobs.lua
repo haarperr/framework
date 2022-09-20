@@ -415,6 +415,10 @@ exports("IsInEmergency", function(...)
 	return Main:IsInEmergency(...)
 end)
 
+exports("IsInFaction", function(...)
+	return Main:IsInFaction(...)
+end)
+
 exports("IsInGroup", function(...)
 	return Main:IsInGroup(...)
 end)
