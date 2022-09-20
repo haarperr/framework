@@ -15,6 +15,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@utils/server/players.lua',
 	'sv_marking.lua',
 	'sv_marked.lua',
 	'sv_impounding.lua',
