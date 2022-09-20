@@ -228,6 +228,7 @@ AddEventHandler("dispatch:addUnit", function(id)
 	-- TODO: Occupy.
 end)
 
+RegisterNetEvent("jobs:clock")
 AddEventHandler("jobs:clock", function(source, name, message)
 	if not message or not exports.jobs:IsInGroup(source, "emergency") then return end
 
