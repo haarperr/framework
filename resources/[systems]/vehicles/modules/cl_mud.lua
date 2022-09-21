@@ -36,8 +36,7 @@ function Main.update:Mud()
 	if mudRatio < 0.001 or mudRatio > 1.001 then return end
 
 	BrakeModifier = BrakeModifier * mudRatio
-	MaxFlatModifier = MaxFlatModifier * math.pow(mudRatio, 2.0)
-	TractionCurveModifier = TractionCurveModifier * (1.0 + mudRatio * 0.5)
+	MaxFlatModifier = MaxFlatModifier * mudRatio
+	TractionCurveModifier = TractionCurveModifier * (1.0 + mudRatio * 0.25)
 	TractionLossModifier = TractionLossModifier * mudRatio
-	print(BrakeModifier, MaxFlatModifier, TractionCurveModifier, TractionLossModifier)
 end
