@@ -196,7 +196,7 @@ Config = {
 				},
 				{
 					-- Runs electrical components.
-					Name = "Battery",
+					Name = "Car Battery",
 					Offset = vector3(-0.4, 0.0, 0.0),
 					Repair = {
 						Duration = 7000,
