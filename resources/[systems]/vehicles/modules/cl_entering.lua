@@ -94,6 +94,10 @@ function Entering:Activate(goToDriver)
 	-- Enter vehicle.
 	SetVehicleDoorsLocked(vehicle, 0)
 	TaskEnterVehicle(Ped, vehicle, -1, seatIndex, IsControlPressed(0, 21) and 2.0 or 1.0, state.restrained and 256 or 8, 0)
+
+	if class == 18 then
+		SetVehRadioStation(vehicle ,"OFF")
+	end
 end
 
 --[[ Listeners ]]--
