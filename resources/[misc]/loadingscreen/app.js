@@ -58,8 +58,6 @@ const handlers = {
     },
 
     initFunctionInvoking(data) {
-        document.querySelector('.yeet').style.left = '0%';
-        document.querySelector('.yeet').style.width = ((data.idx / count) * 100) + '%';
     },
 
     startDataFileEntries(data) {
@@ -70,9 +68,6 @@ const handlers = {
 
     performMapLoadFunction(data) {
         ++thisCount;
-
-        document.querySelector('.yeet').style.left = '0%';
-        document.querySelector('.yeet').style.width = ((thisCount / count) * 100) + '%';
     },
 
     onLogLine(data) {
