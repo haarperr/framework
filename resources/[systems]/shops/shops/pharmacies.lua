@@ -17,6 +17,7 @@ Config.Filters.Pharm = {
         ["Taser Prong"] = true,
         ["Body Armor"] = true,
 		["Radio"] = true,
+		["Impound Sticker"] = true,
 	},
 }
 
