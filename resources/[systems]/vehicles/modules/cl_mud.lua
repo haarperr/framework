@@ -39,4 +39,5 @@ function Main.update:Mud()
 	MaxFlatModifier = MaxFlatModifier * math.pow(mudRatio, 2.0)
 	TractionCurveModifier = TractionCurveModifier * (1.0 + mudRatio * 0.5)
 	TractionLossModifier = TractionLossModifier * mudRatio
+	print(BrakeModifier, MaxFlatModifier, TractionCurveModifier, TractionLossModifier)
 end
