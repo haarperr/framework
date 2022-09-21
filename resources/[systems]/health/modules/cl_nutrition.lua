@@ -63,6 +63,14 @@ function Main.update:Nutrition()
 		self.drunkShake = nil
 	end
 
+	if alcohol > 0.8 then
+		self.walkstyle = "drunk3"
+	elseif alcohol > 0.6 then
+		self.walkstyle = "drunk2"
+	elseif alcohol > 0.4 then
+		self.walkstyle = "drunk"
+	end
+
 	-- Update sprint.
 	local isDying = IsStarving or IsDehydrated
 	if isDying ~= WasMalnourished then
