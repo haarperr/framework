@@ -511,7 +511,7 @@ Config = {
 			},
 			["Bank"] = {
 				Category = "medium",
-				MinPresence = 0,
+				MinPresence = 4,
 				InformPolice = true,
 			},
 			["Jewelry"] = {
