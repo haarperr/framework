@@ -597,3 +597,110 @@ end, {
 		{ name = "Target", help = "Person to report dead." },
 	}
 })
+
+exports.chat:RegisterCommand("callsign", function(source, args, command)
+	local sign = string.upper(args[1])
+	if not sign or sign == "" then return end
+
+	if not Main:IsInGroup(source, "emergency") then
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "You must be on duty!" })
+		return
+	end
+
+	local job = Main:GetCurrentJob(source)
+	if not job then
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "You need to be clocked in!" })
+		return
+	end
+
+	if not (string.find(sign, "^[A-Z][A-Z]") or string.find(sign, "^[A-Z][-]%d%d$") or string.find(sign, "^[A-Z][A-Z][-]%d%d$") or string.find(sign, "^[123569]%d%d$")) then
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "Improper callsign. Formatting allowed: [AA-ZZ], [A-Z/AA-ZZ]-##, or [1,2,3,5,6,9]##" })
+		return
+	end
+
+	local characterId = exports.character:Get(source, "id")
+	local success = exports.factions:UpdateFaction(characterId, job.Faction, job.Group or false, "callsign", sign, true)
+
+	if success then
+		TriggerClientEvent("chat:notify", source, { class = "success", text = "Callsign successfully changed to: "..sign })
+
+		-- Log the event.
+		exports.log:Add({
+			source = source,
+			verb = "changed",
+			noun = "callsign to",
+			extra = sign,
+		})
+	else
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "Failed to set callsign!" })
+	end
+
+end, {
+	description = "Change your Emergency callsign.",
+	parameters = {
+		{ name = "Callsign", help = "Accepted Formats: [AA-ZZ], [A-Z/AA-ZZ]-##, or [1,2,3,5,6,9]##" },
+	}
+})
+
+exports.chat:RegisterCommand("rollcall", function(source, args, command)
+	local job = Main:GetCurrentJob(source)
+
+	if not job or job == "" then 
+		TriggerClientEvent("notify:sendAlert", source, "error", "You must be on duty!")
+		return
+	end
+
+	if not Main:IsInGroup(source, "emergency") and string.match(job, "staff") ~= "staff" then
+		TriggerClientEvent("notify:sendAlert", source, "error", "You must be on duty!")
+		return
+	end
+
+	local categories = {}
+	local count = 0
+
+	for _, player in ipairs(GetPlayers()) do
+		local currentPlayer = tonumber(player)
+		if Main:IsInGroup(currentPlayer, "emergency") then
+			local character = exports.character:GetCharacter(currentPlayer)
+			local job = Main:GetCurrentJob(currentPlayer)
+			if job == "staffteam" then goto continue end
+
+			local faction = exports.factions:Get(currentPlayer, job.Faction, job.Group)
+			if not faction then goto continue end
+
+			local extra = faction and faction.fields and faction.fields.callsign
+			
+			local category = job.Name
+			local output = categories[category]
+			if not output then
+				output = ""
+			end
+			if output ~= "" then
+				output = output.."<br>"
+			end
+			if extra then
+				output = output..extra.." - "..character.first_name.." "..character.last_name
+			else
+				output = output..character.first_name.." "..character.last_name
+			end
+			categories[category] = output
+			count = count + 1
+			::continue::
+		end
+	end
+
+	local output = "Active Emergency Personnel:"
+	for category, text in pairs(categories) do
+		if output ~= "" then
+			output = output.."<br><br>"
+		end
+		output = output.."<span style='font-weight: 800; font-size: 90%; text-decoration: underline'>"..category.."</span><br>"..text
+	end
+
+	TriggerClientEvent("notify:persistentAlert", source, "START", "onduty", "inform", output, false, true)
+
+end, {
+	description = "Lists all clocked on Emergency Services.",
+	parameters = {
+}
+})
