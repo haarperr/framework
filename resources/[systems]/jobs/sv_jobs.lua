@@ -599,8 +599,10 @@ end, {
 })
 
 exports.chat:RegisterCommand("callsign", function(source, args, command)
-	local sign = string.upper(args[1])
+	local sign = args[1]
 	if not sign or sign == "" then return end
+
+	sign = string.upper(sign)
 
 	if not Main:IsInGroup(source, "emergency") then
 		TriggerClientEvent("chat:notify", source, { class = "error", text = "You must be on duty!" })
@@ -619,7 +621,12 @@ exports.chat:RegisterCommand("callsign", function(source, args, command)
 	end
 
 	local characterId = exports.character:Get(source, "id")
-	local success = exports.factions:UpdateFaction(characterId, job.Faction, job.Group or false, "callsign", sign, true)
+	if not characterId then
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "Failed to set callsign!" })
+		return
+	end
+
+	local success = exports.factions:UpdateFaction(characterId, job.Faction, job.Group, "callsign", sign, true)
 
 	if success then
 		TriggerClientEvent("chat:notify", source, { class = "success", text = "Callsign successfully changed to: "..sign })
@@ -632,7 +639,7 @@ exports.chat:RegisterCommand("callsign", function(source, args, command)
 			extra = sign,
 		})
 	else
-		TriggerClientEvent("chat:notify", source, { class = "error", text = "Failed to set callsign!" })
+		TriggerClientEvent("chat:notify", source, { class = "error", text = "Unable to set callsign!" })
 	end
 
 end, {
@@ -664,7 +671,7 @@ exports.chat:RegisterCommand("rollcall", function(source, args, command)
 			local character = exports.character:GetCharacter(currentPlayer)
 			local job = Main:GetCurrentJob(currentPlayer)
 			if job == "staffteam" then goto continue end
-
+g
 			local faction = exports.factions:Get(currentPlayer, job.Faction, job.Group)
 			if not faction then goto continue end
 
