@@ -50,7 +50,7 @@ Register("Weed Seed", {
 		{
 			Age = 360,
 			Model = "prop_weed_01",
-			Items = { { 1.0, "Weed", {1,3} }, { 0.95, "Weed Seed", {1,2} } },
+			Items = { { 1.0, "Weed", {1,3} }, { 0.25, "Weed Seed", {1,1} } },
 			Harvestable = true,
 		},
 		{
