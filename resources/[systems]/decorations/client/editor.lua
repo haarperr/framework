@@ -277,6 +277,11 @@ function Editor:Update()
 	self.coords = coords
 	self.rotation = rotation
 
+	-- Check materials.
+	if settings and settings.Materials then
+		self.canPlace = settings.Materials[materialHash]
+	end
+
 	-- Check roads/interiors.
 	local hasRoad, roadCoords = GetClosestVehicleNode(coords.x, coords.y, coords.z, 0, 0, 0)
 
