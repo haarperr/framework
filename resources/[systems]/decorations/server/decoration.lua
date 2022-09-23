@@ -151,7 +151,7 @@ function Decoration:Update()
 	
 	-- Check decay.
 	local isOutside = self.instance == nil
-	if isOutside and age > (settings.Decay or 2.0) then
+	if (isOutside or settings.DecayInside) and age > (settings.Decay or 2.0) then
 		self:Destroy()
 	end
 end
