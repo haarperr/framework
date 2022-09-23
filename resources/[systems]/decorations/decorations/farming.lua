@@ -37,3 +37,32 @@ Register("Bucket", {
 		[1109728704] = true,
 	},
 })]]
+
+Register("Weed Seed", {
+	Decay = 72,
+	DecayInside = true,
+	Radius = 0.75,
+	Placement = "Floor",
+	Model = {
+		Model = "prop_weed_02",
+	},
+	Stages = {
+		{
+			Age = 360,
+			Model = "prop_weed_01",
+			Items = { { 1.0, "Weed", {1,3} }, { 0.95, "Weed Seed", {1,2} } },
+			Harvestable = true,
+		},
+		{
+			Model = "prop_weed_02",
+		},
+	},
+	Materials = {
+		[3594309083] = true,
+		[-1286696947] = true,
+		[-1885547121] = true,
+		[-1942898710] = true,
+		[1333033863] = true,
+		[1109728704] = true,
+	},
+})
