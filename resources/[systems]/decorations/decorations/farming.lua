@@ -44,7 +44,7 @@ Register("Weed Seed", {
 	Radius = 0.75,
 	Placement = "Floor",
 	Model = {
-		Model = "prop_weed_02",
+		"prop_weed_02",
 	},
 	Stages = {
 		{
