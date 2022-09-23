@@ -671,7 +671,7 @@ exports.chat:RegisterCommand("rollcall", function(source, args, command)
 			local character = exports.character:GetCharacter(currentPlayer)
 			local job = Main:GetCurrentJob(currentPlayer)
 			if job == "staffteam" then goto continue end
-g
+
 			local faction = exports.factions:Get(currentPlayer, job.Faction, job.Group)
 			if not faction then goto continue end
 
