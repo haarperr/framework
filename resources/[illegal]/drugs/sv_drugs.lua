@@ -34,7 +34,6 @@ AddEventHandler("drugs:sell", function()
 	local source = source
 	local cache = Players[source]
 	if not cache then return end
-	print(exports.inventory:CountItem(source, cache.drug))
 
 	if exports.inventory:CountItem(source, cache.drug) < cache.amount then
 		TriggerClientEvent("drugs:stopSelling", source)
