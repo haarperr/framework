@@ -374,6 +374,9 @@ Config.Groups = {
 			["pizza"] = { Dict = "amb@code_human_wander_eating_donut_fat@female@base", Name = "static", Flag = 49, Props = {
 				{ Model = "v_res_tt_pizzaplate", Bone = 28422, Offset = { 0.0, 0.0, 0.0, 90.0, 0.0, 0.0 } },
 			}},
+			["cpa"] = { Dict = "amb@world_human_car_park_attendant@male@base", Name = "base", Flag = 1, Props = {
+				{ Model = "prop_parking_wand_01", Bone = 28422, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 } },
+			}},
 		},
 	},
 	{
