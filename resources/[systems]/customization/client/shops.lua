@@ -8,7 +8,7 @@ Shops = {
 			AsShortRange = true,
 		},
 		Locations = {
-			-- MRPD.
+		-- MRPD.0
 		{ Coords = vector4(463.523193359375, -999.3453369140624, 30.689516067504883, 44.3731803894043), Blip = false },
 		-- La Mesa.
 		{ Coords = vector4(853.47509765625, -1313.192626953125, 28.24494934082031, 318.0627136230469), Blip = false },
@@ -23,7 +23,7 @@ Shops = {
 		-- Motel.
 		{ Coords = vector4(151.9695, -1000.181, -98.99998, 6.576297), Blip = false },
 		-- Low end apartment.
-		{ Coords = vector4(-0.3505530059337616, 43.561729431152344, -99.00860595703124, 309.16619873046875), Blip = false },
+		{ Coords = vector4(-0.1081567, 43.57688, -99.00861, 3.202394), Blip = fal0se },
 		-- Medium end house.
 		{ Coords = vector4(7.83109712600708, 203.629150390625, -99.19630432128906, 181.1663818359375), Blip = false },
 		-- High end house.
