@@ -12,7 +12,7 @@ RegisterShop("PAWN_1", {
 				["pawnshop"] = "general",
 			},
 			invisible = true,
-			coords = vector3(172.5118, -1316.467, 30.29674),
+			coords = vector3(171.7096, -1316.415, 30.29674),
 			rotation = vector3(-29.68401, -0, -119.1172),
 		},
         ["beproc_1"] = {
