@@ -92,6 +92,22 @@ Register("Drawer", {
 	},
 })
 
+Register("Wooden Cabinet", {
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = true,
+		Block = false,
+	},
+	Model = {
+		"prop_tv_cabinet_03",
+		"prop_tv_cabinet_04",
+		"prop_tv_cabinet_05",
+		"apa_mp_h_str_avunitl_01_b",
+		"apa_mp_h_str_avunitm_01",
+	},
+})
+
 Register("Chicken Coop", {
 	Placement = "Floor",
 	Stackable = {
@@ -113,6 +129,14 @@ Register("Television", {
 	},
 	Model = {
 		"prop_tv_test",
+		"des_tvsmash_start",
+		"prop_trev_tv_01",
+		"prop_tv_03",
+		"prop_tv_04",
+		"prop_tv_05",
+		"prop_tv_flat_02",
+		"prop_tv_flat_02b",
+		"sm_prop_smug_tv_flat_01",
 	},
 })
 
