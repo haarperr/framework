@@ -58,7 +58,7 @@ function Marking:Mark(source, entity)
 	end
 
 	-- Check source.
-	if not self:CanMark(source) then
+	if not exports.jobs:IsInEmergency(source) then
 		return false
 	end
 

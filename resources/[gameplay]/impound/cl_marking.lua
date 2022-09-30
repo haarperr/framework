@@ -141,7 +141,7 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 		return
 	end
 
-	if not Marking:CanMark() or IsPedInAnyVehicle(PlayerPedId()) then return end
+	if not exports.jobs:IsInEmergency() or IsPedInAnyVehicle(PlayerPedId()) then return end
 
 	cb(1000)
 end)
@@ -151,7 +151,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 		return
 	end
 
-	if not Marking:CanMark() or IsPedInAnyVehicle(PlayerPedId()) then return end
+	if not exports.jobs:IsInEmergency() or IsPedInAnyVehicle(PlayerPedId()) then return end
 
 	Marking:PlaceSticker()
 end)
