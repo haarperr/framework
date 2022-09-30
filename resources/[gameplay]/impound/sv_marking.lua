@@ -63,8 +63,7 @@ function Marking:Mark(source, entity)
 	end
 
 	-- Check item.
-	local playerContainer = exports.inventory:GetPlayerContainer(source)
-	if playerContainer == nil or not exports.inventory:HasItem(playerContainer, Config.Marking.Item) then
+	if not exports.inventory:HasItem(source, Config.Marking.Item) then
 		return false
 	end
 
@@ -162,8 +161,8 @@ AddEventHandler("impound:mark", function(netId)
 		exports.log:Add({
 			source = source,
 			verb = "marked",
-			noun = "vehicle for impound",
-			extra = ("net id: %s"):format(netId),
+			noun = "vehicle",
+			extra = ("impound - net id: %s"):format(netId),
 		})
 	end
 end)
