@@ -224,6 +224,9 @@ Config = {
 		]]
 
 		["Weed"] = { Min = 12, Max = 27, Cap = 4, Hotspot = 2.0, MaxCops = 6, CopRate = 0.3 },
+		["Blue Dream Weed"] = { Min = 14, Max = 30, Cap = 4, Hotspot = 2.0, MaxCops = 6, CopRate = 0.3 },
+		["Purple Kush Weed"] = { Min = 22, Max = 35, Cap = 4, Hotspot = 2.0, MaxCops = 6, CopRate = 0.3 },
+		["Girl Scout Cookies Weed"] = { Min = 25, Max = 42, Cap = 4, Hotspot = 2.0, MaxCops = 6, CopRate = 0.3 },
 		["Cocaine Compact"] = { Min = 30, Max = 60, Cap = 1, Hotspot = 1.5, MaxCops = 6, CopRate = 0.3 },
 		["Cocaine Grenada"] = { Min = 25, Max = 55, Cap = 1, Hotspot = 1.5, MaxCops = 6, CopRate = 0.3 },
 		["Heroin"] = { Min = 50, Max = 80, Cap = 2, Hotspot = 1.5, MaxCops = 6, CopRate = 0.3 },
