@@ -30,6 +30,7 @@ Config = {
 
 				-- Drugs.
 				{ name = "Weed Seed", chance = 0.2, quantity = { 1, 2 } },
+				{ name = "Blue Dream Weed Seed", chance = 0.2, quantity = { 1, 2 } },
 				--{ name = "Crack Pipe", chance = 0.01 },
 				--{ name = "Joint", chance = 0.01 },
 
@@ -105,6 +106,7 @@ Config = {
 
 				-- Drugs.
 				{ name = "Weed Seed", chance = 0.2, quantity = { 1, 2 } },
+				{ name = "Blue Dream Weed Seed", chance = 0.2, quantity = { 1, 2 } },
 				--{ name = "Bong", chance = 0.01, durability = { 0.05, 0.5 } },
 				--{ name = "Crack Pipe", chance = 0.02, durability = { 0.05, 0.5 } },
 
