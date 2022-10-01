@@ -620,7 +620,7 @@ exports.chat:RegisterCommand("callsign", function(source, args, command)
 		return
 	end
 
-	local success = exports.factions:UpdateFaction(source, job.Faction, job.Group, "callsign", sign, true)
+	local success = exports.factions:UpdateFaction(source, job.Faction, job.Group, "callsign", sign)
 
 	if success then
 		TriggerClientEvent("chat:notify", source, { class = "success", text = "Callsign successfully changed to: "..sign })
