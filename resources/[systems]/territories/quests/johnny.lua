@@ -4,12 +4,12 @@ AddQuest({
 	objectiveText = "Johnny recently put in an order for steel for some giant building project and it fell through. Bring him 80 steel ingots.",
 	requirements = {
 		items = {
-			{ name = "Steel Ingots", amount = 80 },
+			{ name = "Steel Ingot", amount = 80 },
 		},
 	},
 	rewards = {
 		items = {
-			{ name = "Marked Bills", amount = 18365 },
+			{ name = "Marked Bills", amount = 6665 },
 		},
 		custom = function(self, source)
 			if source then
