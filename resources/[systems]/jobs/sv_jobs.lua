@@ -620,13 +620,7 @@ exports.chat:RegisterCommand("callsign", function(source, args, command)
 		return
 	end
 
-	local characterId = exports.character:Get(source, "id")
-	if not characterId then
-		TriggerClientEvent("chat:notify", source, { class = "error", text = "Failed to set callsign!" })
-		return
-	end
-
-	local success = exports.factions:UpdateFaction(characterId, job.Faction, job.Group, "callsign", sign, true)
+	local success = exports.factions:UpdateFaction(source, job.Faction, job.Group, "callsign", sign, true)
 
 	if success then
 		TriggerClientEvent("chat:notify", source, { class = "success", text = "Callsign successfully changed to: "..sign })
