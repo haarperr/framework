@@ -27,6 +27,7 @@ Config.Filters.Toolstore = {
 		["Pen"] = true,
 		["Eraser"] = true,
 		["Spray Can"] = true,
+		["Breeding Chamber"] = true,
 	},
 }
 
