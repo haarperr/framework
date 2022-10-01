@@ -9,7 +9,7 @@ AddQuest({
 	},
 	rewards = {
 		items = {
-			{ name = "Marked Bills", amount = 6665 },
+			{ name = "One Hundred Dollars", amount = 66 },
 		},
 		custom = function(self, source)
 			if source then

@@ -4,7 +4,7 @@ AddQuest({
 	objectiveText = "Marcus is well... a gun nut. He deals in that sort of thing. Bring him $30,000 in distinctive bills and he might have something for you. He hangs out near Elysian Fields Freeway and the Oil Field.",
 	requirements = {
 		items = {
-			{ name = "Marked Bills", amount = 1500 },
+			{ name = "One Hundred Dollars", amount = 15 },
 		},
 	},
 	rewards = {
