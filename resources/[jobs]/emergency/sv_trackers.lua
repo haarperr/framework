@@ -61,7 +61,7 @@ exports.trackers:CreateGroup(GROUP_NAME, {
 				Colour = 48,
 			},
 			["sams"] = {
-				Colour = 52,
+				Colour = 82,
 			},
 			["sapr"] = {
 				Colour = 25,
