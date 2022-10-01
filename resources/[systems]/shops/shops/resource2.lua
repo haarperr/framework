@@ -29,6 +29,12 @@ RegisterShop("RESOURCE_2", {
 			coords = vector3(457.8803, 5572.039, 781.1783),
 			rotation = vector3(-21.35386, -0, -85.48493),
 		},
+		["bonds"] = {
+			item = "Bond Trader",
+			invisible = true,
+			coords = vector3(-469.1567, 1129.214, 325.8589),
+			rotation = vector3(-32.43731, 4.268868e-07, 76.7732),
+		},
 		},
 	}
 )

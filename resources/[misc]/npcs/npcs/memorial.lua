@@ -44,6 +44,11 @@ local MemorialNpcs = {
 				once = true,
 			},
 			{
+				text = "Where can I trade them then?.",
+				dialogue = "There's an old saying in the world of show biz. Break a leg. Actually fuck that, you can trade them where the stars look brightest. Remember though, what goes down must come up",
+				once = true,
+			},
+			{
 				text = "Tell me a joke.",
 				dialogue = "Did you hear about the guy whose whole left side got amputated? He’s all right now.",
 				once = true,

@@ -66,3 +66,32 @@ Register("Weed Seed", {
 		[1109728704] = true,
 	},
 })
+
+Register("Blue Dream Weed Seed", {
+	Decay = 72,
+	DecayInside = true,
+	Radius = 0.75,
+	Placement = "Floor",
+	Model = {
+		"prop_weed_02",
+	},
+	Stages = {
+		{
+			Age = 360,
+			Model = "prop_weed_01",
+			Items = { { 1.0, "Blue Dream Weed", {1,3} }, { 0.25, "Blue Dream Weed Seed", {1,1} } },
+			Harvestable = true,
+		},
+		{
+			Model = "prop_weed_02",
+		},
+	},
+	Materials = {
+		[3594309083] = true,
+		[-1286696947] = true,
+		[-1885547121] = true,
+		[-1942898710] = true,
+		[1333033863] = true,
+		[1109728704] = true,
+	},
+})
