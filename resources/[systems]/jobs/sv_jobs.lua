@@ -298,7 +298,7 @@ RegisterNetEvent("jobs:clock", function(jobId)
 		exports.sound:PlaySoundPlayer(source, "flipcard", 0.5, 0.1)
 
 		-- Inform client.
-		TriggerClientEvent("chat:notify", source, "Clocked "..(state and "on" or "off").."!", "success")
+		TriggerClientEvent("chat:notify", source, { text = "Clocked "..(state and "on" or "off").."!", class = "success" })
 	end
 end)
 
