@@ -23,7 +23,7 @@ function Impound:Finish(source, entity)
 
 	-- Reward.
 	local amount = Config.Impounding.Reward
-	local accountNumber = exports.characters:Get(source, "bank")
+	local accountNumber = exports.character:Get(source, "bank")
 
 	exports.banking:AddBank(source, accountNumber, amount, true)
 
