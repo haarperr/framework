@@ -82,7 +82,7 @@ export default createStore({
             name: "Transfer",
             icon: "arrow_forward",
             color: "blue",
-            isBankRequired: true,
+            isBankRequired: false,
             form: [
               { value: "", mask:"##########", prefix: "", label: "Account Number", icon: "wallet", name: "target_account" },
               { value: "", mask:"#############", prefix: "$", label: "Amount", icon: "attach_money", name: "amount" },
