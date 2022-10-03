@@ -522,7 +522,7 @@ end, {
 		{ name = "Rank", description = "What rank to hire them as? Default is the lowest rank." },
 		{ name = "Target", description = "Who you are setting the rank for. Default = you." },
 	}
-}, "Admin")
+}, "Mod")
 
 exports.chat:RegisterCommand("a:jobhire", function(source, args, command, cb)
 	HireOrFire(source, args, cb, true)
@@ -533,7 +533,7 @@ end, {
 		{ name = "Target", description = "Who you are hiring. Default = you." },
 		{ name = "Rank", description = "What rank to hire them as? Default is the lowest rank." },
 	}
-}, "Admin")
+}, "Mod")
 
 exports.chat:RegisterCommand("a:jobfire", function(source, args, command, cb)
 	HireOrFire(source, args, cb, false)
@@ -543,7 +543,7 @@ end, {
 		{ name = "Job", description = "Use the job's id." },
 		{ name = "Target", description = "Who you are firing. Default = you." },
 	}
-}, "Admin")
+}, "Mod")
 
 exports.chat:RegisterCommand("fingerprint", function(source, args, rawCommand)
 	if not exports.jobs:IsInEmergency(source) then

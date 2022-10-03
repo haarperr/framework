@@ -86,7 +86,7 @@ exports.chat:RegisterCommand("a:fix", function(source, args, command, cb)
 	})
 end, {
 	description = "Completely fix your vehicle.",
-}, "Admin")
+}, "Mod")
 
 exports.chat:RegisterCommand("a:flip", function(source, args, command, cb)
 	if setVehicleRotation(source, 0.0, 180.0) then

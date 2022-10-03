@@ -310,4 +310,4 @@ end, {
 	parameters = {
 		{ name = "Message", description = "Send a message directly to dispatch at your position." },
 	}
-}, -1, 75)
+}, "Admin"")
