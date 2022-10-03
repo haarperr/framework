@@ -214,7 +214,7 @@ Config = {
 			},
 		},
 	},
-	Items = { "Cocaine Grenada", "Cocaine Compact", "Weed", "Heroin", "Crack Cocaine" },
+	Items = { "Cocaine Grenada", "Cocaine Compact", "Weed", "Blue Dream Weed", "Purple Kush Weed", "Girl Scout Cookies Weed", "Heroin", "Crack Cocaine" },
 	Prices = {
 		--[[
 			Min: minimum cash per item,
@@ -243,96 +243,96 @@ Config = {
 			A value of -1.0 won't allow the zone to sell.
 		]]
 
-		["AIRP"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Los Santos International Airport.
-		["ALAMO"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Alamo Sea.
-		["ALTA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Alta.
-		["ARMYB"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Fort Zancudo.
-		["BANHAMC"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Banham Canyon Dr.
-		["BANNING"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Banning.
-		["BEACH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vespucci Beach.
-		["BHAMCA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Banham Canyon.
-		["BRADP"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Braddock Pass.
-		["BRADT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Braddock Tunnel.
-		["BURTON"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Burton.
-		["CALAFB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Calafia Bridge.
-		["CANNY"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Raton Canyon.
-		["CCREAK"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Cassidy Creek.
-		["CHAMH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Chamberlain Hills.
-		["CHIL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vinewood Hills.
-		["CHU"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Chumash.
-		["CMSW"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Chiliad Mountain State Wilderness.
-		["CYPRE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Cypress Flats.
-		["DAVIS"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Davis.
-		["DELBE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Del Perro Beach.
-		["DELPE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Del Perro.
-		["DELSOL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- La Puerta.
-		["DESRT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Grand Senora Desert.
-		["DOWNT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Downtown.
-		["DTVINE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Downtown Vinewood.
-		["EAST_V"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- East Vinewood.
-		["EBURO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- El Burro Heights.
-		["ELGORL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- El Gordo Lighthouse.
-		["ELYSIAN"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Elysian Island.
-		["GALFISH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Galilee.
-		["GOLF"] = { ["Cocaine Grenada"] = 1.0, ["Cocaine Compact"] = 1.0, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- GWC and Golfing Society.
-		["GRAPES"] = { ["Cocaine Grenada"] = 1.0, ["Cocaine Compact"] = 1.0, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Grapeseed.
-		["GREATC"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Great Chaparral.
-		["HARMO"] = { ["Cocaine Grenada"] = 1.0, ["Cocaine Compact"] = 1.0, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Harmony.
-		["HAWICK"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Hawick.
-		["HORS"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vinewood Racetrack.
-		["HUMLAB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Humane Labs and Research.
-		["JAIL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Bolingbroke Penitentiary.
-		["KOREAT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 0.5 }, -- Little Seoul.
-		["LACT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Land Act Reservoir.
-		["LAGO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Lago Zancudo.
-		["LDAM"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Land Act Dam.
-		["LEGSQU"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Legion Square.
-		["LMESA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- La Mesa.
-		["LOSPUER"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- La Puerta.
-		["MIRR"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mirror Park.
-		["MORN"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Morningwood.
-		["MOVIE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Richards Majestic.
-		["MTCHIL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mount Chiliad.
-		["MTGORDO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mount Gordo.
-		["MTJOSE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mount Josiah.
-		["MURRI"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Murrieta Heights.
-		["NCHU"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- North Chumash.
-		["NOOSE"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- N.O.O.S.E.
-		["OBSERV"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Observatory.
-		["OCEANA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Pacific Ocean.
-		["PALCOV"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Paleto Cove.
-		["PALETO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Paleto Bay.
-		["PALFOR"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Paleto Forest.
-		["PALHIGH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Palomino Highlands.
-		["PALMPOW"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Palmer-Taylor Power Station.
-		["PBLUFF"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Pacific Bluffs.
-		["PBOX"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Pillbox Hill.
-		["PROCOB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Procopio Beach.
-		["RANCHO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Rancho.
-		["RGLEN"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Richman Glen.
-		["RICHM"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Richman.
-		["ROCKF"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Rockford Hills.
-		["RTRAK"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Redwood Lights Track.
-		["SANAND"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- San Andreas.
-		["SANCHIA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- San Chianski Mountain Range.
-		["SANDY"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Sandy Shores.
-		["SKID"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Mission Row.
-		["SLAB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Stab City.
-		["STAD"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Maze Bank Arena.
-		["STRAW"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Strawberry.
-		["TATAMO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Tataviam Mountains.
-		["TERMINA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Terminal.
-		["TEXTI"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Textile City.
-		["TONGVAH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Tongva Hills.
-		["TONGVAV"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Tongva Valley.
-		["VCANA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 0.5 }, -- Vespucci Canals.
-		["VESP"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 0.5 }, -- Vespucci.
-		["VINE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vinewood.
-		["WINDF"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Ron Alternates Wind Farm.
-		["WVINE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- West Vinewood.
-		["ZANCUDO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Zancudo River.
-		["ZP_ORT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Port of South Los Santos.
-		["ZQ_UAR"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Davis Quartz.
+		["AIRP"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Blue Dream Weed"] = -1.0, ["Purple Kush Weed"] = -1.0, ["Girl Scout Cookies Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Los Santos International Airport.
+		["ALAMO"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Blue Dream Weed"] = -1.0, ["Purple Kush Weed"] = -1.0, ["Girl Scout Cookies Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Alamo Sea.
+		["ALTA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Alta.
+		["ARMYB"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Blue Dream Weed"] = -1.0, ["Purple Kush Weed"] = -1.0, ["Girl Scout Cookies Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Fort Zancudo.
+		["BANHAMC"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Banham Canyon Dr.
+		["BANNING"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Banning.
+		["BEACH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vespucci Beach.
+		["BHAMCA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Banham Canyon.
+		["BRADP"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Braddock Pass.
+		["BRADT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Braddock Tunnel.
+		["BURTON"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Burton.
+		["CALAFB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Calafia Bridge.
+		["CANNY"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Raton Canyon.
+		["CCREAK"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Cassidy Creek.
+		["CHAMH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Chamberlain Hills.
+		["CHIL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vinewood Hills.
+		["CHU"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Chumash.
+		["CMSW"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Chiliad Mountain State Wilderness.
+		["CYPRE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Cypress Flats.
+		["DAVIS"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Davis.
+		["DELBE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Del Perro Beach.
+		["DELPE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Del Perro.
+		["DELSOL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- La Puerta.
+		["DESRT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Grand Senora Desert.
+		["DOWNT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Downtown.
+		["DTVINE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Downtown Vinewood.
+		["EAST_V"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- East Vinewood.
+		["EBURO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- El Burro Heights.
+		["ELGORL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- El Gordo Lighthouse.
+		["ELYSIAN"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Elysian Island.
+		["GALFISH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Galilee.
+		["GOLF"] = { ["Cocaine Grenada"] = 1.0, ["Cocaine Compact"] = 1.0, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- GWC and Golfing Society.
+		["GRAPES"] = { ["Cocaine Grenada"] = 1.0, ["Cocaine Compact"] = 1.0, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Grapeseed.
+		["GREATC"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Great Chaparral.
+		["HARMO"] = { ["Cocaine Grenada"] = 1.0, ["Cocaine Compact"] = 1.0, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Harmony.
+		["HAWICK"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Hawick.
+		["HORS"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vinewood Racetrack.
+		["HUMLAB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Humane Labs and Research.
+		["JAIL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Bolingbroke Penitentiary.
+		["KOREAT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 0.5 }, -- Little Seoul.
+		["LACT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Land Act Reservoir.
+		["LAGO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Lago Zancudo.
+		["LDAM"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Land Act Dam.
+		["LEGSQU"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Legion Square.
+		["LMESA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- La Mesa.
+		["LOSPUER"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- La Puerta.
+		["MIRR"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mirror Park.
+		["MORN"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Morningwood.
+		["MOVIE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Richards Majestic.
+		["MTCHIL"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mount Chiliad.
+		["MTGORDO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mount Gordo.
+		["MTJOSE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Mount Josiah.
+		["MURRI"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Murrieta Heights.
+		["NCHU"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- North Chumash.
+		["NOOSE"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Blue Dream Weed"] = -1.0, ["Purple Kush Weed"] = -1.0, ["Girl Scout Cookies Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- N.O.O.S.E.
+		["OBSERV"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Observatory.
+		["OCEANA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Pacific Ocean.
+		["PALCOV"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Paleto Cove.
+		["PALETO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Paleto Bay.
+		["PALFOR"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Paleto Forest.
+		["PALHIGH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Palomino Highlands.
+		["PALMPOW"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Palmer-Taylor Power Station.
+		["PBLUFF"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Pacific Bluffs.
+		["PBOX"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Pillbox Hill.
+		["PROCOB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Procopio Beach.
+		["RANCHO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Rancho.
+		["RGLEN"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Richman Glen.
+		["RICHM"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Richman.
+		["ROCKF"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Rockford Hills.
+		["RTRAK"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Redwood Lights Track.
+		["SANAND"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- San Andreas.
+		["SANCHIA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- San Chianski Mountain Range.
+		["SANDY"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Sandy Shores.
+		["SKID"] = { ["Cocaine Grenada"] = -1.0, ["Cocaine Compact"] = -1.0, ["Weed"] = -1.0, ["Blue Dream Weed"] = -1.0, ["Purple Kush Weed"] = -1.0, ["Girl Scout Cookies Weed"] = -1.0, ["Heroin"] = -1.0, ["Crack Cocaine"] = -1.0 }, -- Mission Row.
+		["SLAB"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Stab City.
+		["STAD"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Maze Bank Arena.
+		["STRAW"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Strawberry.
+		["TATAMO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Tataviam Mountains.
+		["TERMINA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Terminal.
+		["TEXTI"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Textile City.
+		["TONGVAH"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Tongva Hills.
+		["TONGVAV"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Tongva Valley.
+		["VCANA"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 1.0, ["Crack Cocaine"] = 0.5 }, -- Vespucci Canals.
+		["VESP"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 0.5 }, -- Vespucci.
+		["VINE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Vinewood.
+		["WINDF"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Ron Alternates Wind Farm.
+		["WVINE"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- West Vinewood.
+		["ZANCUDO"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Zancudo River.
+		["ZP_ORT"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 0.5, ["Blue Dream Weed"] = 0.5, ["Purple Kush Weed"] = 0.5, ["Girl Scout Cookies Weed"] = 0.5, ["Heroin"] = 0.5, ["Crack Cocaine"] = 0.5 }, -- Port of South Los Santos.
+		["ZQ_UAR"] = { ["Cocaine Grenada"] = 0.5, ["Cocaine Compact"] = 0.5, ["Weed"] = 1.0, ["Blue Dream Weed"] = 1.0, ["Purple Kush Weed"] = 1.0, ["Girl Scout Cookies Weed"] = 1.0, ["Heroin"] = 1.0, ["Crack Cocaine"] = 1.0 }, -- Davis Quartz.
 	},
 	DisabledInteriors = {
 		-- In case we find a need later on.
