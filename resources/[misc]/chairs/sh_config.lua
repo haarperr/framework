@@ -28,6 +28,8 @@ Models = {
 	[1355718178] = { Chair = { Offset = vector3(0.0, 0.1, 0.49), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
 	[867556671] = { Chair = { Offset = vector3(0.0, -0.02, 0.49), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
 	[1037469683] = { Chair = { Offset = vector3(0.0, 0.05, 0.425), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
+	[536071214] = { Chair = { Offset = vector3(0.0, 0.05, 0.425), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
+
 	--[[ Stools ]]--
 	[`v_ret_gc_chair01`] = { Stool = { Offset = vector3(0.0, 0.0, 0.7), Rotation = vector3(0.0, 0.0, 235.0), Exit = vector3(0.0, 0.5, 0.0) } },
 
