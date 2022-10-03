@@ -145,11 +145,11 @@ function Main:Update()
 			end
 		end
 		
-	-- Prevent curb boosting.
-		if LastCurbBoost and GetGameTimer() - LastCurbBoost < 200 and Speed * 0.621371 > 20.0 then
+		-- Prevent curb boosting.
+		--[[if LastCurbBoost and GetGameTimer() - LastCurbBoost < 200 and Speed * 0.621371 > 20.0 then
 			SetVehicleCurrentRpm(CurrentVehicle, 0.0)
 			-- SetVehicleClutch(CurrentVehicle, 0.0)
-		end
+		end]]
 
 		-- Temperature.
 		Temperature = GetVehicleEngineTemperature(CurrentVehicle)
@@ -207,9 +207,9 @@ function Main:Update()
 		end
 
 		-- Prevent double clutching, results in slower acceleration immediately after down shifting.
-		if Accelerating and self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
+		--[[if Accelerating and self.gearDelta <= -1 and self.gearSwitchTime and GetGameTimer() - self.gearSwitchTime < Config.Values.GearShiftDownDelay then
 			SetVehicleClutch(CurrentVehicle, 0.0)
-		end
+		end]]
 
 		-- Prevent accidental reversing when braking.
 		if IsDisabledControlPressed(0, 72) or IsDisabledControlPressed(0, 76) then
