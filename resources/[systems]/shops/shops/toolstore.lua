@@ -28,6 +28,7 @@ Config.Filters.Toolstore = {
 		["Eraser"] = true,
 		["Spray Can"] = true,
 		["Breeding Chamber"] = true,
+		["Soil"] = true,
 	},
 }
 
