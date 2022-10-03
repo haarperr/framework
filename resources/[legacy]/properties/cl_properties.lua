@@ -429,12 +429,12 @@ RegisterCommand("property:get", function()
 end, false)
 
 RegisterCommand("property:available", function()
-	if not exports.factions:Has("realtor", none) then
+	if not exports.factions:Has("realtor", "realtor") then
 		TriggerEvent("chat:addMessage", "You must be a realtor!")
 		return
 	end
 
-	TriggerEvent("chat:notify", "Check your map for blips! They will disappear in 60 seconds.", "inform")
+	TriggerEvent("chat:notify", { text = "Check your map for blips! They will disappear in 60 seconds.", class = "inform" })
 
 	local blips = {}
 

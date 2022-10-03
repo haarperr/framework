@@ -946,7 +946,7 @@ exports.chat:RegisterCommand("property:sell", function(source, args, rawCommand)
 			
 			local primaryAccount = exports.character:Get(source, "bank")
 			if primaryAccount then
-				exports.banking:AddBank(source, primaryAccount, commission)
+				exports.banking:AddBank(source, primaryAccount, commission, true)
 			else
 				exports.inventory:GiveMoney(source, commission)
 			end
