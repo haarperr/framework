@@ -33,7 +33,7 @@ function Main:UpdateFrame()
 	end
 
 	-- Ragdolling.
-	if IsRagdoll ~= self.ragdoll then
+	--[[if IsRagdoll ~= self.ragdoll then
 		self.lastRagdoll = GetGameTimer()
 		self.ragdoll = IsRagdoll
 	end
@@ -57,7 +57,7 @@ function Main:UpdateFrame()
 		not IsPedGettingUp(Ped) and
 		not GetPedConfigFlag(Ped, 147) and
 		not GetPedConfigFlag(Ped, 148)
-	)
+	)]]
 
 	-- Disable reticle.
 	if not IsPlayerFreeAiming() then
