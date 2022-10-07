@@ -48,7 +48,7 @@ Register("Weed Seed", {
 	},
 	Stages = {
 		{
-			Age = 360,
+			Age = 480,
 			Model = "prop_weed_01",
 			Items = { { 1.0, "Weed", {1,3} }, { 0.25, "Weed Seed", {1,1} } },
 			Harvestable = true,
@@ -77,7 +77,7 @@ Register("Blue Dream Weed Seed", {
 	},
 	Stages = {
 		{
-			Age = 360,
+			Age = 480,
 			Model = "prop_weed_01",
 			Items = { { 1.0, "Blue Dream Weed", {1,3} }, { 0.25, "Blue Dream Weed Seed", {1,1} } },
 			Harvestable = true,
