@@ -893,6 +893,7 @@ Config = {
 			VehicleSpawn = vector4(372.3995, 785.141, 186.4325, 163.4088),
 			Vehicles = {
 				"pdcara",
+				"pdscout",
 			},
 		},
 		--[[{

@@ -663,6 +663,7 @@ Vehicles = {
 
 	--[[ SAPR Vehicles ]]--
 	["pdcara"] = { Value = 800 },
+	["pdscout"] = { Value = 800 },
 	
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },
