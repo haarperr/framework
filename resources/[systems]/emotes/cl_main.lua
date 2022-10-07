@@ -200,7 +200,7 @@ function Main:Stop(p1, p2)
 
 	-- Stop the actual animation.
 	if #self.queue == 0 and not isLocked then
-		if (not cancelEmote and p1 and p2 == nil) or p2 == true then
+		if ((not cancelEmote and p1 and p2 == nil) or p2 == true) and not IsPedInAnyVehicle(ped) then
 			ClearPedTasksImmediately(ped)
 		elseif p2 ~= 2 then
 			ClearPedTasks(ped)
