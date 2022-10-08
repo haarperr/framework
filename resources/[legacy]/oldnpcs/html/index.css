@@ -1,0 +1,158 @@
+* {
+	--background-color: rgba(0, 0, 0, 0.5);
+	--text-color: rgb(255, 255, 255);
+	--border-color: rgba(0, 0, 0, 0.8);
+	--highlight-color: rgba(255, 255, 255, 0.8);
+	--highlight-text-color: black;
+
+	color: var(--text-color);
+
+	font-size: 1.7vmin;
+
+	user-select: none;
+}
+
+body {
+	flex-direction: column;
+	justify-content: center;
+	justify-items: center;
+	align-items: center;
+	align-content: center;
+
+	padding: 0%;
+	margin: 0%;
+	width: 100vw;
+	height: 100vh;
+
+	background-color: transparent !important;
+}
+
+input {
+	margin-top: 0.5vmin !important;
+	padding: 0.5vmin;
+	background-color: var(--background-color);
+	border: var(--border-color);
+	user-select: text;
+}
+
+.contents {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: center;
+	align-content: center;
+	flex: 1;
+	width: 80vmin;
+	bottom: 20%;
+}
+
+.contents > * {
+	width: 100%;
+}
+
+.lower {
+	display: flex;
+	flex-direction: column;
+}
+
+.ordered {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+
+.ordered > span {
+	flex: 1 0 49%;
+}
+
+/* Styles */
+.outline {
+	background-color: var(--background-color);
+	border: 1px solid var(--border-color);
+}
+
+/* Components */
+#header {
+	padding: 1.0vmin;
+	margin-bottom: 2vmin;
+}
+
+#name {
+	align-self: flex-start;
+	font-size: 75%;
+	font-weight: 750;
+}
+
+#dialogue {
+	width: 100%;
+}
+
+/* Options */
+#options {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	justify-items: flex-start;
+	align-items: stretch;
+	align-content: flex-start;
+
+	width: 100%;
+	max-height: 20vh;
+
+	overflow-y: scroll;
+	overflow-x: none;
+	/* box-shadow: 0px 0px 128px rgba(0, 0, 0, 0.2); */
+}
+
+/* Option */
+.option {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	justify-items: center;
+	align-items: flex-start;
+	align-content: center;
+	
+	padding: 0.25vmin;
+	margin-left: 1.0vmin;
+	margin-right: 1.0vmin;
+
+	background-color: transparent;
+}
+
+.option:first-of-type {
+	margin-top: 1.0vmin;
+}
+
+.option:last-of-type {
+	margin-bottom: 1.0vmin;
+}
+
+.option:hover {
+	color: var(--highlight-text-color);
+	background-color: var(--highlight-color);
+	outline: 1px solid var(--border-color);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar
+{
+	height: 1.5vmin;
+	width: 0.8vmin;
+	background-color: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb
+{
+	background: var(--text-color);
+}
+
+::-webkit-scrollbar-track
+{
+	border: 1px solid black;
+	background-color: var(--background-color);
+}
