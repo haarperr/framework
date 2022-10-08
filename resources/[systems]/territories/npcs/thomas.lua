@@ -135,7 +135,7 @@ AddNpc({
 		},
 		["TERRITORY_STATUS"] = {
 			text = function(self)
-				local faction = (GetGangFaction().extra or {}).name
+				local faction = (GetGangFaction().fields or {}).name
 				local zoneId = CheckingStatus.id
 				local zone = CheckingStatus.zone
 				local zoneSettings = Config.Zones[zoneId]
@@ -337,7 +337,7 @@ AddNpc({
 			onChange = function(self)
 				self:Input(function(message)
 					local faction = GetGangFaction()
-					local name = (faction.extra or {}).name
+					local name = (faction.fields or {}).name
 
 					if message:lower() == name:lower() then
 						TriggerServerEvent("territories:leave")
