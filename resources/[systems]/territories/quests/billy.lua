@@ -5,12 +5,12 @@ AddQuest({
 	completedText = "Thanks!",
 	requirements = {
 		items = {
-			{ name = "Cocaine Brick Compact", amount = 1 },
+			{ name = "Weed", amount = 256 },
 		},
 	},
 	rewards = {
 		items = {
-			{ name = "Marked Bills", amount = 119830 },
+			{ name = "One Hundred Dollars", amount = 68 },
 		},
 		custom = function(self, source)
 			if source then
