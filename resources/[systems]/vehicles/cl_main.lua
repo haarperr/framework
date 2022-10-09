@@ -554,26 +554,6 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(0)
-		local ped = PlayerPedId()
-		if Main.vehicle then
-			local isDriver = GetPedInVehicleSeat(Main.vehicle, -1) == ped
-			if isDriver then
-				if GetIsTaskActive(ped, 2) and WasEngineRunning then
-					while GetIsTaskActive(ped, 2) do
-						SetVehicleEngineOn(Main.vehicle, true, true, true)
-						Citizen.Wait(200)
-					end
-				else
-					WasEngineRunning = IsVehicleEngineOn(Main.vehicle)
-				end
-			end
-		end
-	end
-end)
-
-Citizen.CreateThread(function()
 	local lastUpdate = GetGameTimer()
 	
 	while true do
