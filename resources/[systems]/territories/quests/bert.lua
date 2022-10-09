@@ -9,7 +9,8 @@ AddQuest({
 	},
 	rewards = {
 		random = {
-			{ name = "High Value Keycard", amount = 1 },
+			{ name = "Marked Bills", amount = 31630 },
+			{ name = "Golden USB", amount = 1 },
 		},
 		custom = function(self, source)
 			if source then
