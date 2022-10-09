@@ -756,6 +756,7 @@ Config = {
 				"pdalamo",
 				"pdbike",
 				"pdbuffalo",
+				"pdbuffalo2",
 				"pdscout",
 				"pdstanier",
 				"pdtorence",
@@ -774,6 +775,7 @@ Config = {
 				"pdalamo",
 				"pdbike",
 				"pdbuffalo",
+				"pdbuffalo2",
 				"pdscout",
 				"pdstanier",
 				"pdtorence",
@@ -833,6 +835,7 @@ Config = {
 				"spalamo",
 				"spbike",
 				"spbuffalo",
+				"spbuffalo2",
 				"spscout",
 				"spstanier",
 				"sptorence",
@@ -894,6 +897,7 @@ Config = {
 			Vehicles = {
 				"pdcara",
 				"pdscout",
+				"pdbuffalo2",
 			},
 		},
 		--[[{
