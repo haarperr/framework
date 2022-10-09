@@ -638,6 +638,7 @@ Vehicles = {
 	["pdalamo"] = { Value = 800 },
 	["pdbike"] = { Value = 800, Type = "Bike" },
 	["pdbuffalo"] = { Value = 800 },
+	["pdbuffalo2"] = { Value = 800 },
 	["pdscout"] = { Value = 800 },
 	["pdstanier"] = { Value = 800 },
 	["pdtorence"] = { Value = 800 },
@@ -646,6 +647,7 @@ Vehicles = {
 	["spalamo"] = { Value = 800 },
 	["spbike"] = { Value = 800, Type = "Bike" },
 	["spbuffalo"] = { Value = 800 },
+	["spbuffalo2"] = { Value = 800 },
 	["spscout"] = { Value = 800 },
 	["spstanier"] = { Value = 800 },
 	["sptorence"] = { Value = 800 },
@@ -664,6 +666,7 @@ Vehicles = {
 	--[[ SAPR Vehicles ]]--
 	["pdcara"] = { Value = 800 },
 	["pdscout"] = { Value = 800 },
+	["pdbuffalo2"] = { Value = 800 },
 	
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },
