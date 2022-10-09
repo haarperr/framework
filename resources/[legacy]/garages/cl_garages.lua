@@ -36,13 +36,13 @@ function Initialize()
 				local inMarker = exports.markers:CreateUsable(GetCurrentResourceName(), garage.inCoords, markerId, "Access Garage", Config.DrawRadius, Config.Radius, blip)
 
 				AddEventHandler("markers:use_"..markerId, function()
-					local factions = garage.Faction
+					local factions = garage.faction
 					if type(factions) == "string" then
 						factions = { factions }
 					end
 					if factions then
 						local hasFaction = false
-						for group, faction in ipairs(factions) do
+						for group, faction in pairs(factions) do
 							if exports.factions:Has(faction, group) then
 								hasFaction = true
 								break

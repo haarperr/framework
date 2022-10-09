@@ -87,7 +87,7 @@ end)
 --[[ Functions ]]--
 function AddNpc(info)
 	Citizen.CreateThread(function()
-		exports.npcs:Add(info)
+		exports.oldnpcs:Add(info)
 	end)
 end
 
@@ -166,6 +166,28 @@ function GetReputationExtra(value)
 	end
 
 	return text, color
+end
+
+function IsInGang()
+	return exports.factions:Get("gang") ~= nil
+end
+
+function IsGangLeader(source)
+	local faction, name = GetGangFaction()
+	if not faction then return false end
+
+	return (faction.level or 0) >= 100
+end
+
+function GetGangFaction()
+	local faction = exports.factions:Get("gang")
+	local name = nil
+
+	if faction and faction.fields then
+		name = faction.fields.name
+	end
+
+	return faction, name
 end
 
 -- function AddReputation(zoneId, amount)

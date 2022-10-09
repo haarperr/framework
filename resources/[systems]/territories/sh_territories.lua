@@ -7,28 +7,6 @@ function AddQuest(info)
 	end)
 end
 
-function IsInGang(source)
-	return exports.factions:Get(source or false, "gang") ~= nil
-end
-
-function IsGangLeader(source)
-	local faction, name = GetGangFaction(source or false)
-	if not faction then return false end
-
-	return (faction.level or 0) >= 100
-end
-
-function GetGangFaction(source)
-	local faction = exports.factions:Get(source or false, "gang")
-	local name = nil
-
-	if faction and faction.extra then
-		name = faction.extra.name
-	end
-
-	return faction, name
-end
-
 function CheckName(name)
 	name = exports.misc:FixText(name)
 	if not name then return false end
