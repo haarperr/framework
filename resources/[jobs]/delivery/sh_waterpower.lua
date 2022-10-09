@@ -14,7 +14,7 @@ exports.jobs:Register("waterpower", {
 				["house"] = true,
 			},
 		},
-		Pay = 17,
+		Pay = 27,
 	},
 	Clocks = {
 		{ Coords = vector3(520.2094116210938, -1652.173828125, 29.5268497467041), Radius = 3.5 },

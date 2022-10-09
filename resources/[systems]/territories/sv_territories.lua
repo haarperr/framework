@@ -81,6 +81,28 @@ function GiveReputation(source, amount)
 end
 exports("GiveReputation", GiveReputation)
 
+function IsInGang(source)
+	return exports.factions:Get(source or false, "gang") ~= nil
+end
+
+function IsGangLeader(source)
+	local faction, name = GetGangFaction(source or false)
+	if not faction then return false end
+
+	return (faction.level or 0) >= 100
+end
+
+function GetGangFaction(source)
+	local faction = exports.factions:Get(source or false, "gang")
+	local name = nil
+
+	if faction and faction.fields then
+		name = faction.fields.name
+	end
+
+	return faction, name
+end
+
 function AddReputation(zoneId, faction, amount)
 	if faction == "" then return end
 
@@ -316,12 +338,12 @@ AddEventHandler("territories:register", function(name)
 	local isNameValid, name = CheckName(name)
 	if not isNameValid then return end
 
-	local doesGangExist = exports.GHMattiMySQL:QueryScalar("SELECT 1 FROM factions WHERE `name`='gang' AND JSON_VALUE(`extra`, '$.name')=@name", {
+	local doesGangExist = exports.GHMattiMySQL:QueryScalar("SELECT 1 FROM factions WHERE `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name", {
 		["@name"] = name
 	})
 
 	if doesGangExist == 1 then
-		TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+		TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 			{ "GotoStage", "REGISTER_FINISH" },
 			{ "InvokeDialogue" },
 			{ "Say", "Somebody is already using that name." },
@@ -329,11 +351,8 @@ AddEventHandler("territories:register", function(name)
 		return
 	end
 
-	local playerContainer = exports.inventory:GetPlayerContainer(source)
-	if not playerContainer then return end
-
 	for item, amount in pairs(Config.Quests.Register.Items) do
-		if exports.inventory:CountItem(playerContainer, item) < amount then
+		if exports.inventory:CountItem(source, item) < amount then
 			return
 		end
 	end
@@ -344,13 +363,11 @@ AddEventHandler("territories:register", function(name)
 		extra = name,
 	})
 
-	exports.inventory:TakeItem(source, "Gold Bar", 3)
-	exports.inventory:TakeItem(source, "Diamond", 15)
+	exports.inventory:TakeItem(source, "Voucher", 1)
 	
-	exports.character:JoinFaction(source, "gang", { name = name })
-	exports.character:UpdateFaction(source, "gang", { level = 100 })
+	exports.factions:JoinFaction(source, "gang", nil, 100, { name = name } )
 
-	TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+	TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 		{ "GotoStage", "INIT" },
 		{ "InvokeDialogue" },
 		{ "Say", "I'll make sure you're known as "..name.."." },
@@ -367,10 +384,10 @@ AddEventHandler("territories:invite", function(target)
 	local faction = GetGangFaction(source)
 	if not faction or faction.level < 100 then return end
 
-	local name = (faction.extra or {}).name
+	local name = (faction.fields or {}).name
 	if not name then return end
 
-	TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+	TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 		{ "GotoStage", "INIT" },
 		{ "InvokeDialogue" },
 		{ "Say", "I'll see what they think." },
@@ -386,7 +403,7 @@ AddEventHandler("territories:invite", function(target)
 			extra = name,
 		})
 		
-		exports.character:JoinFaction(target, "gang", { name = name })
+		exports.factions:JoinFaction(target, "gang", nil, 0, { name = name } )
 
 		TriggerClientEvent("notify:sendAlert", target, "inform", "You've joined "..name..".", 8000)
 		TriggerClientEvent("notify:sendAlert", source, "inform", "Added ["..tostring(target).."] to "..name..".", 8000)
@@ -404,7 +421,7 @@ AddEventHandler("territories:kick", function(targetId)
 	local faction = GetGangFaction(source)
 	if not faction or faction.level < 100 then return end
 
-	local name = (faction.extra or {}).name
+	local name = (faction.fields or {}).name
 	if not name then return end
 
 	local target = exports.character:GetCharacterById(targetId)
@@ -413,15 +430,15 @@ AddEventHandler("territories:kick", function(targetId)
 		local targetFaction = GetGangFaction(target)
 		if not targetFaction then return end
 
-		local targetName = (targetFaction.extra or {}).name
+		local targetName = (targetFaction.fields or {}).name
 		if not targetName or name ~= targetName then return end
 
-		exports.character:LeaveFaction(target, "gang")
+		exports.factions:LeaveFaction(target, "gang", nil)
 
 		result = 1
 	else
 		result = exports.GHMattiMySQL:QueryScalar([[
-			DELETE FROM `factions` WHERE `character_id`=@targetId AND `name`='gang' AND JSON_VALUE(`extra`, '$.name')=@name;
+			DELETE FROM `factions` WHERE `character_id`=@targetId AND `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name;
 			SELECT ROW_COUNT();
 		]], {
 			["@name"] = name,
@@ -436,12 +453,12 @@ AddEventHandler("territories:kick", function(targetId)
 			extra = ("%s - character id: %s"):format(name, targetId),
 		})
 		
-		TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+		TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 			{ "Say", "Consider ("..tostring(targetId)..") gone." },
 			{ "GotoStage", "REMOVE_MEMBER" }
 		})
 	else
-		TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+		TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 			{ "Say", "I don't know who they are..." },
 			{ "GotoStage", "REMOVE_MEMBER" },
 		})
@@ -457,7 +474,7 @@ AddEventHandler("territories:leave", function()
 	if not faction then return end
 
 	if faction.level >= 100 then
-		local name = (faction.extra or {}).name
+		local name = (faction.fields or {}).name
 		if not name then return end
 
 		exports.log:Add({
@@ -469,7 +486,7 @@ AddEventHandler("territories:leave", function()
 		local result = exports.GHMattiMySQL:QueryResult([[
 			SELECT `character_id`
 			FROM `factions`
-			WHERE `name`='gang' AND JSON_VALUE(`extra`, '$.name')=@name
+			WHERE `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name
 		]], {
 			["@name"] = name
 		})
@@ -477,7 +494,7 @@ AddEventHandler("territories:leave", function()
 		for k, v in ipairs(result) do
 			local target = exports.character:GetCharacterById(v.character_id)
 			if target and DoesEntityExist(GetPlayerPed(target)) then
-				exports.character:LeaveFaction(target, "gang")
+				exports.factions:LeaveFaction(target, "gang", nil)
 			else
 				exports.GHMattiMySQL:QueryAsync("DELETE FROM `factions` WHERE `character_id`=@targetId AND `name`='gang'", {
 					["@targetId"] = v.character_id
@@ -485,7 +502,7 @@ AddEventHandler("territories:leave", function()
 			end
 		end
 
-		TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+		TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 			{ "GotoStage", "INIT" },
 			{ "InvokeDialogue" },
 			{ "Say", "Consider yourselves disbanded." },
@@ -499,10 +516,10 @@ AddEventHandler("territories:leave", function()
 		verb = "left",
 		extra = name,
 	})
-	
-	exports.character:LeaveFaction(source, "gang")
 
-	TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+	exports.factions:LeaveFaction(source, "gang", nil)
+
+	TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 		{ "GotoStage", "INIT" },
 		{ "InvokeDialogue" },
 		{ "Say", "Consider yourself out." },
@@ -514,7 +531,7 @@ AddEventHandler("territories:changePrimary", function(zoneId)
 	local source = source
 
 	if Cooldowns[source] and os.clock() < Cooldowns[source] then
-		TriggerClientEvent("npcs:invoke", source, "TERRITORY", "Say", "Slow down there, buddy.")
+		TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", "Say", "Slow down there, buddy.")
 		return
 	else
 		Cooldowns[source] = os.clock() + 30.0
@@ -526,12 +543,12 @@ AddEventHandler("territories:changePrimary", function(zoneId)
 	local faction = GetGangFaction(source)
 	if not faction or faction.level < 100 then return end
 
-	local name = (faction.extra or {}).name
+	local name = (faction.fields or {}).name
 	if not name then return end
 
 	SetPrimary(name, zoneId)
 
-	TriggerClientEvent("npcs:invoke", source, "TERRITORY", {
+	TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY", {
 		{ "GotoStage", "INIT" },
 		{ "InvokeDialogue" },
 		{ "Say", "I'll spread the word." },
@@ -592,7 +609,7 @@ AddEventHandler("territories:requestStatus", function(input)
 						WHERE `id`=`character_id`
 					) AS `name`
 				FROM `factions`
-				WHERE `name`='gang' AND JSON_VALUE(`extra`, '$.name')=@name
+				WHERE `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name
 			]], {
 				["@name"] = name
 			})
@@ -638,7 +655,7 @@ AddEventHandler("territories:startDaily", function()
 	if not Dailies.factions then Dailies.factions = {} end
 	Dailies.factions[name] = dailyFaction
 
-	TriggerClientEvent("npcs:invoke", source, "TERRITORY_JEROME", {
+	TriggerClientEvent("oldnpcs:invoke", source, "TERRITORY_JEROME", {
 		{ "GotoStage", "INIT" },
 		{ "InvokeDialogue" },
 		{ "Say", "Good luck." },

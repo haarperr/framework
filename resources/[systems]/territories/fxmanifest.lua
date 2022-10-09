@@ -3,7 +3,7 @@ game 'gta5'
 
 dependencies {
 	'instances',
-	'npcs',
+	'oldnpcs',
 	'quests',
 }
 
@@ -12,7 +12,7 @@ shared_scripts {
 	'sh_config.lua',
 	'sh_territories.lua',
 	'sh_quests.lua',
-	--'quests/*.lua',
+	'quests/*.lua',
 }
 
 client_scripts {
