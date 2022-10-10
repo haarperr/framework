@@ -1,5 +1,5 @@
 AddQuest({
-	id = "TERRITORY_DAILY_BILLY",
+	id = "TERRITORY_DAILY_JESSIE",
 	server = true,
 	objectiveText = "This guy, Jessie, he loves blazing it up. Bring him a shit load of the best puff you can find.",
 	completedText = "Thanks!",
