@@ -393,7 +393,7 @@ AddEventHandler("territories:invite", function(target)
 		{ "Say", "I'll see what they think." },
 	})
 
-	exports.interaction:SendConfirm(source, target, "You are being invited to join "..name, function(response)
+	exports.interact:SendConfirm(source, target, "You are being invited to join "..name, function(response)
 		if not response then return end
 
 		exports.log:Add({

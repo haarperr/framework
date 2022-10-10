@@ -41,14 +41,14 @@ AddNpc({
 				{
 					text = "Alright.",
 					callback = function(self)
-						if exports.weapons:CarryingAnyWeapon() then
+						if not exports.user:IsOwner() and exports.weapons:CarryingAnyWeapon() then
 							self:Say("I feel something that I don't like. Get rid of it and come back.")
 						else
 							TriggerServerEvent("oldinstances:join", "territory_1")
 
 							Citizen.Wait(4000)
 
-							if exports.weapons:CarryingAnyWeapon() then
+							if not exports.user:IsOwner() and exports.weapons:CarryingAnyWeapon() then
 								exports.oldinstances:LeaveInstance(true)
 								exports.mythic_notify:SendAlert("inform", "Get out...", 7000)
 							end
