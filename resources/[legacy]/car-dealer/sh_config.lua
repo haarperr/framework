@@ -760,6 +760,7 @@ Config = {
 				"pdscout",
 				"pdstanier",
 				"pdtorence",
+				"pdfugitive",
 			},
 		},
 		{
@@ -779,6 +780,7 @@ Config = {
 				"pdscout",
 				"pdstanier",
 				"pdtorence",
+				"pdfugitive",
 			},
 		},
 		{
@@ -839,6 +841,7 @@ Config = {
 				"spscout",
 				"spstanier",
 				"sptorence",
+				"spfugitive",
 			},
 		},
 		{
