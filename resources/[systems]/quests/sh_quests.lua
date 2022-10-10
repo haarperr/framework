@@ -22,7 +22,7 @@ function Quest:Check(source)
 			for k, v in ipairs(req.items) do
 				local count = 0
 				if source then
-					count = exports.inventory:CountItem(exports.inventory:GetPlayerContainer(source), v.name)
+					count = exports.inventory:CountItem(source, v.name)
 				else
 					count = exports.inventory:CountItem(v.name)
 				end

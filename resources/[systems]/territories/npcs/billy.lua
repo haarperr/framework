@@ -1,5 +1,5 @@
 AddNpc({
-	name = "Billy",
+	name = "Jessie",
 	id = "TERRITORY_BILLY",
 	quest = "TERRITORY_DAILY_BILLY",
 	-- coords = vector4(425.9872131347656, -981.4188232421876, 30.70981216430664, 344.5561218261719),
@@ -17,7 +17,7 @@ AddNpc({
 				if self:HasQuest(true) then
 					return { "Please tell me you brought me something!", "INTRO2" }
 				else
-					return { "I have so much energy powder! Let's go!", "INTRO1" }
+					return { "I have so much grass! Let's go!", "INTRO1" }
 				end
 			end,
 			responses = {
@@ -27,11 +27,11 @@ AddNpc({
 				},
 				{
 					text = "Who are you?",
-					dialogue = { "I'm Billy Bacilli and I am not silly! I don't know why people keep saying that...", "INTRO" },
+					dialogue = { "I'm Jessie! Puff puff pass...", "INTRO" },
 				},
 				{
 					text = "Do you live here?",
-					dialogue = { "No! They throw really cool parties here all the time. With lots of energy powder!", "LIVEHERE" },
+					dialogue = { "No! They throw really cool parties here all the time. With lots of grass!", "LIVEHERE" },
 				},
 			},
 		},

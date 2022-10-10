@@ -1,7 +1,7 @@
 AddQuest({
 	id = "TERRITORY_DAILY_MARCUS",
 	server = true,
-	objectiveText = "Marcus is well... a gun nut. He deals in that sort of thing. Bring him $30,000 in distinctive bills and he might have something for you. He hangs out near Elysian Fields Freeway and the Oil Field.",
+	objectiveText = "Marcus is well... a gun nut. He deals in that sort of thing. Bring him $1,500 in crisp hundreds and he might have something for you. He hangs out near Elysian Fields Freeway and the Oil Field.",
 	requirements = {
 		items = {
 			{ name = "One Hundred Dollars", amount = 15 },
