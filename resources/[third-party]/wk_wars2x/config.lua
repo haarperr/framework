@@ -68,10 +68,10 @@ CONFIG.use_sonorancad = false
 CONFIG.keyDefaults =
 {
 	-- Remote control key
-	remote_control = "f5",
+	remote_control = "numpad7",
 
 	-- Radar key lock key
-	key_lock = "l",
+	key_lock = "numpad3",
 
 	-- Radar front antenna lock/unlock Key
 	front_lock = "numpad8",
