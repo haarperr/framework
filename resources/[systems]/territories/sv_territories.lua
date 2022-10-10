@@ -405,8 +405,8 @@ AddEventHandler("territories:invite", function(target)
 		
 		exports.factions:JoinFaction(target, "gang", nil, 0, { name = name } )
 
-		TriggerClientEvent("notify:sendAlert", target, "inform", "You've joined "..name..".", 8000)
-		TriggerClientEvent("notify:sendAlert", source, "inform", "Added ["..tostring(target).."] to "..name..".", 8000)
+		TriggerClientEvent("chat:notify", target, { text = "You've joined "..name..".", class = "inform" })
+		TriggerClientEvent("chat:notify", source, { text = "Added ["..tostring(target).."] to "..name..".", class = "inform" })
 	end)
 end)
 
