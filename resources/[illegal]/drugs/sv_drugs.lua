@@ -23,7 +23,7 @@ AddEventHandler("drugs:attemptSell", function(zone, drug)
 
 	-- Amount.
 	math.randomseed(os.clock() + 42)
-	local amount = math.max(math.ceil(math.min(exports.inventory:CountItem(exports.inventory:GetPlayerContainer(source), drug) or 0, prices.Cap) * math.random()), 1)
+	local amount = math.max(math.ceil(math.min(exports.inventory:CountItem(source, drug) or 0, prices.Cap) * math.random()), 1)
 
 	Players[source] = { drug = drug, price = price, amount = amount }
 	TriggerClientEvent("drugs:attemptSell", source, price, amount)
