@@ -809,6 +809,7 @@ Config = {
 			VehicleSpawn = vector4(-421.1067, -359.9683, 24.23036, 17.1824),
 			Vehicles = {
 				"lsmsgresley",
+				"lsmsspeedo",
 			},
 		},
 		{
