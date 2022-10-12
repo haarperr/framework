@@ -29,8 +29,8 @@ Config = {
 				{ name = "Sandwich", chance = 0.2, durability = { 0.05, 0.5 } },
 
 				-- Drugs.
-				{ name = "Weed Seed", chance = 0.125, quantity = { 1, 1 } },
-				{ name = "Blue Dream Weed Seed", chance = 0.125, quantity = { 1, 1 } },
+				{ name = "Weed Seed", chance = 0.165, quantity = { 1, 1 } },
+				{ name = "Blue Dream Weed Seed", chance = 0.165, quantity = { 1, 1 } },
 				--{ name = "Crack Pipe", chance = 0.01 },
 				--{ name = "Joint", chance = 0.01 },
 
@@ -105,8 +105,8 @@ Config = {
 				{ name = "Rails", chance = 0.02, durability = { 0.05, 0.2 } },
 
 				-- Drugs.
-				{ name = "Weed Seed", chance = 0.125, quantity = { 1, 1 } },
-				{ name = "Blue Dream Weed Seed", chance = 0.125, quantity = { 1, 1 } },
+				{ name = "Weed Seed", chance = 0.165, quantity = { 1, 1 } },
+				{ name = "Blue Dream Weed Seed", chance = 0.165, quantity = { 1, 1 } },
 				--{ name = "Bong", chance = 0.01, durability = { 0.05, 0.5 } },
 				--{ name = "Crack Pipe", chance = 0.02, durability = { 0.05, 0.5 } },
 
