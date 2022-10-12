@@ -48,7 +48,7 @@ Register("Weed Seed", {
 	},
 	Stages = {
 		{
-			Age = 480,
+			Age = 360,
 			Model = "prop_weed_01",
 			Items = { { 1.0, "Weed", {1,3} }, { 0.25, "Weed Seed", {1,1} } },
 			Harvestable = true,
@@ -77,9 +77,67 @@ Register("Blue Dream Weed Seed", {
 	},
 	Stages = {
 		{
-			Age = 480,
+			Age = 360,
 			Model = "prop_weed_01",
 			Items = { { 1.0, "Blue Dream Weed", {1,3} }, { 0.25, "Blue Dream Weed Seed", {1,1} } },
+			Harvestable = true,
+		},
+		{
+			Model = "prop_weed_02",
+		},
+	},
+	Materials = {
+		[3594309083] = true,
+		[-1286696947] = true,
+		[-1885547121] = true,
+		[-1942898710] = true,
+		[1333033863] = true,
+		[1109728704] = true,
+	},
+})
+
+Register("Purple Kush Weed Seed", {
+	Decay = 72,
+	DecayInside = true,
+	Radius = 0.75,
+	Placement = "Floor",
+	Model = {
+		"prop_weed_02",
+	},
+	Stages = {
+		{
+			Age = 480,
+			Model = "prop_weed_01",
+			Items = { { 1.0, "Purple Kush Weed", {1,3} }, { 0.25, "Purple Kush Weed Seed", {1,1} } },
+			Harvestable = true,
+		},
+		{
+			Model = "prop_weed_02",
+		},
+	},
+	Materials = {
+		[3594309083] = true,
+		[-1286696947] = true,
+		[-1885547121] = true,
+		[-1942898710] = true,
+		[1333033863] = true,
+		[1109728704] = true,
+	},
+})
+
+Register("Girl Scout Cookies Weed Seed", {
+	Decay = 72,
+	DecayInside = true,
+	Radius = 0.75,
+	Placement = "Floor",
+	Model = {
+		"prop_weed_02",
+	},
+	Stages = {
+		{
+			Age = 480,
+			Model = "prop_weed_01",
+			Items = { { 1.0, "Girl Scout Cookies Weed", {1,3} }, { 0.25, "Girl Scout Cookies Weed Seed", {1,1} } },
 			Harvestable = true,
 		},
 		{
