@@ -50,18 +50,16 @@ function ActivateConfirmation()
 		text = text..char
 	end
 
-	eventData = AddEventHandler("_chat:messageEntered", function(message)
-		if message == text then
-			RemoveEventHandler(eventData)
-			SendNUIMessage({
-				setInput = false
-			})
+	eventData = RegisterCommand(text, function(source, args, rawCommand)
+		--RemoveEventHandler(eventData)
+		SendNUIMessage({
+			setInput = false
+		})
 
-			LastActivity = GetGameTimer()
-			WaitingFor = 0
-			WaitingForInput = false
-		end
-	end)
+		LastActivity = GetGameTimer()
+		WaitingFor = 0
+		WaitingForInput = false
+	end, false)
 
 	SendNUIMessage({
 		setInput = text
