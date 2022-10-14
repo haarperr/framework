@@ -149,9 +149,7 @@ function Menu:ToggleSpawner(value, appearance, wasActive)
 
 	-- Window model listener.
 	spawnsWindow:OnUpdateModel("spawnSelection", function(self, value, oldValue)
-		print(value)
 		if not value then return end
-		print(Main.spawns[value].name)
 
 		if not value then
 			spawnSelectionWindow:SetModel("name", false)
@@ -171,7 +169,6 @@ function Menu:ToggleSpawner(value, appearance, wasActive)
 			local id = self.spawnId
 			if not id then return end
 
-			print(appearance)
 			Main:SelectSpawn(id, appearance)
 		end)
 	end)
