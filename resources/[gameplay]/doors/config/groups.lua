@@ -126,6 +126,8 @@ Config.Groups = {
 			{ coords = vector3(-449.2162, -314.6306, 69.68714), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-448.156, -317.2272, 69.68255), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-443.0885, -315.8669, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-456.4117, -343.8175, 69.67925), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-453.8379, -344.1614, 69.67925), ignore = true }, -- Top Floor Blank
 		},
 		factions = {
 			["lspd"] = "pd",
