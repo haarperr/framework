@@ -87,9 +87,12 @@ Citizen.CreateThread(function()
 		"MONSTER",
 		-- Super Cars
 		"ADDER",
+		"BULLET",
+		"INFERNUS",
 		"TURISMOR",
 		"ZENTORNO",
 		"JESTER",
+		"BANSHEE"
 	}
 
 	while true do

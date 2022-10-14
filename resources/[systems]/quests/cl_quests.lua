@@ -34,7 +34,7 @@ AddEventHandler("quests:setStage", function(id, stage)
 	end
 
 	if stage == "END" then
-		TriggerEvent("npcs:invoke", "*", {
+		TriggerEvent("oldnpcs:invoke", "*", {
 			{ "GotoStage", "QUEST_END" },
 			{ "InvokeDialogue" },
 		})
