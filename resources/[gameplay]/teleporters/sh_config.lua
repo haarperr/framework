@@ -93,7 +93,7 @@ Config = {
 			From = vector4(-452.5645, -288.4482, 34.94955, 106.4872),
 			To = vector4(-452.4521, -288.4398, -130.8406, 110.8565),
 			FromText = "To Main Floor",
-			ToText = "To Surgical",
+			ToText = "To Surgical Floor",
 			Type = "elevator",
 		},
 		{ -- ICU Floor to Surgical Floor
