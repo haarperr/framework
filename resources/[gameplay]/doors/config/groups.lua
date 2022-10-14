@@ -120,9 +120,9 @@ Config.Groups = {
 			{ coords = vector3(-457.1176, -295.3068, 69.68255), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-454.9623, -300.5496, 69.68255), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-449.6662, -299.8431, 69.68255), ignore = true }, -- Top Floor Blank
-			{ coords = vector3(-452.8091, -305.7159, 69.15767), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-452.7033, -306.0659, 69.68255), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-451.4839, -309.0718, 69.68255), ignore = true }, -- Top Floor Blank
-			{ coords = vector3(-447.0732, -306.2605, 68.93026), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-447.3481, -305.5024, 69.68255), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-449.2162, -314.6306, 69.68714), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-448.156, -317.2272, 69.68255), ignore = true }, -- Top Floor Blank
 			{ coords = vector3(-443.0885, -315.8669, 69.68255), ignore = true }, -- Top Floor Blank
