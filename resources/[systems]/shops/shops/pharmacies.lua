@@ -40,3 +40,24 @@ RegisterShop("MTZONAH_PHARM01", {
 		Filters = Config.Filters.Pharm,
 	},
 })
+
+RegisterShop("DAVIS_PHARM01", {
+	Name = "Davis Fire Supplies",
+	Factions = {
+		["paramedic"] = "ems",
+		["firefighter"] = "ems",
+		["lsms"] = "ems",
+	},
+	Clerks = {
+		{
+			coords = vector4(198.5279, -1639.11, 29.80076, 262.6832),
+			model = "s_m_m_paramedic_01",
+		},
+	},
+	Storage = {
+		Coords = vector3(198.5279, -1639.11, 29.80076),
+		Radius = 2.0,
+		Filters = Config.Filters.Pharm,
+	},
+})
+
