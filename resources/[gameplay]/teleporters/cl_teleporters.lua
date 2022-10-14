@@ -26,7 +26,7 @@ function Main:Register(info)
 			instance = _info.Instance or info.Instance,
 			navigation = {
 				id = "teleport-"..id,
-				text = (__type and __type.Text) or _info.Text or info.Text or Config.Defaults.Text,
+				text = (i == 1 and i.FromText) or (i == 2 and i.ToText) or (__type and __type.Text) or _info.Text or info.Text or Config.Defaults.Text,
 				icon = (__type and __type.Icon) or _info.Icon or info.Icon or Config.Defaults.Icon,
 				teleport = {
 					id = id,
