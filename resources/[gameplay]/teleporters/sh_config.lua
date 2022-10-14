@@ -110,6 +110,13 @@ Config = {
 			ToText = "To ICU Floor",
 			Type = "elevator",
 		},
+		{ -- Main Floor to ICU Floor
+			From = vector4(-452.482, -288.4036, 34.94955, 116.5305),
+			To = vector4(-439.6243, -335.8737, 78.30087, 79.36766),
+			FromText = "To Main Floor",
+			ToText = "To Roof",
+			Type = "elevator",
+		},
 		-- Sewers.
 		{
 			From = vector4(1013.3727416992, -201.98756408691, 70.19563293457, 56.696697235107), -- Mirror Park Blvd & Glory Way.
