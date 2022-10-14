@@ -58,6 +58,8 @@ function Main:SetWalkstyle(name)
 	else
 		ResetPedStrafeClipset(ped, 1.0)
 	end
+
+	self:Save()
 end
 Export(Main, "SetWalkstyle")
 
@@ -155,6 +157,30 @@ function Main:UpdatePointing()
 		state:set("pointAndClick", GetNetworkTime(), true)
 	end
 end
+
+function Main:Save()
+	SetResourceKvp(self.WalkstyleKey, self.walkstyle)
+end
+
+function Main:Load()
+	local walkstyle = GetResourceKvpString(self.WalkstyleKey) or "reset"
+	
+	if walkstyle and Config.Walkstyles[walkstyle] then
+		self.walkstyle = walkstyle
+	end
+
+	self:SetWalkstyle(self.walkstyle)
+end
+
+--[[ Character Events ]]--
+RegisterNetEvent("character:selected")
+AddEventHandler("character:selected", function(character)
+	if character then
+		Main.WalkstyleKey = "NSRP-walk-"..character.id
+
+		Main:Load()
+	end
+end)
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()

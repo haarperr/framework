@@ -53,6 +53,8 @@ function Controller:SetData(data, ignoreWindow)
 	end
 
 	Main:ResetToggles()
+
+	exports.emotes:OverrideWalkstyle()
 end
 
 function Controller:GetData(defaults)
