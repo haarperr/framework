@@ -112,20 +112,20 @@ Config.Groups = {
 			{ coords = vector3(-500.4143, -324.591, 69.67925), locked = true }, -- Upstairs Office
 			{ coords = vector3(-501.9976, -312.5578, 69.67925), locked = true }, -- Upstairs Office
 			{ coords = vector3(-502.8185, -302.2071, 69.67925), locked = true }, -- Upstairs Office
-			{ coords = vector3(-446.4914, -341.6063, 78.47864), ignored = true }, -- Helipad Broken Doors that drop you off map
-			{ coords = vector3(-443.9187, -341.9425, 78.47864), ignored = true }, -- Helipad Broken Doors that drop you off map
-			{ coords = vector3(-458.2179, -289.2678, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-455.8108, -288.3001, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-453.0571, -291.5908, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-457.1176, -295.3068, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-454.9623, -300.5496, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-449.6662, -299.8431, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-452.8091, -305.7159, 69.15767), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-451.4839, -309.0718, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-447.0732, -306.2605, 68.93026), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-449.2162, -314.6306, 69.68714), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-448.156, -317.2272, 69.68255), ignored = true }, -- Top Floor Blank
-			{ coords = vector3(-443.0885, -315.8669, 69.68255), ignored = true }, -- Top Floor Blank
+			{ coords = vector3(-446.4914, -341.6063, 78.47864), ignore = true }, -- Helipad Broken Doors that drop you off map
+			{ coords = vector3(-443.9187, -341.9425, 78.47864), ignore = true }, -- Helipad Broken Doors that drop you off map
+			{ coords = vector3(-458.2179, -289.2678, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-455.8108, -288.3001, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-453.0571, -291.5908, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-457.1176, -295.3068, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-454.9623, -300.5496, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-449.6662, -299.8431, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-452.8091, -305.7159, 69.15767), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-451.4839, -309.0718, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-447.0732, -306.2605, 68.93026), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-449.2162, -314.6306, 69.68714), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-448.156, -317.2272, 69.68255), ignore = true }, -- Top Floor Blank
+			{ coords = vector3(-443.0885, -315.8669, 69.68255), ignore = true }, -- Top Floor Blank
 		},
 		factions = {
 			["lspd"] = "pd",
