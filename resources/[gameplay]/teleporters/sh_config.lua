@@ -19,6 +19,32 @@ Config = {
 			Icon = "elevator",
 			MaxDistance = 1.0,
 		},
+		["elevator-surg"] = {
+			Anim = {
+				Unarmed = { Dict = "friends@", Name = "pickupwait", Flag = 48 },
+				Armed = {
+					["2h"] = { Dict = "move_action@p_m_two@armed@2h_short@idle@high_energy@a", Name = "idle", Flag = 48 },
+				},
+			},
+			Message = "Waiting for the elevator...",
+			Duration = 4000,
+			Text = "Call Surgical Elevator",
+			Icon = "elevator",
+			MaxDistance = 1.0,
+		},
+		["elevator-icu"] = {
+			Anim = {
+				Unarmed = { Dict = "friends@", Name = "pickupwait", Flag = 48 },
+				Armed = {
+					["2h"] = { Dict = "move_action@p_m_two@armed@2h_short@idle@high_energy@a", Name = "idle", Flag = 48 },
+				},
+			},
+			Message = "Waiting for the elevator...",
+			Duration = 4000,
+			Text = "Call ICU Elevator",
+			Icon = "elevator",
+			MaxDistance = 1.0,
+		},
 		["manhole"] = {
 			Anim = { Dict = "missexile3", Name = "ex03_dingy_search_case_a_michael", Flag = 0 },
 			Message = "Lifting manhole...",
@@ -70,8 +96,8 @@ Config = {
 		},
 		-- Mount Zonah.
 		{ -- Left
-			From = vector4(-490.5252, -327.5952, 42.30741, 170.4753),
-			To = vector4(-490.5252, -327.5952, 69.50498, 170.4753),
+			From = vector4(-493.4727, -327.0937, 42.30746, 170.4753),
+			To = vector4(-493.4727, -327.0937, 69.50498, 170.4753),
 			Type = "elevator",
 		},
 		{ -- Middle
@@ -90,9 +116,14 @@ Config = {
 			Type = "elevator",
 		},
 		{ -- Surgical Floor
-			From = vector4(-493.4467, -327.2193, 42.30729, 166.3954),
+			From = vector4(-452.5645, -288.4482, 34.94955, 106.4872),
 			To = vector4(-452.4521, -288.4398, -130.8406, 110.8565),
-			Type = "elevator",
+			Type = "elevator-surg",
+		},
+		{ -- ICU Floor
+			From = vector4(-452.482, -288.4036, 69.53972, 116.5305),
+			To = vector4(-452.4521, -288.4398, -130.8406, 110.8565),
+			Type = "elevator-icu",
 		},
 		-- Sewers.
 		{
