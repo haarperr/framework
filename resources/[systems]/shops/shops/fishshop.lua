@@ -15,7 +15,6 @@ Config.Filters.Fish = {
 		["Black Rockfish"] = true,
 		["Sheephead"] = true,
 		["Sculpin"] = true,
-		["Skipjack Tuna"] = true,
 	},
 }
 
