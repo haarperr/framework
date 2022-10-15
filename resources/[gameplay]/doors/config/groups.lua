@@ -547,7 +547,7 @@ Config.Groups = {
 	{
 		name = "Pawn Shop",
 		coords = vector3(170.5313, -1315.49, 29.36363),
-		radius = 18,
+		radius = 25,
 		locked = true,
 		factions = {
 			["pawnshop"] = "general",
