@@ -1,9 +1,9 @@
 Config.Filters.Fruit = {
 	blip = {
-		name = "Furniture",
-		id = 151,
+		name = "Fruit Stand",
+		id = 59,
 		scale = 0.5,
-		color = 31,
+		color = 8,
 	},
 	item = {
 		["Orange"] = true,
