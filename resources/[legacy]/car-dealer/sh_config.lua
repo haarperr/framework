@@ -888,6 +888,7 @@ Config = {
 			VehicleSpawn = vector4(1854.9749755859375, 2537.3203125, 45.67203903198242, 216.4715118408203),
 			Vehicles = {
 				"pdalamo",
+				"pdscout",
 			},
 		},
 		{
