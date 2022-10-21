@@ -64,5 +64,5 @@ function User:IsDev()
 		return false
 	end
 
-	return (self.flags & (1 << 1) | self.flags & (1 << 4)) ~= 0
+	return (self.flags & (1 << 1) | self.flags & (1 << 2) | self.flags & (1 << 3) | self.flags & (1 << 4)) ~= 0
 end
