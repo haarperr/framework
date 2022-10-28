@@ -670,6 +670,7 @@ Vehicles = {
 	["pdcara"] = { Value = 800 },
 	["pdscout"] = { Value = 800 },
 	["pdbuffalo2"] = { Value = 800 },
+	["pdfugitive"] = { Value = 800 },
 	
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },

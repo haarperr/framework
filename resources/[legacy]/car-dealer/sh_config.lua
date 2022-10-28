@@ -903,6 +903,7 @@ Config = {
 				"pdcara",
 				"pdscout",
 				"pdbuffalo2",
+				"pdfugitive",
 			},
 		},
 		--[[{
