@@ -50,7 +50,7 @@ Register("Weed Seed", {
 		{
 			Age = 360,
 			Model = "prop_weed_01",
-			Items = { { 1.0, "Weed", {1,3} }, { 0.25, "Weed Seed", {1,1} } },
+			Items = { { 1.0, "Weed", {1,3} }, { 0.30, "Weed Seed", {1,1} } },
 			Harvestable = true,
 		},
 		{
@@ -79,7 +79,7 @@ Register("Blue Dream Weed Seed", {
 		{
 			Age = 360,
 			Model = "prop_weed_01",
-			Items = { { 1.0, "Blue Dream Weed", {1,3} }, { 0.25, "Blue Dream Weed Seed", {1,1} } },
+			Items = { { 1.0, "Blue Dream Weed", {1,3} }, { 0.40, "Blue Dream Weed Seed", {1,1} } },
 			Harvestable = true,
 		},
 		{
@@ -108,7 +108,7 @@ Register("Purple Kush Weed Seed", {
 		{
 			Age = 480,
 			Model = "prop_weed_01",
-			Items = { { 1.0, "Purple Kush Weed", {1,3} }, { 0.25, "Purple Kush Weed Seed", {1,1} } },
+			Items = { { 1.0, "Purple Kush Weed", {1,3} }, { 0.5, "Purple Kush Weed Seed", {1,1} } },
 			Harvestable = true,
 		},
 		{
@@ -137,7 +137,7 @@ Register("Girl Scout Cookies Weed Seed", {
 		{
 			Age = 480,
 			Model = "prop_weed_01",
-			Items = { { 1.0, "Girl Scout Cookies Weed", {1,3} }, { 0.25, "Girl Scout Cookies Weed Seed", {1,1} } },
+			Items = { { 1.0, "Girl Scout Cookies Weed", {1,3} }, { 0.55, "Girl Scout Cookies Weed Seed", {1,1} } },
 			Harvestable = true,
 		},
 		{

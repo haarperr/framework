@@ -28,7 +28,7 @@ Config = {
 			Duration = 1500,
 		},
 	},
-	HarvestDistance = 2.0,
+	HarvestDistance = 2.15,
 	Harvesting = {
 		Anim = {
 			Sequence = {
