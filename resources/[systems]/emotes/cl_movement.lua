@@ -159,7 +159,9 @@ function Main:UpdatePointing()
 end
 
 function Main:Save()
-	SetResourceKvp(self.WalkstyleKey, self.walkstyle)
+	if self.walkstyle then
+		SetResourceKvp(self.WalkstyleKey, self.walkstyle)
+	end
 end
 
 function Main:Load()

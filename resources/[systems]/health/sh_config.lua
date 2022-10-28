@@ -784,12 +784,12 @@ Config = {
 		},
 	},
 	Energy = {
-		RegenRate = 60.0 * 2.0, -- How long it takes to completely restore energy, in minutes.
+		RegenRate = 60.0, -- How long it takes to completely restore energy, in minutes.
 	},
 	Nutrition = {
 		Rates = {
-			Hunger = 60.0 * 3.0, -- How long it takes to become hungry, in minutes.
-			Thirst = 60.0 * 2.0, -- How long it takes to become hungry, in minutes.
+			Hunger = 60.0 * 4.0, -- How long it takes to become hungry, in minutes.
+			Thirst = 60.0 * 3.0, -- How long it takes to become hungry, in minutes.
 		},
 		Modifiers = {
 			Walk = 1.25, -- Multiplied value when walking.

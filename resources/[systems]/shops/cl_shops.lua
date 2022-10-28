@@ -6,6 +6,14 @@ end
 --[[ Functions: Shop ]]--
 function Shop:Update()
 	local storage = self.info.Storage
+
+	-- Create Blips
+	if storage and storage.Filters and storage.Filters.blip and self.info and self.info.Clerks then
+		for clerkId, clerk in ipairs(self.info.Clerks) do
+			self.blip = exports.blips:CreateBlip(vector3(clerk.coords.x, clerk.coords.y, clerk.coords.z), storage.Filters.blip, "shop-"..self.id.."-"..clerkId)
+		end
+	end
+
 	if storage and self:CanAccessStorage() then
 		local id = "shop-"..self.id
 		self.storage = id
@@ -35,12 +43,6 @@ function Shop:Update()
 				},
 			},
 		})
-
-		if storage.Filters and storage.Filters.blip and self.info and self.info.Clerks then
-			for clerkId, clerk in ipairs(self.info.Clerks) do
-				exports.blips:CreateBlip(clerk.coords, storage.Filters.blip, id.."-"..clerkId)
-			end
-		end
 	elseif self.storage then
 		exports.entities:Destroy(self.storage)
 		self.storage = nil

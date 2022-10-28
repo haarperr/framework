@@ -53,8 +53,8 @@ RegisterShop("RESOURCE_0001", {
 		["grinder1"] = {
 			item = "Grindstone",
 			invisible = true,
-			coords = vector3(1101.828, -2024.645, 44.45947),
-			rotation = vector3(-41.0309, -0, -128.5155),			
+			coords = vector3(1102.428, -2024.045, 44.45947),
+			rotation = vector3(-41.0309, -0, -215.5155),			
 		},
 		},
 	}
