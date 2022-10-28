@@ -8,7 +8,6 @@ Config.Filters.Ammunation = {
 	item = {
 		["Body Armor"] = true,
         ["Flashlight"] = true,
-        ["Combat Pistol"] = true,
         ["Stun Gun"] = true,
         ["Taser Cartridge"] = true,
         ["Taser Prong"] = true,
