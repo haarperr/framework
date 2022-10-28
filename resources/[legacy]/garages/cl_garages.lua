@@ -437,6 +437,7 @@ AddEventHandler("garages:storeVehicle", function(netId)
 end)
 
 --[[ Resource Events ]]--
+RegisterNetEvent("character:selected")
 AddEventHandler("character:selected", function(character)
 	TriggerServerEvent("garages:requestGarages")
 
