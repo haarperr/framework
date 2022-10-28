@@ -443,6 +443,10 @@ AddEventHandler("character:selected", function(character)
 	if GetResourceState("cache") == "started" then
 		Vehicles = exports.cache:Get("GarageVehicles") or Vehicles
 	end
+
+	if character then
+		Initialize()
+	end
 end)
 
 AddEventHandler("garages:stop", function()
@@ -488,14 +492,6 @@ end)
 RegisterNetEvent("properties:bought")
 AddEventHandler("properties:bought", function(id)
 	Initialize()
-end)
-
-
-RegisterNetEvent("character:selected")
-AddEventHandler("character:selected", function(character)
-	if character then
-		Initialize()
-	end
 end)
 
 RegisterNetEvent("garages:store")
