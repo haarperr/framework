@@ -29,7 +29,6 @@ Config.Filters.Armory = {
         ["Saline"] = true,
         ["Cervical Collar"] = true,
         ["Ice Pack"] = true,
-		["Nasopharyngeal Airway"] = true,
         ["Splint"] = true,
         ["Torniquet"] = true,
         ["Fire Blanket"] = true,

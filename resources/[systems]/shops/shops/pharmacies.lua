@@ -18,6 +18,7 @@ Config.Filters.Pharm = {
         ["Body Armor"] = true,
 		["Radio"] = true,
 		["Impound Sticker"] = true,
+		["Field Kit"] = true,
 	},
 }
 
