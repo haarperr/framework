@@ -18,6 +18,8 @@ Models = {
 	[`sptorence`] = "cruiser",
 	[`spbuffalo2`] = "cruiser",
 	[`spfugitive`] = "cruiser",
+	[`umkalamo`] = "cruiser",
+	[`umkbuffalo`] = "cruiser",
 
 	--[`pdinterceptor`] = "intercept",
 
