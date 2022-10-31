@@ -643,6 +643,8 @@ Vehicles = {
 	["pdstanier"] = { Value = 800 },
 	["pdtorence"] = { Value = 800 },
 	["pdfugitive"] = { Value = 800 },
+	["umkalamo"] = { Value = 800 },
+	["umkbuffalo"] = { Value = 800 },
 
 	--[[ SASP Vehicles ]]--
 	["spalamo"] = { Value = 800 },
@@ -653,7 +655,9 @@ Vehicles = {
 	["spstanier"] = { Value = 800 },
 	["sptorence"] = { Value = 800 },
 	["spfugitive"] = { Value = 800 },
-
+	["umkalamo"] = { Value = 800 },
+	["umkbuffalo"] = { Value = 800 },
+	
 	--[[ LSFD Vehicles ]]--
 	--["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },
 	["lsfd3"] = { Value = 800, Type = "Ambulance" },

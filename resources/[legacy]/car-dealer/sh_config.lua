@@ -761,6 +761,8 @@ Config = {
 				"pdstanier",
 				"pdtorence",
 				"pdfugitive",
+				"umkbuffalo",
+				"umkalamo",
 			},
 		},
 		{
@@ -781,6 +783,8 @@ Config = {
 				"pdstanier",
 				"pdtorence",
 				"pdfugitive",
+				"umkbuffalo",
+				"umkalamo",
 			},
 		},
 		{
@@ -845,6 +849,8 @@ Config = {
 				"spstanier",
 				"sptorence",
 				"spfugitive",
+				"umkbuffalo",
+				"umkalamo",
 			},
 		},
 		{
