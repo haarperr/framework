@@ -791,7 +791,7 @@ Config = {
 			Kiosk = vector3(183.2513, -1653.412, 29.90838),
 			Garage = 23,
 			VehicleDisplay = vector4(179.2382, -1657.935, 29.80349, 226.5789),
-			VehicleSpawn = vector4(193.8609, -1664.89, 29.80744, 142.1521),
+			VehicleSpawn = vector4(179.2382, -1657.935, 29.80349, 226.5789),
 			Vehicles = {
 				"lsfd3",
 				"lsfd4",
@@ -821,7 +821,7 @@ Config = {
 			Kiosk = vector3(203.6096, -1669.246, 29.80349),
 			Garage = 23,
 			VehicleDisplay = vector4(201.4927, -1675.171, 29.80349, 48.81543),
-			VehicleSpawn = vector4(-421.1067, -359.9683, 24.23036, 17.1824),
+			VehicleSpawn = vector4(201.4927, -1675.171, 29.80349, 48.81543),
 			Vehicles = {
 				"lsfdcmd",
 				"lsfdtruck",
