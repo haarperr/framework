@@ -796,6 +796,7 @@ Config = {
 				"lsfd3",
 				"lsfd4",
 				"bcfdbat",
+				"lsfdbuffalo",
 			},
 		},
 		{
@@ -824,6 +825,7 @@ Config = {
 			Vehicles = {
 				"lsfdcmd",
 				"lsfdtruck",
+				"lsfdbuffalo",
 			},
 		},
 		{

@@ -659,6 +659,7 @@ Vehicles = {
 	["lsfd3"] = { Value = 800, Type = "Ambulance" },
 	["lsfd4"] = { Value = 800, Type = "Ambulance" },
 	["bcfdbat"] = { Value = 800, Type = "Ambulance" },
+	["lsfdbuffalo"] = { Value = 800, Type = "Ambulance" },
 	["lsfdcmd"] = { Value = 800, Type = "Firetruck" },
 	["lsfdtruck"] = { Value = 800, Type = "Firetruck" },
 
