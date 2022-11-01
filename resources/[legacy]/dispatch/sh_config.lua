@@ -65,9 +65,11 @@ Config = {
 		},
 		["10-7"] = {
 			Message = "Out of Service",
+			CanCall = true,
 		},
 		["10-8"] = {
 			Message = "In Service",
+			CanCall = true,
 		},
 		["10-9"] = {
 			Message = "Repeat",
@@ -101,6 +103,7 @@ Config = {
 		},
 		["10-22"] = {
 			Message = "Disregard",
+			CanCall = true,
 		},
 		["10-23"] = {
 			Message = "Arrived at Scene",
@@ -111,6 +114,7 @@ Config = {
 		},
 		["10-25"] = {
 			Message = "Report in Person",
+			CanCall = true,
 		},
 		["10-26"] = {
 			Message = "Detaining Subject",
@@ -404,12 +408,15 @@ Config = {
 		},
 		["10-91"] = {
 			Message = "Pick Up Prisoner",
+			CanCall = true,
 		},
 		["10-92"] = {
 			Message = "Improperly Parked Vehicle",
+			CanCall = true,
 		},
 		["10-93"] = {
 			Message = "Blockade",
+			CanCall = true,
 		},
 		["10-94"] = {
 			Message = "Drag Racing",
@@ -417,12 +424,15 @@ Config = {
 		},
 		["10-95"] = {
 			Message = "Subject in Custody",
+			CanCall = true,
 		},
 		["10-96"] = {
 			Message = "Mental Subject",
+			CanCall = true,
 		},
 		["10-98"] = {
 			Message = "Jail Break",
+			CanCall = true,
 			Status = "urgent",
 			Blips = {
 				Rotation = 0,
@@ -457,7 +467,7 @@ Config = {
 					},
 				},
 				["Firefighter"] = {
-					Message = "Medic Needs Help",
+					Message = "Firefighter Needs Help",
 					Status = "urgent",
 					Blips = {
 						Rotation = 0,
