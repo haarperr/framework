@@ -115,12 +115,11 @@ end)
 RegisterNetEvent("jobs:clocked")
 AddEventHandler("jobs:clocked", function(name, source, onDuty)
 	local job = exports.jobs:GetCurrentJob(source, true)
-	if not job then return end
-	
-	if job.Faction ~= Config.Marking.Faction then return end
 	local payload = {}
 
-	if onDuty then
+	if job then
+		if job.Faction ~= Config.Marking.Faction then return end
+
 		payload.bulk = {}
 		local i = 1
 		for entity, marked in pairs(Marking.objects) do
@@ -135,6 +134,7 @@ AddEventHandler("jobs:clocked", function(name, source, onDuty)
 		payload.clear = true
 	end
 
+	Citizen.Wait(2500)
 	TriggerClientEvent("impound:inform", source, payload)
 end)
 
