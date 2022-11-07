@@ -112,8 +112,10 @@ AddEventHandler("impound:stop", function()
 	end
 end)
 
-RegisterNetEvent("jobs:clock")
-AddEventHandler("jobs:clock", function(source, name, message)
+RegisterNetEvent("jobs:clocked")
+AddEventHandler("jobs:clocked", function(name, source, onDuty)
+	if not onDuty then return end
+
 	local job = exports.jobs:GetCurrentJob(source, true)
 	if not job then return end
 	
