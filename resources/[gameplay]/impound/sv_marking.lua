@@ -114,15 +114,13 @@ end)
 
 RegisterNetEvent("jobs:clocked")
 AddEventHandler("jobs:clocked", function(name, source, onDuty)
-	if not onDuty then return end
-
 	local job = exports.jobs:GetCurrentJob(source, true)
 	if not job then return end
 	
 	if job.Faction ~= Config.Marking.Faction then return end
 	local payload = {}
 
-	if message then
+	if onDuty then
 		payload.bulk = {}
 		local i = 1
 		for entity, marked in pairs(Marking.objects) do
