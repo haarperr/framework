@@ -955,7 +955,7 @@ INSERT INTO `garages` (`id`, `property_id`, `limit`, `hidden`, `name`, `type`, `
 INSERT INTO `garages` (`id`, `property_id`, `limit`, `hidden`, `name`, `type`, `x`, `y`, `z`, `w`) VALUES
 	(488, 1297, 4, b'0', NULL, 'Car', -949.16, -899.499, 2.15161, 119.055);
 INSERT INTO `garages` (`id`, `property_id`, `limit`, `hidden`, `name`, `type`, `x`, `y`, `z`, `w`) VALUES
-	(489, 1298, 4, b'0', NULL, 'Car', -1107.36, -1049.84, 1.746492, 212.598);
+	(489, 1298, 4, b'0', NULL, 'Car', -1105.029, -1054.621, 1.90294, 299.7089);
 INSERT INTO `garages` (`id`, `property_id`, `limit`, `hidden`, `name`, `type`, `x`, `y`, `z`, `w`) VALUES
 	(490, 1299, 4, b'0', NULL, 'Car', -942.567, -912.171, 2.15161, 119.055);
 INSERT INTO `garages` (`id`, `property_id`, `limit`, `hidden`, `name`, `type`, `x`, `y`, `z`, `w`) VALUES
