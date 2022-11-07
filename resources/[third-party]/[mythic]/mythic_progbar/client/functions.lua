@@ -57,7 +57,6 @@ function Process(action, start, tick, finish)
 						Cancel()
 					end
 				end)
-				print(emote)
 			end
 
 			if mythic_action.Disarm then
@@ -128,7 +127,6 @@ exports("Finish", Finish)
 RegisterNetEvent("emotes:cancel")
 AddEventHandler("emotes:cancel", function(id)
 	if emote == id then
-		print("cancel")
 		Cancel()
 	end
 end)
