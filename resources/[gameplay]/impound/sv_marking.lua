@@ -96,7 +96,7 @@ end
 
 function Marking:InformAll(payload)
 	for player in GetActivePlayers() do
-		if exports.jobs:IsInFaction(Config.Marking.Faction) then
+		if exports.jobs:IsInFaction(player, Config.Marking.Faction) then
 			TriggerClientEvent("impound:inform", player, payload)
 		end
 	end
