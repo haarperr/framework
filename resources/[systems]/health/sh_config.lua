@@ -442,6 +442,7 @@ Config = {
 				"Surgical Kit",
 				"Gauze",
 				"Bandage",
+				"Tourniquet",
 			}
 		},
 		["Stab"] = {
@@ -467,6 +468,7 @@ Config = {
 				"Surgical Kit",
 				"Gauze",
 				"Bandage",
+				"Tourniquet",
 			}
 		},
 		["Bruising"] = {
