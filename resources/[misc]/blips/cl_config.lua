@@ -161,6 +161,12 @@ Blips = {
 		scale = 0.5,
 		color = 0,
 	},
+	["beanies"] = {
+		name = "Beanie's Cafe",
+		id = 621,
+		scale = 0.5,
+		color = 61,
+	},
 }
 
 Locations = {
@@ -240,4 +246,5 @@ Locations = {
 	{ "pawn", vector3(180.78282165527344, -1318.612548828125, 29.36359977722168) }, -- Pawn Shop
 	{ "radio", vector3(731.6265869140625, 2523.40966796875, 73.50624084472656) }, -- Radio Pioneers
 	{ "doj", vector3(7.74687671661376, -933.023193359375, 29.90408706665039) }, -- DoJ
+	{ "beanies", vector3(-581.0098, -1070.2863, 22.3296) }, -- DoJ
 }
