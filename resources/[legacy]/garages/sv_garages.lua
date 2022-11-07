@@ -324,8 +324,8 @@ AddEventHandler("garages:retrievedVehicle", function(netId, id, class)
 		exports.vehicles:GiveKey(source, netId)
 	end
 
-	TriggerEvent("vehicles:subscribe", netId, true)
-	exports.vehicles:GiveKey(source, netId)
+	--TriggerEvent("vehicles:subscribe", netId, true)
+	--exports.vehicles:GiveKey(source, netId)
 
 	Vehicles[entity] = {
 		source = source,
