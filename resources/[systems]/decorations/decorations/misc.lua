@@ -99,7 +99,6 @@ Register("Barricade", {
 })
 
 Register("Cone", {
-	user = "Mod",
 	NoDecay = true,
 	Placement = "Floor",
 	Stackable = {
