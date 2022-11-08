@@ -98,6 +98,29 @@ Register("Barricade", {
 	},
 })
 
+Register("Cone", {
+	user = "Mod",
+	NoDecay = true,
+	Placement = "Floor",
+	Stackable = {
+		Structure = false,
+		Foundation = true,
+		Block = false,
+	},
+	Model = {
+		"prop_mp_cone_01",
+		"prop_mp_cone_02",
+		"prop_mp_cone_03",
+		"prop_mp_cone_04",
+		"prop_roadcone01a",
+		"prop_roadcone01b",
+		"prop_roadcone01c",
+		"prop_roadcone02a",
+		"prop_roadcone02b",
+		"prop_roadcone02c",
+	},
+})
+
 Register("Kitchen Knives", {
 	Placement = "Floor",
 	Stackable = {
