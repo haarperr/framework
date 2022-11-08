@@ -32,7 +32,7 @@ Config.Filters.Prisonarm = {
         ["Ice Pack"] = true,
         ["Splint"] = true,
         ["Cervical Collar"] = true,
-        ["Torniquet"] = true,
+        ["Tourniquet"] = true,
         ["Fire Blanket"] = true,
 		["Scissors"] = true,
 	},

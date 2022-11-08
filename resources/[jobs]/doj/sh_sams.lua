@@ -17,7 +17,6 @@ exports.jobs:Register("sams", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = false,
 		DrugBonus = false,
 		JailBreak = true,

@@ -16,7 +16,6 @@ exports.jobs:Register("lsda", {
 		CanBreach = true,
 		CanFine = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = false,
 		DrugBonus = false,
 		JailBreak = false,

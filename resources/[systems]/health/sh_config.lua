@@ -62,32 +62,32 @@ Config = {
 		["Head"] = {
 			Part = 31086,
 			Bone = "head",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", "Burn Cream" }
 		},
 		["Torso"] = {
 			Part = 11816,
 			Bone = "spine2",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Fire Blanket", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Fire Blanket", "Burn Cream" }
 		},
 		["Left Arm"] = {
 			Part = 18905,
 			Bone = "lforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", "Burn Cream" }
 		},
 		["Right Arm"] = {
 			Part = 40269,
 			Bone = "rforearm",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "IV Bag", "Tranexamic Acid", "Tourniquet", "Burn Cream" }
 		},
 		["Left Leg"] = {
 			Part = 58271,
 			Bone = "lcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Tourniquet", "Burn Cream" }
 		},
 		["Right Leg"] = {
 			Part = 51826,
 			Bone = "rcalf",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Tourniquet", }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Tourniquet", "Burn Cream" }
 		},
 	},
 	Bones = {
@@ -588,30 +588,35 @@ Config = {
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
-				return treatments["Fire Blanket"] and 300.0 or 1800.0
+				return treatments["Burn Cream"] and 300.0 or 1800.0
 			end,
 			Treatment = {
-				"Fire Blanket",
+				"Burn Cream",
 			},
 		},
 		["2nd Degree Burn"] = {
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
-				return treatments["Fire Blanket"] and 400.0 or 1800.0
+				return treatments["Burn Cream"] and 400.0 or 1800.0
 			end,
 			Treatment = {
-				"Fire Blanket",
+				"Burn Cream",
+				"Gauze",
 			},
 		},
 		["3rd Degree Burn"] = {
 			Clear = 0.2,
 			Healing = 0.08,
 			Lifetime = function(bone, groupBone, treatments)
-				return treatments["Fire Blanket"] and 500.0 or 1800.0
+				return treatments["IV Bag"] and 600.0 or 1800.0
 			end,
 			Treatment = {
-				"Fire Blanket",
+				{
+					Name = "IV Bag",
+					Group = "Left Arm",
+				},
+				"Gauze",
 			},
 		},
 	},
@@ -647,6 +652,14 @@ Config = {
 			Usable = false,
 			Description = "Cover in a fire blanket.",
 			Action = "Wraps a fire blanket around them.",
+			Limit = 1,
+			Removable = true,
+		},
+		["Burn Cream"] = {
+			Item = "Burn Cream",
+			Usable = false,
+			Description = "Apply burn cream.",
+			Action = "Applies burn cream to burns.",
 			Limit = 1,
 			Removable = true,
 		},
