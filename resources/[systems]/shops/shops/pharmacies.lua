@@ -20,6 +20,7 @@ Config.Filters.Pharm = {
 		["Radio"] = true,
 		["Impound Sticker"] = true,
 		["Field Kit"] = true,
+		["Cone"] = true,
 	},
 }
 
