@@ -50,7 +50,7 @@ local function Dialogue_CheckIn(npc, index, option)
 		local state = (LocalPlayer or {}).state or {}
 		local carrying = state.carrying
 		npc.locked = false
-		if carrying and exports.jobs:IsInEmergency("CheckIn") then
+		if carrying then
 			npc:AddDialogue("There is a bed available.  Would you like to check this person in?")
 		
 			npc:SetOptions({
@@ -148,8 +148,8 @@ function Main:RegisterNpc(info)
 	local npc = Npcs:Register(info)
 
 	npc:AddOption({
-		text = "I would like to check in.",
-		dialogue = "I'll see if a bed is available.",
+		text = "Are there any beds available?",
+		dialogue = "Let me check.",
 		callback = Dialogue_CheckIn,
 	})
 	return npc

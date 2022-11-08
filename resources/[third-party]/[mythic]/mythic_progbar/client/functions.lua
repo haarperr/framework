@@ -16,7 +16,6 @@ mythic_action = {
 
 local isDoingAction = false
 local wasCancelled = false
-local emote = nil
 
 function Progress(action, finish)
 	Process(action, nil, nil, finish)
@@ -52,7 +51,7 @@ function Process(action, start, tick, finish)
 					mythic_action.Anim.IgnoreLoopCorrection = true
 				end
 
-				emote = exports.emotes:Play(mythic_action.Anim, function(finished)
+				exports.emotes:Play(mythic_action.Anim, function(finished)
 					if not finished then
 						Cancel()
 					end
@@ -94,8 +93,7 @@ function Process(action, start, tick, finish)
 						TriggerEvent("mythic_progbar:client:cancel")
 					end
 				end
-				exports.emotes:Stop(emote)
-				emote = nil
+				exports.emotes:Stop()
 				if finish ~= nil then
 					finish(wasCancelled)
 				end
@@ -111,7 +109,6 @@ end
 function Cancel()
 	isDoingAction = false
 	wasCancelled = true
-	emote = nil
 
 	SendNUIMessage({
 		action = "mythic_progress_cancel"
@@ -123,10 +120,3 @@ function Finish()
 	isDoingAction = false
 end
 exports("Finish", Finish)
-
-RegisterNetEvent("emotes:cancel")
-AddEventHandler("emotes:cancel", function(id)
-	if emote == id then
-		Cancel()
-	end
-end)

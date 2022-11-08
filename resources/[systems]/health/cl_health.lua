@@ -49,12 +49,12 @@ function Main:Init()
 		local serverId = GetPlayerServerId(player)
 		local state = _Player(serverId).state
 
-		return state.immobile
+		return state.immobile and not exports.jobs:IsInEmergency("CheckIn")
 	end, function(player, playerPed)
 		local state =  (LocalPlayer or {}).state
 		if not state then return end
 
-		if not state.immobile and not state.restrained then
+		if not state.immobile and not state.restrained and exports.jobs:IsInEmergency("CheckIn") then
 			TriggerEvent("health:help", player)
 		else
 			TriggerEvent("chat:notify", "You're unable to do that!", "error")
