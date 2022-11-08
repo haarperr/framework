@@ -11,6 +11,7 @@ Config.Filters.Pharm = {
         ["IV Bag"] = true,
         ["Tranexamic Acid"] = true,
         ["Tourniquet"] = true,
+        ["Burn Cream"] = true,
         ["Fire Blanket"] = true,
         ["Stun Gun"] = true,
 		["Taser Cartridge"] = true,
