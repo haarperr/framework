@@ -16,8 +16,10 @@ Citizen.CreateThread(function()
 		local isVehicleOut = DoesEntityExist(vehicle)
 
 		if job and job.Vehicles then
+			print("has vics")
 			for k, spawn in ipairs(job.Vehicles) do
 				local dist = #(spawn.In - pedCoords)
+				print("A")
 
 				if dist > 3.0 then
 					goto continue
