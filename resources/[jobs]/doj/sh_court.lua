@@ -13,7 +13,6 @@ exports.jobs:Register("districtcourt", {
 		CanFine = true,
 		CanImpound = false,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = false,
 		DrugBonus = false,
 		JailBreak = false,
