@@ -20,6 +20,7 @@ Models = {
 	[`spfugitive`] = "cruiser",
 	[`umkalamo`] = "cruiser",
 	[`umkbuffalo`] = "cruiser",
+	[`pdmesa`] = "cruiser",
 
 	--[`pdinterceptor`] = "intercept",
 

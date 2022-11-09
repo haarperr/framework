@@ -912,6 +912,7 @@ Config = {
 				"pdscout",
 				"pdbuffalo2",
 				"pdfugitive",
+				"pdmesa",
 			},
 		},
 		--[[{
