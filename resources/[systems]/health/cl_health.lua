@@ -49,7 +49,7 @@ function Main:Init()
 		local serverId = GetPlayerServerId(player)
 		local state = _Player(serverId).state
 
-		return state.immobile and not exports.jobs:IsInEmergency("CheckIn")
+		return state.immobile and exports.jobs:IsInEmergency("CheckIn")
 	end, function(player, playerPed)
 		local state =  (LocalPlayer or {}).state
 		if not state then return end
