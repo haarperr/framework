@@ -21,6 +21,8 @@ Models = {
 	[`umkalamo`] = "cruiser",
 	[`umkbuffalo`] = "cruiser",
 	[`pdmesa`] = "cruiser",
+	[`trualamo3`] = "cruiser",
+	[`sptrualamo3`] = "cruiser",
 
 	--[`pdinterceptor`] = "intercept",
 
