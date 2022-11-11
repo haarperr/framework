@@ -1,5 +1,5 @@
 Config = {
-	NewAccountPrice = 500,
+	NewAccountPrice = 300,
 	Interact = {
 		Radius = 1.0,
 		Text = "Access Account",
