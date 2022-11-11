@@ -260,7 +260,7 @@ exports.jobs:Register("bcso", {
 			Rank = 0,
 			In = vector3(458.8453, -1022.333, 28.25194),
 			Model = "polcoquetteg",
-			PrimaryColor = 153,			
+			PrimaryColor = 99,			
 			Mods = {
 				[48] = 1,
 			},
@@ -283,7 +283,7 @@ exports.jobs:Register("bcso", {
 			Rank = 0,
 			In = vector3(1837.621, 3689.885, 33.97464),
 			Model = "polcoquetteg",
-			PrimaryColor = 153,			
+			PrimaryColor = 99,			
 			Mods = {
 				[48] = 1,
 			},
@@ -306,7 +306,7 @@ exports.jobs:Register("bcso", {
 			Rank = 0,
 			In = vector3(-459.6599, 6031.548, 31.44805),
 			Model = "polcoquetteg",
-			PrimaryColor = 153,			
+			PrimaryColor = 99,			
 			Mods = {
 				[48] = 1,
 			},
