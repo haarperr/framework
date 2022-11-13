@@ -235,7 +235,7 @@ AddEventHandler("inventory:useFinish", function(item, slot)
 end)
 
 AddEventHandler("inventory:updateSlot", function(containerId, slotId, slot, item)
-	if slotId == Main.slot and (not item or item.name ~= Config.Item) then
+	if slotId == Main.slot and (not item or not Config.Items[item.name]) then
 		Main:Stop()
 	end
 end)
