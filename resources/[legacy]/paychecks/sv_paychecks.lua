@@ -15,7 +15,9 @@ Citizen.CreateThread(function()
 				local message = "Unemployed"
 
 				if job then
-					pay = job.Pay or pay
+					local rank = exports.jobs:GetRank(player, job.id)
+					local extraPay = (job.PayPerRank and rank and (job.PayPerRank * (rank.Level - 1))) or 0
+					pay = (job.Pay + extraPay) or pay
 					message = "Employed"
 				end
 
