@@ -56,8 +56,6 @@ AddEventHandler("paychecks:request", function()
 	local character = exports.character:GetCharacter(source)
 	if not character or character.paycheck <= 0 then return end
 
-	TriggerClientEvent("paychecks:receive", source, "Received", exports.misc:FormatNumber(character.paycheck))
-
 	--exports.log:AddEarnings(source, "Paycheck", character.paycheck)
 	exports.banking:AddBank(source, character.bank, character.paycheck, true)
 	exports.character:Set(source, "paycheck", 0)
