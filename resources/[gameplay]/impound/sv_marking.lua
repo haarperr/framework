@@ -96,7 +96,7 @@ end
 
 function Marking:InformAll(payload)
 	for player in GetActivePlayers() do
-		if exports.jobs:IsInFaction(Config.Marking.Faction) then
+		if exports.jobs:IsInFaction(player, Config.Marking.Faction) then
 			TriggerClientEvent("impound:inform", player, payload)
 		end
 	end
@@ -112,15 +112,14 @@ AddEventHandler("impound:stop", function()
 	end
 end)
 
-RegisterNetEvent("jobs:clock")
-AddEventHandler("jobs:clock", function(source, name, message)
+RegisterNetEvent("jobs:clocked")
+AddEventHandler("jobs:clocked", function(name, source, onDuty)
 	local job = exports.jobs:GetCurrentJob(source, true)
-	if not job then return end
-	
-	if job.Faction ~= Config.Marking.Faction then return end
 	local payload = {}
 
-	if message then
+	if job then
+		if job.Faction ~= Config.Marking.Faction then return end
+
 		payload.bulk = {}
 		local i = 1
 		for entity, marked in pairs(Marking.objects) do
@@ -135,6 +134,7 @@ AddEventHandler("jobs:clock", function(source, name, message)
 		payload.clear = true
 	end
 
+	Citizen.Wait(2500)
 	TriggerClientEvent("impound:inform", source, payload)
 end)
 

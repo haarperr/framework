@@ -144,6 +144,27 @@ function Emote:Play(settings)
 			settings.Flag or 0,
 			settings.Rate or 0.0
 		)
+	elseif settings.Scenario and settings.Offset then
+		print("scenario offset")
+		TaskStartScenarioAtPosition(
+			ped,
+			settings.Scenario,
+			pos.x,
+			pos.y,
+			pos.z,
+			rot.z,
+			-1,
+			settings.Sit,
+			settings.PlayEnterAnim
+		)
+	elseif settings.Scenario then
+		print("scenario")
+		TaskStartScenarioInPlace(
+			ped,
+			settings.Scenario,
+			-1,
+			settings.PlayEnterAnim
+		)
 	end
 
 	-- Hands up.

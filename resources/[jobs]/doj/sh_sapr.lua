@@ -17,7 +17,6 @@ exports.jobs:Register("sapr", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = false,
 		DrugBonus = false,
 		JailBreak = false,

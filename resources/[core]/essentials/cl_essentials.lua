@@ -20,6 +20,9 @@ function Main:UpdateFrame()
 	local isArmedMelee = IsPedArmed(Ped, 1)
 	local isArmedOther = IsPedArmed(Ped, 4)
 
+	-- Disable vehicle rewards.
+	DisablePlayerVehicleRewards(Player)
+
 	-- Disable dispatch services.
 	for service, toggle in pairs(Config.DispatchServices) do
 		EnableDispatchService(service, toggle)

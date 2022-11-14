@@ -29,7 +29,6 @@ exports.jobs:Register("lspd", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = true,
 		DrugBonus = true,
 		JailBreak = true,
@@ -79,6 +78,96 @@ exports.jobs:Register("lspd", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Vehicles = {
+		{ -- MRPD.
+			Rank = 0,
+			In = vector3(461.4571838378906, -979.83349609375, 43.69192886352539),
+			Model = "polmav",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(449.3006896972656, -981.2842407226564, 43.69166564941406, 90.01665496826172)
+			},
+		},
+		{ -- MRPD Interceptor.
+			Rank = 0,
+			In = vector3(458.8453, -1022.333, 28.25194),
+			Model = "polcoquetteg",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(453.8888, -1024.356, 27.76532, 49.2397)
+			},
+		},		
+		{ -- Sandy.
+			Rank = 0,
+			In = vector3(1851.546, 3698.241, 33.9746),
+			Model = "polmav",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(1853.314, 3706.242, 33.9746, 212.1331)
+			},
+		},
+		{ -- Sandy Interceptor.
+			Rank = 0,
+			In = vector3(1837.621, 3689.885, 33.97464),
+			Model = "polcoquetteg",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(1840.379, 3693.882, 33.27345, 340.9695)
+			},
+		},			
+		{ -- Paleto Bay.
+			Rank = 0,
+			In = vector3(-469.8903198242188, 6002.68505859375, 31.30247497558593),
+			Model = "polmav",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-475.2674255371094, 5988.55810546875, 31.33670616149902, 315.12811279296875)
+			},
+		},
+		{ -- Paleto Interceptor.
+			Rank = 0,
+			In = vector3(-459.6599, 6031.548, 31.44805),
+			Model = "polcoquetteg",		
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-454.628, 6040.89, 30.63842, 135.5516)
+			},
+		},			
+		{ -- Mount Zonah.
+			Rank = 0,
+			In = vector3(-440.7097, -316.1926, 78.16725),
+			Model = "polmav",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-447.4776, -312.4739, 78.16724, 20.79933)
+			},
+		},
+		{ -- Higgens Boat Dock.
+			Rank = 0,
+			In = vector3(-725.7732543945312, -1476.5074462890625, 5.000519752502441),
+			Model = "polmav",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-722.3483276367188, -1472.44873046875, 5.000519752502441, 49.11679458618164)
+			},
+		},
+	},
 	Licenses = {
 		{ Name = "Drivers" },
 		{ Name = "Weapons" },
@@ -90,7 +179,6 @@ exports.jobs:Register("lspd", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = true,
 		DrugBonus = true,
 		JailBreak = true,
@@ -156,6 +244,99 @@ exports.jobs:Register("bcso", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Vehicles = {
+		{ -- MRPD.
+			Rank = 0,
+			In = vector3(461.4571838378906, -979.83349609375, 43.69192886352539),
+			Model = "polmav",
+			Mods = {
+				[48] = 2,
+			},
+			Coords = {
+				vector4(449.3006896972656, -981.2842407226564, 43.69166564941406, 90.01665496826172)
+			},
+		},
+		{ -- MRPD Interceptor.
+			Rank = 0,
+			In = vector3(458.8453, -1022.333, 28.25194),
+			Model = "polcoquetteg",
+			PrimaryColor = 99,			
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(453.8888, -1024.356, 27.76532, 49.2397)
+			},
+		},		
+		{ -- Sandy.
+			Rank = 0,
+			In = vector3(1851.546, 3698.241, 33.9746),
+			Model = "polmav",
+			Mods = {
+				[48] = 2,
+			},
+			Coords = {
+				vector4(1853.314, 3706.242, 33.9746, 212.1331)
+			},
+		},
+		{ -- Sandy Interceptor.
+			Rank = 0,
+			In = vector3(1837.621, 3689.885, 33.97464),
+			Model = "polcoquetteg",
+			PrimaryColor = 99,			
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(1840.379, 3693.882, 33.27345, 340.9695)
+			},
+		},		
+		{ -- Paleto Bay.
+			Rank = 0,
+			In = vector3(-469.8903198242188, 6002.68505859375, 31.30247497558593),
+			Model = "polmav",
+			Mods = {
+				[48] = 2,
+			},
+			Coords = {
+				vector4(-475.2674255371094, 5988.55810546875, 31.33670616149902, 315.12811279296875)
+			},
+		},
+		{ -- Paleto Interceptor.
+			Rank = 0,
+			In = vector3(-459.6599, 6031.548, 31.44805),
+			Model = "polcoquetteg",
+			PrimaryColor = 99,			
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(-454.628, 6040.89, 30.63842, 135.5516)
+			},
+		},		
+		{ -- Mount Zonah.
+			Rank = 0,
+			In = vector3(-440.7097, -316.1926, 78.16725),
+			Model = "polmav",
+			Mods = {
+				[48] = 2,
+			},
+			Coords = {
+				vector4(-447.4776, -312.4739, 78.16724, 20.79933)
+			},
+		},
+		{ -- Higgens Boat Dock.
+			Rank = 0,
+			In = vector3(-725.7732543945312, -1476.5074462890625, 5.000519752502441),
+			Model = "polmav",
+			Mods = {
+				[48] = 2,
+			},
+			Coords = {
+				vector4(-722.3483276367188, -1472.44873046875, 5.000519752502441, 49.11679458618164)
+			},
+		},
+	},
 	Licenses = {
 		{ Name = "Drivers" },
 		{ Name = "Boating" },
@@ -170,7 +351,6 @@ exports.jobs:Register("bcso", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = true,
 		DrugBonus = true,
 		JailBreak = true,
@@ -236,6 +416,99 @@ exports.jobs:Register("sasp", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Vehicles = {
+		{ -- MRPD.
+			Rank = 0,
+			In = vector3(461.4571838378906, -979.83349609375, 43.69192886352539),
+			Model = "polmav",
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(449.3006896972656, -981.2842407226564, 43.69166564941406, 90.01665496826172)
+			},
+		},
+		{ -- MRPD Interceptor.
+			Rank = 0,
+			In = vector3(458.8453, -1022.333, 28.25194),
+			Model = "polcoquettegb",
+			PrimaryColor = 6,
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(453.8888, -1024.356, 27.76532, 49.2397)
+			},
+		},
+		{ -- Sandy.
+			Rank = 0,
+			In = vector3(1851.546, 3698.241, 33.9746),
+			Model = "polmav",
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(1853.314, 3706.242, 33.9746, 212.1331)
+			},
+		},
+		{ -- Sandy Interceptor.
+			Rank = 0,
+			In = vector3(1837.621, 3689.885, 33.97464),
+			Model = "polcoquettegb",
+			PrimaryColor = 6,			
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(1840.379, 3693.882, 33.27345, 340.9695)
+			},
+		},			
+		{ -- Paleto Bay.
+			Rank = 0,
+			In = vector3(-469.8903198242188, 6002.68505859375, 31.30247497558593),
+			Model = "polmav",
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(-475.2674255371094, 5988.55810546875, 31.33670616149902, 315.12811279296875)
+			},
+		},
+		{ -- Paleto Interceptor.
+			Rank = 0,
+			In = vector3(-459.6599, 6031.548, 31.44805),
+			Model = "polcoquettegb",
+			PrimaryColor = 6,			
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-454.628, 6040.89, 30.63842, 135.5516)
+			},
+		},			
+		{ -- Mount Zonah.
+			Rank = 0,
+			In = vector3(-440.7097, -316.1926, 78.16725),
+			Model = "polmav",
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(-447.4776, -312.4739, 78.16724, 20.79933)
+			},
+		},
+		{ -- Higgens Boat Dock.
+			Rank = 0,
+			In = vector3(-725.7732543945312, -1476.5074462890625, 5.000519752502441),
+			Model = "polmav",
+			Mods = {
+				[48] = 1,
+			},
+			Coords = {
+				vector4(-722.3483276367188, -1472.44873046875, 5.000519752502441, 49.11679458618164)
+			},
+		},
+	},
 	Licenses = {
 		{ Name = "Drivers" },
 		{ Name = "Boating" },
@@ -250,7 +523,6 @@ exports.jobs:Register("sasp", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		CheckIn = 2,
 		ChopShop = true,
 		DrugBonus = true,
 		JailBreak = true,
@@ -320,7 +592,6 @@ exports.jobs:Register("doc", {
 		CanJail = true,
 		CanImpound = true,
 		CanFine = true,
-		CheckIn = 2,
 		JailBreak = true,
 		Corrections = true,
 	},

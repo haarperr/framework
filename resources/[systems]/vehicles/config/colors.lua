@@ -1,7 +1,7 @@
 Colors = {
 	[0] = { Name = "Metallic Black", Hex = "#0d1116" },
 	[1] = { Name = "Metallic Graphite Black", Hex = "#1c1d21" },
-	[2] = { Name = "Metallic Black Steal", Hex = "#32383d" },
+	[2] = { Name = "Metallic Black Steel", Hex = "#32383d" },
 	[3] = { Name = "Metallic Dark Silver", Hex = "#454b4f" },
 	[4] = { Name = "Metallic Silver", Hex = "#999da0" },
 	[5] = { Name = "Metallic Blue Silver", Hex = "#c2c4c6" },

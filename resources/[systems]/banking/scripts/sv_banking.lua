@@ -250,7 +250,7 @@ AddEventHandler("banking:createAccount", function(source, character_id, accountN
             exports.inventory:TakeMoney(source, Config.NewAccountPrice)
             StateTax(Config.NewAccountPrice)
         else
-            TriggerClientEvent("chat:notify", source, "You cannot afford a new bank account! $500", "error")
+            TriggerClientEvent("chat:notify", source, "You cannot afford a new bank account! ($"..Config.NewAccountPrice..")", "error")
         end
     end
 end)

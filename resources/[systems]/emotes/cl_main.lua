@@ -27,7 +27,7 @@ function Main:Update()
 
 	for id, emote in pairs(self.playing) do
 		local settings = emote.settings or {}
-		local isPlaying = settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3) and not wasCancelled
+		local isPlaying = ((settings.Scenario and IsPedUsingScenario(ped, settings.Scenario)) or (settings.Dict and IsEntityPlayingAnim(ped, settings.Dict, settings.Name, 3))) and not wasCancelled
 
 		if
 			not settings.NoReplay and

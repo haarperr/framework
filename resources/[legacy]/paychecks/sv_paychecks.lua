@@ -15,7 +15,9 @@ Citizen.CreateThread(function()
 				local message = "Unemployed"
 
 				if job then
-					pay = job.Pay or pay
+					local rank = exports.jobs:GetRank(player, job.id)
+					local extraPay = (job.PayPerRank and rank and (job.PayPerRank * (rank.Level - 1))) or 0
+					pay = (job.Pay + extraPay) or pay
 					message = "Employed"
 				end
 
@@ -53,8 +55,6 @@ AddEventHandler("paychecks:request", function()
 	local source = source
 	local character = exports.character:GetCharacter(source)
 	if not character or character.paycheck <= 0 then return end
-
-	TriggerClientEvent("paychecks:receive", source, "Received", exports.misc:FormatNumber(character.paycheck))
 
 	--exports.log:AddEarnings(source, "Paycheck", character.paycheck)
 	exports.banking:AddBank(source, character.bank, character.paycheck, true)

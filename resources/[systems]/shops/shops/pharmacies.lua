@@ -10,7 +10,8 @@ Config.Filters.Pharm = {
         ["Splint"] = true,
         ["IV Bag"] = true,
         ["Tranexamic Acid"] = true,
-        ["Torniquet"] = true,
+        ["Tourniquet"] = true,
+        ["Burn Cream"] = true,
         ["Fire Blanket"] = true,
         ["Stun Gun"] = true,
 		["Taser Cartridge"] = true,
@@ -18,6 +19,8 @@ Config.Filters.Pharm = {
         ["Body Armor"] = true,
 		["Radio"] = true,
 		["Impound Sticker"] = true,
+		["Field Kit"] = true,
+		["Cone"] = true,
 	},
 }
 

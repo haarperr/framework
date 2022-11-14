@@ -63,21 +63,37 @@ Mods = {
 		[48] = { Name = "Livery" }, -- VMT_LIVERY_MOD
 		[49] = { Name = "Lightbar" }, -- VMT_LIGHTBAR
 	},
+	misc = {
+		[0] = {
+			Name = "Window Tint",
+			Levels = {
+				[0] = { Name = "None" },
+				[1] = { Name = "Pure Black" },
+				[2] = { Name = "Dark Smoke" },
+				[3] = { Name = "Light Smoke" },
+				[4] = { Name = "Stock" },
+				[5] = { Name = "Limo" },
+				[6] = { Name = "Green" },
+			},
+		},
+	}
 }
 
 --[[ Functions: Mods ]]--
 function Mods:Enable(vehicle)
 	local defaults = {
 		mods = {},
+		misc = {},
 	}
 
 	self.defaults = {}
+	self.miscdefaults = {}
 	
 	WaitForAccess(vehicle)
 	SetVehicleModKit(vehicle)
 
 	for modType, mod in pairs(self.types) do
-		local numMods = not mod.Hidden and GetNumVehicleMods(vehicle, modType)
+		local numMods = (not mod.Hidden or exports.user:IsOwner()) and GetNumVehicleMods(vehicle, modType)
 		if mod.Name == "Livery" then
 			--print(numMods)
 		end
@@ -110,6 +126,30 @@ function Mods:Enable(vehicle)
 		end
 	end
 
+	for miscType, misc in pairs(self.misc) do
+		if miscType == 0 then
+			local options = {}
+			for level, tintLevel in pairs(misc.Levels) do
+				options[level + 1] = {
+					label = tintLevel.Name,
+					value = level,
+				}
+			end
+
+			local currentModIndex = GetVehicleWindowTint(vehicle)
+
+			self.miscdefaults[miscType] = currentModIndex
+
+			defaults["misc-"..miscType] = currentModIndex
+
+			table.insert(defaults.misc, {
+				name = misc.Name,
+				index = miscType,
+				options = options,
+			})
+		end
+	end
+
 	local window = Window:Create({
 		type = "window",
 		title = "Mods",
@@ -128,20 +168,34 @@ function Mods:Enable(vehicle)
 				type = "q-list",
 				template = [[
 					<div>
-						<q-expansion-item
-							v-for="mod in $getModel('mods')"
-							:key="mod.index"
-							:label="mod.name"
-							group="mods"
-							dense
-							expand-separator
-						>
-							<q-option-group
-								:options="mod.options"
-								:value="$getModel('mod-' + mod.index)"
-								@input="$invoke('setMod', mod.index, $event)"
-							/>
-						</q-expansion-item>
+					<q-expansion-item
+						v-for="mod in $getModel('mods')"
+						:key="mod.index"
+						:label="mod.name"
+						group="mods"
+						dense
+						expand-separator
+					>
+						<q-option-group
+							:options="mod.options"
+							:value="$getModel('mod-' + mod.index)"
+							@input="$invoke('setMod', mod.index, $event)"
+						/>
+					</q-expansion-item>
+					<q-expansion-item
+						v-for="miscmod in $getModel('misc')"
+						:key="miscmod.index"
+						:label="miscmod.name"
+						group="misc"
+						dense
+						expand-separator
+					>
+						<q-option-group
+							:options="miscmod.options"
+							:value="$getModel('misc-' + miscmod.index)"
+							@input="$invoke('setMisc', miscmod.index, $event)"
+						/>
+					</q-expansion-item>
 					</div>
 				]],
 			},
@@ -160,11 +214,26 @@ function Mods:Enable(vehicle)
 	-- Window events.
 	window:AddListener("setMod", function(window, modType, modIndex)
 		local settings = Mods.types[modType]
-		if not settings or settings.Hidden then return end
+		if not settings or (settings.Hidden and not exports.user:IsOwner()) then return end
 
 		WaitForAccess(vehicle)
 		SetVehicleMod(vehicle, modType, modIndex)
 		window:SetModel("mod-"..modType, modIndex)
+
+		if settings.OnChange then
+			settings.OnChange(vehicle, modIndex)
+		end
+	end)
+
+	window:AddListener("setMisc", function(window, modType, modIndex)
+		local settings = Mods.misc[modType]
+		if not settings or (settings.Hidden and not exports.user:IsOwner()) then return end
+
+		WaitForAccess(vehicle)
+		if modType == 0 then
+			SetVehicleWindowTint(vehicle, modIndex)
+		end
+		window:SetModel("misc-"..modType, modIndex)
 
 		if settings.OnChange then
 			settings.OnChange(vehicle, modIndex)
@@ -181,6 +250,7 @@ function Mods:Disable(vehicle, discard)
 	end
 
 	self.defaults = nil
+	self.miscdefaults = nil
 end
 
 --[[ Functions: Modding ]]--

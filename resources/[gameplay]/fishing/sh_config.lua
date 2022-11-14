@@ -1,5 +1,8 @@
 Config = {
-	Item = "Fishing Rod",
+	Items = {
+		["Fishing Rod"] = true,
+		["Deep Sea Fishing Rod"] = true,
+	},
 	Chance = 0.6,
 	Delay = { 18, 25 },
 	Decay = { 0.01, 0.02 },
@@ -56,6 +59,9 @@ Config = {
 				["Ray"] = 0.5,
 				["Sand Bass"] = 1.0,
 				["Seaweed"] = 0.6,
+			},
+			Rods = {
+				["Deep Sea Fishing Rod"] = -0.2,
 			},
 		},
 		["Deep Sandy"] = {

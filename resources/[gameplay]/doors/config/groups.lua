@@ -468,7 +468,7 @@ Config.Groups = {
 	{
 		name = "Beanie's",
 		coords = vector3(-579.5952758789062, -1057.732421875, 22.34420013427734),
-		radius = 20,
+		radius = 25,
 		locked = true,
 		factions = {
 			["beanies"] = "restaurant",

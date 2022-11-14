@@ -1378,8 +1378,15 @@ for k, site in ipairs(Config.Robberies.Sites) do
 				["lspd"] = "pd",
 				["bcso"] = "pd",
 				["sasp"] = "pd",
-				["firefighter"] = "ems",
+				["doc"] = "pd",
+				["doj"] = "federal",
+				["lsda"] = "federal",
+				["saag"] = "federal",
+				["sams"] = "federal",
+				["sapr"] = "federal",
 				["paramedic"] = "ems",
+				["firefighter"] = "ems",
+				["lsms"] = "ems",
 			},
 		})
 	end

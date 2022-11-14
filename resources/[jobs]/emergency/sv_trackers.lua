@@ -18,6 +18,11 @@ Models = {
 	[`sptorence`] = "cruiser",
 	[`spbuffalo2`] = "cruiser",
 	[`spfugitive`] = "cruiser",
+	[`umkalamo`] = "cruiser",
+	[`umkbuffalo`] = "cruiser",
+	[`pdmesa`] = "cruiser",
+	[`trualamo3`] = "cruiser",
+	[`sptrualamo3`] = "cruiser",
 
 	--[`pdinterceptor`] = "intercept",
 
@@ -31,6 +36,7 @@ Models = {
 	[`lsfd4`] = "ambulance",
 	[`lsfdcmd`] = "ambulance",
 	[`lsfdtruck`] = "ambulance",
+	[`lsfdbuffalo`] = "ambulance",
 	[`lsmsgresley`] = "ambulance",
 	[`lsmsspeedo`] = "ambulance",
 

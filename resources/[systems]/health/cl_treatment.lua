@@ -744,16 +744,16 @@ function Treatment:Heal(delay)
 	end
 
 	-- Give some health.
-	if Main:GetHealth() <= 0.9 then
-		Main:SetEffect("Health", 0.9)
+	if Main:GetHealth() <= 0.25 then
+		Main:SetEffect("Health", 0.25)
 	end
 
 	if Main:GetEffect("Hunger") <= 0.1 then
-		Main:SetEffect("Hunger", 0.5)
+		Main:SetEffect("Hunger", 0.25)
 	end
 
 	if Main:GetEffect("Thirst") <= 0.1 then
-		Main:SetEffect("Thirst", 0.5)
+		Main:SetEffect("Thirst", 0.25)
 	end
 end
 

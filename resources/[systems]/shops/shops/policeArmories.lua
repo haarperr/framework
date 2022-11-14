@@ -29,12 +29,12 @@ Config.Filters.Armory = {
         ["Saline"] = true,
         ["Cervical Collar"] = true,
         ["Ice Pack"] = true,
-		["Nasopharyngeal Airway"] = true,
         ["Splint"] = true,
-        ["Torniquet"] = true,
+        ["Tourniquet"] = true,
         ["Fire Blanket"] = true,
 		["Scissors"] = true,
 		["Impound Sticker"] = true,
+		["Cone"] = true,
 	},
 }
 
