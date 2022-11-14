@@ -34,9 +34,9 @@ export default createStore({
           {
             id: 3,
             name: "Joint Account",
-            icon: "savings",
+            icon: "credit_card",
             color: "teal",
-            show: false,
+            show: true,
             shareable: true,
             form: [
               { value: "", label: "Account Name", icon: "drive_file_rename_outline", name: "account_name"}

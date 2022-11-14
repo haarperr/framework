@@ -643,6 +643,7 @@ Vehicles = {
 	["pdstanier"] = { Value = 800 },
 	["pdtorence"] = { Value = 800 },
 	["pdfugitive"] = { Value = 800 },
+	["trualamo3"] = { Value = 800 },
 	["umkalamo"] = { Value = 800 },
 	["umkbuffalo"] = { Value = 800 },
 
@@ -655,6 +656,7 @@ Vehicles = {
 	["spstanier"] = { Value = 800 },
 	["sptorence"] = { Value = 800 },
 	["spfugitive"] = { Value = 800 },
+	["sptrualamo3"] = { Value = 800 },
 
 	
 	--[[ LSFD Vehicles ]]--
@@ -676,6 +678,7 @@ Vehicles = {
 	["pdscout"] = { Value = 800 },
 	["pdbuffalo2"] = { Value = 800 },
 	["pdfugitive"] = { Value = 800 },
+	["pdmesa"] = { Value = 800 },
 	
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },

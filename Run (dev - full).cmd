@@ -3,7 +3,7 @@
 copy resources\GHMattiMySQL\settings_dev.xml resources\GHMattiMySQL\settings.xml
 
 %~dp0\..\FXServer\FXServer.exe ^
-+set sv_enforceGameBuild 2612 ^
++set sv_enforceGameBuild 2699 ^
 +exec config\server_dev.cfg ^
 +exec config\assets_escrow.cfg ^
 +exec config\assets.cfg ^

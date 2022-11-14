@@ -57,10 +57,11 @@ function Main:CanFish()
 	)
 end
 
-function Main:Start(slot)
+function Main:Start(slot, item)
 	if self.fishing then return end
 
 	self.slot = slot.slot_id
+	self.item = item
 	self.fishing = true
 	self.emote = exports.emotes:Play(Config.Anims.Idle)
 end
@@ -70,6 +71,7 @@ function Main:Stop()
 
 	self.fishing = false
 	self.slot = nil
+	self.item = nil
 	
 	if self.emote then
 		exports.emotes:Stop(self.emote)
@@ -147,6 +149,14 @@ function Main:Update()
 		weatherType = weatherType2
 	end
 
+	local item = Config.Items[self.item]
+
+	-- Invalid item.
+	if not item then
+		TriggerEvent("chat:notify", { text = "Something is wrong with your fishing rod!", class = "inform" })
+		return
+	end
+
 	local chance = (
 		Config.Chance * (1.0 - (obstructions / 15)) +
 		Config.PeerBonus.Chance * math.min(peers / Config.PeerBonus.Count, 1.0) +
@@ -160,18 +170,18 @@ function Main:Update()
 
 	-- Can't catch.
 	if obstructions >= 15 then
-		TriggerEvent("chat:notify", obstructions >= 20 and "The line won't move without water!" or "The line is stuck!", "inform")
+		TriggerEvent("chat:notify", { text = obstructions >= 20 and "The line won't move without water!" or "The line is stuck!", class = "inform" })
 		return
 	end
 	
 	-- No catch. :(
 	if random > chance then
-		TriggerEvent("chat:notify", obstructions > 0 and "The line is a little stuck, but you feel it reeling..." or "The line is reeling...", "success")
+		TriggerEvent("chat:notify", { text = obstructions > 0 and "The line is a little stuck, but you feel it reeling..." or "The line is reeling...", class = "success" })
 		return
 	end
 
 	-- Catch!
-	TriggerEvent("chat:notify", "You feel a bite!", "success")
+	TriggerEvent("chat:notify", { text = "You feel a bite!", class = "success" })
 
 	Citizen.Wait(2000)
 
@@ -205,7 +215,7 @@ end)
 
 --[[ Events ]]--
 AddEventHandler("inventory:use", function(item, slot, cb)
-	if item.name ~= Config.Item or not Main:CanFish() then
+	if not Config.Items[item.name] or not Main:CanFish() then
 		return
 	end
 
@@ -213,19 +223,19 @@ AddEventHandler("inventory:use", function(item, slot, cb)
 end)
 
 AddEventHandler("inventory:useFinish", function(item, slot)
-	if item.name ~= Config.Item then
+	if not Config.Items[item.name] then
 		return
 	end
 
 	if Main.fishing then
 		Main:Stop()
 	else
-		Main:Start(slot)
+		Main:Start(slot, item.name)
 	end
 end)
 
 AddEventHandler("inventory:updateSlot", function(containerId, slotId, slot, item)
-	if slotId == Main.slot and (not item or item.name ~= Config.Item) then
+	if slotId == Main.slot and (not item or not Config.Items[item.name]) then
 		Main:Stop()
 	end
 end)

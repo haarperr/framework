@@ -34,6 +34,7 @@ Config.Filters.Armory = {
         ["Fire Blanket"] = true,
 		["Scissors"] = true,
 		["Impound Sticker"] = true,
+		["Cone"] = true,
 	},
 }
 

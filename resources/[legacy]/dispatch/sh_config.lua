@@ -65,11 +65,11 @@ Config = {
 		},
 		["10-7"] = {
 			Message = "Out of Service",
-			CanCall = true,
+			CanCall = false,
 		},
 		["10-8"] = {
 			Message = "In Service",
-			CanCall = true,
+			CanCall = false,
 		},
 		["10-9"] = {
 			Message = "Repeat",

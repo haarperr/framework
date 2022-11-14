@@ -174,6 +174,20 @@ function Decoration:Set(key, value)
 	end
 end
 
+function Decoration:ResetAge()
+	print(self.id)
+	exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET `start_time`=sysdate() WHERE `id`=%s"):format(self.id))
+
+	-- Set value.
+	self.start_time = os.time() * 1000
+
+	-- Inform users.
+	local grid = self:GetGrid()
+	if grid then
+		grid:InformNearby("updateDecoration", self.id, "start_time", (os.time() * 1000))
+	end
+end
+
 function Decoration:GetSettings()
 	return Decorations[self.item or false]
 end

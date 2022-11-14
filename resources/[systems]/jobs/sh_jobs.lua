@@ -74,6 +74,7 @@ function Job:GetRankByHash(hash, useDefault)
 
 		if not rank.Hash and rank.Name then
 			rank.Hash = GetHashKey(rank.Name:lower())
+			rank.Level = k
 		end
 
 		if rank.Hash == hash then

@@ -7,11 +7,16 @@ for habitat, settings in pairs(Config.Habitats) do
 end
 
 --[[ Functions ]]--
-function GetRandomFish(habitat)
+function GetRandomFish(habitat, item)
 	local settings = Config.Habitats[habitat]
 	if not settings then return end
 
 	local totalChance = settings.TotalChance
+
+	if settings.Rods and settings.Rods[item] then
+		totalChance = totalChance - settings.Rods[item]
+	end
+
 	local seed = math.floor(os.clock() * 1000)
 	for fish, chance in pairs(settings.Fish) do
 		totalChance = totalChance - chance
@@ -30,17 +35,17 @@ RegisterNetEvent("fishing:catch", function(slotId, habitat)
 
 	if type(slotId) ~= "number" or type(habitat) ~= "string" then return end
 
-	-- Get fish.
-	local fish = GetRandomFish(habitat)
-	if not fish then return end
-
 	-- Get player container id.
 	local containerId = exports.inventory:GetPlayerContainer(source, true)
 	if not containerId then return end
 
 	-- Get item in slot.
 	local item = exports.inventory:ContainerInvokeSlot(containerId, slotId, "GetItem")
-	if not item or item.name ~= Config.Item then return end
+	if not item or not Config.Items[item.name] then return end
+
+	-- Get fish.
+	local fish = GetRandomFish(habitat, item.name)
+	if not fish then return end
 
 	-- Decay item.
 	if not exports.inventory:ContainerInvokeSlot(containerId, slotId, "Decay", GetRandomFloatInRange(table.unpack(Config.Decay))) then

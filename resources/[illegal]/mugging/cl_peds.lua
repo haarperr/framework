@@ -155,7 +155,7 @@ function Ped:Update(canInteract)
 	Citizen.CreateThread(function()
 		local startTime = GetGameTimer()
 		while GetGameTimer() - startTime < 1000 do
-			-- exports.peds:AddEvent("robbing", GetEntityCoords(PlayerPedId()), ped)
+			exports.peds:AddEvent("robbing", GetEntityCoords(PlayerPedId()), ped)
 			Citizen.Wait(200)
 		end
 	end)
