@@ -381,13 +381,15 @@ Config.Groups = {
 			["lsms"] = "ems",
 		},
 	},
-	{
+	--[[{
 		name = "Tuner Meetup",
 		coords = vector3(953.0521850585938, -1698.287353515625, 29.75150108337402),
 		radius = 20,
 		locked = true,
-		factions = { "staffteam" },
-	},
+		factions = {
+			["axles"] = "mechanic",
+		},
+	},]]
 	{
 		name = "High Times",
 		coords = vector3(168.0943145751953, -228.05804443359375, 54.22780609130859),
