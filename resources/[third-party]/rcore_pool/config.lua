@@ -98,8 +98,8 @@ Config = {
         POOL = 'Pool',
         POOL_GAME = 'Pool game',
         POOL_SUBMENU = 'Select ball configuration',
-        TYPE_8_BALL = '8-ball',
-        TYPE_STRAIGHT = 'Straight pool',
+        TYPE_8_BALL = '9-ball',
+        TYPE_STRAIGHT = '8-ball',
 
         HINT_SETUP = 'Set up table',
         HINT_TAKE_CUE = 'Take pool cue',
