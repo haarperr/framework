@@ -559,7 +559,7 @@ Config.Groups = {
 		radius = 18,
 		locked = true, 
 		factions = {
-			["odin"] = "farm",
+			["helas"] = "farm",
 		},
 	},
 	{
