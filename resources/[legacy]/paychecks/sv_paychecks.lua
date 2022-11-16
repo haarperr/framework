@@ -17,7 +17,7 @@ Citizen.CreateThread(function()
 				if job then
 					local rank = exports.jobs:GetRank(player, job.id)
 					pay = job.Pay or pay
-					if job.PayPerRank then
+					if rank and rank.level and job.PayPerRank then
 						pay = pay + (job.PayPerRank * (rank.Level - 1))
 					end
 					message = "Employed"
