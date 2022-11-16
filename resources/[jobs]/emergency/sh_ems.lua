@@ -314,6 +314,18 @@ exports.jobs:Register("firefighter", {
 				vector4(-722.3483276367188, -1472.44873046875, 5.000519752502441, 49.11679458618164)
 			},
 		},
+		{ -- Rockford Ladder Truck.
+			Rank = 0,
+			In = vector3(-634.9586, -117.2443, 38.04981),
+			Model = "fdlcladder",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-646.4465, -113.4573, 37.97614, 116.215)
+			},
+		},
+
 	},
 	Emergency = {
 		AccessMdt = "police",
