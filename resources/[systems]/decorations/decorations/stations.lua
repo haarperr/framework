@@ -89,6 +89,35 @@ Register("Burger Shot Fryer", {
 	Model = "prop_chip_fryer",
 			"",
 })
+Register("Burger Shot Grill", {
+	Placement = "Floor",
+	NoCenter = true,
+	Station = {
+		Type = "Burger Shot Grill",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "prop_chip_fryer",
+			"",
+})
 
 Register("Smeltry", {
 	Placement = "Floor",
@@ -843,7 +872,7 @@ Register("Slushie Machine", {
 	Placement = "Floor",
 	NoCenter = true,
 	Station = {
-		Type = "Slush",
+		Type = "Slushie Machine",
 		Auto = true,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
@@ -1132,11 +1161,11 @@ Register("Pawn Sell", {
 	Model = "prop_foodprocess_01",
 })
 
-Register("Farm Sell", {
+Register("Seed Bench", {
 	Placement = "Floor",
 	NoCenter = true,
 	Station = {
-		Type = "Farm Sell",
+		Type = "Seed Bench",
 		Auto = true,
 		Magnet = {
 			Offset = vector3(0, -1, 0),
@@ -1159,4 +1188,33 @@ Register("Farm Sell", {
 		},
 	},
 	Model = "prop_foodprocess_01",
+})
+
+Register("Hela's Distillery", {
+	Placement = "Floor",
+	NoCenter = false,
+	Station = {
+		Type = "Hela's Distillery",
+		Auto = true,
+		Magnet = {
+			Offset = vector3(0, -1, 0),
+			Heading = 0.0,
+		},
+		Anim = {
+			In = {
+				Locked = true,
+				Sequence = {
+					{ Dict = "amb@prop_human_bbq@male@enter", Name = "enter", Flag = 0, Locked = true },
+					{ Dict = "amb@prop_human_bbq@male@idle_a", Name = "idle_b", Flag = 1, Locked = true },
+				},
+			},
+			Out = { Dict = "amb@prop_human_bbq@male@exit", Name = "exit", Flag = 0, BlendIn = 100.0 },
+		},
+		Camera = {
+			Offset = vector3(-1.0, -1.0, 2.0),
+			Target = vector3(0.0, 0.0, 1.0),
+			Fov = 60.0,
+		},
+	},
+	Model = "prop_wooden_barrel",
 })

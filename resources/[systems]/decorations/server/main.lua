@@ -266,7 +266,10 @@ function Main:Harvest(source, id, decorationId, stage)
 		end
 	end
 
-	if gaveItem and stage.Items then
+	if gaveItem and stage.Items and stage.Persistent then
+		decoration:ResetAge()
+		return true
+	elseif gaveItem and stage.Items and not stage.Persistent then
 		decoration:Destroy()
 		return true
 	else
