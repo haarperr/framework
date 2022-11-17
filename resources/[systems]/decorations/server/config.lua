@@ -7,6 +7,5 @@ Server = {
 		["variant"] = true,
 		["instance"] = true,
 		["durability"] = true,
-		["start_time"] = true,
 	},
 }
