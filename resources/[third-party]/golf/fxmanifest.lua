@@ -13,7 +13,6 @@ server_scripts {
     'translations.lua',
     'config.lua',
     'shared/shared_utils.lua',
-    '@mysql-async/lib/MySQL.lua',
     'server/server.lua'
 }
 
