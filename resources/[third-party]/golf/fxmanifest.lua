@@ -17,10 +17,6 @@ server_scripts {
     'server/server.lua'
 }
 
-dependencies {
-    'mysql-async'
-}
-
 ui_page 'html/index.html'
 
 files {
