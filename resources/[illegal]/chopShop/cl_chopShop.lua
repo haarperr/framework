@@ -36,8 +36,7 @@ Citizen.CreateThread(function()
 						local vehicle = exports.oldutils:GetNearestVehicle()
 
 						if DoesEntityExist(vehicle) and #(GetEntityCoords(vehicle) - zone.Coords) < zone.Radius and exports.oldutils:DrawContext("Scrap", GetEntityCoords(vehicle)) then
-							local plate = GetVehicleNumberPlateText(vehicle)
-							TriggerServerEvent("chopShop:beginScrapping", vehicle, plate, zone)
+							BeginScrapping(vehicle, zone)
 						end
 					end
 				elseif zone.Type == 1 then
@@ -200,8 +199,6 @@ function BeginScrapping(vehicle, zone)
 
 					local pos = GetWorldPositionOfEntityBone(vehicle, index)
 					local rot = GetWorldRotationOfEntityBone(vehicle, index)
-					
-					local carClass = GetVehicleClass(vehicle)
 
 					pos = GetEntityCoords(vehicle) - GetOffsetFromEntityInWorldCoords(vehicle, component.Offset) + pos
 
@@ -228,9 +225,14 @@ function BeginScrapping(vehicle, zone)
 									end
 								end
 								TriggerServerEvent("chopShop:chopVehicle", listedVehicle, ratio, VehToNet(vehicle))
+							elseif component.Type == 0 then
+								SetVehicleDoorBroken(vehicle, component.Index, true)
+								-- TODO: request to be given scrap metal
+							elseif component.Type == 1 then
+								SetVehicleTyreBurst(vehicle, component.Index, true, 1000)
+								-- TODO: request to be given rubber
 							end
 							-- TODO: add windows
-							TriggerServerEvent("chopShop:chopPayout", listedVehicle, vehicle, carClass, component.Type, component.Index, VehToNet(vehicle))
 						end,
 					}
 				end
@@ -341,11 +343,6 @@ AddEventHandler("chopShop:updateSeed", function(seed)
 	Seed = seed
 end)
 
-RegisterNetEvent("chopShop:beginScrapping")
-AddEventHandler("chopShop:beginScrapping", function(vehicle, zone)
-	BeginScrapping(vehicle, zone)
-end)
-
 RegisterNetEvent("chopShop:chopResult")
 AddEventHandler("chopShop:chopResult", function(response)
 	-- local listedVehicle = FindIndex(vehicle)
@@ -361,18 +358,6 @@ AddEventHandler("chopShop:chopResult", function(response)
 		TriggerEvent("chat:notify", message, "error")
 	end
 	Chopping = false
-end)
-
-
-RegisterNetEvent("chopShop:updateComponent")
-AddEventHandler("chopShop:updateComponent", function(vehicle, componentType, componentIndex)
-	if not vehicle or not componentIndex or not componentType then return end
-
-	if componentType == 0 then
-		SetVehicleDoorBroken(vehicle, componentIndex, true)
-	elseif componentType == 1 then
-		SetVehicleTyreBurst(vehicle, componentIndex, true, 1000)
-	end
 end)
 
 RegisterNetEvent("chopShop:receiveTime")
