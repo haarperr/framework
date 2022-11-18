@@ -152,7 +152,7 @@ function Shop:Load(stock)
 		-- Add for model.
 		items[#items + 1] = {
 			name = item.name,
-			icon = item.name:gsub("%s+", ""),
+			icon = item.name:gsub("[%s+%p+]", ""),
 			stock = quantity,
 			price = Round((item.value ) + ( item.value * Config.Tax ), 2),
 		}
