@@ -74,6 +74,12 @@ function Main:BuildNavigation()
 			icon = "airline_seat_recline_normal",
 			sub = seatOptions,
 		}
+		
+		options[#options + 1] = {
+			id = "vehicleGlovebox",
+			text = "Glovebox",
+			icon = "archive",
+		}
 	elseif NearestVehicle and DoesEntityExist(NearestVehicle) then
 		vehicle = NearestVehicle
 		
@@ -174,6 +180,11 @@ function Main:BuildNavigation()
 			text = "Trunk",
 			icon = "inventory_2",
 			doorIndex = 5,
+		}
+		options[#options + 1] = {
+			id = "vehicleTrunkInside",
+			text = "Open Trunk",
+			icon = "inventory_2",
 		}
 	end
 
@@ -382,6 +393,20 @@ AddEventHandler("interact:onNavigate_vehicleBay", function(option)
 	if not vehicle then return end
 
 	Main:ToggleBay(vehicle)
+end)
+
+AddEventHandler("interact:onNavigate_vehicleTrunkInside", function(option)
+	local vehicle = GetVehicle()
+	if not vehicle then return end
+
+	Main:OpenTrunk(vehicle)
+end)
+
+AddEventHandler("interact:onNavigate_vehicleGlovebox", function(option)
+	local vehicle = GetVehicle()
+	if not vehicle then return end
+
+	Main:OpenGlovebox(vehicle)
 end)
 
 AddEventHandler("interact:onNavigate_vehicleCheck", function(option)
