@@ -35,6 +35,11 @@ Config.Filters.Armory = {
 		["Scissors"] = true,
 		["Impound Sticker"] = true,
 		["Cone"] = true,
+		["Pencil"] = true,
+		["Pen"] = true,
+		["Eraser"] = true,
+		["Spray Can"] = true,
+		["Bleach"] = true,
 	},
 }
 
