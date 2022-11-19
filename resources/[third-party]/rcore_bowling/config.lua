@@ -1,5 +1,5 @@
 Config = {
-	Framework = 0, --[ 1 = ESX / 2 = QBCore / 3 = Other ] Choose your framework
+	Framework = 3, --[ 1 = ESX / 2 = QBCore / 3 = Other ] Choose your framework
 
 	FrameworkTriggers = {
 		notify = '', -- [ ESX = 'esx:showNotification' / QBCore = 'QBCore:Notify' ] Set the notification event, if left blank, default will be used
@@ -14,18 +14,18 @@ Config = {
 
 		This feature requires https://store.rcore.cz/package/5041989, but bowling works great without it.
 	]]
-	EnableGuidebookIntegration = true,
+	EnableGuidebookIntegration = false,
 
 	--[[
 		Further blip configuration (scale, sprite, color)
 		can be made directly in client/blip.lua
 	]]
 	Blips = {
-		vector3(-149.44, -258.21, 44.14), -- breze bowling map
-		-- vector3(749.92, -776.68, 26.33), -- gabz bowling map
+		--vector3(-149.44, -258.21, 44.14), -- breze bowling map
+		vector3(749.92, -776.68, 26.33), -- gabz bowling map
 	},
 
-	AllowWager = true,
+	AllowWager = false,
 	ScoreboardCommand = 'bowling',
 	Text = {
 		BLIP = 'Bowling',
