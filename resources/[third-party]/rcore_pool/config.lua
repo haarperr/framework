@@ -1,5 +1,5 @@
 Config = {
-    Framework = 0, --[ 1 = ESX / 2 = QBCore / 3 = Other ] Choose your framework
+    Framework = 3, --[ 1 = ESX / 2 = QBCore / 3 = Other ] Choose your framework
 
 	FrameworkTriggers = {
 		notify = '', -- [ ESX = 'esx:showNotification' / QBCore = 'QBCore:Notify' ] Set the notification event, if left blank, default will be used
@@ -24,7 +24,7 @@ Config = {
     --[[
         Uses esx/qbcore notifications. Set to false for native GTA notifications
     ]]
-    UseFrameworkNotification = true,
+    UseFrameworkNotification = false,
 
     --[[
         -- To use custom menu, implement following client handlers
@@ -103,8 +103,8 @@ Config = {
         POOL = 'Pool',
         POOL_GAME = 'Pool game',
         POOL_SUBMENU = 'Select ball configuration',
-        TYPE_8_BALL = '8-ball',
-        TYPE_STRAIGHT = 'Straight pool',
+        TYPE_8_BALL = '9 Ball',
+        TYPE_STRAIGHT = '8 Ball',
         POOL_SETUP = 'Setup: ',
 
         HINT_SETUP = 'Set up table',
