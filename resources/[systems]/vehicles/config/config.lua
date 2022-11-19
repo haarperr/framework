@@ -412,6 +412,15 @@ Config = {
 			Coords = vector3(910.5926, 3567.384, 33.83507),
 			Radius = 4.0,
 		},
+		-- Voodoo Place
+		{
+			Coords = vector3(145.0195, -3030.292, 7.042154),
+			Radius = 4.0,
+		},
+		{
+			Coords = vector3(136.0794, -3030.567, 7.042153),
+			Radius = 4.0,
+		}
 	},
 	Flipping = {
 		MaxDistance = 3.0,

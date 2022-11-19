@@ -443,6 +443,15 @@ Config.Groups = {
 		},
 	},
 	{
+		name = "Voodoo Place",
+		coords = vector3(146.3623, -3020.532, 7.040892),
+		radius = 50,
+		locked = false,
+		factions = {
+			["tbd"] = "mechanic",
+		},
+	},
+	{
 		name = "Misfits",
 		coords = vector3(941.6403, -969.2, 39.53661),
 		radius = 25,
