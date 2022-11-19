@@ -1,19 +1,16 @@
-function WithoutObfuscation(x)
-    return x
-end
 
-if not WithoutObfuscation(Config.CustomMenu) then
+if not Config.CustomMenu then
     Citizen.CreateThread(function()
-        WithoutObfuscation(WarMenu).CreateMenu(
+        WarMenu.CreateMenu(
             'pool', 
-            WithoutObfuscation(Config.Text.POOL),
-            WithoutObfuscation(Config.Text.POOL_SUBMENU) or 'Select ball configuration'
+            Config.Text.POOL,
+            Config.Text.POOL_SUBMENU or 'Select ball configuration'
         )
         
-        WithoutObfuscation(WarMenu).SetSubTitle('pool', WithoutObfuscation(Config.Text.POOL_SUBMENU) or 'Select ball configuration')
+        WarMenu.SetSubTitle('pool', Config.Text.POOL_SUBMENU or 'Select ball configuration')
 
-        if WithoutObfuscation(Config.MenuColor) then
-            WithoutObfuscation(WarMenu).SetTitleBackgroundColor('pool', WithoutObfuscation(Config.MenuColor)[1], WithoutObfuscation(Config.MenuColor)[2], WithoutObfuscation(Config.MenuColor)[3])
+        if Config.MenuColor then
+            WarMenu.SetTitleBackgroundColor('pool', Config.MenuColor[1], Config.MenuColor[2], Config.MenuColor[3])
         end
 
         while true do
@@ -23,19 +20,19 @@ if not WithoutObfuscation(Config.CustomMenu) then
                 Wait(2000)
             end
 
-            if WithoutObfuscation(WarMenu).IsMenuOpened('pool') then
+            if WarMenu.IsMenuOpened('pool') then
                 if ClosestTableAddress then
-                    if WithoutObfuscation(WarMenu).Button(WithoutObfuscation(Config.Text.TYPE_8_BALL)) then
+                    if WarMenu.Button(Config.Text.TYPE_8_BALL) then
                         TriggerEvent('rcore_pool:setupTable', 'BALL_SETUP_8_BALL')
-                        WithoutObfuscation(WarMenu).CloseMenu()
-                    elseif WithoutObfuscation(WarMenu).Button(WithoutObfuscation(Config.Text.TYPE_STRAIGHT)) then
+                        WarMenu.CloseMenu()
+                    elseif WarMenu.Button(Config.Text.TYPE_STRAIGHT) then
                         TriggerEvent('rcore_pool:setupTable', 'BALL_SETUP_STRAIGHT_POOL')
-                        WithoutObfuscation(WarMenu).CloseMenu()
+                        WarMenu.CloseMenu()
                     end
 
-                    WithoutObfuscation(WarMenu).Display()
+                    WarMenu.Display()
                 else
-                    WithoutObfuscation(WarMenu).CloseMenu()
+                    WarMenu.CloseMenu()
                 end
             else
                 Wait(200)
@@ -45,7 +42,7 @@ if not WithoutObfuscation(Config.CustomMenu) then
 end
 
 AddEventHandler('rcore_pool:openMenu', function()
-    WithoutObfuscation(WarMenu).OpenMenu('pool')
+    WarMenu.OpenMenu('pool')
 end)
 
 AddEventHandler('rcore_pool:closeMenu', function()
@@ -63,6 +60,7 @@ AddEventHandler('rcore_pool:setupTable', function(ballNumbers)
         local data = setupBalls(tableEntity, map[ballNumbers])
 
         TriggerServerEvent('rcore_pool:setTableState', {
+            serverIds = GetServerIdsNearTable(ClosestTableAddress),
             tablePosition = GetEntityCoords(tableEntity),
             data = data,
         })

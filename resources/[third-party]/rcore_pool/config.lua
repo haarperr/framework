@@ -1,17 +1,30 @@
 Config = {
+    Framework = 3, --[ 1 = ESX / 2 = QBCore / 3 = Other ] Choose your framework
+
+	FrameworkTriggers = {
+		notify = '', -- [ ESX = 'esx:showNotification' / QBCore = 'QBCore:Notify' ] Set the notification event, if left blank, default will be used
+		object = '', --[ ESX = 'esx:getSharedObject' / QBCore = 'QBCore:GetObject' ] Set the shared object event, if left blank, default will be used (deprecated for QBCore)
+		resourceName = '', -- [ ESX = 'es_extended' / QBCore = 'qb-core' ] Set the resource name, if left blank, automatic detection will be performed
+	},
+    
     NotificationDistance = 10.0,
     PropsToRemove = {
         vector3(1992.803, 3047.312, 46.22865),
     },
 
-    --[[
-        -- To use custom notifications, implement client event handler, example:
+    -- qtarget
+	UseQTarget = false,
 
-        AddEventHandler('rcore_pool:notification', function(serverId, message)
-            print(serverId, message)
-        end)
+	-- BT-Target
+	UseBTTarget = false,
+
+	-- QB-Target
+	UseQBTarget = false,
+
+    --[[
+        Uses esx/qbcore notifications. Set to false for native GTA notifications
     ]]
-    CustomNotifications = false,
+    UseFrameworkNotification = false,
 
     --[[
         -- To use custom menu, implement following client handlers
@@ -31,20 +44,10 @@ Config = {
     CustomMenu = false,
 
     --[[
-        When you want your players to pay to play pool, set this to true
-        AND implement the following server handler in your framework of choice.
-        The handler MUST deduct money from the player and then CALL the callback
-        if the payment is successful, or inform the player of payment failure.
-
-        This script itself DOES NOT implement ESX/vRP logic, you have to do that yourself.
-
-        AddEventHandler('rcore_pool:payForPool', function(playerServerId, cb)
-            print("This should be replaced by deducting money from " .. playerServerId)
-            cb() -- successfuly set balls on table
-        end)
+        When you want your players to pay to play pool, set this to true and set BallSetupCost
     ]]
     PayForSettingBalls = false,
-    BallSetupCost = nil, -- for example: "$1" or "$200" - any text
+    BallSetupCost = 100, -- for example: 1 or 200 - MUST be number
 
     --[[
         You can integrate pool cue into your system with
@@ -69,6 +72,8 @@ Config = {
         set this to true
     ]]
     DoNotRotateAroundTableWhenAiming = false,
+    
+    Debug = false,
 
     MenuColor = {245, 127, 23},
     Keys = {
@@ -98,14 +103,17 @@ Config = {
         POOL = 'Pool',
         POOL_GAME = 'Pool game',
         POOL_SUBMENU = 'Select ball configuration',
-        TYPE_8_BALL = '9-ball',
-        TYPE_STRAIGHT = '8-ball',
+        TYPE_8_BALL = '9 Ball',
+        TYPE_STRAIGHT = '8 Ball',
+        POOL_SETUP = 'Setup: ',
 
         HINT_SETUP = 'Set up table',
         HINT_TAKE_CUE = 'Take pool cue',
         HINT_RETURN_CUE = 'Return pool cue',
         HINT_HINT_TAKE_CUE = 'To play pool, take pool cue at the pool cue stand',
         HINT_PLAY = 'Play',
+
+        NOT_ENOUGH_MONEY = 'You don\'t have $%s to setup this table.',
 
         BALL_IN_HAND_LEFT = 'Left',
         BALL_IN_HAND_RIGHT = 'Right',
@@ -133,3 +141,19 @@ Config = {
          }
     },
 }
+
+if Config.UseFrameworkNotification then
+    for idx, text in pairs(Config.Text.BALL_LABELS) do
+        Config.Text.BALL_LABELS[idx] = text:gsub('~.~', '')
+    end
+end
+
+if Config.UseQTarget then
+	Config.TargetResourceName = 'qtarget'
+end
+if Config.UseBTTarget then
+	Config.TargetResourceName = 'bt-target'
+end
+if Config.UseQBTarget then
+	Config.TargetResourceName = 'qb-target'
+end

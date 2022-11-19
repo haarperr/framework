@@ -10,7 +10,7 @@ Citizen.CreateThread(function()
         Config.AllowTakePoolCueFromStand = true
     end
 
-    while Config.AllowTakePoolCueFromStand do
+    while not Config.TargetResourceName and Config.AllowTakePoolCueFromStand do
         Wait(500)
 
         local ped = PlayerPedId()
@@ -63,7 +63,7 @@ Citizen.CreateThread(function()
     while true do
         Wait(0)
 
-        if closestRack then
+        if not Config.TargetResourceName and closestRack then
             local ped = PlayerPedId()
             local pedCoords = GetEntityCoords(ped)
             local rackCoords = GetEntityCoords(closestRack)
@@ -80,7 +80,7 @@ Citizen.CreateThread(function()
                     CustomDisplayHelpTextThisFrame('TEB_POOL_TAKE_CUE', 0)
                 end
 
-                local isEnterPressed = IsControlJustPressed(0, WithoutObfuscation(Config.Keys.ENTER.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.ENTER.code))
+                local isEnterPressed = IsControlJustPressed(0, Config.Keys.ENTER.code) or IsDisabledControlJustPressed(0, Config.Keys.ENTER.code)
 
                 if isEnterPressed then
                     if HasPoolCueInHand then

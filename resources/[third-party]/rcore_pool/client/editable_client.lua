@@ -44,11 +44,21 @@ Citizen.CreateThread(function()
 
         Wait(100)
 
-        for _, data in pairs(TableData) do
+        for tableIdx, data in pairs(TableData) do
             Wait(100)
 
             if #(coords - data.tablePos) < (Config.ExperimentalTableDetect or 30.0) then
                 newState = true
+            elseif #(coords - data.tablePos) > ((Config.ExperimentalTableDetect or 30.0)+10.0) then
+                if data.balls then
+                    for _, ball in pairs(data.balls) do
+                        if ball.entity and DoesEntityExist(ball.entity) then
+                            DeleteObject(ball.entity)
+                        end
+                    end
+                end
+
+                TableData[tableIdx] = nil
             end
         end
 
@@ -62,10 +72,6 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
     
     PoolCleanup()
-end)
-
-Citizen.CreateThread(function()
-    TriggerServerEvent('rcore_pool:requestTables')
 end)
 
 function PoolCleanup()
@@ -99,10 +105,10 @@ Citizen.CreateThread(function()
 
         if not IsCloseToPoolRack and ClosestTableAddress and CurrentState == STATE_NONE then
             if HasPoolCueInHand then
-                if not TableData[ClosestTableAddress].player then
+                if not GetTargetFunction() and not TableData[ClosestTableAddress].player then
                     local doesClosestTableHaveBalls = #TableData[ClosestTableAddress].balls > 0
 
-                    if not WithoutObfuscation(WarMenu).IsMenuOpened('pool') then
+                    if not WarMenu.IsMenuOpened('pool') then
                         if TableData[ClosestTableAddress] and doesClosestTableHaveBalls then
                             CustomDisplayHelpTextThisFrame('TEB_POOL_PLAY_SETUP', 0)
                         else
@@ -110,8 +116,8 @@ Citizen.CreateThread(function()
                         end
                     end
 
-                    local isEnterPressed = IsControlJustPressed(0, WithoutObfuscation(Config.Keys.ENTER.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.ENTER.code))
-                    local isModifierPressed = IsControlPressed(0, WithoutObfuscation(Config.Keys.SETUP_MODIFIER.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.SETUP_MODIFIER.code))
+                    local isEnterPressed = IsControlJustPressed(0, Config.Keys.ENTER.code) or IsDisabledControlJustPressed(0, Config.Keys.ENTER.code)
+                    local isModifierPressed = IsControlPressed(0, Config.Keys.SETUP_MODIFIER.code) or IsDisabledControlPressed(0, Config.Keys.SETUP_MODIFIER.code)
 
                     if isEnterPressed and isModifierPressed then
                         TriggerEvent('rcore_pool:openMenu')
@@ -144,15 +150,15 @@ Citizen.CreateThread(function()
         local ped = PlayerPedId()
         local coords = GetEntityCoords(ped)
 
-        for _, table in pairs(TableData) do
-            local tablePos = table.tablePos
+        for _, tbl in pairs(TableData) do
+            local tablePos = tbl.tablePos
             local distToTable = #(coords - tablePos)
 
-            if table.entity then -- check if entity exists, otherwise GC
-                if not DoesEntityExist(table.entity) or distToTable > (Config.ExperimentalTableGC or 50.0) then
-                    table.entity = nil
-                    table.cushionColliders = nil
-                    table.pocketColliders = nil
+            if tbl.entity then -- check if entity exists, otherwise GC
+                if not DoesEntityExist(tbl.entity) or distToTable > (Config.ExperimentalTableGC or 50.0) then
+                    tbl.entity = nil
+                    tbl.cushionColliders = nil
+                    tbl.pocketColliders = nil
                 end
             elseif distToTable < (Config.ExperimentalTableDetect or 30.0) then
                 for _, model in pairs(models) do
@@ -161,9 +167,9 @@ Citizen.CreateThread(function()
                     local tableObject = GetClosestObjectOfType(tablePos.x, tablePos.y, tablePos.z, 0.1, model, false, 0, 0)
 
                     if tableObject and tableObject > 0 then
-                        table.entity = tableObject
-                        table.cushionColliders = computeTableCushionColliders(table.entity, model)
-                        table.pocketColliders = computePocketColliders(table.entity, model)
+                        tbl.entity = tableObject
+                        tbl.cushionColliders = computeTableCushionColliders(tbl.entity, model)
+                        tbl.pocketColliders = computePocketColliders(tbl.entity, model)
                     end
                 end
             end
@@ -197,8 +203,15 @@ Citizen.CreateThread(function()
     end
 end)
 
-RegisterNetEvent('rcore_pool:syncTableState')
-AddEventHandler('rcore_pool:syncTableState', function(tableAddress, newTableData, isCueBallHit, hitStrength)
+function positionToTableAddress(pos)
+    local xRounded = math.floor(pos.x * 10)/10
+    local yRounded = math.floor(pos.y * 10)/10
+ 
+    return xRounded .. '/' .. yRounded
+ end
+
+ RegisterNetEvent('rcore_pool:syncTableState')
+ AddEventHandler('rcore_pool:syncTableState', function(tableAddress, newTableData, isCueBallHit, hitStrength)
     if newTableData and TableData[tableAddress] then
         local data = TableData[tableAddress]
         if data.entity then
@@ -238,6 +251,7 @@ AddEventHandler('rcore_pool:syncTableState', function(tableAddress, newTableData
     ProcessBallCreationDeletion()
 
     if isCueBallHit and TableData[isCueBallHit].entity then
+        TableData[isCueBallHit].active = true
         local meServerId = GetPlayerServerId(PlayerId())
 
         if TableData[isCueBallHit] and TableData[isCueBallHit].player == meServerId then
@@ -246,7 +260,7 @@ AddEventHandler('rcore_pool:syncTableState', function(tableAddress, newTableData
         PlayCueAudio(TableData[isCueBallHit].balls[TableData[isCueBallHit].cueBallIdx].entity, hitStrength)
     end
 end)
-
+ 
 Citizen.CreateThread(function()
     local modelCache = {}
 
@@ -262,6 +276,9 @@ Citizen.CreateThread(function()
             for tableAddress, table in pairs(TableData) do
                 if table.entity then
                     if not modelCache[tableAddress] then
+                        if Config.Debug then
+                            print("Caching model", table.entity, GetEntityModel(table.entity))
+                        end
                         modelCache[tableAddress] = GetEntityModel(table.entity)
                     end
     
@@ -270,6 +287,12 @@ Citizen.CreateThread(function()
                     local coords = GetEntityCoords(table.entity)
                     local heading = GetEntityHeading(table.entity)
                     local min, max = GetModelDimensions(model)
+
+                    if Config.Debug then
+                        print("Table offset for", model)
+                        print(TABLE_OFFSET[model])
+                        print(TABLE_OFFSET[model].x, TABLE_OFFSET[model].y)
+                    end
 
                     local tableOffset = TABLE_OFFSET[model]
 
@@ -373,7 +396,7 @@ Citizen.CreateThread(function()
 
                 if not anyBallMoving and CurrentState == STATE_BALLS_MOVING then
                     CurrentState = STATE_NONE
-                    TriggerServerEvent('rcore_pool:syncFinalTableState', tableAddress, table.balls)
+                    TriggerServerEvent('rcore_pool:syncFinalTableState', tableAddress, table.balls, GetServerIdsNearTable(ClosestTableAddress))
                 end
 
                 break
@@ -391,10 +414,10 @@ end)
 RegisterNetEvent('rcore_pool:internalNotification')
 AddEventHandler('rcore_pool:internalNotification', function(serverId, tableAddress, message)
     if TableData[tableAddress] and TableData[tableAddress].entity then
-        if #(GetEntityCoords(TableData[tableAddress].entity) - GetEntityCoords(PlayerPedId())) < WithoutObfuscation(Config.NotificationDistance or 20.0) then
+        if #(GetEntityCoords(TableData[tableAddress].entity) - GetEntityCoords(PlayerPedId())) < (Config.NotificationDistance or 20.0) then
             local player = GetPlayerFromServerId(serverId)
             if player and player > 0 then
-                if WithoutObfuscation(Config.CustomNotifications) then
+                if Config.CustomNotifications then
                     TriggerEvent(
                         'rcore_pool:notification',
                         serverId,
@@ -415,6 +438,7 @@ AddEventHandler('rcore_pool:internalNotification', function(serverId, tableAddre
                         SetNotificationTextEntry('STRING')
                         AddTextComponentSubstringPlayerName(message)
                         SetNotificationMessage(mugTxd, mugTxd, false, 7, Config.Text.POOL_GAME or 'Pool game', '')
+
                         DrawNotification(true, true)
                         UnregisterPedheadshot(mugshot)
                     end
@@ -423,3 +447,23 @@ AddEventHandler('rcore_pool:internalNotification', function(serverId, tableAddre
         end
     end
 end)
+
+function GetServerIdsNearTable(address)
+    local ids = {}
+
+    if TableData[address] then
+        local tableCoords = TableData[address].tablePos
+
+        for _, playerId in pairs(GetActivePlayers()) do
+            local ped = GetPlayerPed(playerId)
+
+            if ped and ped > 0 then
+                if #(GetEntityCoords(ped) - tableCoords) < ((Config.ExperimentalTableDetect or 30.0)+10.0) then
+                    table.insert(ids, GetPlayerServerId(playerId))
+                end
+            end
+        end
+    end
+
+    return ids
+end
