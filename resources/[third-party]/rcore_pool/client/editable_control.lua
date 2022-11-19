@@ -22,15 +22,15 @@ Citizen.CreateThread(function()
 
     local costSuffix = ''
 
-    if Config.BallSetupCost then
-        costSuffix = ' ~g~' .. Config.BallSetupCost .. '~s~'
+    if Config.PayForSettingBalls and Config.BallSetupCost then
+        costSuffix = ' ~g~$' .. Config.BallSetupCost .. '~s~'
     end
 
-    AddTextEntry('TEB_POOL_SETUP', '~' .. WithoutObfuscation(Config.Keys.SETUP_MODIFIER.label) .. '~ + ~' .. WithoutObfuscation(Config.Keys.ENTER.label) .. '~' .. costSuffix .. ' ' .. Config.Text.HINT_SETUP)
-    AddTextEntry('TEB_POOL_TAKE_CUE', '~' .. WithoutObfuscation(Config.Keys.ENTER.label) .. '~ ' .. Config.Text.HINT_TAKE_CUE)
-    AddTextEntry('TEB_POOL_RETURN_CUE', '~' .. WithoutObfuscation(Config.Keys.ENTER.label) .. '~' .. Config.Text.HINT_RETURN_CUE)
+    AddTextEntry('TEB_POOL_SETUP', '~' .. Config.Keys.SETUP_MODIFIER.label .. '~ + ~' .. Config.Keys.ENTER.label .. '~' .. costSuffix .. ' ' .. Config.Text.HINT_SETUP)
+    AddTextEntry('TEB_POOL_TAKE_CUE', '~' .. Config.Keys.ENTER.label .. '~ ' .. Config.Text.HINT_TAKE_CUE)
+    AddTextEntry('TEB_POOL_RETURN_CUE', '~' .. Config.Keys.ENTER.label .. '~' .. Config.Text.HINT_RETURN_CUE)
     AddTextEntry('TEB_POOL_HINT_TAKE_CUE', Config.Text.HINT_HINT_TAKE_CUE)
-    AddTextEntry('TEB_POOL_PLAY_SETUP', '~' .. WithoutObfuscation(Config.Keys.ENTER.label) .. '~ ' .. Config.Text.HINT_PLAY .. '~n~~' .. WithoutObfuscation(Config.Keys.SETUP_MODIFIER.label) .. '~ + ~' .. WithoutObfuscation(Config.Keys.ENTER.label) .. '~' .. costSuffix .. ' ' .. Config.Text.HINT_SETUP)
+    AddTextEntry('TEB_POOL_PLAY_SETUP', '~' .. Config.Keys.ENTER.label .. '~ ' .. Config.Text.HINT_PLAY .. '~n~~' .. Config.Keys.SETUP_MODIFIER.label .. '~ + ~' .. Config.Keys.ENTER.label .. '~' .. costSuffix .. ' ' .. Config.Text.HINT_SETUP)
 end)
 
 Citizen.CreateThread(function()
@@ -69,7 +69,7 @@ end)
 
 function RequestPlayTable(tableAddress)
     if not TableData[tableAddress].player then
-        TriggerServerEvent('rcore_pool:requestTurn', tableAddress)
+        TriggerServerEvent('rcore_pool:requestTurn', tableAddress, GetServerIdsNearTable(ClosestTableAddress))
     end
 end
 
@@ -79,7 +79,7 @@ AddEventHandler('rcore_pool:turnGranted', function(tableAddress)
     
     if not TableData[tableAddress].balls[TableData[tableAddress].cueBallIdx].disabled then -- cue ball in play
         CurrentState = STATE_AIMING
-        SetupAiming()
+        SetupAiming(nil, tableAddress)
     else -- cue ball pocketed
         local tableOffset = TABLE_OFFSET[GetEntityModel(TableData[tableAddress].entity)]
         TableData[tableAddress].balls[TableData[tableAddress].cueBallIdx].disabled = nil
@@ -89,16 +89,16 @@ AddEventHandler('rcore_pool:turnGranted', function(tableAddress)
             0.825 + tableOffset.y, 
             0.89
         ).xy
-        TriggerServerEvent('rcore_pool:setBallInHandData', tableAddress, TableData[tableAddress].balls[TableData[tableAddress].cueBallIdx].position)
+        TriggerServerEvent('rcore_pool:setBallInHandData', GetServerIdsNearTable(ClosestTableAddress), tableAddress, TableData[tableAddress].balls[TableData[tableAddress].cueBallIdx].position)
         ProcessBallCreationDeletion()
         CurrentState = STATE_BALL_IN_HAND
-        SetupBallInHand(0.0)
+        SetupBallInHand(0.0, tableAddress)
     end
 end)
 
-function SetupBallInHand(heading)
-    local tableEntity = TableData[ClosestTableAddress].entity
-    local cueBall = TableData[ClosestTableAddress].balls[TableData[ClosestTableAddress].cueBallIdx]
+function SetupBallInHand(heading, tableAddress)
+    local tableEntity = TableData[tableAddress].entity
+    local cueBall = TableData[tableAddress].balls[TableData[tableAddress].cueBallIdx]
 
     local cueBallCoords = GetEntityCoords(cueBall.entity)
     local tableHeading = GetEntityHeading(tableEntity)
@@ -110,7 +110,7 @@ function SetupBallInHand(heading)
 
     SetCamRot(BallInHandCam, -90.0, -0.0, heading)
     
-    TriggerServerEvent('rcore_pool:ballInHandNotify', ClosestTableAddress)
+    TriggerServerEvent('rcore_pool:ballInHandNotify', GetServerIdsNearTable(tableAddress), tableAddress)
 
     if IsCamActive(AimCam) then
         SetCamActiveWithInterp(BallInHandCam, AimCam, 1000, 500, 500)
@@ -154,54 +154,54 @@ function SetupBallInHand(heading)
 
             local moveSpeed = 1.0
 
-            if IsControlPressed(0, WithoutObfuscation(Config.Keys.AIM_SLOWER.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.AIM_SLOWER.code)) then
+            if IsControlPressed(0, Config.Keys.AIM_SLOWER.code) or IsDisabledControlPressed(0, Config.Keys.AIM_SLOWER.code) then
                 moveSpeed = 0.2
             end
 
-            if IsControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_LEFT.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_LEFT.code)) then
+            if IsControlPressed(0, Config.Keys.BALL_IN_HAND_LEFT.code) or IsDisabledControlPressed(0, Config.Keys.BALL_IN_HAND_LEFT.code) then
                 local moveOffset = vector2(
                     math.cos(math.rad(heading + 180.0)),
                     math.sin(math.rad(heading + 180.0))
                 ) * moveSpeed
                 local newPos = cueBall.position + moveOffset * GetFrameTime()
 
-                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[ClosestTableAddress].balls) then
+                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[tableAddress].balls) then
                     cueBall.position = newPos
                 end
             end
             
-            if IsControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_RIGHT.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_RIGHT.code)) then
+            if IsControlPressed(0, Config.Keys.BALL_IN_HAND_RIGHT.code) or IsDisabledControlPressed(0, Config.Keys.BALL_IN_HAND_RIGHT.code) then
                 local moveOffset = vector2(
                     math.cos(math.rad(heading + 180.0)),
                     math.sin(math.rad(heading + 180.0))
                 ) * moveSpeed
                 local newPos = cueBall.position - moveOffset * GetFrameTime()
 
-                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[ClosestTableAddress].balls) then
+                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[tableAddress].balls) then
                     cueBall.position = newPos
                 end
             end
 
-            if IsControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_UP.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_UP.code)) then
+            if IsControlPressed(0, Config.Keys.BALL_IN_HAND_UP.code) or IsDisabledControlPressed(0, Config.Keys.BALL_IN_HAND_UP.code) then
                 local moveOffset = vector2(
                     math.cos(math.rad(heading + 180.0 + 90.0)),
                     math.sin(math.rad(heading + 180.0 + 90.0))
                 ) * moveSpeed
                 local newPos = cueBall.position - moveOffset * GetFrameTime()
 
-                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[ClosestTableAddress].balls) then
+                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[tableAddress].balls) then
                     cueBall.position = newPos
                 end
             end
             
-            if IsControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_DOWN.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND_DOWN.code)) then
+            if IsControlPressed(0, Config.Keys.BALL_IN_HAND_DOWN.code) or IsDisabledControlPressed(0, Config.Keys.BALL_IN_HAND_DOWN.code) then
                 local moveOffset = vector2(
                     math.cos(math.rad(heading + 180.0 + 90.0)),
                     math.sin(math.rad(heading + 180.0 + 90.0))
                 ) * moveSpeed
                 local newPos = cueBall.position + moveOffset * GetFrameTime()
 
-                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[ClosestTableAddress].balls) then
+                if not isPositionCollidingWithWall(ballInHandColliders, newPos) and not isPositionCollidingWithAnyBall(cueBall.entity, newPos, TableData[tableAddress].balls) then
                     cueBall.position = newPos
                 end
             end
@@ -209,14 +209,14 @@ function SetupBallInHand(heading)
             local nowTime = GetGameTimer()
             
             if (nowTime - lastBallInHandSync) > 500 then
-                TriggerServerEvent('rcore_pool:setBallInHandData', ClosestTableAddress, cueBall.position)
+                TriggerServerEvent('rcore_pool:setBallInHandData', tableAddress, cueBall.position)
                 lastBallInHandSync = nowTime
             end
 
-            if IsControlPressed(0, WithoutObfuscation(Config.Keys.BACK.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.BACK.code)) or IsControlJustPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND.code)) then
+            if IsControlPressed(0, Config.Keys.BACK.code) or IsDisabledControlPressed(0, Config.Keys.BACK.code) or IsControlJustPressed(0, Config.Keys.BALL_IN_HAND.code) or IsDisabledControlJustPressed(0, Config.Keys.BALL_IN_HAND.code) then
                 CurrentState = STATE_AIMING
                 PreventPauseMenu()
-                SetupAiming(BallInHandCam)
+                SetupAiming(BallInHandCam, tableAddress)
                 DestroyCam(BallInHandCam)
                 BallInHandCam = nil
             end
@@ -225,7 +225,7 @@ function SetupBallInHand(heading)
 end
 
 NOT_NETWORKED = false
-function SetupAiming(fromCam)
+function SetupAiming(fromCam, tableAddress)
     local cueModel = GetHashKey('prop_pool_cue')
 
     poolCue = CreateObject(
@@ -235,14 +235,20 @@ function SetupAiming(fromCam)
     )
     SetEntityCollision(poolCue, false, false)
 
-    local tableEntity = TableData[ClosestTableAddress].entity
+    if Config.Debug then
+        print("Setting up aiming at", tableAddress)
+        print("Table", TableData[tableAddress])
+        print("Entity", TableData[tableAddress].entity)
+    end
+
+    local tableEntity = TableData[tableAddress].entity
     local strength = DEFAULT_AIM_STRENGTH
     local isSettingStrength = false
 
     local lastPedPositionUpdate = GetGameTimer()
     PoolCueAnimAim()
 
-    local currentTableCueBall = TableData[ClosestTableAddress].balls[TableData[ClosestTableAddress].cueBallIdx]
+    local currentTableCueBall = TableData[tableAddress].balls[TableData[tableAddress].cueBallIdx]
 
     local cueBallPos = GetEntityCoords(currentTableCueBall.entity)
     local poolTableHeading = GetPoolCueHeadingToCueBall(cueBallPos) --GetEntityHeading(tableEntity) + 90.0
@@ -291,9 +297,9 @@ function SetupAiming(fromCam)
                 PointCamAtCoord(AimCam, cueBallPos.x, cueBallPos.y, cueBallPos.z)
             end
             
-            if IsControlJustPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.BALL_IN_HAND.code)) then
+            if IsControlJustPressed(0, Config.Keys.BALL_IN_HAND.code) or IsDisabledControlJustPressed(0, Config.Keys.BALL_IN_HAND.code) then
                 CurrentState = STATE_BALL_IN_HAND
-                SetupBallInHand(poolTableHeading + 90.0)
+                SetupBallInHand(poolTableHeading + 90.0, tableAddress)
                 break
             end
 
@@ -326,23 +332,23 @@ function SetupAiming(fromCam)
             if not isSettingStrength then
                 local step = 1.0
 
-                if IsControlPressed(0, WithoutObfuscation(Config.Keys.AIM_SLOWER.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.AIM_SLOWER.code)) then
+                if IsControlPressed(0, Config.Keys.AIM_SLOWER.code) or IsDisabledControlPressed(0, Config.Keys.AIM_SLOWER.code) then
                     step = 0.13
                 end
 
-                if IsControlPressed(0, WithoutObfuscation(Config.Keys.CUE_LEFT.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.CUE_LEFT.code)) then
+                if IsControlPressed(0, Config.Keys.CUE_LEFT.code) or IsDisabledControlPressed(0, Config.Keys.CUE_LEFT.code) then
                     poolTableHeading = poolTableHeading - step
-                elseif IsControlPressed(0, WithoutObfuscation(Config.Keys.CUE_RIGHT.code)) or IsDisabledControlPressed(0, WithoutObfuscation(Config.Keys.CUE_RIGHT.code)) then
+                elseif IsControlPressed(0, Config.Keys.CUE_RIGHT.code) or IsDisabledControlPressed(0, Config.Keys.CUE_RIGHT.code) then
                     poolTableHeading = poolTableHeading + step
-                elseif IsControlJustPressed(0, WithoutObfuscation(Config.Keys.CUE_HIT.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.CUE_HIT.code)) then
+                elseif IsControlJustPressed(0, Config.Keys.CUE_HIT.code) or IsDisabledControlJustPressed(0, Config.Keys.CUE_HIT.code) then
                     isSettingStrength = true
-                elseif IsControlJustPressed(0, WithoutObfuscation(Config.Keys.BACK.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.BACK.code)) then
+                elseif IsControlJustPressed(0, Config.Keys.BACK.code) or IsDisabledControlJustPressed(0, Config.Keys.BACK.code) then
                     CurrentState = STATE_NONE
-                    TriggerServerEvent('rcore_pool:releaseControl', ClosestTableAddress)
+                    TriggerServerEvent('rcore_pool:releaseControl', tableAddress, GetServerIdsNearTable(tableAddress))
                     PreventPauseMenu()
                 end
             elseif isSettingStrength then
-                if IsControlJustPressed(0, WithoutObfuscation(Config.Keys.CUE_HIT.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.CUE_HIT.code)) then
+                if IsControlJustPressed(0, Config.Keys.CUE_HIT.code) or IsDisabledControlJustPressed(0, Config.Keys.CUE_HIT.code) then
                     isSettingStrength = false
 
                     local clampedStrength = math.min(1.0, math.max(0.0, math.tan(computedVisualStrength)/1.5))
@@ -354,7 +360,7 @@ function SetupAiming(fromCam)
 
                     strength = DEFAULT_AIM_STRENGTH
                     break
-                elseif IsControlJustPressed(0, WithoutObfuscation(Config.Keys.BACK.code)) or IsDisabledControlJustPressed(0, WithoutObfuscation(Config.Keys.BACK.code)) then
+                elseif IsControlJustPressed(0, Config.Keys.BACK.code) or IsDisabledControlJustPressed(0, Config.Keys.BACK.code) then
                     isSettingStrength = false
                     strength = DEFAULT_AIM_STRENGTH
                     PreventPauseMenu()
@@ -383,7 +389,7 @@ function SetupAiming(fromCam)
                 SetEntityCoordsNoOffset(poolCue, newOffset.x, newOffset.y, newOffset.z, false, false, false)
             end
 
-            TriggerServerEvent('rcore_pool:syncCueBallVelocity', ClosestTableAddress, currentTableCueBall.position, selectedStrikeVelocity, selectedStrikeStrength)
+            TriggerServerEvent('rcore_pool:syncCueBallVelocity', GetServerIdsNearTable(tableAddress), tableAddress, currentTableCueBall.position, selectedStrikeVelocity, selectedStrikeStrength)
 
             Wait(500)
         end

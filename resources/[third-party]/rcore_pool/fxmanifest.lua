@@ -3,7 +3,7 @@ game 'gta5'
 
 description 'RCore pool'
 
-version '1.0.0'
+version '1.9.0'
 
 client_scripts {
     'config.lua',
@@ -12,6 +12,8 @@ client_scripts {
 
 server_scripts { 
     'config.lua',
+    'object.lua',
+    'server/framework/*.lua',
     'server/*.lua',
 }
 
@@ -36,7 +38,13 @@ escrow_ignore {
     'client/editable_prop_remove.lua',
     'client/editable_table_config.lua',
     'client/warmenu.lua',
+    'client/target.lua',
     'config.lua',
+    'object.lua',
+    
+    'server/framework/custom.lua',
+    'server/framework/qbcore.lua',
+    'server/framework/esx.lua',
 }
 
 lua54 'yes'
