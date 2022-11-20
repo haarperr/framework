@@ -9,7 +9,7 @@ CreateThread(function()
             SetBlipDisplay(blip, 4)
             SetBlipSprite(blip, 122)
             SetBlipColour(blip, 0)
-            SetBlipScale(blip, 1.0)
+            SetBlipScale(blip, 0.6)
             SetBlipAsShortRange(blip, true)
 
             BeginTextCommandSetBlipName('R_TEN_BL')
