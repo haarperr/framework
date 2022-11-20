@@ -57,7 +57,7 @@ Mods = {
 		[42] = { Name = "Arch Cover" }, -- VMT_CHASSIS2
 		[43] = { Name = "Aerials" }, -- VMT_CHASSIS3
 		[44] = { Name = "Trim" }, -- VMT_CHASSIS4
-		[45] = { Name = "Tank" }, -- VMT_CHASSIS5
+		[45] = { Name = "Tank", Hidden = true  }, -- VMT_CHASSIS5
 		[46] = { Name = "Windows" }, -- VMT_DOOR_L
 		[47] = { Name = "Windows 2" }, -- VMT_DOOR_R
 		[48] = { Name = "Livery" }, -- VMT_LIVERY_MOD
