@@ -1,6 +1,6 @@
 Config = {}
 
-Config.BlipName = 'Lunapark'
+Config.BlipName = 'Amusement Park'
 
 Config.Enable3dText = false -- Will render 3D Text instead of the default GTA help text
 Config.Scale3dText  = 0.5 -- Scale of the 3D Text, a number between 0.0 and 1.0
@@ -15,7 +15,7 @@ Config.FreefallRenderDistance      = 200.0
 Config.DisableWheelIPL = true
 
 -- Please do note that enabling both frameworks will result in an unexpected behavior
-Config.EnableESX          = true -- Enables support for ESX framework
+Config.EnableESX          = false -- Enables support for ESX framework
 Config.EnableQBCore       = false -- Enables support for QBCore framework
 Config.EnableCustomEvents = false -- Enables support for custom events
 
@@ -40,9 +40,9 @@ Config.FreefallTimer = 10
 
 Config.Prices = {}
 
-Config.Prices.RollerCoaster = 5 -- Ticket price for the Roller Coaster
-Config.Prices.FerrisWheel   = 3 -- Ticket price for the Ferris Wheel
-Config.Prices.Freefall      = 3 -- Ticket price for the Freefall
+Config.Prices.RollerCoaster = 0 -- Ticket price for the Roller Coaster
+Config.Prices.FerrisWheel   = 0 -- Ticket price for the Ferris Wheel
+Config.Prices.Freefall      = 0 -- Ticket price for the Freefall
 
 Config.Text = {}
 
