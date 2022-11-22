@@ -36,7 +36,6 @@ files {
 dependencies {
     '/server:4752',
     '/onesync',
-    'breze_bowling_map',
 }
 
 escrow_ignore {
