@@ -598,7 +598,7 @@ Vehicles = {
 	["voltic2"] = { Value = 1280688 },
 	["voodoo"] = { Value = 9500 },
 	["voodoo2"] = { Value = 5000 },
-	["vortex"] = { Value = 155850 },
+	["vortex"] = { Value = 15850 },
 	["warrener"] = { Value = 4458 },
 	["washington"] = { Value = 5554 },
 	["wastelander"] = { Value = 16009 },
