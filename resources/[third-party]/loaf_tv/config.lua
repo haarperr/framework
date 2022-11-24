@@ -356,8 +356,8 @@ Config = {
         },
         {
             Model = `vw_prop_vw_cinema_tv_01`,
-            Distance = 10.0,
-            Draw = "prop_vw_accs_01"
+            Distance = 15.0,
+            Draw = "prop_vw_cinema_tv_01"
         },
         {
             Model = `ex_prop_ex_tv_flat_01`,
