@@ -44,7 +44,7 @@ Config = {
 				"Lockpick",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {58, 86}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {345, 754}, Chance = 1.0 },
 			},
 			Models = {
 				["prop_till_01"] = { Offset = vector3(0.0, -0.6, 0.0) },
@@ -90,8 +90,9 @@ Config = {
 				"Diamond Keycard",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {800, 1123}, Chance = 1.0 },
-				{ Name = "Platinum Ingot", Amount = {1, 1}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {7500, 12520}, Chance = 1.0 },
+				{ Name = "Platinum Ingot", Amount = {1, 2}, Chance = 1.0 },
+				{ Name = "Gold Ingot", Amount = {1, 1}, Chance = 0.25 },
 			},
 		},
 		["safe"] = {
@@ -127,10 +128,13 @@ Config = {
 				"Safe Cracking Tool",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {328, 513}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {1210, 2120}, Chance = 1.0 },
 				{ Name = "Cracked USB", Amount = {1, 1}, Chance = 0.5 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
+				{ Name = "Ruby", Amount = {1,3}, Chance = 0.70 },
+				{ Name = "Sapphire", Amount = {1,3}, Chance = 0.70 },
+				{ Name = "Emerald", Amount = {1,3}, Chance = 0.70 },
 			},
 		},
 		["safe2"] = {
@@ -169,10 +173,13 @@ Config = {
 				"Hacking Tool",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {413, 603}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {1210, 2120}, Chance = 1.0 },
 				{ Name = "USB", Amount = {1, 1}, Chance = 0.5 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.50 },
 				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
+				{ Name = "Ruby", Amount = {1,3}, Chance = 0.70 },
+				{ Name = "Sapphire", Amount = {1,3}, Chance = 0.70 },
+				{ Name = "Emerald", Amount = {1,3}, Chance = 0.70 },
 			},
 		},
 		["keypad"] = {
@@ -188,6 +195,24 @@ Config = {
 					},
 					Hack = {
 						Length = {9, 1, 6, 1, 4, 1, 2, 1 },
+						Duration = 600,
+					},
+				},
+			},
+		},
+		["keypadf"] = {
+			Stages = {
+				{
+					Anim = {
+						Dict = "anim@heists@humane_labs@emp@hack_door",
+						Name = "hack_loop",
+						Flag = 49,
+						Props = {
+							{ Model = "p_amb_phone_01", Bone = 28422, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }},
+						},
+					},
+					Hack = {
+						Length = {9, 2, 6, 3, 4, 1 },
 						Duration = 600,
 					},
 				},
@@ -228,13 +253,13 @@ Config = {
 			Stages = {
 				{
 					Anim = {
-						Dict = "misstrevor2ig_7",
-						Name = "plant_bomb",
-						Flag = 1,
+						Dict = "anim@heists@ornate_bank@thermal_charge",
+						Name = "thermal_charge",
+						Flag = 0,
 						DisableMovement = true,
 					},
 					Label = "Planting...",
-					Duration = 10000,
+					Duration = 8000,
 					UseWhileDead = false,
 					CanCancel = false,
 					Disarm = true,
@@ -258,8 +283,49 @@ Config = {
 			},
 			Output = {
 				{ Name = "Valuable Goods", Amount = {1, 1}, Chance = 1.0 },
-				{ Name = "Bills", Amount = {301, 543}, Chance = 1.0 },
-				{ Name = "Red Keycard", Amount = {1, 1}, Chance = 0.25 },
+				{ Name = "Bills", Amount = {2120, 3540}, Chance = 1.0 },
+				{ Name = "High Value Keycard", Amount = {1, 1}, Chance = 0.05 },
+				{ Name = "Savings Bond", Amount = {1, 1}, Chance = 1.0 },
+				{ Name = "Barma Ruby", Amount = {1, 1}, Chance = 0.02 },
+				{ Name = "Diamond", Amount = {1, 1}, Chance = 0.15 },
+			},
+		},
+		["lockbox2"] = {
+			Stages = {
+				{
+					Anim = {
+						Dict = "anim@heists@ornate_bank@thermal_charge",
+						Name = "thermal_charge",
+						Flag = 0,
+						DisableMovement = true,
+					},
+					Label = "Planting...",
+					Duration = 8000,
+					UseWhileDead = false,
+					CanCancel = false,
+					Disarm = true,
+				},
+				{
+					Anim = {
+						Dict = "anim@heists@ornate_bank@grab_cash",
+						Name = "grab",
+						Flag = 0,
+						DisableMovement = true,
+					},
+					Label = "Taking Goods...",
+					Duration = 10000,
+					UseWhileDead = false,
+					CanCancel = false,
+					Disarm = true,
+				},
+			},
+			Items = {
+				"Thermite",
+			},
+			Output = {
+				{ Name = "Valuable Goods", Amount = {1, 1}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {2120, 3540}, Chance = 1.0 },
+				{ Name = "High Value Keycard", Amount = {1, 1}, Chance = 0.15 },
 				{ Name = "Savings Bond", Amount = {1, 1}, Chance = 1.0 },
 				{ Name = "Barma Ruby", Amount = {1, 1}, Chance = 0.02 },
 				{ Name = "Diamond", Amount = {1, 1}, Chance = 0.15 },
@@ -267,6 +333,21 @@ Config = {
 		},
 		["drillbox"] = {
 			Stages = {
+				{
+					Anim = {
+						Dict = "anim@heists@fleeca_bank@drilling",
+						Name = "intro",
+						Flag = 0,
+						Props = {
+							{ Model = "hei_prop_heist_drill", Bone = 28422, Offset = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 }},
+						},
+					},
+					Label = "Setting drill...",
+					Duration = 8050,
+					UseWhileDead = false,
+					CanCancel = false,
+					Disarm = true,
+				},
 				{
 					Anim = {
 						Dict = "anim@heists@fleeca_bank@drilling",
@@ -280,9 +361,25 @@ Config = {
 
 					},
 				},
+				{
+					Anim = {
+						Dict = "oddjobs@shop_robbery@rob_till",
+						Name = "loop",
+						Flag = 17,
+						DisableMovement = true,
+					},
+					Label = "Taking Goods...",
+					Duration = 10000,
+					UseWhileDead = false,
+					CanCancel = false,
+					Disarm = true,
+				},
+				
 			},
-			Items = {
-				"Drill",
+			Output = {
+				{ Name = "Valuable Goods", Amount = {1, 3}, Chance = 1.0 },
+				{ Name = "Golden USB", Amount = {1, 1}, Chance = 0.25 },
+				{ Name = "Savings Bond", Amount = {1, 2}, Chance = 1.0 },
 			},
 		},
 		["crate"] = {
@@ -807,7 +904,7 @@ Config = {
 				Robbables = {
 					-- First stage: top doors.
 					{
-						Id = "keypad",
+						Id = "keypadf",
 						Coords = {
 							vector4(261.94366455078, 223.14025878906, 106.28412628174, 253.68258666992)
 						},
@@ -845,6 +942,13 @@ Config = {
 							vector4(256.83331298828, 215.05879211426, 101.68346405029, 171.20146179199),
 						},
 					},
+					{
+						Id = "drillbox",
+						Coords = {
+							vector4(263.9118, 214.8684, 101.6833, 253.0759),
+						},
+						Items = { "Drill" },
+					},
 				},
 			},
 			{
@@ -867,7 +971,7 @@ Config = {
 						Items = { "Business Vault Keycard" },
 					},
 					{
-						Id = "lockbox",
+						Id = "lockbox2",
 						Coords = {
 							vector4(-106.83989715576, 6473.7822265625, 31.62671661377, 129.49356079102),
 							vector4(-107.54365539551, 6475.4375, 31.62671661377, 44.569351196289),
