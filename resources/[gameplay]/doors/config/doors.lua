@@ -45,7 +45,7 @@ Config.Doors = {
 		}
 	},
 
-	[`hei_v_ilev_bk_gate2_pris`] = {
+--[[ 	[`hei_v_ilev_bk_gate2_pris`] = {
 		Item = "Thermite",
 		SpecialState = {
 			Lifetime = 15.0,
@@ -54,7 +54,7 @@ Config.Doors = {
 			PtfxName = "scr_heist_ornate_thermal_burn",
 			SwapModel = "hei_v_ilev_bk_gate2_molten",
 		}
-	},
+	}, ]]
 
 	[`hei_v_ilev_bk_safegate_pris`] = {
 		Item = "Thermite",
@@ -76,6 +76,7 @@ Config.Doors = {
 			PtfxName = "scr_heist_ornate_thermal_burn",
 		}
 	},
+	[746855201] = { Locked = true },
 	
 	[`hei_v_ilev_bk_gate_molten`] = { Ignore = true },
 	[`hei_v_ilev_bk_gate2_molten`] = { Ignore = true },
