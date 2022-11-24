@@ -333,6 +333,7 @@ Config = {
 						-- { "Coca Seed", {5, 10}, 0.06 },
 						{ "Cracked USB", 1, 0.01 },
 						{ "Diamond", {1, 2}, 0.02 },
+						{ "Drill", 1, 0.01 },
 						{ "Diamond Hammer", 1, 0.01 },
 						{ "Dime", {1,10}, 0.2 },
 						{ "Hacking Tool", {1, 3}, 0.08 },
