@@ -18,11 +18,11 @@ Config = {
 			Duration = 6000,
 		},
 		Thermite = {
-			Dict = "misstrevor2ig_7",
-			Name = "plant_bomb",
+			Dict = "anim@heists@ornate_bank@thermal_charge",
+			Name = "thermal_charge",
 			Flag = 0,
 			DisableMovement = true,
-			Duration = 6000,
+			Duration = 8000,
 		},
 	},
 }
