@@ -232,7 +232,7 @@ function BeginRobbing(robbable)
 		if wasCancelled then
 			return
 		end
-		Citizen.Wait(1000)
+		Citizen.Wait(1)
 	end
 
 	TriggerServerEvent("robberies:finish", robbable.type, robbable.id, robbable.coords)
