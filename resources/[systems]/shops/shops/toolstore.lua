@@ -29,6 +29,7 @@ Config.Filters.Toolstore = {
 		["Spray Can"] = true,
 		["Breeding Chamber"] = true,
 		["Soil"] = true,
+		["Mallet"] = true,
 	},
 }
 
