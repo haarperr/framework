@@ -258,9 +258,10 @@ end)
 RegisterNetEvent("banking:deleteAccount")
 AddEventHandler("banking:deleteAccount", function(account)
     local source = source
-    if account ~= 1 then
+    local character_id = exports.character:Get(source, "id")
+    if account ~= 1 and character_id then
         if BankAccounts[account] then
-            if exports.GHMattiMySQL:Query("DELETE FROM bank_accounts WHERE account_primary = 0 AND account_id = "..account, {}) then
+            if exports.GHMattiMySQL:Query("DELETE FROM bank_accounts WHERE character_id = "..character_id.." AND account_primary = 0 AND account_id = "..account, {}) then
                 BankAccounts[account] = nil
             else
                 TriggerClientEvent("chat:notify", source, "You cannot delete your primary account.", "error")
