@@ -226,7 +226,11 @@ Translation = {
     CASHIER_FULLSCREEN_PURCHASE_VIP = "VIP",
     CASHIER_FULLSCREEN_PURCHASE_VIP_2 = "PURCHASED.",
     BTN_YES = "Yes",
-    BTN_NO = "No"
+    BTN_NO = "No",
+    FUSE_BOX = "Fuse Box",
+    DIAMOND_WALL_BROKE = "The digital wall lost signal. Wait for electrical technician to do their job!",
+    DIAMOND_WALL_BROKE_2 = "The digital wall lost signal. Locate the fuse box to start the repair!",
+    DIAMOND_WALL_BROKE_3 = "Press ~INPUT_TALK~ to fix the electricity or signal.",
 }
 
 Translation.POKER_HAND_NAMES["STRAIGHT_FLUSH"] = "a Straight Flush"

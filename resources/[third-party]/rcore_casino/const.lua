@@ -2528,6 +2528,10 @@ INSIDE_TRACK_WALL = {
     heading = 328.4
 }
 DIGITAL_WALL_MODEL = "vw_vwint01_video_overlay"
+FUSEBOX = {
+    pos = vector3(922.32330322266, 35.418350219727, 72.301216125488),
+    heading = 231.0
+}
 
 if not Jobs then
     Jobs = {

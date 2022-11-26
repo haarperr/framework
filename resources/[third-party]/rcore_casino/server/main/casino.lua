@@ -636,14 +636,11 @@ AddEventHandler("Casino:PodiumReplace", function(vehicleModel, vehicleProps)
     if not hasAbility then
         error = 1
     end
-
-    if canReplace and Config.JOB_PODIUMCAR_OWNERSHIP_CHECK == true and
+    if hasAbility and Config.JOB_PODIUMCAR_OWNERSHIP_CHECK == true and
         not Cache:PlayerOwnsVehicle(identifier, vehicleProps.plate) then
         error = 2
     end
-
     TriggerClientEvent("Casino:PodiumReplace", playerId, error)
-
     if error == -1 then
         if Config.JOB_PODIUMCAR_OWNERSHIP_CHECK and Config.JOB_PODIUMCAR_OWNERSHIP_DELETE_ORIGINAL then
             if Config.MongoDB then
@@ -738,7 +735,8 @@ AddEventHandler("Casino:Enter", function()
 
         -- send interior properties (podium spinner car, etc..)
         local podiumProps = Cache.Settings["PodiumPriceProps"]
-        TriggerClientEvent("Casino:Interior", playerId, podiumProps)
+        local wallBroken = Cache.Settings["WallBroken"]
+        TriggerClientEvent("Casino:Interior", playerId, podiumProps, wallBroken)
         TriggerEvent("PlayerJoinedCasino", playerId)
         AddLogEvent(playerId, "Entered Casino")
     end)
@@ -880,6 +878,60 @@ AddEventHandler("Casino:GetInfo", function()
     local playerId = source
     local isAdmin = IsPlayerAdmin(playerId)
     TriggerClientEvent("Casino:InitialInfo", playerId, GameStates, isAdmin, playerId)
+end)
+
+-- start fuse box
+RegisterNetEvent("Casino:StartFuseBox")
+AddEventHandler("Casino:StartFuseBox", function()
+    local playerId = source
+
+    local playerId = source
+    if not Jobs.Enabled then
+        return
+    end
+
+    -- not a worker
+    if not IsPlayerAtJob(playerId, Jobs.Electrician.JobName, nil, Jobs.Electrician.MinGrade, Jobs.Electrician.MaxGrade) then
+        return
+    end
+
+    local wallBroken = Cache.Settings["WallBroken"]
+    if not wallBroken or wallBroken == false then
+        return
+    end
+
+    -- use one of the circuit boards in inventory
+    if Jobs.Electrician.CircuitBoardNeedsPurchase then
+        local boards = GetPlayerCasinoItemCount(playerId, Jobs.Electrician.CircuitBoardItemName)
+        if boards < 1 then
+            TriggerClientEvent("Casino:StartFuseBox", playerId, 0)
+            return
+        end
+        RemoveCasinoItem(playerId, Jobs.Electrician.CircuitBoardItemName, 1)
+    end
+
+    -- run circuit board game on client
+    TriggerClientEvent("Casino:StartFuseBox", playerId, 1)
+end)
+
+-- player fixed fuse box
+RegisterNetEvent("Casino:FuseBoxFixed")
+AddEventHandler("Casino:FuseBoxFixed", function()
+    local playerId = source
+
+    local playerId = source
+    if not Jobs.Enabled then
+        return
+    end
+
+    -- not a worker
+    if not IsPlayerAtJob(playerId, Jobs.Electrician.JobName, nil, Jobs.Electrician.MinGrade, Jobs.Electrician.MaxGrade) then
+        return
+    end
+    Cache:UpdateSetting("WallBroken", false)
+    Cache:UpdateSetting("NoElectricity", false)
+
+    BroadcastCasino("Casino:FuseBoxStateChanged", false)
 end)
 
 RegisterCommand("casinoversion", function()

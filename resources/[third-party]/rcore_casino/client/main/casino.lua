@@ -62,6 +62,10 @@ local DigitalWall_ClipTime = 0
 local DigitalWall_PlayingConfetti = false
 local DigitalWall_Alpha = 0
 local DigitalWall_Start = 0
+local DigitalWall_Broken = false
+
+local Casino_FuseBox = nil
+local Casino_FuseBoxBlip = nil
 
 -- minimap
 local miniMapHash = GetHashKey("ch_dlc_casino_back")
@@ -385,6 +389,9 @@ local function InteractionKeyPressed()
         Office.OnInteraction()
     elseif LAST_INTERACTION_GAME == "casinoleaving" then
         StartCasinoLeaveScene()
+    elseif LAST_INTERACTION_GAME == "fusebox" then
+        TriggerServerEvent("Casino:StartFuseBox")
+        BlockPlayerInteraction(60000)
     end
 end
 
@@ -587,6 +594,10 @@ local function InteractableObjectFound(game, entity, coords, model)
     elseif game == "casinoleaving" then
         LAST_INTERACTION_GAME = "casinoleaving"
         InfoPanel_UpdateNotification(Translation.PRESS_TO_LEAVE_CASINO)
+
+    elseif game == "fusebox" then
+        LAST_INTERACTION_GAME = "fusebox"
+        InfoPanel_UpdateNotification(Translation.DIAMOND_WALL_BROKE_3)
     end
 end
 
@@ -845,6 +856,15 @@ local function CheckForInteractions()
         end
     end
 
+    if Jobs.Enabled then
+        if IsAtJob(Jobs.Electrician.JobName, nil, Jobs.Electrician.MinGrade, Jobs.Electrician.MaxGrade) then
+            if #(playerPos - FUSEBOX.pos) < 1.0 and DigitalWall_Broken then
+                InteractableObjectExists("fusebox", nil, nil)
+                return
+            end
+        end
+    end
+
     -- interactable object wasn't found 
     InteractableObjectExists(nil, nil, nil)
 end
@@ -1022,10 +1042,38 @@ function DigitalWall_SetTheme(theme, save, alpha)
     end
     DigitalWall_Start = GAME_TIMER
     DigitalWall_Alpha = alpha
-    SetTvChannelPlaylist(0, DigitalWall_Themes[theme], true)
+    SetTvChannelPlaylist(0, DigitalWall_Broken and "PL_MP_CCTV" or DigitalWall_Themes[theme], true)
     SetTvAudioFrontend(true)
     SetTvVolume(-100.0)
     SetTvChannel(0)
+end
+
+function Casino_CreateFuseBox()
+    if Casino_FuseBox then
+        return
+    end
+    local model = GetHashKey("ch_prop_ch_fuse_box_01a")
+    RequestModelAndWait(model)
+    Casino_FuseBox = CreateObject(model, FUSEBOX.pos, false, false, false)
+    SetEntityHeading(Casino_FuseBox, FUSEBOX.heading)
+    Casino_FuseBoxBlip = SetCasinoBlip(FUSEBOX.pos, 650, Translation.FUSE_BOX, false)
+    SetBlipColour(Casino_FuseBoxBlip, 19)
+
+    if DigitalWall_Broken then
+        if IsAtJob(Jobs.Electrician.JobName, nil, Jobs.Electrician.MinGrade, Jobs.Electrician.MaxGrade) then
+            ShowHelpNotification(Translation.DIAMOND_WALL_BROKE_2)
+        else
+            ShowHelpNotification(Translation.DIAMOND_WALL_BROKE)
+        end
+    end
+end
+
+function Casino_DestroyFuseBox()
+    if Casino_FuseBox then
+        ForceDeleteEntity(Casino_FuseBox)
+        RemoveBlip(Casino_FuseBoxBlip)
+        Casino_FuseBox = nil
+    end
 end
 
 -- global function for triggering confetti
@@ -1133,8 +1181,7 @@ local function Garage_ReplaceVehicle()
     end
     BlockPlayerInteraction(1000)
     DebugStart("Garage_ReplaceVehicle")
-
-    local hasAbility = IsAtJob(Config.JobName, nil, 1) or PLAYER_IS_ADMIN
+    local hasAbility = IsAtJob(Config.JobName, nil, 1, 3) or PLAYER_IS_ADMIN
     if not hasAbility then
         return
     end
@@ -1230,7 +1277,7 @@ function CasinoGarage_OnInteraction()
         [Config.BossName] = true
     }, Config.BossGrade)
 
-    local hasAbility = IsAtJob(Config.JobName, nil, 1) or PLAYER_IS_ADMIN
+    local hasAbility = IsAtJob(Config.JobName, nil, 1, 3) or PLAYER_IS_ADMIN
     -- only boss & admins can replace vehicles
     if not hasAbility then
         return
@@ -1579,6 +1626,9 @@ function OnLeaveCasino()
     UnloadCasinoAssets()
     PLAYER_CACHE = {}
 
+    -- jobs
+    Casino_DestroyFuseBox()
+
     -- reset radar zoom
     Wait(100)
     SetRadarZoom(1100)
@@ -1643,7 +1693,7 @@ end)
 
 -- casino interior data
 RegisterNetEvent("Casino:Interior")
-AddEventHandler("Casino:Interior", function(podiumProps)
+AddEventHandler("Casino:Interior", function(podiumProps, wallBroken)
     if type(podiumProps) ~= 'table' then
         podiumProps = json.decode(podiumProps)
     end
@@ -1653,6 +1703,14 @@ AddEventHandler("Casino:Interior", function(podiumProps)
         AnimatePodium(podiumProps)
     end
     Peds_Load(vehicleExists)
+
+    -- digital wall / electricity problems
+    -- create fuse box for job
+    if Jobs.Enabled and wallBroken then
+        DigitalWall_Broken = true
+        DigitalWall_SetTheme(4, false, 255)
+        Casino_CreateFuseBox()
+    end
 end)
 
 RegisterNetEvent("Casino:BecomeVIP")
@@ -1808,6 +1866,39 @@ RegisterCommand("casinovehremove", function(source, args, rawCommand)
     TriggerServerEvent("Casino:PodiumRemove")
 end)
 
+-- start fuse box repair
+RegisterNetEvent("Casino:StartFuseBox")
+AddEventHandler("Casino:StartFuseBox", function(state)
+    if state then
+        local board = exports["rcore_casino_jobs"].GetCircuitBoard()
+
+        board.LoadAndStart(1, 1, function(succ)
+            if succ then
+                TriggerServerEvent("Casino:FuseBoxFixed")
+                PlaySoundFromEntity(-1, 'MP_WAVE_COMPLETE', PlayerPedId(), "HUD_FRONTEND_DEFAULT_SOUNDSET", true, 20)
+            end
+            UnblockPlayerInteraction()
+        end)
+    else
+        UnblockPlayerInteraction()
+    end
+end)
+
+-- fuse box state changed
+RegisterNetEvent("Casino:FuseBoxStateChanged")
+AddEventHandler("Casino:FuseBoxStateChanged", function(wallBroken)
+    if DigitalWall_Broken ~= wallBroken then
+        DigitalWall_Broken = wallBroken
+        DigitalWall_SetTheme(DigitalWall_Theme, false, 0)
+    end
+
+    if wallBroken then
+        Casino_CreateFuseBox()
+    else
+        Casino_DestroyFuseBox()
+    end
+end)
+
 if Config.Debug then
     RegisterCommand("office", function(source, args, rawCommand)
         SetEntityCoordsNoOffset(PlayerPedId(), 959.038757, 55.897293, 75.442551)
@@ -1931,6 +2022,11 @@ CreateThread(function()
                 dc.Ipl.Main.Remove()
                 dc.Ipl.Carpark.Remove()
                 dc.Ipl.Garage.Remove()
+            end
+            local dm = exports["bob74_ipl"]:GetBikerGangObject()
+            if dm then
+                dm.Clubhouse.MissionsWall.Clear()
+                dm.Clubhouse.ClearAll()
             end
         end)
     end

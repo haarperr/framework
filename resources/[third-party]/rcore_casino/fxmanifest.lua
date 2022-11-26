@@ -4,11 +4,10 @@ games { 'gta5' }
 dependencies {
     '/server:4752',
     '/onesync',
-    '/gameBuild:2060',
-    'rcore_casino_map'
+    '/gameBuild:2060'
 }
 
-version '1.0.22'
+version '1.0.24'
 
 client_scripts {
     -- Rage UI
