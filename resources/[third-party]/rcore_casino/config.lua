@@ -47,7 +47,7 @@ Config = {
     -- Roulette
     ROULETTE_JUNIOR_ENABLED = true, -- set if you want to have Roulette Junior (blue) table for newbies (low stakes)
     ROULETTE_JUNIOR_COORDS = {1004.790, 57.295, 68.432},
-    CASHIER_DAILY_BONUS = 1000, -- daily visitor bonus that players can request at the Cashier, set to 0 if you don't want any daily bonuses. def: 1000
+    CASHIER_DAILY_BONUS = 0, -- daily visitor bonus that players can request at the Cashier, set to 0 if you don't want any daily bonuses. def: 1000
     CASHIER_VIP_PRICE = 50000, -- price of the VIP casino membership, def: 50000
     CASHIER_VIP_DURATION = (60 * 60 * 24) * 7, -- VIP for player resets after this time, def: 7 days
     
@@ -58,7 +58,7 @@ Config = {
     LUCKY_WHEEL_FREE_DRINKS_FOR = (60 * 60 * 24), -- when someone spins "Free Drinks" at the Lucky Wheel, how long they get free drinks for. def: 24 hours (60 * 60 * 24)
     LUCKY_WHEEL_COOLDOWN = (60 * 60 * 24), -- how long players have to wait for their next spin. def: 24 hours (60 * 60 * 24)
     LUCKY_WHEEL_VEHICLE_ALTERNATIVE = "Money9", -- if player spins Vehicle, but there is no avaiable podium vehicle at the moment, spin to this item. Def: "Money50K" (the second biggest price)
-    LUCKY_WHEEL_CAR_WINABLE = true, -- true: players can win the car, false: car is just a decoration
+    LUCKY_WHEEL_CAR_WINABLE = false, -- true: players can win the car, false: car is just a decoration
     LUCKY_WHEEL_PAY_TO_SPIN = 0, -- set price for the spin (chips), set 0 for free spins, or set to existing inventory name, for example LUCKY_WHEEL_PAY_TO_SPIN = "wheel_ticket" to pay with an inventory item
     LUCKY_WHEEL_CAR_ONE_WINNER = true, -- set to true, if only one player can win the podium vehicle. the vehicle will disapear from the podium after someone wins it.
 
