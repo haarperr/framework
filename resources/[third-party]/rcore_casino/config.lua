@@ -1,6 +1,6 @@
 Config = {
     -- Map
-    MapType = 1, -- 1: for rcore_casino_map, 2: Gabz Casino, 3: NoPixel Casino, 4: k4mb1 casino
+    MapType = 2, -- 1: for rcore_casino_map, 2: Gabz Casino, 3: NoPixel Casino, 4: k4mb1 casino
 
     --[[
     Gabz Casino
@@ -17,8 +17,8 @@ Config = {
     -- Money Or Casino Chips? 
     UseOnlyMoney = false, -- set to true if you wanna disable using casino chips and use money instead
     ExchangeRate = 1, -- set value of one casino chip, for example, set to 5, if 1 chip equals to 5$ (minimum: 0.1, rounded by 0.1, 0.5 or 1)
-    ShowChipsHud = true, -- show/hide the chips hud on the top-right corner
-    ChipsInventoryItem = "casino_chips",
+    ShowChipsHud = false, -- show/hide the chips hud on the top-right corner
+    ChipsInventoryItem = "Casino Chips",
     UseBankMoney = false, -- cash or bank?
 
     -- Behave in casino?
@@ -52,7 +52,7 @@ Config = {
     CASHIER_VIP_DURATION = (60 * 60 * 24) * 7, -- VIP for player resets after this time, def: 7 days
     
     -- Slots
-    SLOTS_1ST_PERSON = false, -- switch to 1st person when spinning slots
+    SLOTS_1ST_PERSON = true, -- switch to 1st person when spinning slots
 
     -- Lucky Wheel
     LUCKY_WHEEL_FREE_DRINKS_FOR = (60 * 60 * 24), -- when someone spins "Free Drinks" at the Lucky Wheel, how long they get free drinks for. def: 24 hours (60 * 60 * 24)
@@ -116,7 +116,7 @@ Config = {
     EnableGuidebookIntegration = false, -- https://store.rcore.cz/package/5041989
 
     -- Society
-    EnableSociety = true, -- whether to enable society account
+    EnableSociety = false, -- whether to enable society account
     SocietyLimitFromBalance = 10000, -- if society account has less money than this, it will start paying out reduced money, (SocietyLimitPayoutPercentage)
     SocietyLimitPayoutPercentage = 35, -- example: if SocietyLimitPayoutPercentage is 35%, and SocietyLimitFromBalance is 10000 => 1000 payout at the Cashier will be limited to 350, if the society bank account balance is less than 10 000
     -- when enabled, all casino payments (Cashier, Bar, Lucky Wheel) go through the society account, players don't get paid if there's not enough money in the 
@@ -142,7 +142,7 @@ Config = {
     MongoDB = false, -- if you decide to use MongoDB instead of MYSQL, don't forget to edit your MongoDB queries in: server/main/cache.lua, server/main/casino.lua and server/utils/plateGenerator.lua
 
     -- Mysql Resources
-    Ghmattimysql = false, -- if you're using "ghmattimysql" instead of mysql-async
+    Ghmattimysql = true, -- if you're using "ghmattimysql" instead of mysql-async
 
     -- Tweaks
     VoiceTweak = false, -- keep it false, if you don't have amy voice problems inside casino
@@ -153,7 +153,7 @@ Framework = {
     -- 1 = es_extended
     -- 2 = QBcore
     -- 3 = custom (you need to implement it yourself in server/framework/custom.lua)
-    Active = 1,
+    Active = 3,
     -- Please follow the installation tutorial: --
     -- https://documentation.rcore.cz/paid-resources/rcore_casino
 
@@ -215,7 +215,7 @@ GameStates = {{
 }, {
     activity = "drinkingbar",
     title = "Drinking Bar",
-    enabled = true
+    enabled = false
 }, {
     activity = "roulette",
     title = "Roulette",
@@ -251,7 +251,7 @@ GameStates = {{
 }, {
     activity = "casinoteleporter",
     title = "Casino Teleporter (In)",
-    enabled = true
+    enabled = false
 }, {
     activity = "casinoentrance",
     title = "Casino Entrance",

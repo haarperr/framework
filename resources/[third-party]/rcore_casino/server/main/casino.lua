@@ -17,8 +17,7 @@ DAY_OF_WEEK = 0 -- *fake* day of the week inside casino
 
 function GetPlayerIdentifier(playerId)
     DebugStart("GetPlayerIdentifier")
-    local p = ESX.GetPlayerFromId(playerId)
-    local id = p and p.identifier or -1
+    local id = exports.user:GetIdentifier(playerId, "steam") or -1
     if id == -1 then
         print("^1[Casino] Error finding player identifier of id: " .. tostring(playerId) .. "^7")
     end
@@ -211,131 +210,55 @@ end)
 -- adds casino inventory item
 function AddCasinoItem(playerId, item, count)
     DebugStart("AddCasinoItem")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        xPlayer.addInventoryItem(item, count)
-    end
+    print("Adding",item, count)
+    exports.inventory:GiveItem(playerId, item, count)
 end
 
 -- removes casino inventory item
 function RemoveCasinoItem(playerId, item, count)
     DebugStart("RemoveCasinoItem")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        local invCount = GetPlayerCasinoItemCount(playerId, item)
-        if invCount < count then
-            count = invCount
-        end
-        xPlayer.removeInventoryItem(item, count)
-    end
+    print("Removing",item, count)
+    exports.inventory:TakeItem(playerId, item, count)
 end
 
 -- get player casino inventory item count (chips, snacks...)
 function GetPlayerCasinoItemCount(playerId, item)
     DebugStart("GetPlayerCasinoItemCount")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        -- QB Fix
-        if Framework.Active == 2 then
-            return xPlayer.getTotalAmount(item)
-        end
-        -- ESX
-        local xItem = xPlayer.getInventoryItem(item)
-        if xItem then
-            return xItem.count
-        end
-    end
-    return 0
+    return exports.inventory:CountItem(playerId, item) or 0
 end
 
 -- gets player chips from DB
 function GetPlayerChips(playerId)
     DebugStart("GetPlayerChips")
-    if Config.UseOnlyMoney then
-        return GetPlayerMoney(playerId)
-    end
-    return GetPlayerCasinoItemCount(playerId, Config.ChipsInventoryItem)
+    return exports.inventory:CountItem(playerId, Config.ChipsInventoryItem) or 0
 end
 
 -- gets player money from DB
 function GetPlayerMoney(playerId)
     DebugStart("GetPlayerMoney")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    local balance = -1
-    if xPlayer then
-        if Config.UseBankMoney then
-            local account = xPlayer.getAccount("bank")
-            if account then
-                balance = account.money
-            end
-        else
-            balance = xPlayer.getMoney()
-        end
-    end
-    if type(balance) == 'table' and balance["money"] then
-        balance = balance["money"]
-    end
-
-    return balance
+    return exports.inventory:GetTotalMoney(playerId, true, true) or 0
 end
 
 -- add player money
 function AddPlayerMoney(playerId, money, ignoreSociety)
     DebugStart("AddPlayerMoney")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        if Config.EnableSociety and not ignoreSociety then
-            local societyBalance = GetMoneyFromSociety()
-            if societyBalance < money then
-                return false
-            end
-            RemoveMoneyFromSociety(money)
-        end
-        if Config.UseBankMoney then
-            xPlayer.addAccountMoney("bank", money)
-        else
-            xPlayer.addMoney(money)
-        end
-        return true
-    end
-    return false
+    local account = exports.character:Get(playerId, "bank")
+    if not account then return false end
+    exports.banking:AddBank(playerId, account, money, true)
+    return true
 end
 
 -- remove player money
 function RemovePlayerMoney(playerId, money)
     DebugStart("RemovePlayerMoney")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        if Config.UseBankMoney then
-            xPlayer.removeAccountMoney("bank", money)
-        else
-            xPlayer.removeMoney(money)
-        end
-        if Config.EnableSociety then
-            GiveMoneyToSociety(money)
-        end
-    end
+    if not exports.inventory:CanAfford(source, price, true, true) then return false end
+    return exports.inventory:TakeMoney(playerId, money, true)
 end
 
 -- Is Player admin?
 function IsPlayerAdmin(playerId)
     DebugStart("IsPlayerAdmin")
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        local group = xPlayer.getGroup()
-        if type(group) == "table" then
-            for k, v in pairs(group) do
-                if AdminGroup[group] then
-                    return true
-                end
-            end
-            return IsPlayerAceAllowed(playerId, "admin")
-        end
-        if type(group) == "string" then
-            return AdminGroup[group] ~= nil
-        end
-    end
-    return false
+    return exports.user:IsAdmin(playerId)
 end
 
 -- check if player works at casino
@@ -398,9 +321,6 @@ end
 -- pay for spin/bet
 function Pay(playerId, item, chips, game)
     DebugStart("Pay")
-    if not ESX.GetPlayerFromId(playerId) then
-        return -1
-    end
     local playerChips = GetPlayerChips(playerId)
 
     if playerChips == nil then
@@ -417,6 +337,7 @@ function Pay(playerId, item, chips, game)
     if Config.UseOnlyMoney then
         RemovePlayerMoney(playerId, chips)
     else
+        print("taking")
         RemoveCasinoItem(playerId, Config.ChipsInventoryItem, chips)
     end
 
@@ -432,9 +353,6 @@ end
 -- win price
 function Win(playerId, item, chips, game)
     DebugStart("Win")
-    if not ESX.GetPlayerFromId(playerId) then
-        return
-    end
     local playerChips = GetPlayerChips(playerId)
     local playerIdentifier = GetPlayerIdentifier(playerId)
     if playerChips == nil then
@@ -451,6 +369,7 @@ function Win(playerId, item, chips, game)
                       "). Player identifier: " .. tostring(playerIdentifier) .. "^7")
         end
     else
+        print("monies")
         AddCasinoItem(playerId, Config.ChipsInventoryItem, chips)
     end
 
@@ -714,11 +633,8 @@ AddEventHandler("Casino:Enter", function()
         identifier = "Unknown"
     }
 
-    local xPlayer = ESX.GetPlayerFromId(playerId)
-    if xPlayer then
-        stamp.name = GetPlayerName(playerId)
-        stamp.identifier = xPlayer.identifier
-    end
+    stamp.name = exports.character:GetName(playerId)
+    stamp.identifier = exports.user:GetIdentifier(playerId, "steam")
 
     CasinoPlayers[playerId] = stamp
     RecountCasinoPlayers()

@@ -108,6 +108,8 @@ function SetInventoryBusy(isBusy)
             TriggerEvent("esx_inventoryhud:closeInventory")
         elseif Framework.Active == 2 then
             ExecuteCommand("closeinv")
+        elseif Framework.Active == 3 then
+            TriggerEvent("inventory:toggle", false)
         end
     end
     LocalPlayer.state:set("inv_busy", isBusy, true)
@@ -1643,19 +1645,7 @@ end
 
 function GetClientSideMoney(refresh)
     local money = 0
-    local data = refresh and RefreshPlayerData() or PlayerData
-
-    if not data or not data.accounts then
-        return 0
-    end
-    for k, v in pairs(data.accounts) do
-        if (v.name == "money" or v.name == "cash") and not Config.UseBankMoney then
-            return v.money
-        elseif v.name == "bank" and Config.UseBankMoney then
-            return v.money
-        end
-    end
-    return 0
+    return exports.inventory:GetTotalMoney() or 0
 end
 
 function PlayExternalSound(sound, position, networked)
