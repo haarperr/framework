@@ -4,7 +4,8 @@ games { 'gta5' }
 dependencies {
     '/server:4752',
     '/onesync',
-    '/gameBuild:2060'
+    '/gameBuild:2060',
+    'rcore_casino_map'
 }
 
 version '1.0.24'

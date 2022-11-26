@@ -1,6 +1,6 @@
 Config = {
     -- Map
-    MapType = 2, -- 1: for rcore_casino_map, 2: Gabz Casino, 3: NoPixel Casino, 4: k4mb1 casino
+    MapType = 1, -- 1: for rcore_casino_map, 2: Gabz Casino, 3: NoPixel Casino, 4: k4mb1 casino
 
     --[[
     Gabz Casino
@@ -83,9 +83,9 @@ Config = {
     CASINO_ANIM_TIMEOUT = 750, -- pause between animations (in milliseconds), decrease this number to make interaction animations faster, be careful, smaller number can cause desync in animations if players have high ping. def: 750
     PRICES_CURRENCY = "$", -- $, €, £, ¥, ₽, ₩, ₹ ...
     RADAR_ZOOMLEVEL = 0.0, -- customize the radar zoom, from 0.0 (closest) to higher
-    ENTER_CASINO_FADEOUT = 1, -- whether to fadeout the screen when entering (loading) casino or not (0: disabled, 1: only first enter, 2: every time)
+    ENTER_CASINO_FADEOUT = 0, -- whether to fadeout the screen when entering (loading) casino or not (0: disabled, 1: only first enter, 2: every time)
     CASHIER_MULTITASK = true, -- multiple players can use the Cashier at the same time
-    LOAD_SCENE = true, -- load the whole casino playing area after entering (recommended)
+    LOAD_SCENE = false, -- load the whole casino playing area after entering (recommended)
     --
     JOB_PODIUMCAR_OWNERSHIP_CHECK = true,
     JOB_PODIUMCAR_OWNERSHIP_DELETE_ORIGINAL = true,
