@@ -117,7 +117,7 @@ Citizen.CreateThread(function()
 	AfterHoursNightclubs.LoadDefault() -- -1604.664, -3012.583, -78.000.
 
 	--[DLC: Diamond Casino Resort]--
-	DiamondCasino.LoadDefault()
-	DiamondPenthouse.LoadDefault()
+	--DiamondCasino.LoadDefault()
+	--DiamondPenthouse.LoadDefault()
 end)
 
