@@ -602,8 +602,8 @@ Config.Groups = {
 			["helas"] = "farm",
 		},
 	},
-	{
-	--[[name = "Casino",
+	--[[{
+	name = "Casino",
 		coords = vector3(936.1548, 40.19312, 72.52461),
 		radius = 60,
 		locked = true, 
