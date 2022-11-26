@@ -210,14 +210,12 @@ end)
 -- adds casino inventory item
 function AddCasinoItem(playerId, item, count)
     DebugStart("AddCasinoItem")
-    print("Adding",item, count)
     exports.inventory:GiveItem(playerId, item, count)
 end
 
 -- removes casino inventory item
 function RemoveCasinoItem(playerId, item, count)
     DebugStart("RemoveCasinoItem")
-    print("Removing",item, count)
     exports.inventory:TakeItem(playerId, item, count)
 end
 
@@ -337,7 +335,6 @@ function Pay(playerId, item, chips, game)
     if Config.UseOnlyMoney then
         RemovePlayerMoney(playerId, chips)
     else
-        print("taking")
         RemoveCasinoItem(playerId, Config.ChipsInventoryItem, chips)
     end
 
@@ -369,7 +366,6 @@ function Win(playerId, item, chips, game)
                       "). Player identifier: " .. tostring(playerIdentifier) .. "^7")
         end
     else
-        print("monies")
         AddCasinoItem(playerId, Config.ChipsInventoryItem, chips)
     end
 
