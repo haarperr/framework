@@ -78,6 +78,27 @@ Models = {
 			}
 		},
 	},
+	[1004440924] = {
+		Chair = {
+			Offset = vector3(0.0, -0.55, 1.45),
+			Rotation = vector3(0.0, 0.0, 180.0),
+			Exit = vector3(1.0, 0.0, 0.0),
+			Anim = { Dict = "rcm_barry3", Name = "barry_3_sit_loop" },
+			Camera = {
+				Offset = vector3(0.0, -2.5, 2.0),
+				Target = vector3(0.0, 0.0, 0.5),
+			},
+		},
+		Medical = {
+			Offset = vector3(0.0, -0.35, 1.45),
+			Rotation = vector3(0.0, 0.0, 180.0),
+			Exit = vector3(1.0, 0.0, 0.0),
+			Camera = {
+				Offset = vector3(0.0, -2.5, 2.0),
+				Target = vector3(0.0, 0.0, 0.5),
+			}
+		},
+	},
 	[`v_med_cor_medstool`] = {
 		Stool = { Offset = vector3(0.0, 0.13, 1.0), Rotation = vector3(0.0, 0.0, 0.0) },
 	},
