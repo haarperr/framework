@@ -274,7 +274,7 @@ Vehicles = {
 	["italigtb"] = { Value = 600000 },
 	["italigtb2"] = { Value = 400000 },
 	["italigto"] = { Value = 135000 },
-	["iwagen"] = { Value = 56321 },
+	["iwagen"] = { Value = 46321 },
 	["jackal"] = { Value = 11995 },
 	["jb700"] = { Value = 18060 },
 	["jester"] = { Value = 35802 },
