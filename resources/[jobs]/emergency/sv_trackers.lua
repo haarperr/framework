@@ -23,6 +23,8 @@ Models = {
 	[`pdmesa`] = "cruiser",
 	[`trualamo3`] = "cruiser",
 	[`sptrualamo3`] = "cruiser",
+	[`polcoquettegb`] = "cruiser",
+	[`polcoquetteg`] = "cruiser",
 
 	--[`pdinterceptor`] = "intercept",
 

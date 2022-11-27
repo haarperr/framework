@@ -900,6 +900,7 @@ Config = {
 		Limbs = 4.0, -- Divides the cost by each limb damaged.
 		Beds = {
 			[2117668672] = true,
+			[1004440924] = true,
 		},
 		Checkins = {
 			{
@@ -949,14 +950,28 @@ Config = {
 			{
 				name = "Anthony",
 				model = "s_m_m_doctor_01",
-				coords = vector4(-251.891, 6335.38, 32.42717, 170.3228),
+				coords = vector4(-251.9446, 6337.188, 32.45192, 228.3798),
 				animations = {
 					idle = { Dict = "anim@amb@nightclub@peds@", Name = "rcmme_amanda1_stand_loop_cop", Flag = 49 },
 				},
 				targets = {
 					{
-						coords = vector3(-258.7545, 6326.569, 32.42721),
-						radius = 6.0,
+						coords = vector3(-252.7032, 6315.042, 32.45198),
+						radius = 25.0,
+					},
+				},
+			},
+			{
+				name = "Lance",
+				model = "s_m_m_doctor_01",
+				coords = vector4(1673.713, 3668.065, 35.33967, 208.0611),
+				animations = {
+					idle = { Dict = "anim@amb@nightclub@peds@", Name = "rcmme_amanda1_stand_loop_cop", Flag = 49 },
+				},
+				targets = {
+					{
+						coords = vector3(1667.175, 3646.769, 35.33961),
+						radius = 25.0,
 					},
 				},
 			},

@@ -355,6 +355,11 @@ Config = {
             Draw = "prop_x17_tv_ceiling_01"
         },
         {
+            Model = `vw_prop_vw_cinema_tv_01`,
+            Distance = 15.0,
+            Draw = "tvscreen"
+        },
+        {
             Model = `ex_prop_ex_tv_flat_01`,
             Distance = 10.0,
             Draw = "ex_tvscreen"

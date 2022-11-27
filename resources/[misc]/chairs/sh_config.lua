@@ -1,5 +1,5 @@
 Models = {
-	[`vw_prop_casino_chair_01a`] = {
+	--[[[`vw_prop_casino_chair_01a`] = {
 		Slots = {
 			Offset = vector3(0.0, -0.15, 0.75),
 			Rotation = vector3(0.0, 0.0, 0.0),
@@ -12,7 +12,7 @@ Models = {
 	[`vw_prop_casino_slot_05a`] = { Slots = { Offset = vector3(0.0, -0.9, 0.73) } },
 	[`vw_prop_casino_slot_06a`] = { Slots = { Offset = vector3(0.0, -0.9, 0.73) } },
 	[`vw_prop_casino_slot_07a`] = { Slots = { Offset = vector3(0.0, -0.9, 0.73) } },
-	[`vw_prop_casino_slot_08a`] = { Slots = { Offset = vector3(0.0, -0.9, 0.73) } },
+	[`vw_prop_casino_slot_08a`] = { Slots = { Offset = vector3(0.0, -0.9, 0.73) } },]]
 
 	--[[ Chairs ]]--
 	[`v_club_stagechair`] = { Chair = { Offset = vector3(0.0, -0.02, 0.49), Rotation = vector3(0.0, 0.0, 180.0), Exit = vector3(0.0, 0.5, 0.0) } },
@@ -70,6 +70,27 @@ Models = {
 		},
 		Medical = {
 			Offset = vector3(-0.1, 0.0, 1.35),
+			Rotation = vector3(0.0, 0.0, 180.0),
+			Exit = vector3(1.0, 0.0, 0.0),
+			Camera = {
+				Offset = vector3(0.0, -2.5, 2.0),
+				Target = vector3(0.0, 0.0, 0.5),
+			}
+		},
+	},
+	[1004440924] = {
+		Chair = {
+			Offset = vector3(0.0, -0.55, 1.45),
+			Rotation = vector3(0.0, 0.0, 180.0),
+			Exit = vector3(1.0, 0.0, 0.0),
+			Anim = { Dict = "rcm_barry3", Name = "barry_3_sit_loop" },
+			Camera = {
+				Offset = vector3(0.0, -2.5, 2.0),
+				Target = vector3(0.0, 0.0, 0.5),
+			},
+		},
+		Medical = {
+			Offset = vector3(0.0, -0.35, 1.45),
 			Rotation = vector3(0.0, 0.0, 180.0),
 			Exit = vector3(1.0, 0.0, 0.0),
 			Camera = {

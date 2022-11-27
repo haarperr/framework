@@ -309,6 +309,18 @@ Config.Doors = {
 	[-1875254669] = {},
 	[1287245314] = { Sliding = true, Distance = 5.0 },
 
+	--[[ GN Clinics ]]--
+	[1803356323] = { Sliding = true },
+	[-1311304442]= { Sliding = true },
+	[1273228324] = {},
+	[8776965] = { Sliding = true },
+	[1411215525] = { Sliding = true },
+	[210723210] = { Sliding = true },
+	[548373120] = { Sliding = true },
+	[270965283] = {},
+	[-1498975473] = {},
+	[734304936] = { Sliding = true, Distance = 8.0, Fob = true, Speed = 3.0 },
+
 	--[[ Luchettis ]]--
 	[-950166942] = {},
 	[1289778077] = {},
