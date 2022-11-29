@@ -34,6 +34,7 @@ Models = {
 	[`spbike`] = "bike",
 
 	[`bcfdbat`] = "ambulance",
+	[`lsfd2`] = "ambulance",
 	[`lsfd3`] = "ambulance",
 	[`lsfd4`] = "ambulance",
 	[`lsfdcmd`] = "ambulance",
