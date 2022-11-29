@@ -25,7 +25,15 @@ exports.jobs:Register("sapr", {
 	Ranks = {
 		{ Name = "Ranger" },
 		{ Name = "Senior Ranger" },
-		{ Name = "Sergeant" },
+		{
+			Name = "Sergeant",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
 		{
 			Name = "Superintendent",
 			Flags = Jobs.Permissions.ALL()
