@@ -670,8 +670,10 @@ Vehicles = {
 	["lsfd4"] = { Value = 800, Type = "Ambulance" },
 	["bcfdbat"] = { Value = 800, Type = "Ambulance" },
 	["lsfdbuffalo"] = { Value = 800, Type = "Ambulance" },
+	["lsfd2"] = { Value = 800, Type = "Firetruck" },
 	["lsfdcmd"] = { Value = 800, Type = "Firetruck" },
 	["lsfdtruck"] = { Value = 800, Type = "Firetruck" },
+	["fdlcladder"] = { Value = 800, Type = "Firetruck" },
 
 	--[[ LSMS Vehicles ]]--
 	--["emsspeedo"] = { Value = 800, Type = "Ambulance", Stretcher = { Bone = "etra_ten", Offset = vector3(0.0, -1.0, 0.23), Unload = vector3(0.0, -5.7, 0.0), Doors = { 2, 3 } } },

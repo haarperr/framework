@@ -766,6 +766,7 @@ Config = {
 				"pdstanier",
 				"pdtorence",
 				"pdfugitive",
+				"pdcara",
 				"trualamo3",
 				"umkbuffalo",
 				"umkalamo",
@@ -789,6 +790,7 @@ Config = {
 				"pdstanier",
 				"pdtorence",
 				"pdfugitive",
+				"pdcara",
 				"trualamo3",
 				"umkbuffalo",
 				"umkalamo",
@@ -834,6 +836,7 @@ Config = {
 			VehicleDisplay = vector4(201.4927, -1675.171, 29.80349, 48.81543),
 			VehicleSpawn = vector4(201.4927, -1675.171, 29.80349, 48.81543),
 			Vehicles = {
+				"lsfd2",
 				"lsfdcmd",
 				"lsfdtruck",
 				"lsfdbuffalo",
