@@ -175,7 +175,6 @@ function Decoration:Set(key, value)
 end
 
 function Decoration:ResetAge()
-	print(self.id)
 	exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET `start_time`=sysdate() WHERE `id`=%s"):format(self.id))
 
 	-- Set value.
