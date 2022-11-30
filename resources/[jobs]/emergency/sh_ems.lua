@@ -6,7 +6,7 @@ exports.jobs:Register("paramedic", {
 	Title = "EMS",
 	Name = "LSFD Paramedic",
 	Faction = "ems",
-	Pay = 90,
+	Pay = 120,
 	Group = "paramedic",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -172,7 +172,7 @@ exports.jobs:Register("firefighter", {
 	Title = "EMS",
 	Name = "LSFD Firefighter",
 	Faction = "ems",
-	Pay = 90,
+	Pay = 120,
 	Group = "firefighter",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -349,7 +349,7 @@ exports.jobs:Register("lsms", {
 	Title = "EMS",
 	Name = "Los Santos Medical Services",
 	Faction = "ems",
-	Pay = 90,
+	Pay = 120,
 	Group = "lsms",
 	Flags = EMS_FLAGS,
 	Clocks = {

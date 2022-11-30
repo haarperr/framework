@@ -2,7 +2,7 @@ exports.jobs:Register("doj", {
 	Title = "Federal",
 	Name = "Department of Justice",
 	Faction = "federal",
-	Pay = 130,
+	Pay = 160,
 	Group = "doj",
 	Clocks = {
 		{ Coords = vector3(-548.3115, -187.7004, 38.22693), Radius = 3.5 },

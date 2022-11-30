@@ -13,7 +13,7 @@ exports.jobs:Register("lspd", {
 	Name = "Los Santos Police Department",
 	Faction = "pd",
 	Group = "lspd",
-	Pay = 90,
+	Pay = 130,
 	-- Description = "Known for winning situations.",
 	Flags = PD_FLAGS,
 	Clocks = {
@@ -190,7 +190,7 @@ exports.jobs:Register("bcso", {
 	Title = "Police",
 	Name = "Blaine County Sheriff's Office",
 	Faction = "pd",
-	Pay = 90,
+	Pay = 130,
 	Group = "bcso",
 	Flags = PD_FLAGS,
 	Clocks = {
@@ -362,7 +362,7 @@ exports.jobs:Register("sasp", {
 	Title = "Police",
 	Name = "San Andreas State Police",
 	Faction = "pd",
-	Pay = 90,
+	Pay = 130,
 	Group = "sasp",
 	Flags = PD_FLAGS,
 	Clocks = {
@@ -534,7 +534,7 @@ exports.jobs:Register("doc", {
 	Title = "Police",
 	Name = "Department of Corrections",
 	Faction = "pd",
-	Pay = 90,
+	Pay = 130,
 	Group = "doc",
 	Flags = PD_FLAGS,
 	Clocks = {
