@@ -106,7 +106,7 @@ Register("Purple Kush Weed Seed", {
 	},
 	Stages = {
 		{
-			Age = 480,
+			Age = 420,
 			Model = "prop_weed_01",
 			Items = { { 1.0, "Purple Kush Weed", {1,3} }, { 0.5, "Purple Kush Weed Seed", {1,1} } },
 			Harvestable = true,
@@ -135,7 +135,7 @@ Register("Girl Scout Cookies Weed Seed", {
 	},
 	Stages = {
 		{
-			Age = 480,
+			Age = 420,
 			Model = "prop_weed_01",
 			Items = { { 1.0, "Girl Scout Cookies Weed", {1,3} }, { 0.55, "Girl Scout Cookies Weed Seed", {1,1} } },
 			Harvestable = true,
@@ -166,7 +166,7 @@ Register("Tomato Seed", {
 		{
 			Age = 360,
 			Model = "prop_veg_crop_02",
-			Items = { { 1.0, "Tomato", {1,4} } },
+			Items = { { 1.0, "Tomato", {1,3} } },
 			Harvestable = true,
 		},
 		{
@@ -200,7 +200,7 @@ Register("Seed Potato Segment", {
 		{
 			Age = 360,
 			Model = "prop_veg_crop_04_leaf",
-			Items = { { 1.0, "Potatoes", {1,4} } },
+			Items = { { 1.0, "Potatoes", {1,3} } },
 			Harvestable = true,
 		},
 		{
@@ -333,7 +333,7 @@ Register("Wheat Seed", {
 		{
 			Age = 1440,
 			Model = "prop_veg_grass_02_a",
-			Items = { { 1.0, "Wheat", {1,5} } },
+			Items = { { 1.0, "Wheat", {1,3} } },
 			Harvestable = true,
 		},
 		{
@@ -367,7 +367,7 @@ Register("Orange Tree Seed", {
 		{
 			Age = 720,
 			Model = "prop_veg_crop_orange",
-			Items = { { 1.0, "Orange", {2,5} } },
+			Items = { { 1.0, "Orange", {1,4} } },
 			Harvestable = true,
 		},
 		{
@@ -401,7 +401,7 @@ Register("Apple Tree Seed", {
 		{
 			Age = 720,
 			Model = "prop_veg_crop_orange",
-			Items = { { 1.0, "Apple", {2,5} } },
+			Items = { { 1.0, "Apple", {1,4} } },
 			Harvestable = true,
 		},
 		{
@@ -435,7 +435,7 @@ Register("Lemon Tree Seed", {
 		{
 			Age = 720,
 			Model = "prop_veg_crop_orange",
-			Items = { { 1.0, "Lemon", {2,5} } },
+			Items = { { 1.0, "Lemon", {1,4} } },
 			Harvestable = true,
 		},
 		{
@@ -469,7 +469,7 @@ Register("Lime Tree Seed", {
 		{
 			Age = 720,
 			Model = "prop_veg_crop_orange",
-			Items = { { 1.0, "Lime", {2,5} } },
+			Items = { { 1.0, "Lime", {1,4} } },
 			Harvestable = true,
 		},
 		{
@@ -537,7 +537,7 @@ Register("Strawberry Seed", {
 		{
 			Age = 720,
 			Model = "prop_veg_crop_02",
-			Items = { { 1.0, "Strawberry", {2,5} } },
+			Items = { { 1.0, "Strawberry", {1,4} } },
 			Harvestable = true,
 		},
 		{
