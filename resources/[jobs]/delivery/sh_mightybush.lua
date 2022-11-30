@@ -13,7 +13,7 @@ exports.jobs:Register("mightybush", {
 				["mansion"] = true,
 			},
 		},
-		Pay = 27,
+		Pay = 32,
 	},
 	Clocks = {
 		{ Coords = vector3(-510.7276611328125, -53.009952545166016, 42.11237716674805), Radius = 3.5 },
