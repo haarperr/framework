@@ -10,8 +10,8 @@ Config = {
 	DeleteChance = 0.02,
 	Weapon = GetHashKey("WEAPON_PISTOL"), -- Which weapon they get when hostile.
 	Cash = {
-		Min = 1,
-		Max = 20
+		Min = 25,
+		Max = 80
 	},
 	Items = {
 		{ name = "Wallet", chance = 0.05 },
