@@ -11,7 +11,7 @@ function Initialize()
 	local startTime = os.clock()
 
 	-- Create the table if necessary.
-	exports.GHMattiMySQL:Query([[
+	exports.ghmattimysql:Query([[
 		CREATE TABLE IF NOT EXISTS `territories` (
 			`zone` VARCHAR(16) NOT NULL COLLATE 'utf8_general_ci',
 			`factions` LONGTEXT NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
@@ -34,10 +34,10 @@ function Initialize()
 		end
 	end
 
-	exports.GHMattiMySQL:Transaction(transactions)
+	exports.ghmattimysql:Transaction(transactions)
 
 	-- Load the territories.
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `territories`")
+	local result = exports.ghmattimysql:QueryResult("SELECT * FROM `territories`")
 
 	for k, row in ipairs(result) do
 		local value
@@ -181,7 +181,7 @@ function Save(zoneId)
 	
 	-- print("saving", zoneId)
 	
-	exports.GHMattiMySQL:QueryAsync("UPDATE `territories` SET factions=@factions WHERE zone=@zone", {
+	exports.ghmattimysql:QueryAsync("UPDATE `territories` SET factions=@factions WHERE zone=@zone", {
 		["@factions"] = json.encode(zone),
 		["@zone"] = zoneId
 	})
@@ -338,7 +338,7 @@ AddEventHandler("territories:register", function(name)
 	local isNameValid, name = CheckName(name)
 	if not isNameValid then return end
 
-	local doesGangExist = exports.GHMattiMySQL:QueryScalar("SELECT 1 FROM factions WHERE `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name", {
+	local doesGangExist = exports.ghmattimysql:QueryScalar("SELECT 1 FROM factions WHERE `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name", {
 		["@name"] = name
 	})
 
@@ -437,7 +437,7 @@ AddEventHandler("territories:kick", function(targetId)
 
 		result = 1
 	else
-		result = exports.GHMattiMySQL:QueryScalar([[
+		result = exports.ghmattimysql:QueryScalar([[
 			DELETE FROM `factions` WHERE `character_id`=@targetId AND `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name;
 			SELECT ROW_COUNT();
 		]], {
@@ -483,7 +483,7 @@ AddEventHandler("territories:leave", function()
 			extra = name,
 		})
 		
-		local result = exports.GHMattiMySQL:QueryResult([[
+		local result = exports.ghmattimysql:QueryResult([[
 			SELECT `character_id`
 			FROM `factions`
 			WHERE `name`='gang' AND JSON_VALUE(`fields`, '$.name')=@name
@@ -496,7 +496,7 @@ AddEventHandler("territories:leave", function()
 			if target and DoesEntityExist(GetPlayerPed(target)) then
 				exports.factions:LeaveFaction(target, "gang", nil)
 			else
-				exports.GHMattiMySQL:QueryAsync("DELETE FROM `factions` WHERE `character_id`=@targetId AND `name`='gang'", {
+				exports.ghmattimysql:QueryAsync("DELETE FROM `factions` WHERE `character_id`=@targetId AND `name`='gang'", {
 					["@targetId"] = v.character_id
 				})
 			end
@@ -600,7 +600,7 @@ AddEventHandler("territories:requestStatus", function(input)
 		data = { faction = name }
 
 		if faction.level >= 100 then
-			data.members = exports.GHMattiMySQL:QueryResult([[
+			data.members = exports.ghmattimysql:QueryResult([[
 				SELECT
 					`character_id`,
 					(

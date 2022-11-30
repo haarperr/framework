@@ -15,7 +15,7 @@ function Main:Init()
 	RunQuery("sql/jobs_sessions.sql")
 
 	-- Load sessions.
-	exports.GHMattiMySQL:QueryAsync("UPDATE `jobs_sessions` SET end_time=current_timestamp() WHERE end_time IS NULL")
+	exports.ghmattimysql:QueryAsync("UPDATE `jobs_sessions` SET end_time=current_timestamp() WHERE end_time IS NULL")
 end
 
 function Main:OnRegister(job)
@@ -243,7 +243,7 @@ function Job:Clock(source, value, wasCached)
 
 	-- Query stuff.
 	if value then
-		exports.GHMattiMySQL:QueryAsync([[
+		exports.ghmattimysql:QueryAsync([[
 			INSERT INTO `jobs_sessions`
 			SET
 				character_id=@characterId,
@@ -258,7 +258,7 @@ function Job:Clock(source, value, wasCached)
 			["@wasCached"] = wasCached == true,
 		})
 	else
-		exports.GHMattiMySQL:QueryAsync("UPDATE `jobs_sessions` SET end_time=current_timestamp() WHERE character_id=@characterId AND job_id=@jobId AND end_time IS NULL", {
+		exports.ghmattimysql:QueryAsync("UPDATE `jobs_sessions` SET end_time=current_timestamp() WHERE character_id=@characterId AND job_id=@jobId AND end_time IS NULL", {
 			["@jobId"] = self.id,
 			["@characterId"] = characterId,
 		})

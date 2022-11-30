@@ -5,7 +5,7 @@ Main = {
 AddEventHandler("character:selected", function(source, character)
 	if character then
 		local licenses = {}
-		local result = exports.GHMattiMySQL:QueryResult("SELECT name, points FROM licenses WHERE character_id=@character_id", {
+		local result = exports.ghmattimysql:QueryResult("SELECT name, points FROM licenses WHERE character_id=@character_id", {
 			["@character_id"] = character.id,
 		})
 
@@ -89,7 +89,7 @@ function AddLicense(source, license)
 		["@points"] = 0,
 	}
 
-	if exports.GHMattiMySQL:Query(query, values) then
+	if exports.ghmattimysql:Query(query, values) then
 		licenses[license] = data
 		Main.licenses[character.id] = licenses
 
@@ -150,7 +150,7 @@ function RemoveLicense(source, license)
 		["@characterId"] = character.id,
 		["@name"] = license,
 	}
-	if exports.GHMattiMySQL:Query(query, values) then
+	if exports.ghmattimysql:Query(query, values) then
 		licenses[license] = nil
 		Main.licenses[character.id] = licenses
 		exports.character:Set(source, "licenses", Main.licenses[character.id])
@@ -189,7 +189,7 @@ function AddPointsToLicense(source, name, points)
 		["@points"] = license.points,
 	}
 
-	if exports.GHMattiMySQL:Query(query, values) then
+	if exports.ghmattimysql:Query(query, values) then
 		Main.licenses[character.id][name] = license
 		exports.character:Set(source, "licenses", Main.licenses[character.id])
 		TriggerClientEvent("licenses:load", source, Main.licenses[character.id])

@@ -4,7 +4,7 @@ game 'gta5'
 server_only 'yes'
 
 dependencies {
-	'GHMattiMySQL',
+	'ghmattimysql',
 }
 
 server_scripts {

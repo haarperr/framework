@@ -9,7 +9,7 @@ function Main:Init()
 		"sql/users.sql",
 		"sql/bans.sql",
 	}) do
-		exports.GHMattiMySQL:Query(LoadQuery(path))
+		exports.ghmattimysql:Query(LoadQuery(path))
 	end
 
 	self.columns = DescribeTable("users")
@@ -81,7 +81,7 @@ function Main:GetData(source)
 	
 	-- Set identifiers.
 	if mimic then
-		local user = mimic ~= 0 and exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `id`=@id LIMIT 1", {
+		local user = mimic ~= 0 and exports.ghmattimysql:QueryResult("SELECT * FROM `users` WHERE `id`=@id LIMIT 1", {
 			["@id"] = mimic,
 		})[1]
 	
@@ -132,7 +132,7 @@ function Main:Whitelist(hex, value)
 
 	Queue.whitelist[hex] = value and true or nil
 
-	exports.GHMattiMySQL:QueryAsync((
+	exports.ghmattimysql:QueryAsync((
 		value and [[
 			IF EXISTS (SELECT 1 FROM `users` WHERE `steam`=@steam) THEN
 				UPDATE `users` SET `priority`=0 WHERE `steam`=@steam;
@@ -178,7 +178,7 @@ function Main:Ban(target, duration, reason)
 	end
 	
 	-- Find users.
-	local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `"..key.."`=@identifier", {
+	local users = exports.ghmattimysql:QueryResult("SELECT * FROM `users` WHERE `"..key.."`=@identifier", {
 		["@identifier"] = value,
 	})
 	
@@ -207,7 +207,7 @@ function Main:Ban(target, duration, reason)
 		end
 
 		-- Save ban.
-		exports.GHMattiMySQL:QueryAsync("INSERT INTO `bans` SET "..setters, values)
+		exports.ghmattimysql:QueryAsync("INSERT INTO `bans` SET "..setters, values)
 
 		-- Cache ban.
 		Queue:AddBan(ban)
@@ -225,7 +225,7 @@ function Main:Ban(target, duration, reason)
 			return false, "invalid identifier (or no user found)"
 		end
 
-		exports.GHMattiMySQL:QueryAsync("INSERT INTO `bans` SET "..key.."=@value", {
+		exports.ghmattimysql:QueryAsync("INSERT INTO `bans` SET "..key.."=@value", {
 			["@value"] = value
 		})
 	end
@@ -244,13 +244,13 @@ function Main:Unban(target)
 	local values = { ["@"..key] = value }
 
 	-- Get bans.
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans` WHERE "..targetQuery, values)
+	local result = exports.ghmattimysql:QueryResult("SELECT * FROM `bans` WHERE "..targetQuery, values)
 	if not result[1] then
 		return false, "not banned"
 	end
 
 	-- Unban query.
-	exports.GHMattiMySQL:QueryAsync("UPDATE `bans` SET `unbanned`=1 WHERE "..targetQuery, values)
+	exports.ghmattimysql:QueryAsync("UPDATE `bans` SET `unbanned`=1 WHERE "..targetQuery, values)
 
 	-- Uncache bans.
 	for _, info in ipairs(result) do

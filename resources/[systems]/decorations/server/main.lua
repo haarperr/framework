@@ -64,7 +64,7 @@ function Main:ConvertData(data)
 end
 
 function Main:LoadDecorations()
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `instance` IS NULL AND `persistent`=0")
+	local result = exports.ghmattimysql:QueryResult("SELECT * FROM `decorations` WHERE `instance` IS NULL AND `persistent`=0")
 	for _, data in ipairs(result) do
 		self:ConvertData(data)
 		Decoration:Create(data)
@@ -294,7 +294,7 @@ function Main:LoadDecoration(data, shouldCreate)
 		end
 
 		-- Load from database.
-		local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `id`=@id LIMIT 1", {
+		local result = exports.ghmattimysql:QueryResult("SELECT * FROM `decorations` WHERE `id`=@id LIMIT 1", {
 			["@id"] = data.id,
 		})[1]
 

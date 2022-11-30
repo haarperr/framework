@@ -1,6 +1,6 @@
 @echo off
 
-copy resources\GHMattiMySQL\settings_dev.xml resources\GHMattiMySQL\settings.xml
+copy resources\ghmattimysql\settings_dev.xml resources\ghmattimysql\settings.xml
 
 %~dp0\..\FXServer\FXServer.exe ^
 +set sv_enforceGameBuild 2699 ^

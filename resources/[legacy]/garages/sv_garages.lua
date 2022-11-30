@@ -29,8 +29,8 @@ function InitializeGarages()
 		::continue::
 	end
 
-	exports.GHMattiMySQL:Transaction(queries)
-	local garages = exports.GHMattiMySQL:QueryResult("SELECT * FROM garages")
+	exports.ghmattimysql:Transaction(queries)
+	local garages = exports.ghmattimysql:QueryResult("SELECT * FROM garages")
 
 	for k, garage in ipairs(garages) do
 		if garage.name then
@@ -52,7 +52,7 @@ function InitializeGarages()
 end
 
 function AddGarage(garage, callback)
-	exports.GHMattiMySQL:Insert("garages", {
+	exports.ghmattimysql:Insert("garages", {
 		garage
 	}, function(id)
 		garage.id = id
@@ -80,7 +80,7 @@ function GetVehicle(source, id, character)
 	local character = character or exports.character:GetCharacter(source)
 	if not character then return end
 
-	local vehicle = exports.GHMattiMySQL:QueryResult("SELECT * FROM vehicles WHERE id=@id AND character_id=@character_id AND deleted=0", {
+	local vehicle = exports.ghmattimysql:QueryResult("SELECT * FROM vehicles WHERE id=@id AND character_id=@character_id AND deleted=0", {
 		["@id"] = id,
 		["@character_id"] = character.id,
 	})[1]
@@ -94,7 +94,7 @@ function GetVehicleByPlate(plate)
 		return false
 	end
 
-	local vehicle = exports.GHMattiMySQL:QueryResult("SELECT * FROM vehicles WHERE plate=@plate AND deleted=0", {
+	local vehicle = exports.ghmattimysql:QueryResult("SELECT * FROM vehicles WHERE plate=@plate AND deleted=0", {
 		["@plate"] = plate,
 	})[1]
 
@@ -116,7 +116,7 @@ function AddVehicle(source, model, garage, func)
 		fuel_health = 1000,
 	}
 
-	exports.GHMattiMySQL:Insert("vehicles", {
+	exports.ghmattimysql:Insert("vehicles", {
 		vehicle
 	}, function(id)
 		exports.log:Add({
@@ -147,11 +147,11 @@ end
 exports("AddVehicle", AddVehicle)
 
 function DeleteVehicle(id)
-	local result = exports.GHMattiMySQL:QueryScalar("SELECT `deleted` FROM `vehicles` WHERE `id`=@id", { ["@id"] = id })
+	local result = exports.ghmattimysql:QueryScalar("SELECT `deleted` FROM `vehicles` WHERE `id`=@id", { ["@id"] = id })
 
 	if result ~= 0 then return false end
 
-	exports.GHMattiMySQL:Query("UPDATE `vehicles` SET deleted=1 WHERE `id`=@id", { ["@id"] = id })
+	exports.ghmattimysql:Query("UPDATE `vehicles` SET deleted=1 WHERE `id`=@id", { ["@id"] = id })
 
 	local cache = VehicleCache[id]
 	if cache and DoesEntityExist(cache.entity or 0) then
@@ -218,7 +218,7 @@ function StoreVehicle(source, id, entity, info)
 
 		params["@"..field] = value
 	end
-	exports.GHMattiMySQL:Query(query.." WHERE id=@id AND character_id=@character_id", params)
+	exports.ghmattimysql:Query(query.." WHERE id=@id AND character_id=@character_id", params)
 end
 
 function GetId(vehicle)
@@ -269,7 +269,7 @@ AddEventHandler("garages:retrieveVehicle", function(id)
 	vehicle.plate = (oldPlate or exports.misc:GetRandomText(vehicle.id, 8)):upper():gsub("%s+", "")
 	
 	if oldPlate ~= vehicle.plate then
-		exports.GHMattiMySQL:QueryAsync("UPDATE vehicles SET plate=@plate WHERE id=@id", {
+		exports.ghmattimysql:QueryAsync("UPDATE vehicles SET plate=@plate WHERE id=@id", {
 			["@id"] = vehicle.id,
 			["@plate"] = vehicle.plate,
 		})
@@ -344,7 +344,7 @@ end)
 AddEventHandler("character:selected", function(source, character)
 	if character then
 		local vehicles = {}
-		local result = exports.GHMattiMySQL:QueryResult("SELECT id, garage_id, model FROM vehicles WHERE character_id=@character_id AND deleted=0", {
+		local result = exports.ghmattimysql:QueryResult("SELECT id, garage_id, model FROM vehicles WHERE character_id=@character_id AND deleted=0", {
 			["@character_id"] = character.id,
 		})
 

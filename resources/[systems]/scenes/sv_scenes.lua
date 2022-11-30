@@ -35,7 +35,7 @@ function Scene:Destroy()
 	Main.scenes[id] = nil
 
 	-- Remove from database.
-	exports.GHMattiMySQL:QueryAsync("DELETE FROM `scenes` WHERE id=@id", {
+	exports.ghmattimysql:QueryAsync("DELETE FROM `scenes` WHERE id=@id", {
 		["@id"] = id,
 	})
 end

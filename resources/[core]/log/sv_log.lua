@@ -21,7 +21,7 @@ function Main:LoadDatabase()
 	for _, path in ipairs({
 		"sql/logs.sql",
 	}) do
-		exports.GHMattiMySQL:Query(LoadQuery(path))
+		exports.ghmattimysql:Query(LoadQuery(path))
 	end
 end
 
@@ -108,7 +108,7 @@ function Main:Add(data)
 	data.resource = data.resource or GetInvokingResource()
 
 	-- Insert into the table.
-	exports.GHMattiMySQL:Insert("logs", { data })
+	exports.ghmattimysql:Insert("logs", { data })
 
 	-- Trigger event.
 	TriggerEvent("log", data)

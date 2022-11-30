@@ -13,7 +13,7 @@ end
 
 function Main:LoadProperties()
 	-- Load property info from database.
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `properties`")
+	local result = exports.ghmattimysql:QueryResult("SELECT * FROM `properties`")
 	local cache = {}
 	for k, property in ipairs(result) do
 		cache[property.id] = property
