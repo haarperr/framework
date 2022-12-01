@@ -1,4 +1,4 @@
-2exports.jobs:Register("docksidemech", {
+exports.jobs:Register("docksidemech", {
 	Title = "Mechanic Shop",
 	Name = "Dockside Mechanics",
 	Faction = "mechanic",
