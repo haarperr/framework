@@ -472,12 +472,12 @@ Config.Groups = {
 		},
 	},
 	{
-		name = "Voodoo Place",
+		name = "Dockside Mechanics",
 		coords = vector3(146.3623, -3020.532, 7.040892),
 		radius = 50,
 		locked = false,
 		factions = {
-			["tbd"] = "mechanic",
+			["docksidemech"] = "mechanic",
 		},
 	},
 	{
