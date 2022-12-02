@@ -19,7 +19,7 @@ function User:Create(data)
 	end
 	
 	-- Update database.
-	exports.GHMattiMySQL:Query(([[
+	exports.ghmattimysql:Query(([[
 		IF EXISTS (SELECT 1 FROM `users` WHERE `steam`=@steam) THEN
 			UPDATE `users` SET %s WHERE `steam`=@steam;
 		ELSE
@@ -28,7 +28,7 @@ function User:Create(data)
 	]]):format(queryString, queryString), queryValues)
 
 	-- Update fields.
-	local user = exports.GHMattiMySQL:QueryResult([[
+	local user = exports.ghmattimysql:QueryResult([[
 		UPDATE `users` SET last_played=NOW(), first_joined=COALESCE(first_joined, NOW()) WHERE steam=@steam;
 		SELECT * FROM `users` WHERE steam=@steam LIMIT 1;
 	]], { ["@steam"] = data.identifiers.steam })[1]
@@ -49,7 +49,7 @@ function User:Set(key, value)
 			return false
 		end
 
-		exports.GHMattiMySQL:QueryAsync("UPDATE `users` SET "..key.."=@"..key.." WHERE `id`=@id", {
+		exports.ghmattimysql:QueryAsync("UPDATE `users` SET "..key.."=@"..key.." WHERE `id`=@id", {
 			["@id"] = self.id,
 			["@"..key] = value,
 		})

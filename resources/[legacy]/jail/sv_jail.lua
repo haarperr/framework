@@ -15,7 +15,7 @@ Citizen.CreateThread(function()
 					goto continue
 				end
 
-				exports.GHMattiMySQL:QueryAsync("UPDATE jail_active SET time_left=@time_left WHERE character_id=@character_id", {
+				exports.ghmattimysql:QueryAsync("UPDATE jail_active SET time_left=@time_left WHERE character_id=@character_id", {
 					["@character_id"] = characterId,
 					["@time_left"] = jail.time_left,
 				})
@@ -60,7 +60,7 @@ function Jail(source, target, minutes, _type)
 	local sourceId = exports.character:Get(source, "id")
 	if not sourceId then return end
 
-	exports.GHMattiMySQL:QueryAsync("CALL jail_add(@target, @source, @minutes, @type, @time_left)", {
+	exports.ghmattimysql:QueryAsync("CALL jail_add(@target, @source, @minutes, @type, @time_left)", {
 		["@target"] = targetId,
 		["@source"] = sourceId,
 		["@minutes"] = minutes,
@@ -84,7 +84,7 @@ function Unjail(source, keepPosition)
 	local id = exports.character:Get(source, "id")
 	if not id then return end
 
-	exports.GHMattiMySQL:QueryAsync("UPDATE jail_active SET end_time=SYSDATE(),time_left=0 WHERE character_id=@character_id", {
+	exports.ghmattimysql:QueryAsync("UPDATE jail_active SET end_time=SYSDATE(),time_left=0 WHERE character_id=@character_id", {
 		["@character_id"] = id
 	})
 	Jailed[source] = nil
@@ -100,7 +100,7 @@ function AddTime(source, minutes)
 	jail.end_time = jail.end_time + minutes * 60000
 	local time_left = math.floor((jail.end_time - os.time() * 1000)/1000)
 
-	exports.GHMattiMySQL:QueryAsync("UPDATE jail_active SET end_time=end_time + INTERVAL @minutes MINUTE, time_left=@time_left WHERE character_id=@character_id", {
+	exports.ghmattimysql:QueryAsync("UPDATE jail_active SET end_time=end_time + INTERVAL @minutes MINUTE, time_left=@time_left WHERE character_id=@character_id", {
 		["@minutes"] = minutes,
 		["@character_id"] = id,
 		["@time_left"] = time_left,
@@ -113,7 +113,7 @@ exports("AddTime", AddTime)
 --[[ Events ]]--
 AddEventHandler("character:selected", function(source, character)
 	if character then
-		local jail = exports.GHMattiMySQL:QueryResult("SELECT * FROM jail_active WHERE character_id=@character_id LIMIT 1", {
+		local jail = exports.ghmattimysql:QueryResult("SELECT * FROM jail_active WHERE character_id=@character_id LIMIT 1", {
 			["@character_id"] = character.id
 		})[1]
 
@@ -125,7 +125,7 @@ AddEventHandler("character:selected", function(source, character)
 				jail.end_time = (os.time() + jail.time_left) * 1000
 				jail.start_time = os.time() * 1000
 
-				exports.GHMattiMySQL:QueryAsync("UPDATE jail_active SET end_time=NOW() + INTERVAL @seconds SECOND WHERE character_id=@character_id", {
+				exports.ghmattimysql:QueryAsync("UPDATE jail_active SET end_time=NOW() + INTERVAL @seconds SECOND WHERE character_id=@character_id", {
 					["@character_id"] = character.id,
 					["@seconds"] = jail.time_left,
 				})

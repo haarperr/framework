@@ -6,16 +6,16 @@ RegisterShop("FARM_1", {
     },
     Decorations = {
         ["farm_1"] = {
-            item = "Farm Sell",
+            item = "Seed Bench",
             invisible = true,
-            coords = vector3(-68.71407, 6256.855, 32.08312),
-            rotation = vector3(-27.69349, -0, 19.57428),
+            coords = vector3(-69.31407, 6257.055, 31.08312),
+            rotation = vector3(0, -0, 25.57428),
         },
-        ["egg_1"] = {
+--[[         ["egg_1"] = {
             item = "Chicken Coop",
             invisible = true,
-            coords = vector3(446.0444, 6462.76, 28.81332),
-            rotation = vector3(-9.741329, -0, -91.04585),
-        },
+            coords = vector3(445.5444, 6463.46, 28.31332),
+            rotation = vector3(1.741329, -0, -130.04585),
+        }, ]]
     },
 })

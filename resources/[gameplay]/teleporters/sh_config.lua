@@ -117,6 +117,12 @@ Config = {
 			ToText = "To Roof",
 			Type = "elevator",
 		},
+		-- Paleto Medical
+		{
+			From = vector4(-262.9569, 6325.984, 32.45105, 132.1123),
+			To = vector4(-258.1419, 6315.065, 37.62463, 313.8937),
+			Type = "elevator",
+		},
 		-- Sewers.
 		{
 			From = vector4(1013.3727416992, -201.98756408691, 70.19563293457, 56.696697235107), -- Mirror Park Blvd & Glory Way.

@@ -167,7 +167,7 @@ exports.chat:RegisterCommand("vehicle:transfer", function(source, args, rawComma
 		})
 
 		-- Set targets.
-		exports.GHMattiMySQL:QueryAsync("UPDATE vehicles SET character_id=@newId WHERE id=@id AND character_id=@oldId", {
+		exports.ghmattimysql:QueryAsync("UPDATE vehicles SET character_id=@newId WHERE id=@id AND character_id=@oldId", {
 			["@id"] = vehicleId,
 			["@newId"] = targetId,
 			["@oldId"] = sourceId,

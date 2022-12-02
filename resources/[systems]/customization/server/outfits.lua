@@ -46,7 +46,7 @@ function Outfits:Save(source, name)
 	end
 
 	-- Save outfit.
-	exports.GHMattiMySQL:QueryAsync([[
+	exports.ghmattimysql:QueryAsync([[
 		INSERT INTO `outfits` SET
 			`character_id`=@id, `name`=@name, `appearance`=@data
 		ON DUPLICATE KEY UPDATE
@@ -83,7 +83,7 @@ function Outfits:Select(source, name)
 	end
 
 	-- Get data.
-	local data = exports.GHMattiMySQL:QueryResult("SELECT `appearance` FROM `outfits` WHERE `character_id`=@id AND `name`=@name", {
+	local data = exports.ghmattimysql:QueryResult("SELECT `appearance` FROM `outfits` WHERE `character_id`=@id AND `name`=@name", {
 		["@id"] = id,
 		["@name"] = name,
 	})[1]
@@ -130,7 +130,7 @@ function Outfits:Delete(source, name)
 	end
 
 	-- Delete.
-	exports.GHMattiMySQL:QueryAsync("DELETE FROM `outfits` WHERE `character_id`=@id AND `name`=@name", {
+	exports.ghmattimysql:QueryAsync("DELETE FROM `outfits` WHERE `character_id`=@id AND `name`=@name", {
 		["@id"] = id,
 		["@name"] = name,
 	})
@@ -164,7 +164,7 @@ RegisterNetEvent("customization:requestOutfits", function()
 	if not id then return end
 
 	-- Load outfits.
-	local result = exports.GHMattiMySQL:QueryResult("SELECT `name`, `time_stamp` FROM `outfits` WHERE `character_id`=@id", {
+	local result = exports.ghmattimysql:QueryResult("SELECT `name`, `time_stamp` FROM `outfits` WHERE `character_id`=@id", {
 		["@id"] = id
 	})
 

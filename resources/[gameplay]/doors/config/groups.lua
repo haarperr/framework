@@ -146,15 +146,44 @@ Config.Groups = {
 		},
 	},
 	{
+		name = "Sandy Clinic",
+		coords = vector3(1664.921, 3663.554, 35.34529),
+		radius = 28,
+		locked = false,
+		overrides = {
+			{ coords = vector3(1669.023, 3651.38, 35.48949), locked = true }, -- Nurse Station
+			{ coords = vector3(1661.104, 3654.11, 35.48949), locked = true }, -- Changing Room
+			{ coords = vector3(1658.458, 3658.694, 35.48949), locked = true }, -- Stock Room
+			{ coords = vector3(1654.229, 3658.892, 35.48901), locked = true }, -- Garage Entry
+			{ coords = vector3(1656.481, 3660.192, 35.48901), locked = true }, -- Garage Entry
+			{ coords = vector3(1663.544, 3668.234, 38.32449), locked = true }, -- Garage Door
+			{ coords = vector3(1661.505, 3671.763, 38.32502), locked = true }, -- Garage Door
+			{ coords = vector3(1660.452, 3675.868, 36.33792), locked = true }, -- Garage Door
+		},
+		factions = {
+			["lspd"] = "pd",
+			["bcso"] = "pd",
+			["sasp"] = "pd",
+			["doc"] = "pd",
+			["doj"] = "federal",
+			["lsda"] = "federal",
+			["opr"] = "federal",
+			["saag"] = "federal",
+			["sams"] = "federal",
+			["sapr"] = "federal",
+			["paramedic"] = "ems",
+			["firefighter"] = "ems",
+			["lsms"] = "ems",
+		},
+	},
+	{
 		name = "Paleto Medical",
 		coords = vector3(-254.7769, 6320.646, 32.43077),
 		radius = 25,
-		locked = true,
+		locked = false,
 		overrides = {
-			{ coords = vector3(-249.84161376953128, 6331.81640625, 32.5875015258789), locked = false }, -- Front to reception.
-			{ coords = vector3(-255.3900909423828, 6321.27685546875, 32.46699142456055), locked = false }, -- Beds area.
-			{ coords = vector3(-251.98960876464844, 6323.37451171875, 32.46699142456055), locked = false }, -- Waiting room to hallway.
-			{ coords = vector3(-253.17071533203128, 6328.53271484375, 32.46699142456055), locked = false }, -- Waiting room to reception.
+			{ coords = vector3(-252.126, 6319.883, 32.60179), locked = true }, -- Nurse Station
+			{ coords = vector3(-260.4823, 6320.477, 32.60179), locked = true }, -- Changing Room
 		},
 		factions = {
 			["lspd"] = "pd",
@@ -381,13 +410,15 @@ Config.Groups = {
 			["lsms"] = "ems",
 		},
 	},
-	{
+	--[[{
 		name = "Tuner Meetup",
 		coords = vector3(953.0521850585938, -1698.287353515625, 29.75150108337402),
 		radius = 20,
 		locked = true,
-		factions = { "staffteam" },
-	},
+		factions = {
+			["axles"] = "mechanic",
+		},
+	},]]
 	{
 		name = "High Times",
 		coords = vector3(168.0943145751953, -228.05804443359375, 54.22780609130859),
@@ -438,6 +469,15 @@ Config.Groups = {
 		locked = false,
 		factions = {
 			["route68"] = "mechanic",
+		},
+	},
+	{
+		name = "Dockside Mechanics",
+		coords = vector3(146.3623, -3020.532, 7.040892),
+		radius = 50,
+		locked = false,
+		factions = {
+			["docksidemech"] = "mechanic",
 		},
 	},
 	{
@@ -559,10 +599,10 @@ Config.Groups = {
 		radius = 18,
 		locked = true, 
 		factions = {
-			["odin"] = "farm",
+			["helas"] = "farm",
 		},
 	},
-	{
+	--[[{
 	name = "Casino",
 		coords = vector3(936.1548, 40.19312, 72.52461),
 		radius = 60,
@@ -570,5 +610,5 @@ Config.Groups = {
 		factions = {
 			["doj"] = "federal",
 		},
-	},
+	},]]
 }

@@ -27,7 +27,7 @@ local types = {
 
 function DescribeTable(table)
 	local output = {}
-	local columns = exports.GHMattiMySQL:QueryResult("DESCRIBE `"..table.."`")
+	local columns = exports.ghmattimysql:QueryResult("DESCRIBE `"..table.."`")
 
 	for _, column in ipairs(columns) do
 		local _type = column.Type:match("%a+")
@@ -50,7 +50,7 @@ function GetTableReferences(table, column)
 	local schema = GetConvar("mysql_schema", "")
 	if schema == "" then return {} end
 
-	return exports.GHMattiMySQL:QueryResult([[
+	return exports.ghmattimysql:QueryResult([[
 		SELECT
 			TABLE_NAME AS 'table',
 			COLUMN_NAME AS 'column',
@@ -83,7 +83,7 @@ function LoadQuery(path)
 end
 
 function RunQuery(path)
-	exports.GHMattiMySQL:Query(LoadQuery(path))
+	exports.ghmattimysql:Query(LoadQuery(path))
 
 	Citizen.Wait(0)
 end
@@ -92,11 +92,11 @@ function WaitForTable(table)
 	local schema = GetConvar("mysql_schema", "")
 	if schema == "" then return end
 
-	while GetResourceState("GHMattiMySQL") ~= "started" do
+	while GetResourceState("ghmattimysql") ~= "started" do
 		Citizen.Wait(200)
 	end
 
-	while exports.GHMattiMySQL:QueryScalar([[
+	while exports.ghmattimysql:QueryScalar([[
 		SELECT 1 FROM information_schema.tables
 		WHERE table_schema=@schema AND table_name=@table
 		LIMIT 1;

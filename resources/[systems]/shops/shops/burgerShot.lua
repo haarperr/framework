@@ -8,14 +8,26 @@ RegisterShop("BURGER_SHOT", {
 		["frier_1"] = {
 			item = "Burger Shot Fryer",
 			invisible = true,
-			coords = vector3(-1201.338, -897.0543, 13.27606),
-			rotation = vector3(-26.485, -0, 32.47513),
+			coords = vector3(-1200.938, -896.8543, 13.11831),
+			rotation = vector3(-1.485, -0, 33.77513),
 		},
 		["bsproc_1"] = {
 			item = "Burger Shot Processor",
 			invisible = true,
 			coords = vector3(-1196.124, -898.8571, 14.88577),
 			rotation = vector3(-19.92715, -0, 34.49049),
+		},
+		["bgrill_1"] = {
+			item = "Burger Shot Grill",
+			invisible = true,
+			coords = vector3(-1198.247, -895.0063, 13.11831),
+			rotation = vector3(-1.485, -0, 32.47513),
+		},
+		["bslush_1"] = {
+			item = "Slushie Machine",
+			invisible = true,
+			coords = vector3(-1197.367, -893.8647, 14.05),
+			rotation = vector3(-1.485, -0, 120.47513),
 		},
 	},
 	Containers = {

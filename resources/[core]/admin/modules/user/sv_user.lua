@@ -47,7 +47,7 @@ RegisterNetEvent(Admin.event.."lookupUser", function(data)
 	end
 
 	-- Get user.
-	local user = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE "..query, values)[1]
+	local user = exports.ghmattimysql:QueryResult("SELECT * FROM `users` WHERE "..query, values)[1]
 	if not user then
 		TriggerClientEvent("chat:notify", source, {
 			class = "error",
@@ -65,7 +65,7 @@ RegisterNetEvent(Admin.event.."lookupUser", function(data)
 	
 	-- Get characters.
 	local characters = {}
-	local characters = exports.GHMattiMySQL:QueryResult("SELECT * FROM `characters` WHERE `user_id`="..user.id)
+	local characters = exports.ghmattimysql:QueryResult("SELECT * FROM `characters` WHERE `user_id`="..user.id)
 	
 	for k, character in ipairs(characters) do
 		local dob, age = DateFromTime(character.dob)
@@ -74,7 +74,7 @@ RegisterNetEvent(Admin.event.."lookupUser", function(data)
 	end
 
 	-- Get warnings.
-	local warnings = exports.GHMattiMySQL:QueryResult("SELECT * FROM `warnings` WHERE `user_id`=@userId", {
+	local warnings = exports.ghmattimysql:QueryResult("SELECT * FROM `warnings` WHERE `user_id`=@userId", {
 		["@userId"] = user.id
 	})
 
@@ -128,7 +128,7 @@ RegisterNetEvent(Admin.event.."setFlag", function(flag, value)
 	local target = exports.user:GetPlayer(targetId)
 
 	-- Get flags.
-	local flags = target and exports.user:Get(target, "flag") or exports.GHMattiMySQL:QueryScalar("SELECT `flags` FROM `users` WHERE `id`=@id LIMIT 1", {
+	local flags = target and exports.user:Get(target, "flag") or exports.ghmattimysql:QueryScalar("SELECT `flags` FROM `users` WHERE `id`=@id LIMIT 1", {
 		["@id"] = targetId,
 	}) or 0
 
@@ -156,7 +156,7 @@ RegisterNetEvent(Admin.event.."setFlag", function(flag, value)
 	if target then
 		exports.user:Set(target, "flags", flags)
 	else
-		exports.GHMattiMySQL:QueryAsync("UPDATE `users` SET `flags`=@flags WHERE `id`=@id", {
+		exports.ghmattimysql:QueryAsync("UPDATE `users` SET `flags`=@flags WHERE `id`=@id", {
 			["@id"] = targetId,
 			["@flags"] = flags,
 		})

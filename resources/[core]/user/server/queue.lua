@@ -11,13 +11,13 @@ function Queue:Init()
 	self.banned.tokens = {}
 	
 	-- Cache bans.
-	local bans = exports.GHMattiMySQL:QueryResult("SELECT * FROM `bans` WHERE `unbanned`=0")
+	local bans = exports.ghmattimysql:QueryResult("SELECT * FROM `bans` WHERE `unbanned`=0")
 	for index, row in ipairs(bans) do
 		self:AddBan(row)
 	end
 
 	-- Cache users.
-	local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
+	local users = exports.ghmattimysql:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
 	for index, row in ipairs(users) do
 		if row.steam then
 			self.whitelist[row.steam] = true
@@ -256,7 +256,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		-- Update users cache.
-		local users = exports.GHMattiMySQL:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
+		local users = exports.ghmattimysql:QueryResult("SELECT * FROM `users` WHERE `priority`>-128")
 		for index, row in ipairs(users) do
 			if row.steam then
 				Queue.whitelist[row.steam] = true

@@ -20,20 +20,20 @@ RegisterShop("RESOURCE_2", {
 		["keycard1"] = {
 			item = "Vault Keycard Printer",
 			invisible = true,
-			coords = vector3(-1704.229, -1102.413, 13.15278),
-			rotation = vector3(-13.22508, -4.268868e-07, 146.7774),
+			coords = vector3(-1135.39, -459.7016, 35.41707),
+			rotation = vector3(-25.41007, -0, -151.4925),
 		},
 		["keycard2"] = {
 			item = "Keycard Printer",
 			invisible = true,
-			coords = vector3(457.8803, 5572.039, 781.1783),
-			rotation = vector3(-21.35386, -0, -85.48493),
+			coords = vector3(1269.118, -1711.199, 54.77144),
+			rotation = vector3(-28.45952, 8.537737e-07, -150.1513),
 		},
 		["bonds"] = {
 			item = "Bond Trader",
 			invisible = true,
-			coords = vector3(-469.1567, 1129.214, 325.8589),
-			rotation = vector3(-32.43731, 4.268868e-07, 76.7732),
+			coords = vector3(-596.808, -1620.069, 33.01054),
+			rotation = vector3(-597.0156, -1617.958, 34.13696),
 		},
 		},
 	}

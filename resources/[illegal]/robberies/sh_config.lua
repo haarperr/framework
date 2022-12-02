@@ -44,7 +44,7 @@ Config = {
 				"Lockpick",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {58, 86}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {98, 146}, Chance = 1.0 },
 			},
 			Models = {
 				["prop_till_01"] = { Offset = vector3(0.0, -0.6, 0.0) },
@@ -90,7 +90,7 @@ Config = {
 				"Diamond Keycard",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {800, 1123}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {900, 1323}, Chance = 1.0 },
 				{ Name = "Platinum Ingot", Amount = {1, 1}, Chance = 1.0 },
 			},
 		},
@@ -127,7 +127,7 @@ Config = {
 				"Safe Cracking Tool",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {328, 513}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {528, 763}, Chance = 1.0 },
 				{ Name = "Cracked USB", Amount = {1, 1}, Chance = 0.5 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.25 },
 				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
@@ -169,7 +169,7 @@ Config = {
 				"Hacking Tool",
 			},
 			Output = {
-				{ Name = "Bills", Amount = {413, 603}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {613, 803}, Chance = 1.0 },
 				{ Name = "USB", Amount = {1, 1}, Chance = 0.5 },
 				{ Name = "Lockpick", Amount = {1,2}, Chance = 0.50 },
 				{ Name = "Diamond", Amount = {1,3}, Chance = 0.70 },
@@ -258,7 +258,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Valuable Goods", Amount = {1, 1}, Chance = 1.0 },
-				{ Name = "Bills", Amount = {301, 543}, Chance = 1.0 },
+				{ Name = "Bills", Amount = {501, 743}, Chance = 1.0 },
 				{ Name = "Red Keycard", Amount = {1, 1}, Chance = 0.25 },
 				{ Name = "Savings Bond", Amount = {1, 1}, Chance = 1.0 },
 				{ Name = "Barma Ruby", Amount = {1, 1}, Chance = 0.02 },
@@ -322,7 +322,7 @@ Config = {
 			},
 			Output = {
 				{ Name = "Silver Ingot", Amount = {1, 1}, Chance = 1.9 },
-				{ Name = "Bills", Amount = {605, 938}, Chance = 0.1 },
+				{ Name = "Bills", Amount = {705, 938}, Chance = 0.1 },
 			},
 		},
 		["cabinet"] = {

@@ -6,7 +6,7 @@ exports.jobs:Register("paramedic", {
 	Title = "EMS",
 	Name = "LSFD Paramedic",
 	Faction = "ems",
-	Pay = 90,
+	Pay = 120,
 	Group = "paramedic",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -86,23 +86,23 @@ exports.jobs:Register("paramedic", {
 		},
 		{ -- Paleto helicopter.
 			Rank = 0,
-			In = vector3(-261.6651916503906, 6313.49853515625, 37.59577560424805),
+			In = vector3(-255.1063, 6322.308, 37.61602),
 			Model = "polmav",
 			Mods = {
 				[48] = 3,
 			},
 			Coords = {
-				vector4(-252.42051696777344, 6319.06201171875, 39.65964126586914, 315.49237060546875)
+				vector4(-246.2299, 6323.82, 37.61602, 43.75174)
 			},
 		},
 		{ -- Paleto Mass Casualty Cargobob.
 			Rank = 0,
-			In = vector3(-257.6318664550781, 6309.6103515625, 37.60367965698242),
+			In = vector3(-246.4326, 6314.122, 37.61055),
 			Model = "cargobob2",
 			PrimaryColor = 111,
 			SecondaryColor = 27,
 			Coords = {
-				vector4(-252.42051696777344, 6319.06201171875, 39.65964126586914, 315.49237060546875)
+				vector4(-246.2299, 6323.82, 37.61602, 43.75174)
 			},
 		},
 		{ -- Paleto Bay PD.
@@ -172,7 +172,7 @@ exports.jobs:Register("firefighter", {
 	Title = "EMS",
 	Name = "LSFD Firefighter",
 	Faction = "ems",
-	Pay = 90,
+	Pay = 120,
 	Group = "firefighter",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -252,23 +252,23 @@ exports.jobs:Register("firefighter", {
 		},
 		{ -- Paleto helicopter.
 			Rank = 0,
-			In = vector3(-261.6651916503906, 6313.49853515625, 37.59577560424805),
+			In = vector3(-255.1063, 6322.308, 37.61602),
 			Model = "polmav",
 			Mods = {
 				[48] = 3,
 			},
 			Coords = {
-				vector4(-252.42051696777344, 6319.06201171875, 39.65964126586914, 315.49237060546875)
+				vector4(-246.2299, 6323.82, 37.61602, 43.75174)
 			},
 		},
 		{ -- Paleto Mass Casualty Cargobob.
 			Rank = 0,
-			In = vector3(-257.6318664550781, 6309.6103515625, 37.60367965698242),
+			In = vector3(-246.4326, 6314.122, 37.61055),
 			Model = "cargobob2",
 			PrimaryColor = 111,
 			SecondaryColor = 27,
 			Coords = {
-				vector4(-252.42051696777344, 6319.06201171875, 39.65964126586914, 315.49237060546875)
+				vector4(-246.2299, 6323.82, 37.61602, 43.75174)
 			},
 		},
 		{ -- Paleto Bay PD.
@@ -314,6 +314,18 @@ exports.jobs:Register("firefighter", {
 				vector4(-722.3483276367188, -1472.44873046875, 5.000519752502441, 49.11679458618164)
 			},
 		},
+		{ -- Rockford Ladder Truck.
+			Rank = 0,
+			In = vector3(-634.9586, -117.2443, 38.04981),
+			Model = "fdlcladder",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(-646.4465, -113.4573, 37.97614, 116.215)
+			},
+		},
+
 	},
 	Emergency = {
 		AccessMdt = "police",
@@ -337,7 +349,7 @@ exports.jobs:Register("lsms", {
 	Title = "EMS",
 	Name = "Los Santos Medical Services",
 	Faction = "ems",
-	Pay = 90,
+	Pay = 120,
 	Group = "lsms",
 	Flags = EMS_FLAGS,
 	Clocks = {
@@ -396,23 +408,23 @@ exports.jobs:Register("lsms", {
 		},
 		{ -- Paleto Hospital Helicopter.
 			Rank = 0,
-			In = vector3(-261.6651916503906, 6313.49853515625, 37.59577560424805),
+			In = vector3(-255.1063, 6322.308, 37.61602),
 			Model = "polmav",
 			Mods = {
 				[48] = 3,
 			},
 			Coords = {
-				vector4(-252.42051696777344, 6319.06201171875, 39.65964126586914, 315.49237060546875)
+				vector4(-246.2299, 6323.82, 37.61602, 43.75174)
 			},
 		},
 		{ -- Paleto Mass Casualty Cargobob.
 			Rank = 0,
-			In = vector3(-257.6318664550781, 6309.6103515625, 37.60367965698242),
+			In = vector3(-246.4326, 6314.122, 37.61055),
 			Model = "cargobob2",
 			PrimaryColor = 111,
 			SecondaryColor = 27,
 			Coords = {
-				vector4(-252.42051696777344, 6319.06201171875, 39.65964126586914, 315.49237060546875)
+				vector4(-246.2299, 6323.82, 37.61602, 43.75174)
 			},
 		},
 		{ -- Paleto Bay PD.

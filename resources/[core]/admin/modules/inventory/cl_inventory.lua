@@ -16,7 +16,7 @@ Admin:AddHook("select", "viewItems", function()
 	local items = exports.inventory:GetItems()
 
 	for id, item in pairs(items) do
-		local icon = item.name:gsub("%s+", "")
+		local icon = item.name:gsub("[%s+%p+]", "")
 		
 		data[#data + 1] = {
 			id = item.id,

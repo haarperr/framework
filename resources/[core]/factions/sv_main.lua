@@ -41,7 +41,7 @@ function Main:Init()
 end
 
 function Main:LoadPlayer(source, characterId)
-	local factions = exports.GHMattiMySQL:QueryResult(([[
+	local factions = exports.ghmattimysql:QueryResult(([[
 		SELECT
 			`name`,
 			`group`,
@@ -99,7 +99,7 @@ function Main:JoinFaction(source, name, group, level, fields)
 	level = tonumber(level) or 0
 
 	if faction:AddPlayer(source, group, level, fields) then
-		exports.GHMattiMySQL:QueryAsync(([[
+		exports.ghmattimysql:QueryAsync(([[
 			INSERT INTO %s
 			SET
 				`character_id`=@characterId,
@@ -138,7 +138,7 @@ function Main:LeaveFaction(source, name, group)
 	if not faction then return false end
 
 	if faction:RemovePlayer(source, group) then
-		exports.GHMattiMySQL:QueryAsync(([[
+		exports.ghmattimysql:QueryAsync(([[
 			DELETE FROM %s
 			WHERE
 				`character_id`=@characterId AND
@@ -175,7 +175,7 @@ function Main:UpdateFaction(source, name, group, key, value, isCharacter)
 		local isLevel = key == "level"
 		local info = not isLevel and faction:GetPlayer(source, group)
 
-		exports.GHMattiMySQL:QueryAsync(([[
+		exports.ghmattimysql:QueryAsync(([[
 			UPDATE %s
 			SET
 				%s

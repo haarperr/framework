@@ -2,7 +2,7 @@ fx_version 'adamant'
 game 'gta5'
 
 dependencies {
-	'GHMattiMySQL',
+	'ghmattimysql',
 }
 
 shared_script {

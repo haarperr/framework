@@ -8,6 +8,6 @@ Main = Main or {}
 -- 		"sql/getters.sql",
 -- 		"sql/random.sql",
 -- 	}) do
--- 		exports.GHMattiMySQL:Query(LoadQuery(path))
+-- 		exports.ghmattimysql:Query(LoadQuery(path))
 -- 	end
 -- end)

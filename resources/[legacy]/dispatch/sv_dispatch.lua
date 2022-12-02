@@ -58,7 +58,7 @@ function GenerateRandomName()
 		firstName = firstNamesList[math.random(1, #firstNamesList)]
 		lastName = lastNamesList[math.random(1, #lastNamesList)]
 
-		local result = exports.GHMattiMySQL:QueryResult("SELECT characters.first_name, characters.last_name FROM characters WHERE characters.first_name = @firstName AND characters.last_name = @lastName", {
+		local result = exports.ghmattimysql:QueryResult("SELECT characters.first_name, characters.last_name FROM characters WHERE characters.first_name = @firstName AND characters.last_name = @lastName", {
 			["@firstName"] = firstName,
 			["@lastName"] = lastName,
 		})
@@ -89,7 +89,7 @@ function Add(report)
 		end
 	elseif (report.messageType == 1 or report.messageType == 2) and report.source then
 		local characterId = exports.character:Get(report.source, "id")
-		local phoneNumber = exports.GHMattiMySQL:QueryScalar("SELECT `phone_number` FROM `phones` WHERE `character_id`=@characterId", {
+		local phoneNumber = exports.ghmattimysql:QueryScalar("SELECT `phone_number` FROM `phones` WHERE `character_id`=@characterId", {
 			["@characterId"] = characterId,
 		})
 		report.phone = phoneNumber
@@ -125,7 +125,7 @@ AddEventHandler("dispatch:runPlate", function(data)
 
 	if not VehicleCache[plate] then
 		VehicleCache[plate] = {Plate = plate, Owner = nil, Model = nil}
-		local vehicleData = exports.GHMattiMySQL:QueryResult("SELECT characters.first_name, characters.last_name, vehicles.model, vehicles.plate FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.id AND vehicles.plate = @plate", {
+		local vehicleData = exports.ghmattimysql:QueryResult("SELECT characters.first_name, characters.last_name, vehicles.model, vehicles.plate FROM vehicles INNER JOIN characters ON vehicles.character_id = characters.id AND vehicles.plate = @plate", {
 			["@plate"] = plate,
 		})
 		if #vehicleData == 0 then

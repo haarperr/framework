@@ -55,7 +55,7 @@ Config.Walkstyles = {
 	["gangster3"] = { Name = "move_m@gangster@var_e" },
 	["gangster4"] = { Name = "move_m@gangster@var_f" },
 	["gangster5"] = { Name = "move_m@gangster@var_i" },
-	["golfer"] = { Name = "move_m@golfer@ " },
+	["golfer"] = { Name = "move_m@golfer@" },
 	["grooving"] = { Name = "anim@move_m@grooving@" },
 	["guard"] = { Name = "move_m@prison_gaurd" },
 	["handcuffs"] = { Name = "move_m@prisoner_cuffed" },

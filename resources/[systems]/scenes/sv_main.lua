@@ -5,7 +5,7 @@ Main.players = {}
 
 function Main:Init()
 	-- Create table.
-	exports.GHMattiMySQL:Query([[
+	exports.ghmattimysql:Query([[
 		CREATE TABLE IF NOT EXISTS `scenes` (
 			`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 			`user_id` INT(11) UNSIGNED NULL DEFAULT NULL,
@@ -36,7 +36,7 @@ function Main:Init()
 	-- Cache scenes.
 	--print("Pre-caching scene grids...")
 	
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `scenes`")
+	local result = exports.ghmattimysql:QueryResult("SELECT * FROM `scenes`")
 	local gridCache = {}
 	local gridCount, sceneCount = 0, 0
 
@@ -194,7 +194,7 @@ function Main:PlaceScene(source, scene)
 	end
 
 	-- Save to database and get id.
-	local id = exports.GHMattiMySQL:QueryScalar(([[
+	local id = exports.ghmattimysql:QueryScalar(([[
 		INSERT INTO `scenes` SET
 			type=@type,
 			text=@text,

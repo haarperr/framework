@@ -2,7 +2,7 @@ exports.jobs:Register("sapr", {
 	Title = "Federal",
 	Name = "San Andreas Park Rangers",
 	Faction = "federal",
-	Pay = 90,
+	Pay = 130,
 	Group = "sapr",
 	Clocks = {
 		{ Coords = vector3(381.5987, 794.0215, 190.4905), Radius = 3.5 },
@@ -17,15 +17,23 @@ exports.jobs:Register("sapr", {
 		CanFine = true,
 		CanImpound = true,
 		CanJail = true,
-		ChopShop = false,
-		DrugBonus = false,
-		JailBreak = false,
-		Robberies = false,
+		ChopShop = true,
+		DrugBonus = true,
+		JailBreak = true,
+		Robberies = true,
 	},
 	Ranks = {
 		{ Name = "Ranger" },
 		{ Name = "Senior Ranger" },
-		{ Name = "Sergeant" },
+		{
+			Name = "Sergeant",
+			Flags = (
+				Jobs.Permissions.CAN_HIRE_OR_FIRE |
+				Jobs.Permissions.CAN_SET_USER_FLAGS |
+				Jobs.Permissions.CAN_SET_USER_STATUS |
+				Jobs.Permissions.CAN_SET_USER_OTHER
+			)
+		},
 		{
 			Name = "Superintendent",
 			Flags = Jobs.Permissions.ALL()

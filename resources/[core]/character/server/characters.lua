@@ -82,6 +82,6 @@ function Character:Set(...)
 
 	-- Save the values.
 	if setters ~= "" then
-		exports.GHMattiMySQL:QueryAsync(("UPDATE characters SET %s WHERE id=@id"):format(setters), values)
+		exports.ghmattimysql:QueryAsync(("UPDATE characters SET %s WHERE id=@id"):format(setters), values)
 	end
 end

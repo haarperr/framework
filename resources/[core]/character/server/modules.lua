@@ -31,7 +31,7 @@ end
 function Modules:LoadModules(source, character)
 	local loadedModules = 0
 	for reference, data in pairs(self.references) do
-		exports.GHMattiMySQL:QueryResultAsync("SELECT * FROM `"..data.table.."` WHERE character_id=@character_id", {
+		exports.ghmattimysql:QueryResultAsync("SELECT * FROM `"..data.table.."` WHERE character_id=@character_id", {
 			["@character_id"] = character.id,
 		}, function(result)
 			result = ConvertTableResult(result)
@@ -72,7 +72,7 @@ function AddModule(character, table, data, callback)
 		end
 	end
 
-	exports.GHMattiMySQL:Insert(table, {
+	exports.ghmattimysql:Insert(table, {
 		insertData
 	}, function()
 		if callback then
@@ -101,7 +101,7 @@ function RemoveModule(character, table, conditions, callback)
 		data["@"..k] = v
 	end
 
-	exports.GHMattiMySQL:QueryAsync("DELETE FROM `"..table.."` "..conditionQuery, data, function()
+	exports.ghmattimysql:QueryAsync("DELETE FROM `"..table.."` "..conditionQuery, data, function()
 		if callback then
 			pcall(callback)
 		end
@@ -137,7 +137,7 @@ function UpdateModule(character, table, values, conditions, callback)
 		data["@"..k] = v
 	end
 
-	exports.GHMattiMySQL:QueryAsync(("UPDATE `%s` %s %s"):format(table, setQuery, conditionQuery), data, function()
+	exports.ghmattimysql:QueryAsync(("UPDATE `%s` %s %s"):format(table, setQuery, conditionQuery), data, function()
 		if callback then
 			pcall(callback)
 		end

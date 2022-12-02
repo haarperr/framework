@@ -30,7 +30,7 @@ function Main:LoadDatabase()
 	for _, path in ipairs({
 		"sql/characters.sql",
 	}) do
-		exports.GHMattiMySQL:Query(LoadQuery(path))
+		exports.ghmattimysql:Query(LoadQuery(path))
 	end
 	
 	self.columns = DescribeTable("characters")

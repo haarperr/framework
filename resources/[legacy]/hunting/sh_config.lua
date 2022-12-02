@@ -34,7 +34,7 @@ Config = {
 			Name = "Boar",
 			DamageType = "Firearm",
 			Items = {
-				{ "Raw Pork", {1,2}, 1.0 },
+				{ "Raw Pork", {1,3}, 1.0 },
 				{ "Large Bones", {1,2}, 0.2 },
 				{ "Animal Fat", {1,2}, 1.0 },
 			},
@@ -77,7 +77,7 @@ Config = {
 			Name = "Deer",
 			DamageType = "Firearm",
 			Items = {
-				{ "Raw Venison", {1,2}, 1.0 },
+				{ "Raw Venison", {1,3}, 1.0 },
 				{ "Large Bones", {1,4}, 1.0 },
 				{ "Deer Skin", {1,1}, 1.0 },
 			},

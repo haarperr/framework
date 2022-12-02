@@ -10,8 +10,8 @@ Config.Filters.Armory = {
 		["9mm Parabellum"] = true,
         ["Flashlight"] = true,
         ["Handcuffs"] = true,
-        ["Heavy Armor"] = true,
-        ["Ballistic Helmet"] = true,
+        --["Heavy Armor"] = true,
+        --["Ballistic Helmet"] = true,
         ["Pistol Mk II"] = true,
 		["SNS Pistol Mk II"] = true,
 		[".45 ACP Box"] = true,
@@ -35,6 +35,11 @@ Config.Filters.Armory = {
 		["Scissors"] = true,
 		["Impound Sticker"] = true,
 		["Cone"] = true,
+		["Pencil"] = true,
+		["Pen"] = true,
+		["Eraser"] = true,
+		["Spray Can"] = true,
+		["Bleach"] = true,
 	},
 }
 

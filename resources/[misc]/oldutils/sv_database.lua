@@ -26,7 +26,7 @@ local DataTypes = {
 
 exports("DescribeTable", function(table)
 	local output = {}
-	local result = exports.GHMattiMySQL:QueryResult("DESCRIBE `"..table.."`")
+	local result = exports.ghmattimysql:QueryResult("DESCRIBE `"..table.."`")
 	
 	for key, row in ipairs(result) do
 		local dataType = row.Type
@@ -72,7 +72,7 @@ exports("GetTableReferences", function(table, column)
 		condition = condition.." AND REFERENCED_COLUMN_NAME=@column"
 	end
 
-	local result = exports.GHMattiMySQL:QueryResult("SELECT TABLE_NAME AS 'table', COLUMN_NAME AS 'column', REFERENCED_COLUMN_NAME AS 'referenced_column' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA=@schema AND "..condition, {
+	local result = exports.ghmattimysql:QueryResult("SELECT TABLE_NAME AS 'table', COLUMN_NAME AS 'column', REFERENCED_COLUMN_NAME AS 'referenced_column' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA=@schema AND "..condition, {
 		["@schema"] = GetConvar("mysql_schema", ""),
 		["@table"] = table,
 		["@column"] = column

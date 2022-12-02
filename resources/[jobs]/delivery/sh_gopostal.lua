@@ -16,7 +16,7 @@ exports.jobs:Register("gopostal", {
 				["mansion"] = true,
 			},
 		},
-		Pay = 27,
+		Pay = 32,
 	},
 	Clocks = {
 		{ Coords = vector3(78.79257202148438, 112.04261779785156, 81.16808319091797), Radius = 3.5 },

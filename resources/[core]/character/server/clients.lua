@@ -3,7 +3,7 @@ Client.__index = Client
 
 function Client:Create(source, id)
 	-- Load characters.
-	local result = exports.GHMattiMySQL:QueryResult([[
+	local result = exports.ghmattimysql:QueryResult([[
 		SELECT * FROM `characters` WHERE dead=0 AND user_id=@userId
 	]], {
 		["@userId"] = id,
@@ -68,7 +68,7 @@ function Client:AddCharacter(data)
 	end
 
 	-- Create character.
-	local character = exports.GHMattiMySQL:QueryResult([[
+	local character = exports.ghmattimysql:QueryResult([[
 		INSERT INTO `characters` SET
 			user_id=@userId,
 			first_name=@firstName,

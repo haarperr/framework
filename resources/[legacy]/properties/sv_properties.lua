@@ -89,7 +89,7 @@ function SetOwnership(source, id, price, lender)
 				extra = ("id: %s - price: $%s"):format(id, price),
 			})
 			
-			exports.GHMattiMySQL:Transaction(transactions, {
+			exports.ghmattimysql:Transaction(transactions, {
 				["@character_id"] = character.id,
 				["@id"] = id,
 				["@days"] = Config.PaymentDays,
@@ -419,7 +419,7 @@ AddEventHandler("properties:pay", function(id)
 
 	-- Update database.
 	if isMortgage and payment.payed >= payment.due then
-		exports.GHMattiMySQL:QueryAsync([[
+		exports.ghmattimysql:QueryAsync([[
 			DELETE FROM
 				`payments`
 			WHERE
@@ -431,7 +431,7 @@ AddEventHandler("properties:pay", function(id)
 
 		table.remove(character.payments, paymentId)
 	else
-		exports.GHMattiMySQL:QueryAsync([[
+		exports.ghmattimysql:QueryAsync([[
 			UPDATE `payments` SET
 				`last_payment`=SYSDATE(),
 				`next_payment`=(`next_payment` + INTERVAL @days DAY),
@@ -477,17 +477,17 @@ AddEventHandler("properties:start", function()
 		CHANGE COLUMN `type` `type` ENUM(%s) NOT NULL DEFAULT 'motel' COLLATE 'utf8_general_ci' AFTER `character_id`
 	]]):format(query)
 
-	exports.GHMattiMySQL:Query(query)
+	exports.ghmattimysql:Query(query)
 
 	-- Update/insert custom properties.
 	for _type, settings in pairs(Config.Types) do
 		if settings.Custom and settings.Coords then
-			local id = exports.GHMattiMySQL:QueryScalar("SELECT `id` FROM `properties` WHERE `type`=@type LIMIT 1", {
+			local id = exports.ghmattimysql:QueryScalar("SELECT `id` FROM `properties` WHERE `type`=@type LIMIT 1", {
 				["@type"] = _type
 			})
 
 			if id then
-				exports.GHMattiMySQL:Query("UPDATE `properties` SET x=@x, y=@y, z=@z, w=@w WHERE `id`=@id", {
+				exports.ghmattimysql:Query("UPDATE `properties` SET x=@x, y=@y, z=@z, w=@w WHERE `id`=@id", {
 					["@x"] = settings.Coords.x,
 					["@y"] = settings.Coords.y,
 					["@z"] = settings.Coords.z,
@@ -495,7 +495,7 @@ AddEventHandler("properties:start", function()
 					["@id"] = id,
 				})
 			else
-				exports.GHMattiMySQL:Query("INSERT INTO `properties` SET `type`=@type, x=@x, y=@y, z=@z, w=@w", {
+				exports.ghmattimysql:Query("INSERT INTO `properties` SET `type`=@type, x=@x, y=@y, z=@z, w=@w", {
 					["@x"] = settings.Coords.x,
 					["@y"] = settings.Coords.y,
 					["@z"] = settings.Coords.z,
@@ -510,7 +510,7 @@ AddEventHandler("properties:start", function()
 	startTime = os.clock()
 
 	-- Load properties.
-	local properties = exports.GHMattiMySQL:QueryResult("SELECT * FROM properties")
+	local properties = exports.ghmattimysql:QueryResult("SELECT * FROM properties")
 
 	Citizen.Trace(("Loaded %s properties in %s ms\n"):format(#properties, math.ceil((os.clock() - startTime) * 1000)))
 	Properties = {}
@@ -579,7 +579,7 @@ exports.chat:RegisterCommand("a:propertyadd", function(source, args, rawCommand)
 
 	TriggerClientEvent("chat:notify", source, "Adding...", "inform")
 
-	exports.GHMattiMySQL:Insert("properties", {
+	exports.ghmattimysql:Insert("properties", {
 		property
 	}, function(id)
 		property.id = id
@@ -612,7 +612,7 @@ exports.chat:RegisterCommand("a:propertyremove", function(source, args, rawComma
 		return
 	end
 	
-	exports.GHMattiMySQL:Query("DELETE FROM properties WHERE id=@id", {
+	exports.ghmattimysql:Query("DELETE FROM properties WHERE id=@id", {
 		["@id"] = id,
 	})
 	
@@ -742,7 +742,7 @@ exports.chat:RegisterCommand("property:givekey", function(source, args, rawComma
 		keys[#keys + 1] = key
 		
 		exports.character:Set(target, "keys", keys)
-		exports.GHMattiMySQL:Insert("`keys`", { key })
+		exports.ghmattimysql:Insert("`keys`", { key })
 
 		for k, v in ipairs({ source, target }) do
 			TriggerClientEvent("chat:notify", v, "Gave key!", "success")
@@ -788,7 +788,7 @@ exports.chat:RegisterCommand("property:takekey", function(source, args, rawComma
 		extra = ("property id: %s - character id: %s"):format(propertyId, targetId),
 	})
 	
-	local result = exports.GHMattiMySQL:QueryScalar([[
+	local result = exports.ghmattimysql:QueryScalar([[
 		DELETE FROM `keys` WHERE property_id=@propertyId AND character_id=@targetId;
 		SELECT ROW_COUNT();
 	]], {
@@ -834,7 +834,7 @@ exports.chat:RegisterCommand("property:keys", function(source, args, rawCommand)
 			local settings = Config.Types[property.type]
 			if not settings then goto skip end
 
-			local result = exports.GHMattiMySQL:QueryResult("SELECT `character_id` FROM `keys` WHERE `property_id`=@propertyId", {
+			local result = exports.ghmattimysql:QueryResult("SELECT `character_id` FROM `keys` WHERE `property_id`=@propertyId", {
 				["@propertyId"] = property.id
 			})
 			
@@ -847,7 +847,7 @@ exports.chat:RegisterCommand("property:keys", function(source, args, rawCommand)
 					if i ~= 1 then
 						message = message..", "
 					end
-					local character = exports.GHMattiMySQL:QueryResult("SELECT `first_name`, `last_name` FROM `characters` WHERE `id`=@id", {
+					local character = exports.ghmattimysql:QueryResult("SELECT `first_name`, `last_name` FROM `characters` WHERE `id`=@id", {
 						["@id"] = key.character_id
 					})[1]
 					if character then
@@ -1007,7 +1007,7 @@ exports.chat:RegisterCommand("property:lookup", function(source, args, rawComman
 	local owner = nil
 
 	if settings.Public and not settings.Secret and property.character_id then
-		local result = exports.GHMattiMySQL:QueryResult("SELECT `first_name`, `last_name` FROM `characters` WHERE id=@id", {
+		local result = exports.ghmattimysql:QueryResult("SELECT `first_name`, `last_name` FROM `characters` WHERE id=@id", {
 			["@id"] = property.character_id
 		})[1]
 		if result then

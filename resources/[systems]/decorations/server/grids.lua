@@ -17,7 +17,7 @@ function Grid:Create(id)
 
 	-- Load instances.
 	if type(id) == "string" then
-		local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `decorations` WHERE `instance`=@instance", {
+		local result = exports.ghmattimysql:QueryResult("SELECT * FROM `decorations` WHERE `instance`=@instance", {
 			["@instance"] = id,
 		})
 

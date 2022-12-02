@@ -35,10 +35,10 @@ local MemorialNpcs = {
         options = {
 			{
 				text = "Any hints this time?.",
-				dialogue = "Outer space hit the gas like I'm headed for Mars. Perhaps afterwards a hot coffee is needed.",
+				dialogue = "I'm in the dark on this one...",
 				once = true,
 			},
-			{
+			--[[{
 				text = "What can I do with these Bondy thingies?.",
 				dialogue = "Once you have 75 of them you can trade them in a secret location for a massive reward.",
 				once = true,
@@ -47,7 +47,7 @@ local MemorialNpcs = {
 				text = "Where can I trade them then?.",
 				dialogue = "There's an old saying in the world of show biz. Break a leg. Actually fuck that, you can trade them where the stars look brightest. Remember though, what goes down must come up",
 				once = true,
-			},
+			},]]--
 			{
 				text = "Tell me a joke.",
 				dialogue = "Did you hear about the guy whose whole left side got amputated? He’s all right now.",

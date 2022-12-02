@@ -23,6 +23,8 @@ Models = {
 	[`pdmesa`] = "cruiser",
 	[`trualamo3`] = "cruiser",
 	[`sptrualamo3`] = "cruiser",
+	[`polcoquettegb`] = "intercept",
+	[`polcoquetteg`] = "intercept",
 
 	--[`pdinterceptor`] = "intercept",
 
@@ -32,10 +34,12 @@ Models = {
 	[`spbike`] = "bike",
 
 	[`bcfdbat`] = "ambulance",
+	[`lsfd2`] = "ambulance",
 	[`lsfd3`] = "ambulance",
 	[`lsfd4`] = "ambulance",
 	[`lsfdcmd`] = "ambulance",
 	[`lsfdtruck`] = "ambulance",
+	[`fdlcladder`] = "ambulance",
 	[`lsfdbuffalo`] = "ambulance",
 	[`lsmsgresley`] = "ambulance",
 	[`lsmsspeedo`] = "ambulance",

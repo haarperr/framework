@@ -12,7 +12,7 @@ end
 --[[ Functions: Shop ]]--
 function Shop:Load()
 	-- Load from database.
-	local result = exports.GHMattiMySQL:QueryResult("SELECT * FROM `shops` WHERE `id`=@id", {
+	local result = exports.ghmattimysql:QueryResult("SELECT * FROM `shops` WHERE `id`=@id", {
 		["@id"] = self.id,
 	})[1] or {}
 
@@ -88,7 +88,7 @@ function Shop:Load()
 		setters = setters..", `storage`=@storage"
 	end
 
-	exports.GHMattiMySQL:QueryAsync("INSERT INTO `shops` SET `id`=@id, "..setters.." ON DUPLICATE KEY UPDATE "..setters, {
+	exports.ghmattimysql:QueryAsync("INSERT INTO `shops` SET `id`=@id, "..setters.." ON DUPLICATE KEY UPDATE "..setters, {
 		["@id"] = self.id,
 		["@storage"] = self.storage,
 		["@containers"] = json.encode(self.containers or {}),

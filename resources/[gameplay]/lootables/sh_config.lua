@@ -120,27 +120,6 @@ Config = {
 				{ name = "Tire", chance = 0.01 },
 			},
 		},
-		["chick_coop"] = {
-			Anim = { Dict = "amb@prop_human_bum_bin@idle_a", Name = "idle_a", Flag = 1 },
-			Radius = 2.7,
-			Energy = 0.01,
-			Exponential = 2.0,
-			QuickTime = {
-				goalSize = 0.2,
-				speed = 0.3,
-				stages = 4,
-			},
-			Container = {
-				name = "Egg Stash",
-				width = 2,
-				height = 4,
-				maxWeight = 20.0,
-			},
-			Loot = {
-				-- Eggs.
-				{ name = "Egg", chance = 1.0, quantity = { 8, 13 } },
-			},
-		},
 		["mail"] = {
 			Anim = { Dict = "amb@prop_human_bum_bin@idle_a", Name = "idle_a", Flag = 1 },
 			Radius = 0.6,
@@ -209,6 +188,5 @@ Config = {
 
 		[`prop_postbox_01a`] = "mail",
 
-		[`prop_chickencoop_a`] = "chick_coop",
 	},
 }

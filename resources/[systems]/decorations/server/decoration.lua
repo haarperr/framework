@@ -59,7 +59,7 @@ function Decoration:Create(data)
 			end
 		end
 
-		data.id = exports.GHMattiMySQL:QueryScalar(([[
+		data.id = exports.ghmattimysql:QueryScalar(([[
 			INSERT INTO `decorations` SET %s;
 			SELECT LAST_INSERT_ID();
 		]]):format(setters), values)
@@ -104,7 +104,7 @@ function Decoration:Destroy()
 
 	-- Remove from database.
 	if not self.temporary then
-		exports.GHMattiMySQL:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
+		exports.ghmattimysql:QueryAsync("DELETE FROM `decorations` WHERE id=@id", {
 			["@id"] = self.id
 		})
 	end
@@ -159,7 +159,7 @@ end
 function Decoration:Set(key, value)
 	-- Save properties.
 	if not self.temporary and Server.Properties[key] then
-		exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET %s=@%s WHERE `id`=%s"):format(key, key, self.id), {
+		exports.ghmattimysql:QueryAsync(("UPDATE `decorations` SET %s=@%s WHERE `id`=%s"):format(key, key, self.id), {
 			["@"..key] = value,
 		})
 	end
@@ -175,8 +175,7 @@ function Decoration:Set(key, value)
 end
 
 function Decoration:ResetAge()
-	print(self.id)
-	exports.GHMattiMySQL:QueryAsync(("UPDATE `decorations` SET `start_time`=sysdate() WHERE `id`=%s"):format(self.id))
+	exports.ghmattimysql:QueryAsync(("UPDATE `decorations` SET `start_time`=sysdate() WHERE `id`=%s"):format(self.id))
 
 	-- Set value.
 	self.start_time = os.time() * 1000

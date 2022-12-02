@@ -91,6 +91,8 @@ Shops = {
 		{ Coords = vector4(-15.64514064788818, -1055.269775390625, 32.40043258666992, 153.53927612304688), Blip = false },
 		-- Bike Customs.
 		{ Coords = vector4(909.58935546875, 3569.67724609375, 33.8350715637207, 182.57798767089844), Blip = false },
+		-- Voodoo Place.
+		{ Coords = vector4(153.218, -3014.37, 7.040889, 0.002595806), Blip = false },
 		-- Bean Machine.
 		{ Coords = vector4(-634.0645, 225.5748, 81.8816, 357.7385), Blip = false },
 		-- Cayo Villa.
