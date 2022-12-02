@@ -23,4 +23,17 @@ exports.jobs:Register("cameltow", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Vehicles = {
+
+		{ -- Paleto Mechanic Garage.
+			Rank = 0,
+			In = vector3(120.5153350830078, 6624.37353515625, 31.95952033996582),
+			Model = "flatbed",
+			PrimaryColor = 0,
+			SecondaryColor = 0,
+			Coords = {
+				vector4(125.96055603027344, 6624.87109375, 31.79936790466309, 135.3380889892578)
+			},
+		},
+	},	
 })
