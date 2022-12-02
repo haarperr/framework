@@ -342,6 +342,7 @@ Config = {
 						"oracle",
 						"oracle2",
 						"oracxsle",
+						"outlaw",
 						"pariah",
 						"patriot",
 						"patriot2",
