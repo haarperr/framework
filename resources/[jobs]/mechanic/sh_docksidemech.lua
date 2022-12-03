@@ -1,6 +1,6 @@
 exports.jobs:Register("docksidemech", {
 	Title = "Mechanic Shop",
-	Name = "Dockside Mechanics",
+	Name = "Crossroads Tuning",
 	Faction = "mechanic",
 	Group = "docksidemech",
 	Clocks = {
