@@ -23,4 +23,16 @@ exports.jobs:Register("docksidemech", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Vehicles = {
+		{ -- Dockside.
+			Rank = 0,
+			In = vector3(158.3742, -3012.157, 6.021935),
+			Model = "flatbed",
+			PrimaryColor = 55,
+			SecondaryColor = 0,
+			Coords = {
+				vector4(165.3806, -3009.482, 5.897386, 264.7101)
+			},
+		},
+	},
 })
