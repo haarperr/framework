@@ -12,7 +12,7 @@ Config = {
 		MaxPresence = 3,
 		MinBonus = 5,
 		MaxBonus = 10
-	}
+	},
 	Weapon = GetHashKey("WEAPON_PISTOL"), -- Which weapon they get when hostile.
 	Cash = {
 		Min = 25,
