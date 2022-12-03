@@ -27,7 +27,7 @@ machineModels[-1932041857] = {
     announcer = "CAPA_ANAB",
     messageId = 1,
     maxBet = 500,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -74,7 +74,7 @@ machineModels[-1519644200] = {
     announcer = "CAPA_AOAB",
     messageId = 2,
     maxBet = 125,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -121,7 +121,7 @@ machineModels[-430989390] = {
     announcer = "CAPA_APAB",
     messageId = 3,
     maxBet = 125,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -168,7 +168,7 @@ machineModels[654385216] = {
     announcer = "CAPA_AQAB",
     messageId = 4,
     maxBet = 25,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -215,7 +215,7 @@ machineModels[161343630] = {
     announcer = "CAPA_AMAB",
     messageId = 5,
     maxBet = 2500,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -262,7 +262,7 @@ machineModels[1096374064] = {
     announcer = "CAPA_ARAB",
     messageId = 6,
     maxBet = 500,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -309,7 +309,7 @@ machineModels[207578973] = {
     announcer = "CAPA_ALAB",
     messageId = 7,
     maxBet = 2500,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -356,7 +356,7 @@ machineModels[-487222358] = {
     announcer = "CAPA_ASAB",
     messageId = 8,
     maxBet = 25,
-    jackpotLimiter = 100, -- jackpot can be hit max. once per 100 spins
+    jackpotLimiter = 250, -- jackpot can be hit max. once per 100 spins
     unluckyFactor = 5, -- each 5th spin will hit 0 chips no matter what, set unluckyFactor = 2 for each second spin, set to 0 to disable
     items = {{
         name = "Seven",
@@ -1035,7 +1035,7 @@ LuckyWheelItems["Vehicle"] = {
 
 LuckyWheelItems["Nothing"] = {
     rotation = 289.0,
-    posibility = 100,
+    posibility = 1000,
     soundName = nil,
     animName = "Nothing"
 }
@@ -2532,6 +2532,8 @@ FUSEBOX = {
     pos = vector3(922.32330322266, 35.418350219727, 72.301216125488),
     heading = 231.0
 }
+
+PODIUMOBJECT_POS = vector3(935.104980, 42.565639, 71.273697)
 
 if not Jobs then
     Jobs = {

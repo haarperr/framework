@@ -155,13 +155,13 @@ function Cashier_ShowMenu(moneyLimit, vipAllowed)
                 end)
             end
 
-            i:AddButton(Translation.CASHIER_VIP_MEMBERSHIP_CAPT, vipItemDescription, {
+            --[[i:AddButton(Translation.CASHIER_VIP_MEMBERSHIP_CAPT, vipItemDescription, {
                 IsDisabled = vipItemEnabled == false,
                 RightLabelColor = RageUI.ItemsColour.White,
                 RightBadge = RageUI.BadgeStyle.CasinoVIP
             }, nil, function()
                 Cashier_RequestVIP()
-            end)
+            end)]]
 
             if exchangeRateDesc then
                 i:AddSeparator(exchangeRateDesc, RageUI.ItemsColour.Yellow)

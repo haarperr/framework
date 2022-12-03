@@ -8,7 +8,7 @@ dependencies {
     'rcore_casino_map'
 }
 
-version '1.0.24'
+version '1.0.25'
 
 client_scripts {
     -- Rage UI
@@ -54,7 +54,6 @@ client_scripts {
 }
 
 server_scripts {
-    "@mysql-async/lib/MySQL.lua",
     "config.lua",
     "config_jobs.lua",
     "config_server.lua",

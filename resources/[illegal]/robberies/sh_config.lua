@@ -259,7 +259,7 @@ Config = {
 			Output = {
 				{ Name = "Valuable Goods", Amount = {1, 1}, Chance = 1.0 },
 				{ Name = "Bills", Amount = {501, 743}, Chance = 1.0 },
-				{ Name = "Red Keycard", Amount = {1, 1}, Chance = 0.25 },
+				{ Name = "High Value Keycard", Amount = {1, 1}, Chance = 0.20 },
 				{ Name = "Savings Bond", Amount = {1, 1}, Chance = 1.0 },
 				{ Name = "Barma Ruby", Amount = {1, 1}, Chance = 0.02 },
 				{ Name = "Diamond", Amount = {1, 1}, Chance = 0.15 },

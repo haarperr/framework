@@ -10,6 +10,7 @@ Config.Filters.Vanilla = {
 		["Sangria"] = true,
 		["Highway To Hell"] = true,
 		["Unicorn Kiss"] = true,
+		["Old Fashioned"] = true,
 		
 		-- Ingredients.
 		["Hot Dog"] = true,

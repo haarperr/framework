@@ -77,7 +77,7 @@ if Config.Ghmattimysql then
     MySQL.Async = {}
 
     MySQL.Async.fetchAll = function(query, table_, cb)
-        return exports['ghmattimysql']:execute(query, table_, cb)
+        return exports['ghmattimysql']:Query(query, table_, cb)
     end
 
     MySQL.Sync.fetchAll = function(query, table_, cb)
@@ -85,7 +85,7 @@ if Config.Ghmattimysql then
     end
 
     MySQL.Async.execute = function(query, table_, cb)
-        return exports['ghmattimysql']:execute(query, table_, cb)
+        return exports['ghmattimysql']:Query(query, table_, cb)
     end
 
     MySQL.Sync.execute = function(query, table_, cb)
@@ -270,7 +270,7 @@ function Cache:Get(identifier, onFinish)
             PlayerCache[identifier] = {
                 lastSave = GetGameTimer(),
                 logins = 0,
-                vip = false,
+                vipUntil = 0,
                 firstTime = true,
                 activeTime = GetGameTimer()
             }
@@ -293,7 +293,7 @@ function Cache:Get(identifier, onFinish)
                 PlayerCache[identifier] = {
                     lastSave = GetGameTimer(),
                     logins = 0,
-                    vip = false,
+                    vipUntil = 0,
                     firstTime = true,
                     activeTime = GetGameTimer()
                 }
@@ -447,7 +447,6 @@ function Cache:UpdateSetting(setting, settingContent)
             ["Settings"] = settingsJson
         })
     else
-        print(settingsJson)
         MySQL.Async.fetchAll('UPDATE casino_cache SET Settings = @settings', {
             ['@settings'] = settingsJson
         }, function(result)

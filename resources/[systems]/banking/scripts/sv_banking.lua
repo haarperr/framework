@@ -106,6 +106,7 @@ function AddTransaction(source, data, amount)
     end
     TriggerClientEvent("banking:addTransaction", source, data.account_id, result)
 end
+exports("AddTransaction", AddTransaction)
 
 function AddBank(source, account, amount, notify)
     if type(amount) ~= "number" then return end

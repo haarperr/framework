@@ -34,6 +34,7 @@ function Main:Update()
 			--print("begin enter", EnteringVehicle)
 			self:InvokeListener("BeginEnter", EnteringVehicle)
 			TriggerEvent("vehicles:beginEnter", EnteringVehicle)
+			--DisableIdleCamera(true)
 		elseif DoesEntityExist(self.entering) then
 			--print("finish enter", self.entering)
 			self:InvokeListener("FinishEnter", self.entering)
@@ -58,6 +59,7 @@ function Main:Update()
 		Forward = GetEntityForwardVector(CurrentVehicle)
 		Velocity = GetEntityVelocity(CurrentVehicle)
 		Fuel = GetVehicleFuelLevel(CurrentVehicle)
+		
 		
 		DriftAngle = Dot(Forward, #Velocity > 0.01 and Normalize(Velocity) or Velocity)
 		ForwardDot = Dot(Forward, SpeedVector)
@@ -553,6 +555,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
+
 Citizen.CreateThread(function()
 	local lastUpdate = GetGameTimer()
 	
@@ -578,6 +581,7 @@ Citizen.CreateThread(function()
 		Citizen.Wait(TickRate)
 	end
 end)
+
 
 
 

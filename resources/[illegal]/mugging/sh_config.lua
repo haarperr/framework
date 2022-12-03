@@ -8,10 +8,15 @@ Config = {
 	ConfidenceRate = 0.05, -- Confidence (per second) gained or lost while at gun point.
 	MaxSpeed = 8.9, -- How fast (meters per second) they can be going before just driving away.
 	DeleteChance = 0.02,
+	Bonus = {
+		MaxPresence = 3,
+		MinBonus = 5,
+		MaxBonus = 10
+	},
 	Weapon = GetHashKey("WEAPON_PISTOL"), -- Which weapon they get when hostile.
 	Cash = {
 		Min = 25,
-		Max = 80
+		Max = 40,
 	},
 	Items = {
 		{ name = "Wallet", chance = 0.05 },
