@@ -267,7 +267,7 @@ function SetCasinoBlip(coords, blipIcon, blipName, exterior)
     --------------
     SetBlipSprite(blip, blipIcon)
     SetBlipDisplay(blip, 4)
-    SetBlipScale(blip, 1.2)
+    SetBlipScale(blip, 0.6)
     SetBlipColour(blip, 0)
     SetBlipAsShortRange(blip, exterior and Config.CASINO_BLIPS_SHORT_RANGE or false)
     --------------
