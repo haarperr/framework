@@ -29,7 +29,7 @@ exports.jobs:Register("route68", {
 			Rank = 0,
 			In = vector3(1171.124, 2646.513, 37.80982),
 			Model = "flatbed",
-			PrimaryColor = 27,
+			PrimaryColor = 54,
 			SecondaryColor = 0,
 			Coords = {
 				vector4(1164.0753173828125, 2641.443115234375, 38.04860687255859, 357.9701232910156)
