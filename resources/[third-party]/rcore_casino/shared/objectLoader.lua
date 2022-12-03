@@ -23,7 +23,7 @@ function GetCoreObject(framework, resourceName, callBack)
         end)
     end
 
-    -- QBCORE
+    -- QBCORE / custom
     if framework == 2 then
         xpcall(function()
             callBack(exports[resourceName or 'qb-core']['GetCoreObject']())
@@ -49,10 +49,5 @@ function GetCoreObject(framework, resourceName, callBack)
                 end)
             end)
         end)
-    end
-
-    -- Your custom
-    if framework == 3 then
-
     end
 end

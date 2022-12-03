@@ -1035,7 +1035,7 @@ LuckyWheelItems["Vehicle"] = {
 
 LuckyWheelItems["Nothing"] = {
     rotation = 289.0,
-    posibility = 100,
+    posibility = 1000,
     soundName = nil,
     animName = "Nothing"
 }
@@ -2532,6 +2532,8 @@ FUSEBOX = {
     pos = vector3(922.32330322266, 35.418350219727, 72.301216125488),
     heading = 231.0
 }
+
+PODIUMOBJECT_POS = vector3(935.104980, 42.565639, 71.273697)
 
 if not Jobs then
     Jobs = {

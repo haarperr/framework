@@ -243,14 +243,32 @@ function AddPlayerMoney(playerId, money, ignoreSociety)
     local account = exports.character:Get(playerId, "bank")
     if not account then return false end
     exports.banking:AddBank(playerId, account, money, true)
+    local transaction = {
+        account_id = account,
+        type = 1,
+        note = "Casino payout."
+    }
+    exports.banking:AddTransaction(playerId, transaction, money)
     return true
 end
 
 -- remove player money
 function RemovePlayerMoney(playerId, money)
     DebugStart("RemovePlayerMoney")
-    if not exports.inventory:CanAfford(source, price, true, true) then return false end
-    return exports.inventory:TakeMoney(playerId, money, true)
+    local account = exports.character:Get(playerId, "bank")
+    if not account then return false end
+    if not exports.inventory:CanAfford(source, money, true, true) then return false end
+    if exports.inventory:TakeMoney(playerId, money, true) then
+        local transaction = {
+            account_id = account,
+            type = 2,
+            note = "Casino purchase."
+        }
+        exports.banking:AddTransaction(playerId, transaction, -money)
+        return true
+    else
+        return false
+    end
 end
 
 -- Is Player admin?

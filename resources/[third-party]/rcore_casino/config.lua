@@ -50,9 +50,9 @@ Config = {
     CASHIER_DAILY_BONUS = 0, -- daily visitor bonus that players can request at the Cashier, set to 0 if you don't want any daily bonuses. def: 1000
     CASHIER_VIP_PRICE = 50000, -- price of the VIP casino membership, def: 50000
     CASHIER_VIP_DURATION = (60 * 60 * 24) * 7, -- VIP for player resets after this time, def: 7 days
-    
+
     -- Slots
-    SLOTS_1ST_PERSON = true, -- switch to 1st person when spinning slots
+    SLOTS_1ST_PERSON = false, -- switch to 1st person when spinning slots
 
     -- Lucky Wheel
     LUCKY_WHEEL_FREE_DRINKS_FOR = (60 * 60 * 24), -- when someone spins "Free Drinks" at the Lucky Wheel, how long they get free drinks for. def: 24 hours (60 * 60 * 24)
@@ -163,7 +163,6 @@ Framework = {
     -- esx extra settings
     BUILTIN_HUD_CHIPS = false,
     BUILTIN_HUD_CHIPS_ICON = "casinochip.png",
-
     -- qbcore resource name + shared object name
     QB_CORE_RESOURCE_NAME = "qb-core",
     QBCORE_SHARED_OBJECT = "QBCore:GetObject"
@@ -207,7 +206,7 @@ GameStates = {{
 }, {
     activity = "luckywheel",
     title = "Lucky Wheel",
-    enabled = true
+    enabled = false
 }, {
     activity = "insidetrack",
     title = "Inside Track",
@@ -235,7 +234,7 @@ GameStates = {{
 }, {
     activity = "seating",
     title = "Seating",
-    enabled = true
+    enabled = false
 }, {
     activity = "cameras",
     title = "Cameras",

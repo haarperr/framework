@@ -363,7 +363,7 @@ local function InteractionKeyPressed()
 
     if not IsActivityEnabled(LAST_INTERACTION_GAME) then
         InfoPanel_Update(nil, nil, nil, nil, nil)
-        InfoPanel_UpdateNotification(Translation.GAME_STATE_DISABLED)
+        --InfoPanel_UpdateNotification(Translation.GAME_STATE_DISABLED)
         return
     end
 
@@ -557,7 +557,7 @@ local function InteractableObjectFound(game, entity, coords, model)
     end
 
     if not IsActivityEnabled(game) then
-        InfoPanel_UpdateNotification(Translation.GAME_STATE_DISABLED)
+        --InfoPanel_UpdateNotification(Translation.GAME_STATE_DISABLED)
         return
     end
 
@@ -1003,11 +1003,11 @@ CreateThread(function()
 
             -- check if player is in casino, every 2 seconds, and call events for load/release stuff
             local c = IsEntityInArea(PlayerPedId(), CASINO_AREA_MIN, CASINO_AREA_MAX) -- casino area inside
-            if c and not IsEntityInCasino(PlayerPedId()) or IN_GARAGE then
+            if c and not IsEntityInCasino(PlayerPedId()) then
                 c = false
             end
 
-            if CASINO_BEING_KICKED then
+            if CASINO_BEING_KICKED or IN_GARAGE then
                 c = false
             end
 
@@ -1393,6 +1393,18 @@ function OnEnterCasino()
 
     -- interior
     LoadCasinoAtCoordsAndWait()
+
+    -- k4mb1 fixes -,-
+    if Config.MapType == 4 then
+        -- slot machine wrongly rotated :D
+        local k4mb1_machine = GetClosestObjectOfType(967.508301, 38.699203, 79.987862, 1.0, 1096374064)
+        if k4mb1_machine ~= 0 then
+            local h = math.ceil(GetEntityHeading(k4mb1_machine))
+            if h == 292 or h == 293 then
+                SetEntityHeading(k4mb1_machine, 58.0)
+            end
+        end
+    end
 
     -- roulette
     RequestModelAndWait("vw_prop_roulette_ball")
