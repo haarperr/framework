@@ -23,4 +23,17 @@ exports.jobs:Register("axles", {
 			Flags = Jobs.Permissions.ALL()
 		},
 	},
+	Vehicles = {
+
+		{ -- Axels Autos.
+			Rank = 0,
+			In = vector3(543.6646118164062, -202.7570953369141, 54.46318054199219),
+			Model = "flatbed",
+			PrimaryColor = 112,
+			SecondaryColor = 0,
+			Coords = {
+				vector4(546.1356201171875, -212.3310546875, 53.11816024780273, 171.2291717529297)
+			},
+		},
+	},	
 })
