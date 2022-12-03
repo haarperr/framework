@@ -27,7 +27,7 @@ exports.jobs:Register("route68", {
 
 		{ -- RT 68 .
 			Rank = 0,
-			In = vector3(1189.8507080078125, 2651.068115234375, 37.83514404296875),
+			In = vector3(1171.124, 2646.513, 37.80982),
 			Model = "flatbed",
 			PrimaryColor = 27,
 			SecondaryColor = 0,
@@ -37,3 +37,5 @@ exports.jobs:Register("route68", {
 		},
 	},	
 })
+
+
