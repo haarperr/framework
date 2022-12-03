@@ -29,7 +29,7 @@ exports.jobs:Register("misfits", {
 			Rank = 0,
 			In = vector3(949.66748046875, -957.4671020507812, 39.49985122680664),
 			Model = "flatbed",
-			PrimaryColor = 112,
+			PrimaryColor = 0,
 			SecondaryColor = 0,
 			Coords = {
 				vector4(953.232666015625, -944.9090576171876, 39.49985122680664, 157.59141540527344)
