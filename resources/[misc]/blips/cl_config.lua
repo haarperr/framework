@@ -167,6 +167,12 @@ Blips = {
 		scale = 0.5,
 		color = 61,
 	},
+	["gopostal"] = {
+		name = "Go-Postal",
+		id = 478,
+		scale = 0.5,
+		color = 21,
+	},
 }
 
 Locations = {
@@ -248,4 +254,5 @@ Locations = {
 	{ "radio", vector3(731.6265869140625, 2523.40966796875, 73.50624084472656) }, -- Radio Pioneers
 	{ "doj", vector3(7.74687671661376, -933.023193359375, 29.90408706665039) }, -- DoJ
 	{ "beanies", vector3(-581.0098, -1070.2863, 22.3296) }, -- DoJ
+    { "gopostal", vector3(78.75867, 112.2172, 81.16806) }, 
 }

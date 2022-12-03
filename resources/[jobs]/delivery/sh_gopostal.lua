@@ -1,11 +1,3 @@
-local blip = AddBlipForCoord(78.75867, 112.2172, 81.16806)
-	SetBlipSprite(blip, 478)
-	SetBlipColour(blip, 21)
-	SetBlipScale(blip, 0.5)
-	BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString("Go-Postal")
-    EndTextCommandSetBlipName(blip)
-
 
 exports.jobs:Register("gopostal", {
 	Title = "Dealership",
