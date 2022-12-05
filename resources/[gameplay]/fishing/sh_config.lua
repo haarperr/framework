@@ -2,7 +2,7 @@ Config = {
 	Items = {
 		["Fishing Rod"] = true,
 		["Deep Sea Fishing Rod"] = true,
-		["Crafted Rod"] = true,
+		--["Crafted Rod"] = true,
     },
 	Chance = 0.6,
 	Delay = { 18, 25 },
@@ -65,14 +65,13 @@ Config = {
 				["Deep Sea Fishing Rod"] = -0.2,
 			},
 		},
-	    ["Shallow Sandy"] = {
+	   --[[ ["Shallow Sandy"] = {
 				Fish = {
 					["Sturgeon"] = 0.39,
 					["Flounder"] = 0.45,
 					["Thresher Shark"] = 0.39,
 					["Queenfish"] = 0.45,
 					["Halibut"] = 0.45,
-					["Sand Bass"] = 0.45,
 					["Wallet"] = 0.1,
 					["Whiskey"] = 0.1,
 					["Pliers"] = 0.1,
@@ -82,7 +81,7 @@ Config = {
 				Rods = {
 					["Crafted Rod"] = 0.2,
 				},
-			},
+			}, ]]
 		["Deep Sandy"] = {
 			Fish = {
 				["Dogfish"] = 1.0,
@@ -132,7 +131,7 @@ Config = {
 				["Yellowfin Tuna"] = 1.0,
 			},
 		},
-		["Pelagic"] = {
+		--[[ ["Pelagic"] = {
 			Fish = {
 				["Albacore"] = 0.6,
 				["Amberjack"] = 0.75,
@@ -154,7 +153,7 @@ Config = {
 			Rods = {
 				["Crafted Rod"] = 0.2,
 			},
-		},
+		}, ]]
 		["Surf"] = {
 			Fish = {
 				["Corbina"] = 1.0,
