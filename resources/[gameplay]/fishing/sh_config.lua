@@ -2,7 +2,8 @@ Config = {
 	Items = {
 		["Fishing Rod"] = true,
 		["Deep Sea Fishing Rod"] = true,
-	},
+		--["Crafted Rod"] = true,
+    },
 	Chance = 0.6,
 	Delay = { 18, 25 },
 	Decay = { 0.01, 0.02 },
@@ -64,6 +65,23 @@ Config = {
 				["Deep Sea Fishing Rod"] = -0.2,
 			},
 		},
+	   --[[ ["Shallow Sandy"] = {
+				Fish = {
+					["Sturgeon"] = 0.39,
+					["Flounder"] = 0.45,
+					["Thresher Shark"] = 0.39,
+					["Queenfish"] = 0.45,
+					["Halibut"] = 0.45,
+					["Wallet"] = 0.1,
+					["Whiskey"] = 0.1,
+					["Pliers"] = 0.1,
+					["Nora"] = 0.1,
+					["Drill"] = 0.05,	
+				},
+				Rods = {
+					["Crafted Rod"] = 0.2,
+				},
+			}, ]]
 		["Deep Sandy"] = {
 			Fish = {
 				["Dogfish"] = 1.0,
@@ -113,6 +131,29 @@ Config = {
 				["Yellowfin Tuna"] = 1.0,
 			},
 		},
+		--[[ ["Pelagic"] = {
+			Fish = {
+				["Albacore"] = 0.6,
+				["Amberjack"] = 0.75,
+				["Barracuda"] = 0.5,
+				["Bigeye Tuna"] = 1.0,
+				["Blue Shark"] = 0.45,
+				["Bluefin Tuna"] = 1.0,
+				["Bonito"] = 1.0,
+				["Chinook Salmon"] = 0.75,
+				["Coho Salmon"] = 0.75,
+				["Mackerel"] = 1.0,
+				["Mako Shark"] = 0.35,
+				["Skipjack Tuna"] = 0.8,
+				["Striped Marlin"] = 0.4,
+				["Swordfish"] = 0.42,
+				["Thresher Shark"] = 0.65,
+				["Yellowfin Tuna"] = 0.7,
+			},
+			Rods = {
+				["Crafted Rod"] = 0.2,
+			},
+		}, ]]
 		["Surf"] = {
 			Fish = {
 				["Corbina"] = 1.0,
