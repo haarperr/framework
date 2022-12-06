@@ -21,6 +21,8 @@ Config.Filters.Pharm = {
 		["Impound Sticker"] = true,
 		["Field Kit"] = true,
 		["Cone"] = true,
+		["Duffle Bag"] = true,
+		["Flashlight"] = true,
 	},
 }
 
