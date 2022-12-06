@@ -41,6 +41,7 @@ Config.Filters.Armory = {
 		["Spray Can"] = true,
 		["Bleach"] = true,
 		["Duffle Bag"] = true,
+		["AED"] = true,
 	},
 }
 
