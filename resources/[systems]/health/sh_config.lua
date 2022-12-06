@@ -62,7 +62,7 @@ Config = {
 		["Head"] = {
 			Part = 31086,
 			Bone = "head",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", "Burn Cream" }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", "Intubation Tube", "Burn Cream" }
 		},
 		["Torso"] = {
 			Part = 11816,
@@ -715,6 +715,14 @@ Config = {
 			Limit = 1,
 			Removable = true,
 		},
+		["Intubation Tube"] = {
+			Item = "Intubation Tube",
+			Usable = false,
+			Description = "A tube designed to be inserted into the airway to assist with ventilation.",
+			Action = "Inserts an intubation tube into the airway and secures to patient.",
+			Limit = 1,
+			Removable = true,
+		},		
 		["AED"] = {
 			Item = "AED",
 			Usable = false,

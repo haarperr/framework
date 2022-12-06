@@ -24,6 +24,7 @@ Config.Filters.Pharm = {
 		["Duffle Bag"] = true,
 		["Flashlight"] = true,
 		["AED"] = true,
+		["Intubation Tube"] = true,
 	},
 }
 
