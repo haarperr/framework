@@ -144,7 +144,12 @@ function Shop:Load(stock)
 	-- Convert stock.
 	for itemId, quantity in pairs(stock) do
 		local item = exports.inventory:GetItem(itemId)
-		if not item or not item.value then
+		if not item then
+			print(("invalid item in shop config for '%s' shop"):format(self.id))
+			goto skipItem
+		end
+
+		if not item.value then
 			print(("item '%s' is in stock, but does not have a value"):format(item.name))
 			goto skipItem
 		end
