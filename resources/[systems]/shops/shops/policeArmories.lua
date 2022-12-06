@@ -40,6 +40,7 @@ Config.Filters.Armory = {
 		["Eraser"] = true,
 		["Spray Can"] = true,
 		["Bleach"] = true,
+		["Duffle Bag"] = true,
 	},
 }
 
