@@ -23,6 +23,7 @@ Config.Filters.Pharm = {
 		["Cone"] = true,
 		["Duffle Bag"] = true,
 		["Flashlight"] = true,
+		["AED"] = true,
 	},
 }
 
