@@ -125,5 +125,25 @@ RegisterShop("MECHANIC_SHOP", {
 				}
 			},
 		},
+        { -- Dockside Mechanics
+			text = "Storage",
+			radius = 0.6,
+			coords = vector3(129.9274, -3031.607, 7.040895),
+			discrete = true,
+			width = 4,
+			height = 20,
+			factions = {
+				["docksidemech"] = "mechanic",
+			},
+			filters = {
+				category = {
+					["Vehicle Repair"] = true,
+                    ["Vehicle"] = true,
+                    ["Resource"] = true,
+                    ["Tool"] = true,
+                    ["Heist"] = true,
+				}
+			},
+		},
 	},
 })

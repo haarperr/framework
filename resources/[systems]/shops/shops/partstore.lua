@@ -21,6 +21,7 @@ RegisterShop("CPART_1", {
 		["powerautos"] = "mechanic",
         ["route68"] = "mechanic",
         ["bikeshop"] = "mechanic",
+        ["docksidemech"] = "mechanic",
 	},
     Clerks = {
         {
