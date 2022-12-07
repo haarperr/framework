@@ -62,12 +62,12 @@ Config = {
 		["Head"] = {
 			Part = 31086,
 			Bone = "head",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", "Burn Cream" }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Cervical Collar", "Nasopharyngeal Airway", "Intubation Tube", "Burn Cream" }
 		},
 		["Torso"] = {
 			Part = 11816,
 			Bone = "spine2",
-			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Fire Blanket", "Burn Cream" }
+			Treatments = { "Saline", "Gauze", "Bandage", "Ice Pack", "Surgical Kit", "Splint", "Fire Blanket", "Burn Cream", "AED" }
 		},
 		["Left Arm"] = {
 			Part = 18905,
@@ -712,6 +712,22 @@ Config = {
 			Usable = false,
 			Description = "A tube designed to be inserted into the nasal passageway.",
 			Action = "Inserts an NPA into the nasal passage.",
+			Limit = 1,
+			Removable = true,
+		},
+		["Intubation Tube"] = {
+			Item = "Intubation Tube",
+			Usable = false,
+			Description = "A tube designed to be inserted into the airway to assist with ventilation.",
+			Action = "Inserts an intubation tube into the airway and secures to patient.",
+			Limit = 1,
+			Removable = true,
+		},		
+		["AED"] = {
+			Item = "AED",
+			Usable = false,
+			Description = "A automatic external defibrillator used to shock a heart back into a normal rhythm.",
+			Action = "Applies AED pads to patients chest and charges unit.",
 			Limit = 1,
 			Removable = true,
 		},

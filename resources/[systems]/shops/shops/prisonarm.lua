@@ -35,6 +35,7 @@ Config.Filters.Prisonarm = {
         ["Tourniquet"] = true,
         ["Fire Blanket"] = true,
 		["Scissors"] = true,
+		["AED"] = true,
 	},
 }
 
