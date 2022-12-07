@@ -35,6 +35,15 @@ function FindCar(index, list)
 	return nil
 end
 
+function FindComponent(componentType, componentIndex)
+	for k, v in ipairs(Config.Components) do
+		if componentType == v.Type and componentIndex == v.Index then
+			return v
+		end
+	end
+	return nil
+end
+
 --[[ Events ]]--
 RegisterNetEvent("chopShop:requestSeed")
 AddEventHandler("chopShop:requestSeed", function()
@@ -110,4 +119,52 @@ AddEventHandler("chopShop:chopVehicle", function(index, modifier, netId)
 		result = 1
 	end
 	TriggerClientEvent("chopShop:chopResult", source, result)
+end)
+
+RegisterNetEvent("chopShop:chopPayout")
+AddEventHandler("chopShop:chopPayout", function(index, choppedVehicle, carClass, componentType, componentIndex, netId)
+	local source = source
+
+	local vehicle = NetworkGetEntityFromNetworkId(tonumber(netId) or 0)
+	if not DoesEntityExist(vehicle) then return end
+	
+	local presence = exports.jobs:CountActiveDuty("ChopShop")
+	if presence >= Config.Presence.Min then
+		-- Find car from index.
+		local car = FindCar(index, List)
+		if not car then
+			TriggerClientEvent("chopShop:chopResult", source, 3)
+			return
+		end
+
+		-- Find the component.
+		local part = FindComponent(componentType, componentIndex)
+		
+		if not part or not part.Items then return end
+
+		local totalChance = 0.0
+		for item, settings in pairs(part.Items) do
+			totalChance = totalChance + settings.Chance
+		end
+
+		local seed = math.floor(os.clock() * 1000)
+		for item, settings in pairs(part.Items) do
+			totalChance = totalChance - settings.Chance
+
+			math.randomseed(seed)
+			local random = math.random() * totalChance
+			print(totalChance, settings.Chance, random)
+			if settings.Chance > random then
+				local amount = math.floor(math.random(settings.Amount[1], settings.Amount[2]) * Config.Classes[carClass])
+				exports.inventory:GiveItem(source, item, amount)
+				goto endLoop
+			end
+			seed = seed + 1
+		end
+		::endLoop::
+		
+		TriggerClientEvent("chopShop:updateComponent", source, choppedVehicle, componentType, componentIndex)
+	else
+		TriggerClientEvent("chopShop:chopResult", source, 1)
+	end
 end)
