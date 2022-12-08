@@ -372,8 +372,8 @@ local function InteractionKeyPressed()
         Slots_OnInteraction()
     elseif LAST_INTERACTION_GAME == "luckywheel" then
         LuckyWheel_OnInteraction()
-    elseif LAST_INTERACTION_GAME == "insidetrack" then
-        InsideTrack_OnInteraction()
+    --elseif LAST_INTERACTION_GAME == "insidetrack" then
+        --InsideTrack_OnInteraction()
     elseif LAST_INTERACTION_GAME == "drinkingbar" then
         DrinkingBar_OnInteraction()
     elseif LAST_INTERACTION_GAME == "roulette" then
@@ -421,8 +421,8 @@ local function LeaveKeyPressed()
         Slots_OnInteractionQuit()
     elseif LAST_STARTED_GAME_TYPE == "luckywheel" then
         LuckyWheel_OnInteractionQuit()
-    elseif LAST_STARTED_GAME_TYPE == "insidetrack" then
-        InsideTrack_OnInteractionQuit()
+    --elseif LAST_STARTED_GAME_TYPE == "insidetrack" then
+        --InsideTrack_OnInteractionQuit()
     elseif LAST_STARTED_GAME_TYPE == "drinkingbar" then
         DrinkingBar_OnQuit()
     elseif LAST_STARTED_GAME_TYPE == "roulette" then
@@ -566,8 +566,8 @@ local function InteractableObjectFound(game, entity, coords, model)
     elseif game == "luckywheel" then
         LuckyWheel_ShowNotifyUI()
 
-    elseif game == "insidetrack" then
-        InsideTrack_ShowNotifyUI()
+    --elseif game == "insidetrack" then
+        --InsideTrack_ShowNotifyUI()
 
     elseif game == "drinkingbar" then
         DrinkingBar_ShowNotifyUI(entity ~= nil and 1 or 2)
@@ -738,13 +738,13 @@ local function CheckForInteractions()
     end
 
     -- check for inside track
-    if INSIDE_TRACK then
+    --[[if INSIDE_TRACK then
         local itCoords, itUsed = InsideTrack_GetClosestChairState()
         if itCoords ~= nil then
             InteractableObjectExists("insidetrack", nil, itCoords)
             return
         end
-    end
+    end]]
 
     -- check for drinking bar
     local bartender = DrinkingBar_GetClosestBartender()
@@ -1020,7 +1020,7 @@ CreateThread(function()
                 end
             end
 
-            if IN_CASINO then
+            --[[if IN_CASINO then
                 -- check if player's around Inside Track & Start It
                 local trackDistance = #(playerPosition - INSIDE_TRACK_AREA)
                 if (trackDistance <= 20 or FORCE_INSIDE_TRACK) and not INSIDE_TRACK then
@@ -1031,7 +1031,7 @@ CreateThread(function()
                 end
             else
                 OnLeaveInsideTrack()
-            end
+            end]]
         end
     end
 end, true)
