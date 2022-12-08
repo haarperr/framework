@@ -18,12 +18,13 @@ Marker = { scaleX = 1.0, scaleY = 1.0, scaleZ = 1.0, r = 255, g = 255, b = 255, 
 
 --[[ Functions ]]--
 function TruckingJob:Init()
+    print("LAL")
     self:Reset()
 
     AddTextEntry("TruckingJob_Trailer", "Trucking Job: Trailer")
     AddTextEntry("TruckingJob_Destination", "Trucking Job: Destination")
 
-    IsInService = exports.jobs:GetCurrentJob("truck driver")
+    IsInService = exports.jobs:GetCurrentJob("truckdriver")
 
 	Citizen.CreateThread(function()
 		exports.oldnpcs:Add(NPCS.Foreman)
@@ -555,7 +556,7 @@ function FYListShuffle(original)
 end
 
 --[[ Events ]]--
-AddEventHandler("trucking-job:start", function()
+AddEventHandler("trucking:start", function()
     TruckingJob:Init()
 end)
 
