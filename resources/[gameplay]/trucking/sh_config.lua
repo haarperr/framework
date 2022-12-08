@@ -1,5 +1,5 @@
 Config = {
-    Debug = true,
+    Debug = false,
     DistanceMultiplier = 0.25,
     GetJobCoords = vector3(863.2913208007812, -3210.044677734375, 5.90066480636596),
     TrailerDropOff = vector4(923.914794921875, -3233.075927734375, 6.05833864212036, 89.88346862792969),

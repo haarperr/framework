@@ -18,7 +18,6 @@ Marker = { scaleX = 1.0, scaleY = 1.0, scaleZ = 1.0, r = 255, g = 255, b = 255, 
 
 --[[ Functions ]]--
 function TruckingJob:Init()
-    print("LAL")
     self:Reset()
 
     AddTextEntry("TruckingJob_Trailer", "Trucking Job: Trailer")
