@@ -33,7 +33,7 @@ Config = {
     IT_MAIN_EVENT_ENABLED = false, -- when false, the main event will be disabled, big screen will show only purple idle screen; def: true
     IT_MAIN_EVENT_BETTING_TIME = 60 * 5, -- time for players to place bets for main event, shows horses on screen; def: 60 * 5 (5 minutes)
     IT_MAIN_EVENT_RACE_DURATION = 33, -- length of the main event race; def: 33
-    IT_MAIN_EVENT_HORSE_ODDS = {1, 3, 4, 7, 8git, 15}, -- limit max horse odds for local game (1 to 30), def: {1, 5, 6, 15, 16, 30}  (2 horses of odds from 1 to 5, 2 horses of odds from 6 to 15, 2 horses of odds from 16 to 30)
+    IT_MAIN_EVENT_HORSE_ODDS = {1, 3, 4, 7, 8, 15}, -- limit max horse odds for local game (1 to 30), def: {1, 5, 6, 15, 16, 30}  (2 horses of odds from 1 to 5, 2 horses of odds from 6 to 15, 2 horses of odds from 16 to 30)
     IT_MAIN_EVENT_RACE_MAX_BET = 5000, -- max. bet for the main event race
     IT_MAIN_EVENT_RACE_MIN_BET = 10, -- min. bet for the main event race
     IT_LOCAL_RACE_DURATION = 30, -- length of the local race (orange screen) def: 30
@@ -210,7 +210,7 @@ GameStates = {{
 }, {
     activity = "insidetrack",
     title = "Inside Track",
-    enabled = true
+    enabled = false
 }, {
     activity = "drinkingbar",
     title = "Drinking Bar",
