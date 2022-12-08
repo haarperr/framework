@@ -210,7 +210,7 @@ GameStates = {{
 }, {
     activity = "insidetrack",
     title = "Inside Track",
-    enabled = false
+    enabled = true
 }, {
     activity = "drinkingbar",
     title = "Drinking Bar",
