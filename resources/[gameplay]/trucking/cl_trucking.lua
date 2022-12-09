@@ -557,10 +557,6 @@ function FYListShuffle(original)
 end
 
 --[[ Events ]]--
-AddEventHandler("trucking:start", function()
-    TruckingJob:Init()
-end)
-
 RegisterNetEvent("jobs:clock")
 AddEventHandler("jobs:clock", function(name, message)
 	if message ~= true and message ~= false then return end
@@ -575,6 +571,7 @@ end)
 
 --[[ Threads ]]--
 Citizen.CreateThread(function()
+    TruckingJob:Init()
     while true do
         Citizen.Wait(1000)
 
