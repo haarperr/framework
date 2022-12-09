@@ -368,6 +368,7 @@ Config = {
 			Foreground = "white",
 			Low = false,
 			High = true,
+			Passive = -30.0,
 		},
 		{
 			Name = "Bac",
