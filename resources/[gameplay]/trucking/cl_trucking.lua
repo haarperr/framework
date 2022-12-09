@@ -149,7 +149,7 @@ function TruckingJob:SelectJob(jobName)
     TriggerServerEvent("trucking-job:logJobStart", jobName)
 
     local message = ("Job Assigned: %s - %s"):format(TruckingJob.job.Name, TruckingJob.job.Description)
-	exports.mythic_notify:SendAlert("inform", message, 7000)
+	exports.mythic_notify:SendAlert("inform", message, 10000)
 
     if Config.Debug then print(message) end
 
@@ -395,7 +395,7 @@ function TruckingJob:SpawnStageTrailer(model)
 
         if stage.Message then 
             local message = stage.Message:gsub("STREETNAME", locationName)
-            exports.mythic_notify:SendAlert("inform", message, 7000)
+            exports.mythic_notify:SendAlert("inform", message, 10000)
     
             if Config.Debug then print(message) end
         end
