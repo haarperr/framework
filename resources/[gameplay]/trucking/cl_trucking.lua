@@ -30,10 +30,6 @@ function TruckingJob:Init()
     AddTextEntry("TruckingJob_Destination", "Trucking Job: Destination")
 
     IsInService = exports.jobs:GetCurrentJob("truckdriver")
-
-	Citizen.CreateThread(function()
-		exports.oldnpcs:Add(NPCS.Foreman)
-	end)
 end
 
 function TruckingJob:Reset()   
