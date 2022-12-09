@@ -325,6 +325,17 @@ exports.jobs:Register("firefighter", {
 				vector4(-646.4465, -113.4573, 37.97614, 116.215)
 			},
 		},
+		{ -- Davis Ladder Truck.
+			Rank = 0,
+			In = vector3(226.1519, -1655.599, 29.78893),
+			Model = "fdlcladder",
+			Mods = {
+				[48] = 0,
+			},
+			Coords = {
+				vector4(221.1907, -1668.087, 29.81194, 319.7717)
+			},
+		},		
 
 	},
 	Emergency = {
