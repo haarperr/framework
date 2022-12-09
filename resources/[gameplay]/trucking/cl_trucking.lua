@@ -482,7 +482,7 @@ function TruckingJob:GetStageDestination()
     local streetName = exports.oldutils:GetStreetText(v3Destination, true)
     if stage.Message then 
         local message = stage.Message:gsub("STREETNAME", streetName)
-        exports.mythic_notify:SendAlert("inform", message, 7000)
+        exports.mythic_notify:SendAlert("inform", message, 10000)
 
         if Config.Debug then print(message) end
     end

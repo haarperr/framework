@@ -182,8 +182,9 @@ Config = {
                     Message = "Pickup the logs from the lumber yard near STREETNAME.",
                     TrailerModel = GetHashKey("TRAILERLOGS"),
                     TrailerCoords = {
-                        vector4(-601.7595825195312, 5310.26953125, 71.96724700927734, 177.8346405029297), -- Lumber Yard
-                        vector4(-572.6244506835938, 5373.1884765625, 71.8869400024414, 285.0751037597656), -- Lumber Yard
+                        --vector4(-601.7595825195312, 5310.26953125, 71.96724700927734, 177.8346405029297), -- Lumber Yard
+                        vector4(-535.4175, 5376.213, 70.44054, 75.04069), -- Lumber Yard
+                        vector4(-602.9178, 5320.059, 70.43954, 184.9733), -- Lumber Yard
                     }, 
                 },
                 [2] = {
