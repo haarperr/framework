@@ -1,7 +1,11 @@
-exports.jobs:Register("Truck Driver", {
-	Public = true,
+exports.jobs:Register("truckdriver", {
+	Title = "Delivery",
+	Name = "Truck Deliveries",
+	Faction = "delivery",
+	Group = "truckdriver",
+	IsPublic = true,
 	Clocks = {
-		vector3(858.6033325195312, -3202.878173828125, 5.99499416351318),
+		{ Coords = vector3(858.6033325195312, -3202.878173828125, 5.99499416351318), Radius = 3.5 },
 	},
 	Vehicles = {
 		{

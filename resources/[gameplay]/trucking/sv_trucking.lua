@@ -13,7 +13,7 @@ RegisterNetEvent("trucking-job:doProgressPayment")
 AddEventHandler("trucking-job:doProgressPayment", function(progressDistance, jobName)
 	local source = source
 	
-    if not exports.jobs:GetCurrentJob(source, "truck driver") then return end
+    if not exports.jobs:GetCurrentJob(source, "truckdriver") then return end
 
     if progressDistance < 1 then return end
 

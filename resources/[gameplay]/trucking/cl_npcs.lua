@@ -16,7 +16,7 @@ NPCS = {
                     Offset = { 0.16, 0.08, 0.1, -130.0, -50.0, 0.0 } 
                 },
             },
-        }, 
+        },
         stages = {
             ["INIT"] = {
                 text = "What do you want?",

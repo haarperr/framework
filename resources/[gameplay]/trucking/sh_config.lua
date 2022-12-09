@@ -1,6 +1,6 @@
 Config = {
-    Debug = true,
-    DistanceMultiplier = 1.25,
+    Debug = false,
+    DistanceMultiplier = 0.14,
     GetJobCoords = vector3(863.2913208007812, -3210.044677734375, 5.90066480636596),
     TrailerDropOff = vector4(923.914794921875, -3233.075927734375, 6.05833864212036, 89.88346862792969),
     LoadAction = {
@@ -11,7 +11,7 @@ Config = {
             DisableMovement = true,
         },
         Label = "Loading trailer...",
-        Duration = 10000,
+        Duration = 15000,
         UseWhileDead = false,
         CanCancel = true,
         Disarm = true,
@@ -31,7 +31,7 @@ Config = {
             DisableMovement = true,
 		},
 		Label = "Unloading trailer...",
-		Duration = 10000,
+		Duration = 15000,
 		UseWhileDead = false,
 		CanCancel = true,
 		Disarm = true,
@@ -182,8 +182,9 @@ Config = {
                     Message = "Pickup the logs from the lumber yard near STREETNAME.",
                     TrailerModel = GetHashKey("TRAILERLOGS"),
                     TrailerCoords = {
-                        vector4(-601.7595825195312, 5310.26953125, 71.96724700927734, 177.8346405029297), -- Lumber Yard
-                        vector4(-572.6244506835938, 5373.1884765625, 71.8869400024414, 285.0751037597656), -- Lumber Yard
+                        --vector4(-601.7595825195312, 5310.26953125, 71.96724700927734, 177.8346405029297), -- Lumber Yard
+                        vector4(-535.4175, 5376.213, 70.44054, 75.04069), -- Lumber Yard
+                        vector4(-602.9178, 5320.059, 70.43954, 184.9733), -- Lumber Yard
                     }, 
                 },
                 [2] = {

@@ -23,7 +23,7 @@ function TruckingJob:Init()
     AddTextEntry("TruckingJob_Trailer", "Trucking Job: Trailer")
     AddTextEntry("TruckingJob_Destination", "Trucking Job: Destination")
 
-    IsInService = exports.jobs:GetCurrentJob("truck driver")
+    IsInService = exports.jobs:GetCurrentJob("truckdriver")
 
 	Citizen.CreateThread(function()
 		exports.oldnpcs:Add(NPCS.Foreman)
@@ -149,7 +149,7 @@ function TruckingJob:SelectJob(jobName)
     TriggerServerEvent("trucking-job:logJobStart", jobName)
 
     local message = ("Job Assigned: %s - %s"):format(TruckingJob.job.Name, TruckingJob.job.Description)
-	exports.mythic_notify:SendAlert("inform", message, 7000)
+	exports.mythic_notify:SendAlert("inform", message, 10000)
 
     if Config.Debug then print(message) end
 
@@ -395,7 +395,7 @@ function TruckingJob:SpawnStageTrailer(model)
 
         if stage.Message then 
             local message = stage.Message:gsub("STREETNAME", locationName)
-            exports.mythic_notify:SendAlert("inform", message, 7000)
+            exports.mythic_notify:SendAlert("inform", message, 10000)
     
             if Config.Debug then print(message) end
         end
@@ -482,7 +482,7 @@ function TruckingJob:GetStageDestination()
     local streetName = exports.oldutils:GetStreetText(v3Destination, true)
     if stage.Message then 
         local message = stage.Message:gsub("STREETNAME", streetName)
-        exports.mythic_notify:SendAlert("inform", message, 7000)
+        exports.mythic_notify:SendAlert("inform", message, 10000)
 
         if Config.Debug then print(message) end
     end
@@ -555,7 +555,7 @@ function FYListShuffle(original)
 end
 
 --[[ Events ]]--
-AddEventHandler("trucking-job:start", function()
+AddEventHandler("trucking:start", function()
     TruckingJob:Init()
 end)
 
