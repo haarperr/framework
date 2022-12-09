@@ -26,6 +26,7 @@ Vehicles = {
 	["baller4"] = { Value = 32252 },
 	["baller5"] = { Value = 49635 },
 	["baller6"] = { Value = 51429 },
+	["baller7"] = { Value = 61429 },
 	["banshee"] = { Value = 61283 },
 	["banshee2"] = { Value = 660665 },
 	["barracks"] = { Value = 0 },
@@ -146,6 +147,7 @@ Vehicles = {
 	["deathbike2"] = { Value = 6579 },
 	["deathbike3"] = { Value = 6579 },
 	["defiler"] = { Value = 9079 },
+	["deity"] = { Value = 90655 },	
 	["deluxo"] = { Value = 90372 },
 	["deveste"] = { Value = 1900000 },
 	["diablous2"] = { Value = 16329 },
@@ -692,7 +694,7 @@ Vehicles = {
 	--[[ classic-pack ]]--
 	["ae86"] = { Value = 15675 },
 	["eb110"] = { Value = 611250 },
-	["mitsugto"] = { Value = 21450 },
+	["mitsugto"] = { Value = 15450 },
 	["royallancer"] = { Value = 29500 },
 	["skyline"] = { Value = 85000 },
 	["starion"] = { Value = 18150 },
@@ -717,7 +719,7 @@ Vehicles = {
 	["corvette3"] = { Value = 103225 },
 	["demon"] = { Value = 125000 },
 	["gnx"] = { Value = 15800 },
-	["mustang"] = { Value = 89712 },
+	["mgt"] = { Value = 42712 },
 	["mustang2"] = { Value = 103225 },
 
 	--[[ sedan-pack ]]--
@@ -727,7 +729,7 @@ Vehicles = {
 	["impala2"] = { Value = 45200 },
 	["impala3"] = { Value = 7150 },
 	["impala4"] = { Value = 3600 },
-	["models"] = { Value = 98750 },
+	["models"] = { Value = 58869 },
 	["polestar"] = { Value = 60225 },
 
 	--[[ sport-pack ]]--
@@ -745,7 +747,7 @@ Vehicles = {
 	["miata"] = { Value = 11500 },
 	["protoz"] = { Value = 121700 },
 	["rx7v"] = { Value = 225000 },
-	["r35gtr"] = { Value = 403150 },
+	["r35gtr"] = { Value = 140150 },
 	["r8"] = { Value = 237950 },
 	["s2000"] = { Value = 11850 },
 	["speedster"] = { Value = 251500 },
@@ -758,4 +760,11 @@ Vehicles = {
 	["huayra"] = { Value = 1250000 },
 	["speedtail"] = { Value = 2000000 },
 	["zonda2"] = { Value = 3200000 },
+
+		--[[ suv-pack ]]--
+	["ram2500"] = { Value = 34213 },
+	["ram2500lifted"] = { Value = 5 },
+	["fraptor"] = { Value = 5 },
+	["g65"] = { Value = 5 },
+	["macan"] = { Value = 5 },
 }
