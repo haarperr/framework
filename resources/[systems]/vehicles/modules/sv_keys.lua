@@ -99,7 +99,7 @@ function Main:ToggleEngine(source, netId)
 	end
 
 	if success then
-		SetEntityAsMissionEntity(entity, true)
+		--SetEntityAsMissionEntity(entity, true)
 		TriggerClientEvent("vehicles:toggleEngine", source, netId, value)
 	end
 end
