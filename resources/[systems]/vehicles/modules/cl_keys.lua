@@ -74,6 +74,7 @@ RegisterNetEvent("vehicles:toggleEngine", function(netId, state)
 	local _netId = GetNetworkId(CurrentVehicle)
 	if not _netId or _netId ~= netId then return end
 
+	SetEntityAsMissionEntity(CurrentVehicle, true)
 	SetVehicleEngineOn(CurrentVehicle, state, false, true)
 end)
 
