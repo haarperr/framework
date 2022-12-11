@@ -141,7 +141,7 @@ Map = {
 							},
 							{
 								type = "slider-item",
-								condition = tostring(textures > 1),
+								--condition = tostring(textures > 1),
 								input = true,
 								minIcon = "chevron_left",
 								maxIcon = "chevron_right",
