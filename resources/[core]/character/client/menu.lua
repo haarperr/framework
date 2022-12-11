@@ -21,6 +21,8 @@ function Menu:ToggleSelection(value)
 	-- Focus NUI.
 	UI:Focus(value)
 
+	TriggerServerEvent("properties:request")
+
 	-- Check window already exists.
 	if value and self.characters and self.selection then
 		return
@@ -133,12 +135,18 @@ function Menu:ToggleSpawner(value, appearance, wasActive)
 	self.spawns = spawnsWindow
 	self.spawnselection = spawnSelectionWindow
 
-	-- Set characters.
+	-- Get spawns.
 	function spawnsWindow:UpdateList()
-		local spawns = Main.spawns
+		self.spawns = Main.spawns
 		local _spawns = {}
+
+		local properties = exports.properties:GetProperties()
+		Main.properties = {}
+		for id, data in pairs(properties) do
+			table.insert(self.spawns, { name = "Property "..id, point = vector4(data.x, data.y, data.z, data.w), property = id})
+		end
 		
-		for id, spawn in pairs(spawns) do
+		for id, spawn in pairs(self.spawns) do
 			spawn.id = id
 			_spawns[id] = spawn
 		end
@@ -156,12 +164,12 @@ function Menu:ToggleSpawner(value, appearance, wasActive)
 			return
 		end
 	
-		local details = ("Do you want to spawn at %s?"):format(Main.spawns[value].name)
+		local details = ("Do you want to spawn at %s?"):format(self.spawns[value].name)
 		
 		spawnSelectionWindow.spawnId = value
 
 		spawnSelectionWindow:SetModel({
-			name = Main.spawns[value].name,
+			name = self.spawns[value].name,
 			details = details,
 		})
 
