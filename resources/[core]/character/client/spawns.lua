@@ -14,6 +14,13 @@ Main.spawns = {
 		emote = "map2",
 	},
 	{
+		name = "Mission Row Police Department",
+		point = vector4(426.6953, -986.2988, 30.71268, 2.153705),
+		view = vector3(-218.88648986816, -986.8603515625, 47.715263366699),
+		rotation = vector3(-15.0, 0.0, 194),
+		emote = "map2",
+	},
+	{
 		name = "Harmony",
 		point = vector4(1202.367, 2702.36, 38.15363, 177.8338),
 		view = vector3(1279.0074462891, 2637.205078125, 61.359367370605),
