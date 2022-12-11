@@ -189,6 +189,7 @@ for shopId, shop in pairs(Shops) do
 			name = shop.Name,
 			coords = location.Coords,
 			radius = 3.0,
+			anywhere = true,
 			customization = {
 				location = locationId,
 				shop = shopId,
