@@ -308,6 +308,11 @@ Config.Doors = {
 	[-1875254669] = {},
 	[1287245314] = { Sliding = true, Distance = 5.0 },
 
+	--[[ Black Woods Saloon ]]--
+	[1504256620] = {},
+	[262671971] = {},
+	[-1627599682] = {},
+
 	--[[ GN Clinics ]]--
 	[1803356323] = { Sliding = true },
 	[-1311304442]= { Sliding = true },

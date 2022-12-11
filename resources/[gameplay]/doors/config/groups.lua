@@ -585,6 +585,15 @@ Config.Groups = {
 		},
 	},
 	{
+		name = "Black Woods Saloon",
+		coords = vector3(-303.8255, 6264.226, 31.52693),
+		radius = 25,
+		locked = true,
+		factions = {
+			["blackwoods"] = "nightclub",
+		},
+	},
+	{
 		name = "Pawn Shop",
 		coords = vector3(170.5313, -1315.49, 29.36363),
 		radius = 25,
