@@ -543,6 +543,23 @@ Config = {
 				["lsms"] = "ems",
 			},
 		},
+		["Mount Zonah Lower Civ"] = {
+			InCoords = vector4(-426.7236, -338.1189, 24.22944, 6.228928),
+			OutCoords = vector4(-428.567, -333.0816, 24.23038, 197.7725),
+			Limit = 3,
+			Type = "Car",
+			Faction = {
+				["lspd"] = "pd",
+				["bcso"] = "pd",
+				["sasp"] = "pd",
+				["doc"] = "pd",
+				["sams"] = "federal",
+				["sapr"] = "federal",
+				["paramedic"] = "ems",
+				["firefighter"] = "ems",
+				["lsms"] = "ems",
+			},
+		},
 		["Capital Firestation"] = {
 			Id = 23,
 			InCoords = vector4(1204.7855224609375, -1473.388916015625, 34.85953521728515, 358.6378173828125),
