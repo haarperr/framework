@@ -172,6 +172,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+	TriggerServerEvent("properties:request")
 	while true do
 		Citizen.Wait(0)
 		local localState = LocalPlayer.state
@@ -283,6 +284,18 @@ function GetProperty(id)
 	return Properties[id]
 end
 exports("GetProperty", GetProperty)
+
+function GetProperties()
+	local properties = {}
+	local characterId = exports.character:Get("id")
+	for id, data in pairs(Properties) do
+		if characterId == data.character_id then
+			properties[id] = data
+		end
+	end
+	return properties
+end
+exports("GetProperties", GetProperties)
 
 function GetNearestProperty(returnTable)
 	if returnTable and NearestProperty ~= nil then
