@@ -182,7 +182,7 @@ function Object:SetCoords(coords)
 	self.grid = gridId
 
 	-- Load if active.
-	if Main.cached[gridId] then
+	if Main.cached[gridId] or self.anywhere then
 		self:Load()
 	end
 end
