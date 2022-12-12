@@ -825,6 +825,7 @@ Config = {
 			Vehicles = {
 				"lsfd3",
 				"lsfd4",
+				"emsspeedo",
 				"bcfdbat",
 				"lsfdbuffalo",
 			},
