@@ -43,6 +43,7 @@ Models = {
 	[`lsfdbuffalo`] = "ambulance",
 	[`lsmsgresley`] = "ambulance",
 	[`lsmsspeedo`] = "ambulance",
+	[`emsspeedo`] = "ambulance",
 
 	[`polmav`] = "heli",
 	[`rsheli`] = "heli",
