@@ -232,7 +232,7 @@ function Main:Kill(source)
 
 	self:Set(source, "dead", 1)
 	client:RemoveCharacter(character.character_id)
-	TriggerClientEvent(Main.event.."RemoveCharacter", source, character.character_id)
+	TriggerClientEvent(Main.event.."RemoveCharacter", source, tostring(character.character_id))
 	TriggerClientEvent("markers:use_CharacterSwitch", source)
 end
 Export(Main, "Kill")

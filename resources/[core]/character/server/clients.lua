@@ -100,7 +100,7 @@ function Client:AddCharacter(data)
 end
 
 function Client:RemoveCharacter(id)
-	table.remove(self.characters, tostring(id))
+	table.remove(self.characters, id)
 end
 
 function Client:GetTimeSinceLastAction()
