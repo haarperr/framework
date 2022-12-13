@@ -120,31 +120,6 @@ RegisterShop("PARKRA_ARMORY_0001", {
 	},
 })
 
-RegisterShop("LAMESA_ARMORY_0001", {
-	Name = "La Mesa Armory",
-	License = "weapons",
-	Factions = {
-		["lspd"] = "pd",
-		["bcso"] = "pd",
-		["sasp"] = "pd",
-		["doc"] = "pd",
-		["sams"] = "federal",
-		["sapr"] = "federal",
-		["saag"] = "federal",
-	},
-	Clerks = {
-		{
-			coords = vector4(837.1766967773438, -1288.55224609375, 28.24493980407715, 169.6649169921875),
-			model = "s_m_y_cop_01",
-		},
-	},
-	Storage = {
-		Coords = vector3(837.8157348632812, -1285.8883056640625, 29.44531440734863),
-		Radius = 2.0,
-		Filters = Config.Filters.Armory,
-	},
-})
-
 RegisterShop("DAVIS_ARMORY_0001", {
 	Name = "Davis PD Armory",
 	License = "weapons",
