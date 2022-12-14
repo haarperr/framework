@@ -125,6 +125,8 @@ Shops = {
 		{ Coords = vector4(158.9758, -1315.9918, 29.3636, 358.8439), Blip = false },
 		-- SAPR
 		{ Coords = vector4(384.5000, 799.7462, 187.4614, 193.1985), Blip = false },
+		-- Casino
+		{ Coords = vector4(926.0668, 21.23219, 71.83394, 176.746), Blip = false },
 		},
 	},
 	["barber"] = {
